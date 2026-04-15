@@ -1,12 +1,29 @@
+/* Toggle Code Block */
 function toggleCode(id) {
   const el = document.getElementById(id);
-  el.style.display = el.style.display === "block" ? "none" : "block";
+
+  if (el.style.display === "block") {
+    el.style.display = "none";
+  } else {
+    el.style.display = "block";
+  }
 }
 
-function copyCode(id) {
+/* Copy Code with Better UX */
+function copyCode(id, btn) {
   const code = document.getElementById(id).innerText;
 
   navigator.clipboard.writeText(code)
-    .then(() => alert("Copied! 🚀"))
-    .catch(() => alert("Error copying"));
-} 
+    .then(() => {
+      btn.innerText = "Copied!";
+      btn.style.background = "#00b894";
+
+      setTimeout(() => {
+        btn.innerText = "Copy";
+        btn.style.background = "#111";
+      }, 1500);
+    })
+    .catch(() => {
+      btn.innerText = "Error";
+    });
+}
