@@ -77,7 +77,6 @@ function copyCode(id, btn) {
       btn.innerText = "Error";
     });
 }
-<<<<<<< HEAD
 const searchInput = document.getElementById("searchInput");
 const components = document.querySelectorAll(".component-card");
 
@@ -94,7 +93,8 @@ if (searchInput) {
         item.style.display = "none";
       }
     });
-=======
+  });
+}
 function handleSearch(event) {
   if (event.key === "Enter") {
     const query = event.target.value.toLowerCase().trim();
@@ -158,6 +158,16 @@ if (toggleBtn) {
       document.body.classList.add("dark-mode");
       toggleBtn.innerText = "☀️ Light Mode";
     }
->>>>>>> fee0a1f (Added darkmode)
+
   });
+}
+function toggleCode(id) {
+  const el = document.getElementById(id);
+  el.style.display = (el.style.display === "block") ? "none" : "block";
+}
+
+function copyCode(id) {
+  const code = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(code);
+  alert("Code copied!");
 }
