@@ -8,7 +8,15 @@ function toggleCode(id) {
     el.style.display = "block";
   }
 }
-
+function toggleCode(id) {
+  const codeBlock = document.getElementById(id);
+  
+  if (codeBlock.style.display === "block") {
+    codeBlock.style.display = "none";
+  } else {
+    codeBlock.style.display = "block";
+  }
+}
 /* Toggle Sidebar on mobile and desktop */
 function toggleSidebar() {
   if (window.innerWidth <= 900) {
