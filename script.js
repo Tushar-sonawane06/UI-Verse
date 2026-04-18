@@ -171,3 +171,8 @@ function copyCode(id) {
   navigator.clipboard.writeText(code);
   alert("Code copied!");
 }
+
+function copyColor(color) {
+  navigator.clipboard.writeText(color);
+  alert(color + " copied!");
+}
