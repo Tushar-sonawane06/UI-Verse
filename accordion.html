@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accordion - UIverse</title>
+
+  <style>
+    /* ================= BASE ================= */
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    /* ================= ACCORDION ================= */
+    .accordion {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .accordion-item {
+      border-radius: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      background: #1e293b;
+      border: 1px solid #334155;
+    }
+
+    .accordion-header {
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 16px;
+      background: transparent;
+      border: none;
+      color: #fff;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .accordion-header span {
+      font-size: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      background: #020617;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      padding: 0 20px;
+    }
+
+    .accordion-content p {
+      margin: 10px 0;
+      font-size: 14px;
+      color: #cbd5f5;
+    }
+
+    /* ACTIVE */
+    .accordion-item.active .accordion-content {
+      max-height: 200px;
+      padding: 10px 20px;
+    }
+
+    .accordion-item.active .accordion-header span {
+      transform: rotate(45deg);
+    }
+
+  </style>
+</head>
+
+<body>
+
+<h1>Accordion Component</h1>
+
+<div class="accordion">
+
+  <div class="accordion-item">
+    <button class="accordion-header">What is UIverse? <span>+</span></button>
+    <div class="accordion-content">
+      <p>UIverse is a collection of reusable UI components.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-header">Is it free to use? <span>+</span></button>
+    <div class="accordion-content">
+      <p>Yes, all components are free and customizable.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-header">Can I contribute? <span>+</span></button>
+    <div class="accordion-content">
+      <p>Yes, you can contribute your own UI components.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const items = document.querySelectorAll(".accordion-item");
+
+  items.forEach(item => {
+    const header = item.querySelector(".accordion-header");
+
+    header.addEventListener("click", () => {
+
+      // close others (optional)
+      items.forEach(i => {
+        if (i !== item) i.classList.remove("active");
+      });
+
+      // toggle current
+      item.classList.toggle("active");
+    });
+  });
+</script>
+
+</body>
+</html>
+
