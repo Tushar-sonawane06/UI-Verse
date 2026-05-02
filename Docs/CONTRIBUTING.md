@@ -40,7 +40,7 @@ By participating in this project, you agree to maintain a **respectful and inclu
 
 ## 📜 License
 
-By contributing to this project, you agree that your contributions will be licensed under the [`MIT License`](https://github.com/Tushar-sonawane06/UI-Verse/blob/main/Docs/LICENSE.md).
+By contributing to this project, you agree that your contributions will be licensed under the [`Apache License 2.0`](https://github.com/Tushar-sonawane06/UI-Verse/blob/main/Docs/LICENSE.md).
 
 ![Line](https://user-images.githubusercontent.com/85225156/171937799-8fc9e255-9889-4642-9c92-6df85fb86e82.gif)
 
