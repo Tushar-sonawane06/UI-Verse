@@ -13,23 +13,16 @@ function closePopup() {
   if (popup) popup.classList.remove("open-popup");
 }
 
-
-// ================= TOAST NOTIFICATION =================
+// ================= TOAST =================
 function showToast(message) {
   const existing = document.getElementById("toast-notification");
   if (existing) existing.remove();
-
   const toast = document.createElement("div");
   toast.id = "toast-notification";
   toast.className = "toast";
   toast.textContent = message;
-
   document.body.appendChild(toast);
-
-  requestAnimationFrame(() => {
-    toast.classList.add("toast-visible");
-  });
-
+  requestAnimationFrame(() => toast.classList.add("toast-visible"));
   setTimeout(() => {
     toast.classList.remove("toast-visible");
     toast.classList.add("toast-hidden");
@@ -37,46 +30,33 @@ function showToast(message) {
   }, 2000);
 }
 
-
-// ================= TOGGLE CODE BLOCK =================
+// ================= TOGGLE CODE =================
 function toggleCode(id) {
   const codeBlock = document.getElementById(id);
   if (!codeBlock) return;
-
   codeBlock.classList.toggle("show");
 }
-
 
 // ================= COPY CODE =================
 function copyCode(id, btn) {
   const el = document.getElementById(id);
   if (!el) return;
-
   const code = el.innerText;
-
-  navigator.clipboard.writeText(code)
-    .then(() => {
-      showToast("Code copied!");
-
-      if (btn) {
-        const originalText = btn.innerText;
-
-        btn.innerText = "Copied ✓";
-        btn.classList.add("copied");
-
-        setTimeout(() => {
-          btn.innerText = originalText;
-          btn.classList.remove("copied");
-        }, 1500);
-      }
-    })
-    .catch(() => {
-      showToast("Failed to copy ❌");
-
-      if (btn) btn.innerText = "Error";
-    });
+  navigator.clipboard.writeText(code).then(() => {
+    showToast("Code copied!");
+    if (btn) {
+      const originalText = btn.innerText;
+      btn.innerText = "Copied ✓";
+      btn.classList.add("copied");
+      setTimeout(() => {
+        btn.innerText = originalText;
+        btn.classList.remove("copied");
+      }, 1500);
+    }
+  }).catch(() => {
+    if (btn) btn.innerText = "Error";
+  });
 }
-
 
 // ================= COPY COLOR =================
 function copyColor(color) {
@@ -84,11 +64,12 @@ function copyColor(color) {
   showToast(color + " copied!");
 }
 
-
 // ================= SIDEBAR =================
 function toggleSidebar() {
+  const backdrop = document.querySelector('.sidebar-backdrop');
   if (window.innerWidth <= 900) {
     document.body.classList.toggle('sidebar-open');
+    if (backdrop) backdrop.classList.toggle('active');
   } else {
     const isHidden = document.body.classList.toggle('sidebar-hidden');
     sessionStorage.setItem('sidebarHidden', isHidden ? '1' : '0');
@@ -97,11 +78,9 @@ function toggleSidebar() {
 
 function updateSidebarActiveLink() {
   const currentPage = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
-
   document.querySelectorAll('.sidebar ul li').forEach((li) => {
     const anchor = li.querySelector('a');
     if (!anchor) return;
-
     if (anchor.getAttribute('href').toLowerCase() === currentPage) {
       li.classList.add('active');
     } else {
@@ -121,13 +100,19 @@ function initSidebarLinkClose() {
     anchor.addEventListener('click', function () {
       if (window.innerWidth <= 900) {
         document.body.classList.remove('sidebar-open');
+        document.querySelector('.sidebar-backdrop')?.classList.remove('active');
       }
     });
   });
 }
 
+function initSidebar() {
+  restoreSidebarState();
+  updateSidebarActiveLink();
+  initSidebarLinkClose();
+}
 
-// ================= MOBILE MENU TOGGLE (FOR NAVBAR) =================
+// ================= MOBILE MENU TOGGLE =================
 function toggleMobileMenu() {
   const navContainer = document.getElementById('navLinksContainer');
   if (navContainer) {
@@ -135,11 +120,9 @@ function toggleMobileMenu() {
   }
 }
 
-// Close mobile menu when clicking outside
 document.addEventListener('click', function(event) {
   const navContainer = document.getElementById('navLinksContainer');
   const mobileBtn = document.querySelector('.mobile-menu-btn');
-  
   if (navContainer && navContainer.classList.contains('active')) {
     if (mobileBtn && !mobileBtn.contains(event.target) && !navContainer.contains(event.target)) {
       navContainer.classList.remove('active');
@@ -147,16 +130,13 @@ document.addEventListener('click', function(event) {
   }
 });
 
-
-// ================= SEARCH (FILTER) =================
+// ================= SEARCH =================
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("searchInput");
   const components = document.querySelectorAll(".component-card");
-
   if (searchInput) {
     searchInput.addEventListener("keyup", function () {
       const value = this.value.toLowerCase();
-
       components.forEach((item) => {
         const text = (item.dataset.name || item.innerText).toLowerCase();
         item.style.display = text.includes(value) ? "block" : "none";
@@ -165,88 +145,63 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-
-// ================= SEARCH (ROUTING) =================
 function handleSearch(event) {
   if (event.key === "Enter") {
     const query = event.target.value.toLowerCase().trim();
-
     const routes = {
-      "button": "button.html",
-      "buttons": "button.html",
-      "navbar": "navbar.html",
-      "navbars": "navbar.html",
-      "card": "cards.html",
-      "cards": "cards.html",
-      "form": "form.html",
-      "forms": "form.html",
-      "footer": "footer.html",
-      "color": "color.html",
-      "colors": "color.html"
+      "button": "button.html", "buttons": "button.html",
+      "navbar": "navbar.html", "navbars": "navbar.html",
+      "card": "cards.html", "cards": "cards.html",
+      "form": "form.html", "forms": "form.html",
+      "footer": "footer.html", "color": "color.html", "colors": "color.html"
     };
-
     for (let key in routes) {
       if (query.includes(key)) {
         window.location.href = routes[key];
         return;
       }
     }
-
     showToast("No component found 😢");
   }
 }
-
 
 // ================= DARK MODE =================
 document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark-mode");
   }
-
-  const toggleBtn = document.getElementById("theme-toggle");
-
+  const toggleBtn = document.getElementById("theme-toggle") || document.getElementById("darkModeToggle");
   if (toggleBtn) {
-    toggleBtn.innerText = document.body.classList.contains("dark-mode")
-      ? "☀️ Light Mode"
-      : "🌙 Dark Mode";
-
+    toggleBtn.innerText = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
     toggleBtn.addEventListener("click", () => {
       document.body.classList.toggle("dark-mode");
-
-      if (document.body.classList.contains("dark-mode")) {
-        localStorage.setItem("theme", "dark");
-        toggleBtn.innerText = "☀️ Light Mode";
-      } else {
-        localStorage.setItem("theme", "light");
-        toggleBtn.innerText = "🌙 Dark Mode";
-      }
+      const isDark = document.body.classList.contains("dark-mode");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      toggleBtn.innerText = isDark ? "☀️" : "🌙";
     });
   }
-
-  // Init sidebar after DOM ready
-  restoreSidebarState();
-  updateSidebarActiveLink();
-  initSidebarLinkClose();
+  initSidebar();
 });
 
-
-// ================= SCROLL TO TOP BUTTON =================
+// ================= SCROLL TO TOP =================
 const scrollBtn = document.getElementById("scrollTopBtn");
-
 window.addEventListener("scroll", () => {
   if (!scrollBtn) return;
   scrollBtn.style.display = window.scrollY > 300 ? "flex" : "none";
 });
-
 if (scrollBtn) {
   scrollBtn.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 }
 
-
-// ================= SUBSCRIBE FUNCTION =================
+// ================= SUBSCRIBE =================
 function subscribe(event) {
   event.preventDefault();
   showToast("Subscribed successfully! 🎉");
+}
+
+function closeAlert(alertId) {
+  const alert = document.getElementById(alertId);
+  if (alert) alert.style.display = "none";
 }

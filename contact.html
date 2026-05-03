@@ -1,6 +1,14 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+
+<section id="contact" class="contact-center">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
@@ -18,21 +26,59 @@
       <li><a href="navbar.html"><i class="fa-solid fa-bars"></i><p>Navbar</p></a></li>
       <li><a href="contact.html"><i class="fa-regular fa-user"></i><p>Contact Us</p></a></li>
       <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><p>Forms</p></a></li>
+      <li><a href="badges.html"><i class="fa-solid fa-award"></i><p>Badges</p></a></li>
     </ul>
   </aside> 
 
     <section id="contact" class="contact-center">
   <div class="contact-box">
-     <h2>Contact Us</h2>
+    
+    <h2>Get in Touch</h2>
+    <p class="subtitle">We’d love to hear from you. Fill out the form below.</p>
 
-     <form>
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea placeholder="Your Message" required></textarea>
+    <form id="contactForm">
+
+      <div class="input-group">
+        <input type="text" id="name" required>
+        <label for="name">Full Name</label>
+      </div>
+
+      <div class="input-group">
+        <input type="email" id="email" required>
+        <label for="email">Email Address</label>
+      </div>
+
+      <div class="input-group">
+        <textarea id="message" rows="5" required></textarea>
+        <label for="message">Your Message</label>
+      </div>
 
       <button type="submit">Send Message</button>
-     </form>
+
+      <p id="formStatus" class="status"></p>
+
+    </form>
+
   </div>
 </section>
+
+<script>
+  const form = document.getElementById("contactForm");
+  const status = document.getElementById("formStatus");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    status.textContent = "Sending...";
+    status.style.color = "#555";
+
+    setTimeout(() => {
+      status.textContent = "✅ Message sent successfully!";
+      status.style.color = "green";
+      form.reset();
+    }, 1500);
+  });
+</script>
+
 </body>
 </html>
