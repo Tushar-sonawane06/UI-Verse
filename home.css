@@ -4,6 +4,29 @@
    =================================================== */
 
 /* ---------- ROOT TOKENS ---------- */
+body.sidebar-collapsed {
+  --sidebar-w: 0px !important;
+}
+
+body.sidebar-collapsed .sidebar {
+  transform: translateX(-100%);
+}
+
+body.sidebar-collapsed .main-home,
+body.sidebar-collapsed .navbar {
+  margin-left: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+}
+
+.sidebar {
+  transition: transform 0.3s ease, width 0.3s ease, left 0.3s ease;
+}
+
+.main-home, .navbar {
+  transition: margin-left 0.3s ease, left 0.3s ease, width 0.3s ease;
+}
+
 :root {
   --accent: #eb6835;
   --accent-2: #6c5ce7;
@@ -77,6 +100,29 @@ h1, h2, h3 {
   gap: 10px;
   padding: 22px 24px;
   border-bottom: 1px solid rgba(255,255,255,0.06);
+  justify-content: space-between;
+}
+
+.sidebar-brand .menu-toggle {
+  display: flex;
+  margin-left: auto;
+  width: 34px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #8a9bc0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  cursor: pointer;
+  padding: 0;
+}
+
+.sidebar-brand .menu-toggle:hover {
+  background: rgba(235, 104, 53, 0.1);
+  color: var(--accent);
+  border-color: rgba(235, 104, 53, 0.3);
 }
 
 .brand-icon {
@@ -162,12 +208,20 @@ h1, h2, h3 {
   inset: 0;
   background: rgba(0,0,0,0.5);
   z-index: 1040;
-  backdrop-filter: blur(2px);
 }
 
-.sidebar-backdrop.visible {
+.sidebar-backdrop.visible,
+.sidebar-backdrop.show,
+.sidebar-backdrop.active {
   display: block;
 }
+
+@media (min-width: 1101px) {
+  .sidebar-backdrop {
+    display: none !important;
+  }
+}
+
 
 /* ============================================================
    NAVBAR
@@ -214,6 +268,42 @@ body.dark-mode .navbar {
 
 .menu-toggle:hover {
   background: rgba(0,0,0,0.06);
+}
+
+.hamburger-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--transition);
+  box-shadow: 0 2px 10px rgba(235,104,53,0.35);
+}
+
+.hamburger-btn:hover {
+  background: #d45c28;
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px rgba(235,104,53,0.45);
+}
+
+body.dark-mode .hamburger-btn {
+  box-shadow: 0 2px 10px rgba(235,104,53,0.2);
+}
+
+.sidebar {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar.open {
+  transform: translateX(0) !important;
+  left: 0 !important;
 }
 
 .navbar .logo {

@@ -23,7 +23,6 @@
   <link rel="stylesheet" href="style.css">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="home.css">
-</button>
 
   <link
     rel="stylesheet"
@@ -45,6 +44,7 @@
     <div class="sidebar-brand">
       <span class="brand-icon">⬡</span>
       <span class="brand-text">UIverse</span>
+      <button class="menu-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
     </div>
 
     <nav class="sidebar-nav">
@@ -156,13 +156,16 @@
   <div class="sidebar-brand">
     <span class="brand-icon">⬡</span>
     <span class="brand-text">UIverse</span>
+    <button class="menu-toggle" onclick="toggleSidebar()">
+      <i class="fa-solid fa-bars"></i>
+    </button>
   </div>
 
   <nav class="sidebar-nav">
     <ul>
       <li><a href="profile.html"><i class="fa-regular fa-circle-user"></i><p>Profile</p></a></li>
       <li><a href="index.html"><i class="fa-solid fa-house"></i><p>Home</p></a></li>
-      <li><a href="button.html"><i class="fa-solid fa-mobile-button"></i><p>Butttons</p></a></li>
+      <li><a href="button.html"><i class="fa-solid fa-mobile-button"></i><p>Buttons</p></a></li>
       <li><a href="navbar.html"><i class="fa-solid fa-bars"></i><p>Navbar</p></a></li>
       <li><a href="contact.html"><i class="fa-regular fa-user"></i><p>Contact Us</p></a></li>
       <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><p>Forms</p></a></li>
@@ -276,13 +279,7 @@
 
     <!-- ================= NAVBAR ================= -->
     <header class="navbar" id="navbar">
-
-      <button
-        class="menu-toggle"
-        onclick="toggleSidebar()"
-      >
-        <i class="fa-solid fa-bars"></i>
-      </button>
+  <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="Toggle Menu"><i class="fa-solid fa-bars"></i></button>
 
       <div class="logo">
         UIverse
@@ -1099,6 +1096,24 @@
     if (input.value) {
       showToastSafe('Thanks for subscribing with ' + input.value);
       input.value = '';
+    }
+  }
+</script>
+<script>
+  function toggleSidebar() {
+    var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+    var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+    var body = document.body;
+    
+    if (window.innerWidth > 1100) {
+      body.classList.toggle('sidebar-collapsed');
+    } else {
+      if (sidebar) sidebar.classList.toggle('open');
+      if (backdrop) {
+        backdrop.classList.toggle('show');
+        backdrop.classList.toggle('visible');
+        backdrop.classList.toggle('active');
+      }
     }
   }
 </script>
