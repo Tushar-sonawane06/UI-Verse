@@ -1,0 +1,316 @@
+/**
+ * Alerts Component
+ * ================
+ * Alert messages with different states and variants
+ */
+
+@layer components {
+  /* ===== BASE ALERT ===== */
+  .alert-box,
+  .alert {
+    padding: var(--alert-padding);
+    border-radius: var(--alert-border-radius);
+    margin-bottom: var(--space-lg);
+    border: 1px solid transparent;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    font-size: var(--alert-font-size);
+    line-height: var(--line-height-relaxed);
+    box-sizing: border-box;
+  }
+
+  .alert-box strong,
+  .alert strong {
+    display: block;
+    margin-bottom: var(--space-sm);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .alert-box p,
+  .alert p {
+    margin: 0;
+  }
+
+  /* ===== ALERT TYPES ===== */
+  /* Success Alert */
+  .alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+  }
+
+  .alert-success strong {
+    color: #155724;
+  }
+
+  /* Warning Alert */
+  .alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeaa7;
+    color: #856404;
+  }
+
+  .alert-warning strong {
+    color: #856404;
+  }
+
+  /* Error/Danger Alert */
+  .alert-error,
+  .alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+  }
+
+  .alert-error strong,
+  .alert-danger strong {
+    color: #721c24;
+  }
+
+  /* Info Alert */
+  .alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+  }
+
+  .alert-info strong {
+    color: #0c5460;
+  }
+
+  /* Critical Alert */
+  .alert-critical {
+    background-color: #f8b5bb;
+    border-color: var(--color-danger);
+    color: #721c24;
+    animation: critical-pulse 1.5s ease-in-out infinite;
+  }
+
+  .alert-critical strong {
+    color: #721c24;
+  }
+
+  @keyframes critical-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+
+  /* Pending Alert */
+  .alert-pending {
+    background-color: #e8f4f8;
+    border-color: #b8dce8;
+    color: #2c5aa0;
+  }
+
+  .alert-pending strong {
+    color: #2c5aa0;
+  }
+
+  /* ===== ALERT VARIANTS ===== */
+  /* Dismissible Alert */
+  .alert-dismissible {
+    position: relative;
+  }
+
+  .alert-close {
+    position: absolute;
+    right: var(--space-md);
+    top: var(--space-md);
+    background: none;
+    border: none;
+    font-size: var(--font-size-xl);
+    cursor: pointer;
+    padding: 0;
+    color: inherit;
+    opacity: 0.7;
+    transition: opacity var(--transition-normal);
+  }
+
+  .alert-close:hover {
+    opacity: 1;
+  }
+
+  /* Alert with Icon */
+  .alert-with-icon {
+    align-items: center;
+  }
+
+  .alert-icon {
+    font-size: var(--font-size-xl);
+    flex-shrink: 0;
+  }
+
+  /* Compact Alert */
+  .alert-compact {
+    padding: var(--space-md) var(--space-lg);
+    font-size: var(--font-size-sm);
+  }
+
+  .alert-compact p {
+    display: none;
+  }
+
+  /* Left Border Alert */
+  .alert-left-border {
+    border-left: 4px solid;
+    border-right: none;
+  }
+
+  .alert-success.alert-left-border {
+    border-left-color: #155724;
+  }
+
+  .alert-warning.alert-left-border {
+    border-left-color: #856404;
+  }
+
+  .alert-danger.alert-left-border {
+    border-left-color: #721c24;
+  }
+
+  .alert-info.alert-left-border {
+    border-left-color: #0c5460;
+  }
+
+  /* Solid Alert */
+  .alert-solid {
+    background-color: currentColor;
+    color: white;
+    border: none;
+  }
+
+  /* Outline Alert */
+  .alert-outline {
+    background-color: transparent;
+  }
+
+  .alert-success.alert-outline {
+    border: 2px solid #155724;
+    color: #155724;
+  }
+
+  .alert-warning.alert-outline {
+    border: 2px solid #856404;
+    color: #856404;
+  }
+
+  .alert-danger.alert-outline {
+    border: 2px solid #721c24;
+    color: #721c24;
+  }
+
+  .alert-info.alert-outline {
+    border: 2px solid #0c5460;
+    color: #0c5460;
+  }
+
+  /* ===== ALERT CONTENT ===== */
+  .alert-title {
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-sm);
+  }
+
+  .alert-description {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+  }
+
+  .alert-action {
+    margin-top: var(--space-md);
+  }
+
+  .alert-action button {
+    font-size: var(--font-size-sm);
+    padding: var(--space-xs) var(--space-md);
+    border: none;
+    background: rgba(255, 255, 255, 0.3);
+    color: inherit;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--transition-normal);
+  }
+
+  .alert-action button:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  /* ===== TOAST NOTIFICATION ===== */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: #222;
+    color: #fff;
+    padding: var(--space-md) var(--space-2xl);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-md);
+    font-family: var(--font-body);
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-notification);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity var(--transition-normal), transform var(--transition-normal);
+    pointer-events: none;
+  }
+
+  .toast.toast-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .toast.toast-hidden {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  body.dark-mode .toast {
+    background: #f0f0f0;
+    color: #111;
+    box-shadow: 0 4px 18px rgba(255, 255, 255, 0.1);
+  }
+
+  /* Toast Variants */
+  .toast.toast-success {
+    background: var(--color-success);
+    color: white;
+  }
+
+  .toast.toast-error {
+    background: var(--color-danger);
+    color: white;
+  }
+
+  .toast.toast-warning {
+    background: var(--color-warning);
+    color: black;
+  }
+
+  .toast.toast-info {
+    background: var(--color-info);
+    color: white;
+  }
+
+  /* ===== RESPONSIVE ALERTS ===== */
+  @media (max-width: 640px) {
+    .alert-box,
+    .alert {
+      padding: var(--space-md);
+      gap: var(--space-sm);
+      font-size: var(--font-size-sm);
+    }
+
+    .alert-close {
+      font-size: var(--font-size-lg);
+    }
+
+    .toast {
+      left: 10px;
+      right: 10px;
+      bottom: 20px;
+      font-size: var(--font-size-sm);
+      padding: var(--space-md) var(--space-lg);
+    }
+  }
+}

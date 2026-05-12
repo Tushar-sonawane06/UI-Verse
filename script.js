@@ -42,10 +42,10 @@
      <!-- 5. CODE BLOCK (HIDDEN) -->
      <pre id="unique-id" class="code-block"><code>
        &lt;!-- Component HTML --&gt;
-       
-       /* Component CSS */
+
+       Component CSS example
        .component-class {
-         /* styles here */
+         styles here
        }
      </code></pre>
 
@@ -152,7 +152,6 @@ function escapeAttr(value) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 }
-
 // Profile editor (attached to button .btnn if present)
 // Expected markup (profile.html):
 // - Button with class="btnn" to trigger edit mode
@@ -209,11 +208,13 @@ if (editBtn) {
 
       if (newName) {
         currentInfo[0].textContent = newName;
-        document.querySelector('.profile-header h2')?.textContent = newName;
+        const profileName = document.querySelector('.profile-header h2');
+        if (profileName) profileName.textContent = newName;
       }
       if (newEmail) {
         currentInfo[1].textContent = newEmail;
-        document.querySelector('.profile-header p')?.textContent = newEmail;
+        const profileEmail = document.querySelector('.profile-header p');
+        if (profileEmail) profileEmail.textContent = newEmail;
       }
       if (newUsername) currentInfo[2].textContent = newUsername;
 
@@ -646,6 +647,106 @@ function initAccessibilityMode() {
   });
 }
 
+function initAccessibilityHardeningLegacy() {
+  const html = document.documentElement;
+  if (html && !html.getAttribute('lang')) {
+    html.setAttribute('lang', 'en');
+  }
+
+  if (!document.getElementById('uiverse-a11y-style')) {
+    const style = document.createElement('style');
+    style.id = 'uiverse-a11y-style';
+    style.textContent = `
+      .skip-link {
+        position: absolute;
+        top: -48px;
+        left: 12px;
+        z-index: 10000;
+        background: #111;
+        color: #fff;
+        padding: 10px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: top 0.2s ease;
+      }
+      .skip-link:focus,
+      .skip-link:focus-visible {
+        top: 12px;
+        outline: 2px solid #74b9ff;
+        outline-offset: 2px;
+      }
+      :focus-visible {
+        outline: 3px solid #74b9ff;
+        outline-offset: 2px;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  let mainTarget = document.querySelector('main, [role="main"]');
+  if (!mainTarget) {
+    mainTarget = document.querySelector('section') || document.body.firstElementChild;
+    if (mainTarget) mainTarget.setAttribute('role', 'main');
+  }
+
+  if (mainTarget && !mainTarget.id) {
+    mainTarget.id = 'main-content';
+  }
+
+  if (mainTarget && !document.querySelector('.skip-link')) {
+    const skip = document.createElement('a');
+    skip.className = 'skip-link';
+    skip.href = '#main-content';
+    skip.textContent = 'Skip to main content';
+    document.body.insertBefore(skip, document.body.firstChild);
+  }
+
+  document.querySelectorAll('nav').forEach((nav, index) => {
+    if (!nav.getAttribute('aria-label')) {
+      nav.setAttribute('aria-label', index === 0 ? 'Primary navigation' : `Navigation ${index + 1}`);
+    }
+  });
+
+  document.querySelectorAll('button, a, [role="button"]').forEach((el) => {
+    const hasName = !!(el.getAttribute('aria-label') || el.getAttribute('title') || (el.textContent || '').trim());
+    const iconOnly = !!el.querySelector('i, svg, img') && !(el.textContent || '').trim();
+    if (!hasName && iconOnly) {
+      el.setAttribute('aria-label', el.getAttribute('data-label') || 'Action');
+    }
+  });
+
+  document.querySelectorAll('input, textarea, select').forEach((field) => {
+    if (field.type === 'hidden') return;
+    const labelled = field.getAttribute('aria-label') || field.getAttribute('aria-labelledby');
+    const forLabel = field.id ? document.querySelector(`label[for="${field.id}"]`) : null;
+    if (!labelled && !forLabel) {
+      field.setAttribute('aria-label', field.getAttribute('placeholder') || field.getAttribute('name') || 'Input field');
+    }
+  });
+
+  document.querySelectorAll('img:not([alt])').forEach((img) => {
+    img.setAttribute('alt', '');
+  });
+
+  document.querySelectorAll('[onclick]').forEach((el) => {
+    const tag = el.tagName.toLowerCase();
+    if (['button', 'a', 'input', 'select', 'textarea', 'summary'].includes(tag)) return;
+    if (!el.getAttribute('role')) el.setAttribute('role', 'button');
+    if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+    if (el.dataset.a11yKeybound === '1') return;
+
+    el.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        el.click();
+      }
+    });
+
+    el.dataset.a11yKeybound = '1';
+  });
+}
+
 function updateA11yToggleVisual(toggleEl, isEnabled) {
   const icon = toggleEl?.querySelector?.('i');
   if (icon) {
@@ -670,6 +771,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // Popup reference
   window.popup = document.getElementById('popup');
 
+  initAccessibilityHardeningLegacy();
   initSidebar();
   initLiveSandboxes();
   initDarkMode();
@@ -705,3 +807,68 @@ window.addEventListener('DOMContentLoaded', () => {
   // Menu toggle (legacy id)
   const menuToggle = document.getElementById('menuToggle'); const sidebarEl = document.querySelector('.sidebar'); if (menuToggle && sidebarEl) menuToggle.addEventListener('click', () => sidebarEl.classList.toggle('hide'));
 });
+
+
+// ================= SEARCH (ROUTING) =================
+function handleSearch(event) {
+  if (event.key === "Enter") {
+    const query = event.target.value.toLowerCase().trim();
+
+    const routes = {
+      "button": "button.html",
+      "buttons": "button.html",
+      "navbar": "navbar.html",
+      "navbars": "navbar.html",
+      "card": "cards.html",
+      "cards": "cards.html",
+      "form": "form.html",
+      "forms": "form.html",
+      "footer": "footer.html",
+      "color": "color.html",
+      "colors": "color.html"
+    };
+
+    for (let key in routes) {
+      if (query.includes(key)) {
+        window.location.href = routes[key];
+        return;
+      }
+    }
+
+    showToast("No component found 😢");
+  }
+}
+
+
+// ================= DARK MODE =================
+document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark-mode");
+  }
+
+  const toggleBtn = document.getElementById("theme-toggle");
+
+  if (toggleBtn) {
+    toggleBtn.innerText = document.body.classList.contains("dark-mode")
+      ? "☀️ Light Mode"
+      : "🌙 Dark Mode";
+
+    toggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+
+      if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("theme", "dark");
+        toggleBtn.innerText = "☀️ Light Mode";
+      } else {
+        localStorage.setItem("theme", "light");
+        toggleBtn.innerText = "🌙 Dark Mode";
+      }
+    });
+  }
+
+// Init sidebar after DOM ready
+  restoreSidebarState();
+  updateSidebarActiveLink();
+  initSidebarLinkClose();
+});  
+

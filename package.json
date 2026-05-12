@@ -1,0 +1,28 @@
+{
+  "name": "ui-verse",
+  "version": "1.0.0",
+  "private": true,
+  "description": "UI-Verse static site — quality gate tooling",
+  "scripts": {
+    "lint:js": "eslint '**/*.js' --ext .js",
+    "lint:css": "stylelint '**/*.css'",
+    "lint:html": "html-validate '**/*.html'",
+    "link-check": "linkinator './index.html' --recursive --silent --summary",
+    "audit:a11y": "node scripts/a11y-audit.js",
+    "test:visual": "playwright test",
+    "test:visual:ui": "playwright test --ui",
+    "test:visual:update": "playwright test --update-snapshots",
+    "test:visual:debug": "playwright test --debug",
+    "quality": "npm run lint:html && npm run lint:css && npm run lint:js && npm run link-check && npm run audit:a11y && npm run test:visual"
+    ,
+    "perf": "node scripts/perf-monitor.js"
+  },
+  "devDependencies": {
+    "eslint": "^8.50.0",
+    "stylelint": "^15.0.0",
+    "stylelint-config-standard": "^30.0.0",
+    "html-validate": "^8.5.0",
+    "linkinator": "^7.6.1",
+    "@playwright/test": "^1.40.0"
+  }
+}

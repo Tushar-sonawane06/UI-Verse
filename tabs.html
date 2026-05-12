@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabs — UIverse</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- UIverse Modular CSS Architecture -->
+  <link rel="stylesheet" href="css/main.css">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="tabs.css">
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-icon">⬡</span>
+    <span class="brand-text">UIverse</span>
+  </div>
+  <nav class="sidebar-nav">
+    <ul>
+      <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
+      <li><a href="button.html"><i class="fa-solid fa-hand-pointer"></i><span>Buttons</span></a></li>
+      <li><a href="navbar.html"><i class="fa-solid fa-bars"></i><span>Navbar</span></a></li>
+      <li><a href="cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Cards</span></a></li>
+      <li><a href="inputs.html"><i class="fa-solid fa-keyboard"></i><span>Inputs</span></a></li>
+      <li><a href="contact.html"><i class="fa-regular fa-envelope"></i><span>Contact Us</span></a></li>
+      <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><span>Forms</span></a></li>
+      <li><a href="toggles.html"><i class="fa-solid fa-toggle-on"></i><span>Toggles</span></a></li>
+      <li><a href="span.html"><i class="fa-solid fa-code"></i><span>Span</span></a></li>
+      <li class="active"><a href="tabs.html"><i class="fa-solid fa-folder-open"></i><span>Tabs</span></a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="#"><i class="fab fa-github"></i></a>
+    <a href="#"><i class="fab fa-linkedin"></i></a>
+    <a href="#"><i class="fab fa-x-twitter"></i></a>
+  </div>
+</aside>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="logo">UIverse</div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." oninput="liveFilter(this.value)" />
+    <kbd class="search-kbd">⌘K</kbd>
+  </div>
+  <div class="nav-right">
+    <button class="nav-btn outline-nav-btn"><i class="fa-solid fa-plus"></i> Add Component</button>
+    <button class="nav-btn primary-nav-btn"><i class="fa-solid fa-bookmark"></i> My Collection</button>
+    <button id="darkModeToggle" class="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main-home">
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="page-hero-left">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Tabs</span>
+      </div>
+      <h1 class="page-title">Tab Components</h1>
+      <p class="page-desc">Modern, accessible tab components built with pure HTML, CSS, and minimal JavaScript — pill tabs, underline tabs, icon tabs, card tabs, vertical tabs and more.</p>
+      <div class="page-meta">
+        <span class="meta-badge"><i class="fa-solid fa-layer-group"></i> 7 Styles</span>
+        <span class="meta-badge"><i class="fa-solid fa-code"></i> HTML + CSS + JS</span>
+        <span class="meta-badge"><i class="fa-solid fa-mobile-screen"></i> Responsive</span>
+      </div>
+    </div>
+    <div class="page-hero-right">
+      <!-- Mini tab preview -->
+      <div class="tabs-hero-preview">
+        <div class="thp-nav">
+          <button class="thp-btn thp-active">HTML</button>
+          <button class="thp-btn">CSS</button>
+          <button class="thp-btn">JS</button>
+        </div>
+        <div class="thp-body">
+          <div class="thp-code-line" style="width:60%;"></div>
+          <div class="thp-code-line" style="width:80%;"></div>
+          <div class="thp-code-line" style="width:45%;"></div>
+          <div class="thp-code-line" style="width:70%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
+    <button class="filter-btn" onclick="filterCards('basic', this)">Basic</button>
+    <button class="filter-btn" onclick="filterCards('styled', this)">Styled</button>
+    <button class="filter-btn" onclick="filterCards('advanced', this)">Advanced</button>
+    <div class="filter-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Filter tabs..." oninput="liveFilter(this.value)" />
+    </div>
+  </div>
+
+  <!-- ===== COMPONENTS ===== -->
+  <div class="tabs-comp-grid" id="tabsGrid">
+
+    <!-- 1. Classic Tabs -->
+    <div class="component-card" data-name="classic default tab panel" data-cat="basic">
+      <div class="card-top">
+        <span class="card-label">Classic Tabs</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+
+      <div class="card-preview tabs-preview">
+        <div class="demo-tabs" id="dt1">
+          <div class="dt-nav">
+            <button class="dt-btn dt-active" onclick="switchTab('dt1','p1a')">HTML</button>
+            <button class="dt-btn" onclick="switchTab('dt1','p1b')">CSS</button>
+            <button class="dt-btn" onclick="switchTab('dt1','p1c')">JavaScript</button>
+          </div>
+          <div class="dt-content">
+            <div class="dt-panel dt-show" id="p1a">
+              <p><strong>HTML</strong> — Build semantic layouts with reusable components.</p>
+            </div>
+            <div class="dt-panel" id="p1b">
+              <p><strong>CSS</strong> — Create beautiful responsive UI with modern CSS techniques.</p>
+            </div>
+            <div class="dt-panel" id="p1c">
+              <p><strong>JavaScript</strong> — Add interactivity and dynamic experiences.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="card-desc">The classic tab switcher — active tab gets a filled accent background, panels fade in smoothly.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc1', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc1', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc1" class="code-block"><code>&lt;div class="tabs"&gt;
+  &lt;div class="tabs-nav"&gt;
+    &lt;button class="tab-btn active" data-tab="html"&gt;HTML&lt;/button&gt;
+    &lt;button class="tab-btn" data-tab="css"&gt;CSS&lt;/button&gt;
+    &lt;button class="tab-btn" data-tab="js"&gt;JavaScript&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="tab-panel active" id="html"&gt;HTML content here&lt;/div&gt;
+  &lt;div class="tab-panel" id="css"&gt;CSS content here&lt;/div&gt;
+  &lt;div class="tab-panel" id="js"&gt;JS content here&lt;/div&gt;
+&lt;/div&gt;
+
+.tabs-nav { display: flex; gap: 8px; margin-bottom: 20px; }
+.tab-btn {
+  padding: 10px 20px; border: none; border-radius: 10px;
+  background: rgba(235,104,53,0.08); color: var(--text-secondary);
+  font-weight: 600; cursor: pointer; transition: 0.25s;
+}
+.tab-btn.active { background: #eb6835; color: #fff; }
+.tab-panel { display: none; animation: fadeUp 0.3s ease; }
+.tab-panel.active { display: block; }
+
+// JS
+document.querySelectorAll('.tab-btn').forEach(btn =&gt; {
+  btn.addEventListener('click', () =&gt; {
+    document.querySelectorAll('.tab-btn').forEach(b =&gt; b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p =&gt; p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});</code></pre>
+    </div>
+
+    <!-- 2. Pill Tabs -->
+    <div class="component-card" data-name="pill tab rounded chip" data-cat="styled">
+      <div class="card-top">
+        <span class="card-label">Pill Tabs</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+
+      <div class="card-preview tabs-preview">
+        <div class="demo-tabs" id="dt2">
+          <div class="dt-nav-pill">
+            <button class="dt-pill dt-pill-active" onclick="switchPill('dt2','pp2a','dt-pill')">Overview</button>
+            <button class="dt-pill" onclick="switchPill('dt2','pp2b','dt-pill')">Features</button>
+            <button class="dt-pill" onclick="switchPill('dt2','pp2c','dt-pill')">Reviews</button>
+          </div>
+          <div class="dt-content">
+            <div class="dt-panel dt-show" id="pp2a"><p><strong>Overview</strong> — A high-level summary of the product and its purpose.</p></div>
+            <div class="dt-panel" id="pp2b"><p><strong>Features</strong> — Explore the key features that make this stand out.</p></div>
+            <div class="dt-panel" id="pp2c"><p><strong>Reviews</strong> — See what the community has to say about it.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="card-desc">Rounded pill-shaped tabs — clean and modern, great for product pages or settings.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc2', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc2', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc2" class="code-block"><code>&lt;div class="pill-tabs"&gt;
+  &lt;button class="pill active"&gt;Overview&lt;/button&gt;
+  &lt;button class="pill"&gt;Features&lt;/button&gt;
+  &lt;button class="pill"&gt;Reviews&lt;/button&gt;
+&lt;/div&gt;
+
+.pill-tabs {
+  display: flex; gap: 8px;
+  background: var(--body-bg);
+  padding: 6px; border-radius: 999px;
+  width: fit-content;
+}
+.pill {
+  padding: 8px 20px; border: none;
+  border-radius: 999px; cursor: pointer;
+  font-weight: 600; font-size: 14px;
+  background: transparent; color: var(--text-secondary);
+  transition: 0.25s;
+}
+.pill.active { background: #eb6835; color: #fff; }</code></pre>
+    </div>
+
+    <!-- 3. Underline Tabs -->
+    <div class="component-card" data-name="underline tab line border bottom" data-cat="styled">
+      <div class="card-top">
+        <span class="card-label">Underline Tabs</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+
+      <div class="card-preview tabs-preview">
+        <div class="demo-tabs" id="dt3">
+          <div class="dt-nav-underline">
+            <button class="dt-uline dt-uline-active" onclick="switchPill('dt3','up3a','dt-uline')">Trending</button>
+            <button class="dt-uline" onclick="switchPill('dt3','up3b','dt-uline')">Latest</button>
+            <button class="dt-uline" onclick="switchPill('dt3','up3c','dt-uline')">Popular</button>
+          </div>
+          <div class="dt-content">
+            <div class="dt-panel dt-show" id="up3a"><p>🔥 <strong>Trending</strong> — What's hot right now across the community.</p></div>
+            <div class="dt-panel" id="up3b"><p>🆕 <strong>Latest</strong> — The freshest components added today.</p></div>
+            <div class="dt-panel" id="up3c"><p>⭐ <strong>Popular</strong> — All-time favourites loved by thousands.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="card-desc">Minimal underline tabs — a sliding accent line highlights the active tab. Great for dashboards.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc3', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc3', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc3" class="code-block"><code>&lt;div class="underline-tabs"&gt;
+  &lt;button class="uline-btn active"&gt;Trending&lt;/button&gt;
+  &lt;button class="uline-btn"&gt;Latest&lt;/button&gt;
+  &lt;button class="uline-btn"&gt;Popular&lt;/button&gt;
+&lt;/div&gt;
+
+.underline-tabs {
+  display: flex; gap: 4px;
+  border-bottom: 2px solid var(--card-border);
+}
+.uline-btn {
+  border: none; background: none;
+  padding: 10px 18px 12px;
+  font-weight: 600; font-size: 14px;
+  cursor: pointer; position: relative;
+  color: var(--text-secondary); transition: color 0.25s;
+}
+.uline-btn.active { color: #eb6835; }
+.uline-btn.active::after {
+  content: ''; position: absolute;
+  bottom: -2px; left: 0; width: 100%; height: 2px;
+  background: #eb6835; border-radius: 2px;
+}</code></pre>
+    </div>
+
+    <!-- 4. Icon Tabs -->
+    <div class="component-card" data-name="icon tab emoji symbol label" data-cat="styled">
+      <div class="card-top">
+        <span class="card-label">Icon Tabs</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+
+      <div class="card-preview tabs-preview">
+        <div class="demo-tabs" id="dt4">
+          <div class="dt-nav">
+            <button class="dt-btn dt-icon-btn dt-active" onclick="switchTab('dt4','ip4a')">
+              <i class="fa-solid fa-house"></i> Home
+            </button>
+            <button class="dt-btn dt-icon-btn" onclick="switchTab('dt4','ip4b')">
+              <i class="fa-solid fa-chart-line"></i> Stats
+            </button>
+            <button class="dt-btn dt-icon-btn" onclick="switchTab('dt4','ip4c')">
+              <i class="fa-solid fa-gear"></i> Settings
+            </button>
+          </div>
+          <div class="dt-content">
+            <div class="dt-panel dt-show" id="ip4a"><p>🏠 <strong>Home</strong> — Your personal dashboard overview.</p></div>
+            <div class="dt-panel" id="ip4b"><p>📈 <strong>Stats</strong> — Detailed analytics and performance metrics.</p></div>
+            <div class="dt-panel" id="ip4c"><p>⚙️ <strong>Settings</strong> — Manage preferences and account details.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="card-desc">Tabs with Font Awesome icons alongside labels — adds visual context for navigation-heavy UIs.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc4', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc4', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc4" class="code-block"><code>&lt;div class="tabs-nav"&gt;
+  &lt;button class="tab-btn active"&gt;
+    &lt;i class="fa-solid fa-house"&gt;&lt;/i&gt; Home
+  &lt;/button&gt;
+  &lt;button class="tab-btn"&gt;
+    &lt;i class="fa-solid fa-chart-line"&gt;&lt;/i&gt; Stats
+  &lt;/button&gt;
+&lt;/div&gt;
+
+.tab-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 20px; border: none; border-radius: 10px;
+  font-weight: 600; cursor: pointer; transition: 0.25s;
+}
+.tab-btn i { font-size: 14px; }</code></pre>
+    </div>
+
+    <!-- 5. Bordered Card Tabs -->
+    <div class="component-card" data-name="card border box tab panel" data-cat="styled">
+      <div class="card-top">
+        <span class="card-label">Card Tabs</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+
+      <div class="card-preview tabs-preview">
+        <div class="demo-tabs" id="dt5">
+          <div class="dt-nav-card">
+            <button class="dt-card-btn dt-card-active" onclick="switchPill('dt5','cp5a','dt-card-btn')">Profile</button>
+            <button class="dt-card-btn" onclick="switchPill('dt5','cp5b','dt-card-btn')">Portfolio</button>
+            <button class="dt-card-btn" onclick="switchPill('dt5','cp5c','dt-card-btn')">Contact</button>
+          </div>
+          <div class="dt-card-content">
+            <div class="dt-panel dt-show" id="cp5a"><p>👤 <strong>Profile</strong> — Your public information and avatar.</p></div>
+            <div class="dt-panel" id="cp5b"><p>🎨 <strong>Portfolio</strong> — Showcase your best work and projects.</p></div>
+            <div class="dt-panel" id="cp5c"><p>📬 <strong>Contact</strong> — How people can reach you.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="card-desc">Bordered card-style tabs — the active tab merges into the content panel like a real file tab.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc5', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc5', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc5" class="code-block"><code>&lt;div class="tabs-nav-card"&gt;
+  &lt;button class="card-tab active"&gt;Profile&lt;/button&gt;
+  &lt;button class="card-tab"&gt;Portfolio&lt;/button&gt;
+&lt;/div&gt;
+&lt;div class="card-tab-content"&gt;...&lt;/div&gt;
+
+.tabs-nav-card { display: flex; gap: 0; }
+.card-tab {
+  padding: 10px 22px; border: 1px solid var(--card-border);
+  border-bottom: none; background: var(--body-bg);
+  color: var(--text-secondary); font-weight: 600;
+  cursor: pointer; border-radius: 10px 10px 0 0;
+  transition: 0.2s; margin-right: 4px;
+}
+.card-tab.active {
+  background: var(--card-bg); color: #eb6835;
+  border-bottom: 1px solid var(--card-bg);
+}
+.card-tab-content {
+  border: 1px solid var(--card-border);
+  border-radius: 0 10px 10px 10px; padding: 20px;
+}</code></pre>
+    </div>
+
+    <!-- 6. Vertical Tabs -->
+    <div class="component-card" data-name="vertical sidebar tab left panel" data-cat="advanced">
+      <div class="card-top">
+        <span class="card-label">Vertical Tabs</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+
+      <div class="card-preview tabs-preview">
+        <div class="demo-vtabs" id="dv6">
+          <div class="dv-nav">
+            <button class="dv-btn dv-active" onclick="switchVTab('dv6','vp6a')">
+              <i class="fa-solid fa-user"></i> Account
+            </button>
+            <button class="dv-btn" onclick="switchVTab('dv6','vp6b')">
+              <i class="fa-solid fa-lock"></i> Security
+            </button>
+            <button class="dv-btn" onclick="switchVTab('dv6','vp6c')">
+              <i class="fa-solid fa-bell"></i> Alerts
+            </button>
+            <button class="dv-btn" onclick="switchVTab('dv6','vp6d')">
+              <i class="fa-solid fa-credit-card"></i> Billing
+            </button>
+          </div>
+          <div class="dv-content">
+            <div class="dv-panel dv-show" id="vp6a"><strong>Account</strong><p>Manage your profile and personal information.</p></div>
+            <div class="dv-panel" id="vp6b"><strong>Security</strong><p>Update password and enable two-factor authentication.</p></div>
+            <div class="dv-panel" id="vp6c"><strong>Alerts</strong><p>Configure your notification preferences here.</p></div>
+            <div class="dv-panel" id="vp6d"><strong>Billing</strong><p>Manage subscriptions and payment methods.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="card-desc">A settings-style vertical tab layout with a left nav and right content panel — ideal for dashboards.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc6', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc6', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc6" class="code-block"><code>&lt;div class="vertical-tabs"&gt;
+  &lt;div class="vtabs-nav"&gt;
+    &lt;button class="vt-btn active"&gt;
+      &lt;i class="fa-solid fa-user"&gt;&lt;/i&gt; Account
+    &lt;/button&gt;
+    &lt;button class="vt-btn"&gt;
+      &lt;i class="fa-solid fa-lock"&gt;&lt;/i&gt; Security
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="vtabs-content"&gt;
+    &lt;div class="vt-panel active" id="account"&gt;...&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+.vertical-tabs { display: flex; gap: 0; }
+.vtabs-nav {
+  display: flex; flex-direction: column;
+  border-right: 1px solid var(--card-border);
+  min-width: 150px;
+}
+.vt-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px; border: none; background: none;
+  font-weight: 600; text-align: left; cursor: pointer;
+  color: var(--text-secondary); transition: 0.2s;
+  border-left: 3px solid transparent;
+}
+.vt-btn.active {
+  color: #eb6835;
+  background: rgba(235,104,53,0.07);
+  border-left-color: #eb6835;
+}</code></pre>
+    </div>
+
+    <!-- 7. Gradient Tabs -->
+    <div class="component-card" data-name="gradient colorful tab dark themed" data-cat="advanced">
+      <div class="card-top">
+        <span class="card-label">Gradient Tabs</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+
+      <div class="card-preview dark-preview tabs-preview">
+        <div class="demo-tabs" id="dt7">
+          <div class="dt-nav-grad">
+            <button class="dt-grad dt-grad-active" onclick="switchPill('dt7','gp7a','dt-grad')">Design</button>
+            <button class="dt-grad" onclick="switchPill('dt7','gp7b','dt-grad')">Code</button>
+            <button class="dt-grad" onclick="switchPill('dt7','gp7c','dt-grad')">Deploy</button>
+          </div>
+          <div class="dt-content dt-content-dark">
+            <div class="dt-panel dt-show" id="gp7a"><p style="color:#e0e0e0;">🎨 <strong>Design</strong> — Craft beautiful user interfaces with modern tools.</p></div>
+            <div class="dt-panel" id="gp7b"><p style="color:#e0e0e0;">💻 <strong>Code</strong> — Build with clean, component-driven architecture.</p></div>
+            <div class="dt-panel" id="gp7c"><p style="color:#e0e0e0;">🚀 <strong>Deploy</strong> — Ship to production in seconds.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="card-desc">Dark-themed gradient tabs — bold and modern, perfect for landing pages and portfolios.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc7', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc7', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc7" class="code-block"><code>&lt;div class="grad-tabs"&gt;
+  &lt;button class="grad-tab active"&gt;Design&lt;/button&gt;
+  &lt;button class="grad-tab"&gt;Code&lt;/button&gt;
+  &lt;button class="grad-tab"&gt;Deploy&lt;/button&gt;
+&lt;/div&gt;
+
+.grad-tabs {
+  display: flex; gap: 6px;
+  background: rgba(255,255,255,0.06);
+  padding: 6px; border-radius: 12px;
+}
+.grad-tab {
+  padding: 9px 20px; border: none;
+  border-radius: 8px; font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  background: transparent; cursor: pointer; transition: 0.25s;
+}
+.grad-tab.active {
+  background: linear-gradient(90deg, #eb6835, #6c5ce7);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(235,104,53,0.35);
+}</code></pre>
+    </div>
+
+  </div><!-- /tabs-comp-grid -->
+
+</main>
+
+<!-- Scroll to Top -->
+<button id="scrollTopBtn" onclick="scrollToTop()">
+  <i class="fa-solid fa-chevron-up"></i>
+</button>
+
+<!-- Copy Toast -->
+<div id="copyToast" class="copy-toast"><i class="fa-solid fa-check"></i> Copied to clipboard!</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="toggles.html">Toggles</a></li>
+        <li><a href="tabs.html">Tabs</a></li>
+        <li><a href="span.html">Span</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">GitHub Repo</a></li>
+        <li><a href="#">Community</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com" />
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  /* Dark Mode */
+  const toggle = document.getElementById('darkModeToggle');
+  const icon = toggle.querySelector('i');
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    icon.className = 'fa-solid fa-sun';
+  }
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+
+  /* Sidebar */
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarBackdrop').classList.toggle('visible');
+  }
+
+  /* Scroll Top */
+  function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  window.addEventListener('scroll', () => {
+    document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 400);
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  /* Tab switchers */
+  function switchTab(containerId, panelId) {
+    const container = document.getElementById(containerId);
+    container.querySelectorAll('.dt-btn').forEach(b => b.classList.remove('dt-active'));
+    container.querySelectorAll('.dt-panel').forEach(p => p.classList.remove('dt-show'));
+    event.currentTarget.classList.add('dt-active');
+    document.getElementById(panelId).classList.add('dt-show');
+  }
+
+  function switchPill(containerId, panelId, btnClass) {
+    const container = document.getElementById(containerId);
+    container.querySelectorAll('.' + btnClass).forEach(b => {
+      b.classList.remove('dt-pill-active', 'dt-uline-active', 'dt-card-active', 'dt-grad-active');
+    });
+    container.querySelectorAll('.dt-panel').forEach(p => p.classList.remove('dt-show'));
+    event.currentTarget.classList.add(
+      btnClass === 'dt-pill' ? 'dt-pill-active' :
+      btnClass === 'dt-uline' ? 'dt-uline-active' :
+      btnClass === 'dt-card-btn' ? 'dt-card-active' :
+      'dt-grad-active'
+    );
+    document.getElementById(panelId).classList.add('dt-show');
+  }
+
+  function switchVTab(containerId, panelId) {
+    const container = document.getElementById(containerId);
+    container.querySelectorAll('.dv-btn').forEach(b => b.classList.remove('dv-active'));
+    container.querySelectorAll('.dv-panel').forEach(p => p.classList.remove('dv-show'));
+    event.currentTarget.classList.add('dv-active');
+    document.getElementById(panelId).classList.add('dv-show');
+  }
+
+  /* Code Toggle */
+  function toggleCode(id, btn) {
+    const block = document.getElementById(id);
+    const isOpen = block.classList.toggle('open');
+    btn.innerHTML = isOpen
+      ? '<i class="fa-solid fa-eye-slash"></i> Hide Code'
+      : '<i class="fa-solid fa-code"></i> View Code';
+  }
+
+  /* Copy */
+  let toastTimer;
+  function copyCode(id, btn) {
+    navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+      btn.classList.add('copied');
+      const toast = document.getElementById('copyToast');
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+        btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+
+  /* Filter */
+  function filterCards(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.component-card').forEach(card => {
+      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+    });
+  }
+
+  /* Live search */
+  function liveFilter(val) {
+    const q = val.toLowerCase();
+    document.querySelectorAll('.component-card').forEach(card => {
+      const match = card.dataset.name?.toLowerCase().includes(q) ||
+                    card.querySelector('.card-label')?.textContent.toLowerCase().includes(q);
+      card.style.display = match ? '' : 'none';
+    });
+  }
+
+  /* Scroll animations */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.component-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
