@@ -676,11 +676,22 @@ window.addEventListener('DOMContentLoaded', () => {
   initAccessibilityMode();
   initScrollTop();
   initProgressBar();
-  initSearchFilter();
-  createFilterUI();  // Initialize filter UI
-
-  // Attach global search handler
-  const searchEl = document.getElementById('searchInput'); if (searchEl) searchEl.addEventListener('keydown', handleSearch);
+  
+  // Feature detection: Only initialize filter UI if both component cards AND filter bar exist
+  const hasComponentCards = document.querySelectorAll('.component-card').length > 0;
+  const hasFilterBar = document.querySelector('.filter-bar') !== null;
+  
+  if (hasComponentCards && hasFilterBar) {
+    initSearchFilter();
+    createFilterUI();  // Initialize filter UI
+    
+    // Attach global search handler
+    const searchEl = document.getElementById('searchInput'); if (searchEl) searchEl.addEventListener('keydown', handleSearch);
+  }
+  else if (hasComponentCards && !hasFilterBar) {
+    // Log warning for developers: page has components but missing filter bar
+    console.warn('[UI-Verse] Component gallery page detected but .filter-bar element not found. Add .filter-bar to enable filtering. See Docs/GALLERY_PAGES.md for required structure.');
+  }
 
   // Attach optional form-card buttons toast safely
   try { const btns = document.querySelectorAll('.form-card button'); if (btns[0]) btns[0].addEventListener('click', () => showToastSafe('Login button clicked')); if (btns[1]) btns[1].addEventListener('click', () => showToastSafe('Signup button clicked')); if (btns[2]) btns[2].addEventListener('click', () => showToastSafe('Message sent')); if (btns[3]) btns[3].addEventListener('click', () => showToastSafe('Form submitted')); } catch (e) {}
