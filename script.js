@@ -602,7 +602,46 @@ function injectSmartFilterStyles() {
 // Dark mode
 function updateToggleVisual(toggleEl, isDark) { const icon = toggleEl?.querySelector?.('i'); if (icon) icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon'; else toggleEl.innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode'; }
 function loadTheme(toggleEl) { const saved = localStorage.getItem('theme'); if (saved === 'dark') { document.body.classList.add('dark-mode'); if (toggleEl) updateToggleVisual(toggleEl, true); } else if (saved === 'light') { document.body.classList.remove('dark-mode'); if (toggleEl) updateToggleVisual(toggleEl, false); } else { const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; document.body.classList.toggle('dark-mode', prefersDark); if (toggleEl) updateToggleVisual(toggleEl, prefersDark); } }
-function initDarkMode() { const toggleEl = document.getElementById('darkModeToggle'); loadTheme(toggleEl); if (!toggleEl) return; toggleEl.addEventListener('click', () => { document.body.classList.toggle('dark-mode'); const isDark = document.body.classList.contains('dark-mode'); localStorage.setItem('theme', isDark ? 'dark' : 'light'); updateToggleVisual(toggleEl, isDark); }); }
+function ensureDarkModeToggle() {
+  let toggleEl = document.getElementById('darkModeToggle');
+  if (toggleEl) return toggleEl;
+
+  const host = document.querySelector('.navbar-actions, .nav-actions, .navbar .actions, .navbar');
+  if (!host) return null;
+
+  toggleEl = document.createElement('button');
+  toggleEl.id = 'darkModeToggle';
+  toggleEl.className = 'theme-toggle';
+  toggleEl.type = 'button';
+  toggleEl.title = 'Toggle dark mode';
+  toggleEl.setAttribute('aria-label', 'Toggle dark mode');
+  toggleEl.innerHTML = '<i class="fa-solid fa-moon"></i>';
+  host.appendChild(toggleEl);
+
+  return toggleEl;
+}
+
+function initDarkMode() {
+  const toggleEl = ensureDarkModeToggle();
+  loadTheme(toggleEl);
+
+  if (window.__sharedThemeClickBound) return;
+  window.__sharedThemeClickBound = true;
+
+  document.addEventListener('click', (ev) => {
+    const targetToggle = ev.target && ev.target.closest ? ev.target.closest('#darkModeToggle') : null;
+    if (!targetToggle) return;
+
+    ev.preventDefault();
+    ev.stopPropagation();
+    if (typeof ev.stopImmediatePropagation === 'function') ev.stopImmediatePropagation();
+
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    updateToggleVisual(targetToggle, isDark);
+  }, true);
+}
 
 // Accessibility Mode
 function scanA11yIssues() {
