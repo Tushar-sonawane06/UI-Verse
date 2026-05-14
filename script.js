@@ -863,7 +863,8 @@ function injectSmartFilterStyles() {
 // Dark mode
 function updateToggleVisual(toggleEl, isDark) { const icon = toggleEl?.querySelector?.('i'); if (icon) icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon'; else toggleEl.innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode'; }
 function loadTheme(toggleEl) { const saved = localStorage.getItem('theme'); if (saved === 'dark') { document.body.classList.add('dark-mode'); if (toggleEl) updateToggleVisual(toggleEl, true); } else if (saved === 'light') { document.body.classList.remove('dark-mode'); if (toggleEl) updateToggleVisual(toggleEl, false); } else { const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; document.body.classList.toggle('dark-mode', prefersDark); if (toggleEl) updateToggleVisual(toggleEl, prefersDark); } }
-function initDarkMode() { const toggleEl = document.getElementById('darkModeToggle'); loadTheme(toggleEl); if (!toggleEl) return; toggleEl.addEventListener('click', () => { document.body.classList.toggle('dark-mode'); const isDark = document.body.classList.contains('dark-mode'); localStorage.setItem('theme', isDark ? 'dark' : 'light'); updateToggleVisual(toggleEl, isDark); }); }
+function getThemeToggle() { return document.getElementById('darkModeToggle') || document.getElementById('themeToggle') || document.getElementById('theme-toggle') || document.querySelector('.theme-toggle'); }
+function initDarkMode() { const toggleEl = getThemeToggle(); loadTheme(toggleEl); if (!toggleEl) return; toggleEl.addEventListener('click', () => { document.body.classList.toggle('dark-mode'); const isDark = document.body.classList.contains('dark-mode'); localStorage.setItem('theme', isDark ? 'dark' : 'light'); updateToggleVisual(toggleEl, isDark); }); }
 
 // Accessibility Mode
 function scanA11yIssues() {
@@ -1142,37 +1143,10 @@ function handleSearch(event) {
     showToast("No component found 😢");
   }
 }
-
-
-// ================= DARK MODE =================
-document.addEventListener("DOMContentLoaded", () => {
-  if (localStorage.getItem("theme") === "dark") {
-    document.body.classList.add("dark-mode");
-  }
-
-  const toggleBtn = document.getElementById("theme-toggle");
-
-  if (toggleBtn) {
-    toggleBtn.innerText = document.body.classList.contains("dark-mode")
-      ? "☀️ Light Mode"
-      : "🌙 Dark Mode";
-
-    toggleBtn.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-
-      if (document.body.classList.contains("dark-mode")) {
-        localStorage.setItem("theme", "dark");
-        toggleBtn.innerText = "☀️ Light Mode";
-      } else {
-        localStorage.setItem("theme", "light");
-        toggleBtn.innerText = "🌙 Dark Mode";
-      }
-    });
-  }
-
 // Init sidebar after DOM ready
+document.addEventListener("DOMContentLoaded", () => {
   restoreSidebarState();
   updateSidebarActiveLink();
   initSidebarLinkClose();
-});  
+});
 
