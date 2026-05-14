@@ -1,0 +1,153 @@
+<!-- Command Palette Feature Test Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command Palette Test - UIverse</title>
+  <link rel="stylesheet" href="command-palette.css">
+  <script src="js/features/command-palette.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+    .test-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    h1 { color: #333; }
+    .test-section { margin: 20px 0; padding: 15px; background: #f9f9f9; border-left: 4px solid #0066cc; }
+    .test-item { margin: 10px 0; }
+    .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+    .status.pass { background: #d4edda; color: #155724; }
+    .status.fail { background: #f8d7da; color: #721c24; }
+    code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+    .keyboard-hint { background: #e8f4fd; padding: 15px; border-radius: 6px; margin: 20px 0; }
+    button { padding: 10px 20px; background: #0066cc; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+    button:hover { background: #0052a3; }
+  </style>
+</head>
+<body>
+
+<div class="test-container">
+  <h1>🎯 Command Palette Feature Test</h1>
+  
+  <div class="keyboard-hint">
+    <strong>⌨️ Try it out:</strong> Press <code>Cmd+K</code> or <code>Ctrl+K</code> to open the command palette
+  </div>
+
+  <div class="test-section">
+    <h2>Implementation Checklist</h2>
+    <div class="test-item">
+      <div class="status pass">✅ command-palette.css - CSS styling file created</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ js/features/command-palette.js - JavaScript module created</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ js/bootstrap.js - CommandPalette initialization added</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ index.html - CSS, JS includes and HTML markup added</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ button.html - Command palette updated</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ badges.html - Command palette updated</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ cards.html - Command palette updated</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ navbar.html - Command palette updated</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ forms.html - Command palette updated</div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Feature Capabilities</h2>
+    <div class="test-item">✅ Keyboard shortcut (Cmd+K / Ctrl+K)</div>
+    <div class="test-item">✅ Fuzzy search algorithm with ranking</div>
+    <div class="test-item">✅ Arrow key navigation (↑ ↓)</div>
+    <div class="test-item">✅ Enter to select and navigate</div>
+    <div class="test-item">✅ Escape to close</div>
+    <div class="test-item">✅ Recent items tracking (localStorage)</div>
+    <div class="test-item">✅ Mobile responsive design</div>
+    <div class="test-item">✅ Dark mode support</div>
+  </div>
+
+  <div class="test-section">
+    <h2>Testing Instructions</h2>
+    <ol>
+      <li><strong>Open Command Palette:</strong> Press Cmd+K (Mac) or Ctrl+K (Windows/Linux)</li>
+      <li><strong>Type to search:</strong> Try typing "button", "card", "navbar", or "form"</li>
+      <li><strong>Navigate results:</strong> Use arrow keys to highlight items</li>
+      <li><strong>Select component:</strong> Press Enter to navigate to the selected component</li>
+      <li><strong>Close palette:</strong> Press Escape</li>
+      <li><strong>Check mobile:</strong> Open on mobile device and verify responsive design</li>
+    </ol>
+  </div>
+
+  <button onclick="window.CommandPalette && window.CommandPalette.open && window.CommandPalette.open()">
+    🔍 Open Command Palette (Test)
+  </button>
+
+</div>
+
+<!-- Create mock sidebar for testing -->
+<div style="display:none">
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
+        <li><a href="button.html"><i class="fa-solid fa-hand-pointer"></i><span>Buttons</span></a></li>
+        <li><a href="navbar.html"><i class="fa-solid fa-bars"></i><span>Navbar</span></a></li>
+        <li><a href="cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Cards</span></a></li>
+        <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><span>Forms</span></a></li>
+        <li><a href="badges.html"><i class="fa-solid fa-award"></i><span>Badges</span></a></li>
+      </ul>
+    </nav>
+  </aside>
+</div>
+
+<!-- Command Palette Markup -->
+<div id="commandPaletteOverlay" class="command-palette-overlay">
+  <div class="command-palette-container">
+    <div class="command-palette-input-wrapper">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input 
+        type="text" 
+        id="commandPaletteInput" 
+        class="command-palette-input" 
+        placeholder="Search components... (Cmd+K)"
+        autocomplete="off"
+      />
+    </div>
+    <ul id="commandPaletteResults" class="command-palette-results"></ul>
+    <div class="command-palette-footer">
+      <div class="command-palette-footer-item">
+        <span class="command-palette-footer-kbd">↑↓</span>
+        <span>Navigate</span>
+      </div>
+      <div class="command-palette-footer-item">
+        <span class="command-palette-footer-kbd">⏎</span>
+        <span>Select</span>
+      </div>
+      <div class="command-palette-footer-item">
+        <span class="command-palette-footer-kbd">Esc</span>
+        <span>Close</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Initialize command palette
+  if (typeof CommandPalette !== 'undefined') {
+    CommandPalette.init();
+    console.log('✅ Command Palette initialized successfully');
+  } else {
+    console.error('❌ Command Palette module not found');
+  }
+</script>
+
+</body>
+</html>

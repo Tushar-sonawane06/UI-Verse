@@ -16,6 +16,23 @@
   <link rel="stylesheet" href="shared-page.css">
   <link rel="stylesheet" href="cards.css">
   <link rel="stylesheet" href="playground.css">
+  <link rel="stylesheet" href="command-palette.css">
+  <link rel="stylesheet" href="css/url-state.css">
+  <script src="js/core/utils.js"></script>
+  <script src="js/features/toast.js"></script>
+  <script src="js/features/popup.js"></script>
+  <script src="js/features/code-tools.js"></script>
+  <script src="js/features/sidebar.js"></script>
+  <script src="js/features/search.js"></script>
+  <script src="js/features/theme.js"></script>
+  <script src="js/features/scroll.js"></script>
+  <script src="js/features/alerts.js"></script>
+  <script src="js/features/sandbox.js"></script>
+  <script src="js/features/accessibility.js"></script>
+  <script src="js/features/command-palette.js"></script>
+  <script src="js/features/url-state.js"></script>
+  <script src="js/features/url-state-integration.js"></script>
+  <script src="js/bootstrap.js"></script>
 </head>
 
 <body data-playground-type="card">
@@ -850,5 +867,115 @@
   });
 </script>
 <script src="playground.js"></script>
+<script>
+window.addToCollectionFromCard = function(button, name) {
+  const card = button.closest('.component-card');
+  const previewBox = card.querySelector('.preview-box');
+  const html = previewBox.innerHTML;
+  
+  console.log("Button clicked:", name);
+  console.log("Preview HTML:", html);
+  
+  addToCollection(name, html);
+};
+
+window.addToCollection = function(name, html) {
+  let items = JSON.parse(localStorage.getItem("collection")) || [];
+
+  let newItem = {
+    title: name.trim(),
+    content: html,
+    id: Date.now()
+  };
+
+  console.log("Adding item:", newItem);
+
+  if (!items.some(item => item.title === newItem.title)) {
+    items.push(newItem);
+    localStorage.setItem("collection", JSON.stringify(items));
+    showToast(name + " added to collection ✓");
+    console.log("Total items saved:", items.length);
+  } else {
+    showToast("Already in collection");
+  }
+};
+
+window.goToCollection = function() {
+  window.location.href = "MyCollection.html";
+};
+
+function showToast(message) {
+  const toast = document.createElement("div");
+  toast.innerText = message;
+
+  toast.style.position = "fixed";
+  toast.style.bottom = "20px";
+  toast.style.right = "20px";
+  toast.style.background = "#111";
+  toast.style.color = "#fff";
+  toast.style.padding = "10px 14px";
+  toast.style.borderRadius = "8px";
+  toast.style.fontSize = "14px";
+  toast.style.zIndex = "9999";
+  toast.style.boxShadow = "0 4px 12px rgba(0,0,0,0.2)";
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.remove(), 1500);
+}
+
+function toggleCode(id){
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === "block" ? "none" : "block";
+}
+
+function copyCode(id,btn){
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text);
+  btn.innerText = "Copied!";
+  setTimeout(()=>btn.innerText="Copy",1000);
+}
+</script>
+<style>
+  button{
+  background:  #a29bfe;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  }
+
+</style>
+
+<!-- ================= COMMAND PALETTE ================= -->
+<div id="commandPaletteOverlay" class="command-palette-overlay">
+  <div class="command-palette-container">
+    <div class="command-palette-input-wrapper">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input 
+        type="text" 
+        id="commandPaletteInput" 
+        class="command-palette-input" 
+        placeholder="Search components... (Cmd+K)"
+        autocomplete="off"
+      />
+    </div>
+    <ul id="commandPaletteResults" class="command-palette-results"></ul>
+    <div class="command-palette-footer">
+      <div class="command-palette-footer-item">
+        <span class="command-palette-footer-kbd">↑↓</span>
+        <span>Navigate</span>
+      </div>
+      <div class="command-palette-footer-item">
+        <span class="command-palette-footer-kbd">⏎</span>
+        <span>Select</span>
+      </div>
+      <div class="command-palette-footer-item">
+        <span class="command-palette-footer-kbd">Esc</span>
+        <span>Close</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

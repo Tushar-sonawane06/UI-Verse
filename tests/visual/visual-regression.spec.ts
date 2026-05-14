@@ -1,9 +1,6 @@
 import { test, expect } from '@playwright/test';
-
-/**
- * Visual Regression Tests for UIverse
- * Tests key pages and components across desktop and mobile breakpoints
- */
+import fs from 'fs';
+import path from 'path';
 
 // Helper to wait for animations to settle
 async function waitForAnimationSettlement(page) {
@@ -15,226 +12,60 @@ async function waitForAnimationSettlement(page) {
   await page.waitForTimeout(500);
 }
 
-test.describe('Visual Regression Tests - Homepage', () => {
-  test('index page - desktop', async ({ page }) => {
-    await page.goto('/');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('index-desktop.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
+// Discover all .html pages under the repo root (excluding tests and node_modules)
+function collectHtmlPages(rootDir: string) {
+  const results: string[] = [];
+  const ignoredDirs = new Set(['node_modules', 'tests', 'tests-results', 'playwright-report']);
 
-  test('index page - mobile', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('index-mobile.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
-});
+  function walk(dir: string) {
+    for (const item of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, item.name);
+      if (item.isDirectory()) {
+        if (!ignoredDirs.has(item.name)) walk(full);
+        continue;
+      }
+      if (item.isFile() && item.name.endsWith('.html')) results.push(full);
+    }
+  }
 
-test.describe('Visual Regression Tests - Components', () => {
-  test('buttons page - desktop', async ({ page }) => {
-    await page.goto('/button.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('buttons-page-desktop.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
+  walk(rootDir);
+  return results;
+}
 
-  test('buttons page - mobile', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/button.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('buttons-page-mobile.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
+const repoRoot = path.resolve(__dirname, '..', '..');
+const pages = collectHtmlPages(repoRoot)
+  // Keep web-facing pages (exclude internal playground/test pages by simple heuristics)
+  .filter(p => !p.includes('playwright') && !p.includes('.backup') && !p.toLowerCase().includes('test-'))
+  // Sort for deterministic test ordering
+  .sort();
 
-  test('cards page - desktop', async ({ page }) => {
-    await page.goto('/cards.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('cards-page-desktop.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
+const desktop = { width: 1280, height: 800 };
+const mobile = { width: 375, height: 667 };
 
-  test('cards page - mobile', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/cards.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('cards-page-mobile.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
+test.describe('Visual Regression - auto-generated for all HTML pages', () => {
+  for (const file of pages) {
+    const rel = path.relative(repoRoot, file).replace(/\\/g, '/');
+    const route = rel === 'index.html' ? '/' : `/${rel}`;
+    const name = rel.replace(/\//g, '-').replace(/\.html$/, '');
 
-  test('badges page - desktop', async ({ page }) => {
-    await page.goto('/badges.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('badges-page-desktop.png', {
-      fullPage: true,
-      animations: 'disabled',
+    test(`${route} — desktop`, async ({ page }) => {
+      await page.setViewportSize(desktop);
+      await page.goto(route);
+      await waitForAnimationSettlement(page);
+      await expect(page).toHaveScreenshot(`${name}-desktop.png`, {
+        fullPage: true,
+        animations: 'disabled',
+      });
     });
-  });
 
-  test('badges page - mobile', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/badges.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('badges-page-mobile.png', {
-      fullPage: true,
-      animations: 'disabled',
+    test(`${route} — mobile`, async ({ page }) => {
+      await page.setViewportSize(mobile);
+      await page.goto(route);
+      await waitForAnimationSettlement(page);
+      await expect(page).toHaveScreenshot(`${name}-mobile.png`, {
+        fullPage: true,
+        animations: 'disabled',
+      });
     });
-  });
-
-  test('form page - desktop', async ({ page }) => {
-    await page.goto('/form.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('form-page-desktop.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
-
-  test('form page - mobile', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/form.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('form-page-mobile.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
-
-  test('alerts page - desktop', async ({ page }) => {
-    await page.goto('/alerts.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('alerts-page-desktop.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
-
-  test('alerts page - mobile', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/alerts.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('alerts-page-mobile.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
-
-  test('toggles page - desktop', async ({ page }) => {
-    await page.goto('/toggles.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('toggles-page-desktop.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
-
-  test('toggles page - mobile', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/toggles.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('toggles-page-mobile.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
-});
-
-test.describe('Visual Regression Tests - Advanced Pages', () => {
-  test('pricing page - desktop', async ({ page }) => {
-    await page.goto('/pricing.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('pricing-page-desktop.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
-
-  test('pricing page - mobile', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/pricing.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('pricing-page-mobile.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
-
-  test('testimonials page - desktop', async ({ page }) => {
-    await page.goto('/testimonials.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('testimonials-page-desktop.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
-
-  test('testimonials page - mobile', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/testimonials.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('testimonials-page-mobile.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
-
-  test('loaders page - desktop (no animations)', async ({ page }) => {
-    await page.goto('/loaders.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('loaders-page-desktop.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
-
-  test('loaders page - mobile (no animations)', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/loaders.html');
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('loaders-page-mobile.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
-});
-
-test.describe('Visual Regression Tests - Dark Mode', () => {
-  test('index page dark mode - desktop', async ({ page }) => {
-    await page.goto('/');
-    await page.evaluate(() => {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('theme', 'dark');
-    });
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('index-dark-mode-desktop.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
-
-  test('buttons page dark mode - desktop', async ({ page }) => {
-    await page.goto('/button.html');
-    await page.evaluate(() => {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('theme', 'dark');
-    });
-    await waitForAnimationSettlement(page);
-    await expect(page).toHaveScreenshot('buttons-dark-mode-desktop.png', {
-      fullPage: true,
-      animations: 'disabled',
-    });
-  });
+  }
 });

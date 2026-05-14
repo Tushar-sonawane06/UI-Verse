@@ -122,6 +122,16 @@ const Bootstrap = {
     if (typeof Accessibility !== 'undefined') {
       Accessibility.init();
     }
+
+    // Command Palette
+    if (typeof CommandPalette !== 'undefined') {
+      CommandPalette.init();
+    }
+
+    // URL State Manager (search filtering with URL persistence)
+    if (typeof URLStateManager !== 'undefined') {
+      URLStateManager.init();
+    }
   },
 
   /**

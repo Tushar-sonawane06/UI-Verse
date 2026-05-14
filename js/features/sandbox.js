@@ -42,6 +42,9 @@ const Sandbox = {
       iframe.style.border = "1px solid #e8ebf2";
       iframe.style.borderRadius = "8px";
       iframe.style.background = "transparent";
+      iframe.setAttribute("sandbox", "allow-scripts");
+      iframe.setAttribute("title", "Live component preview");
+      iframe.loading = "lazy";
 
       // Create editable textarea
       const textarea = document.createElement("textarea");
@@ -73,21 +76,149 @@ const Sandbox = {
           <!DOCTYPE html>
           <html>
           <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="style.css">
             <style>
+              :root {
+                color-scheme: light;
+              }
+
               body {
-                display: flex;
-                justify-content: center;
-                align-items: center;
                 min-height: 100vh;
                 margin: 0;
                 background: transparent;
                 padding: 20px;
                 box-sizing: border-box;
+                position: relative;
+                font-family: inherit;
+              }
+
+              #sandbox-root {
+                min-height: calc(100vh - 40px);
+              }
+
+              .sandbox-error-overlay {
+                position: fixed;
+                inset: 12px;
+                z-index: 9999;
+                display: none;
+                align-items: flex-start;
+                justify-content: flex-start;
+                padding: 16px;
+                background: rgba(127, 29, 29, 0.94);
+                color: #fff;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                border-radius: 12px;
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+                font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+              }
+
+              .sandbox-error-overlay.is-visible {
+                display: flex;
+              }
+
+              .sandbox-error-card {
+                width: 100%;
+                max-width: 100%;
+              }
+
+              .sandbox-error-title {
+                margin: 0 0 8px;
+                font-size: 14px;
+                font-weight: 700;
+                letter-spacing: 0.02em;
+                text-transform: uppercase;
+              }
+
+              .sandbox-error-message {
+                margin: 0;
+                font-size: 13px;
+                line-height: 1.6;
+                white-space: pre-wrap;
+                word-break: break-word;
+              }
+
+              .sandbox-error-meta {
+                margin-top: 10px;
+                font-size: 12px;
+                opacity: 0.85;
+              }
+
+              .sandbox-error-hint {
+                margin-top: 12px;
+                font-size: 12px;
+                opacity: 0.8;
               }
             </style>
+            <script>
+              (function () {
+                const overlayId = 'sandbox-error-overlay';
+
+                function getOverlay() {
+                  let overlay = document.getElementById(overlayId);
+                  if (overlay) return overlay;
+
+                  overlay = document.createElement('div');
+                  overlay.id = overlayId;
+                  overlay.className = 'sandbox-error-overlay';
+                  overlay.innerHTML = [
+                    '<div class="sandbox-error-card">',
+                    '<p class="sandbox-error-title">Live preview error</p>',
+                    '<p class="sandbox-error-message"></p>',
+                    '<div class="sandbox-error-meta"></div>',
+                    '<div class="sandbox-error-hint">Fix the code in the editor below and the preview will refresh automatically.</div>',
+                    '</div>'
+                  ].join('');
+                  document.body.appendChild(overlay);
+                  return overlay;
+                }
+
+                function formatError(event) {
+                  if (!event) return 'An unknown runtime error occurred.';
+
+                  if (event.message) {
+                    const location = event.filename ? ' (' + event.filename + ':' + (event.lineno || '?') + ':' + (event.colno || '?') + ')' : '';
+                    return event.message + location;
+                  }
+
+                  if (event.reason) {
+                    if (typeof event.reason === 'string') return event.reason;
+                    if (event.reason.message) return event.reason.message;
+                  }
+
+                  return 'An unknown runtime error occurred.';
+                }
+
+                function showError(event) {
+                  const overlay = getOverlay();
+                  const messageEl = overlay.querySelector('.sandbox-error-message');
+                  const metaEl = overlay.querySelector('.sandbox-error-meta');
+
+                  messageEl.textContent = formatError(event);
+                  metaEl.textContent = event && event.error && event.error.stack ? event.error.stack : '';
+                  overlay.classList.add('is-visible');
+                }
+
+                function clearError() {
+                  const overlay = document.getElementById(overlayId);
+                  if (overlay) overlay.classList.remove('is-visible');
+                }
+
+                window.addEventListener('error', showError);
+                window.addEventListener('unhandledrejection', function (event) {
+                  showError(event);
+                });
+
+                window.addEventListener('load', function () {
+                  clearError();
+                });
+              })();
+            </script>
           </head>
-          <body>${htmlContent}</body>
+          <body>
+            <div id="sandbox-root">${htmlContent}</div>
+          </body>
           </html>`;
       };
 
