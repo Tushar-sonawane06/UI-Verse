@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UI-Verse Progress Indicators (Linear + Circular + Wizard)</title>
+
+  <link rel="stylesheet" href="progress.css">
+</head>
+<body>
+
+  <main class="pv-page">
+    <div class="pv-shell">
+      <div>
+        <div class="pv-title">Progress Indicators</div>
+        <p class="pv-sub">
+          Linear and circular animated progress bars + a wizard/stepper mode example. Labels and helper text are optional and accessible.
+        </p>
+      </div>
+
+      <!-- Linear demo -->
+      <section class="pv-card">
+        <h2>Linear Progress (0% → 100%)</h2>
+        <div class="pv-linear" id="demo-linear" data-animated="true" style="--pv-color:#3b82f6; --pv-height:16px; --pv-percent:0;">
+          <div class="pv-row">
+            <div class="pv-label" data-pv-role="label" data-pv-template="Uploading… {percent}%">Uploading… 0%</div>
+            <div class="pv-helper" data-pv-role="helper" data-pv-template="Step 1 of 4 • {percent}%">Step 1 of 4 • 0%</div>
+          </div>
+          <div class="pv-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Linear progress">
+            <div class="pv-fill" aria-hidden="true"></div>
+            <div class="pv-shine" aria-hidden="true"></div>
+          </div>
+          <div class="pv-value">
+            <span>Progress</span>
+            <strong data-pv-role="value">0%</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- Circular demo + Dynamic demo -->
+      <section class="pv-card">
+        <h2>Circular Progress (25% → 100%) + Dynamic update</h2>
+        <div class="pv-grid-2">
+          <div>
+            <div class="pv-circular" id="demo-circular" style="--pv-color:#8b5cf6; --pv-size:128px; --pv-stroke:10; --pv-percent:25;">
+              <div class="pv-label" data-pv-role="label" data-pv-template="Loading… {percent}%">Loading… 25%</div>
+              <div class="pv-circle-wrap">
+                <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+                  <circle class="pv-track-circle" cx="60" cy="60" r="46"></circle>
+                  <circle class="pv-progress-circle" cx="60" cy="60" r="46" data-pv-role="progress"></circle>
+                </svg>
+                <div class="pv-center">
+                  <div>
+                    <div class="pv-center-text" data-pv-role="value">25%</div>
+                    <div class="pv-center-helper" data-pv-role="helper" data-pv-template="Ready at {percent}%">Ready at 25%</div>
+                  </div>
+                </div>
+              </div>
+              <div style="width:100%; text-align:center; color: rgba(255,255,255,.68); font-size:.88rem;">
+                <span role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" aria-label="Circular progress"></span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="pv-inline">
+              <div>
+                <div class="pv-linear" id="demo-dynamic-linear" data-animated="true" style="--pv-color:#22c55e; --pv-height:14px; --pv-percent:10;">
+                  <div class="pv-row">
+                    <div class="pv-label" data-pv-role="label" data-pv-template="Syncing… {percent}%">Syncing… 10%</div>
+                    <div class="pv-helper" data-pv-role="helper" data-pv-template="This updates continuously • {percent}%">This updates continuously • 10%</div>
+                  </div>
+                  <div class="pv-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="10" aria-label="Dynamic linear progress">
+                    <div class="pv-fill" aria-hidden="true"></div>
+                    <div class="pv-shine" aria-hidden="true"></div>
+                  </div>
+                  <div class="pv-value">
+                    <span>Status</span>
+                    <strong data-pv-role="value">10%</strong>
+                  </div>
+                </div>
+
+                <div class="pv-actions">
+                  <button class="pv-btn" id="pv-toggle-dynamic" type="button">Pause dynamic update</button>
+                </div>
+              </div>
+
+              <div>
+                <div class="pv-circular" id="demo-dynamic-circular" style="--pv-color:#3b82f6; --pv-size:118px; --pv-stroke:9; --pv-percent:10;">
+                  <div class="pv-label" data-pv-role="label" data-pv-template="Upload… {percent}%">Upload… 10%</div>
+                  <div class="pv-circle-wrap">
+                    <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+                      <circle class="pv-track-circle" cx="60" cy="60" r="44"></circle>
+                      <circle class="pv-progress-circle" cx="60" cy="60" r="44" data-pv-role="progress"></circle>
+                    </svg>
+                    <div class="pv-center">
+                      <div>
+                        <div class="pv-center-text" data-pv-role="value">10%</div>
+                        <div class="pv-center-helper" data-pv-role="helper" data-pv-template="Complete at {percent}%">Complete at 10%</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="width:100%; text-align:center; color: rgba(255,255,255,.68); font-size:.88rem;">
+                    <span role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="10" aria-label="Dynamic circular progress"></span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Wizard demo -->
+      <section class="pv-card">
+        <h2>Wizard/Stepper Mode</h2>
+        <div class="pv-wizard" id="demo-wizard" data-pv-total-steps="4" data-pv-current-step="2" style="--pv-color:#3b82f6;">
+
+          <div class="pv-w-top">
+            <div class="pv-step-meta">
+              <div class="pv-step-title">Onboarding Wizard</div>
+              <div class="pv-step-helper" data-pv-role="helper" data-pv-template="Step {current} of {total} • Keep going…">Step 2 of 4 • Keep going…</div>
+            </div>
+            <div class="pv-step-pill" data-pv-role="pill">2 / 4</div>
+          </div>
+
+          <div class="pv-stepper" style="--pv-steps:4;">
+            <div class="pv-step-node" data-pv-role="node" data-state="done">
+              <div class="pv-dot" data-state="done"></div>
+              <div class="pv-step-label">Account</div>
+            </div>
+            <div class="pv-step-node" data-pv-role="node" data-state="active">
+              <div class="pv-dot" data-state="active"></div>
+              <div class="pv-step-label">Profile</div>
+            </div>
+            <div class="pv-step-node" data-pv-role="node" data-state="todo">
+              <div class="pv-dot" data-state="todo"></div>
+              <div class="pv-step-label">Preferences</div>
+            </div>
+            <div class="pv-step-node" data-pv-role="node" data-state="todo">
+              <div class="pv-dot" data-state="todo"></div>
+              <div class="pv-step-label">Confirm</div>
+            </div>
+          </div>
+
+          <div class="pv-step-bar" aria-hidden="true">
+            <div class="pv-step-fill"></div>
+          </div>
+
+          <div class="pv-actions">
+            <button class="pv-btn" id="pv-wiz-prev" type="button">Previous step</button>
+            <button class="pv-btn" id="pv-wiz-next" type="button">Next step</button>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="progress.js"></script>
+</body>
+</html>
+

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y= sha256-CJLmHsFNKFyLE4WkvZTkcWuAlwE+cWi6XCPaOHHsmRs= sha256-S6d4FNO/1iV0V0FnzHkAQYcUblCxiNQaYtiR4SI0iEg= sha256-ZSwevDjx4JYKRPyZr4Fy5ODN1zCghPnMJ4DiCbdB3/k= sha256-awZC1gR1Ud9aisSi3fnOTOfLd1OWCGiT1EG6rP0+LqM=; script-src-attr 'unsafe-hashes' sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y= sha256-CJLmHsFNKFyLE4WkvZTkcWuAlwE+cWi6XCPaOHHsmRs= sha256-S6d4FNO/1iV0V0FnzHkAQYcUblCxiNQaYtiR4SI0iEg= sha256-ZSwevDjx4JYKRPyZr4Fy5ODN1zCghPnMJ4DiCbdB3/k= sha256-awZC1gR1Ud9aisSi3fnOTOfLd1OWCGiT1EG6rP0+LqM=; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <title>Testimonials - UIverse</title>
@@ -13,58 +14,70 @@
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet"
   />
-
+   <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="testimonials.css">
+
+  <!-- UIverse Modular CSS Architecture -->
+  <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
 
-<div class="container">
-
-  <!-- Hamburger -->
-
-  <button
-    class="hamburger"
-    type="button"
-    aria-label="Toggle menu"
-    onclick="toggleSidebar()"
-  >
-    ☰
+<!-- ================= SIDEBAR ================= -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-icon">⬡</span>
+    <span class="brand-text">UIverse</span>
+  </div>
+  <nav class="sidebar-nav">
+    <ul>
+      <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
+      <li><a href="button.html"><i class="fa-solid fa-hand-pointer"></i><span>Buttons</span></a></li>
+      <li><a href="navbar.html"><i class="fa-solid fa-bars"></i><span>Navbar</span></a></li>
+      <li><a href="cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Cards</span></a></li>
+      <li><a href="inputs.html"><i class="fa-solid fa-keyboard"></i><span>Inputs</span></a></li>
+      <li><a href="contact.html"><i class="fa-regular fa-envelope"></i><span>Contact Us</span></a></li>
+      <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><span>Forms</span></a></li>
+      <li><a href="badges.html"><i class="fa-solid fa-award"></i><span>Badges</span></a></li>
+      <li class="active"><a href="span.html"><i class="fa-solid fa-code"></i><span>Span</span></a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="#"><i class="fab fa-github"></i></a>
+    <a href="#"><i class="fab fa-linkedin"></i></a>
+    <a href="#"><i class="fab fa-x-twitter"></i></a>
+  </div>
+</aside>
+  <!-- ================= SIDEBAR BACKDROP ================= -->
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+  <!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
   </button>
 
-  <!-- Sidebar -->
+  <div class="logo">UIverse</div>
 
-  <aside class="sidebar" id="sidebar">
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." onkeydown="handleSearch(event)" />
+    <kbd class="search-kbd">⌘K</kbd>
+  </div>
 
-    <h2>UIverse</h2>
-
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="button.html">Buttons</a></li>
-      <li><a href="navbar.html">Navbars</a></li>
-      <li><a href="cards.html">Cards</a></li>
-      <li><a href="inputs.html">Inputs</a></li>
-      <li><a href="form.html">Forms</a></li>
-      <li><a href="color.html">Colors</a></li>
-      <li><a href="alerts.html">Alerts</a></li>
-      <li><a href="badges.html">Badges</a></li>
-      <li><a href="pricing.html">Pricing</a></li>
-
-      <li class="active">
-        <a href="testimonials.html">Testimonials</a>
-      </li>
-
-      <li><a href="footer.html">Footer</a></li>
-    </ul>
-
-  </aside>
-
-  <div
-    class="sidebar-backdrop"
-    id="backdrop"
-    onclick="toggleSidebar()"
-  ></div>
+  <div class="nav-right">
+    <button class="nav-btn outline-nav-btn">
+      <i class="fa-solid fa-plus"></i> Add Component
+    </button>
+    <button class="nav-btn primary-nav-btn">
+      <i class="fa-solid fa-bookmark"></i> My Collection
+    </button>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+</header>
 
   <!-- Main -->
 
@@ -118,7 +131,7 @@
               <img
                 src="https://i.pravatar.cc/100?img=5"
                 alt=""
-              />
+               srcset="https://i.pravatar.cc/40?img=5 40w, https://i.pravatar.cc/80?img=5 80w, https://i.pravatar.cc/150?img=5 150w, https://i.pravatar.cc/300?img=5 300w" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async">
             </div>
 
             <div class="user-info">
@@ -131,18 +144,8 @@
         </div>
 
         <div class="actions">
-
-          <button onclick="toggleCode('t1')">
-            View Code
-          </button>
-
-          <button
-            class="copy-btn"
-            onclick="copyCode('t1', this)"
-          >
-            Copy
-          </button>
-
+          <button class="action-btn view-btn" onclick="toggleCode('t1', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button class="action-btn copy-btn" onclick="copyCode('t1', this)"><i class="fa-solid fa-copy"></i> Copy</button>
         </div>
 
 <pre id="t1" class="code-block">
@@ -185,7 +188,7 @@
               <img
                 src="https://i.pravatar.cc/100?img=12"
                 alt=""
-              />
+               srcset="https://i.pravatar.cc/40?img=12 40w, https://i.pravatar.cc/80?img=12 80w, https://i.pravatar.cc/150?img=12 150w, https://i.pravatar.cc/300?img=12 300w" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async">
             </div>
 
             <div class="user-info">
@@ -198,18 +201,8 @@
         </div>
 
         <div class="actions">
-
-          <button onclick="toggleCode('t2')">
-            View Code
-          </button>
-
-          <button
-            class="copy-btn"
-            onclick="copyCode('t2', this)"
-          >
-            Copy
-          </button>
-
+          <button class="action-btn view-btn" onclick="toggleCode('t2', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button class="action-btn copy-btn" onclick="copyCode('t2', this)"><i class="fa-solid fa-copy"></i> Copy</button>
         </div>
 
 <pre id="t2" class="code-block">
@@ -219,6 +212,183 @@
 </pre>
 
       </div>
+      <!-- Card 3 -->
+<div class="component-card">
+  <h3>Client Feedback</h3>
+  <div class="testimonial-card">
+    <div class="blur-glow"></div>
+    <div class="quote-icon">❝</div>
+    <div class="stars">
+      <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
+    </div>
+    <p>
+      “The UIverse components saved us countless hours.
+      The designs are sleek, responsive, and easy to adapt
+      for our brand guidelines.”
+    </p>
+    <div class="testimonial-meta">
+      <div class="avatar">
+        <img src="https://i.pravatar.cc/100?img=20" alt="" />
+      </div>
+      <div class="user-info">
+        <strong>Priya Sharma</strong>
+        <span>Marketing Lead</span>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="action-btn view-btn" onclick="toggleCode('t3', this)">
+      <i class="fa-solid fa-code"></i> View Code
+    </button>
+    <button class="action-btn copy-btn" onclick="copyCode('t3', this)">
+      <i class="fa-solid fa-copy"></i> Copy
+    </button>
+  </div>
+  <pre id="t3" class="code-block">
+&lt;div class="testimonial-card"&gt;
+  Client feedback testimonial card
+&lt;/div&gt;
+  </pre>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-container">
+
+    <!-- Brand Section -->
+    <div class="footer-brand">
+      <h2>◯ UIverse</h2>
+
+      <p>
+        Build modern, reusable UI components with clean HTML,
+        CSS, and JavaScript.
+      </p>
+
+      <div class="footer-socials">
+        <a href="#">GitHub</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">X</a>
+      </div>
+    </div>
+
+    <!-- Explore -->
+    <div class="footer-column">
+      <h3>EXPLORE</h3>
+
+      <a href="#">Buttons</a>
+      <a href="#">Navbars</a>
+      <a href="#">Cards</a>
+      <a href="#">Inputs</a>
+      <a href="#">Forms</a>
+    </div>
+
+    <!-- Resources -->
+    <div class="footer-column">
+      <h3>RESOURCES</h3>
+
+      <a href="#">Documentation</a>
+      <a href="#">Contribute</a>
+      <a href="#">GitHub Repo</a>
+      <a href="#">Community</a>
+    </div>
+
+    <!-- Legal -->
+    <div class="footer-column">
+      <h3>LEGAL</h3>
+
+      <a href="privacypolicy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="#">License</a>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer-column">
+      <h3>STAY UPDATED</h3>
+
+      <p>Get notified when new components drop.</p>
+
+      <div class="footer-subscribe">
+        <input type="email" placeholder="your@email.com">
+        <button>Subscribe</button>
+
+<!-- Card 4 -->
+<div class="component-card">
+  <h3>Team Review</h3>
+  <div class="testimonial-card">
+    <div class="blur-glow"></div>
+    <div class="quote-icon">❝</div>
+    <div class="stars">
+      <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+    </div>
+    <p>
+      “Our development team loved how intuitive the
+      components were. Integration was seamless and
+      documentation was clear.”
+    </p>
+    <div class="testimonial-meta">
+      <div class="avatar">
+        <img src="https://i.pravatar.cc/100?img=30" alt="" />
+      </div>
+      <div class="user-info">
+        <strong>Daniel Roberts</strong>
+        <span>Software Engineer</span>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="action-btn view-btn" onclick="toggleCode('t4', this)">
+      <i class="fa-solid fa-code"></i> View Code
+    </button>
+    <button class="action-btn copy-btn" onclick="copyCode('t4', this)">
+      <i class="fa-solid fa-copy"></i> Copy
+    </button>
+  </div>
+  <pre id="t4" class="code-block">
+&lt;div class="testimonial-card"&gt;
+  Team review testimonial card
+&lt;/div&gt;
+  </pre>
+</div>
+
+<!-- Card 5 -->
+<div class="component-card">
+  <h3>Startup Success Story</h3>
+  <div class="testimonial-card">
+    <div class="blur-glow"></div>
+    <div class="quote-icon">❝</div>
+    <div class="stars">
+      <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
+    </div>
+    <p>
+      “As a startup, we needed fast, reliable UI solutions.
+      UIverse gave us a professional look without
+      compromising speed or quality.”
+    </p>
+    <div class="testimonial-meta">
+      <div class="avatar">
+        <img src="https://i.pravatar.cc/100?img=45" alt="" />
+      </div>
+      <div class="user-info">
+        <strong>Sofia Martinez</strong>
+        <span>Founder & CEO</span>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="action-btn view-btn" onclick="toggleCode('t5', this)">
+      <i class="fa-solid fa-code"></i> View Code
+    </button>
+    <button class="action-btn copy-btn" onclick="copyCode('t5', this)">
+      <i class="fa-solid fa-copy"></i> Copy
+    </button>
+  </div>
+  <pre id="t5" class="code-block">
+&lt;div class="testimonial-card"&gt;
+  Startup success testimonial card
+&lt;/div&gt;
+  </pre>
+</div>
+
 
     </div>
 
@@ -226,60 +396,90 @@
 
 </div>
 
-<!-- Footer -->
-
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
+  <div class="footer-container">
 
-  <div class="footer-card">
-
-    <div class="footer-brand">
-
-      <h2>UIverse</h2>
-
-      <p>
-        © 2026 UIverse. Crafted with modern UI aesthetics
-        for developers and designers.
-      </p>
-
-      <h2>UIverse</h2>
-      <p>© 2026 UIverse. All rights reserved.</p>
-      <div class="footer-socials">
-        <span>🌐</span>
-        <span>💼</span>
-        <span>📱</span>
+    <div class="footer-col brand">
+      <h2 class="footer-logo"><i class="fa-solid fa-cube"></i> UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="#" title="Twitter"><i class="fab fa-x-twitter"></i></a>
       </div>
-
     </div>
 
     <div class="footer-col">
-
-      <h3>Pages</h3>
-
-      <a href="pricing.html">Pricing</a>
-      <a href="testimonials.html">Testimonials</a>
-      <a href="alerts.html">Alerts</a>
-
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
     </div>
 
     <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">Contribute</a></li>
+        <li><a href="#">GitHub Repo</a></li>
+        <li><a href="#">Community</a></li>
+      </ul>
+    </div>
 
+    <div class="footer-col">
       <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="#">License</a></li>
+      </ul>
+    </div>
 
-      <a href="privacypolicy.html">
-        Privacy Policy
-      </a>
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com" />
+        <button type="button" onclick="subscribe()">Subscribe</button>
 
-      <a href="terms.html">
-        Terms of Service
-      </a>
-
+      </div>
     </div>
 
   </div>
 
+
+  <!-- Bottom -->
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+  </div>
 </footer>
 
-<script src="script.js"></script>
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+  </div>
+</footer>
+  
+
+<!-- UIverse Modular Scripts -->
+<script src="js/core/utils.js"></script>
+<script src="js/features/toast.js"></script>
+<script src="js/features/popup.js"></script>
+<script src="js/features/code-tools.js"></script>
+<script src="js/features/sidebar.js"></script>
+<script src="js/features/search.js"></script>
+<script src="js/features/theme.js"></script>
+<script src="js/features/scroll.js"></script>
+<script src="js/features/alerts.js"></script>
+<script src="js/features/sandbox.js"></script>
+<script src="js/features/accessibility.js"></script>
+<script src="js/bootstrap.js"></script>
 
 </body>
 </html>
+
+
