@@ -1,0 +1,568 @@
+<template>
+<main class="main-home">
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="page-hero-left">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Toggles</span>
+      </div>
+      <h1 class="page-title">Toggle Switches</h1>
+      <p class="page-desc">A complete collection of CSS-only toggle switch components — classic, iOS, neon, text label, gradient, icon, and more. No JavaScript needed. Click to copy.</p>
+      <div class="page-meta">
+        <span class="meta-badge"><i class="fa-solid fa-layer-group"></i> 9 Components</span>
+        <span class="meta-badge"><i class="fa-solid fa-code"></i> CSS Only</span>
+        <span class="meta-badge"><i class="fa-solid fa-bolt"></i> No JS Required</span>
+      </div>
+    </div>
+    <div class="page-hero-right">
+      <div class="toggle-hero-preview">
+        <div class="thp-row">
+          <div class="toggle-wrap toggle-classic">
+            <input type="checkbox" id="hp1" checked>
+            <label for="hp1"></label>
+          </div>
+          <span>Classic</span>
+        </div>
+        <div class="thp-row">
+          <div class="toggle-wrap toggle-ios">
+            <input type="checkbox" id="hp2" checked>
+            <label for="hp2"></label>
+          </div>
+          <span>iOS</span>
+        </div>
+        <div class="thp-row">
+          <div class="toggle-wrap toggle-neon">
+            <input type="checkbox" id="hp3" checked>
+            <label for="hp3"></label>
+          </div>
+          <span>Neon</span>
+        </div>
+        <div class="thp-row">
+          <div class="toggle-wrap toggle-gradient">
+            <input type="checkbox" id="hp4" checked>
+            <label for="hp4"></label>
+          </div>
+          <span>Gradient</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
+    <button class="filter-btn" onclick="filterCards('simple', this)">Simple</button>
+    <button class="filter-btn" onclick="filterCards('styled', this)">Styled</button>
+    <button class="filter-btn" onclick="filterCards('themed', this)">Themed</button>
+    <div class="filter-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Filter toggles..." oninput="liveFilter(this.value)" />
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <div class="toggles-grid" id="togglesGrid">
+
+    <!-- 1. Classic -->
+    <div class="component-card" data-name="classic toggle switch" data-cat="simple">
+      <div class="card-top">
+        <span class="card-label">Classic Toggle</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-classic">
+              <input type="checkbox" id="c1a">
+              <label for="c1a"></label>
+            </div>
+            <span class="toggle-label-text">Off by default</span>
+          </div>
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-classic">
+              <input type="checkbox" id="c1b" checked>
+              <label for="c1b"></label>
+            </div>
+            <span class="toggle-label-text">On by default</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A clean classic toggle — smooth bounce animation on the thumb, purple when active.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc1', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc1', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc1" class="code-block"><code>&lt;div class="toggle-classic"&gt;
+  &lt;input type="checkbox" id="t1"&gt;
+  &lt;label for="t1"&gt;&lt;/label&gt;
+&lt;/div&gt;
+
+input[type="checkbox"] { display: none; }
+
+.toggle-classic label {
+  display: block; width: 52px; height: 28px;
+  background: #dfe6e9; border-radius: 14px;
+  cursor: pointer; position: relative;
+  transition: background 0.3s ease;
+}
+.toggle-classic label::after {
+  content: ""; position: absolute;
+  width: 22px; height: 22px; background: #fff;
+  border-radius: 50%; top: 3px; left: 3px;
+  transition: transform 0.3s cubic-bezier(.68,-.55,.27,1.55);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.toggle-classic input:checked + label { background: #6c5ce7; }
+.toggle-classic input:checked + label::after { transform: translateX(24px); }</code></pre>
+    </div>
+
+    <!-- 2. iOS -->
+    <div class="component-card" data-name="ios apple style toggle green" data-cat="simple">
+      <div class="card-top">
+        <span class="card-label">iOS Style</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-ios">
+              <input type="checkbox" id="c2a" checked>
+              <label for="c2a"></label>
+            </div>
+            <span class="toggle-label-text">Wi-Fi</span>
+          </div>
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-ios">
+              <input type="checkbox" id="c2b">
+              <label for="c2b"></label>
+            </div>
+            <span class="toggle-label-text">Bluetooth</span>
+          </div>
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-ios">
+              <input type="checkbox" id="c2c" checked>
+              <label for="c2b2"></label>
+            </div>
+            <span class="toggle-label-text">Notifications</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Pixel-perfect iOS toggle with spring easing and green active state — straight from Apple's HIG.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc2', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc2', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc2" class="code-block"><code>&lt;div class="toggle-ios"&gt;
+  &lt;input type="checkbox" id="t2" checked&gt;
+  &lt;label for="t2"&gt;&lt;/label&gt;
+&lt;/div&gt;
+
+.toggle-ios label {
+  display: block; width: 56px; height: 30px;
+  background: #e5e5ea; border-radius: 15px;
+  cursor: pointer; position: relative; transition: background 0.3s;
+}
+.toggle-ios label::after {
+  content: ""; position: absolute;
+  width: 26px; height: 26px; background: #fff;
+  border-radius: 50%; top: 2px; left: 2px;
+  transition: transform 0.3s cubic-bezier(.23,1,.32,1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+.toggle-ios input:checked + label { background: #34c759; }
+.toggle-ios input:checked + label::after { transform: translateX(26px); }</code></pre>
+    </div>
+
+    <!-- 3. Neon -->
+    <div class="component-card" data-name="neon glow dark toggle purple" data-cat="themed">
+      <div class="card-top">
+        <span class="card-label">Neon Glow</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview dark-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-neon">
+              <input type="checkbox" id="c3a">
+              <label for="c3a"></label>
+            </div>
+            <span class="toggle-label-text" style="color:#a29bfe;">Off</span>
+          </div>
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-neon">
+              <input type="checkbox" id="c3b" checked>
+              <label for="c3b"></label>
+            </div>
+            <span class="toggle-label-text" style="color:#a29bfe;">Neon on</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A glowing neon toggle — perfect for dark-themed dashboards and cyberpunk UIs.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc3', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc3', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc3" class="code-block"><code>&lt;div class="toggle-neon"&gt;
+  &lt;input type="checkbox" id="t3"&gt;
+  &lt;label for="t3"&gt;&lt;/label&gt;
+&lt;/div&gt;
+
+.toggle-neon label {
+  display: block; width: 58px; height: 30px;
+  background: #2d3436; border: 2px solid #636e72;
+  border-radius: 15px; cursor: pointer; position: relative;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.toggle-neon label::after {
+  content: ""; position: absolute;
+  width: 20px; height: 20px; background: #636e72;
+  border-radius: 50%; top: 3px; left: 3px;
+  transition: transform 0.3s ease, background 0.3s, box-shadow 0.3s;
+}
+.toggle-neon input:checked + label {
+  border-color: #a29bfe;
+  box-shadow: 0 0 14px rgba(162,155,254,0.6);
+}
+.toggle-neon input:checked + label::after {
+  transform: translateX(26px);
+  background: #a29bfe;
+  box-shadow: 0 0 8px #a29bfe;
+}</code></pre>
+    </div>
+
+    <!-- 4. ON / OFF text -->
+    <div class="component-card" data-name="on off text label toggle" data-cat="styled">
+      <div class="card-top">
+        <span class="card-label">ON / OFF Text</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-text">
+              <input type="checkbox" id="c4a">
+              <label for="c4a"></label>
+            </div>
+            <span class="toggle-label-text">Notifications</span>
+          </div>
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-text">
+              <input type="checkbox" id="c4b" checked>
+              <label for="c4b"></label>
+            </div>
+            <span class="toggle-label-text">Dark mode</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Displays "ON" or "OFF" text inside the toggle itself — clear and accessible.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc4', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc4', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc4" class="code-block"><code>&lt;div class="toggle-text"&gt;
+  &lt;input type="checkbox" id="t4"&gt;
+  &lt;label for="t4"&gt;&lt;/label&gt;
+&lt;/div&gt;
+
+.toggle-text label {
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 7px; width: 62px; height: 28px;
+  background: #dfe6e9; border-radius: 14px; cursor: pointer;
+  position: relative; transition: background 0.3s;
+  font-size: 9px; font-weight: 700; color: #b2bec3;
+}
+.toggle-text label::before { content: "OFF"; }
+.toggle-text label::after {
+  content: ""; position: absolute;
+  width: 22px; height: 22px; background: #fff;
+  border-radius: 50%; top: 3px; left: 3px;
+  transition: transform 0.3s ease;
+}
+.toggle-text input:checked + label {
+  background: #00b894;
+  justify-content: flex-start; padding-left: 7px; color: #55efc4;
+}
+.toggle-text input:checked + label::before { content: "ON"; }
+.toggle-text input:checked + label::after { transform: translateX(34px); }</code></pre>
+    </div>
+
+    <!-- 5. Flat minimal -->
+    <div class="component-card" data-name="flat minimal toggle red" data-cat="simple">
+      <div class="card-top">
+        <span class="card-label">Flat Minimal</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-flat">
+              <input type="checkbox" id="c5a" checked>
+              <label for="c5a"></label>
+            </div>
+            <span class="toggle-label-text">Red accent</span>
+          </div>
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-flat">
+              <input type="checkbox" id="c5b">
+              <label for="c5b"></label>
+            </div>
+            <span class="toggle-label-text">Off</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Ultra-minimal flat toggle — small footprint, red active state, ideal for settings panels.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc5', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc5', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc5" class="code-block"><code>&lt;div class="toggle-flat"&gt;
+  &lt;input type="checkbox" id="t5" checked&gt;
+  &lt;label for="t5"&gt;&lt;/label&gt;
+&lt;/div&gt;
+
+.toggle-flat label {
+  display: block; width: 48px; height: 24px;
+  background: #dfe6e9; border-radius: 12px;
+  cursor: pointer; position: relative; transition: background 0.25s;
+}
+.toggle-flat label::after {
+  content: ""; position: absolute;
+  width: 18px; height: 18px; background: #fff;
+  border-radius: 50%; top: 3px; left: 3px;
+  transition: transform 0.25s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle-flat input:checked + label { background: #ff6b6b; }
+.toggle-flat input:checked + label::after { transform: translateX(24px); }</code></pre>
+    </div>
+
+    <!-- 6. Gradient -->
+    <div class="component-card" data-name="gradient toggle orange purple brand" data-cat="styled">
+      <div class="card-top">
+        <span class="card-label">Gradient Toggle</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-gradient">
+              <input type="checkbox" id="c6a" checked>
+              <label for="c6a"></label>
+            </div>
+            <span class="toggle-label-text">UIverse brand</span>
+          </div>
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-gradient">
+              <input type="checkbox" id="c6b">
+              <label for="c6b"></label>
+            </div>
+            <span class="toggle-label-text">Off</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A gradient active state toggle — orange to purple, matching the UIverse brand palette.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc6', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc6', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc6" class="code-block"><code>&lt;div class="toggle-gradient"&gt;
+  &lt;input type="checkbox" id="t6" checked&gt;
+  &lt;label for="t6"&gt;&lt;/label&gt;
+&lt;/div&gt;
+
+.toggle-gradient label {
+  display: block; width: 54px; height: 28px;
+  background: #dfe6e9; border-radius: 14px;
+  cursor: pointer; position: relative; transition: background 0.3s;
+}
+.toggle-gradient label::after {
+  content: ""; position: absolute;
+  width: 22px; height: 22px; background: #fff;
+  border-radius: 50%; top: 3px; left: 3px;
+  transition: transform 0.3s cubic-bezier(.68,-.55,.27,1.55);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.toggle-gradient input:checked + label {
+  background: linear-gradient(90deg, #eb6835, #6c5ce7);
+}
+.toggle-gradient input:checked + label::after { transform: translateX(26px); }</code></pre>
+    </div>
+
+    <!-- 7. Icon toggle -->
+    <div class="component-card" data-name="icon emoji sun moon toggle" data-cat="styled">
+      <div class="card-top">
+        <span class="card-label">Icon Toggle</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-icon">
+              <input type="checkbox" id="c7a">
+              <label for="c7a">
+                <span class="icon-off">☀️</span>
+                <span class="icon-on">🌙</span>
+                <span class="icon-thumb"></span>
+              </label>
+            </div>
+            <span class="toggle-label-text">Light / Dark</span>
+          </div>
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-icon toggle-icon-sound">
+              <input type="checkbox" id="c7b" checked>
+              <label for="c7b">
+                <span class="icon-off">🔇</span>
+                <span class="icon-on">🔊</span>
+                <span class="icon-thumb"></span>
+              </label>
+            </div>
+            <span class="toggle-label-text">Sound</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A toggle with emoji icons on both sides — the thumb slides to reveal the active icon.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc7', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc7', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc7" class="code-block"><code>&lt;div class="toggle-icon"&gt;
+  &lt;input type="checkbox" id="t7"&gt;
+  &lt;label for="t7"&gt;
+    &lt;span class="icon-off"&gt;☀️&lt;/span&gt;
+    &lt;span class="icon-on"&gt;🌙&lt;/span&gt;
+    &lt;span class="icon-thumb"&gt;&lt;/span&gt;
+  &lt;/label&gt;
+&lt;/div&gt;
+
+.toggle-icon label {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 64px; height: 32px;
+  background: #f0f0f0; border-radius: 16px; cursor: pointer;
+  padding: 0 6px; position: relative; transition: background 0.3s;
+}
+.icon-off, .icon-on { font-size: 14px; z-index: 1; }
+.icon-thumb {
+  position: absolute; width: 26px; height: 26px;
+  background: #fff; border-radius: 50%; left: 3px;
+  transition: transform 0.3s cubic-bezier(.68,-.55,.27,1.55);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+input:checked + label { background: #1e1e2e; }
+input:checked + label .icon-thumb { transform: translateX(32px); }</code></pre>
+    </div>
+
+    <!-- 8. Bordered outline -->
+    <div class="component-card" data-name="outline border toggle accent" data-cat="styled">
+      <div class="card-top">
+        <span class="card-label">Outline Toggle</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-outline">
+              <input type="checkbox" id="c8a">
+              <label for="c8a"></label>
+            </div>
+            <span class="toggle-label-text">Default</span>
+          </div>
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-outline">
+              <input type="checkbox" id="c8b" checked>
+              <label for="c8b"></label>
+            </div>
+            <span class="toggle-label-text">Active</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A hollow border-based toggle — the thumb fills with the accent colour when checked.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc8', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc8', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc8" class="code-block"><code>&lt;div class="toggle-outline"&gt;
+  &lt;input type="checkbox" id="t8" checked&gt;
+  &lt;label for="t8"&gt;&lt;/label&gt;
+&lt;/div&gt;
+
+.toggle-outline label {
+  display: block; width: 52px; height: 28px;
+  background: transparent;
+  border: 2px solid #dfe6e9;
+  border-radius: 14px; cursor: pointer; position: relative;
+  transition: border-color 0.3s;
+}
+.toggle-outline label::after {
+  content: ""; position: absolute;
+  width: 18px; height: 18px; background: #dfe6e9;
+  border-radius: 50%; top: 3px; left: 3px;
+  transition: transform 0.3s ease, background 0.3s;
+}
+.toggle-outline input:checked + label { border-color: #eb6835; }
+.toggle-outline input:checked + label::after {
+  background: #eb6835;
+  transform: translateX(24px);
+}</code></pre>
+    </div>
+
+    <!-- 9. Large / accessibility -->
+    <div class="component-card" data-name="large big accessible toggle" data-cat="simple">
+      <div class="card-top">
+        <span class="card-label">Large Toggle</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-large">
+              <input type="checkbox" id="c9a" checked>
+              <label for="c9a"></label>
+            </div>
+            <span class="toggle-label-text">Accessibility size</span>
+          </div>
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-large">
+              <input type="checkbox" id="c9b">
+              <label for="c9b"></label>
+            </div>
+            <span class="toggle-label-text">Off</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">An oversized toggle for better touch targets and accessibility — great for mobile settings.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('tc9', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('tc9', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="tc9" class="code-block"><code>&lt;div class="toggle-large"&gt;
+  &lt;input type="checkbox" id="t9" checked&gt;
+  &lt;label for="t9"&gt;&lt;/label&gt;
+&lt;/div&gt;
+
+.toggle-large label {
+  display: block; width: 72px; height: 38px;
+  background: #dfe6e9; border-radius: 19px;
+  cursor: pointer; position: relative; transition: background 0.3s;
+}
+.toggle-large label::after {
+  content: ""; position: absolute;
+  width: 30px; height: 30px; background: #fff;
+  border-radius: 50%; top: 4px; left: 4px;
+  transition: transform 0.3s cubic-bezier(.68,-.55,.27,1.55);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.toggle-large input:checked + label { background: #eb6835; }
+.toggle-large input:checked + label::after { transform: translateX(34px); }</code></pre>
+    </div>
+
+  </div><!-- /toggles-grid -->
+
+</main>
+</template>
+
+<script>
+export default { name: 'Toggles' }
+</script>
