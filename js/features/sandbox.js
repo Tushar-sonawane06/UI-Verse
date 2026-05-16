@@ -201,14 +201,25 @@ const Sandbox = {
                   const messageEl = overlay.querySelector('.sandbox-error-message');
                   const metaEl = overlay.querySelector('.sandbox-error-meta');
 
-                  messageEl.textContent = formatError(event);
+                  const formatted = formatError(event);
+                  messageEl.textContent = formatted;
                   metaEl.textContent = event && event.error && event.error.stack ? event.error.stack : '';
                   overlay.classList.add('is-visible');
+
+                  // notify parent window about the error for UI integration
+                  try {
+                    window.parent && window.parent.postMessage && window.parent.postMessage({
+                      type: 'sandbox:error',
+                      message: formatted,
+                      meta: metaEl.textContent
+                    }, '*');
+                  } catch (e) { /* ignore */ }
                 }
 
                 function clearError() {
                   const overlay = document.getElementById(overlayId);
                   if (overlay) overlay.classList.remove('is-visible');
+                  try { window.parent && window.parent.postMessage && window.parent.postMessage({ type: 'sandbox:clear' }, '*'); } catch (e) {}
                 }
 
                 window.addEventListener('error', showError);
@@ -248,6 +259,55 @@ const Sandbox = {
       } else if (actions) {
         actions.after(textarea);
       }
+
+      // Parent-level overlay: show iframe-reported runtime errors in the host page
+      (function () {
+        function getParentOverlay() {
+          const id = 'parent-sandbox-error-overlay';
+          let el = document.getElementById(id);
+          if (el) return el;
+          el = document.createElement('div');
+          el.id = id;
+          el.style.position = 'absolute';
+          el.style.zIndex = 99999;
+          el.style.pointerEvents = 'auto';
+          el.style.left = iframe.offsetLeft + 'px';
+          el.style.top = (iframe.offsetTop + 8) + 'px';
+          el.style.right = (document.body.clientWidth - iframe.offsetWidth - iframe.offsetLeft) + 'px';
+          el.style.background = 'rgba(127,29,29,0.96)';
+          el.style.color = '#fff';
+          el.style.padding = '12px';
+          el.style.borderRadius = '8px';
+          el.style.maxWidth = 'min(90%, 600px)';
+          el.style.fontFamily = 'ui-monospace, SFMono-Regular, Consolas, monospace';
+          el.style.display = 'none';
+          el.style.boxShadow = '0 8px 20px rgba(0,0,0,0.2)';
+          el.innerHTML = '<div class="ps-title" style="font-weight:700;margin-bottom:6px;font-size:13px">Live preview error</div><div class="ps-message" style="font-size:13px;white-space:pre-wrap"></div><div style="margin-top:8px;text-align:right"><button class="ps-close" style="background:transparent;border:1px solid rgba(255,255,255,0.12);color:#fff;padding:6px 8px;border-radius:6px;cursor:pointer">Dismiss</button></div>';
+          document.body.appendChild(el);
+          el.querySelector('.ps-close').addEventListener('click', () => el.style.display = 'none');
+          return el;
+        }
+
+        function handleMessage(e) {
+          const data = e.data || {};
+          if (!data || (data.type !== 'sandbox:error' && data.type !== 'sandbox:clear')) return;
+          // ensure message from this iframe
+          if (e.source !== iframe.contentWindow) return;
+          const overlay = getParentOverlay();
+          if (data.type === 'sandbox:clear') {
+            overlay.style.display = 'none';
+            return;
+          }
+          overlay.querySelector('.ps-message').textContent = data.message + (data.meta ? '\n\n' + data.meta : '');
+          // position overlay near iframe
+          const rect = iframe.getBoundingClientRect();
+          overlay.style.left = (rect.left + window.scrollX + 8) + 'px';
+          overlay.style.top = (rect.top + window.scrollY + 8) + 'px';
+          overlay.style.display = 'block';
+        }
+
+        window.addEventListener('message', handleMessage, false);
+      })();
     });
 
     this._state.initialized = true;

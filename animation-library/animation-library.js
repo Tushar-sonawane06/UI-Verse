@@ -1,55 +1,30 @@
-/* ================= CHIP ACTIVE ================= */
-
-const chips =
-document.querySelectorAll(
-".chip"
-);
-
-chips.forEach(chip => {
-
-  chip.addEventListener(
-  "click",
-  () => {
-
-    chips.forEach(c => {
-
-      c.classList.remove(
-      "active"
-      );
-
-    });
-
-    chip.classList.add(
-    "active"
-    );
-
-  });
-
-});
-
-/* ================= COPY BUTTON ================= */
+/* ================= COPY CSS ================= */
 
 const copyButtons =
 document.querySelectorAll(
-".card-footer button"
+".copy-btn"
 );
 
-copyButtons.forEach(btn => {
+copyButtons.forEach(button => {
 
-  btn.addEventListener(
+  button.addEventListener(
   "click",
   () => {
 
-    const original =
-    btn.innerText;
+    const css =
+    button.dataset.copy;
 
-    btn.innerText =
-    "Copied ✓";
+    navigator.clipboard.writeText(
+      css
+    );
+
+    button.innerText =
+    "Copied!";
 
     setTimeout(() => {
 
-      btn.innerText =
-      original;
+      button.innerText =
+      "Copy CSS";
 
     },2000);
 
@@ -57,66 +32,73 @@ copyButtons.forEach(btn => {
 
 });
 
-/* ================= HERO BUTTON ================= */
+/* ================= FILTER ACTIVE ================= */
 
-const previewBtn =
-document.querySelector(
-".primary-btn"
+const filterButtons =
+document.querySelectorAll(
+".filter-btn"
 );
 
-previewBtn.addEventListener(
-"click",
-() => {
+filterButtons.forEach(btn => {
 
-  previewBtn.innerHTML =
-  `<i class="fa-solid fa-circle-play"></i>
-   Playing Preview`;
+  btn.addEventListener(
+  "click",
+  () => {
 
-  setTimeout(() => {
+    filterButtons.forEach(b => {
 
-    previewBtn.innerHTML =
-    `<i class="fa-solid fa-play"></i>
-     Preview Pack`;
+      b.classList.remove(
+      "active"
+      );
 
-  },3000);
+    });
+
+    btn.classList.add(
+    "active"
+    );
+
+  });
 
 });
 
 /* ================= SEARCH ================= */
 
-const search =
+const searchInput =
 document.querySelector(
-".search-box input"
+".search-bar input"
 );
 
-search.addEventListener(
-"keydown",
-(e) => {
-
-  if(e.key === "Enter"){
-
-    alert(
-      "Searching animations for: " +
-      search.value
-    );
-
-  }
-
-});
-
-/* ================= THEME BUTTON ================= */
-
-const themeBtn =
-document.querySelector(
-".theme-btn"
+const cards =
+document.querySelectorAll(
+".animation-card"
 );
 
-themeBtn.addEventListener(
-"click",
+searchInput.addEventListener(
+"keyup",
 () => {
 
-  document.body.classList.toggle(
-  "light-mode"
-  );
+  const value =
+  searchInput.value.toLowerCase();
+
+  cards.forEach(card => {
+
+    const title =
+    card.querySelector("h3")
+    .innerText
+    .toLowerCase();
+
+    if(title.includes(value)){
+
+      card.style.display =
+      "block";
+
+    } else {
+
+      card.style.display =
+      "none";
+
+    }
+
+  });
 
 });
