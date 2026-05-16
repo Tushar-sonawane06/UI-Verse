@@ -3,12 +3,14 @@
  * 
  * Entry point for all JavaScript functionality
  * Registers and initializes all features using the UIverse registry system
- * with automatic dependency management
+ * with automatic dependency management and lazy loading support
  * 
  * All feature modules must be loaded before this script:
  * - js/registry.js (UIverse registry)
  * - js/core/*.js (core modules)
  * - js/features/*.js (feature modules)
+ * 
+ * Lazy loading is handled by js/core/lazy-loader.js for dynamic imports
  */
 
 const Bootstrap = {
@@ -145,9 +147,15 @@ const Bootstrap = {
 };
 
 /**
- * Start bootstrap on DOM ready
- */
+  * Start bootstrap on DOM ready
+  */
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize lazy loader for dynamic imports
+  if (typeof LazyLoader !== 'undefined') {
+    LazyLoader.init();
+    console.log('[Bootstrap] Lazy loader initialized');
+  }
+  
   Bootstrap.init();
 });
 
