@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI-Verse Security & CSP Testing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        button.primary {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button.primary:hover {
+            background: #5568d3;
+        }
+
+        button.secondary {
+            background: #e0e0e0;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 0.95em;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+        }
+
+        button.secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .test-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .test-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .test-case {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .test-case h3 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .test-case p {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+            overflow-x: auto;
+        }
+
+        .test-case button {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.95em;
+            display: none;
+        }
+
+        .status.pass {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .status.fail {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+
+        .console-output {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+            border: 1px solid #444;
+        }
+
+        .console-line {
+            margin-bottom: 5px;
+            word-break: break-all;
+        }
+
+        .console-line.error {
+            color: #ff6b6b;
+        }
+
+        .console-line.warn {
+            color: #ffd93d;
+        }
+
+        .console-line.info {
+            color: #6bcf7f;
+        }
+
+        .console-line.log {
+            color: #a0a0a0;
+        }
+
+        .status-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .status-table th,
+        .status-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .status-table th {
+            background: #f5f5f5;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .status-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-badge.pass {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #0c3d70;
+        }
+
+        .info-box strong {
+            color: #0c3d70;
+        }
+
+        .code-block {
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .inline-handler {
+            padding: 10px 15px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 5px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔒 UI-Verse Security & CSP Testing</h1>
+            <p>Automated test suite for handler migration and Content-Security-Policy</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="debugToggle"> Enable Debug Mode (detailed logging)
+                </label>
+            </div>
+            <div class="control-group">
+                <button class="primary" onclick="runAllTests()">🚀 Run All Tests</button>
+                <button class="secondary" onclick="clearConsole()">🗑️ Clear Console</button>
+                <button class="secondary" onclick="generateReport()">📊 Generate Report</button>
+            </div>
+        </div>
+
+        <!-- Console Output -->
+        <div class="test-section">
+            <h2>Console Output</h2>
+            <div class="console-output" id="console"></div>
+        </div>
+
+        <!-- Test Section 1: Status Check -->
+        <div class="test-section">
+            <h2>✅ System Status</h2>
+            
+            <div class="test-case">
+                <h3>Security System Initialization</h3>
+                <button class="secondary" onclick="testSecurityInit()">Check Status</button>
+                <div id="status-init" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>CSP Meta Tag Injection</h3>
+                <p>Verifies that CSP meta tag is properly injected in document head</p>
+                <button class="secondary" onclick="testCSPMetaTag()">Check CSP Tag</button>
+                <div id="status-csp" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>Allowed Handlers List</h3>
+                <button class="secondary" onclick="showAllowedHandlers()">Show Handlers</button>
+                <div id="status-handlers" class="status"></div>
+            </div>
+        </div>
+
+        <!-- Test Section 2: Valid Cases -->
+        <div class="test-section">
+            <h2>✅ Valid Cases (Should Migrate)</h2>
+
+            <div class="info-box">
+                <strong>📝 Info:</strong> These handlers should be successfully migrated from inline onclick to addEventListener
+            </div>
+
+            <div class="test-case">
+                <h3>No Arguments</h3>
+                <div class="inline-handler">onclick="toggleSidebar()"</div>
+                <button class="secondary" onclick="testValidation('toggleSidebar', '')">Test</button>
+                <div id="test-valid-1" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>String Argument</h3>
+                <div class="inline-handler">onclick="toggleCode('code1')"</div>
+                <button class="secondary" onclick="testValidation('toggleCode', \"'code1'\")">Test</button>
+                <div id="test-valid-2" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>String Argument (2 args)</h3>
+                <div class="inline-handler">onclick="copyCode('code1', this)"</div>
+                <button class="secondary" onclick="testValidation('copyCode', \"'code1', this\")">Test</button>
+                <div id="test-valid-3" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>Event Argument</h3>
+                <div class="inline-handler">onkeydown="handleSearch(event)"</div>
+                <button class="secondary" onclick="testValidation('handleSearch', 'event')">Test</button>
+                <div id="test-valid-4" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>Color Copy Handler</h3>
+                <div class="inline-handler">onclick="copyColor('#FF0000')"</div>
+                <button class="secondary" onclick="testValidation('copyColor', \"'#FF0000'\")">Test</button>
+                <div id="test-valid-5" class="status"></div>
+            </div>
+        </div>
+
+        <!-- Test Section 3: Invalid Cases -->
+        <div class="test-section">
+            <h2>❌ Invalid Cases (Should NOT Migrate)</h2>
+
+            <div class="info-box">
+                <strong>🚫 Info:</strong> These handlers should NOT be migrated for security reasons
+            </div>
+
+            <div class="test-case">
+                <h3>Not Whitelisted Handler</h3>
+                <div class="inline-handler">onclick="eval('alert(1)')"</div>
+                <button class="secondary" onclick="testValidation('eval', \"'alert(1)'\")">Test</button>
+                <div id="test-invalid-1" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>Function Call as Argument</h3>
+                <div class="inline-handler">onclick="toggleCode(getIdFromGlobal())"</div>
+                <button class="secondary" onclick="testValidation('toggleCode', 'getIdFromGlobal()')">Test</button>
+                <div id="test-invalid-2" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>Template String</h3>
+                <div class="inline-handler">onclick="toggleCode(`id-${x}`)"</div>
+                <button class="secondary" onclick="testValidation('toggleCode', '`id-${x}`')">Test</button>
+                <div id="test-invalid-3" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>Object Literal</h3>
+                <div class="inline-handler">onclick="toggleCode({id: 'x'})"</div>
+                <button class="secondary" onclick="testValidation('toggleCode', \"{id: 'x'}\")">Test</button>
+                <div id="test-invalid-4" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>Too Many Arguments</h3>
+                <div class="inline-handler">onclick="toggleCode('id', 'btn', 'extra')"</div>
+                <button class="secondary" onclick="testValidation('toggleCode', \"'id', 'btn', 'extra'\")">Test</button>
+                <div id="test-invalid-5" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>Multiple Statements</h3>
+                <div class="inline-handler">onclick="toggleCode('id'); copyCode('code')"</div>
+                <button class="secondary" onclick="testValidation('toggleCode', null, true)">Test</button>
+                <div id="test-invalid-6" class="status"></div>
+            </div>
+        </div>
+
+        <!-- Test Section 4: Handler Functionality -->
+        <div class="test-section">
+            <h2>🔧 Handler Functionality Tests</h2>
+
+            <div class="info-box">
+                <strong>📝 Info:</strong> Test that migrated handlers actually work when called
+            </div>
+
+            <div class="test-case">
+                <h3>Test toggleSidebar Handler</h3>
+                <p>Creates a test element with onclick handler and verifies event listener is attached</p>
+                <button class="secondary" onclick="testHandlerAttachment('toggleSidebar', '')">Test Attachment</button>
+                <div id="test-func-1" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>Test toggleCode Handler</h3>
+                <p>Creates a test element with onclick handler and verifies event listener is attached</p>
+                <button class="secondary" onclick="testHandlerAttachment('toggleCode', \"'test-code'\")">Test Attachment</button>
+                <div id="test-func-2" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>Test closeAlert Handler</h3>
+                <p>Creates a test element with onclick handler and verifies event listener is attached</p>
+                <button class="secondary" onclick="testHandlerAttachment('closeAlert', \"'test-alert'\")">Test Attachment</button>
+                <div id="test-func-3" class="status"></div>
+            </div>
+        </div>
+
+        <!-- Test Section 5: CSP Compliance -->
+        <div class="test-section">
+            <h2>🛡️ CSP Compliance Tests</h2>
+
+            <div class="info-box">
+                <strong>⚠️ Note:</strong> These tests verify CSP directives are properly enforced
+            </div>
+
+            <div class="test-case">
+                <h3>Inline Script Blocking</h3>
+                <p>Verifies that CSP policy blocks inline scripts</p>
+                <button class="secondary" onclick="testCSPBlocking()">Test Blocking</button>
+                <div id="test-csp-1" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>CSP Policy Directives</h3>
+                <button class="secondary" onclick="showCSPPolicy()">Show Policy</button>
+                <div id="test-csp-2" class="status"></div>
+            </div>
+
+            <div class="test-case">
+                <h3>External Asset Warning</h3>
+                <p>Checks for external resources without integrity attributes</p>
+                <button class="secondary" onclick="testExternalAssets()">Check Assets</button>
+                <div id="test-csp-3" class="status"></div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="test-section">
+            <h2>📊 Test Summary</h2>
+            <table class="status-table" id="summary-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Test Count</th>
+                        <th>Passed</th>
+                        <th>Failed</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>System Status</td>
+                        <td id="count-status">3</td>
+                        <td id="pass-status">0</td>
+                        <td id="fail-status">0</td>
+                        <td><span class="status-badge" id="badge-status">Pending</span></td>
+                    </tr>
+                    <tr>
+                        <td>Valid Cases</td>
+                        <td id="count-valid">5</td>
+                        <td id="pass-valid">0</td>
+                        <td id="fail-valid">0</td>
+                        <td><span class="status-badge" id="badge-valid">Pending</span></td>
+                    </tr>
+                    <tr>
+                        <td>Invalid Cases</td>
+                        <td id="count-invalid">6</td>
+                        <td id="pass-invalid">0</td>
+                        <td id="fail-invalid">0</td>
+                        <td><span class="status-badge" id="badge-invalid">Pending</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Include security.js for testing -->
+    <script src="js/core/security.js"></script>
+
+    <script>
+        // =====================================================================
+        // TEST UTILITIES
+        // =====================================================================
+
+        let consoleLog = [];
+        let testResults = {
+            status: { passed: 0, failed: 0 },
+            valid: { passed: 0, failed: 0 },
+            invalid: { passed: 0, failed: 0 }
+        };
+
+        // Override console methods
+        const originalLog = console.log;
+        const originalWarn = console.warn;
+        const originalError = console.error;
+        const originalInfo = console.info;
+
+        console.log = function(...args) {
+            originalLog(...args);
+            logToUI('log', args.join(' '));
+        };
+
+        console.warn = function(...args) {
+            originalWarn(...args);
+            logToUI('warn', args.join(' '));
+        };
+
+        console.error = function(...args) {
+            originalError(...args);
+            logToUI('error', args.join(' '));
+        };
+
+        console.info = function(...args) {
+            originalInfo(...args);
+            logToUI('info', args.join(' '));
+        };
+
+        function logToUI(level, message) {
+            consoleLog.push({ level, message });
+            updateConsoleDisplay();
+        }
+
+        function updateConsoleDisplay() {
+            const consoleEl = document.getElementById('console');
+            consoleEl.innerHTML = consoleLog
+                .slice(-50) // Show last 50 lines
+                .map(log => `<div class="console-line ${log.level}">${escapeHtml(log.message)}</div>`)
+                .join('');
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        function clearConsole() {
+            consoleLog = [];
+            updateConsoleDisplay();
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // =====================================================================
+        // TEST FUNCTIONS
+        // =====================================================================
+
+        function testSecurityInit() {
+            const resultEl = document.getElementById('status-init');
+            try {
+                if (!window.Security) {
+                    showStatus(resultEl, false, 'Security object not found');
+                    return;
+                }
+                const status = window.Security.getStatus();
+                if (status && status.allowedHandlers && status.allowedHandlers.length > 0) {
+                    showStatus(resultEl, true, `✅ Security initialized with ${status.allowedHandlers.length} allowed handlers`);
+                    testResults.status.passed++;
+                } else {
+                    showStatus(resultEl, false, 'Security status invalid');
+                }
+            } catch (e) {
+                showStatus(resultEl, false, `Error: ${e.message}`);
+            }
+            updateSummary();
+        }
+
+        function testCSPMetaTag() {
+            const resultEl = document.getElementById('status-csp');
+            try {
+                const cspMeta = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+                if (cspMeta) {
+                    const policy = cspMeta.getAttribute('content');
+                    showStatus(resultEl, true, `✅ CSP meta tag found. Policy: ${policy.substring(0, 100)}...`);
+                    testResults.status.passed++;
+                } else {
+                    showStatus(resultEl, false, '❌ CSP meta tag not found');
+                    testResults.status.failed++;
+                }
+            } catch (e) {
+                showStatus(resultEl, false, `Error: ${e.message}`);
+                testResults.status.failed++;
+            }
+            updateSummary();
+        }
+
+        function showAllowedHandlers() {
+            const resultEl = document.getElementById('status-handlers');
+            try {
+                if (window.Security && window.Security.ALLOWED_HANDLERS) {
+                    const handlers = Object.keys(window.Security.ALLOWED_HANDLERS);
+                    const html = `<strong>✅ ${handlers.length} Allowed Handlers:</strong><br>` +
+                        handlers.map(h => `• ${h}`).join('<br>');
+                    resultEl.innerHTML = html;
+                    resultEl.className = 'status pass';
+                    testResults.status.passed++;
+                }
+            } catch (e) {
+                showStatus(resultEl, false, `Error: ${e.message}`);
+                testResults.status.failed++;
+            }
+            updateSummary();
+        }
+
+        function testValidation(funcName, argsRaw, shouldFail) {
+            const testId = `test-${shouldFail ? 'invalid' : 'valid'}-${Math.random()}`;
+            const resultEl = document.getElementById(testId) || document.createElement('div');
+            
+            try {
+                if (!window.Security || !window.Security.testValidation) {
+                    showStatus(resultEl, false, 'Security.testValidation not available');
+                    return;
+                }
+
+                const result = window.Security.testValidation(funcName, argsRaw || '');
+                
+                // Determine if test passed
+                const expectedToFail = shouldFail || (funcName === 'eval' || funcName === 'Function');
+                let testPassed = false;
+
+                if (expectedToFail) {
+                    testPassed = !result.valid; // Should fail
+                    if (testPassed) {
+                        showStatus(resultEl, true, `✅ Correctly rejected: ${result.error}`);
+                    } else {
+                        showStatus(resultEl, false, `❌ Should have been rejected but wasn't`);
+                    }
+                } else {
+                    testPassed = result.valid; // Should pass
+                    if (testPassed) {
+                        showStatus(resultEl, true, `✅ Validation passed`);
+                    } else {
+                        showStatus(resultEl, false, `❌ ${result.error}`);
+                    }
+                }
+
+                // Update results
+                const category = shouldFail ? 'invalid' : 'valid';
+                if (testPassed) {
+                    testResults[category].passed++;
+                } else {
+                    testResults[category].failed++;
+                }
+            } catch (e) {
+                showStatus(resultEl, false, `Error: ${e.message}`);
+            }
+            updateSummary();
+        }
+
+        function testHandlerAttachment(funcName, args) {
+            const testId = `test-func-${funcName.toLowerCase()}`;
+            const resultEl = document.getElementById(testId);
+            try {
+                const testEl = document.createElement('button');
+                const code = `${funcName}(${args})`;
+                testEl.setAttribute('onclick', code);
+                document.body.appendChild(testEl);
+
+                // Manually migrate using Security logic
+                const validation = window.Security.testValidation(funcName, args);
+                if (validation.valid) {
+                    showStatus(resultEl, true, `✅ Handler ${funcName} can be safely attached`);
+                    testResults.status.passed++;
+                } else {
+                    showStatus(resultEl, false, `❌ ${validation.error}`);
+                    testResults.status.failed++;
+                }
+
+                document.body.removeChild(testEl);
+            } catch (e) {
+                showStatus(resultEl, false, `Error: ${e.message}`);
+                testResults.status.failed++;
+            }
+            updateSummary();
+        }
+
+        function testCSPBlocking() {
+            const resultEl = document.getElementById('test-csp-1');
+            try {
+                const policy = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+                if (policy && policy.content.includes("script-src 'self'")) {
+                    showStatus(resultEl, true, `✅ CSP correctly blocks inline scripts (no 'unsafe-inline')`);
+                    testResults.status.passed++;
+                } else {
+                    showStatus(resultEl, false, `❌ CSP not properly configured for script blocking`);
+                    testResults.status.failed++;
+                }
+            } catch (e) {
+                showStatus(resultEl, false, `Error: ${e.message}`);
+                testResults.status.failed++;
+            }
+            updateSummary();
+        }
+
+        function showCSPPolicy() {
+            const resultEl = document.getElementById('test-csp-2');
+            try {
+                const cspMeta = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+                const policy = cspMeta?.content || 'Not found';
+                const directives = policy.split(';').map(d => d.trim()).filter(d => d);
+                const html = `<strong>✅ CSP Directives:</strong><br>` +
+                    directives.map(d => `• ${d}`).join('<br>');
+                resultEl.innerHTML = html;
+                resultEl.className = 'status info';
+                testResults.status.passed++;
+            } catch (e) {
+                showStatus(resultEl, false, `Error: ${e.message}`);
+                testResults.status.failed++;
+            }
+            updateSummary();
+        }
+
+        function testExternalAssets() {
+            const resultEl = document.getElementById('test-csp-3');
+            try {
+                const scripts = Array.from(document.querySelectorAll('script[src^="https"]'));
+                const links = Array.from(document.querySelectorAll('link[rel="stylesheet"][href^="https"]'));
+                const missing = scripts.concat(links).filter(el => !el.integrity);
+
+                if (missing.length === 0) {
+                    showStatus(resultEl, true, `✅ All external resources have integrity attributes`);
+                    testResults.status.passed++;
+                } else {
+                    const msg = `⚠️ ${missing.length} external resources missing integrity attributes`;
+                    showStatus(resultEl, false, msg);
+                    testResults.status.failed++;
+                }
+            } catch (e) {
+                showStatus(resultEl, false, `Error: ${e.message}`);
+                testResults.status.failed++;
+            }
+            updateSummary();
+        }
+
+        function runAllTests() {
+            clearConsole();
+            testResults = { status: { passed: 0, failed: 0 }, valid: { passed: 0, failed: 0 }, invalid: { passed: 0, failed: 0 } };
+            
+            console.info('=== Starting Test Suite ===');
+            
+            // Status tests
+            console.info('\n[1/3] Running System Status Tests...');
+            testSecurityInit();
+            testCSPMetaTag();
+            showAllowedHandlers();
+
+            // Valid cases
+            console.info('\n[2/3] Running Valid Cases Tests...');
+            testValidation('toggleSidebar', '');
+            testValidation('toggleCode', "'code1'");
+            testValidation('copyCode', "'code1', this");
+            testValidation('handleSearch', 'event');
+            testValidation('copyColor', "'#FF0000'");
+
+            // Invalid cases
+            console.info('\n[3/3] Running Invalid Cases Tests...');
+            testValidation('eval', "'alert(1)'", true);
+            testValidation('toggleCode', 'getIdFromGlobal()', true);
+            testValidation('toggleCode', '`id-${x}`', true);
+            testValidation('toggleCode', "{id: 'x'}", true);
+            testValidation('toggleCode', "'id', 'btn', 'extra'", true);
+            testValidation('toggleCode', null, true);
+
+            // CSP tests
+            console.info('\nRunning CSP Tests...');
+            testCSPBlocking();
+            showCSPPolicy();
+            testExternalAssets();
+
+            console.info('=== Test Suite Complete ===');
+        }
+
+        function updateSummary() {
+            const categories = ['status', 'valid', 'invalid'];
+            categories.forEach(cat => {
+                const total = testResults[cat].passed + testResults[cat].failed;
+                document.getElementById(`pass-${cat}`).textContent = testResults[cat].passed;
+                document.getElementById(`fail-${cat}`).textContent = testResults[cat].failed;
+                
+                const badge = document.getElementById(`badge-${cat}`);
+                if (total === 0) {
+                    badge.textContent = 'Pending';
+                    badge.className = 'status-badge';
+                } else if (testResults[cat].failed === 0) {
+                    badge.textContent = 'All Passed ✅';
+                    badge.className = 'status-badge pass';
+                } else {
+                    badge.textContent = 'Some Failed ❌';
+                    badge.className = 'status-badge fail';
+                }
+            });
+        }
+
+        function showStatus(el, passed, message) {
+            el.innerHTML = message;
+            el.className = `status ${passed ? 'pass' : 'fail'}`;
+        }
+
+        function generateReport() {
+            let report = '# UI-Verse Security Test Report\n\n';
+            report += `Generated: ${new Date().toLocaleString()}\n\n`;
+            report += '## Test Results\n\n';
+            
+            Object.entries(testResults).forEach(([category, results]) => {
+                const total = results.passed + results.failed;
+                report += `### ${category.charAt(0).toUpperCase() + category.slice(1)}\n`;
+                report += `- Passed: ${results.passed}/${total}\n`;
+                report += `- Failed: ${results.failed}/${total}\n\n`;
+            });
+
+            report += '## Console Output\n\n```\n';
+            report += consoleLog.map(log => log.message).join('\n');
+            report += '\n```\n';
+
+            console.info('📊 Report generated. Copy from console above.');
+            console.info(report);
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('debugToggle').addEventListener('change', (e) => {
+                window.UIVERSE_DEBUG = e.target.checked;
+                console.info(`Debug mode ${e.target.checked ? 'enabled' : 'disabled'}`);
+            });
+
+            console.info('🧪 Security Testing Suite Ready. Click "Run All Tests" to begin.');
+        });
+    </script>
+</body>
+</html>

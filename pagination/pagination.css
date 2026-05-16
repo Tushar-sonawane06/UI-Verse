@@ -1,0 +1,173 @@
+/* ============================================================
+   UIverse Pagination Component Styles
+   ------------------------------------------------------------
+   Usage:
+     <div class="pagination-wrapper" id="..."> ... </div>
+   ------------------------------------------------------------
+   The JS will render elements with:
+     .pagination
+     .pagination-control
+     .pagination-btn
+     .pagination-ellipsis
+     .pagination-page (data-page)
+     .pagination-page.is-active
+     .pagination-btn.is-disabled
+   ============================================================ */
+
+:root {
+  --pagination-bg: rgba(255, 255, 255, 0.08);
+  --pagination-border: rgba(255, 255, 255, 0.12);
+  --pagination-text: rgba(255, 255, 255, 0.92);
+  --pagination-muted: rgba(255, 255, 255, 0.65);
+  --pagination-active: #eb6835;
+  --pagination-accent: #6c5ce7;
+  --pagination-disabled: rgba(255, 255, 255, 0.35);
+}
+
+/* Provide sane defaults even outside the app's theme */
+body {
+  --pagination-text: rgba(10, 10, 10, 0.9);
+  --pagination-muted: rgba(10, 10, 10, 0.55);
+}
+
+.pagination-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--pagination-bg);
+  border: 1px solid var(--pagination-border);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+}
+
+.pagination-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-btn {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--pagination-text);
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.pagination-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+  border-color: rgba(235, 104, 53, 0.35);
+}
+
+.pagination-btn.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.pagination-page {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.pagination-page.is-active {
+  background: linear-gradient(45deg, #eb6835, #6c5ce7);
+  border-color: transparent;
+  box-shadow: 0 14px 32px rgba(235, 104, 53, 0.22);
+}
+
+.pagination-ellipsis {
+  padding: 0 6px;
+  color: var(--pagination-muted);
+  font-weight: 800;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.pagination-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--pagination-muted);
+  margin-right: 2px;
+  white-space: nowrap;
+}
+
+.pagination-page-size {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pagination-select {
+  appearance: none;
+  border-radius: 12px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--pagination-text);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Small-screen: reduce controls */
+@media (max-width: 520px) {
+  .pagination {
+    justify-content: flex-start;
+    padding: 10px 10px;
+    gap: 8px;
+  }
+
+  /* When rendering, JS will mark some pages as data-sp="hide-mobile" */
+  .pagination-btn[data-sp="hide-mobile"] {
+    display: none;
+  }
+
+  /* Keep page buttons compact */
+  .pagination-btn {
+    padding: 8px 10px;
+    border-radius: 12px;
+  }
+}
+
+/* Dark mode support if host uses .dark-mode */
+.dark-mode .pagination {
+  background: rgba(20, 20, 30, 0.62);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.42);
+}
+
+.dark-mode .pagination-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.dark-mode .pagination-ellipsis {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.dark-mode .pagination-select {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+

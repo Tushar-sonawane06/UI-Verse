@@ -1,0 +1,388 @@
+/* UI-Verse Progress Indicators (Linear + Circular + Wizard/Stepper)
+   - CSS-first animations
+   - Designed to match existing "glass/neumorphism" look used across UI-Verse components
+*/
+
+:root{
+  --pv-bg: rgba(148,163,184,.25);
+  --pv-track: rgba(255,255,255,.08);
+  --pv-text: rgba(255,255,255,.92);
+  --pv-muted: rgba(255,255,255,.68);
+  --pv-glow: rgba(59,130,246,.35);
+  --pv-radius: 999px;
+  --pv-shadow1: rgba(0,0,0,.35);
+  --pv-shadow2: rgba(255,255,255,.08);
+}
+
+*{ box-sizing: border-box; }
+
+.pv-page{
+  min-height: 100vh;
+  padding: 28px 16px;
+  background:
+    radial-gradient(1000px 500px at 10% 0%, rgba(99,102,241,.22), transparent 60%),
+    radial-gradient(900px 450px at 90% 10%, rgba(56,189,248,.18), transparent 60%),
+    radial-gradient(1000px 700px at 50% 110%, rgba(34,197,94,.10), transparent 60%),
+    linear-gradient(180deg, #0b1220, #050914);
+}
+
+.pv-shell{
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+
+.pv-title{
+  color: var(--pv-text);
+  font-size: 1.1rem;
+  letter-spacing: .2px;
+}
+
+.pv-card{
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 20px 60px var(--pv-shadow1), inset 0 1px 0 var(--pv-shadow2);
+}
+
+.pv-card h2{
+  margin: 0 0 10px;
+  color: var(--pv-text);
+  font-size: 1rem;
+}
+
+.pv-sub{
+  margin: 0 0 14px;
+  color: var(--pv-muted);
+  font-size: .92rem;
+  line-height: 1.3;
+}
+
+/* ---------- Linear Progress ---------- */
+
+.pv-linear{
+  --pv-percent: 0;
+  --pv-color: #3b82f6;
+  --pv-height: 16px;
+  --pv-thickness: 10px;
+
+  width: 100%;
+}
+
+.pv-linear .pv-row{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.pv-linear .pv-label{
+  color: var(--pv-text);
+  font-weight: 600;
+  font-size: .95rem;
+}
+
+.pv-linear .pv-helper{
+  color: var(--pv-muted);
+  font-size: .9rem;
+  text-align: right;
+}
+
+.pv-linear .pv-track{
+  position: relative;
+  height: var(--pv-height);
+  border-radius: var(--pv-radius);
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  border: 1px solid rgba(255,255,255,.10);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.15);
+}
+
+.pv-linear .pv-fill{
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--pv-percent) * 1%);
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--pv-color) 92%, white 8%),
+      color-mix(in srgb, var(--pv-color) 70%, #22c55e 30%));
+  border-radius: var(--pv-radius);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 0 24px var(--pv-glow);
+  transform: translateZ(0);
+  transition: width 700ms cubic-bezier(.2,.85,.2,1);
+}
+
+@supports not (color-mix(in srgb, red 50%, blue 50%)){
+  .pv-linear .pv-fill{
+    background: linear-gradient(90deg, var(--pv-color), #22c55e);
+  }
+}
+
+.pv-linear .pv-shine{
+  position: absolute;
+  inset: -50% -30% -50% -30%;
+  background: radial-gradient(circle at 20% 20%, rgba(255,255,255,.22), transparent 55%);
+  opacity: .35;
+  pointer-events: none;
+  animation: pv-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes pv-shimmer{
+  0%, 100%{ transform: translateX(-8%); opacity: .22; }
+  50%{ transform: translateX(8%); opacity: .42; }
+}
+
+.pv-linear .pv-value{
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--pv-muted);
+  font-size: .88rem;
+}
+
+.pv-linear .pv-value strong{
+  color: var(--pv-text);
+}
+
+.pv-linear[data-animated="true"] .pv-fill{
+  will-change: width;
+}
+
+/* ---------- Circular Progress ---------- */
+
+.pv-circular{
+  --pv-percent: 0;
+  --pv-color: #8b5cf6;
+  --pv-size: 120px;
+  --pv-stroke: 10;
+  --pv-bg-stroke: rgba(255,255,255,.10);
+
+  display: grid;
+  grid-auto-flow: row;
+  gap: 10px;
+  justify-items: center;
+}
+
+.pv-circular .pv-circle-wrap{
+  width: var(--pv-size);
+  height: var(--pv-size);
+  position: relative;
+}
+
+.pv-circular svg{
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.pv-circular .pv-track-circle{
+  fill: none;
+  stroke: var(--pv-bg-stroke);
+  stroke-width: var(--pv-stroke);
+}
+
+.pv-circular .pv-progress-circle{
+  fill: none;
+  stroke: var(--pv-color);
+  stroke-width: var(--pv-stroke);
+  stroke-linecap: round;
+  stroke-dasharray: var(--pv-circ);
+  stroke-dashoffset: calc(var(--pv-circ) * (1 - var(--pv-percent) / 100));
+  transition: stroke-dashoffset 700ms cubic-bezier(.2,.85,.2,1);
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--pv-color) 55%, rgba(255,255,255,.2) 45%));
+}
+
+@supports not (color-mix(in srgb, red 50%, blue 50%)){
+  .pv-circular .pv-progress-circle{ filter: drop-shadow(0 0 10px rgba(139,92,246,.35)); }
+}
+
+.pv-circular .pv-center{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 10px;
+}
+
+.pv-circular .pv-center .pv-center-text{
+  color: var(--pv-text);
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: .2px;
+}
+
+.pv-circular .pv-center .pv-center-helper{
+  margin-top: 4px;
+  color: var(--pv-muted);
+  font-size: .88rem;
+}
+
+.pv-circular .pv-label{
+  color: var(--pv-text);
+  font-weight: 600;
+  font-size: .95rem;
+}
+
+/* ---------- Wizard / Stepper ---------- */
+
+.pv-wizard{
+  --pv-color: #3b82f6;
+  display: grid;
+  gap: 12px;
+}
+
+.pv-wizard .pv-w-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pv-wizard .pv-step-meta{
+  display: grid;
+  gap: 4px;
+}
+
+.pv-wizard .pv-step-title{
+  color: var(--pv-text);
+  font-weight: 700;
+}
+
+.pv-wizard .pv-step-helper{
+  color: var(--pv-muted);
+  font-size: .9rem;
+}
+
+.pv-wizard .pv-step-pill{
+  color: var(--pv-text);
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.pv-wizard .pv-stepper{
+  display: grid;
+  grid-template-columns: repeat(var(--pv-steps), 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.pv-wizard .pv-step-node{
+  position: relative;
+  text-align: center;
+}
+
+.pv-wizard .pv-step-node .pv-dot{
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  margin: 0 auto;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+  transition: transform 300ms ease, background 300ms ease, border-color 300ms ease;
+}
+
+.pv-wizard .pv-step-node .pv-dot[data-state="done"],
+.pv-wizard .pv-step-node .pv-dot[data-state="active"]{
+  background: color-mix(in srgb, var(--pv-color) 55%, rgba(255,255,255,.10) 45%);
+  border-color: color-mix(in srgb, var(--pv-color) 65%, rgba(255,255,255,.25) 35%);
+  box-shadow: 0 0 20px rgba(59,130,246,.22), inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.pv-wizard .pv-step-node .pv-dot[data-state="active"]{
+  transform: scale(1.06);
+}
+
+@supports not (color-mix(in srgb, red 50%, blue 50%)){
+  .pv-wizard .pv-step-node .pv-dot[data-state="done"],
+  .pv-wizard .pv-step-node .pv-dot[data-state="active"]{
+    background: rgba(59,130,246,.35);
+    border-color: rgba(59,130,246,.55);
+  }
+}
+
+.pv-wizard .pv-step-node .pv-step-label{
+  margin-top: 8px;
+  color: var(--pv-muted);
+  font-size: .85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pv-wizard .pv-step-node[data-state="done"] .pv-step-label,
+.pv-wizard .pv-step-node[data-state="active"] .pv-step-label{
+  color: var(--pv-text);
+  font-weight: 700;
+}
+
+.pv-wizard .pv-step-bar{
+  height: 12px;
+  border-radius: var(--pv-radius);
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  overflow: hidden;
+  position: relative;
+}
+
+.pv-wizard .pv-step-bar .pv-step-fill{
+  height: 100%;
+  width: calc(var(--pv-percent) * 1%);
+  background: linear-gradient(90deg, var(--pv-color), rgba(34,197,94,.85));
+  border-radius: var(--pv-radius);
+  transition: width 700ms cubic-bezier(.2,.85,.2,1);
+  box-shadow: 0 0 24px rgba(59,130,246,.25);
+}
+
+.pv-inline{
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 860px){
+  .pv-inline{ grid-template-columns: 1fr; }
+}
+
+/* Small demo layout */
+.pv-grid-2{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 860px){
+  .pv-grid-2{ grid-template-columns: 1fr; }
+}
+
+.pv-actions{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.pv-btn{
+  appearance: none;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: var(--pv-text);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 120ms ease, background 120ms ease;
+}
+
+.pv-btn:active{ transform: translateY(1px); }
+
