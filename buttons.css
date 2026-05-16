@@ -45,6 +45,13 @@
   gap: 20px;
 }
 
+/* Keep cards visible even if the optional scroll-reveal script is blocked or
+   unavailable. The buttons page should degrade gracefully, not disappear. */
+.button-grid .component-card {
+  opacity: 1;
+  transform: none;
+}
+
 @media (max-width: 768px) {
   .button-grid {
     grid-template-columns: 1fr;
@@ -300,9 +307,461 @@
 }
 .btn-3d:hover  { transform: translateY(-2px); box-shadow: 0 8px 0 #9e3d18; }
 .btn-3d:active { transform: translateY(4px); box-shadow: 0 2px 0 #9e3d18; }
+
+ /* ================= SIDEBAR ================= */
+
+.sidebar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 270px;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(18px);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  padding: 24px 18px;
+  z-index: 1200;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: auto;
+  transition: transform 0.35s ease;
+}
+
+/* Hide scrollbar */
+.sidebar::-webkit-scrollbar{
+  width: 5px;
+}
+.sidebar::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+}
+
+/* ================= BRAND ================= */
+
+.sidebar-brand{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+  padding: 0 10px;
+}
+
+.brand-icon{
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: linear-gradient(135deg,#eb6835,#ff9f43);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(235,104,53,0.3);
+}
+
+.brand-text{
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+/* ================= NAV ================= */
+
+.sidebar-nav{
+  flex: 1;
+}
+
+.sidebar-nav ul{
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-nav li{
+  width: 100%;
+}
+
+.sidebar-nav a{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  text-decoration: none;
+  color: #cbd5e1;
+
+  padding: 14px 16px;
+  border-radius: 16px;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover */
+.sidebar-nav a:hover{
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  transform: translateX(4px);
+}
+
+/* Active */
+.sidebar-nav li.active a{
+  background: linear-gradient(135deg,#eb6835,#ff9f43);
+  color: white;
+  box-shadow: 0 10px 30px rgba(235,104,53,0.28);
+}
+
+.sidebar-nav li.active a::before{
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 60%;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.sidebar-nav i{
+  width: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* ================= FOOTER ================= */
+
+.sidebar-footer{
+  margin-top: 30px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.sidebar-footer a{
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+  color: #cbd5e1;
+
+  background: rgba(255,255,255,0.05);
+
+  transition: 0.25s ease;
+}
+
+.sidebar-footer a:hover{
+  background: linear-gradient(135deg,#eb6835,#ff9f43);
+  color: white;
+  transform: translateY(-3px);
+}
+
+/* ================= MAIN CONTENT ================= */
+
+.main-home{
+  margin-left: 270px;
+  width: calc(100% - 270px);
+  min-height: 100vh;
+  transition: 0.35s ease;
+}
+
+/* ================= NAVBAR FIX ================= */
+
+.navbar{
+  position: sticky;
+  top: 0;
+  z-index: 900;
+}
+
+/* ================= BACKDROP ================= */
+
+.sidebar-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(4px);
+
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s ease;
+
+  z-index: 1100;
+}
+
+.sidebar-backdrop.visible{
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ================= MENU BUTTON ================= */
+
+.menu-toggle{
+  border: none;
+  background: rgba(255,255,255,0.08);
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.25s ease;
+}
+
+.menu-toggle:hover{
+  background: rgba(255,255,255,0.14);
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 1024px){
+
+  .sidebar{
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open{
+    transform: translateX(0);
+  }
+
+  .menu-toggle{
+    display: flex;
+  }
+
+  .main-home{
+    margin-left: 0;
+    width: 100%;
+  }
+
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 600px){
+
+  .sidebar{
+    width: 85%;
+    max-width: 320px;
+    padding: 20px 14px;
+  }
+
+  .sidebar-brand{
+    margin-bottom: 28px;
+  }
+
+  .sidebar-nav a{
+    padding: 13px 14px;
+    font-size: 14px;
+  }
+
+  .brand-text{
+    font-size: 1.2rem;
+  }
+
+}
+
+/* ================= EXTRA PROFESSIONAL BUTTONS ================= */
+
+/* Gradient Border */
+.gradient-border-btn{
+  position:relative;
+  padding:12px 28px;
+  border:none;
+  border-radius:12px;
+  background:#111;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  z-index:1;
+  overflow:hidden;
+}
+
+.gradient-border-btn::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:14px;
+  background:linear-gradient(45deg,#eb6835,#6c5ce7,#00cec9);
+  z-index:-2;
+}
+
+.gradient-border-btn::after{
+  content:"";
+  position:absolute;
+  inset:2px;
+  background:#111;
+  border-radius:10px;
+  z-index:-1;
+}
+
+.gradient-border-btn:hover{
+  transform:translateY(-2px);
+}
+
+/* Shine Button */
+.shine-btn{
+  position:relative;
+  overflow:hidden;
+  padding:12px 28px;
+  border:none;
+  border-radius:10px;
+  background:#eb6835;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.shine-btn::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-80px;
+  width:60px;
+  height:100%;
+  background:rgba(255,255,255,0.4);
+  transform:skewX(-25deg);
+}
+
+.shine-btn:hover::before{
+  animation:shine 0.8s forwards;
+}
+
+@keyframes shine{
+  100%{
+    left:120%;
+  }
+}
+
+/* Soft UI */
+.soft-btn{
+  padding:12px 30px;
+  border:none;
+  border-radius:16px;
+  background:#e8ecf1;
+  color:#333;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:
+    8px 8px 16px rgba(0,0,0,0.1),
+    -8px -8px 16px rgba(255,255,255,0.9);
+  transition:0.3s;
+}
+
+.soft-btn:hover{
+  box-shadow:
+    inset 4px 4px 10px rgba(0,0,0,0.08),
+    inset -4px -4px 10px rgba(255,255,255,0.9);
+}
+
+/* Slide Button */
+.slide-btn{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 26px;
+  border:none;
+  border-radius:10px;
+  background:#111827;
+  color:#fff;
+  cursor:pointer;
+  font-weight:600;
+  overflow:hidden;
+  transition:0.3s;
+}
+
+.slide-btn span{
+  transition:0.3s;
+}
+
+.slide-btn:hover span{
+  transform:translateX(5px);
+}
+
+/* Premium Dark */
+.premium-btn{
+  padding:12px 28px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(to bottom,#2b2b2b,#111);
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,0.15),
+    0 10px 20px rgba(0,0,0,0.4);
+  transition:0.3s;
+}
+
+.premium-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,0.2),
+    0 15px 30px rgba(0,0,0,0.5);
+}
+
+/* Ripple */
+.ripple-btn{
+  position:relative;
+  overflow:hidden;
+  padding:12px 28px;
+  border:none;
+  border-radius:10px;
+  background:#6c5ce7;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+
+
+.ripple-btn::after{
+  content:"";
+  position:absolute;
+  width:20px;
+  height:20px;
+  background:rgba(255,255,255,0.5);
+  border-radius:50%;
+  transform:scale(0);
+  opacity:0;
+  top:50%;
+  left:50%;
+  translate:-50% -50%;
+}
+
+.ripple-btn:hover::after{
+  animation:ripple 0.6s ease-out;
+}
+
+@keyframes ripple{
+  0%{
+    transform:scale(0);
+    opacity:1;
+  }
+  100%{
+    transform:scale(10);
+    opacity:0;
+  }
 /* =========================================================
    PREMIUM COMPONENT CARD HOVER
-========================================================= */
 
 .component-card {
 
@@ -335,7 +794,6 @@
 
 /* =========================================================
    GRADIENT BORDER GLOW
-========================================================= */
 
 .component-card::before {
 
@@ -373,7 +831,6 @@
 
 /* =========================================================
    SHINE OVERLAY
-========================================================= */
 
 .component-card::after {
 
@@ -395,7 +852,6 @@
 
 /* =========================================================
    HOVER EFFECT
-========================================================= */
 
 .component-card:hover {
 
@@ -419,7 +875,6 @@
 
 /* =========================================================
    CARD CONTENT ANIMATION
-========================================================= */
 
 .component-card:hover .card-preview {
 
@@ -439,7 +894,6 @@
 
 /* =========================================================
    PREVIEW AREA
-========================================================= */
 
 .card-preview {
 
@@ -449,7 +903,6 @@
 
 /* =========================================================
    LABEL
-========================================================= */
 
 .card-label {
 
@@ -461,7 +914,6 @@
 
 /* =========================================================
    DESCRIPTION
-========================================================= */
 
 .card-desc {
 
@@ -475,7 +927,6 @@
 
 /* =========================================================
    ACTION BUTTONS
-========================================================= */
 
 .action-btn {
 
@@ -526,7 +977,6 @@
 
 /* =========================================================
    ANIMATIONS
-========================================================= */
 
 @keyframes gradientBorder {
 
@@ -542,7 +992,6 @@
 
 /* =========================================================
    DARK MODE
-========================================================= */
 
 .dark-mode .component-card {
 
@@ -577,7 +1026,6 @@
 
 /* =========================================================
    MOBILE
-========================================================= */
 
 @media (max-width: 768px) {
 
@@ -591,7 +1039,6 @@
 }
 /* =========================================================
    ANIMATED GRADIENT BACKGROUND
-========================================================= */
 
 /* Main Background */
 
@@ -621,7 +1068,6 @@ body {
 
 /* =========================================================
    SMOOTH ANIMATION
-========================================================= */
 
 @keyframes animatedGradient {
 
@@ -649,7 +1095,6 @@ body {
 
 /* =========================================================
    EXTRA GLOW OVERLAY
-========================================================= */
 
 body::before {
 
@@ -713,7 +1158,6 @@ body::after {
 
 /* =========================================================
    GLOW MOVEMENT
-========================================================= */
 
 @keyframes glowMoveOne {
 
@@ -753,7 +1197,6 @@ body::after {
 
 /* =========================================================
    DARK MODE VERSION
-========================================================= */
 
 .dark-mode {
 
@@ -797,7 +1240,6 @@ body::after {
 
 /* =========================================================
    MOBILE OPTIMIZATION
-========================================================= */
 
 @media (max-width: 768px) {
 
@@ -815,12 +1257,10 @@ body::after {
    MASSIVE PREMIUM UI ENHANCEMENT PACK
    FOR BUTTONS PAGE
    300+ LINES
-========================================================= */
 
 
 /* =========================================================
    ROOT VARIABLES
-========================================================= */
 
 :root {
 
@@ -849,7 +1289,6 @@ body::after {
 
 /* =========================================================
    BODY BACKGROUND
-========================================================= */
 
 body {
 
@@ -878,7 +1317,6 @@ body {
 
 /* =========================================================
    GRADIENT ANIMATION
-========================================================= */
 
 @keyframes animatedGradient {
 
@@ -907,7 +1345,6 @@ body {
 
 /* =========================================================
    AURORA BLOBS
-========================================================= */
 
 body::before {
 
@@ -970,7 +1407,6 @@ body::after {
 
 /* =========================================================
    BLOB ANIMATIONS
-========================================================= */
 
 @keyframes blobMoveOne {
 
@@ -1011,7 +1447,6 @@ body::after {
 
 /* =========================================================
    NOISE OVERLAY
-========================================================= */
 
 .main-home::before {
 
@@ -1034,7 +1469,6 @@ body::after {
 
 /* =========================================================
    PREMIUM HERO
-========================================================= */
 
 .page-hero {
 
@@ -1072,7 +1506,6 @@ body::after {
 
 /* =========================================================
    HERO GLOW
-========================================================= */
 
 .page-hero::after {
 
@@ -1120,7 +1553,6 @@ body::after {
 
 /* =========================================================
    GRADIENT TITLE
-========================================================= */
 
 .page-title {
 
@@ -1152,7 +1584,6 @@ body::after {
 
 /* =========================================================
    COMPONENT CARDS
-========================================================= */
 
 .component-card {
 
@@ -1185,7 +1616,6 @@ body::after {
 
 /* =========================================================
    FLOATING CARD
-========================================================= */
 
 @keyframes floatingCard {
 
@@ -1214,7 +1644,6 @@ body::after {
 
 /* =========================================================
    CARD HOVER
-========================================================= */
 
 .component-card:hover {
 
@@ -1235,7 +1664,6 @@ body::after {
 
 /* =========================================================
    CARD GLOW BORDER
-========================================================= */
 
 .component-card::before {
 
@@ -1291,7 +1719,6 @@ body::after {
 
 /* =========================================================
    CARD SHIMMER
-========================================================= */
 
 .component-card::after {
 
@@ -1325,7 +1752,6 @@ body::after {
 
 /* =========================================================
    PREVIEW AREA
-========================================================= */
 
 .card-preview {
 
@@ -1342,7 +1768,6 @@ body::after {
 
 /* =========================================================
    BUTTONS
-========================================================= */
 
 .gradient-btn,
 .outline-btn,
@@ -1366,7 +1791,6 @@ body::after {
 
 /* =========================================================
    BUTTON HOVER
-========================================================= */
 
 .gradient-btn:hover,
 .outline-btn:hover,
@@ -1387,7 +1811,6 @@ body::after {
 
 /* =========================================================
    BUTTON SHINE
-========================================================= */
 
 .gradient-btn::before,
 .glass-btn::before,
@@ -1425,7 +1848,6 @@ body::after {
 
 /* =========================================================
    NEON PULSE
-========================================================= */
 
 .neon-btn {
 
@@ -1459,7 +1881,6 @@ body::after {
 
 /* =========================================================
    FILTER BAR
-========================================================= */
 
 .filter-bar {
 
@@ -1482,7 +1903,6 @@ body::after {
 
 /* =========================================================
    FILTER BUTTONS
-========================================================= */
 
 .filter-btn {
 
@@ -1517,7 +1937,6 @@ body::after {
 
 /* =========================================================
    SEARCH BAR
-========================================================= */
 
 .search-bar {
 
@@ -1544,7 +1963,6 @@ body::after {
 
 /* =========================================================
    ACTION BUTTONS
-========================================================= */
 
 .action-btn {
 
@@ -1571,7 +1989,6 @@ body::after {
 
 /* =========================================================
    ACTION SHINE
-========================================================= */
 
 .action-btn::before {
 
@@ -1604,7 +2021,6 @@ body::after {
 
 /* =========================================================
    SCROLLBAR
-========================================================= */
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -1628,7 +2044,6 @@ body::after {
 
 /* =========================================================
    DARK MODE
-========================================================= */
 
 .dark-mode {
 
@@ -1660,7 +2075,6 @@ body::after {
 
 /* =========================================================
    MOBILE
-========================================================= */
 
 @media (max-width: 768px) {
 

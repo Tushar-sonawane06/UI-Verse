@@ -1,520 +1,340 @@
-/* =================================================================
-   script.js  –  UI-Verse
-   Single consolidated file. Each function is declared exactly once.
-   ================================================================= */
+﻿/**
+ * UIverse - Backward Compatibility Layer
+ * 
+ * This file provides legacy global functions for backward compatibility.
+ * All functionality has been refactored into modular components.
+ * 
+ * NEW CODE: Use the modular approach via UIverse.modules or direct module objects
+ * LEGACY CODE: These global functions remain for compatibility with inline onclick handlers
+ */
 
+// Ensure theme API is available on pages that include only script.js
+(function(){
+  if (!window.ThemeAPI) {
+    const s = document.createElement('script');
+    s.src = '/js/theme-api.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+})();
 
-/* ================= POPUP ================= */
-let popup;
+// =====================================================================
+// LEGACY GLOBAL FUNCTIONS (BACKWARD COMPATIBILITY)
+// =====================================================================
 
-document.addEventListener("DOMContentLoaded", () => {
-  popup = document.getElementById("popup");
-});
+/**
+ * Toggle code block visibility
+ * @deprecated Use CodeTools module or toggleCode function
+ */
+window.toggleCode = window.toggleCode || function(id, btn) {
+  if (typeof CodeTools !== 'undefined' && CodeTools.toggleCode) {
+    CodeTools.toggleCode(id);
+    if (btn) {
+      const isOpen = document.getElementById(id)?.classList.contains('show');
+      const showHtml = btn.getAttribute('data-show') || '<i class="fa-solid fa-code"></i> View Code';
+      const hideHtml = btn.getAttribute('data-hide') || '<i class="fa-solid fa-eye-slash"></i> Hide Code';
+      btn.innerHTML = isOpen ? hideHtml : showHtml;
+    }
+  }
+};
 
-function openPopup() {
-  if (popup) popup.classList.add("open-popup");
-}
+/**
+ * Copy code to clipboard
+ * @deprecated Use CodeTools module
+ */
+window.copyCode = window.copyCode || function(id, btn) {
+  if (typeof CodeTools !== 'undefined' && CodeTools.copyCode) {
+    CodeTools.copyCode(id, btn);
+  }
+};
 
-function closePopup() {
-  if (popup) popup.classList.remove("open-popup");
-}
+/**
+ * Copy color value to clipboard
+ * @deprecated Use CodeTools module
+ */
+window.copyColor = window.copyColor || function(color) {
+  if (typeof CodeTools !== 'undefined' && CodeTools.copyColor) {
+    CodeTools.copyColor(color);
+  }
+};
 
+/**
+ * Copy RGB value to clipboard
+ * @deprecated Use CodeTools module
+ */
+window.copyRGB = window.copyRGB || function(value) {
+  if (typeof CodeTools !== 'undefined' && CodeTools.copyRGB) {
+    CodeTools.copyRGB(value);
+  }
+};
 
-/* ================= TOAST NOTIFICATION ================= */
-function showToast(message) {
-  const existing = document.getElementById("toast-notification");
-  if (existing) existing.remove();
+/**
+ * Toggle sidebar visibility
+ * @deprecated Use Sidebar module
+ */
+window.toggleSidebar = window.toggleSidebar || function() {
+  if (typeof Sidebar !== 'undefined' && Sidebar.toggle) {
+    Sidebar.toggle();
+  }
+};
 
-  const toast = document.createElement("div");
-  toast.id = "toast-notification";
-  toast.className = "toast";
-  toast.textContent = message;
+/**
+ * Alias for toggleSidebar
+ * @deprecated Use Sidebar module
+ */
+window.toggleMenu = window.toggleMenu || function() {
+  window.toggleSidebar();
+};
 
-  document.body.appendChild(toast);
+/**
+ * Close sidebar
+ * @deprecated Use Sidebar module
+ */
+window.closeSidebar = window.closeSidebar || function() {
+  if (typeof Sidebar !== 'undefined' && Sidebar.close) {
+    Sidebar.close();
+  }
+};
 
-  // Trigger slide-in (double rAF ensures the element is painted first)
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      toast.classList.add("toast-visible");
-    });
-  });
-
-  // Auto-dismiss after 2 seconds
-  setTimeout(() => {
-    toast.classList.remove("toast-visible");
-    toast.classList.add("toast-hidden");
-    toast.addEventListener("transitionend", () => toast.remove(), { once: true });
-  }, 2000);
-}
-
-
-/* ================= TOGGLE CODE BLOCK ================= */
-function toggleCode(id) {
-  const codeBlock = document.getElementById(id);
-  if (!codeBlock) return;
-
-  if (codeBlock.classList.contains("show")) {
-    codeBlock.style.display = "none";
-    codeBlock.classList.remove("show");
+/**
+ * Scroll to top of page
+ * @deprecated Use Scroll module
+ */
+window.scrollToTop = window.scrollToTop || function() {
+  if (typeof Scroll !== 'undefined' && Scroll.scrollToTop) {
+    Scroll.scrollToTop();
   } else {
-    codeBlock.style.display = "block";
-    codeBlock.classList.add("show");
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-}
+};
 
-
-/* ================= COPY CODE ================= */
-function copyCode(id, btn) {
-  const element = document.getElementById(id);
-  if (!element) return;
-
-  // Support both <textarea>/<input> (use .value) and any other element (use .innerText)
-  const code = (element.tagName === "TEXTAREA" || element.tagName === "INPUT")
-    ? element.value
-    : element.innerText;
-
-  navigator.clipboard.writeText(code)
-    .then(() => {
-      showToast("Code copied!");
-
-      if (btn) {
-        const originalText = btn.innerText;
-        btn.innerText = "Copied ✓";
-        btn.classList.add("copied");
-
-        setTimeout(() => {
-          btn.innerText = originalText;
-          btn.classList.remove("copied");
-        }, 1500);
-      }
-    })
-    .catch(() => {
-      showToast("Failed to copy ❌");
-      if (btn) btn.innerText = "Error";
-    });
-}
-
-
-/* ================= COPY COLOR ================= */
-function copyColor(color) {
-  navigator.clipboard.writeText(color);
-  showToast(color + " copied!");
-}
-
-function copyRGB(value) {
-  navigator.clipboard.writeText(`rgb(${value})`);
-  showToast(`rgb(${value}) copied!`);
-}
-
-
-/* ================= SIDEBAR ================= */
-function toggleSidebar() {
-  const backdrop = document.querySelector(".sidebar-backdrop");
-
-  if (window.innerWidth <= 900) {
-    document.body.classList.toggle("sidebar-open");
-    backdrop?.classList.toggle("active");
-  } else {
-    const isHidden = document.body.classList.toggle("sidebar-hidden");
-    sessionStorage.setItem("sidebarHidden", isHidden ? "1" : "0");
+/**
+ * Open popup/modal
+ * @deprecated Use Popup module
+ */
+window.openPopup = window.openPopup || function() {
+  if (typeof Popup !== 'undefined' && Popup.open) {
+    Popup.open();
   }
-}
+};
 
-function updateSidebarActiveLink() {
-  const currentPage = (window.location.pathname.split("/").pop() || "index.html").toLowerCase();
+/**
+ * Close popup/modal
+ * @deprecated Use Popup module
+ */
+window.closePopup = window.closePopup || function() {
+  if (typeof Popup !== 'undefined' && Popup.close) {
+    Popup.close();
+  }
+};
 
-  document.querySelectorAll(".sidebar ul li").forEach((li) => {
-    const anchor = li.querySelector("a");
-    if (!anchor) return;
+/**
+ * Close alert by ID
+ * @deprecated Use Alerts module
+ */
+window.closeAlert = window.closeAlert || function(alertId) {
+  if (typeof Alerts !== 'undefined' && Alerts.close) {
+    Alerts.close(alertId);
+  }
+};
 
-    if (anchor.getAttribute("href").toLowerCase() === currentPage) {
-      li.classList.add("active");
-    } else {
-      li.classList.remove("active");
+/**
+ * Handle newsletter subscription
+ * @deprecated Use Alerts module
+ */
+window.subscribe = window.subscribe || function(e) {
+  if (typeof Alerts !== 'undefined' && Alerts.subscribe) {
+    Alerts.subscribe(e);
+  }
+};
+
+/**
+ * Add component to collection
+ * @deprecated Use ComponentGallery module
+ */
+window.addToCollection = window.addToCollection || function(name, html) {
+  if (typeof ComponentGallery !== 'undefined' && ComponentGallery.addToCollection) {
+    ComponentGallery.addToCollection(name, html);
+  }
+};
+
+/**
+ * Handle search with routing
+ * @deprecated Use ComponentGallery or Search module
+ */
+window.handleSearch = window.handleSearch || function(event) {
+  if (typeof ComponentGallery !== 'undefined') {
+    if (event.key === 'Enter') {
+      ComponentGallery._handleSearchEnter(event);
     }
-  });
-}
-
-function restoreSidebarState() {
-  if (window.innerWidth > 900 && sessionStorage.getItem("sidebarHidden") === "1") {
-    document.body.classList.add("sidebar-hidden");
+  } else if (typeof Search !== 'undefined' && Search.handleRouting) {
+    Search.handleRouting(event);
   }
 }
 
-function initSidebarLinkClose() {
-  document.querySelectorAll(".sidebar ul li a").forEach((anchor) => {
-    anchor.addEventListener("click", function () {
-      if (window.innerWidth <= 900) {
-        document.body.classList.remove("sidebar-open");
-        document.querySelector(".sidebar-backdrop")?.classList.remove("active");
-      }
-    });
-}
+// Scroll to top
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function initScrollTop() { const btn = document.getElementById('scrollTopBtn'); if (!btn) return; window.addEventListener('scroll', () => { const visible = window.scrollY > 50; btn.style.display = visible ? 'block' : 'none'; btn.classList.toggle('visible', window.scrollY > 400); document.getElementById('navbar')?.classList.toggle('scrolled', window.scrollY > 40); }); btn.addEventListener('click', () => scrollToTop()); }
 
-function toggleMenu() {
-  document.querySelector(".sidebar").classList.toggle("active");
-}
-  });
-}
+// Progress bar
+function initProgressBar() { const bar = document.getElementById('progressBar'); if (!bar) return; window.addEventListener('scroll', () => { const scrollTop = document.documentElement.scrollTop; const height = document.documentElement.scrollHeight - document.documentElement.clientHeight; bar.style.width = ((scrollTop / Math.max(height, 1)) * 100) + '%'; }); }
 
-function initSidebar() {
-  restoreSidebarState();
-  updateSidebarActiveLink();
-  initSidebarLinkClose();
-}
+// Alerts & subscribe
+function closeAlert(alertId) { const a = document.getElementById(alertId); if (a) a.style.display = 'none'; }
+function subscribe(e) { e.preventDefault(); showToastSafe('Subscribed successfully! 🎉'); }
 
+// Init
+window.addEventListener('DOMContentLoaded', () => {
+  // Popup reference
+  window.popup = document.getElementById('popup');
+  // Isolate component styles by wrapping component cards in a Shadow DOM.
+  // This keeps component markup scoped and prevents accidental global CSS leakage.
+  function initShadowWrap() {
+    try {
+      const styleHrefs = ['/css/main.css', '/style.css'];
+      document.querySelectorAll('.component-card').forEach((card, idx) => {
+        if (card.dataset.uiverseIsolated === '1') return;
+        // create a host element to hold the shadow root
+        const host = document.createElement('div');
+        host.className = 'uiverse-component-host';
+        // move attributes that may be used for identification
+        host.dataset.originalIndex = idx;
 
-/* ================= LIVE IFRAME SANDBOX ================= */
-function initLiveSandboxes() {
-  const componentCards = document.querySelectorAll(".component-card");
+        // move card children into host's shadow root
+        const shadow = host.attachShadow({ mode: 'open' });
 
-  componentCards.forEach((card, index) => {
-    const h3 = card.querySelector("h3");
-    const actions = card.querySelector(".actions");
-    const existingCodeBlock = card.querySelector(".code-block");
+        // add same CSS links inside shadow to preserve component visuals but keep them scoped
+        styleHrefs.forEach(href => {
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = href;
+          shadow.appendChild(link);
+        });
 
-    const previewNodes = Array.from(card.childNodes).filter((node) => {
-      return (
-        (node.nodeType === Node.ELEMENT_NODE ||
-          (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== "")) &&
-        node !== h3 &&
-        node !== actions &&
-        node !== existingCodeBlock &&
-        node.nodeName !== "SCRIPT"
-      );
-    });
+        // copy the innerHTML of the card into the shadow
+        const wrapper = document.createElement('div');
+        wrapper.className = 'uiverse-component-inner';
+        wrapper.innerHTML = card.innerHTML;
+        shadow.appendChild(wrapper);
 
-    if (previewNodes.length === 0 && !existingCodeBlock) return;
-
-    let initialHTML = existingCodeBlock
-      ? existingCodeBlock.textContent.trim()
-      : previewNodes.map((n) => n.outerHTML || n.textContent).join("\n").trim();
-
-    previewNodes.forEach((node) => node.remove());
-
-    // Create iframe preview
-    const iframe = document.createElement("iframe");
-    iframe.style.width = "100%";
-    iframe.style.minHeight = "160px";
-    iframe.style.border = "1px solid #e8ebf2";
-    iframe.style.borderRadius = "8px";
-    iframe.style.background = "transparent";
-
-    // Create editable textarea
-    const textarea = document.createElement("textarea");
-    if (existingCodeBlock) {
-      textarea.id = existingCodeBlock.id;
-      textarea.className = existingCodeBlock.className;
-      textarea.style.display = existingCodeBlock.style.display || "none";
-    } else {
-      textarea.id = "live-code-" + index;
-      textarea.className = "code-block";
-      textarea.style.display = "none";
-
-      if (actions) {
-        const toggleBtn = actions.querySelector('button[onclick^="toggleCode"]');
-        const copyBtn = actions.querySelector('button[onclick^="copyCode"]');
-        if (toggleBtn) toggleBtn.setAttribute("onclick", `toggleCode("${textarea.id}")`);
-        if (copyBtn) copyBtn.setAttribute("onclick", `copyCode("${textarea.id}", this)`);
-      }
-    }
-
-    textarea.value = initialHTML;
-    textarea.style.width = "100%";
-    textarea.style.minHeight = "120px";
-    textarea.style.boxSizing = "border-box";
-    textarea.style.resize = "vertical";
-
-    const renderIframe = (htmlContent) => {
-      iframe.srcdoc = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <link rel="stylesheet" href="style.css">
-          <style>
-            body {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              min-height: 100vh;
-              margin: 0;
-              background: transparent;
-              padding: 20px;
-              box-sizing: border-box;
-            }
-          </style>
-        </head>
-        <body>${htmlContent}</body>
-        </html>`;
-    };
-
-    renderIframe(initialHTML);
-
-    // Debounced live update
-    let timeout;
-    textarea.addEventListener("input", (e) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => renderIframe(e.target.value), 300);
-    });
-
-    if (h3) {
-      h3.after(iframe);
-    } else {
-      card.insertBefore(iframe, card.firstChild);
-    }
-
-    if (existingCodeBlock) {
-      existingCodeBlock.replaceWith(textarea);
-    } else if (actions) {
-      actions.after(textarea);
-    }
-  });
-}
-
-
-/* ================= SEARCH – INLINE FILTER ================= */
-// Initialised inside DOMContentLoaded to avoid a const re-declaration at top level.
-function initSearchFilter() {
-  const searchInput = document.getElementById("searchInput");
-  if (!searchInput) return;
-
-  searchInput.addEventListener("keyup", function () {
-    const value = this.value.toLowerCase().trim();
-
-    document.querySelectorAll(".component-card").forEach((item) => {
-      const text = (item.dataset.name || item.innerText).toLowerCase();
-      item.style.display = text.includes(value) ? "block" : "none";
-    });
-  });
-}
-
-
-/* ================= SEARCH – PAGE ROUTING ================= */
-function handleSearch(event) {
-  if (event.key !== "Enter") return;
-
-  const query = event.target.value.toLowerCase().trim();
-
-  const routes = {
-    button:  "button.html",
-    buttons: "button.html",
-    navbar:  "Navbar.html",
-    navbars: "Navbar.html",
-    card:    "cards.html",
-    cards:   "cards.html",
-    form:    "form.html",
-    forms:   "form.html",
-    footer:  "footer.html",
-    color:   "color.html",
-    colors:  "color.html",
-  };
-
-  for (const key in routes) {
-    if (query.includes(key)) {
-      window.location.href = routes[key];
-      return;
-    }
+        // clear original card and append host
+        card.innerHTML = '';
+        card.appendChild(host);
+        card.dataset.uiverseIsolated = '1';
+      });
+    } catch (e) { console.warn('initShadowWrap failed', e); }
   }
 
-  showToast("No component found 😢");
-}
+  initShadowWrap();
 
-
-/* ================= DARK MODE ================= */
-// Uses a single toggle element id ("theme-toggle") and the "dark-mode" class.
-function loadTheme() {
-  const themeToggle = document.getElementById("theme-toggle");
-  const saved = localStorage.getItem("theme");
-
-  if (saved === "dark") {
-    document.body.classList.add("dark-mode");
-    if (themeToggle) themeToggle.innerText = "☀️ Light Mode";
-  } else {
-    document.body.classList.remove("dark-mode");
-    if (themeToggle) themeToggle.innerText = "🌙 Dark Mode";
-  }
-}
-
-function initDarkMode() {
-  // Apply system preference on first visit
-  if (!localStorage.getItem("theme")) {
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      document.body.classList.add("dark-mode");
-    }
-  }
-
-  loadTheme();
-
-  const themeToggle = document.getElementById("theme-toggle");
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-      const isDark = document.body.classList.contains("dark-mode");
-      localStorage.setItem("theme", isDark ? "dark" : "light");
-      themeToggle.innerText = isDark ? "☀️ Light Mode" : "🌙 Dark Mode";
-    });
-  }
-}
-
-
-/* ================= SCROLL TO TOP ================= */
-function initScrollTop() {
-  const btn = document.getElementById("scrollTopBtn");
-  if (!btn) return;
-
-  window.addEventListener("scroll", () => {
-    btn.style.display = window.scrollY > 50 ? "block" : "none";
-  });
-
-  btn.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-}
-
-
-/* ================= SCROLL PROGRESS BAR ================= */
-function initProgressBar() {
-  const bar = document.getElementById("progressBar");
-  if (!bar) return;
-
-  window.addEventListener("scroll", () => {
-    const scrollTop = document.documentElement.scrollTop;
-    const height =
-      document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    bar.style.width = ((scrollTop / height) * 100) + "%";
-  });
-}
-
-
-/* ================= ALERT CLOSE ================= */
-function closeAlert(alertId) {
-  const alert = document.getElementById(alertId);
-  if (alert) alert.style.display = "none";
-}
-
-
-/* ================= SUBSCRIBE ================= */
-function subscribe(e) {
-  e.preventDefault();
-  showToast("Subscribed successfully! 🎉");
-}
-
-
-/* ================= INIT (DOMContentLoaded) ================= */
-window.addEventListener("DOMContentLoaded", () => {
+  initAccessibilityHardeningLegacy();
   initSidebar();
   initLiveSandboxes();
   initDarkMode();
+  initAccessibilityMode();
   initScrollTop();
   initProgressBar();
   initSearchFilter();
+  createFilterUI();  // Initialize filter UI
+
+  // Attach global search handler
+  const searchEl = document.getElementById('searchInput');
+  if (searchEl) searchEl.addEventListener('keydown', handleSearch);
+
+  // Attach optional form-card buttons toast safely
+  try { const btns = document.querySelectorAll('.form-card button'); if (btns[0]) btns[0].addEventListener('click', () => showToastSafe('Login button clicked')); if (btns[1]) btns[1].addEventListener('click', () => showToastSafe('Signup button clicked')); if (btns[2]) btns[2].addEventListener('click', () => showToastSafe('Message sent')); if (btns[3]) btns[3].addEventListener('click', () => showToastSafe('Form submitted')); } catch (e) {}
+
+  // Newsletter subscribe: delegate to centralized subscribe(e)
+  try {
+    const newsBtn = document.querySelector('.newsletter-form button');
+    if (newsBtn) newsBtn.addEventListener('click', (ev) => subscribe(ev));
+  } catch (e) {}
+
+  // Menu toggle (legacy id)
+  const menuToggle = document.getElementById('menuToggle'); const sidebarEl = document.querySelector('.sidebar'); if (menuToggle && sidebarEl) menuToggle.addEventListener('click', () => sidebarEl.classList.toggle('hide'));
 });
 
-// DARK MODE
-  const toggle = document.getElementById('darkModeToggle');
-  const icon = toggle.querySelector('i');
-
-  if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-mode');
-    icon.className = 'fa-solid fa-sun';
-  }
-
-  toggle.addEventListener('click', () => {
-
-    document.body.classList.toggle('dark-mode');
-
-    const isDark = document.body.classList.contains('dark-mode');
-
-    icon.className = isDark
-      ? 'fa-solid fa-sun'
-      : 'fa-solid fa-moon';
-
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-
-  });
-
-
-  // SIDEBAR
-  function toggleSidebar() {
-
-    document.getElementById('sidebar').classList.toggle('open');
-
-    document.getElementById('sidebarBackdrop')
-      .classList.toggle('visible');
-
-  }
-
-
-  // SCROLL TOP
-  function scrollToTop() {
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+// Register service worker for offline-first behavior
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then(reg => {
+      console.log('ServiceWorker registered:', reg.scope);
+    }).catch(err => {
+      console.warn('ServiceWorker registration failed:', err);
     });
-
-  }
-  // SHOW BUTTON
-  window.addEventListener('scroll', () => {
-
-    document.getElementById('scrollTopBtn')
-      .classList.toggle('visible', window.scrollY > 400);
-
-    document.getElementById('navbar')
-      .classList.toggle('scrolled', window.scrollY > 40);
-
   });
+}
 
-  // TOGGLE CODE
-  function toggleCode(id, btn) {
-
-    const block = document.getElementById(id);
-
-    const isOpen = block.classList.toggle('open');
-
-    btn.innerHTML = isOpen
-      ? '<i class="fa-solid fa-eye-slash"></i> Hide Code'
-      : '<i class="fa-solid fa-code"></i> View Code';
-
+// Load offline sync helpers (idb + collection sync) for collection features
+(function(){
+  if (!window.UIV || !window.UIV.idb) {
+    const s = document.createElement('script'); s.src = '/js/idb.js'; s.defer = true; document.head.appendChild(s);
   }
+  if (!window.CollectionSync) {
+    const s2 = document.createElement('script'); s2.src = '/js/collection-sync.js'; s2.defer = true; document.head.appendChild(s2);
+  }
+})();
 
-  // COPY CODE
-  function copyCode(id, btn) {
-
-    navigator.clipboard.writeText(
-      document.getElementById(id).innerText
-    ).then(() => {
-
-      btn.innerHTML =
-        '<i class="fa-solid fa-check"></i> Copied!';
-
-      btn.classList.add('copied');
-
-      setTimeout(() => {
-
-        btn.innerHTML =
-          '<i class="fa-solid fa-copy"></i> Copy';
-
-        btn.classList.remove('copied');
-
-      }, 2000);
-
+// Wire up collectible buttons and elements to enqueue offline actions
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    document.querySelectorAll('[data-collectible]').forEach(el => {
+      const btn = el.querySelector('.collect-btn') || el;
+      btn.addEventListener('click', async (ev) => {
+        ev.preventDefault();
+        const id = el.dataset.collectible;
+        const action = btn.dataset.action || 'add';
+        if (window.CollectionSync) {
+          if (action === 'remove') {
+            await window.CollectionSync.enqueueRemove(id);
+            showToastSafe('Removed from collection (offline-first)');
+          } else {
+            const item = { id: id, html: el.innerHTML };
+            await window.CollectionSync.enqueueAdd(item);
+            showToastSafe('Added to collection (offline-first)');
+          }
+        } else {
+          showToastSafe('Collection sync not available');
+        }
+      });
     });
-
-  }
-
-  // SCROLL ANIMATION
-  const observer = new IntersectionObserver(entries => {
-
-    entries.forEach(e => {
-
-      if (e.isIntersecting) {
-        e.target.classList.add('in-view');
+    // provide a manual sync trigger button if present
+    const syncBtn = document.getElementById('syncCollectionsBtn');
+    if (syncBtn) syncBtn.addEventListener('click', () => {
+      if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage('trigger-sync');
       }
-
+      if (window.CollectionSync) window.CollectionSync.processQueueOnce().then(r => showToastSafe(`Synced ${r.synced} items`)).catch(()=>{});
     });
+  } catch (e) { /* ignore */ }
+});
 
-  }, { threshold: 0.08 });
 
-  document.querySelectorAll('.form-component-card')
-    .forEach(el => observer.observe(el));
+// ================= SEARCH (ROUTING) =================
+function handleSearch(event) {
+  if (event.key === "Enter") {
+    const query = event.target.value.toLowerCase().trim();
+
+/**
+ * If you see console warnings about missing modules:
+ * 1. Ensure js/registry.js is loaded
+ * 2. Ensure all feature modules are loaded
+ * 3. Ensure js/bootstrap.js is loaded last
+ * 4. Check browser console for specific module load errors
+ */
+
+if (window.UIVERSE_DEBUG) {
+  console.info('[script.js] Backward compatibility layer loaded. All functionality is modularized via UIverse.modules');
+}
+const menuBtn = document.querySelector(".menu-toggle");
+const sidebar = document.querySelector(".sidebar");
+
+menuBtn.addEventListener("click", () => {
+
+  if (window.innerWidth > 900) {
+    sidebar.classList.toggle("collapsed");
+  } else {
+    document.body.classList.toggle("sidebar-open");
+  }
+
+});

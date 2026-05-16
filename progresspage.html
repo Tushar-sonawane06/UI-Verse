@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress Bars — UIverse</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="progresspage.css">
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-icon">⬡</span>
+    <span class="brand-text">UIverse</span>
+  </div>
+  <nav class="sidebar-nav">
+    <ul>
+      <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
+      <li><a href="button.html"><i class="fa-solid fa-hand-pointer"></i><span>Buttons</span></a></li>
+      <li><a href="navbar.html"><i class="fa-solid fa-bars"></i><span>Navbar</span></a></li>
+      <li><a href="cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Cards</span></a></li>
+      <li><a href="inputs.html"><i class="fa-solid fa-keyboard"></i><span>Inputs</span></a></li>
+      <li><a href="contact.html"><i class="fa-regular fa-envelope"></i><span>Contact Us</span></a></li>
+      <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><span>Forms</span></a></li>
+      <li><a href="toggles.html"><i class="fa-solid fa-toggle-on"></i><span>Toggles</span></a></li>
+      <li><a href="tabs.html"><i class="fa-solid fa-folder-open"></i><span>Tabs</span></a></li>
+      <li><a href="span.html"><i class="fa-solid fa-code"></i><span>Span</span></a></li>
+      <li class="active"><a href="progress.html"><i class="fa-solid fa-bars-progress"></i><span>Progress</span></a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="#"><i class="fab fa-github"></i></a>
+    <a href="#"><i class="fab fa-linkedin"></i></a>
+    <a href="#"><i class="fab fa-x-twitter"></i></a>
+  </div>
+</aside>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="logo">UIverse</div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." oninput="liveFilter(this.value)" />
+    <kbd class="search-kbd">⌘K</kbd>
+  </div>
+  <div class="nav-right">
+    <button class="nav-btn outline-nav-btn"><i class="fa-solid fa-plus"></i> Add Component</button>
+    <button class="nav-btn primary-nav-btn"><i class="fa-solid fa-bookmark"></i> My Collection</button>
+    <button id="darkModeToggle" class="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main-home">
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="page-hero-left">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Progress Bars</span>
+      </div>
+      <h1 class="page-title">Progress Bar Components</h1>
+      <p class="page-desc">A full collection of progress bar styles — linear, gradient, striped, animated, circular, multi-step, and skill bars. All built with pure HTML & CSS.</p>
+      <div class="page-meta">
+        <span class="meta-badge"><i class="fa-solid fa-layer-group"></i> 12 Components</span>
+        <span class="meta-badge"><i class="fa-solid fa-code"></i> Pure CSS</span>
+        <span class="meta-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Animated</span>
+      </div>
+    </div>
+    <div class="page-hero-right">
+      <div class="progress-hero-preview">
+        <div class="php-row">
+          <span>Design</span>
+          <div class="php-bar"><div class="php-fill" style="width:85%;background:linear-gradient(90deg,#eb6835,#fdcb6e);"></div></div>
+          <span>85%</span>
+        </div>
+        <div class="php-row">
+          <span>Code</span>
+          <div class="php-bar"><div class="php-fill" style="width:70%;background:linear-gradient(90deg,#6c5ce7,#a29bfe);"></div></div>
+          <span>70%</span>
+        </div>
+        <div class="php-row">
+          <span>Deploy</span>
+          <div class="php-bar"><div class="php-fill" style="width:55%;background:linear-gradient(90deg,#00b894,#06b6d4);"></div></div>
+          <span>55%</span>
+        </div>
+        <div class="php-row">
+          <span>Test</span>
+          <div class="php-bar"><div class="php-fill" style="width:40%;background:linear-gradient(90deg,#d63031,#fdcb6e);"></div></div>
+          <span>40%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
+    <button class="filter-btn" onclick="filterCards('linear', this)">Linear</button>
+    <button class="filter-btn" onclick="filterCards('circular', this)">Circular</button>
+    <button class="filter-btn" onclick="filterCards('animated', this)">Animated</button>
+    <button class="filter-btn" onclick="filterCards('multi', this)">Multi</button>
+    <div class="filter-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Filter progress bars..." oninput="liveFilter(this.value)" />
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <div class="progress-grid" id="progressGrid">
+
+    <!-- 1. Basic Linear -->
+    <div class="component-card" data-name="basic linear simple progress bar" data-cat="linear">
+      <div class="card-top">
+        <span class="card-label">Basic Progress Bar</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-progress-stack">
+          <div class="demo-bar-row">
+            <div class="pb-track"><div class="pb-fill pb-accent" style="width:75%;"></div></div>
+            <span class="pb-pct">75%</span>
+          </div>
+          <div class="demo-bar-row">
+            <div class="pb-track"><div class="pb-fill pb-accent" style="width:40%;"></div></div>
+            <span class="pb-pct">40%</span>
+          </div>
+          <div class="demo-bar-row">
+            <div class="pb-track"><div class="pb-fill pb-accent" style="width:90%;"></div></div>
+            <span class="pb-pct">90%</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">The simplest progress bar — a filled track with a percentage label. Works for any completion state.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('pb1', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('pb1', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="pb1" class="code-block"><code>&lt;div class="progress-track"&gt;
+  &lt;div class="progress-fill" style="width: 75%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+.progress-track {
+  width: 100%;
+  height: 10px;
+  background: rgba(235,104,53,0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: #eb6835;
+  border-radius: 999px;
+  transition: width 0.6s ease;
+}</code></pre>
+    </div>
+
+    <!-- 2. Labelled Bar -->
+    <div class="component-card" data-name="labelled label title progress bar skill" data-cat="linear">
+      <div class="card-top">
+        <span class="card-label">Labelled Bar</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-progress-stack">
+          <div class="demo-label-row">
+            <div class="demo-label-top"><span>HTML</span><span>92%</span></div>
+            <div class="pb-track"><div class="pb-fill pb-accent" style="width:92%;"></div></div>
+          </div>
+          <div class="demo-label-row">
+            <div class="demo-label-top"><span>CSS</span><span>85%</span></div>
+            <div class="pb-track"><div class="pb-fill pb-purple" style="width:85%;"></div></div>
+          </div>
+          <div class="demo-label-row">
+            <div class="demo-label-top"><span>JavaScript</span><span>70%</span></div>
+            <div class="pb-track"><div class="pb-fill pb-green" style="width:70%;"></div></div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Progress bars with a label and percentage above each track — perfect for skill sections in portfolios.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('pb2', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('pb2', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="pb2" class="code-block"><code>&lt;div class="skill-bar"&gt;
+  &lt;div class="skill-label"&gt;
+    &lt;span&gt;HTML&lt;/span&gt;
+    &lt;span&gt;92%&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="progress-track"&gt;
+    &lt;div class="progress-fill" style="width:92%"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+.skill-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+.progress-track {
+  height: 8px;
+  background: rgba(235,104,53,0.1);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: #eb6835;
+  transition: width 0.8s ease;
+}</code></pre>
+    </div>
+
+    <!-- 3. Gradient Bar -->
+    <div class="component-card" data-name="gradient colorful progress bar" data-cat="linear">
+      <div class="card-top">
+        <span class="card-label">Gradient Bar</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-progress-stack">
+          <div class="demo-bar-row">
+            <div class="pb-track pb-track-lg"><div class="pb-fill pb-grad-orange" style="width:80%;"></div></div>
+            <span class="pb-pct">80%</span>
+          </div>
+          <div class="demo-bar-row">
+            <div class="pb-track pb-track-lg"><div class="pb-fill pb-grad-purple" style="width:60%;"></div></div>
+            <span class="pb-pct">60%</span>
+          </div>
+          <div class="demo-bar-row">
+            <div class="pb-track pb-track-lg"><div class="pb-fill pb-grad-teal" style="width:45%;"></div></div>
+            <span class="pb-pct">45%</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Eye-catching gradient-filled bars — available in orange, purple, and teal gradient variants.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('pb3', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('pb3', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="pb3" class="code-block"><code>&lt;div class="progress-track"&gt;
+  &lt;div class="progress-fill gradient" style="width:80%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+.progress-fill.gradient {
+  background: linear-gradient(90deg, #eb6835, #fdcb6e);
+}
+/* Purple */
+.progress-fill.purple {
+  background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+}
+/* Teal */
+.progress-fill.teal {
+  background: linear-gradient(90deg, #00b894, #06b6d4);
+}</code></pre>
+    </div>
+
+    <!-- 4. Striped Bar -->
+    <div class="component-card" data-name="striped pattern animated progress bar" data-cat="animated">
+      <div class="card-top">
+        <span class="card-label">Striped Bar</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-progress-stack">
+          <div class="demo-bar-row">
+            <div class="pb-track pb-track-lg"><div class="pb-fill pb-accent pb-striped" style="width:65%;"></div></div>
+            <span class="pb-pct">65%</span>
+          </div>
+          <div class="demo-bar-row">
+            <div class="pb-track pb-track-lg"><div class="pb-fill pb-green pb-striped" style="width:80%;"></div></div>
+            <span class="pb-pct">80%</span>
+          </div>
+          <div class="demo-bar-row">
+            <div class="pb-track pb-track-lg"><div class="pb-fill pb-purple pb-striped pb-striped-anim" style="width:50%;"></div></div>
+            <span class="pb-pct">50%</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Diagonal stripe pattern on the fill — the bottom bar also has animated moving stripes.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('pb4', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('pb4', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="pb4" class="code-block"><code>&lt;div class="progress-track"&gt;
+  &lt;div class="progress-fill striped animated" style="width:65%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+.progress-fill.striped {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 8px,
+    rgba(255,255,255,0.2) 8px,
+    rgba(255,255,255,0.2) 16px
+  );
+}
+.progress-fill.animated {
+  animation: stripes 0.8s linear infinite;
+  background-size: 28px 28px;
+}
+@keyframes stripes {
+  from { background-position: 0 0; }
+  to   { background-position: 28px 0; }
+}</code></pre>
+    </div>
+
+    <!-- 5. Thin Indeterminate -->
+    <div class="component-card" data-name="indeterminate loading infinite animated bar" data-cat="animated">
+      <div class="card-top">
+        <span class="card-label">Indeterminate / Loading</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-progress-stack" style="gap:20px;">
+          <div>
+            <p class="demo-sub-label">Thin</p>
+            <div class="pb-track pb-track-thin"><div class="pb-fill pb-accent pb-indeterminate"></div></div>
+          </div>
+          <div>
+            <p class="demo-sub-label">Medium</p>
+            <div class="pb-track"><div class="pb-fill pb-purple pb-indeterminate"></div></div>
+          </div>
+          <div>
+            <p class="demo-sub-label">Thick</p>
+            <div class="pb-track pb-track-lg"><div class="pb-fill pb-green pb-indeterminate"></div></div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">An infinite bouncing bar for unknown-duration operations like fetching data or file uploads.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('pb5', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('pb5', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="pb5" class="code-block"><code>&lt;div class="progress-track"&gt;
+  &lt;div class="progress-fill indeterminate"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+.progress-fill.indeterminate {
+  width: 40%;
+  animation: indeterminate 1.4s ease-in-out infinite;
+}
+@keyframes indeterminate {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}</code></pre>
+    </div>
+
+    <!-- 6. Circular Progress -->
+    <div class="component-card" data-name="circular circle radial donut progress" data-cat="circular">
+      <div class="card-top">
+        <span class="card-label">Circular Progress</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-circles-row">
+          <div class="demo-circle-wrap">
+            <div class="circle-progress cp-orange" style="--pct:75;">
+              <span>75%</span>
+            </div>
+            <p>Design</p>
+          </div>
+          <div class="demo-circle-wrap">
+            <div class="circle-progress cp-purple" style="--pct:60;">
+              <span>60%</span>
+            </div>
+            <p>Code</p>
+          </div>
+          <div class="demo-circle-wrap">
+            <div class="circle-progress cp-green" style="--pct:88;">
+              <span>88%</span>
+            </div>
+            <p>Deploy</p>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">CSS-only radial progress rings — set the percentage via a CSS custom property.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('pb6', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('pb6', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="pb6" class="code-block"><code>&lt;div class="circle-progress" style="--pct: 75"&gt;
+  &lt;span&gt;75%&lt;/span&gt;
+&lt;/div&gt;
+
+.circle-progress {
+  --size: 90px;
+  --stroke: 8px;
+  --color: #eb6835;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  background: conic-gradient(
+    var(--color) calc(var(--pct) * 1%),
+    rgba(235,104,53,0.1) 0
+  );
+  position: relative;
+}
+.circle-progress::before {
+  content: '';
+  position: absolute;
+  inset: var(--stroke);
+  border-radius: 50%;
+  background: var(--card-bg);
+}</code></pre>
+    </div>
+
+    <!-- 7. Multi-colour Stacked -->
+    <div class="component-card" data-name="stacked multi segment multi color progress bar" data-cat="multi">
+      <div class="card-top">
+        <span class="card-label">Stacked / Multi-Colour</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-progress-stack">
+          <div>
+            <div class="demo-label-top" style="margin-bottom:6px;">
+              <span style="font-size:13px;color:var(--text-secondary);">Storage Used</span>
+              <span style="font-size:13px;color:var(--text-secondary);">8.2 / 15 GB</span>
+            </div>
+            <div class="pb-track pb-track-lg pb-stacked">
+              <div class="pb-seg" style="width:35%;background:#eb6835;" title="Photos 35%"></div>
+              <div class="pb-seg" style="width:22%;background:#6c5ce7;" title="Docs 22%"></div>
+              <div class="pb-seg" style="width:16%;background:#00b894;" title="Apps 16%"></div>
+              <div class="pb-seg" style="width:9%;background:#fdcb6e;" title="Other 9%"></div>
+            </div>
+            <div class="demo-stacked-legend">
+              <span class="demo-legend-dot" style="background:#eb6835;"></span>Photos
+              <span class="demo-legend-dot" style="background:#6c5ce7;"></span>Docs
+              <span class="demo-legend-dot" style="background:#00b894;"></span>Apps
+              <span class="demo-legend-dot" style="background:#fdcb6e;"></span>Other
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A multi-segment stacked bar — ideal for showing storage, budget, or category breakdowns.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('pb7', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('pb7', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="pb7" class="code-block"><code>&lt;div class="stacked-bar"&gt;
+  &lt;div class="seg" style="width:35%;background:#eb6835;"&gt;&lt;/div&gt;
+  &lt;div class="seg" style="width:22%;background:#6c5ce7;"&gt;&lt;/div&gt;
+  &lt;div class="seg" style="width:16%;background:#00b894;"&gt;&lt;/div&gt;
+  &lt;div class="seg" style="width:9%; background:#fdcb6e;"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+.stacked-bar {
+  display: flex;
+  height: 14px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--card-border);
+  gap: 2px;
+}
+.seg { height: 100%; transition: width 0.6s ease; }</code></pre>
+    </div>
+
+    <!-- 8. Step Progress -->
+    <div class="component-card" data-name="step stepper multi step progress bar checkout" data-cat="multi">
+      <div class="card-top">
+        <span class="card-label">Step Progress</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-stepper">
+          <div class="step-item step-done">
+            <div class="step-circle"><i class="fa-solid fa-check"></i></div>
+            <span>Cart</span>
+          </div>
+          <div class="step-line step-line-done"></div>
+          <div class="step-item step-done">
+            <div class="step-circle"><i class="fa-solid fa-check"></i></div>
+            <span>Details</span>
+          </div>
+          <div class="step-line step-line-done"></div>
+          <div class="step-item step-active">
+            <div class="step-circle">3</div>
+            <span>Payment</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item">
+            <div class="step-circle">4</div>
+            <span>Done</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A checkout-style step progress indicator — completed, active, and pending states included.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('pb8', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('pb8', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="pb8" class="code-block"><code>&lt;div class="stepper"&gt;
+  &lt;div class="step done"&gt;
+    &lt;div class="step-circle"&gt;✓&lt;/div&gt;
+    &lt;span&gt;Cart&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="step-line done"&gt;&lt;/div&gt;
+  &lt;div class="step active"&gt;
+    &lt;div class="step-circle"&gt;2&lt;/div&gt;
+    &lt;span&gt;Payment&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="step-line"&gt;&lt;/div&gt;
+  &lt;div class="step"&gt;
+    &lt;div class="step-circle"&gt;3&lt;/div&gt;
+    &lt;span&gt;Done&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+.stepper { display: flex; align-items: center; }
+.step { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.step-circle {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px;
+  background: var(--card-border); color: var(--text-secondary);
+  border: 2px solid var(--card-border);
+}
+.step.done .step-circle { background: #00b894; color: #fff; border-color: #00b894; }
+.step.active .step-circle { background: #eb6835; color: #fff; border-color: #eb6835; }
+.step-line { flex: 1; height: 2px; background: var(--card-border); }
+.step-line.done { background: #00b894; }</code></pre>
+    </div>
+
+    <!-- 9. Thin top bar -->
+    <div class="component-card" data-name="thin top bar page load progress bar" data-cat="animated">
+      <div class="card-top">
+        <span class="card-label">Thin Top Bar</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-topbar-wrap">
+          <div class="demo-topbar-label">Page loading…</div>
+          <div class="pb-topbar-track">
+            <div class="pb-topbar-fill pb-indeterminate"></div>
+          </div>
+          <div class="demo-topbar-label" style="margin-top:16px;">Upload progress (72%)</div>
+          <div class="pb-topbar-track">
+            <div class="pb-topbar-fill" style="width:72%;"></div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A slim top-of-page loading indicator — perfect for page transitions and file upload feedback.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('pb9', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('pb9', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="pb9" class="code-block"><code>&lt;div class="top-progress-track"&gt;
+  &lt;div class="top-progress-fill" style="width: 72%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+.top-progress-track {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(235,104,53,0.15);
+  z-index: 9999;
+}
+.top-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #eb6835, #6c5ce7);
+  border-radius: 0 2px 2px 0;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 8px rgba(235,104,53,0.5);
+}</code></pre>
+    </div>
+
+    <!-- 10. Status Colours -->
+    <div class="component-card" data-name="status color success danger warning info progress" data-cat="linear">
+      <div class="card-top">
+        <span class="card-label">Status Bars</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-progress-stack">
+          <div class="demo-label-row">
+            <div class="demo-label-top"><span class="pb-label-success">Success</span><span>92%</span></div>
+            <div class="pb-track"><div class="pb-fill pb-green" style="width:92%;"></div></div>
+          </div>
+          <div class="demo-label-row">
+            <div class="demo-label-top"><span class="pb-label-danger">Danger</span><span>34%</span></div>
+            <div class="pb-track"><div class="pb-fill pb-red" style="width:34%;"></div></div>
+          </div>
+          <div class="demo-label-row">
+            <div class="demo-label-top"><span class="pb-label-warning">Warning</span><span>58%</span></div>
+            <div class="pb-track"><div class="pb-fill pb-yellow" style="width:58%;"></div></div>
+          </div>
+          <div class="demo-label-row">
+            <div class="demo-label-top"><span class="pb-label-info">Info</span><span>76%</span></div>
+            <div class="pb-track"><div class="pb-fill pb-blue" style="width:76%;"></div></div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Progress bars in semantic status colours — success (green), danger (red), warning (amber), info (blue).</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('pb10', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('pb10', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="pb10" class="code-block"><code>&lt;div class="progress-track"&gt;
+  &lt;div class="progress-fill success" style="width:92%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+.progress-fill.success { background: #00b894; }
+.progress-fill.danger  { background: #d63031; }
+.progress-fill.warning { background: #fdcb6e; }
+.progress-fill.info    { background: #0984e3; }</code></pre>
+    </div>
+
+    <!-- 11. Interactive Slider -->
+    <div class="component-card" data-name="interactive slider draggable range progress" data-cat="animated">
+      <div class="card-top">
+        <span class="card-label">Interactive Progress</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-progress-stack" style="gap:24px;">
+          <div class="demo-interactive-row">
+            <div class="demo-label-top">
+              <span>Volume</span>
+              <span id="vol-pct">68%</span>
+            </div>
+            <input type="range" class="demo-range-input" id="vol-range" min="0" max="100" value="68" oninput="updateRange('vol-range','vol-pct','vol-bar','#eb6835')" />
+            <div class="pb-track" style="margin-top:6px;"><div class="pb-fill pb-accent" id="vol-bar" style="width:68%;transition:none;"></div></div>
+          </div>
+          <div class="demo-interactive-row">
+            <div class="demo-label-top">
+              <span>Brightness</span>
+              <span id="bri-pct">45%</span>
+            </div>
+            <input type="range" class="demo-range-input" id="bri-range" min="0" max="100" value="45" oninput="updateRange('bri-range','bri-pct','bri-bar','#6c5ce7')" />
+            <div class="pb-track" style="margin-top:6px;"><div class="pb-fill pb-purple" id="bri-bar" style="width:45%;transition:none;"></div></div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Live-updating progress bars synced to a range input — drag to see the bar respond in real time.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('pb11', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('pb11', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="pb11" class="code-block"><code>&lt;input type="range" id="myRange" min="0" max="100" value="68"
+  oninput="updateBar(this.value)"&gt;
+&lt;div class="progress-track"&gt;
+  &lt;div class="progress-fill" id="myBar" style="width:68%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+function updateBar(val) {
+  document.getElementById('myBar').style.width = val + '%';
+  document.getElementById('myPct').textContent  = val + '%';
+}</code></pre>
+    </div>
+
+    <!-- 12. Glowing bar -->
+    <div class="component-card" data-name="glow glowing neon progress bar dark" data-cat="animated">
+      <div class="card-top">
+        <span class="card-label">Glowing Bar</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview dark-preview">
+        <div class="demo-progress-stack">
+          <div class="demo-label-row">
+            <div class="demo-label-top" style="color:#e0e0e0;"><span>Attack</span><span>82%</span></div>
+            <div class="pb-track pb-track-dark"><div class="pb-fill pb-glow-orange" style="width:82%;"></div></div>
+          </div>
+          <div class="demo-label-row">
+            <div class="demo-label-top" style="color:#e0e0e0;"><span>Defense</span><span>55%</span></div>
+            <div class="pb-track pb-track-dark"><div class="pb-fill pb-glow-purple" style="width:55%;"></div></div>
+          </div>
+          <div class="demo-label-row">
+            <div class="demo-label-top" style="color:#e0e0e0;"><span>Speed</span><span>90%</span></div>
+            <div class="pb-track pb-track-dark"><div class="pb-fill pb-glow-cyan" style="width:90%;"></div></div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Neon glowing progress bars with a coloured drop shadow — made for dark dashboards and game UIs.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('pb12', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('pb12', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="pb12" class="code-block"><code>&lt;div class="progress-track dark"&gt;
+  &lt;div class="progress-fill glow-orange" style="width:82%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+.progress-fill.glow-orange {
+  background: #eb6835;
+  box-shadow: 0 0 10px #eb6835, 0 0 20px rgba(235,104,53,0.4);
+}
+.progress-fill.glow-purple {
+  background: #a29bfe;
+  box-shadow: 0 0 10px #a29bfe, 0 0 20px rgba(162,155,254,0.4);
+}
+.progress-fill.glow-cyan {
+  background: #06b6d4;
+  box-shadow: 0 0 10px #06b6d4, 0 0 20px rgba(6,182,212,0.4);
+}</code></pre>
+    </div>
+
+  </div><!-- /progress-grid -->
+
+</main>
+
+<!-- Scroll to Top -->
+<button id="scrollTopBtn" onclick="scrollToTop()">
+  <i class="fa-solid fa-chevron-up"></i>
+</button>
+
+<!-- Copy Toast -->
+<div id="copyToast" class="copy-toast"><i class="fa-solid fa-check"></i> Copied to clipboard!</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="toggles.html">Toggles</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><a href="tabs.html">Tabs</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">GitHub Repo</a></li>
+        <li><a href="#">Community</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com" />
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  /* Dark Mode */
+  const toggle = document.getElementById('darkModeToggle');
+  const icon = toggle.querySelector('i');
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    icon.className = 'fa-solid fa-sun';
+  }
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+
+  /* Sidebar */
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarBackdrop').classList.toggle('visible');
+  }
+
+  /* Scroll Top */
+  function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  window.addEventListener('scroll', () => {
+    document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 400);
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  /* Interactive range */
+  function updateRange(rangeId, pctId, barId, color) {
+    const val = document.getElementById(rangeId).value;
+    document.getElementById(pctId).textContent = val + '%';
+    document.getElementById(barId).style.width = val + '%';
+  }
+
+  /* Code Toggle */
+  function toggleCode(id, btn) {
+    const block = document.getElementById(id);
+    const isOpen = block.classList.toggle('open');
+    btn.innerHTML = isOpen
+      ? '<i class="fa-solid fa-eye-slash"></i> Hide Code'
+      : '<i class="fa-solid fa-code"></i> View Code';
+  }
+
+  /* Copy */
+  let toastTimer;
+  function copyCode(id, btn) {
+    navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+      btn.classList.add('copied');
+      const toast = document.getElementById('copyToast');
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+        btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+
+  /* Filter */
+  function filterCards(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.component-card').forEach(card => {
+      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+    });
+  }
+
+  /* Live search */
+  function liveFilter(val) {
+    const q = val.toLowerCase();
+    document.querySelectorAll('.component-card').forEach(card => {
+      const match = card.dataset.name?.toLowerCase().includes(q) ||
+                    card.querySelector('.card-label')?.textContent.toLowerCase().includes(q);
+      card.style.display = match ? '' : 'none';
+    });
+  }
+
+  /* Scroll animations */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.component-card').forEach(el => observer.observe(el));
+
+  /* Animate bars on scroll into view */
+  const barObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.pb-fill:not(.pb-indeterminate)').forEach(bar => {
+          const w = bar.style.width;
+          bar.style.width = '0';
+          setTimeout(() => { bar.style.width = w; }, 100);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.component-card').forEach(el => barObserver.observe(el));
+</script>
+</body>
+</html>
