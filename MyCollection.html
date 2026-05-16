@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>My Collection</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' sha256-Ct0viZJ2MHL+3zIYZmyWn37Rs8UvfMpfaeeCVk3C3tI= sha256-US2DsvAOjYo3YOWW6ekdI9aTm1cH7BcO4oFoLHMaUq8= sha256-v9W7KgiND3lksqeem6K4EU3GffiZPPYGVVSiXT0zNuU=; script-src-attr 'unsafe-hashes' sha256-Ct0viZJ2MHL+3zIYZmyWn37Rs8UvfMpfaeeCVk3C3tI= sha256-US2DsvAOjYo3YOWW6ekdI9aTm1cH7BcO4oFoLHMaUq8= sha256-v9W7KgiND3lksqeem6K4EU3GffiZPPYGVVSiXT0zNuU=; style-src 'self' https: 'unsafe-hashes' sha256-RyT2wnie6C+SHb0GleSBE/hAmSebXBQlPiVNu3ZPlDc= sha256-vvEHg6mWQeaw352vddJCmZcCgjXe9yXGVbgajITx4ME=; style-src-attr 'unsafe-hashes' sha256-RyT2wnie6C+SHb0GleSBE/hAmSebXBQlPiVNu3ZPlDc= sha256-vvEHg6mWQeaw352vddJCmZcCgjXe9yXGVbgajITx4ME=">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: #f5f7fb;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      color: #111;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: white;
+      border-radius: 12px;
+      color: #666;
+    }
+
+    .empty-state p {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    .empty-state a {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #4f46e5;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .collection-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .collection-item {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+    }
+
+    .collection-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .item-title {
+      padding: 15px;
+      background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+      font-weight: 600;
+      color: #111;
+    }
+
+    .item-preview {
+      padding: 20px;
+      background: white;
+      min-height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .item-actions {
+      padding: 15px;
+      background: #f9fafb;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+    }
+
+    .item-actions button {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .btn-copy {
+      background: #4f46e5;
+      color: white;
+    }
+
+    .btn-copy:hover {
+      background: #4338ca;
+    }
+
+    .btn-remove {
+      background: orange;
+      color: white;
+    }
+
+    .btn-remove:hover {
+      background: orangered;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #111;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .toast-visible {
+      opacity: 1;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 10px 16px;
+      background: #4f46e5;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .back-link:hover {
+      background: #4338ca;
+    }
+  </style>
+
+  <!-- UIverse Modular CSS Architecture -->
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/core/sanitize.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <a href="footer.html" class="back-link">← Back</a>
+  
+  <h1>My Collection</h1>
+  <p style="color: #666; margin-bottom: 20px;">Saved UI Components</p>
+
+  <div id="collection"></div>
+</div>
+
+<script>
+function showToast(message) {
+  const existing = document.getElementById("toast-notification");
+  if (existing) existing.remove();
+ 
+  const toast = document.createElement("div");
+  toast.id = "toast-notification";
+  toast.className = "toast";
+  toast.textContent = message;
+ 
+  document.body.appendChild(toast);
+ 
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      toast.classList.add("toast-visible");
+    });
+  });
+ 
+  setTimeout(() => {
+    toast.classList.remove("toast-visible");
+    setTimeout(() => toast.remove(), 300);
+  }, 2000);
+}
+
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function removeFromCollection(id) {
+  let items = JSON.parse(localStorage.getItem("collection")) || [];
+  items = items.filter(item => item.id !== id);
+  localStorage.setItem("collection", JSON.stringify(items));
+  showToast("Removed from collection");
+  renderCollection();
+}
+
+function renderCollection() {
+  let items = JSON.parse(localStorage.getItem("collection")) || [];
+  const collection = document.getElementById("collection");
+
+  if (items.length === 0) {
+    collection.innerHTML = `
+      <div class="empty-state">
+        <p>No items in your collection yet.</p>
+        <p>Go back and add some UI components!</p>
+        <a href="footer.html">Browse Footers</a>
+      </div>
+    `;
+    return;
+  }
+
+  // Build sanitized HTML for the collection grid. Use sanitizeHTML() to avoid XSS
+  let html = '<div class="collection-grid">';
+  
+  items.forEach(item => {
+    const safeContent = (typeof sanitizeHTML === 'function') ? sanitizeHTML(item.content) : '';
+    html += `
+      <div class="collection-item">
+        <div class="item-title">${escapeHtml(item.title)}</div>
+        <div class="item-preview">
+          ${safeContent}
+        </div>
+        <div class="item-actions">
+          <button class="btn-copy" onclick="copyCode(${item.id})">Copy Code</button>
+          <button class="btn-remove" onclick="removeFromCollection(${item.id})">Remove</button>
+        </div>
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  collection.innerHTML = html;
+}
+
+function copyCode(id) {
+  let items = JSON.parse(localStorage.getItem("collection")) || [];
+  let item = items.find(i => i.id === id);
+  if (item) {
+    // Copy raw component HTML to clipboard (avoid assigning user HTML into DOM)
+    navigator.clipboard.writeText(item.content);
+    
+    // Find the button and update it
+    event.target.textContent = "Copied!";
+    setTimeout(() => {
+      event.target.textContent = "Copy Code";
+    }, 1500);
+  }
+}
+renderCollection();
+</script>
+
+</body>
+</html>
+
