@@ -1,0 +1,16 @@
+FROM mcr.microsoft.com/playwright:v1.40.0-jammy
+
+WORKDIR /workspace
+
+ENV CI=1 \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright \
+    npm_config_fund=false \
+    npm_config_audit=false
+
+COPY package*.json ./
+
+RUN npm ci --no-audit --no-fund || npm install --no-audit --no-fund
+
+COPY . .
+
+RUN node -e "console.log('UIverse CI image ready')"

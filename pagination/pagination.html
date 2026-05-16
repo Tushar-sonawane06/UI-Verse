@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>UIverse Pagination — Demo</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../button.css" />
+    <link rel="stylesheet" href="pagination.css" />
+
+    <style>
+      body {
+        font-family: 'DM Sans', sans-serif;
+        margin: 0;
+        padding: 28px 16px;
+        background: linear-gradient(-45deg, #f6f7fb, #eef1f8, #f3f0ff, #fff4ed);
+        min-height: 100vh;
+      }
+      .page {
+        max-width: 980px;
+        margin: 0 auto;
+      }
+      .section {
+        background: rgba(255,255,255,0.65);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,0.6);
+        border-radius: 20px;
+        padding: 18px;
+        margin-bottom: 18px;
+      }
+      .section h2 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        font-weight: 800;
+        color: #111;
+      }
+      .demo-grid {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: 1fr;
+      }
+      .demo-info {
+        font-weight: 800;
+        color: rgba(10,10,10,0.65);
+        font-size: 13px;
+      }
+      .list-sim {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 12px;
+      }
+      .fake-card {
+        background: rgba(255,255,255,0.85);
+        border: 1px solid rgba(0,0,0,0.06);
+        border-radius: 16px;
+        padding: 14px;
+        box-shadow: 0 12px 35px rgba(0,0,0,0.04);
+      }
+      .fake-card strong {
+        display: block;
+        font-size: 14px;
+      }
+      .fake-card span {
+        font-size: 12px;
+        color: rgba(0,0,0,0.6);
+        font-weight: 700;
+      }
+
+      /* Demo: mobile hint */
+      .hint {
+        margin-top: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        color: rgba(0,0,0,0.55);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="section">
+        <h2>Pagination Component — Demo</h2>
+        <div class="demo-info">
+          Includes: Prev/Next, page numbers, ellipsis for large sets,
+          and optional items-per-page selector.
+        </div>
+      </div>
+
+      <!-- Basic pagination -->
+      <div class="section">
+        <h2>1) Basic pagination (fixed page count)</h2>
+        <div class="demo-grid">
+          <div id="pagination-basic"></div>
+          <div class="list-sim" id="list-basic"></div>
+          <div class="hint">Try clicking Next/Prev and page numbers.</div>
+        </div>
+      </div>
+
+      <!-- Ellipsis pagination -->
+      <div class="section">
+        <h2>2) Ellipsis for large page sets</h2>
+        <div class="demo-grid">
+          <div id="pagination-ellipsis"></div>
+          <div class="demo-info" id="ellipsis-meta"></div>
+          <div class="hint">On many pages, ellipsis will appear when gaps exist.</div>
+        </div>
+      </div>
+
+      <!-- Page size selector -->
+      <div class="section">
+        <h2>3) Items per page selector + update simulation</h2>
+        <div class="demo-grid">
+          <div id="pagination-size"></div>
+          <div class="list-sim" id="list-size"></div>
+          <div class="hint">Changing page size resets to page 1 and re-renders results.</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Responsive behavior (mobile)</h2>
+        <div class="demo-info">
+          On small screens, some non-adjacent page buttons may hide to reduce clutter
+          while keeping boundaries, active page, and ellipsis logic correct.
+        </div>
+      </div>
+    </div>
+
+    <script src="pagination.js"></script>
+
+    <script>
+      function renderFakeList(target, items, currentPage, pageSize) {
+        target.innerHTML = '';
+        const start = (currentPage - 1) * pageSize;
+        const pageItems = items.slice(start, start + pageSize);
+        for (const item of pageItems) {
+          const card = document.createElement('div');
+          card.className = 'fake-card';
+          card.innerHTML = `
+            <strong>${item.title}</strong>
+            <span>${item.tag}</span>
+          `;
+          target.appendChild(card);
+        }
+      }
+
+      // Build a fake dataset
+      const dataset = Array.from({ length: 95 }, (_, i) => ({
+        title: `Product ${i + 1}`,
+        tag: `Row #${i + 1}`
+      }));
+
+      // 1) Basic
+      const basic = Pagination.create({
+        container: '#pagination-basic',
+        totalItems: 45,
+        pageSize: 5,
+        maxVisiblePages: 7,
+        onPageChange: ({ page, pageSize }) => {
+          renderFakeList(document.getElementById('list-basic'), dataset.slice(0, 45), page, pageSize);
+        }
+      });
+
+      // Initial render for list
+      renderFakeList(document.getElementById('list-basic'), dataset.slice(0, 45), 1, 5);
+
+      // 2) Ellipsis
+      const ellipsis = Pagination.create({
+        container: '#pagination-ellipsis',
+        totalItems: 400,
+        pageSize: 10,
+        maxVisiblePages: 7,
+        onPageChange: ({ page, totalPages }) => {
+          document.getElementById('ellipsis-meta').textContent = `Active page: ${page} / ${totalPages}`;
+        }
+      });
+      document.getElementById('ellipsis-meta').textContent = `Active page: 1 / ${Math.ceil(400 / 10)}`;
+
+      // 3) Items per page selector
+      const size = Pagination.create({
+        container: '#pagination-size',
+        totalItems: 95,
+        pageSize: 10,
+        maxVisiblePages: 7,
+        showPageSizeSelector: true,
+        pageSizeOptions: [5, 10, 20, 25],
+        onPageChange: ({ page, pageSize }) => {
+          renderFakeList(document.getElementById('list-size'), dataset, page, pageSize);
+        }
+      });
+
+      renderFakeList(document.getElementById('list-size'), dataset, 1, 10);
+    </script>
+  </body>
+</html>
+
