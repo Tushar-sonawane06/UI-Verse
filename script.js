@@ -609,16 +609,24 @@ function handleSearch(event) {
 /* ================= DARK MODE ================= */
 // Uses a single toggle element id ("theme-toggle") and the "dark-mode" class.
 function loadTheme() {
-  const themeToggle = document.getElementById("theme-toggle");
+  const themeToggles = document.querySelectorAll("#darkModeToggle, .theme-toggle");
   const saved = localStorage.getItem("theme");
+  const isDark = saved === "dark";
 
-  if (saved === "dark") {
+  if (isDark) {
     document.body.classList.add("dark-mode");
-    if (themeToggle) themeToggle.innerText = "☀️ Light Mode";
   } else {
     document.body.classList.remove("dark-mode");
-    if (themeToggle) themeToggle.innerText = "🌙 Dark Mode";
   }
+
+  themeToggles.forEach(themeToggle => {
+    const icon = themeToggle.querySelector('i');
+    if (icon) {
+      icon.className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
+    } else {
+      themeToggle.innerText = isDark ? "☀️ Light Mode" : "🌙 Dark Mode";
+    }
+  });
 }
 
 function initDarkMode() {
@@ -631,15 +639,15 @@ function initDarkMode() {
 
   loadTheme();
 
-  const themeToggle = document.getElementById("theme-toggle");
-  if (themeToggle) {
+  const themeToggles = document.querySelectorAll("#darkModeToggle, .theme-toggle");
+  themeToggles.forEach(themeToggle => {
     themeToggle.addEventListener("click", () => {
       document.body.classList.toggle("dark-mode");
       const isDark = document.body.classList.contains("dark-mode");
       localStorage.setItem("theme", isDark ? "dark" : "light");
-      themeToggle.innerText = isDark ? "☀️ Light Mode" : "🌙 Dark Mode";
+      loadTheme();
     });
-  }
+  });
 }
 
 
@@ -716,111 +724,4 @@ window.addEventListener("DOMContentLoaded", () => {
   initSearchFilter();
 });
 
-// DARK MODE
-  const toggle = document.getElementById('darkModeToggle');
-  const icon = toggle.querySelector('i');
 
-  if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-mode');
-    icon.className = 'fa-solid fa-sun';
-  }
-
-  toggle.addEventListener('click', () => {
-
-    document.body.classList.toggle('dark-mode');
-
-    const isDark = document.body.classList.contains('dark-mode');
-
-    icon.className = isDark
-      ? 'fa-solid fa-sun'
-      : 'fa-solid fa-moon';
-
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-
-  });
-
-
-  // SIDEBAR
-  function toggleSidebar() {
-
-    document.getElementById('sidebar').classList.toggle('open');
-
-    document.getElementById('sidebarBackdrop')
-      .classList.toggle('visible');
-
-  }
-
-
-  // SCROLL TOP
-  function scrollToTop() {
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-
-  }
-  // SHOW BUTTON
-  window.addEventListener('scroll', () => {
-
-    document.getElementById('scrollTopBtn')
-      .classList.toggle('visible', window.scrollY > 400);
-
-    document.getElementById('navbar')
-      .classList.toggle('scrolled', window.scrollY > 40);
-
-  });
-
-  // TOGGLE CODE
-  function toggleCode(id, btn) {
-
-    const block = document.getElementById(id);
-
-    const isOpen = block.classList.toggle('open');
-
-    btn.innerHTML = isOpen
-      ? '<i class="fa-solid fa-eye-slash"></i> Hide Code'
-      : '<i class="fa-solid fa-code"></i> View Code';
-
-  }
-
-  // COPY CODE
-  function copyCode(id, btn) {
-
-    navigator.clipboard.writeText(
-      document.getElementById(id).innerText
-    ).then(() => {
-
-      btn.innerHTML =
-        '<i class="fa-solid fa-check"></i> Copied!';
-
-      btn.classList.add('copied');
-
-      setTimeout(() => {
-
-        btn.innerHTML =
-          '<i class="fa-solid fa-copy"></i> Copy';
-
-        btn.classList.remove('copied');
-
-      }, 2000);
-
-    });
-
-  }
-
-  // SCROLL ANIMATION
-  const observer = new IntersectionObserver(entries => {
-
-    entries.forEach(e => {
-
-      if (e.isIntersecting) {
-        e.target.classList.add('in-view');
-      }
-
-    });
-
-  }, { threshold: 0.08 });
-
-  document.querySelectorAll('.form-component-card')
-    .forEach(el => observer.observe(el));
