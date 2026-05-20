@@ -19,3 +19,4 @@ Add screenshots if the change affects the UI.
 - [ ] Code follows project style
 - [ ] Tested locally
 - [ ] No unrelated changes included
+- [ ] If component behavior/UI changed, metadata version and changelog were updated (`npm run components:version:check`)

@@ -3,66 +3,264 @@ import React from 'react';
 export default function badges(){
   return (
     <>
-      <i className="fa-solid fa-bars menu-toggle" id="menuToggle"></i>
-          <aside className="sidebar">
-          <h2>UIverse</h2>
-          <ul>
-            <li><a href="profile.html"><i className="fa-regular fa-circle-user"></i><p>Profile</p></a></li>
-            <li><a href="index.html"><i className="fa-solid fa-house"></i><p>Home</p></a></li>
-            <li><a href="button.html"><i className="fa-solid fa-mobile-button"></i><p>Butttons</p></a></li>
-            <li><a href="navbar.html"><i className="fa-solid fa-bars"></i><p>Navbar</p></a></li>
-            <li><a href="contact.html"><i className="fa-regular fa-user"></i><p>Contact Us</p></a></li>
-            <li><a href="forms.html"><i className="fa-brands fa-wpforms"></i><p>Forms</p></a></li>
-            <li><a href="badges.html"><i className="fa-solid fa-award"></i><p>Badges</p></a></li>
-            <li><a href="about.html"><i className="fa-solid fa-mobile-button"></i><p>About</p></a></li>
-            <li><a href="settings.html"><i className="fa-solid fa-gear"></i><p>Settings</p></a></li>
-          </ul>
-        </aside>
+      <main className="badges-page">
       
+          <div className="page-header">
+            <h1>🏆 My Badges</h1>
+            <p>Track your achievements and contribution progress</p>
+          </div>
+      
+          {/* ================= BADGES HERO ================= */}
+      <section className="badges-hero">
+        <div className="badges-hero-content">
+      
+          <div className="badges-hero-left">
+            <span className="hero-chip">
+              <i className="fa-solid fa-award"></i>
+              Achievement System
+            </span>
+      
+            <h1>
+              Unlock <span>Badges</span><br />
+              Build Your Reputation
+            </h1>
+      
+            <p>
+              Track contributions, maintain streaks, complete challenges,
+              and showcase your developer achievements with modern collectible badges.
+            </p>
+      
+            <div className="hero-actions">
+              <button className="hero-btn primary">
+                <i className="fa-solid fa-trophy"></i>
+                Explore Rewards
+              </button>
+      
+              <button className="hero-btn secondary">
+                <i className="fa-solid fa-fire"></i>
+                View Streaks
+              </button>
+            </div>
+      
+            <div className="hero-stats">
+              <div className="hero-stat">
+                <h3>28</h3>
+                <span>Badges Earned</span>
+              </div>
+      
+              <div className="hero-stat">
+                <h3>94%</h3>
+                <span>Completion Rate</span>
+              </div>
+      
+              <div className="hero-stat">
+                <h3>#12</h3>
+                <span>Global Rank</span>
+              </div>
+            </div>
+          </div>
+      
+          <div className="badges-hero-right">
+      
+            <div className="floating-badge fb-1">
+              <i className="fa-solid fa-fire"></i>
+            </div>
+      
+            <div className="floating-badge fb-2">
+              <i className="fa-solid fa-crown"></i>
+            </div>
+      
+            <div className="floating-badge fb-3">
+              <i className="fa-solid fa-shield-halved"></i>
+            </div>
+      
+            <div className="hero-card-glow"></div>
+      
+            <div className="hero-preview-card">
+      
+              <div className="hero-preview-top">
+                <div className="hero-user">
+                  <div className="hero-avatar">D</div>
+      
+                  <div>
+                    <h4>Dipanita</h4>
+                    <p>Frontend Developer</p>
+                  </div>
+                </div>
+      
+                <span className="xp-pill">
+                  <i className="fa-solid fa-bolt"></i>
+                  4,820 XP
+                </span>
+              </div>
+      
+              <div className="hero-badge-grid">
+      
+                <div className="mini-badge gold">
+                  <i className="fa-solid fa-code-pull-request"></i>
+                </div>
+      
+                <div className="mini-badge purple">
+                  <i className="fa-solid fa-fire"></i>
+                </div>
+      
+                <div className="mini-badge blue">
+                  <i className="fa-solid fa-users"></i>
+                </div>
+      
+                <div className="mini-badge green">
+                  <i className="fa-solid fa-bug-slash"></i>
+                </div>
+      
+                <div className="mini-badge orange">
+                  <i className="fa-solid fa-medal"></i>
+                </div>
+      
+                <div className="mini-badge cyan">
+                  <i className="fa-solid fa-shield-halved"></i>
+                </div>
+      
+              </div>
+      
+              <div className="hero-progress-wrap">
+                <div className="hero-progress-top">
+                  <span>Level Progress</span>
+                  <span>82%</span>
+                </div>
+      
+                <div className="hero-progress-bar">
+                  <div className="hero-progress-fill"></div>
+                </div>
+              </div>
+      
+            </div>
+      
+          </div>
+      
+        </div>
+      </section>
+      
+          {/* Earned */}
+          <section className="badge-section">
+            <h2>Earned Badges</h2>
       <section className="badges-page">
-        <h1>🏆 My Badges</h1>
+        <h1><i className="fa-solid fa-trophy"></i> My Badges</h1>
       
-        <h2>Earned Badges</h2>
+        <h2><i className="fa-solid fa-medal"></i> Earned Badges</h2>
         <div className="badge-container">
           
           <div className="badge">
-            <img src="badge1.jpg" alt="First PR badge icon" />
+            <picture><source type="image/avif" srcset="generated-images/badge1/badge1-320.avif 320w, generated-images/badge1/badge1-480.avif 480w, generated-images/badge1/badge1-768.avif 768w, generated-images/badge1/badge1-1024.avif 1024w, generated-images/badge1/badge1-1300.avif 1300w" sizes="(max-width: 768px) 96px, 160px"><source type="image/webp" srcset="generated-images/badge1/badge1-320.webp 320w, generated-images/badge1/badge1-480.webp 480w, generated-images/badge1/badge1-768.webp 768w, generated-images/badge1/badge1-1024.webp 1024w, generated-images/badge1/badge1-1300.webp 1300w" sizes="(max-width: 768px) 96px, 160px"><img src="generated-images/badge1/badge1-optimized-1300.jpg" alt="First PR badge icon" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async" width="1300" height="1390" /></picture>
             <h3>First PR</h3>
             <p>Completed your first pull request</p>
           </div>
       
           <div className="badge">
-             <img src="badge2.jpg" alt="Contributor badge icon" />
+             <picture><source type="image/avif" srcset="generated-images/badge2/badge2-212.avif 212w" sizes="(max-width: 768px) 96px, 160px"><source type="image/webp" srcset="generated-images/badge2/badge2-212.webp 212w" sizes="(max-width: 768px) 96px, 160px"><img src="generated-images/badge2/badge2-optimized-212.jpg" alt="Contributor badge icon" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async" width="212" height="238" /></picture>
             <h3>Contributor</h3>
             <p>Contributed to 10 PRs</p>
           </div>
       
-        </div>
+            <div className="badge-container">
       
-        {/* In Progress */}
-        <h2 className="prog-1">In Progress</h2>
-        <div className="badge-container">
+              <div className="badge earned">
+                <div className="badge-img">
+                  <img src="badge1.jpg" alt="First PR Badge" />
+                </div>
       
+                <h3>First PR</h3>
+                <p>Completed your first pull request</p>
           <div className="badge progress">
-            <img src="time.png" alt="Top Contributor badge with progress indicator" />
+            <picture><source type="image/avif" srcset="generated-images/time/time-320.avif 320w, generated-images/time/time-480.avif 480w, generated-images/time/time-512.avif 512w" sizes="(max-width: 768px) 96px, 160px"><source type="image/webp" srcset="generated-images/time/time-320.webp 320w, generated-images/time/time-480.webp 480w, generated-images/time/time-512.webp 512w" sizes="(max-width: 768px) 96px, 160px"><img src="generated-images/time/time-optimized-512.png" alt="Top Contributor badge with progress indicator" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async" width="512" height="512" /></picture>
             <h3>Top Contributor</h3>
             <p>14/50 PRs completed</p>
             <progress value="14" max="50"></progress>
           </div>
       
-        </div>
+                <span className="badge-status success">
+                  <i className="fa-solid fa-circle-check"></i>
+                  Unlocked
+                </span>
+              </div>
       
+              <div className="badge earned">
+                <div className="badge-img">
+                  <img src="badge2.jpg" alt="Contributor Badge" />
+                </div>
+      
+                <h3>Contributor</h3>
+                <p>Contributed to 10 pull requests</p>
+      
+                <span className="badge-status success">
+                  <i className="fa-solid fa-circle-check"></i>
+                  Unlocked
+                </span>
+              </div>
+      
+            </div>
+          </section>
+      
+          {/* Progress */}
+          <section className="badge-section">
+            <h2>In Progress</h2>
+      
+            <div className="badge-container">
+      
+              <div className="badge progress-card">
+      
+                <div className="badge-img">
+                  <img src="time.png" alt="Progress Badge" />
+                </div>
+      
+                <h3>Top Contributor</h3>
+                <p>14 / 50 PRs completed</p>
+      
+                <div className="progress-wrapper">
+                  <progress value="14" max="50"></progress>
+                  <span>28%</span>
+                </div>
+      
+              </div>
+      
+            </div>
+          </section>
+      
+          {/* Locked */}
+          <section className="badge-section">
+            <h2>Locked Badges</h2>
+      
+            <div className="badge-container">
+      
+              <div className="badge locked">
+      
+                <div className="badge-img">
+                  <img src="lock.jpg" alt="Locked Badge" />
+                </div>
+      
+                <h3>Elite Hacker</h3>
+                <p>Complete 100 PRs to unlock</p>
+      
+                <span className="badge-status locked-status">
+                  <i className="fa-solid fa-lock"></i>
+                  Locked
+                </span>
+      
+              </div>
+      
+            </div>
+          </section>
         {/* Earned Badges */}
       <h2>✨ Earned Badges</h2>
       <div className="badge-container">
       
-        <div className="badge gold">
+        <div className="badge gold" data-collectible="badge-first-pr">
           <div className="badge-icon">
             <i className="fa-solid fa-code-pull-request"></i>
           </div>
           <h3>First PR</h3>
           <p>Completed your first pull request</p>
           <span className="badge-tag">Unlocked</span>
+          <button className="collect-btn" data-action="add" aria-label="Add to collection">👉 Save</button>
         </div>
       
         <div className="badge blue">
@@ -164,119 +362,12 @@ export default function badges(){
         <div className="badge-container">
       
           <div className="badge locked">
-            <img src="lock.jpg" alt="Elite Hacker locked badge icon" />
+            <picture><source type="image/avif" srcset="generated-images/lock/lock-320.avif 320w, generated-images/lock/lock-480.avif 480w, generated-images/lock/lock-612.avif 612w" sizes="(max-width: 768px) 96px, 160px"><source type="image/webp" srcset="generated-images/lock/lock-320.webp 320w, generated-images/lock/lock-480.webp 480w, generated-images/lock/lock-612.webp 612w" sizes="(max-width: 768px) 96px, 160px"><img src="generated-images/lock/lock-optimized-612.jpg" alt="Elite Hacker locked badge icon" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async" width="612" height="612" /></picture>
             <h3>Elite Hacker</h3>
             <p>Complete 100 PRs</p>
           </div>
       
-        </div>
-      
-      </section>
-      
-        {/* UIverse Modular Scripts */}
-        <script src="js/core/utils.js"></script>
-        <script src="js/features/toast.js"></script>
-        <script src="js/features/popup.js"></script>
-        <script src="js/features/code-tools.js"></script>
-        <script src="js/features/sidebar.js"></script>
-        <script src="js/features/search.js"></script>
-        <script src="js/features/theme.js"></script>
-        <script src="js/features/scroll.js"></script>
-        <script src="js/features/alerts.js"></script>
-        <script src="js/features/sandbox.js"></script>
-        <script src="js/features/accessibility.js"></script>
-      <script src="js/bootstrap.js"></script>
-      
-        {/* ================= FOOTER ================= */}
-      <footer className="footer">
-        <div className="footer-container">
-      
-          <div className="footer-col brand">
-            <h2 className="footer-logo">⬡ UIverse</h2>
-            <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
-            <div className="socials">
-              <a href="#" title="GitHub"><i className="fab fa-github"></i></a>
-              <a href="#" title="LinkedIn"><i className="fab fa-linkedin"></i></a>
-              <a href="#" title="Twitter"><i className="fab fa-x-twitter"></i></a>
-            </div>
-          </div>
-      
-          <div className="footer-col">
-            <h3>Explore</h3>
-            <ul>
-              <li><a href="button.html">Buttons</a></li>
-              <li><a href="navbar.html">Navbars</a></li>
-              <li><a href="cards.html">Cards</a></li>
-              <li><a href="inputs.html">Inputs</a></li>
-              <li><a href="forms.html">Forms</a></li>
-            </ul>
-          </div>
-      
-          <div className="footer-col">
-            <h3>Resources</h3>
-            <ul>
-              <li><a href="#">Documentation</a></li>
-              <li><a href="#">Contribute</a></li>
-              <li><a href="#">GitHub Repo</a></li>
-              <li><a href="#">Community</a></li>
-            </ul>
-          </div>
-      
-          <div className="footer-col">
-            <h3>Legal</h3>
-            <ul>
-              <li><a href="privacypolicy.html">Privacy Policy</a></li>
-              <li><a href="terms.html">Terms of Service</a></li>
-              <li><a href="#">License</a></li>
-            </ul>
-          </div>
-      
-          <div className="footer-col newsletter">
-            <h3>Stay Updated</h3>
-            <p>Get notified when new components drop.</p>
-            <div className="newsletter-form">
-              <input type="email" placeholder="your@email.com" />
-              <button type="button" onclick="subscribe()">Subscribe</button>
-            </div>
-          </div>
-      
-        </div>
-      
-        <div className="footer-bottom">
-          <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
-        </div>
-      </footer>
-      
-      {/* ================= COMMAND PALETTE ================= */}
-      <div id="commandPaletteOverlay" className="command-palette-overlay">
-        <div className="command-palette-container">
-          <div className="command-palette-input-wrapper">
-            <i className="fa-solid fa-magnifying-glass"></i>
-            <input 
-              type="text" 
-              id="commandPaletteInput" 
-              className="command-palette-input" 
-              placeholder="Search components... (Cmd+K)"
-              autocomplete="off"
-            />
-          </div>
-          <ul id="commandPaletteResults" className="command-palette-results"></ul>
-          <div className="command-palette-footer">
-            <div className="command-palette-footer-item">
-              <span className="command-palette-footer-kbd">↑↓</span>
-              <span>Navigate</span>
-            </div>
-            <div className="command-palette-footer-item">
-              <span className="command-palette-footer-kbd">⏎</span>
-              <span>Select</span>
-            </div>
-            <div className="command-palette-footer-item">
-              <span className="command-palette-footer-kbd">Esc</span>
-              <span>Close</span>
-            </div>
-          </div>
-        </div>
-      </div>
+        </main>
     </>
   );
 }

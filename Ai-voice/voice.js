@@ -12,30 +12,40 @@ const translatedText =
 
 let listening = false;
 
-micBtn.addEventListener("click", () => {
+if (micBtn) {
+  micBtn.addEventListener("click", () => {
 
-  listening = !listening;
+    listening = !listening;
 
-  if(listening){
+    if(listening){
 
-    micBtn.classList.add("active");
+      micBtn.classList.add("active");
 
-    status.textContent =
-      "Listening...";
+      if (status) {
+        status.textContent =
+          "Listening...";
+      }
 
-    inputText.textContent =
-      "Good morning";
+      if (inputText) {
+        inputText.textContent =
+          "Good morning";
+      }
 
-    translatedText.textContent =
-      "सुप्रभात";
+      if (translatedText) {
+        translatedText.textContent =
+          "सुप्रभात";
+      }
 
-  } else {
+    } else {
 
-    micBtn.classList.remove("active");
+      micBtn.classList.remove("active");
 
-    status.textContent =
-      "Tap microphone to start speaking";
+      if (status) {
+        status.textContent =
+          "Tap microphone to start speaking";
+      }
 
-  }
+    }
 
-});
+  });
+}

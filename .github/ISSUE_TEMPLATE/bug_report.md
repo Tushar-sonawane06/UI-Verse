@@ -1,27 +1,42 @@
 ---
-name: Bug report
-about: Report a reproducible bug or broken behavior
-title: "[Bug]: "
-labels: bug
+name: "Bug Report"
+about: "Report a bug to help us improve UIverse"
+title: "[BUG] "
+labels: "bug"
 assignees: ""
 ---
 
-## Problem
-Describe the bug clearly.
+## Bug Description
 
-## Current Behavior
-What happens today?
+A clear and concise description of what the bug is.
+
+## Steps To Reproduce
+
+Steps to reproduce the behavior:
+
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
 
 ## Expected Behavior
-What should happen instead?
 
-## Steps to Reproduce
-1. 
-2. 
-3. 
+A clear and concise description of what you expected to happen.
+
+## Actual Behavior
+
+What actually happened instead.
 
 ## Screenshots
-Add screenshots if they help explain the issue.
+
+If applicable, add screenshots to help explain your problem.
+
+## Environment
+
+- **Browser:** [e.g. Chrome 120, Firefox 121]
+- **OS:** [e.g. Windows 11, macOS Sonoma]
+- **Screen Size:** [e.g. 1920x1080, mobile]
 
 ## Additional Context
-Share any other details that might help reproduce the problem.
+
+Add any other context about the problem here.

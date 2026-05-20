@@ -1,6 +1,6 @@
 /**
  * Component Gallery Feature
- * Manages component card filtering, searching, and collection functionality
+ * Manages component card filtering, searching, collection, and favorites functionality
  */
 
 const ComponentGallery = {
@@ -11,13 +11,24 @@ const ComponentGallery = {
       selectedTags: new Set(),
       searchQuery: ''
     },
+    searchState: {
+      results: [],
+      activeIndex: -1,
+      panelOpen: false
+    },
+    searchIndex: [],
     elementSelectors: {
       componentCard: '.component-card',
       filterBar: '.filter-bar',
       searchInput: '#searchInput',
+      searchResults: '#componentSearchResults',
       categoryFilter: '.category-filters',
       tagFilter: '.tag-filters'
     }
+  },
+
+  _storageKeys: {
+    favorites: 'uiVerseFavorites'
   },
 
   /**
@@ -34,7 +45,10 @@ const ComponentGallery = {
 
     this._normalizeCardMetadata();
     this._injectCopyButtons();
+    this._ensureCardIdentifiers();
+    this._buildSearchIndex();
     this._insertCollectionButtons();
+    this._insertFavoriteButtons();
     this._createFilterUI();
     this._initSearchFilter();
     this._injectSmartFilterStyles();
@@ -59,6 +73,126 @@ const ComponentGallery = {
       .replace(/[^a-z0-9\s-]/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
+  },
+
+  _normalizeId(value) {
+    return String(value || '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  },
+
+  _splitTerms(value) {
+    return String(value || '')
+      .split(/[,|;]/g)
+      .map((item) => this._normalizeToken(item))
+      .filter(Boolean);
+  },
+
+  _levenshteinDistance(a, b) {
+    const left = String(a || '');
+    const right = String(b || '');
+    if (!left.length) return right.length;
+    if (!right.length) return left.length;
+
+    const matrix = Array.from({ length: left.length + 1 }, () => new Array(right.length + 1).fill(0));
+    for (let i = 0; i <= left.length; i += 1) matrix[i][0] = i;
+    for (let j = 0; j <= right.length; j += 1) matrix[0][j] = j;
+
+    for (let i = 1; i <= left.length; i += 1) {
+      for (let j = 1; j <= right.length; j += 1) {
+        const cost = left[i - 1] === right[j - 1] ? 0 : 1;
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j - 1] + cost
+        );
+      }
+    }
+
+    return matrix[left.length][right.length];
+  },
+
+  _similarityScore(query, candidate) {
+    const normalizedQuery = this._normalizeToken(query);
+    const normalizedCandidate = this._normalizeToken(candidate);
+    if (!normalizedQuery || !normalizedCandidate) return 0;
+
+    if (normalizedCandidate === normalizedQuery) return 1;
+
+    if (normalizedCandidate.includes(normalizedQuery)) {
+      return Math.max(0.82, normalizedQuery.length / normalizedCandidate.length);
+    }
+
+    const distance = this._levenshteinDistance(normalizedQuery, normalizedCandidate);
+    const longest = Math.max(normalizedQuery.length, normalizedCandidate.length);
+    return longest ? Math.max(0, 1 - distance / longest) : 0;
+  },
+
+  _buildSearchIndex() {
+    this._state.searchIndex = this._getComponentCards().map((card, index) => {
+      const title = card.querySelector('.card-label, h3, h2, h4')?.textContent || card.dataset.name || 'Component';
+      const aliases = this._splitTerms(card.dataset.aliases || card.dataset.alias || card.dataset.keywords || '');
+      const tags = this._splitTerms(card.dataset.tags || '');
+      const category = this._normalizeToken(card.dataset.cat || 'component');
+      const description = this._normalizeToken(card.querySelector('.card-desc, p')?.textContent || '');
+      const searchableText = this._normalizeToken([title, category, description, tags.join(' '), aliases.join(' ')].join(' '));
+
+      return {
+        id: card.dataset.componentId || String(index),
+        card,
+        index,
+        title: this._normalizeToken(title),
+        displayTitle: title,
+        category,
+        tags,
+        aliases,
+        description,
+        searchableText,
+        rawText: [title, category, description, tags.join(' '), aliases.join(' ')].join(' ')
+      };
+    });
+  },
+
+  _scoreSearchEntry(query, entry) {
+    const normalizedQuery = this._normalizeToken(query);
+    if (!normalizedQuery) return 0;
+
+    let score = 0;
+    const queryTerms = normalizedQuery.split(' ').filter(Boolean);
+    const candidateText = entry.searchableText;
+
+    if (candidateText.includes(normalizedQuery)) {
+      score += 80;
+      score += Math.max(0, 20 - candidateText.indexOf(normalizedQuery));
+    }
+
+    queryTerms.forEach((term) => {
+      if (candidateText.includes(term)) {
+        score += 15;
+        return;
+      }
+
+      const bestMatch = [entry.title, entry.category, entry.description, ...entry.tags, ...entry.aliases]
+        .reduce((best, candidate) => Math.max(best, this._similarityScore(term, candidate)), 0);
+      score += bestMatch * 12;
+    });
+
+    const titleScore = this._similarityScore(normalizedQuery, entry.title) * 26;
+    const categoryScore = this._similarityScore(normalizedQuery, entry.category) * 14;
+    const tagScore = entry.tags.reduce((best, tag) => Math.max(best, this._similarityScore(normalizedQuery, tag) * 18), 0);
+    const aliasScore = entry.aliases.reduce((best, alias) => Math.max(best, this._similarityScore(normalizedQuery, alias) * 22), 0);
+
+    return score + titleScore + categoryScore + tagScore + aliasScore;
+  },
+
+  _getSuggestedEntries(query, limit = 4) {
+    return this._state.searchIndex
+      .map((entry) => ({ entry, score: this._scoreSearchEntry(query, entry) }))
+      .filter(({ score }) => score > 0)
+      .sort((left, right) => right.score - left.score)
+      .slice(0, limit)
+      .map(({ entry }) => entry);
   },
 
   /**
@@ -149,6 +283,117 @@ const ComponentGallery = {
     });
   },
 
+  _ensureCardIdentifiers() {
+    const pageKey = typeof getCurrentPageName === 'function'
+      ? getCurrentPageName()
+      : window.location.pathname.split('/').pop() || 'component';
+
+    this._getComponentCards().forEach((card, index) => {
+      if (!card.dataset.componentId || !card.dataset.componentId.trim()) {
+        const label = card.querySelector('.card-label, h3, h2, h4')?.textContent || card.dataset.name || `component ${index + 1}`;
+        const tags = card.dataset.tags || '';
+        card.dataset.componentId = this._normalizeId([pageKey, label, tags].filter(Boolean).join(' '));
+      } else {
+        card.dataset.componentId = this._normalizeId(card.dataset.componentId);
+      }
+    });
+  },
+
+  _getFavorites() {
+    if (window.Favorites && typeof window.Favorites.getFavoriteIds === 'function') {
+      return window.Favorites.getFavoriteIds();
+    }
+
+    try {
+      const raw = localStorage.getItem(this._storageKeys.favorites);
+      const parsed = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(parsed)) return [];
+
+      return parsed
+        .map((item) => {
+          if (typeof item === 'string') return this._normalizeId(item);
+          if (item && typeof item === 'object') return this._normalizeId(item.id || item.componentId);
+          return '';
+        })
+        .filter(Boolean);
+    } catch (e) {
+      if (window.UIVERSE_DEBUG) console.error('getFavorites error', e);
+      return [];
+    }
+  },
+
+  _setFavorites(favorites) {
+    const normalized = Array.from(new Set((favorites || []).map((id) => this._normalizeId(id)).filter(Boolean)));
+    localStorage.setItem(this._storageKeys.favorites, JSON.stringify(normalized));
+    return normalized;
+  },
+
+  _isFavorite(componentId) {
+    const normalizedId = this._normalizeId(componentId);
+    if (!normalizedId) return false;
+    return this._getFavorites().includes(normalizedId);
+  },
+
+  _updateFavoriteButtonState(button, isActive) {
+    if (!button) return;
+
+    button.classList.toggle('is-favorited', Boolean(isActive));
+    button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    button.innerHTML = isActive
+      ? '<i class="fa-solid fa-star"></i> Favorite'
+      : '<i class="fa-regular fa-star"></i> Favorite';
+  },
+
+  _syncFavoriteButtons() {
+    this._getComponentCards().forEach((card) => {
+      const favoriteButton = card.querySelector('.favorite-btn');
+      if (!favoriteButton) return;
+
+      this._updateFavoriteButtonState(favoriteButton, this._isFavorite(card.dataset.componentId));
+    });
+  },
+
+  _toggleFavoriteFromCard(button) {
+    const card = button?.closest?.('.component-card');
+    if (!card) return;
+
+    if (window.Favorites && typeof window.Favorites.toggleFromCard === 'function') {
+      window.Favorites.toggleFromCard(card);
+      this._syncFavoriteButtons();
+      this._applyFilters();
+      return;
+    }
+
+    try {
+      const componentId = this._normalizeId(card.dataset.componentId);
+      if (!componentId) return;
+
+      const title = card.querySelector('.card-label')?.textContent || card.dataset.name || 'Component';
+      const favorites = this._getFavorites();
+      const exists = favorites.includes(componentId);
+
+      if (exists) {
+        this._setFavorites(favorites.filter((id) => id !== componentId));
+        if (typeof showToast === 'function') {
+          showToast(title + ' removed from favorites');
+        }
+      } else {
+        this._setFavorites([...favorites, componentId]);
+        if (typeof showToast === 'function') {
+          showToast(title + ' added to favorites');
+        }
+      }
+
+      this._syncFavoriteButtons();
+      this._applyFilters();
+    } catch (e) {
+      if (window.UIVERSE_DEBUG) console.error('toggleFavoriteFromCard error', e);
+      if (typeof showToast === 'function') {
+        showToast('Failed to update favorites');
+      }
+    }
+  },
+
   /**
    * Inject copy buttons for code blocks
    * @private
@@ -212,6 +457,32 @@ const ComponentGallery = {
       });
     } catch (e) {
       if (window.UIVERSE_DEBUG) console.error('insertCollectionButtons', e);
+    }
+  },
+
+  _insertFavoriteButtons() {
+    try {
+      this._getComponentCards().forEach((card) => {
+        if (card.querySelector('.favorite-btn')) return;
+
+        const actions = card.querySelector('.actions') || (() => {
+          const container = document.createElement('div');
+          container.className = 'actions';
+          card.appendChild(container);
+          return container;
+        })();
+
+        const favoriteButton = document.createElement('button');
+        favoriteButton.className = 'action-btn favorite-btn';
+        favoriteButton.type = 'button';
+        favoriteButton.setAttribute('aria-pressed', 'false');
+        favoriteButton.addEventListener('click', () => this._toggleFavoriteFromCard(favoriteButton));
+
+        this._updateFavoriteButtonState(favoriteButton, this._isFavorite(card.dataset.componentId));
+        actions.insertBefore(favoriteButton, actions.firstChild || null);
+      });
+    } catch (e) {
+      if (window.UIVERSE_DEBUG) console.error('insertFavoriteButtons', e);
     }
   },
 
@@ -305,7 +576,7 @@ const ComponentGallery = {
     });
 
     return {
-      categories: Array.from(categories).sort(),
+      categories: Array.from(new Set(['favorites', ...Array.from(categories).sort()])),
       tags: Array.from(tags).sort()
     };
   },
@@ -359,16 +630,18 @@ const ComponentGallery = {
     allChip.className = 'filter-chip active';
     allChip.textContent = 'All';
     allChip.dataset.category = 'all';
-    allChip.addEventListener('click', (e) => this._selectCategory(e.target.dataset.category, e.target));
+    allChip.addEventListener('click', (e) => this._selectCategory(e.currentTarget.dataset.category, e.currentTarget));
     categoryChips.appendChild(allChip);
 
     // Category chips
     metadata.categories.forEach(cat => {
       const chip = document.createElement('button');
       chip.className = 'filter-chip';
-      chip.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+      chip.innerHTML = cat === 'favorites'
+        ? '<i class="fa-solid fa-star"></i> Favorites'
+        : cat.charAt(0).toUpperCase() + cat.slice(1);
       chip.dataset.category = cat;
-      chip.addEventListener('click', (e) => this._selectCategory(e.target.dataset.category, e.target));
+      chip.addEventListener('click', (e) => this._selectCategory(e.currentTarget.dataset.category, e.currentTarget));
       categoryChips.appendChild(chip);
     });
 
@@ -389,7 +662,7 @@ const ComponentGallery = {
         chip.className = 'filter-chip';
         chip.textContent = tag;
         chip.dataset.tag = tag;
-        chip.addEventListener('click', (e) => this._toggleTag(e.target.dataset.tag, e.target));
+        chip.addEventListener('click', (e) => this._toggleTag(e.currentTarget.dataset.tag, e.currentTarget));
         tagChips.appendChild(chip);
       });
 
@@ -426,31 +699,182 @@ const ComponentGallery = {
     this._applyFilters();
   },
 
+  _passesFacetFilters(entry) {
+    const selectedCategory = this._state.filterState.selectedCategory;
+    const selectedTags = this._state.filterState.selectedTags;
+
+    const categoryMatch = !selectedCategory ||
+      (selectedCategory === 'favorites'
+        ? this._isFavorite(entry.id)
+        : entry.category === selectedCategory);
+
+    const tagMatch = selectedTags.size === 0 ||
+      Array.from(selectedTags).some((tag) => entry.tags.includes(tag));
+
+    return categoryMatch && tagMatch;
+  },
+
+  _getFilteredSearchEntries(query) {
+    const normalizedQuery = this._normalizeToken(query);
+    return this._state.searchIndex
+      .filter((entry) => this._passesFacetFilters(entry))
+      .map((entry) => ({ entry, score: normalizedQuery ? this._scoreSearchEntry(normalizedQuery, entry) : 1 }))
+      .filter(({ score }) => normalizedQuery === '' ? true : score > 0)
+      .sort((left, right) => right.score - left.score || left.entry.index - right.entry.index);
+  },
+
+  _ensureSearchResultsPanel() {
+    let panel = document.querySelector(this._state.elementSelectors.searchResults);
+    if (panel) return panel;
+
+    const filterBar = this._ensureFilterBar();
+    if (!filterBar) return null;
+
+    panel = document.createElement('div');
+    panel.id = 'componentSearchResults';
+    panel.className = 'search-results-panel';
+    filterBar.insertAdjacentElement('afterend', panel);
+    return panel;
+  },
+
+  _setActiveSearchIndex(index) {
+    const items = Array.from(document.querySelectorAll('.search-result-item'));
+    if (items.length === 0) {
+      this._state.searchState.activeIndex = -1;
+      return;
+    }
+
+    const maxIndex = items.length - 1;
+    const nextIndex = Math.max(0, Math.min(index, maxIndex));
+    this._state.searchState.activeIndex = nextIndex;
+
+    items.forEach((item, itemIndex) => {
+      const isActive = itemIndex === nextIndex;
+      item.classList.toggle('active', isActive);
+      item.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      if (isActive) item.scrollIntoView({ block: 'nearest' });
+    });
+  },
+
+  _selectSearchResult(result) {
+    if (!result) return;
+
+    const card = result.entry.card;
+    if (!card) return;
+
+    card.style.display = '';
+    card.classList.add('search-hit');
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => card.classList.remove('search-hit'), 1400);
+
+    this._state.searchState.panelOpen = false;
+    const panel = document.querySelector(this._state.elementSelectors.searchResults);
+    panel?.classList.remove('open');
+  },
+
+  _renderSearchResults(query) {
+    const panel = this._ensureSearchResultsPanel();
+    if (!panel) return [];
+
+    const normalizedQuery = this._normalizeToken(query);
+    const entries = this._getFilteredSearchEntries(normalizedQuery);
+    const results = entries.map((item) => item.entry);
+    const similarResults = normalizedQuery ? this._getSuggestedEntries(normalizedQuery, 4) : [];
+    const visibleResults = results.slice(0, 8);
+    const noResults = normalizedQuery && visibleResults.length === 0;
+
+    const renderedResults = noResults ? similarResults : visibleResults;
+
+    this._state.searchState.results = renderedResults;
+    this._state.searchState.activeIndex = renderedResults.length > 0 ? Math.min(this._state.searchState.activeIndex, renderedResults.length - 1) : -1;
+    this._state.searchState.panelOpen = Boolean(normalizedQuery);
+
+    if (!normalizedQuery) {
+      panel.innerHTML = '';
+      panel.classList.remove('open');
+      return visibleResults;
+    }
+
+    const titleText = noResults ? 'No results' : 'Results';
+    const itemsHtml = renderedResults.map((entry, index) => {
+      const scoreMeta = normalizedQuery ? Math.round(noResults ? this._scoreSearchEntry(normalizedQuery, entry) : entries[index]?.score || 0) : 0;
+      const tags = entry.tags.slice(0, 3).map((tag) => `<span class="search-result-tag">${tag}</span>`).join('');
+      return `
+        <button type="button" class="search-result-item" data-result-index="${index}" aria-selected="${index === 0 ? 'true' : 'false'}">
+          <span class="search-result-main">
+            <span class="search-result-title">${entry.displayTitle}</span>
+            <span class="search-result-meta">${entry.category}${scoreMeta ? ` • ${scoreMeta}` : ''}</span>
+          </span>
+          <span class="search-result-tags">${tags}</span>
+        </button>
+      `;
+    }).join('');
+
+    panel.innerHTML = `
+      <div class="search-results-header">
+        <span>${titleText}</span>
+        <span class="search-results-count">${normalizedQuery ? visibleResults.length : 0}</span>
+      </div>
+      ${noResults ? '<div class="search-no-results">No matches found. Similar items are shown below.</div>' : ''}
+      <div class="search-results-list" role="listbox" aria-label="Component search results">
+        ${itemsHtml || '<div class="search-no-results">No matching components.</div>'}
+      </div>
+    `;
+
+    panel.classList.add('open');
+    const items = Array.from(panel.querySelectorAll('.search-result-item'));
+    items.forEach((item) => {
+      item.addEventListener('click', () => {
+        const resultIndex = Number(item.dataset.resultIndex || 0);
+        const result = renderedResults[resultIndex];
+        this._selectSearchResult({ entry: result });
+      });
+    });
+
+    if (items.length > 0) {
+      this._setActiveSearchIndex(Math.max(0, Math.min(this._state.searchState.activeIndex, items.length - 1)));
+    }
+
+    return visibleResults;
+  },
+
+  _moveSearchSelection(direction) {
+    const items = Array.from(document.querySelectorAll('.search-result-item'));
+    if (items.length === 0) return;
+
+    const currentIndex = this._state.searchState.activeIndex < 0 ? 0 : this._state.searchState.activeIndex;
+    const nextIndex = Math.max(0, Math.min(items.length - 1, currentIndex + direction));
+    this._setActiveSearchIndex(nextIndex);
+  },
+
   /**
    * Apply all active filters
    * @private
    */
   _applyFilters() {
-    const cards = this._getComponentCards();
+    const query = this._state.filterState.searchQuery;
+    const rankedResults = this._getFilteredSearchEntries(query);
+    const visibleCards = new Set(rankedResults.map(({ entry }) => entry.card));
+    const hasQuery = Boolean(this._normalizeToken(query));
 
-    cards.forEach(card => {
-      const cardCategory = card.dataset.cat;
-      const cardTags = card.dataset.tags ? card.dataset.tags.split(',').map(t => t.trim()) : [];
-      const cardName = (card.dataset.name || card.innerText).toLowerCase();
-
-      const categoryMatch = !this._state.filterState.selectedCategory ||
-        cardCategory === this._state.filterState.selectedCategory;
-
-      const tagMatch = this._state.filterState.selectedTags.size === 0 ||
-        Array.from(this._state.filterState.selectedTags).some(tag => cardTags.includes(tag));
-
-      const searchMatch = this._state.filterState.searchQuery === '' ||
-        cardName.includes(this._state.filterState.searchQuery) ||
-        cardTags.some((tag) => tag.includes(this._state.filterState.searchQuery)) ||
-        cardCategory.includes(this._state.filterState.searchQuery);
-
-      card.style.display = (categoryMatch && tagMatch && searchMatch) ? '' : 'none';
+    this._getComponentCards().forEach((card) => {
+      const shouldShow = !hasQuery || visibleCards.has(card);
+      card.style.display = shouldShow ? '' : 'none';
     });
+
+    if (hasQuery) {
+      this._renderSearchResults(query);
+      if (rankedResults.length === 0) {
+        const panel = this._ensureSearchResultsPanel();
+        if (panel) panel.classList.add('open');
+      }
+    } else {
+      this._state.searchState.results = [];
+      this._state.searchState.activeIndex = -1;
+      const panel = this._ensureSearchResultsPanel();
+      panel?.classList.remove('open');
+      panel && (panel.innerHTML = '');
+    }
   },
 
   /**
@@ -461,12 +885,8 @@ const ComponentGallery = {
     const normalized = this._normalizeToken(query);
     if (!normalized) return false;
 
-    const cards = this._getComponentCards();
-    const matched = cards.find((card) => {
-      const searchable = [card.dataset.name, card.dataset.cat, card.dataset.tags].join(' ').toLowerCase();
-      return searchable.includes(normalized);
-    });
-
+    const result = this._getFilteredSearchEntries(normalized)[0];
+    const matched = result?.entry?.card;
     if (!matched) return false;
 
     matched.style.display = '';
@@ -507,8 +927,42 @@ const ComponentGallery = {
       this._applyFilters();
     });
 
-    // Enter key handler
-    searchInput.addEventListener('keypress', (e) => this._handleSearchEnter(e));
+    // Keyboard navigation and Enter selection
+    searchInput.addEventListener('keydown', (e) => this._handleSearchKeyboard(e));
+  },
+
+  _handleSearchKeyboard(event) {
+    const normalized = this._normalizeToken(event.target?.value || '');
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      if (!normalized) return;
+      this._moveSearchSelection(1);
+      return;
+    }
+
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      if (!normalized) return;
+      this._moveSearchSelection(-1);
+      return;
+    }
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this._state.filterState.searchQuery = normalized;
+      this._applyFilters();
+
+      const activeResult = this._state.searchState.results[this._state.searchState.activeIndex] || this._state.searchState.results[0];
+      if (activeResult) {
+        this._selectSearchResult({ entry: activeResult });
+        return;
+      }
+
+      if (this._focusMatchingCard(normalized)) return;
+
+      showToast('No results found. Try a broader term.');
+    }
   },
 
   /**
@@ -605,6 +1059,122 @@ const ComponentGallery = {
         flex-wrap: wrap;
         gap: 8px;
       }
+
+      .search-results-panel {
+        display: none;
+        margin: 0 0 18px;
+        padding: 12px;
+        border: 1px solid var(--card-border);
+        border-radius: 16px;
+        background: var(--surface);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+      }
+
+      .search-results-panel.open {
+        display: block;
+      }
+
+      .search-results-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .search-results-count {
+        color: var(--text-secondary);
+        font-weight: 600;
+      }
+
+      .search-results-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .search-result-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 12px;
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        background: var(--surface);
+        color: var(--text-primary);
+        cursor: pointer;
+        text-align: left;
+        transition: all 0.2s ease;
+      }
+
+      .search-result-item:hover,
+      .search-result-item.active {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--focus-ring);
+        transform: translateY(-1px);
+      }
+
+      .search-result-main {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+      }
+
+      .search-result-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .search-result-meta {
+        font-size: 11px;
+        color: var(--text-secondary);
+      }
+
+      .search-result-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: flex-end;
+      }
+
+      .search-result-tag {
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--accent) 10%, transparent);
+        color: var(--accent);
+        white-space: nowrap;
+      }
+
+      .search-no-results {
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: rgba(235, 104, 53, 0.08);
+        color: var(--text-primary);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .filter-chip i,
+      .favorite-btn i {
+        margin-right: 6px;
+      }
+
+      .favorite-btn.is-favorited {
+        border-color: rgba(255, 193, 7, 0.45);
+        background: linear-gradient(135deg, rgba(255, 193, 7, 0.18), rgba(255, 171, 0, 0.24));
+        color: #ffcf54;
+      }
+
+      .favorite-btn.is-favorited:hover {
+        transform: translateY(-1px);
+      }
     `;
     document.head.appendChild(style);
   },
@@ -622,6 +1192,12 @@ const ComponentGallery = {
       selectedTags: new Set(),
       searchQuery: ''
     };
+    this._state.searchState = {
+      results: [],
+      activeIndex: -1,
+      panelOpen: false
+    };
+    this._state.searchIndex = [];
     this._state.initialized = false;
   }
 };

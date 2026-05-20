@@ -1,0 +1,47 @@
+name: visual-regression-scale
+
+on:
+  pull_request:
+    paths:
+      - '**/*.html'
+      - '**/*.css'
+      - '**/*.js'
+      - 'tests/visual-scale/**'
+      - 'playwright.visual-scale.config.ts'
+      - 'scripts/visual-results-summary.js'
+  workflow_dispatch:
+
+jobs:
+  visual-scale:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        partitionIndex: [0, 1, 2, 3]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run partitioned visual tests
+        env:
+          VISUAL_PARTITIONS: 4
+          VISUAL_PARTITION_INDEX: ${{ matrix.partitionIndex }}
+        run: npm run visual:scale
+
+      - name: Upload partition report
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-scale-report-${{ matrix.partitionIndex }}
+          path: reports/visual-scale

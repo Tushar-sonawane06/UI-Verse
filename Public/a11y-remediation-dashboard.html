@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Accessibility Audit & Remediation Dashboard</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-2: #1f2937;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --warn: #f59e0b;
+      --error: #ef4444;
+      --ok: #22c55e;
+      font-family: Inter, Arial, sans-serif;
+    }
+    body { margin: 0; background: linear-gradient(180deg, #020617, #0f172a 40%, #111827); color: var(--text); }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 32px 20px 64px; }
+    h1, h2, h3 { margin: 0; }
+    .hero { background: rgba(17, 24, 39, 0.72); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 24px; padding: 28px; box-shadow: 0 24px 80px rgba(0,0,0,.3); }
+    .hero p { color: var(--muted); max-width: 68ch; }
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-top: 20px; }
+    .metric { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(148, 163, 184, 0.15); border-radius: 18px; padding: 16px; }
+    .metric .label { color: var(--muted); font-size: .82rem; }
+    .metric .value { font-size: 2rem; font-weight: 800; margin-top: 6px; }
+    .sections { display: grid; grid-template-columns: 1.2fr .8fr; gap: 20px; margin-top: 24px; }
+    .panel { background: rgba(17, 24, 39, 0.8); border: 1px solid rgba(148, 163, 184, 0.15); border-radius: 22px; padding: 20px; }
+    .panel h2 { margin-bottom: 14px; font-size: 1.1rem; }
+    .page-grid { display: grid; gap: 14px; }
+    .page-card { background: rgba(31, 41, 55, 0.76); border: 1px solid rgba(148, 163, 184, 0.14); border-radius: 18px; padding: 16px; }
+    .page-card--warn { border-color: rgba(245, 158, 11, 0.35); }
+    .page-card header { display: flex; justify-content: space-between; gap: 10px; align-items: start; margin-bottom: 8px; }
+    .page-card h3 { font-size: .98rem; }
+    .score { color: var(--accent); font-weight: 800; }
+    ul { margin: 10px 0 0 18px; color: var(--muted); }
+    li { margin: 6px 0; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip { padding: 10px 12px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid rgba(148,163,184,0.15); }
+    .chip strong { display: block; font-size: 1.15rem; }
+    .fix-list { display: grid; gap: 10px; }
+    .fix-item { border-left: 3px solid var(--warn); padding: 10px 12px; background: rgba(245, 158, 11, 0.08); border-radius: 12px; }
+    .fix-item small { color: var(--muted); display: block; margin-top: 4px; }
+    @media (max-width: 900px) { .sections { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Accessibility Audit & Remediation</h1>
+      <p>Scans HTML pages for common accessibility issues, prioritizes remediation, and highlights safe auto-fix opportunities.</p>
+      <div class="metrics">
+        <div class="metric"><div class="label">Pages</div><div class="value">270</div></div>
+        <div class="metric"><div class="label">Pass Rate</div><div class="value">10%</div></div>
+        <div class="metric"><div class="label">Average Score</div><div class="value">78.96</div></div>
+        <div class="metric"><div class="label">Errors</div><div class="value">382</div></div>
+        <div class="metric"><div class="label">Warnings</div><div class="value">274</div></div>
+        <div class="metric"><div class="label">Fixable</div><div class="value">491</div></div>
+      </div>
+    </section>
+
+    <div class="sections">
+      <section class="panel">
+        <h2>Top Pages</h2>
+        <div class="page-grid">
+      <article class="page-card page-card--warn">
+        <header>
+          <h3>data/snippets/badges/badges.html</h3>
+          <div class="score">48/100</div>
+        </header>
+        <p>4 error(s), 1 warning(s), 3 fixable</p>
+        <ul><li><strong>missing-html</strong> (error) - Missing <html> element</li><li><strong>html-lang</strong> (error) - Missing lang attribute on <html></li><li><strong>main-landmark</strong> (error) - Missing main landmark</li><li><strong>skip-link</strong> (warning) - Missing skip link</li></ul>
+      </article>
+    
+      <article class="page-card page-card--warn">
+        <header>
+          <h3>data/snippets/button/button.html</h3>
+          <div class="score">48/100</div>
+        </header>
+        <p>4 error(s), 1 warning(s), 4 fixable</p>
+        <ul><li><strong>missing-html</strong> (error) - Missing <html> element</li><li><strong>html-lang</strong> (error) - Missing lang attribute on <html></li><li><strong>skip-link</strong> (warning) - Missing skip link</li><li><strong>button-name</strong> (error) - 1 button(s) lack an accessible name</li></ul>
+      </article>
+    
+      <article class="page-card page-card--warn">
+        <header>
+          <h3>data/snippets/cards/cards.html</h3>
+          <div class="score">48/100</div>
+        </header>
+        <p>4 error(s), 1 warning(s), 4 fixable</p>
+        <ul><li><strong>missing-html</strong> (error) - Missing <html> element</li><li><strong>html-lang</strong> (error) - Missing lang attribute on <html></li><li><strong>skip-link</strong> (warning) - Missing skip link</li><li><strong>button-name</strong> (error) - 6 button(s) lack an accessible name</li></ul>
+      </article>
+    
+      <article class="page-card page-card--warn">
+        <header>
+          <h3>data/snippets/color/color.html</h3>
+          <div class="score">48/100</div>
+        </header>
+        <p>4 error(s), 1 warning(s), 4 fixable</p>
+        <ul><li><strong>missing-html</strong> (error) - Missing <html> element</li><li><strong>html-lang</strong> (error) - Missing lang attribute on <html></li><li><strong>skip-link</strong> (warning) - Missing skip link</li><li><strong>button-name</strong> (error) - 22 button(s) lack an accessible name</li></ul>
+      </article>
+    
+      <article class="page-card page-card--warn">
+        <header>
+          <h3>data/snippets/settings/settings.html</h3>
+          <div class="score">48/100</div>
+        </header>
+        <p>4 error(s), 1 warning(s), 3 fixable</p>
+        <ul><li><strong>missing-html</strong> (error) - Missing <html> element</li><li><strong>html-lang</strong> (error) - Missing lang attribute on <html></li><li><strong>main-landmark</strong> (error) - Missing main landmark</li><li><strong>skip-link</strong> (warning) - Missing skip link</li></ul>
+      </article>
+    
+      <article class="page-card page-card--warn">
+        <header>
+          <h3>article.html</h3>
+          <div class="score">60/100</div>
+        </header>
+        <p>3 error(s), 1 warning(s), 3 fixable</p>
+        <ul><li><strong>main-landmark</strong> (error) - Missing main landmark</li><li><strong>skip-link</strong> (warning) - Missing skip link</li><li><strong>button-name</strong> (error) - 1 button(s) lack an accessible name</li><li><strong>form-label</strong> (error) - 2 form field(s) missing labels</li></ul>
+      </article>
+    
+      <article class="page-card page-card--warn">
+        <header>
+          <h3>Car-Rental/car-rental-booking.html</h3>
+          <div class="score">60/100</div>
+        </header>
+        <p>3 error(s), 1 warning(s), 3 fixable</p>
+        <ul><li><strong>main-landmark</strong> (error) - Missing main landmark</li><li><strong>skip-link</strong> (warning) - Missing skip link</li><li><strong>button-name</strong> (error) - 4 button(s) lack an accessible name</li><li><strong>form-label</strong> (error) - 3 form field(s) missing labels</li></ul>
+      </article>
+    
+      <article class="page-card page-card--warn">
+        <header>
+          <h3>codeeditor/code.html</h3>
+          <div class="score">60/100</div>
+        </header>
+        <p>3 error(s), 1 warning(s), 3 fixable</p>
+        <ul><li><strong>main-landmark</strong> (error) - Missing main landmark</li><li><strong>skip-link</strong> (warning) - Missing skip link</li><li><strong>button-name</strong> (error) - 3 button(s) lack an accessible name</li><li><strong>form-label</strong> (error) - 1 form field(s) missing labels</li></ul>
+      </article>
+    
+      <article class="page-card page-card--warn">
+        <header>
+          <h3>data/snippets/footer/footer.html</h3>
+          <div class="score">60/100</div>
+        </header>
+        <p>3 error(s), 1 warning(s), 3 fixable</p>
+        <ul><li><strong>missing-html</strong> (error) - Missing <html> element</li><li><strong>html-lang</strong> (error) - Missing lang attribute on <html></li><li><strong>skip-link</strong> (warning) - Missing skip link</li><li><strong>form-label</strong> (error) - 1 form field(s) missing labels</li></ul>
+      </article>
+    
+      <article class="page-card page-card--warn">
+        <header>
+          <h3>data/snippets/form/form.html</h3>
+          <div class="score">60/100</div>
+        </header>
+        <p>3 error(s), 1 warning(s), 3 fixable</p>
+        <ul><li><strong>missing-html</strong> (error) - Missing <html> element</li><li><strong>html-lang</strong> (error) - Missing lang attribute on <html></li><li><strong>skip-link</strong> (warning) - Missing skip link</li><li><strong>form-label</strong> (error) - 7 form field(s) missing labels</li></ul>
+      </article>
+    
+      <article class="page-card page-card--warn">
+        <header>
+          <h3>data/snippets/navbar/navbar.html</h3>
+          <div class="score">60/100</div>
+        </header>
+        <p>3 error(s), 1 warning(s), 3 fixable</p>
+        <ul><li><strong>missing-html</strong> (error) - Missing <html> element</li><li><strong>html-lang</strong> (error) - Missing lang attribute on <html></li><li><strong>skip-link</strong> (warning) - Missing skip link</li><li><strong>form-label</strong> (error) - 2 form field(s) missing labels</li></ul>
+      </article>
+    
+      <article class="page-card page-card--warn">
+        <header>
+          <h3>data/snippets/toggles/toggles.html</h3>
+          <div class="score">60/100</div>
+        </header>
+        <p>3 error(s), 1 warning(s), 3 fixable</p>
+        <ul><li><strong>missing-html</strong> (error) - Missing <html> element</li><li><strong>html-lang</strong> (error) - Missing lang attribute on <html></li><li><strong>skip-link</strong> (warning) - Missing skip link</li><li><strong>form-label</strong> (error) - 1 form field(s) missing labels</li></ul>
+      </article>
+    </div>
+      </section>
+      <aside class="panel">
+        <h2>Auto-Remediation Plan</h2>
+        <div class="chips">
+          <div class="chip"><strong>491</strong> fixable issues</div>
+          <div class="chip"><strong>27</strong> clean pages</div>
+          <div class="chip"><strong>0</strong> perfect pages</div>
+        </div>
+        <div style="height: 18px"></div>
+        <div class="fix-list">
+          <div class="fix-item"><strong>html-lang</strong> on data/snippets/badges/badges.html<small>Missing lang attribute on <html></small></div><div class="fix-item"><strong>skip-link</strong> on data/snippets/badges/badges.html<small>Missing skip link</small></div><div class="fix-item"><strong>form-label</strong> on data/snippets/badges/badges.html<small>2 form field(s) missing labels</small></div><div class="fix-item"><strong>html-lang</strong> on data/snippets/button/button.html<small>Missing lang attribute on <html></small></div><div class="fix-item"><strong>skip-link</strong> on data/snippets/button/button.html<small>Missing skip link</small></div><div class="fix-item"><strong>button-name</strong> on data/snippets/button/button.html<small>1 button(s) lack an accessible name</small></div><div class="fix-item"><strong>form-label</strong> on data/snippets/button/button.html<small>1 form field(s) missing labels</small></div><div class="fix-item"><strong>html-lang</strong> on data/snippets/cards/cards.html<small>Missing lang attribute on <html></small></div><div class="fix-item"><strong>skip-link</strong> on data/snippets/cards/cards.html<small>Missing skip link</small></div><div class="fix-item"><strong>button-name</strong> on data/snippets/cards/cards.html<small>6 button(s) lack an accessible name</small></div><div class="fix-item"><strong>form-label</strong> on data/snippets/cards/cards.html<small>1 form field(s) missing labels</small></div><div class="fix-item"><strong>html-lang</strong> on data/snippets/color/color.html<small>Missing lang attribute on <html></small></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>

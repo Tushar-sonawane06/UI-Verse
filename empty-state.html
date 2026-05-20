@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empty State Components — UIverse</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="shared-sidebar.css">
+  <link rel="stylesheet" href="empty-state.css">
+</head>
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-icon">⬡</span>
+    <span class="brand-text">UIverse <span style="font-size: 9px; background: linear-gradient(135deg, #eb6835, #7b61ff); color: white; padding: 1px 6px; border-radius: 10px; font-weight: 800; margin-left: 4px; letter-spacing: 0.5px; vertical-align: middle; box-shadow: 0 0 8px rgba(235,104,53,0.3);">V2</span></span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul>
+      <li>
+        <a href="index.html">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="auth.html">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Authentication</span>
+        </a>
+      </li>
+      <li class="active">
+        <a href="empty-state.html">
+          <i class="fa-solid fa-folder-open"></i>
+          <span>Empty States</span>
+        </a>
+      </li>
+      <li>
+        <a href="maintenance.html">
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <span>Maintenance</span>
+        </a>
+      </li>
+      <li>
+        <a href="button.html">
+          <i class="fa-solid fa-hand-pointer"></i>
+          <span>Buttons</span>
+        </a>
+      </li>
+      <li>
+        <a href="dropdown-components.html">
+          <i class="fa-solid fa-caret-down"></i>
+          <span>Dropdowns</span>
+        </a>
+      </li>
+      <li>
+        <a href="navbar.html">
+          <i class="fa-solid fa-bars"></i>
+          <span>Navbar</span>
+        </a>
+      </li>
+      <li>
+        <a href="cards.html">
+          <i class="fa-solid fa-table-cells-large"></i>
+          <span>Cards</span>
+        </a>
+      </li>
+      <li>
+        <a href="inputs.html">
+          <i class="fa-solid fa-keyboard"></i>
+          <span>Inputs</span>
+        </a>
+      </li>
+      <li>
+        <a href="forms.html">
+          <i class="fa-brands fa-wpforms"></i>
+          <span>Forms</span>
+        </a>
+      </li>
+      <li>
+        <a href="badges.html">
+          <i class="fa-solid fa-award"></i>
+          <span>Badges</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  
+  <div class="sidebar-footer">
+    <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+    <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+    <a href="https://twitter.com" target="_blank"><i class="fab fa-x-twitter"></i></a>
+  </div>
+</aside>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <div class="logo">UIverse</div>
+
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search empty states..." oninput="liveFilter(this.value)" />
+    <kbd class="search-kbd">⌘K</kbd>
+  </div>
+
+  <div class="nav-right">
+    <button class="nav-btn outline-nav-btn">
+      <i class="fa-solid fa-plus"></i> Add Component
+    </button>
+    <a href="contributorss.html">
+      <button class="nav-btn primary-nav-btn">
+        Contributors
+      </button>
+    </a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+</header>
+
+<!-- ================= MAIN CONTENT ================= -->
+<main class="main-home">
+
+  <!-- Page Hero - Premium Sub-Hero Banner -->
+  <div class="page-hero" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 21 cyan, 0.08)); border-bottom: 1px solid var(--empty-card-border); padding: 3rem 2.2rem; border-radius: 24px; margin-bottom: 2rem; position: relative; overflow: hidden;">
+    <div style="position: relative; z-index: 2;">
+      <div class="breadcrumb" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 700; color: var(--empty-text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">
+        <a href="index.html" style="color: var(--empty-primary); text-decoration: none;">Home</a>
+        <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem;"></i>
+        <span>Empty States</span>
+      </div>
+      <h1 class="page-title" style="font-family: 'Syne', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem) !important; font-weight: 800; line-height: 1.1; letter-spacing: -2px; margin: 0.5rem 0; background: linear-gradient(90deg, var(--empty-primary) 0%, var(--empty-secondary) 100%); -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; background-clip: text !important; display: inline-block;">
+        Empty State Components
+      </h1>
+      <p class="page-desc" style="font-family: 'DM Sans', sans-serif; font-size: 1.05rem; color: var(--empty-text-muted); max-width: 720px; line-height: 1.7; margin: 0 0 0.8rem 0;">
+        Modern, highly engaging, and reusable empty state UI templates built with pure HTML, CSS, and JS. Designed to improve visual feedback, user onboarding, and interactive fallback scenarios.
+      </p>
+      <div class="page-meta" style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 0.5rem;">
+        <span class="meta-badge" style="display: flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 50px; background: var(--empty-panel-bg); border: 1px solid var(--empty-card-border); color: var(--empty-text-main); font-size: 0.85rem; font-weight: 700; box-shadow: var(--empty-shadow-sm);"><i class="fa-solid fa-folder-open" style="color: var(--empty-primary);"></i> 5 Premium UI Components</span>
+        <span class="meta-badge" style="display: flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 50px; background: var(--empty-panel-bg); border: 1px solid var(--empty-card-border); color: var(--empty-text-main); font-size: 0.85rem; font-weight: 700; box-shadow: var(--empty-shadow-sm);"><i class="fa-solid fa-sliders" style="color: var(--empty-primary);"></i> Fully Responsive Grid</span>
+        <span class="meta-badge" style="display: flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 50px; background: var(--empty-panel-bg); border: 1px solid var(--empty-card-border); color: var(--empty-text-main); font-size: 0.85rem; font-weight: 700; box-shadow: var(--empty-shadow-sm);"><i class="fa-solid fa-moon" style="color: var(--empty-primary);"></i> Dark &amp; Light support</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Showcase Grid -->
+  <div class="empty-showcase-container" id="emptyShowcase">
+
+    <!-- ================= 1. NO RESULTS STATE ================= -->
+    <div class="component-card" data-name="no results filter query empty search">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+        <div>
+          <h2 style="font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 4px 0;">
+            1. No Results State
+          </h2>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0; max-width: 320px;">
+            Centered searching fallback for table filters, lists, and global searches.
+          </p>
+        </div>
+        <span style="background: rgba(59, 130, 246, 0.1); color: var(--empty-primary); padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">Filters</span>
+      </div>
+
+      <div class="component-preview">
+        <!-- Live component 1 target -->
+        <div class="empty-results-card" id="resultsCard">
+          <div class="empty-search-graphic">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 8px 0;">
+            No Results Found
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0 0 1.2rem 0; line-height: 1.5;">
+            We couldn't find matches for your active query filters. Try resetting items to start fresh.
+          </p>
+          <div class="empty-active-filters" id="activeFilters">
+            <div class="empty-filter-badge" id="badge-tech">
+              <span>Tag: Analytics</span>
+              <i class="fa-solid fa-xmark" onclick="removeFilterBadge('badge-tech')"></i>
+            </div>
+            <div class="empty-filter-badge" id="badge-date">
+              <span>Date: 2026</span>
+              <i class="fa-solid fa-xmark" onclick="removeFilterBadge('badge-date')"></i>
+            </div>
+          </div>
+          <button class="empty-submit-btn" onclick="resetQueryFilters()">
+            <i class="fa-solid fa-filter-circle-xmark"></i> Reset Active Filters
+          </button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-results', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-results', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <textarea id="code-results" class="code-block" style="display: none; width: 100%; min-height: 180px; font-family: monospace; padding: 12px; border-radius: 12px; border: 1px solid var(--empty-card-border); background: var(--empty-bg-subtle); color: var(--empty-text-main); font-size: 0.85rem;" readonly>
+<!-- HTML Structure -->
+<div class="empty-results-card">
+  <div class="empty-search-graphic">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+  <h3>No Results Found</h3>
+  <p>We couldn't find matches. Try resetting items to start fresh.</p>
+  <button class="empty-submit-btn" onclick="resetFilters()">
+    Reset Filters
+  </button>
+</div>
+
+<!-- CSS Styling -->
+.empty-results-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 24px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+.empty-search-graphic {
+  width: 100px;
+  height: 100px;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.empty-search-graphic i {
+  font-size: 2.8rem;
+  color: #3b82f6;
+  animation: pulse 3s infinite ease-in-out;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}</textarea>
+    </div>
+
+    <!-- ================= 2. EMPTY DASHBOARD STATE ================= -->
+    <div class="component-card" data-name="empty dashboard widget layout metrics">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+        <div>
+          <h2 style="font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 4px 0;">
+            2. Empty Dashboard State
+          </h2>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0; max-width: 320px;">
+            Structured layout guide that prompts users to populate their control boards.
+          </p>
+        </div>
+        <span style="background: rgba(139, 92, 246, 0.1); color: var(--empty-accent); padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">Layout</span>
+      </div>
+
+      <div class="component-preview">
+        <!-- Live component 2 target -->
+        <div class="empty-dashboard-card">
+          <div class="empty-dashboard-mockup">
+            <div class="mock-card-dashed" id="space-1">
+              <i class="fa-solid fa-plus"></i>
+            </div>
+            <div class="mock-card-dashed" id="space-2">
+              <i class="fa-solid fa-plus"></i>
+            </div>
+            <div class="mock-card-dashed" id="space-3">
+              <i class="fa-solid fa-plus"></i>
+            </div>
+          </div>
+          
+          <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 8px 0;">
+            Setup Dashboard Control
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0 0 1.5rem 0; line-height: 1.5;">
+            No metrics setup yet. Build active data widgets in real time to monitor statistics.
+          </p>
+          <button class="empty-submit-btn" onclick="populateDashboardWidget()">
+            <i class="fa-solid fa-square-plus"></i> Add Mock Metric Card
+          </button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-dashboard', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-dashboard', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <textarea id="code-dashboard" class="code-block" style="display: none; width: 100%; min-height: 180px; font-family: monospace; padding: 12px; border-radius: 12px; border: 1px solid var(--empty-card-border); background: var(--empty-bg-subtle); color: var(--empty-text-main); font-size: 0.85rem;" readonly>
+<!-- HTML Structure -->
+<div class="empty-dashboard-card">
+  <div class="empty-dashboard-mockup">
+    <div class="mock-card-dashed"><i class="fa-solid fa-plus"></i></div>
+    <div class="mock-card-dashed"><i class="fa-solid fa-plus"></i></div>
+    <div class="mock-card-dashed"><i class="fa-solid fa-plus"></i></div>
+  </div>
+  <h3>Setup Dashboard Control</h3>
+  <p>No metrics setup yet. Build active widgets to monitor statistics.</p>
+  <button class="empty-submit-btn">Add Data Card</button>
+</div>
+
+<!-- CSS Styling -->
+.empty-dashboard-mockup {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+.mock-card-dashed {
+  height: 60px;
+  border-radius: 12px;
+  border: 2px dashed rgba(226, 232, 240, 0.8);
+  background: rgba(59, 130, 246, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: float-slow 3s infinite ease-in-out;
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}</textarea>
+    </div>
+
+    <!-- ================= 3. NO NOTIFICATIONS STATE ================= -->
+    <div class="component-card" data-name="no notifications bell catchup alerts">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+        <div>
+          <h2 style="font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 4px 0;">
+            3. No Notifications State
+          </h2>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0; max-width: 320px;">
+            Minimal bell indicator state containing interactive simulator controls.
+          </p>
+        </div>
+        <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">Alerts</span>
+      </div>
+
+      <div class="component-preview">
+        <!-- Live component 3 target -->
+        <div class="empty-notifications-card">
+          <div class="empty-bell-wrapper">
+            <div class="empty-bell-ripple"></div>
+            <div class="empty-bell-ripple"></div>
+            <div class="empty-bell-inner">
+              <i class="fa-solid fa-bell" id="bellIcon"></i>
+            </div>
+            <!-- Notification Badge Overlay -->
+            <div id="bellBadge" style="position: absolute; top: 8px; right: 8px; min-width: 22px; height: 22px; background: #ef4444; border: 2px solid var(--empty-panel-bg); color: white; font-size: 0.7rem; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; transform: scale(0); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5;">0</div>
+          </div>
+          
+          <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 8px 0;">
+            You're All Caught Up
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0 0 1.2rem 0; line-height: 1.5;">
+            No active notification updates. We'll alert you as soon as new activity occurs.
+          </p>
+          
+          <div class="notifications-simulator-group">
+            <button class="simulator-btn" onclick="triggerMockNotification()">
+              <i class="fa-solid fa-bullhorn" style="color: var(--empty-primary);"></i> Dispatch Alert
+            </button>
+            <button class="simulator-btn" onclick="clearMockNotifications()">
+              Clear Active
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-notifications', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-notifications', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <textarea id="code-notifications" class="code-block" style="display: none; width: 100%; min-height: 180px; font-family: monospace; padding: 12px; border-radius: 12px; border: 1px solid var(--empty-card-border); background: var(--empty-bg-subtle); color: var(--empty-text-main); font-size: 0.85rem;" readonly>
+<!-- HTML Structure -->
+<div class="empty-notifications-card">
+  <div class="empty-bell-wrapper">
+    <div class="empty-bell-ripple"></div>
+    <div class="empty-bell-inner">
+      <i class="fa-solid fa-bell"></i>
+    </div>
+  </div>
+  <h3>You're All Caught Up</h3>
+  <p>No active updates. We'll alert you when new activity occurs.</p>
+</div>
+
+<!-- CSS Styling -->
+.empty-bell-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+.empty-bell-ripple {
+  position: absolute;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  animation: expand-wave 2.5s infinite ease-out;
+}
+.empty-bell-inner {
+  position: absolute;
+  top: 10px; left: 10px;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@keyframes expand-wave {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(1.4); opacity: 0; }
+}</textarea>
+    </div>
+
+    <!-- ================= 4. NO MESSAGES STATE ================= -->
+    <div class="component-card" data-name="no messages inbox chat envelope">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+        <div>
+          <h2 style="font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 4px 0;">
+            4. No Messages State
+          </h2>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0; max-width: 320px;">
+            Glassmorphic chat fallback prompting starter channel activations.
+          </p>
+        </div>
+        <span style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">Inbox</span>
+      </div>
+
+      <div class="component-preview">
+        <!-- Live component 4 target -->
+        <div class="empty-messages-card" id="messagesCard">
+          <div class="empty-chat-graphic">
+            <div class="chat-bubble-mock left">
+              <i class="fa-solid fa-message"></i>
+            </div>
+            <div class="chat-bubble-mock right">
+              <i class="fa-solid fa-paper-plane"></i>
+            </div>
+          </div>
+          
+          <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 8px 0;">
+            No Messages Yet
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0 0 1.5rem 0; line-height: 1.5;">
+            Inbox is completely empty. Launch a friendly conversation thread to get started!
+          </p>
+          
+          <button class="empty-submit-btn" onclick="startNewInboxChat()">
+            <i class="fa-solid fa-paper-plane"></i> Start Conversation
+          </button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-messages', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-messages', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <textarea id="code-messages" class="code-block" style="display: none; width: 100%; min-height: 180px; font-family: monospace; padding: 12px; border-radius: 12px; border: 1px solid var(--empty-card-border); background: var(--empty-bg-subtle); color: var(--empty-text-main); font-size: 0.85rem;" readonly>
+<!-- HTML Structure -->
+<div class="empty-messages-card">
+  <div class="empty-chat-graphic">
+    <div class="chat-bubble-mock left"><i class="fa-solid fa-message"></i></div>
+    <div class="chat-bubble-mock right"><i class="fa-solid fa-paper-plane"></i></div>
+  </div>
+  <h3>No Messages Yet</h3>
+  <p>Inbox is empty. Launch a conversation thread to get started!</p>
+  <button class="empty-submit-btn">Start Conversation</button>
+</div>
+
+<!-- CSS Styling -->
+.chat-bubble-mock {
+  position: absolute;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+}
+.chat-bubble-mock.left {
+  left: 0; top: 0; width: 60px; height: 45px;
+  background: rgba(59, 130, 246, 0.15);
+  display: flex; align-items: center; justify-content: center;
+  animation: float-left 4s infinite ease-in-out;
+}
+.chat-bubble-mock.right {
+  right: 5px; bottom: 0; width: 50px; height: 38px;
+  background: rgba(139, 92, 246, 0.15);
+  display: flex; align-items: center; justify-content: center;
+  animation: float-right 4s infinite ease-in-out;
+  animation-delay: 1s;
+}
+@keyframes float-left {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}</textarea>
+    </div>
+
+    <!-- ================= 5. NO FILES UPLOADED STATE ================= -->
+    <div class="component-card" data-name="no files uploaded drag drop cloud">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+        <div>
+          <h2 style="font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 4px 0;">
+            5. No Files Uploaded State
+          </h2>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0; max-width: 320px;">
+            Droppable file upload container supporting simulated file lists.
+          </p>
+        </div>
+        <span style="background: rgba(6, 182, 212, 0.1); color: var(--empty-secondary); padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">Storage</span>
+      </div>
+
+      <div class="component-preview" style="min-height: 520px;">
+        <!-- Live component 5 target -->
+        <div class="empty-files-card">
+          <div class="empty-file-dropzone" id="fileDropzone" onclick="simulateSelectFile()">
+            <div class="empty-cloud-wrapper">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+            <h3 style="font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 4px 0;">
+              Drag &amp; Drop Files Here
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--empty-text-muted); margin: 0 0 1.2rem 0; line-height: 1.5;">
+              Support files: JPG, PNG, PDF, ZIP up to 10MB each. Or click to select from system.
+            </p>
+            <button class="empty-submit-btn" style="padding: 10px 20px; font-size: 0.85rem;" onclick="simulateSelectFile(); event.stopPropagation();">
+              <i class="fa-solid fa-folder-open"></i> Browse Files
+            </button>
+          </div>
+          
+          <!-- Successful simulated file list wrapper -->
+          <div id="fileUploadContainer" style="width: 100%; display: flex; flex-direction: column; gap: 8px;"></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-files', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-files', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <textarea id="code-files" class="code-block" style="display: none; width: 100%; min-height: 180px; font-family: monospace; padding: 12px; border-radius: 12px; border: 1px solid var(--empty-card-border); background: var(--empty-bg-subtle); color: var(--empty-text-main); font-size: 0.85rem;" readonly>
+<!-- HTML Structure -->
+<div class="empty-files-card">
+  <div class="empty-file-dropzone" onclick="selectFile()">
+    <div class="empty-cloud-wrapper">
+      <i class="fa-solid fa-cloud-arrow-up"></i>
+    </div>
+    <h3>Drag & Drop Files Here</h3>
+    <p>Supports files up to 10MB. Or click to browse.</p>
+    <button class="empty-submit-btn">Browse Files</button>
+  </div>
+  <div id="uploadList"></div>
+</div>
+
+<!-- CSS Styling -->
+.empty-file-dropzone {
+  width: 100%;
+  border: 2px dashed rgba(226, 232, 240, 0.8);
+  border-radius: 16px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.empty-file-dropzone:hover {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.03);
+}
+.empty-cloud-wrapper i {
+  font-size: 2.4rem;
+  color: #3b82f6;
+  animation: float-cloud 3s infinite ease-in-out;
+}
+@keyframes float-cloud {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}</textarea>
+    </div>
+
+    <div class="component-card" data-name="no search history empty magnifying glass">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+        <div>
+          <h2 style="font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 4px 0;">
+            6. No Search History
+          </h2>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0; max-width: 320px;">
+            Clean state for empty search logs with interactive suggested tags.
+          </p>
+        </div>
+        <span style="background: rgba(148, 163, 184, 0.1); color: var(--empty-text-muted); padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">Search</span>
+      </div>
+
+      <div class="component-preview">
+        <div class="empty-history-card">
+          <i class="fa-solid fa-clock-rotate-left empty-history-icon"></i>
+          <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 8px 0;">
+            No Recent Searches
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0 0 1.5rem 0; line-height: 1.5;">
+            Your search history is empty. Try searching for something new or use our suggestions below.
+          </p>
+          <div class="empty-history-tags">
+            <span class="empty-history-tag">UI Kits</span>
+            <span class="empty-history-tag">Icons</span>
+            <span class="empty-history-tag">Templates</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-history', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-history', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <textarea id="code-history" class="code-block" style="display: none; width: 100%; min-height: 180px; font-family: monospace; padding: 12px; border-radius: 12px; border: 1px solid var(--empty-card-border); background: var(--empty-bg-subtle); color: var(--empty-text-main); font-size: 0.85rem;" readonly>
+&lt;div class="empty-history-card"&gt;
+  &lt;i class="fa-solid fa-clock-rotate-left empty-history-icon"&gt;&lt;/i&gt;
+  &lt;h3&gt;No Recent Searches&lt;/h3&gt;
+  &lt;p&gt;Your search history is empty. Try searching for something new.&lt;/p&gt;
+  &lt;div class="empty-history-tags"&gt;
+    &lt;span class="empty-history-tag"&gt;UI Kits&lt;/span&gt;
+    &lt;span class="empty-history-tag"&gt;Icons&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</textarea>
+    </div>
+
+    <div class="component-card" data-name="empty shopping cart ecommerce">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+        <div>
+          <h2 style="font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 4px 0;">
+            7. Empty Shopping Cart
+          </h2>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0; max-width: 320px;">
+            Engaging empty cart state with pulsing animations to encourage shopping.
+          </p>
+        </div>
+        <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">Commerce</span>
+      </div>
+
+      <div class="component-preview">
+        <div class="empty-cart-card">
+          <div class="empty-cart-graphic">
+            <div class="empty-cart-circle">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+          </div>
+          <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 8px 0;">
+            Your Cart is Empty
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0 0 1.5rem 0; line-height: 1.5;">
+            Looks like you haven't added anything to your cart yet. Discover our latest collections.
+          </p>
+          <button class="empty-submit-btn" style="background: #10b981;">Start Shopping</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-cart', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-cart', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <textarea id="code-cart" class="code-block" style="display: none; width: 100%; min-height: 180px; font-family: monospace; padding: 12px; border-radius: 12px; border: 1px solid var(--empty-card-border); background: var(--empty-bg-subtle); color: var(--empty-text-main); font-size: 0.85rem;" readonly>
+&lt;div class="empty-cart-card"&gt;
+  &lt;div class="empty-cart-graphic"&gt;
+    &lt;div class="empty-cart-circle"&gt;
+      &lt;i class="fa-solid fa-cart-shopping"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;h3&gt;Your Cart is Empty&lt;/h3&gt;
+  &lt;p&gt;Discover our latest collections.&lt;/p&gt;
+  &lt;button class="empty-submit-btn" style="background: #10b981;"&gt;Start Shopping&lt;/button&gt;
+&lt;/div&gt;</textarea>
+    </div>
+
+    <div class="component-card" data-name="no connections friends network social">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+        <div>
+          <h2 style="font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 4px 0;">
+            8. No Connections
+          </h2>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0; max-width: 320px;">
+            Social network empty state illustrating unconnected user nodes.
+          </p>
+        </div>
+        <span style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">Social</span>
+      </div>
+
+      <div class="component-preview">
+        <div class="empty-network-card">
+          <div class="empty-network-nodes">
+            <div class="empty-node"><i class="fa-solid fa-user"></i></div>
+            <div class="empty-node main"><i class="fa-solid fa-user-plus"></i></div>
+            <div class="empty-node"><i class="fa-solid fa-user"></i></div>
+          </div>
+          <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 8px 0;">
+            No Connections Yet
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0 0 1.5rem 0; line-height: 1.5;">
+            Expand your network by discovering and connecting with like-minded professionals.
+          </p>
+          <button class="empty-submit-btn">Find Friends</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-network', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-network', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <textarea id="code-network" class="code-block" style="display: none; width: 100%; min-height: 180px; font-family: monospace; padding: 12px; border-radius: 12px; border: 1px solid var(--empty-card-border); background: var(--empty-bg-subtle); color: var(--empty-text-main); font-size: 0.85rem;" readonly>
+&lt;div class="empty-network-card"&gt;
+  &lt;div class="empty-network-nodes"&gt;
+    &lt;div class="empty-node"&gt;&lt;i class="fa-solid fa-user"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;div class="empty-node main"&gt;&lt;i class="fa-solid fa-user-plus"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;div class="empty-node"&gt;&lt;i class="fa-solid fa-user"&gt;&lt;/i&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;h3&gt;No Connections Yet&lt;/h3&gt;
+  &lt;button class="empty-submit-btn"&gt;Find Friends&lt;/button&gt;
+&lt;/div&gt;</textarea>
+    </div>
+
+    <div class="component-card" data-name="empty task list completed to do">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+        <div>
+          <h2 style="font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 4px 0;">
+            9. All Tasks Completed
+          </h2>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0; max-width: 320px;">
+            Positive reinforcement state when a user finishes their todo list.
+          </p>
+        </div>
+        <span style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">Productivity</span>
+      </div>
+
+      <div class="component-preview">
+        <div class="empty-tasks-card">
+          <div class="empty-tasks-list">
+            <div class="empty-task-item">
+              <i class="fa-solid fa-check-circle empty-task-icon"></i>
+              <div class="empty-task-line"></div>
+            </div>
+            <div class="empty-task-item">
+              <i class="fa-solid fa-check-circle empty-task-icon"></i>
+              <div class="empty-task-line" style="width: 60%; flex: none;"></div>
+            </div>
+          </div>
+          <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 8px 0;">
+            You're All Caught Up!
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0 0 1.5rem 0; line-height: 1.5;">
+            Great job! You've completed all your scheduled tasks for today. Take a well-deserved break.
+          </p>
+          <button class="empty-submit-btn" style="background: linear-gradient(135deg, #8b5cf6, #d946ef);">Add New Task</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-tasks', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-tasks', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <textarea id="code-tasks" class="code-block" style="display: none; width: 100%; min-height: 180px; font-family: monospace; padding: 12px; border-radius: 12px; border: 1px solid var(--empty-card-border); background: var(--empty-bg-subtle); color: var(--empty-text-main); font-size: 0.85rem;" readonly>
+&lt;div class="empty-tasks-card"&gt;
+  &lt;div class="empty-tasks-list"&gt;
+    &lt;div class="empty-task-item"&gt;
+      &lt;i class="fa-solid fa-check-circle empty-task-icon"&gt;&lt;/i&gt;
+      &lt;div class="empty-task-line"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="empty-task-item"&gt;
+      &lt;i class="fa-solid fa-check-circle empty-task-icon"&gt;&lt;/i&gt;
+      &lt;div class="empty-task-line" style="width: 60%; flex: none;"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;h3&gt;You're All Caught Up!&lt;/h3&gt;
+  &lt;button class="empty-submit-btn"&gt;Add New Task&lt;/button&gt;
+&lt;/div&gt;</textarea>
+    </div>
+
+    <div class="component-card" data-name="no payment methods wallet billing">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+        <div>
+          <h2 style="font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 4px 0;">
+            10. No Payment Methods
+          </h2>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0; max-width: 320px;">
+            Billing interface fallback displaying a stylized empty wallet.
+          </p>
+        </div>
+        <span style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">Billing</span>
+      </div>
+
+      <div class="component-preview">
+        <div class="empty-wallet-card">
+          <div class="empty-wallet-graphic">
+            <i class="fa-solid fa-wallet"></i>
+          </div>
+          <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 8px 0;">
+            No Payment Methods
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0 0 1.5rem 0; line-height: 1.5;">
+            You haven't linked any credit cards or bank accounts yet. Add a payment method to unlock features.
+          </p>
+          <button class="empty-submit-btn" style="background: linear-gradient(135deg, #f59e0b, #ea580c);"><i class="fa-solid fa-plus"></i> Add Card</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-wallet', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-wallet', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <textarea id="code-wallet" class="code-block" style="display: none; width: 100%; min-height: 180px; font-family: monospace; padding: 12px; border-radius: 12px; border: 1px solid var(--empty-card-border); background: var(--empty-bg-subtle); color: var(--empty-text-main); font-size: 0.85rem;" readonly>
+&lt;div class="empty-wallet-card"&gt;
+  &lt;div class="empty-wallet-graphic"&gt;
+    &lt;i class="fa-solid fa-wallet"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;h3&gt;No Payment Methods&lt;/h3&gt;
+  &lt;p&gt;You haven't linked any credit cards or bank accounts yet.&lt;/p&gt;
+  &lt;button class="empty-submit-btn"&gt;Add Card&lt;/button&gt;
+&lt;/div&gt;</textarea>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- Floating Toast Indicator -->
+<div id="copyToast" style="position: fixed; bottom: 24px; right: 24px; background: #1e293b; color: white; padding: 12px 24px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.25); display: flex; align-items: center; gap: 8px; z-index: 999; opacity: 0; transform: translateY(10px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none;"><i class="fa-solid fa-circle-check" style="color: #10b981;"></i> <span id="toastMsg">Action Successful!</span></div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-container">
+
+    <div class="socials">
+  <a href="https://github.com" target="_blank" title="GitHub">
+    <i class="fab fa-github"></i>
+  </a>
+  <a href="https://linkedin.com" target="_blank" title="LinkedIn">
+    <i class="fab fa-linkedin"></i>
+  </a>
+  <a href="https://twitter.com" target="_blank" title="Twitter">
+    <i class="fab fa-x-twitter"></i>
+  </a>
+</div>
+
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="contribute.html">Contribute</a></li>
+        <li><a href="https://github.com/uiverse/uiverse" target="_blank">GitHub Repo</a></li>
+        <li><a href="community.html">Community</a></li>
+        <li><a href="support.html">Support</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com" />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+  </div>
+</footer>
+<!-- ================= SCRIPTS ================= -->
+<script>
+  /* =================================================================
+     GLOBAL SETUP & NAVIGATION
+     ================================================================= */
+  
+  // Sidebar Toggle
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarBackdrop').classList.toggle('visible');
+  }
+
+  // Dark Mode Support
+  const toggle = document.getElementById('darkModeToggle');
+  const icon = toggle.querySelector('i');
+  
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    icon.className = 'fa-solid fa-sun';
+  }
+  
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+
+  // Floating Toast System
+  let toastTimer;
+  function showToast(msg) {
+    const toast = document.getElementById('copyToast');
+    const label = document.getElementById('toastMsg');
+    label.textContent = msg;
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateY(0)';
+    
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(10px)';
+    }, 2200);
+  }
+
+  // Code Block Toggle
+  function toggleCode(id, btn) {
+    const block = document.getElementById(id);
+    const isShowing = block.style.display !== 'none';
+    block.style.display = isShowing ? 'none' : 'block';
+    btn.innerHTML = isShowing 
+      ? '<i class="fa-solid fa-code"></i> View Code' 
+      : '<i class="fa-solid fa-eye-slash"></i> Hide Code';
+  }
+
+  // Copy Code Action
+  function copyCode(id, btn) {
+    const area = document.getElementById(id);
+    navigator.clipboard.writeText(area.value).then(() => {
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+      showToast("Code copied to clipboard successfully!");
+      setTimeout(() => {
+        btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copy';
+      }, 2000);
+    });
+  }
+
+  // Live filter search
+  function liveFilter(val) {
+    const q = val.toLowerCase();
+    document.querySelectorAll('.component-card').forEach(card => {
+      const match = card.dataset.name.toLowerCase().includes(q) ||
+                    card.querySelector('h2').textContent.toLowerCase().includes(q);
+      card.style.display = match ? '' : 'none';
+    });
+  }
+
+  // Intersection observer animations
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'none';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.component-card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+    observer.observe(card);
+  });
+
+  /* =================================================================
+     COMPONENT SPECIFIC LOGIC & SIMULATORS
+     ================================================================= */
+
+  // 1. No Results Handlers
+  function removeFilterBadge(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.opacity = '0';
+      el.style.transform = 'scale(0.8)';
+      setTimeout(() => {
+        el.remove();
+        // Check if any filters are left
+        const count = document.getElementById('activeFilters').children.length;
+        if (count === 0) {
+          showToast("All query filters cleared.");
+        }
+      }, 300);
+    }
+  }
+
+  function resetQueryFilters() {
+    const filterGroup = document.getElementById('activeFilters');
+    filterGroup.innerHTML = '';
+    
+    // Animate search icon spinning
+    const iconEl = document.querySelector('.empty-search-graphic i');
+    iconEl.style.animation = 'none';
+    setTimeout(() => {
+      iconEl.style.animation = 'pulse-search 3s infinite ease-in-out';
+    }, 100);
+
+    showToast("Reloading database... All results fetched! ✓");
+    
+    // Restore original filters after 2.5s for presentation demo
+    setTimeout(() => {
+      filterGroup.innerHTML = `
+        <div class="empty-filter-badge" id="badge-tech">
+          <span>Tag: Analytics</span>
+          <i class="fa-solid fa-xmark" onclick="removeFilterBadge('badge-tech')"></i>
+        </div>
+        <div class="empty-filter-badge" id="badge-date">
+          <span>Date: 2026</span>
+          <i class="fa-solid fa-xmark" onclick="removeFilterBadge('badge-date')"></i>
+        </div>
+      `;
+    }, 2800);
+  }
+
+  // 2. Empty Dashboard Handlers
+  const metricDemos = [
+    { title: "Active Visits", val: "14,250", color: "var(--empty-primary)" },
+    { title: "Conversion Rate", val: "3.42%", color: "var(--empty-secondary)" },
+    { title: "Net Revenue", val: "$8,950", color: "var(--empty-accent)" }
+  ];
+  let metricIndex = 0;
+
+  function populateDashboardWidget() {
+    if (metricIndex >= 3) {
+      // Clear out mock cards and reset spaces
+      document.querySelectorAll('.mock-card-dashed').forEach((el, index) => {
+        el.innerHTML = '<i class="fa-solid fa-plus"></i>';
+        el.style.borderStyle = 'dashed';
+        el.style.background = 'rgba(59, 130, 246, 0.02)';
+      });
+      metricIndex = 0;
+      showToast("Dashboard grids reset.");
+      return;
+    }
+
+    const spaceId = `space-${metricIndex + 1}`;
+    const spaceEl = document.getElementById(spaceId);
+    const data = metricDemos[metricIndex];
+    
+    spaceEl.style.borderStyle = 'solid';
+    spaceEl.style.background = 'var(--empty-panel-bg)';
+    spaceEl.style.borderColor = data.color;
+    spaceEl.innerHTML = `
+      <div style="text-align: left; padding: 0 8px; width: 100%;">
+        <div style="font-size: 0.65rem; color: var(--empty-text-muted); font-weight:700; text-transform:uppercase;">${data.title}</div>
+        <div style="font-size: 0.95rem; font-weight: 800; color: var(--empty-text-main); margin-top: 2px;">${data.val}</div>
+      </div>
+    `;
+    
+    showToast(`Added widget card '${data.title}'!`);
+    metricIndex++;
+  }
+
+  // 3. No Notifications Handlers
+  let notifCount = 0;
+  function triggerMockNotification() {
+    notifCount++;
+    const badge = document.getElementById('bellBadge');
+    badge.textContent = notifCount;
+    badge.style.transform = 'scale(1)';
+    
+    // Add ringing effect class
+    const bellIcon = document.getElementById('bellIcon');
+    bellIcon.style.animation = 'none';
+    setTimeout(() => {
+      bellIcon.style.animation = 'ring-bell 0.8s ease-in-out';
+    }, 50);
+
+    showToast(`New user update received! Total alerts: ${notifCount}`);
+  }
+
+  function clearMockNotifications() {
+    notifCount = 0;
+    const badge = document.getElementById('bellBadge');
+    badge.style.transform = 'scale(0)';
+    showToast("Cleared alert logs.");
+  }
+
+  // 4. No Messages Handlers
+  function startNewInboxChat() {
+    const messagesCard = document.getElementById('messagesCard');
+    
+    messagesCard.style.opacity = '0';
+    messagesCard.style.transform = 'scale(0.95)';
+    
+    setTimeout(() => {
+      messagesCard.innerHTML = `
+        <div style="width: 100%; text-align: left;">
+          <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 1.5rem; border-bottom: 1px solid var(--empty-card-border); padding-bottom: 12px;">
+            <div style="width:38px; height:38px; border-radius:50%; background: linear-gradient(135deg, var(--empty-primary), var(--empty-secondary)); display:flex; align-items:center; justify-content:center; color:white; font-weight:800;">A</div>
+            <div>
+              <div style="font-size: 0.9rem; font-weight: 800; color: var(--empty-text-main);">Alex Mercer</div>
+              <div style="font-size: 0.75rem; color: #10b981; font-weight:700;">● Active Now</div>
+            </div>
+          </div>
+          
+          <div style="display:flex; flex-direction:column; gap: 12px; height: 180px; overflow-y:auto; margin-bottom: 1.5rem; padding-right: 4px;">
+            <div style="align-self: flex-start; background: var(--empty-bg-subtle); color: var(--empty-text-main); padding: 10px 14px; border-radius: 14px 14px 14px 2px; font-size: 0.8rem; max-width: 80%; line-height: 1.4;">
+              Hey developer! Welcome to UIverse empty-state components. Need help? 🚀
+            </div>
+            <div style="align-self: flex-end; background: var(--empty-primary); color: white; padding: 10px 14px; border-radius: 14px 14px 2px 14px; font-size: 0.8rem; max-width: 80%; line-height: 1.4;">
+              Thanks Alex! These empty states are amazing and completely side-by-side compatible!
+            </div>
+          </div>
+          
+          <div style="position: relative; display:flex; gap: 8px;">
+            <input type="text" placeholder="Type friendly message..." style="flex:1; padding: 12px 16px; background: var(--empty-input-bg); border: 1px solid var(--empty-input-border); border-radius: 10px; font-size: 0.8rem; outline:none; color: var(--empty-text-main);" />
+            <button class="empty-submit-btn" style="padding: 12px; width:44px; height:44px; border-radius:10px;" onclick="resetInboxMock()">
+              <i class="fa-solid fa-rotate-left"></i>
+            </button>
+          </div>
+        </div>
+      `;
+      
+      messagesCard.style.opacity = '1';
+      messagesCard.style.transform = 'none';
+      showToast("Inbox thread channels active! 🎉");
+    }, 400);
+  }
+
+  function resetInboxMock() {
+    const messagesCard = document.getElementById('messagesCard');
+    messagesCard.style.opacity = '0';
+    setTimeout(() => {
+      messagesCard.innerHTML = `
+        <div class="empty-chat-graphic">
+          <div class="chat-bubble-mock left">
+            <i class="fa-solid fa-message"></i>
+          </div>
+          <div class="chat-bubble-mock right">
+            <i class="fa-solid fa-paper-plane"></i>
+          </div>
+        </div>
+        <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--empty-text-main); margin: 0 0 8px 0;">
+          No Messages Yet
+        </h3>
+        <p style="font-size: 0.9rem; color: var(--empty-text-muted); margin: 0 0 1.5rem 0; line-height: 1.5;">
+          Inbox is completely empty. Launch a friendly conversation thread to get started!
+        </p>
+        <button class="empty-submit-btn" onclick="startNewInboxChat()">
+          <i class="fa-solid fa-paper-plane"></i> Start Conversation
+        </button>
+      `;
+      messagesCard.style.opacity = '1';
+      messagesCard.style.transform = 'none';
+      showToast("Inbox card reset.");
+    }, 300);
+  }
+
+  // 5. No Files Uploaded Handlers
+  let mockFileIndex = 0;
+  const mockFilePool = [
+    { name: "metrics_report.pdf", size: "2.4 MB" },
+    { name: "avatar_image.png", size: "850 KB" },
+    { name: "deployment_configs.zip", size: "4.1 MB" }
+  ];
+
+  function simulateSelectFile() {
+    if (mockFileIndex >= 3) {
+      document.getElementById('fileUploadContainer').innerHTML = '';
+      mockFileIndex = 0;
+      showToast("Storage items cleared.");
+      return;
+    }
+
+    const file = mockFilePool[mockFileIndex];
+    const container = document.getElementById('fileUploadContainer');
+    
+    // Add file list item markup
+    const item = document.createElement('div');
+    item.className = 'file-upload-item';
+    item.innerHTML = `
+      <i class="fa-regular fa-file file-icon"></i>
+      <div>
+        <div style="font-size:0.8rem; font-weight:700; color: var(--empty-text-main);">${file.name}</div>
+        <div style="font-size:0.65rem; color:#10b981; font-weight:700; margin-top:2px;"><i class="fa-solid fa-circle-check"></i> Uploaded Successfully</div>
+      </div>
+      <span class="size">${file.size}</span>
+    `;
+    
+    container.appendChild(item);
+    showToast(`Successfully uploaded ${file.name}!`);
+    mockFileIndex++;
+  }
+
+  // DND Handlers for dropzone
+  const zone = document.getElementById('fileDropzone');
+  
+  ['dragenter', 'dragover'].forEach(name => {
+    zone.addEventListener(name, (e) => {
+      e.preventDefault();
+      zone.classList.add('dragover');
+    }, false);
+  });
+
+  ['dragleave', 'drop'].forEach(name => {
+    zone.addEventListener(name, (e) => {
+      e.preventDefault();
+      zone.classList.remove('dragover');
+      if (name === 'drop') {
+        simulateSelectFile();
+      }
+    }, false);
+  });
+</script>
+
+</body>
+</html>

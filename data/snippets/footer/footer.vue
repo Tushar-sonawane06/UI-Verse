@@ -161,8 +161,7 @@
         <button onclick="toggleCode('f1')">Code</button>
         <button onclick="copyCode('f1',this)">Copy</button>
         <button onclick="addToCollectionFromCard(this, 'Minimal Footer')">Add to My Collection</button>
-
-
+      </div>
     </footer>
 
   </div>
@@ -400,8 +399,7 @@
         <button onclick="toggleCode('f2')">Code</button>
         <button onclick="copyCode('f2',this)">Copy</button>
         <button onclick="addToCollectionFromCard(this, 'Grid Footer')">Add to My Collection</button>
-
-
+      </div>
     </footer>
 
   </div>
@@ -469,8 +467,7 @@
         <button onclick="toggleCode('f3')">Code</button>
         <button onclick="copyCode('f3',this)">Copy</button>
         <button onclick="addToCollectionFromCard(this, 'Dark Footer')">Add to My Collection</button>
-
-
+      </div>
       <div class="split-links">
         <a href="#">Docs</a>
         <a href="#">Blog</a>
@@ -549,8 +546,7 @@
         <button onclick="toggleCode('f4')">Code</button>
         <button onclick="copyCode('f4',this)">Copy</button>
         <button onclick="addToCollectionFromCard(this, 'Social Footer')">Add to My Collection</button>
-
-
+      </div>
     </footer>
 
   </div>

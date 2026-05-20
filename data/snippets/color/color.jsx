@@ -46,6 +46,69 @@ export default function color(){
           </div>
         </div>
       
+        {/* ===== CUSTOM COLOR CREATOR ===== */}
+        <section className="custom-creator-section">
+          <div className="section-header-row">
+            <h2 className="color-section-title">🎨 Custom Color Creator</h2>
+            <span className="section-count">Pick & Copy</span>
+          </div>
+      
+          <div className="creator-wrapper">
+      
+            {/* LEFT CARD: picker + values */}
+            <div className="creator-card">
+              <div className="creator-left">
+                <div className="creator-preview" id="creatorPreview" style="background:#eb6835;"></div>
+                <input type="color" id="colorPicker" value="#eb6835" />
+                <label for="colorPicker" className="picker-label">
+                  <i className="fa-solid fa-pen-nib"></i> Open Picker
+                </label>
+                <button className="save-color-btn" onclick="saveToSessionPalette()">
+                  <i className="fa-solid fa-plus"></i> Add to Palette
+                </button>
+              </div>
+      
+              <div className="creator-right">
+                <div className="creator-val-row">
+                  <span className="creator-val-label">Hex:</span>
+                  <span className="creator-val-output" id="outHex">#eb6835</span>
+                  <button className="creator-copy-btn" onclick="copyText(document.getElementById('outHex').textContent, this)">
+                    <i className="fa-regular fa-copy"></i> Copy
+                  </button>
+                </div>
+                <div className="creator-val-row">
+                  <span className="creator-val-label">RGB:</span>
+                  <span className="creator-val-output" id="outRgb">rgb(235, 104, 53)</span>
+                  <button className="creator-copy-btn" onclick="copyText(document.getElementById('outRgb').textContent, this)">
+                    <i className="fa-regular fa-copy"></i> Copy
+                  </button>
+                </div>
+                <div className="creator-val-row">
+                  <span className="creator-val-label">HSL:</span>
+                  <span className="creator-val-output" id="outHsl">hsl(20, 82%, 56%)</span>
+                  <button className="creator-copy-btn" onclick="copyText(document.getElementById('outHsl').textContent, this)">
+                    <i className="fa-regular fa-copy"></i> Copy
+                  </button>
+                </div>
+      
+                <div className="contrast-row">
+                  <span className="contrast-chip fail" id="contrastWhite">AA × on White</span>
+                  <span className="contrast-chip pass" id="contrastBlack">AA ✓ on Black</span>
+                </div>
+              </div>
+            </div>
+      
+            {/* RIGHT CARD: palette */}
+            <div className="palette-panel" id="palettePanel">
+              <h3 className="palette-panel-title">Color Palette</h3>
+              <div className="session-palette" id="sessionPalette">
+                <div className="empty-palette-msg">No colors yet.<br />Pick one and click Add.</div>
+              </div>
+            </div>
+      
+          </div>
+        </section>
+      
         {/* ===== TRENDING COLORS ===== */}
         <section className="color-section" data-section="trending">
           <div className="section-header-row">

@@ -25,7 +25,7 @@ The goal of UIverse is to help developers—especially beginners—make their fi
 
 ## 📁 Project Structure
 
-```
+```text
 uiverse/
 │
 ├── index.html          # Home Page
@@ -55,7 +55,7 @@ Click on the **Fork** button on the top right.
 
 ### 2️⃣ Clone Your Fork
 
-```
+```bash
 git clone https://github.com/your-username/uiverse.git
 ```
 
@@ -73,29 +73,29 @@ We welcome contributions from beginners 💙
 
 ### 🔰 Contribution Steps
 
-1. Check the **Issues** section
-2. Comment on the issue you want to work on
-3. Fork the repository
-4. Create a new branch
+* Check the **Issues** section.
+* Comment on the issue you want to work on.
+* Fork the repository.
+* Create a new branch.
 
-```
+```bash
 git checkout -b feature/your-feature-name
 ```
 
-5. Make your changes
-6. Commit your changes
+* Make your changes.
+* Commit your changes.
 
-```
+```bash
 git commit -m "Added: new button component"
 ```
 
-7. Push to your fork
+* Push to your fork.
 
-```
+```bash
 git push origin feature/your-feature-name
 ```
 
-8. Create a Pull Request 🎉
+* Create a Pull Request 🎉
 
 ---
 

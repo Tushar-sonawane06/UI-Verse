@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Component Dependency Analysis Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { margin-bottom: 30px; color: #333; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
+    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .card h3 { color: #666; font-size: 14px; margin-bottom: 10px; }
+    .card .value { font-size: 32px; font-weight: bold; color: #2563eb; }
+    .card.warning .value { color: #dc2626; }
+    .section { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .section h2 { font-size: 18px; margin-bottom: 15px; color: #333; }
+    .list-item { padding: 10px; border-left: 3px solid #2563eb; margin-bottom: 10px; background: #f9fafb; }
+    .list-item.warning { border-left-color: #dc2626; }
+    .list-item strong { color: #333; }
+    .timestamp { font-size: 12px; color: #999; }
+    .graph-node { display: inline-block; background: #dbeafe; padding: 8px 12px; margin: 4px; border-radius: 4px; font-size: 12px; }
+    .graph-arrow { color: #999; margin: 0 4px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📊 Component Dependency Analysis</h1>
+    
+    <div id="loading" style="text-align: center; padding: 40px;">
+      <p>Loading analysis report...</p>
+    </div>
+
+    <div id="content" style="display: none;">
+      <p class="timestamp">Generated: <span id="timestamp"></span></p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Components Scanned</h3>
+          <div class="value" id="componentCount">-</div>
+        </div>
+        <div class="card">
+          <h3>Total Imports</h3>
+          <div class="value" id="importCount">-</div>
+        </div>
+        <div class="card warning" id="circularCard">
+          <h3>⚠️ Circular Dependencies</h3>
+          <div class="value" id="circularCount">-</div>
+        </div>
+        <div class="card warning" id="unusedCard">
+          <h3>⚠️ Unused Imports</h3>
+          <div class="value" id="unusedCount">-</div>
+        </div>
+      </div>
+
+      <div class="section" id="circularSection" style="display: none;">
+        <h2>Circular Dependencies</h2>
+        <div id="circularList"></div>
+      </div>
+
+      <div class="section" id="unusedSection" style="display: none;">
+        <h2>Files with Unused Imports</h2>
+        <div id="unusedList"></div>
+      </div>
+
+      <div class="section">
+        <h2>Dependency Graph (Sample)</h2>
+        <div id="graphVisualization" style="overflow-x: auto; padding: 10px; background: #f9fafb; border-radius: 4px; font-size: 12px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadDashboard() {
+      try {
+        const response = await fetch('./reports/dependencies/analysis-report.json');
+        if (!response.ok) throw new Error('Report not found. Run: npm run dependencies:analyze');
+        
+        const report = await response.json();
+        renderDashboard(report);
+      } catch (error) {
+        document.getElementById('loading').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+      }
+    }
+
+    function renderDashboard(report) {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+
+      // Summary metrics
+      document.getElementById('timestamp').textContent = new Date(report.timestamp).toLocaleString();
+      document.getElementById('componentCount').textContent = report.components;
+      document.getElementById('importCount').textContent = report.totalImports;
+      document.getElementById('circularCount').textContent = report.summary.circularDepCount;
+      document.getElementById('unusedCount').textContent = report.summary.totalUnusedImports;
+
+      // Circular dependencies
+      if (report.circularDependencies.length > 0) {
+        document.getElementById('circularSection').style.display = 'block';
+        const list = document.getElementById('circularList');
+        report.circularDependencies.forEach(dep => {
+          const item = document.createElement('div');
+          item.className = 'list-item warning';
+          item.innerHTML = `<strong>Cycle ${dep.id}:</strong> ${dep.files.join(' → ')}`;
+          list.appendChild(item);
+        });
+      }
+
+      // Unused imports
+      if (report.unusedImports.length > 0) {
+        document.getElementById('unusedSection').style.display = 'block';
+        const list = document.getElementById('unusedList');
+        report.unusedImports.slice(0, 10).forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'list-item';
+          div.innerHTML = `<strong>${item.file}:</strong> ${item.count} unused import(s)`;
+          list.appendChild(div);
+        });
+      }
+
+      // Graph visualization (sample)
+      const graphDiv = document.getElementById('graphVisualization');
+      const sampleFiles = Object.keys(report.graph).slice(0, 5);
+      let html = '';
+      sampleFiles.forEach(file => {
+        const deps = report.graph[file];
+        if (deps.length > 0) {
+          html += `<div>${file}<br>`;
+          deps.slice(0, 3).forEach(dep => {
+            html += `<span class="graph-node">${dep.split('/').pop()}</span>`;
+          });
+          if (deps.length > 3) html += `<span class="graph-node">+${deps.length - 3} more</span>`;
+          html += `</div><br>`;
+        }
+      });
+      graphDiv.innerHTML = html || '<p>No dependencies found</p>';
+    }
+
+    loadDashboard();
+  </script>
+</body>
+</html>

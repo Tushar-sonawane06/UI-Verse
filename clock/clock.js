@@ -5,6 +5,7 @@ document.getElementById(
 "hourHand"
 );
 
+
 const minuteHand =
 document.getElementById(
 "minuteHand"

@@ -1,0 +1,970 @@
+:root {
+  --page-bg: #f5f7fb;
+  --surface: #fff;
+  --text: #111827;
+  --muted: #64748b;
+  --accent: #6c5ce7;
+  --accent-2: #00b894;
+  --line: rgba(15, 23, 42, 0.08);
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.sidebar {
+  width: 255px;
+  height: 100vh;
+  background: linear-gradient(160deg, #141428 0%, #1c1c35 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  border-right: 1px solid rgba(255,255,255,0.05);
+  transition: transform var(--transition);
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.brand-icon {
+  font-size: 24px;
+  color: var(--accent);
+}
+
+.brand-text {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 20px;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 12px;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-nav li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  color: #8a9bc0;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all var(--transition);
+}
+
+.sidebar-nav li a i {
+  width: 18px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.sidebar-nav li a:hover {
+  background: rgba(255,255,255,0.07);
+  color: #fff;
+  transform: translateX(4px);
+}
+
+.sidebar-nav li a:active {
+  transform: translateX(2px) scale(0.98);
+}
+
+.sidebar-nav li.active a {
+  background: linear-gradient(90deg, rgba(235,104,53,0.2) 0%, rgba(235,104,53,0.05) 100%);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
+}
+
+.sidebar-footer {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  gap: 16px;
+}
+
+.sidebar-footer a {
+  color: #6a7a94;
+  font-size: 16px;
+  transition: color var(--transition);
+}
+
+.sidebar-footer a:hover {
+  color: var(--accent);
+}
+
+/* Sidebar backdrop (mobile) */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1040;
+  backdrop-filter: blur(2px);
+}
+
+.sidebar-backdrop.visible {
+  display: block;
+}
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, system-ui, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(108, 92, 231, 0.16), transparent 26%),
+    radial-gradient(circle at bottom right, rgba(0, 184, 148, 0.14), transparent 24%),
+    var(--page-bg);
+}
+
+.page-shell {
+  min-height: 100vh;
+}
+
+.hero {
+  max-width: 720px;
+  margin-bottom: 30px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 0 0 14px;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.hero p {
+  margin: 0;
+  max-width: 680px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.profile-card {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  min-height: 260px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 55px rgba(15, 23, 42, 0.14);
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  color: #fff;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+.profile-card h2,
+.profile-card p {
+  margin: 0;
+}
+
+.component-name {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.profile-card p {
+  color: var(--muted);
+}
+
+.profile-card button {
+  justify-self: start;
+  border: 0;
+  border-radius: 999px;
+  padding: 11px 16px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.status {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  color: #059669;
+  background: rgba(16, 185, 129, 0.12);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.skills,
+.team-meta,
+.glass-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skills span,
+.team-meta span,
+.glass-row span {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(108, 92, 231, 0.1);
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.social-links {
+  display: flex;
+  gap: 10px;
+}
+
+.social-links a {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: #111827;
+  text-decoration: none;
+  transition: transform 0.22s ease;
+}
+
+.social-links a:hover {
+  transform: translateY(-3px);
+}
+
+.team-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.team-meta span strong {
+  margin-right: 4px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.stats span {
+  display: grid;
+  gap: 4px;
+  padding: 12px 8px;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.04);
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.stats strong {
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.glass-card {
+  color: #fff;
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.82), rgba(0, 184, 148, 0.72));
+  backdrop-filter: blur(16px);
+}
+
+.glass-card p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.glass-card .component-name {
+  color: #fff;
+}
+
+.glass-card .glass-row span {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.glass-card button {
+  color: var(--accent);
+  background: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #f8fafc;
+    background:
+      radial-gradient(circle at top left, rgba(108, 92, 231, 0.22), transparent 26%),
+      radial-gradient(circle at bottom right, rgba(0, 184, 148, 0.18), transparent 24%),
+      #0f172a;
+  }
+
+  .profile-card {
+    background: rgba(15, 23, 42, 0.78);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .stats span {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .stats strong {
+    color: #fff;
+  }
+}
+
+/* ============================================================
+   V2 CONTENT LAYOUT
+   ============================================================ */
+.main-content {
+  margin-left: var(--sidebar-w);
+  margin-top: var(--navbar-h);
+  padding: 40px 40px 0;
+  min-height: calc(100vh - var(--navbar-h));
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 24px 20px 0;
+    gap: 30px;
+  }
+}
+
+/* ============================================================
+   V2 WRAPPER CARD STYLING & GRID
+   ============================================================ */
+.upload-card.profile-card-v2 {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+}
+
+.upload-card.profile-card-v2:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+  border-color: rgba(108, 92, 231, 0.3);
+}
+
+.upload-card.profile-card-v2 .card-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 290px;
+  background: radial-gradient(circle at center, rgba(108, 92, 231, 0.04), transparent);
+  border-radius: 16px;
+  border: 1px dashed var(--line);
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.upload-card.profile-card-v2 .card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.upload-card.profile-card-v2 .card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.upload-card.profile-card-v2 .card-top h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.upload-card.profile-card-v2 p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Card Preview Specific Adjustments */
+.card-preview .profile-card {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
+  border: 1px solid var(--line) !important;
+  background: var(--surface) !important;
+  transform: none !important;
+  width: 100%;
+  max-width: 300px;
+  min-height: auto !important;
+}
+
+.card-preview .glass-card {
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.82), rgba(0, 184, 148, 0.72)) !important;
+}
+
+/* ============================================================
+   1. 3D FLIP PROFILE CARD
+   ============================================================ */
+.flip-profile-card {
+  background-color: transparent;
+  width: 100%;
+  max-width: 300px;
+  height: 250px;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-profile-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+}
+
+.flip-card-front {
+  background-color: var(--surface);
+  color: var(--text);
+}
+
+.flip-card-back {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.flip-card-back h3 {
+  margin: 0 0 12px;
+  font-size: 1.1rem;
+}
+
+.flip-card-back p {
+  margin: 6px 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.back-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-btn {
+  margin-top: 16px;
+  border: none;
+  background: white;
+  color: var(--accent);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.status-flip {
+  margin-top: 12px;
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ============================================================
+   2. CYBERPUNK PROFILE CARD
+   ============================================================ */
+.cyberpunk-card {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  background: #09090e;
+  border: 2px solid #00f0ff;
+  border-radius: 16px;
+  padding: 24px;
+  color: #00f0ff;
+  font-family: monospace;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+  text-align: left;
+}
+
+.cyberpunk-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #00f0ff, #ff007f);
+}
+
+.cyberpunk-grid {
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+  background-size: 15px 15px;
+  pointer-events: none;
+}
+
+.cyberpunk-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.cyberpunk-avatar {
+  border: 2px solid #ff007f !important;
+  box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+  background: #0f0f1b !important;
+  color: #ff007f !important;
+}
+
+.cyberpunk-badge {
+  font-size: 0.7rem;
+  background: rgba(255, 0, 127, 0.15);
+  border: 1px solid #ff007f;
+  color: #ff007f;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 900;
+}
+
+.cyberpunk-card h2 {
+  font-size: 1.3rem;
+  color: #fff;
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+}
+
+.cyberpunk-card p {
+  color: #00f0ff !important;
+  font-size: 0.8rem;
+  margin: 0 0 16px 0 !important;
+  letter-spacing: 1px;
+}
+
+.cyberpunk-stats {
+  display: flex;
+  gap: 12px;
+  border-top: 1px dashed rgba(0, 240, 255, 0.3);
+  padding-top: 12px;
+}
+
+.cyber-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-lbl {
+  font-size: 0.65rem;
+  color: rgba(0, 240, 255, 0.6);
+}
+
+.stat-val {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.cyber-glitch {
+  position: relative;
+}
+
+.cyber-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 2px;
+  text-shadow: -1px 0 #ff007f;
+  top: 0;
+  color: white;
+  background: #09090e;
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0); 
+  animation: noise-anim 2s infinite linear alternate-reverse;
+}
+
+@keyframes noise-anim {
+  0% { clip: rect(12px, 9999px, 66px, 0); }
+  5% { clip: rect(34px, 9999px, 5px, 0); }
+  10% { clip: rect(89px, 9999px, 86px, 0); }
+  15% { clip: rect(1px, 9999px, 20px, 0); }
+  20% { clip: rect(56px, 9999px, 42px, 0); }
+  25% { clip: rect(98px, 9999px, 9px, 0); }
+  30% { clip: rect(10px, 9999px, 76px, 0); }
+}
+
+/* ============================================================
+   3. GLASSMORPHIC PROGRESS PROFILE
+   ============================================================ */
+.skills-progress-card {
+  width: 100%;
+  max-width: 300px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 24px;
+  padding: 24px;
+  text-align: left;
+}
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.progress-avatar {
+  flex-shrink: 0;
+}
+
+.progress-info h2 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.progress-info p {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 2px 0 0 0;
+}
+
+.progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.progress-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.progress-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  color: var(--text);
+}
+
+.progress-percentage {
+  color: var(--accent);
+}
+
+.progress-bar-v2 {
+  width: 100%;
+  height: 6px;
+  background: rgba(15, 23, 42, 0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill-v2 {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 3px;
+  width: 0;
+  animation: fillProgress 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fillProgress {
+  to { width: 100%; }
+}
+
+/* ============================================================
+   4. EXPANDABLE TABBED PROFILE
+   ============================================================ */
+.expandable-card {
+  width: 100%;
+  max-width: 300px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+}
+
+.expandable-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.expandable-header h2 {
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.expandable-header p {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 2px 0 0 0;
+}
+
+.card-tabs {
+  display: flex;
+  background: rgba(15, 23, 42, 0.04);
+  padding: 4px;
+  border-radius: 12px;
+}
+
+.tab-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 6px 10px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  color: var(--muted) !important;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s;
+  justify-self: stretch !important;
+}
+
+.tab-btn.active {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tab-contents {
+  position: relative;
+  min-height: 50px;
+}
+
+.tab-pane {
+  display: none;
+  animation: fadeInPane 0.3s ease;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+@keyframes fadeInPane {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tab-text {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.skills-mini {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.skills-mini span {
+  font-size: 0.7rem;
+  background: rgba(108, 92, 231, 0.08);
+  color: var(--accent);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* ============================================================
+   5. CREATIVE BANNER PROFILE
+   ============================================================ */
+.banner-card {
+  width: 100%;
+  max-width: 300px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.banner-bg {
+  height: 80px;
+  background: linear-gradient(135deg, #eb6835, #7b61ff);
+}
+
+.banner-avatar-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: -32px;
+  margin-bottom: 8px;
+}
+
+.banner-avatar {
+  border: 4px solid var(--surface) !important;
+}
+
+.banner-details {
+  padding: 12px 20px 20px 20px;
+  text-align: center;
+}
+
+.banner-details h2 {
+  font-size: 1.1rem;
+  margin: 0 0 4px 0;
+}
+
+.banner-details p {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0 0 16px 0;
+}
+
+.banner-stats {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.b-stat-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.b-stat-col strong {
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.b-stat-col span {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+/* Dark Mode Overrides */
+body.dark-mode .upload-card.profile-card-v2 {
+  background: #141420;
+  border-color: rgba(255,255,255,0.06);
+}
+
+body.dark-mode .card-preview .profile-card {
+  background: #1c1c28 !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+
+body.dark-mode .flip-card-front {
+  background: #1c1c28;
+  border-color: rgba(255,255,255,0.06);
+}
+
+body.dark-mode .expandable-card {
+  background: #1c1c28;
+  border-color: rgba(255,255,255,0.06);
+}
+
+body.dark-mode .tab-btn.active {
+  background: #141420 !important;
+  color: #fff !important;
+}
+
+body.dark-mode .banner-card {
+  background: #1c1c28;
+  border-color: rgba(255,255,255,0.06);
+}
+
+body.dark-mode .banner-avatar {
+  border-color: #1c1c28 !important;
+}
+
+body.dark-mode .b-stat-col strong {
+  color: #fff;
+}
+
+body.dark-mode .skills-progress-card {
+  background: rgba(20, 20, 32, 0.7);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+

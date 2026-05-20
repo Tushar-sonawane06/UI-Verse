@@ -30,6 +30,22 @@ function getCurrentPageName(href = window.location.href) {
 }
 
 /**
+ * Get the normalized relative route path without query/hash.
+ * Examples: "index.html", "components/index.html".
+ * @param {string} href
+ * @returns {string}
+ */
+function getCurrentRoutePath(href = window.location.href) {
+  const normalizedURL = getNormalizedURL(href);
+  const pathname = normalizedURL.pathname || '';
+  return pathname
+    .split('/')
+    .filter(Boolean)
+    .map((segment) => segment.toLowerCase())
+    .join('/') || 'index.html';
+}
+
+/**
  * Resolve a route against the current page and optionally attach search params.
  * @param {string} path
  * @param {Record<string, string|number|boolean|undefined|null>} params

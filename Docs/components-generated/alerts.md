@@ -1,0 +1,761 @@
+# Alerts
+
+Component ID: alerts
+
+- Path: alerts.html
+- Version: 0.1.0
+- Documentation score: 90/100
+- Tags: notifications, components
+- Description: Alert banners, toasts and status messages
+
+## Assets
+
+- CSS: alerts.css, home.css, https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css
+- JS: -
+
+## Headings
+
+- H1: Alert Components
+- H2: ⬡ UIverse
+- H3: Explore
+- H3: Resources
+- H3: Legal
+- H3: Stay Updated
+
+## Usage Snippet
+
+```html
+<main class="main-home">
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="page-hero-left">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Alerts</span>
+      </div>
+      <h1 class="page-title">Alert Components</h1>
+      <p class="page-desc">A complete library of alert, notification, and banner UI components — success, error, warning, info, dismissible, toast, outlined, filled, and more. Copy and use instantly.</p>
+      <div class="page-meta">
+        <span class="meta-badge"><i class="fa-solid fa-layer-group"></i> 14 Components</span>
+        <span class="meta-badge"><i class="fa-solid fa-code"></i> Pure HTML & CSS</span>
+        <span class="meta-badge"><i class="fa-solid fa-xmark"></i> Dismissible</span>
+      </div>
+    </div>
+    <div class="page-hero-right">
+      <div class="alert-hero-preview">
+        <div class="ahp-alert ahp-success">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>Your changes were saved successfully.</span>
+        </div>
+        <div class="ahp-alert ahp-warning">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>You are running low on storage.</span>
+        </div>
+        <div class="ahp-alert ahp-error">
+          <i class="fa-solid fa-circle-xmark"></i>
+          <span>Connection failed. Please retry.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
+    <button class="filter-btn" onclick="filterCards('basic', this)">Basic</button>
+    <button class="filter-btn" onclick="filterCards('outlined', this)">Outlined</button>
+    <button class="filter-btn" onclick="filterCards('filled', this)">Filled</button>
+    <button class="filter-btn" onclick="filterCards('toast', this)">Toast</button>
+    <button class="filter-btn" onclick="filterCards('banner', this)">Banner</button>
+    <div class="filter-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Filter alerts..." oninput="liveFilter(this.value)" />
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <div class="alerts-grid" id="alertsGrid">
+
+    <!-- 1. Basic Status Alerts -->
+    <div class="component-card" data-name="basic status success error warning info alert" data-cat="basic">
+      <div class="card-top">
+        <span class="card-label">Basic Status Alerts</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-alert-stack">
+          <div class="al al-success">
+            <i class="fa-solid fa-circle-check al-icon"></i>
+            <div class="al-body"><strong>Success!</strong> Your profile was updated.</div>
+          </div>
+          <div class="al al-error">
+            <i class="fa-solid fa-circle-xmark al-icon"></i>
+            <div class="al-body"><strong>Error!</strong> Something went wrong. Try again.</div>
+          </div>
+          <div class="al al-warning">
+            <i class="fa-solid fa-triangle-exclamation al-icon"></i>
+            <div class="al-body"><strong>Warning!</strong> Storage is almost full.</div>
+          </div>
+          <div class="al al-info">
+            <i class="fa-solid fa-circle-info al-icon"></i>
+            <div class="al-body"><strong>Info.</strong> A new update is available.</div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">The four core alert types — success, error, warning, and info — with icon and message.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('al1', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('al1', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="al1" class="code-block"><code>&lt;div class="alert success"&gt;
+  &lt;i class="fa-solid fa-circle-check"&gt;&lt;/i&gt;
+  &lt;span&gt;&lt;strong&gt;Success!&lt;/strong&gt; Your profile was updated.&lt;/span&gt;
+&lt;/div&gt;
+
+.alert {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 18px; border-radius: 12px;
+  font-size: 14px; font-weight: 500;
+}
+.alert.success { background: rgba(0,184,148,0.1);  color: #00b894; border-left: 4px solid #00b894; }
+.alert.error   { background: rgba(214,48,49,0.1);  color: #d63031; border-left: 4px solid #d63031; }
+.alert.warning { background: rgba(253,203,110,0.15);color: #d98e00; border-left: 4px solid #fdcb6e; }
+.alert.info    { background: rgba(9,132,227,0.1);  color: #0984e3; border-left: 4px solid #0984e3; }</code></pre>
+    </div>
+
+    <!-- 2. Dismissible Alerts -->
+    <div class="component-card" data-name="dismissible closeable close button alert" data-cat="basic">
+      <div class="card-top">
+        <span class="card-label">Dismissible Alerts</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-alert-stack" id="dismissStack">
+          <div class="al al-success al-dismissible" id="dis1">
+            <i class="fa-solid fa-circle-check al-icon"></i>
+            <div class="al-body">Payment completed successfully!</div>
+            <button class="al-close" onclick="dismissAlert('dis1')"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="al al-warning al-dismissible" id="dis2">
+            <i class="fa-solid fa-triangle-exclamation al-icon"></i>
+            <div class="al-body">Your session will expire in 5 minutes.</div>
+            <button class="al-close" onclick="dismissAlert('dis2')"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="al al-info al-dismissible" id="dis3">
+            <i class="fa-solid fa-circle-info al-icon"></i>
+            <div class="al-body">Version 2.0 is now available. <a class="al-link" href="#">Update now →</a></div>
+            <button class="al-close" onclick="dismissAlert('dis3')"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>
+        <button class="reset-btn" onclick="resetDismiss()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+      </div>
+      <p class="card-desc">Alerts with an × dismiss button — click to slide them away. Works with a tiny JS snippet.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('al2', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('al2', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="al2" class="code-block"><code>&lt;div class="alert success dismissible" id="myAlert"&gt;
+  &lt;i class="fa-solid fa-circle-check"&gt;&lt;/i&gt;
+  &lt;span&gt;Payment completed successfully!&lt;/span&gt;
+  &lt;button class="close-btn" onclick="dismiss('myAlert')"&gt;✕&lt;/button&gt;
+&lt;/div&gt;
+
+.alert.dismissible { position: relative; }
+.close-btn {
+  margin-left: auto; background: none; border: none;
+  cursor: pointer; opacity: 0.6; font-size: 16px;
+  transition: opacity 0.2s;
+}
+.close-btn:hover { opacity: 1; }
+
+function dismiss(id) {
+  const el = document.getElementById(id);
+  el.style.opacity = '0';
+  el.style.transform = 'translateX(8px)';
+  setTimeout(() => el.style.display = 'none', 300);
+}</code></pre>
+    </div>
+
+    <!-- 3. Outlined Alerts -->
+    <div class="component-card" data-name="outlined border alert notification" data-cat="outlined">
+      <div class="card-top">
+        <span class="card-label">Outlined Alerts</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-alert-stack">
+          <div class="al al-outline-success">
+            <i class="fa-solid fa-circle-check al-icon"></i>
+            <div class="al-body"><strong>Success!</strong> All changes saved.</div>
+          </div>
+          <div class="al al-outline-error">
+            <i class="fa-solid fa-circle-xmark al-icon"></i>
+            <div class="al-body"><strong>Error!</strong> Unable to connect to server.</div>
+          </div>
+          <div class="al al-outline-warning">
+            <i class="fa-solid fa-triangle-exclamation al-icon"></i>
+            <div class="al-body"><strong>Warning!</strong> Unsaved changes detected.</div>
+          </div>
+          <div class="al al-outline-info">
+            <i class="fa-solid fa-circle-info al-icon"></i>
+            <div class="al-body"><strong>Info.</strong> Feature is in beta.</div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Clean outlined alerts — border-only with no background fill, for a lighter visual presence.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('al3', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('al3', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="al3" class="code-block"><code>&lt;div class="alert outlined success"&gt;
+  &lt;i class="fa-solid fa-circle-check"&gt;&lt;/i&gt;
+  &lt;span&gt;All changes saved.&lt;/span&gt;
+&lt;/div&gt;
+
+.alert.outlined {
+  background: transparent;
+  border: 1.5px solid currentColor;
+}
+.alert.outlined.success { color: #00b894; }
+.alert.outlined.error   { color: #d63031; }
+.alert.outlined.warning { color: #d98e00; }
+.alert.outlined.info    { color: #0984e3; }</code></pre>
+    </div>
+
+    <!-- 4. Filled / Solid Alerts -->
+    <div class="component-card" data-name="filled solid background alert" data-cat="filled">
+      <div class="card-top">
+        <span class="card-label">Filled / Solid Alerts</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-alert-stack">
+          <div class="al al-solid-success">
+            <i class="fa-solid fa-circle-check al-icon"></i>
+            <div class="al-body">Account created successfully!</div>
+          </div>
+          <div class="al al-solid-error">
+            <i class="fa-solid fa-circle-xmark al-icon"></i>
+            <div class="al-body">Failed to load data. Please refresh.</div>
+          </div>
+          <div class="al al-solid-warning">
+            <i class="fa-solid fa-triangle-exclamation al-icon"></i>
+            <div class="al-body">Please verify your email address.</div>
+          </div>
+          <div class="al al-solid-info">
+            <i class="fa-solid fa-circle-info al-icon"></i>
+            <div class="al-body">Scheduled maintenance on Sunday.</div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Bold solid background alerts — high contrast, great for prominent system messages.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('al4', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('al4', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="al4" class="code-block"><code>&lt;div class="alert solid success"&gt;
+  &lt;i class="fa-solid fa-circle-check"&gt;&lt;/i&gt;
+  &lt;span&gt;Account created successfully!&lt;/span&gt;
+&lt;/div&gt;
+
+.alert.solid { color: #fff; }
+.alert.solid.success { background: #00b894; }
+.alert.solid.error   { background: #d63031; }
+.alert.solid.warning { background: #e6a817; }
+.alert.solid.info    { background: #0984e3; }</code></pre>
+    </div>
+
+    <!-- 5. Alert with Title + Description -->
+    <div class="component-card" data-name="title description detailed alert notification" data-cat="basic">
+      <div class="card-top">
+        <span class="card-label">Alert with Description</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-alert-stack">
+          <div class="al al-success al-detailed">
+            <i class="fa-solid fa-circle-check al-icon al-icon-lg"></i>
+            <div class="al-detail-body">
+              <div class="al-title">Payment Successful</div>
+              <div class="al-desc">Your order #1234 has been confirmed. You'll receive an email shortly.</div>
+            </div>
+          </div>
+          <div class="al al-error al-detailed">
+            <i class="fa-solid fa-circle-xmark al-icon al-icon-lg"></i>
+            <div class="al-detail-body">
+              <div class="al-title">Authentication Failed</div>
+              <div class="al-desc">Invalid credentials. Please check your email and password and try again.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Alerts with a bold title and a supporting description — for messages that need more context.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('al5', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('al5', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="al5" class="code-block"><code>&lt;div class="alert success detailed"&gt;
+  &lt;i class="fa-solid fa-circle-check icon-lg"&gt;&lt;/i&gt;
+  &lt;div class="alert-body"&gt;
+    &lt;div class="alert-title"&gt;Payment Successful&lt;/div&gt;
+    &lt;div class="alert-desc"&gt;
+      Your order #1234 has been confirmed.
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+.alert.detailed { align-items: flex-start; }
+.alert-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+.alert-desc  { font-size: 13px; opacity: 0.85; line-height: 1.5; }</code></pre>
+    </div>
+
+    <!-- 6. Toast Notifications -->
+    <div class="component-card" data-name="toast notification popup bottom corner" data-cat="toast">
+      <div class="card-top">
+        <span class="card-label">Toast Notifications</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-toast-grid">
+          <div class="toast toast-success">
+            <div class="toast-icon-wrap"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="toast-body">
+              <div class="toast-title">Saved!</div>
+              <div class="toast-msg">Your draft was saved.</div>
+            </div>
+            <button class="toast-close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="toast toast-error">
+            <div class="toast-icon-wrap"><i class="fa-solid fa-circle-xmark"></i></div>
+            <div class="toast-body">
+              <div class="toast-title">Upload Failed</div>
+              <div class="toast-msg">File size exceeds 10MB limit.</div>
+            </div>
+            <button class="toast-close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="toast toast-info">
+            <div class="toast-icon-wrap"><i class="fa-solid fa-circle-info"></i></div>
+            <div class="toast-body">
+              <div class="toast-title">New Message</div>
+              <div class="toast-msg">Alex sent you a message.</div>
+            </div>
+            <button class="toast-close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Compact toast notifications with icon, title, and message — positioned bottom-right in production.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('al6', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('al6', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="al6" class="code-block"><code>&lt;div class="toast success" id="toast1"&gt;
+  &lt;div class="toast-icon"&gt;&lt;i class="fa-solid fa-circle-check"&gt;&lt;/i&gt;&lt;/div&gt;
+  &lt;div class="toast-body"&gt;
+    &lt;div class="toast-title"&gt;Saved!&lt;/div&gt;
+    &lt;div class="toast-msg"&gt;Your draft was saved.&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;button onclick="dismiss('toast1')"&gt;✕&lt;/button&gt;
+&lt;/div&gt;
+
+.toast {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; border-radius: 14px;
+  background: var(--card-bg);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+  border: 1px solid var(--card-border);
+  min-width: 260px; max-width: 360px;
+}
+/* Fixed positioning for real usage */
+.toast-container {
+  position: fixed; bottom: 24px; right: 24px;
+  display: flex; flex-direction: column; gap: 12px;
+  z-index: 9999;
+}</code></pre>
+    </div>
+
+    <!-- 7. Top Banner -->
+    <div class="component-card" data-name="top banner strip alert announcement" data-cat="banner">
+      <div class="card-top">
+        <span class="card-label">Top Banner</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview" style="padding:0;overflow:hidden;border-radius:var(--radius-sm);">
+        <div class="demo-banners">
+          <div class="banner banner-accent">
+            <i class="fa-solid fa-rocket"></i>
+            <span>UIverse v2.0 is live! <a class="banner-link" href="#">See what's new →</a></span>
+            <button class="banner-close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="banner banner-warning">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Scheduled maintenance on Sunday 2 AM UTC.</span>
+            <button class="banner-close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="banner banner-error">
+            <i class="fa-solid fa-circle-xmark"></i>
+            <span>Service disruption detected. Our team is working on a fix.</span>
+            <button class="banner-close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Full-width announcement banners — accent, warning, and error variants for site-wide notices.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('al7', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('al7', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="al7" class="code-block"><code>&lt;div class="banner accent"&gt;
+  &lt;i class="fa-solid fa-rocket"&gt;&lt;/i&gt;
+  &lt;span&gt;UIverse v2.0 is live! &lt;a href="#"&gt;See what's new →&lt;/a&gt;&lt;/span&gt;
+  &lt;button class="close"&gt;✕&lt;/button&gt;
+&lt;/div&gt;
+
+.banner {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 20px; font-size: 13px; font-weight: 500;
+  width: 100%;
+}
+.banner.accent  { background: linear-gradient(90deg,#eb6835,#6c5ce7); color:#fff; }
+.banner.warning { background: #fdcb6e; color: #5a3e00; }
+.banner.error   { background: #d63031; color: #fff; }</code></pre>
+    </div>
+
+    <!-- 8. Inline Alert -->
+    <div class="component-card" data-name="inline compact small alert form validation" data-cat="basic">
+      <div class="card-top">
+        <span class="card-label">Inline / Form Alerts</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-alert-stack" style="gap:10px;">
+          <div>
+            <label class="demo-field-label">Email address</label>
+            <div class="demo-input-mock demo-input-error">someone@example</div>
+            <div class="al-inline al-inline-error"><i class="fa-solid fa-circle-xmark"></i> Please enter a valid email address.</div>
+          </div>
+          <div>
+            <label class="demo-field-label">Username</label>
+            <div class="demo-input-mock demo-input-success">chinmay1126</div>
+            <div class="al-inline al-inline-success"><i class="fa-solid fa-circle-check"></i> Username is available.</div>
+          </div>
+          <div>
+            <label class="demo-field-label">Password</label>
+            <div class="demo-input-mock">••••••••</div>
+            <div class="al-inline al-inline-warning"><i class="fa-solid fa-triangle-exclamation"></i> Use at least 8 characters with a number.</div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Inline validation messages below form fields — error, success, and warning variants.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('al8', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('al8', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="al8" class="code-block"><code>&lt;input type="email" class="input error"&gt;
+&lt;div class="inline-alert error"&gt;
+  &lt;i class="fa-solid fa-circle-xmark"&gt;&lt;/i&gt;
+  Please enter a valid email address.
+&lt;/div&gt;
+
+.inline-alert {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; margin-top: 5px;
+}
+.inline-alert.error   { color: #d63031; }
+.inline-alert.success { color: #00b894; }
+.inline-alert.warning { color: #d98e00; }</code></pre>
+    </div>
+
+    <!-- 9. Alert with Action Buttons -->
+    <div class="component-card" data-name="action button cta alert confirm prompt" data-cat="basic">
+      <div class="card-top">
+        <span class="card-label">Alert with Actions</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-alert-stack">
+          <div class="al al-warning al-with-actions">
+            <div class="al-wa-top">
+              <i class="fa-solid fa-triangle-exclamation al-icon"></i>
+              <div class="al-body"><strong>Delete Account?</strong> This action cannot be undone. All your data will be permanently removed.</div>
+            </div>
+            <div class="al-wa-btns">
+              <button class="al-btn-cancel">Cancel</button>
+              <button class="al-btn-confirm al-btn-danger">Delete Account</button>
+            </div>
+          </div>
+          <div class="al al-info al-with-actions">
+            <div class="al-wa-top">
+              <i class="fa-solid fa-circle-info al-icon"></i>
+              <div class="al-body"><strong>Update Available!</strong> Version 2.1.0 includes bug fixes and performance improvements.</div>
+            </div>
+            <div class="al-wa-btns">
+              <button class="al-btn-cancel">Later</button>
+              <button class="al-btn-confirm al-btn-info">Update Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Alerts with inline action buttons — perfect for confirmations, prompts, and upgrade nudges.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('al9', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('al9', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="al9" class="code-block"><code>&lt;div class="alert warning with-actions"&gt;
+  &lt;div class="alert-top"&gt;
+    &lt;i class="fa-solid fa-triangle-exclamation"&gt;&lt;/i&gt;
+    &lt;span&gt;Delete Account? This cannot be undone.&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="alert-actions"&gt;
+    &lt;button class="btn-cancel"&gt;Cancel&lt;/button&gt;
+    &lt;button class="btn-danger"&gt;Delete&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+.alert-actions { display: flex; gap: 8px; margin-top: 12px; }
+.btn-cancel { background: transparent; border: 1px solid currentColor; }
+.btn-danger { background: #d63031; color: #fff; border: none; }</code></pre>
+    </div>
+
+    <!-- 10. Live Toast Demo -->
+    <div class="component-card" data-name="live demo interactive toast trigger button" data-cat="toast">
+      <div class="card-top">
+        <span class="card-label">Live Toast Demo</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-toast-triggers">
+          <p class="demo-sub-label2">Click a button to fire a toast:</p>
+          <div class="demo-trigger-row">
+            <button class="trigger-btn trigger-success" onclick="fireToast('success','Saved!','Changes were saved.')">
+              <i class="fa-solid fa-circle-check"></i> Success
+            </button>
+            <button class="trigger-btn trigger-error" onclick="fireToast('error','Error!','Something went wrong.')">
+              <i class="fa-solid fa-circle-xmark"></i> Error
+            </button>
+            <button class="trigger-btn trigger-warning" onclick="fireToast('warning','Warning!','Low disk space.')">
+              <i class="fa-solid fa-triangle-exclamation"></i> Warning
+            </button>
+            <button class="trigger-btn trigger-info" onclick="fireToast('info','Info','New update available.')">
+              <i class="fa-solid fa-circle-info"></i> Info
+            </button>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Interactive live demo — click any button to fire a real toast notification in the corner.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('al10', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('al10', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="al10" class="code-block"><code>function fireToast(type, title, msg) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.innerHTML = `
+    &lt;div class="toast-icon-wrap"&gt;
+      &lt;i class="fa-solid ${icons[type]}"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;div class="toast-body"&gt;
+      &lt;div class="toast-title"&gt;${title}&lt;/div&gt;
+      &lt;div class="toast-msg"&gt;${msg}&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;button onclick="this.parentElement.remove()"&gt;✕&lt;/button&gt;
+  `;
+  container.appendChild(toast);
+  setTimeout(() => toast.classList.add('toast-show'), 10);
+  setTimeout(() => toast.remove(), 4000);
+}</code></pre>
+    </div>
+
+    <!-- 11. Floating Alert -->
+    <div class="component-card" data-name="floating shadow elevated alert card" data-cat="toast">
+      <div class="card-top">
+        <span class="card-label">Floating Alert Card</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-alert-stack">
+          <div class="al-float al-float-success">
+            <div class="al-float-icon"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="al-float-body">
+              <div class="al-float-title">Build Successful</div>
+              <div class="al-float-msg">Deployed to production in 1.2s</div>
+            </div>
+            <div class="al-float-time">just now</div>
+          </div>
+          <div class="al-float al-float-error">
+            <div class="al-float-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+            <div class="al-float-body">
+              <div class="al-float-title">Build Failed</div>
+              <div class="al-float-msg">Syntax error on line 42</div>
+            </div>
+            <div class="al-float-time">2m ago</div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Elevated card-style floating alerts with title, message, and timestamp — great for build/CI logs.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('al11', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('al11', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="al11" class="code-block"><code>&lt;div class="alert-float success"&gt;
+  &lt;div class="float-icon"&gt;&lt;i class="fa-solid fa-circle-check"&gt;&lt;/i&gt;&lt;/div&gt;
+  &lt;div class="float-body"&gt;
+    &lt;div class="float-title"&gt;Build Successful&lt;/div&gt;
+    &lt;div class="float-msg"&gt;Deployed in 1.2s&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;span class="float-time"&gt;just now&lt;/span&gt;
+&lt;/div&gt;
+
+.alert-float {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px; padding: 16px 18px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+.alert-float:hover { transform: translateY(-3px); }</code></pre>
+    </div>
+
+    <!-- 12. Gradient Alert -->
+    <div class="component-card" data-name="gradient colorful alert modern dark" data-cat="filled">
+      <div class="card-top">
+        <span class="card-label">Gradient Alerts</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-alert-stack">
+          <div class="al al-grad-orange">
+            <i class="fa-solid fa-rocket al-icon"></i>
+            <div class="al-body">UIverse v2.0 is now live — explore new features!</div>
+          </div>
+          <div class="al al-grad-purple">
+            <i class="fa-solid fa-wand-magic-sparkles al-icon"></i>
+            <div class="al-body">Your AI generation is ready to preview.</div>
+          </div>
+          <div class="al al-grad-teal">
+            <i class="fa-solid fa-shield-halved al-icon"></i>
+            <div class="al-body">Your account is fully secured and verified.</div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Bold gradient alerts for high-impact announcements — orange, purple, and teal variants.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('al12', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('al12', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="al12" class="code-block"><code>&lt;div class="alert gradient-orange"&gt;
+  &lt;i class="fa-solid fa-rocket"&gt;&lt;/i&gt;
+  &lt;span&gt;UIverse v2.0 is live!&lt;/span&gt;
+&lt;/div&gt;
+
+.alert.gradient-orange {
+  background: linear-gradient(135deg, #eb6835, #fdcb6e);
+  color: #fff;
+}
+.alert.gradient-purple {
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  color: #fff;
+}
+.alert.gradient-teal {
+  background: linear-gradient(135deg, #00b894, #06b6d4);
+  color: #fff;
+}</code></pre>
+    </div>
+
+    <!-- 13. Minimal Icon-only -->
+    <div class="component-card" data-name="minimal icon only compact small alert" data-cat="basic">
+      <div class="card-top">
+        <span class="card-label">Minimal Icon Alert</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="demo-icon-alerts-row">
+          <div class="al-icon-only al-ico-success" title="Success"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="al-icon-only al-ico-error" title="Error"><i class="fa-solid fa-circle-xmark"></i></div>
+          <div class="al-icon-only al-ico-warning" title="Warning"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div class="al-icon-only al-ico-info" title="Info"><i class="fa-solid fa-circle-info"></i></div>
+        </div>
+        <div class="demo-icon-alerts-row" style="margin-top:14px;">
+          <div class="al-icon-pulse al-ico-success"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="al-icon-pulse al-ico-error"><i class="fa-solid fa-circle-xmark"></i></div>
+          <div class="al-icon-pulse al-ico-warning"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div class="al-icon-pulse al-ico-info"><i class="fa-solid fa-circle-info"></i></div>
+        </div>
+        <p style="font-size:11px;color:var(--text-secondary);text-align:center;margin-top:10px;">Top: static · Bottom: pulsing</p>
+      </div>
+      <p class="card-desc">Compact icon-only alert badges — static and pulsing variants for status indicators in dense UIs.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('al13', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('al13', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="al13" class="code-block"><code>&lt;div class="icon-alert success"&gt;
+  &lt;i class="fa-solid fa-circle-check"&gt;&lt;/i&gt;
+&lt;/div&gt;
+
+.icon-alert {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.icon-alert.success { background: rgba(0,184,148,0.12); color: #00b894; }
+.icon-alert.error   { background: rgba(214,48,49,0.12);  color: #d63031; }
+
+/* Pulsing */
+.icon-alert.pulsing {
+  animation: pulse-ring 1.8s ease-in-out infinite;
+}
+@keyframes pulse-ring {
+  0%,100% { box-shadow: 0 0 0 0 rgba(0,184,148,0.4); }
+  50%      { box-shadow: 0 0 0 10px rgba(0,184,148,0); }
+}</code></pre>
+    </div>
+
+    <!-- 14. Dark Alerts -->
+    <div class="component-card" data-name="dark night themed alert" data-cat="filled">
+      <div class="card-top">
+        <span class="card-label">Dark Theme Alerts</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview dark-preview">
+        <div class="demo-alert-stack">
+          <div class="al al-dark-success">
+            <i class="fa-solid fa-circle-check al-icon"></i>
+            <div class="al-body">Deployment complete. Live in 2s.</div>
+          </div>
+          <div class="al al-dark-error">
+            <i class="fa-solid fa-circle-xmark al-icon"></i>
+            <div class="al-body">Pipeline failed at step 3.</div>
+          </div>
+          <div class="al al-dark-warning">
+            <i class="fa-solid fa-triangle-exclamation al-icon"></i>
+            <div class="al-body">CPU usage above 90%.</div>
+          </div>
+          <div class="al al-dark-info">
+            <i class="fa-solid fa-circle-info al-icon"></i>
+            <div class="al-body">Autosave enabled every 30 seconds.</div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Dark-background alert variants — designed for dark dashboards, terminals, and dev tools.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('al14', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('al14', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="al14" class="code-block"><code>&lt;div class="alert dark success"&gt;
+  &lt;i class="fa-solid fa-circle-check"&gt;&lt;/i&gt;
+  &lt;span&gt;Deployment complete.&lt;/span&gt;
+&lt;/div&gt;
+
+.alert.dark { background: #1a1a1e; }
+.alert.dark.success { border-left: 4px solid #00b894; color: #00b894; }
+.alert.dark.error   { border-left: 4px solid #d63031; color: #d63031; }
+.alert.dark.warning { border-left: 4px solid #fdcb6e; color: #fdcb6e; }
+.alert.dark.info    { border-left: 4px solid #74b9ff; color: #74b9ff; }</code></pre>
+    </div>
+
+  </div><!-- /alerts-grid -->
+
+</main>
+```

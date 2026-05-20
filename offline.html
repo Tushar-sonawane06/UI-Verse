@@ -1,16 +1,299 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Offline — UI-Verse</title>
-    <style>body{font-family:system-ui,Segoe UI,Arial;background:#f7fafc;color:#222;display:flex;align-items:center;justify-content:center;height:100vh;margin:0} .card{max-width:540px;padding:30px;border-radius:8px;background:white;box-shadow:0 6px 18px rgba(12,12,30,0.08);text-align:center} h1{margin-bottom:8px} p{color:#555}</style>
-  </head>
-  <body>
-    <div class="card">
-      <h1>You're offline</h1>
-      <p>This site is available offline. Try reloading when you're back online to fetch updates.</p>
-      <p style="margin-top:12px;font-size:0.9em;color:#777">You can still browse cached pages.</p>
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <!-- Strong CSP -->
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="
+      default-src 'self' https:;
+      base-uri 'self';
+      frame-ancestors 'none';
+      object-src 'none';
+      connect-src 'self' https:;
+      img-src 'self' data: https:;
+      font-src 'self' data: https:;
+      script-src 'self' https: 'unsafe-hashes';
+      script-src-attr 'unsafe-hashes';
+      style-src 'self' https: 'unsafe-inline';
+      style-src-attr 'unsafe-inline';
+      upgrade-insecure-requests;
+    "
+  >
+
+  <title>Offline — UI-Verse</title>
+
+  <link
+    rel="stylesheet"
+    href="offline.css"
+  >
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      background:
+        radial-gradient(circle at top left,#1e293b,#020617);
+
+      color:#fff;
+      overflow:hidden;
+      position:relative;
+    }
+
+    /* Animated background */
+    body::before,
+    body::after{
+      content:"";
+      position:absolute;
+      width:400px;
+      height:400px;
+      border-radius:50%;
+      filter:blur(80px);
+      opacity:.25;
+      animation:float 10s ease-in-out infinite;
+    }
+
+    body::before{
+      background:#3b82f6;
+      top:-100px;
+      left:-100px;
+    }
+
+    body::after{
+      background:#8b5cf6;
+      bottom:-120px;
+      right:-120px;
+      animation-delay:3s;
+    }
+
+    @keyframes float{
+      0%,100%{
+        transform:translateY(0px);
+      }
+      50%{
+        transform:translateY(25px);
+      }
+    }
+
+    .card{
+      width:100%;
+      max-width:520px;
+      padding:42px 34px;
+      border-radius:28px;
+
+      background:rgba(255,255,255,.08);
+
+      border:1px solid rgba(255,255,255,.12);
+
+      backdrop-filter:blur(18px);
+
+      box-shadow:
+        0 10px 40px rgba(0,0,0,.35);
+
+      text-align:center;
+      position:relative;
+      z-index:1;
+    }
+
+    .icon{
+      width:90px;
+      height:90px;
+      margin:0 auto 24px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      border-radius:50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #3b82f6,
+          #8b5cf6
+        );
+
+      box-shadow:
+        0 8px 30px rgba(59,130,246,.4);
+    }
+
+    .icon svg{
+      width:44px;
+      height:44px;
+      stroke:#fff;
+    }
+
+    h1{
+      font-size:2.2rem;
+      margin-bottom:14px;
+      font-weight:800;
+      letter-spacing:-0.03em;
+    }
+
+    p{
+      color:rgba(255,255,255,.82);
+      line-height:1.7;
+      font-size:1rem;
+      margin-bottom:14px;
+    }
+
+    .offline-note{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+
+      padding:12px 18px;
+      margin-top:12px;
+
+      border-radius:999px;
+
+      background:rgba(255,255,255,.08);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      font-size:.95rem;
+      color:#cbd5e1;
+    }
+
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:#22c55e;
+
+      box-shadow:
+        0 0 12px #22c55e;
+    }
+
+    .reload-btn{
+      margin-top:28px;
+
+      border:none;
+      outline:none;
+
+      padding:14px 24px;
+
+      border-radius:14px;
+
+      font-size:1rem;
+      font-weight:700;
+
+      cursor:pointer;
+
+      color:#fff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #7c3aed
+        );
+
+      transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .reload-btn:hover{
+      transform:translateY(-2px);
+
+      box-shadow:
+        0 10px 22px rgba(37,99,235,.35);
+    }
+
+    .reload-btn:active{
+      transform:scale(.98);
+    }
+
+    @media (max-width:600px){
+
+      .card{
+        padding:34px 24px;
+      }
+
+      h1{
+        font-size:1.8rem;
+      }
+
+      p{
+        font-size:.95rem;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="shared-sidebar.css">
+</head>
+
+<body>
+
+  <main class="card">
+
+    <div class="icon">
+
+      <svg
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.8"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M2.25 12.75l2.25 2.25m0 0L6.75 12.75m-2.25 2.25V9a6 6 0 0111.456-2.472M21.75 11.25L19.5 9m0 0l-2.25 2.25M19.5 9v6a6 6 0 01-11.456 2.472"
+        />
+      </svg>
+
     </div>
-  </body>
+
+    <h1>You're Offline</h1>
+
+    <p>
+      No internet connection detected.
+      Don’t worry — cached pages and assets
+      are still available offline.
+    </p>
+
+    <p>
+      Once you're connected again,
+      reload the page to sync the latest updates.
+    </p>
+
+    <div class="offline-note">
+      <span class="dot"></span>
+      Offline mode active
+    </div>
+
+    <button
+      class="reload-btn"
+      type="button"
+      onclick="window.location.reload()"
+    >
+      Reload Page
+    </button>
+
+  </main>
+
+</body>
 </html>

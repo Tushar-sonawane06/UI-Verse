@@ -14,7 +14,7 @@ export default function navbar(){
               <span>Navbars</span>
             </div>
             <h1 className="page-title">Navbar Components</h1>
-            <p className="page-desc">A complete collection of navigation bar styles G�� from simple to glassmorphic, dark themed, search-enabled, and split layouts. Copy and use instantly.</p>
+            <p className="page-desc">A complete collection of navigation bar styles — from simple to glassmorphic, dark themed, search-enabled, and split layouts. Copy and use instantly.</p>
             <div className="page-meta">
               <span className="meta-badge"><i className="fa-solid fa-layer-group"></i> 8 Components</span>
               <span className="meta-badge"><i className="fa-solid fa-code"></i> Pure CSS</span>
@@ -24,7 +24,7 @@ export default function navbar(){
           <div className="page-hero-right">
             <div className="hero-nav-preview">
               <div className="mini-nav">
-                <span className="mini-brand">G�� UIverse</span>
+                <span className="mini-brand">⬡ UIverse</span>
                 <div className="mini-links">
                   <span>Home</span>
                   <span>Docs</span>
@@ -50,30 +50,44 @@ export default function navbar(){
       
         {/* Navbars Grid */}
         <div className="navbar-grid" id="navbarGrid">
-        {/* =========================================================
-           NAVBAR 9 G�� FLOATING NAVBAR
-      ========================================================= */}
+         {/* =========================================================
+           TRANSPARENT HERO NAVBAR
       
-      <div className="component-card" data-name="floating navbar modern glass" data-cat="glass">
+      <div className="component-card" data-name="transparent hero navbar landing page" data-cat="glass">
       
         <div className="card-top">
-          <span className="card-label">Floating Navbar</span>
-          <span className="card-tag tag-trending">Modern</span>
+      
+          <span className="card-label">
+            Transparent Hero Navbar
+          </span>
+      
+          <span className="card-tag tag-trending">
+            Trending
+          </span>
+      
         </div>
       
-        <div className="nav-card-preview glass-preview">
+        <div className="nav-card-preview hero-nav-preview">
       
-          <nav className="demo-nav-floating">
+          <nav className="demo-hero-nav">
       
-            <span className="dnav-brand">G�� UIverse</span>
+            <span className="hero-brand">
+              ⬡ UIverse
+            </span>
       
-            <div className="dnav-links">
+            <div className="hero-links">
+      
               <a href="#">Home</a>
+      
               <a href="#">Features</a>
+      
               <a href="#">Pricing</a>
+      
+              <a href="#">Contact</a>
+      
             </div>
       
-            <button className="floating-btn">
+            <button className="hero-nav-btn">
               Get Started
             </button>
       
@@ -82,73 +96,479 @@ export default function navbar(){
         </div>
       
         <p className="card-desc">
-          A premium floating glassmorphism navbar with soft blur and rounded edges.
+          A transparent landing-page navbar with glassmorphism and blur effects.
         </p>
       
         <div className="actions">
       
-          <button className="action-btn view-btn" onclick="toggleCode('c9', this)">
-            <i className="fa-solid fa-code"></i> View Code
+          <button className="action-btn view-btn" onclick="toggleCode('c18', this)">
+            <i className="fa-solid fa-code"></i>
+            View Code
           </button>
       
-          <button className="action-btn copy-btn" onclick="copyCode('c9', this)">
-            <i className="fa-solid fa-copy"></i> Copy
+          <button className="action-btn copy-btn" onclick="copyCode('c18', this)">
+            <i className="fa-solid fa-copy"></i>
+            Copy
           </button>
       
         </div>
       
-        <pre id="c9" className="code-block"><code>&lt;nav className="navbar-floating"&gt;
-        &lt;span className="brand"&gt;G�� UIverse&lt;/span&gt;
+        <pre id="c18" className="code-block"><code>&lt;nav className="hero-navbar"&gt;
+        &lt;span className="brand"&gt;⬡ UIverse&lt;/span&gt;
       
         &lt;div className="links"&gt;
           &lt;a href="#"&gt;Home&lt;/a&gt;
           &lt;a href="#"&gt;Features&lt;/a&gt;
-          &lt;a href="#"&gt;Pricing&lt;/a&gt;
         &lt;/div&gt;
       
         &lt;button&gt;Get Started&lt;/button&gt;
-      &lt;/nav&gt;
-      
-      .navbar-floating {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 14px 24px;
-        border-radius: 20px;
-        background: rgba(255,255,255,0.12);
-        backdrop-filter: blur(14px);
-        border: 1px solid rgba(255,255,255,0.18);
-      }</code></pre>
+      &lt;/nav&gt;</code></pre>
       
       </div>
       
-      {/* =========================================================
-           NAVBAR 10 G�� NEON NAVBAR
-      ========================================================= */}
+      <!-- =========================================================
+           SAAS APP NAVBAR
       
-      <div className="component-card" data-name="neon navbar futuristic dark glow" data-cat="dark">
+      <div className="component-card" data-name="saas app navbar modern workspace ai" data-cat="advanced">
       
         <div className="card-top">
-          <span className="card-label">Neon Navbar</span>
-          <span className="card-tag tag-popular">Neon</span>
+      
+          <span className="card-label">
+            SaaS App Navbar
+          </span>
+      
+          <span className="card-tag tag-popular">
+            Popular
+          </span>
+      
         </div>
       
-        <div className="nav-card-preview dark-preview">
+        <div className="nav-card-preview saas-preview">
       
-          <nav className="demo-nav-neon">
+          <nav className="demo-saas-nav">
       
-            <span className="dnav-brand neon-brand">
-              UIverse
-            </span>
+            <div className="saas-left">
       
-            <div className="dnav-links">
-              <a href="#">Docs</a>
-              <a href="#">Components</a>
-              <a href="#">Community</a>
+              <span className="saas-brand">
+                ⚡ UIverse
+              </span>
+      
+              <div className="saas-links">
+      
+                <a href="#">Products</a>
+      
+                <a href="#">Solutions</a>
+      
+                <a href="#">Enterprise</a>
+      
+                <a href="#">Resources</a>
+      
+              </div>
+      
             </div>
       
-            <button className="neon-btn">
-              Launch
+            <div className="saas-right">
+      
+              <button className="saas-outline">
+                Login
+              </button>
+      
+              <button className="saas-primary">
+                Start Free
+              </button>
+      
+            </div>
+      
+          </nav>
+      
+        </div>
+      
+        <p className="card-desc">
+          A modern SaaS navbar with enterprise links and dual CTA actions.
+        </p>
+      
+        <div className="actions">
+      
+          <button className="action-btn view-btn" onclick="toggleCode('c20', this)">
+            <i className="fa-solid fa-code"></i>
+            View Code
+          </button>
+      
+          <button className="action-btn copy-btn" onclick="copyCode('c20', this)">
+            <i className="fa-solid fa-copy"></i>
+            Copy
+          </button>
+      
+        </div>
+      
+        <pre id="c20" className="code-block"><code>&lt;nav className="saas-navbar"&gt;
+        &lt;span className="brand"&gt;⚡ UIverse&lt;/span&gt;
+      
+        &lt;div className="links"&gt;
+          &lt;a href="#"&gt;Products&lt;/a&gt;
+          &lt;a href="#"&gt;Solutions&lt;/a&gt;
+          &lt;a href="#"&gt;Enterprise&lt;/a&gt;
+        &lt;/div&gt;
+      
+        &lt;div className="actions"&gt;
+          &lt;button className="outline"&gt;Login&lt;/button&gt;
+          &lt;button className="primary"&gt;Start Free&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/nav&gt;</code></pre>
+      
+      </div>
+      
+      <!-- =========================================================
+           ECOMMERCE NAVBAR
+      
+      <div className="component-card" data-name="ecommerce navbar shopping cart store" data-cat="advanced">
+      
+        <div className="card-top">
+      
+          <span className="card-label">
+            E-Commerce Navbar
+          </span>
+      
+          <span className="card-tag tag-trending">
+            Trending
+          </span>
+      
+        </div>
+      
+        <div className="nav-card-preview ecommerce-preview">
+      
+          <nav className="demo-ecommerce-nav">
+      
+            <span className="ecommerce-brand">
+              🛍 ShopUI
+            </span>
+      
+            <div className="ecommerce-search">
+      
+              <i className="fa-solid fa-magnifying-glass"></i>
+      
+              <input type="text" placeholder="Search products..." />
+      
+            </div>
+      
+            <div className="ecommerce-actions">
+      
+              <button>
+                <i className="fa-regular fa-heart"></i>
+              </button>
+      
+              <button>
+                <i className="fa-solid fa-cart-shopping"></i>
+              </button>
+      
+              <button>
+                <i className="fa-regular fa-user"></i>
+              </button>
+      
+            </div>
+      
+          </nav>
+      
+        </div>
+      
+        <p className="card-desc">
+          A premium shopping navbar with search and cart action buttons.
+        </p>
+      
+        <div className="actions">
+      
+          <button className="action-btn view-btn" onclick="toggleCode('c21', this)">
+            <i className="fa-solid fa-code"></i>
+            View Code
+          </button>
+      
+          <button className="action-btn copy-btn" onclick="copyCode('c21', this)">
+            <i className="fa-solid fa-copy"></i>
+            Copy
+          </button>
+      
+        </div>
+      
+        <pre id="c21" className="code-block"><code>&lt;nav className="ecommerce-navbar"&gt;
+        &lt;span className="brand"&gt;🛍 ShopUI&lt;/span&gt;
+      
+        &lt;div className="search"&gt;
+          &lt;i className="fa-solid fa-magnifying-glass"&gt;&lt;/i&gt;
+          &lt;input type="text" placeholder="Search products..."&gt;
+        &lt;/div&gt;
+      
+        &lt;div className="actions"&gt;
+          &lt;i className="fa-regular fa-heart"&gt;&lt;/i&gt;
+          &lt;i className="fa-solid fa-cart-shopping"&gt;&lt;/i&gt;
+        &lt;/div&gt;
+      &lt;/nav&gt;</code></pre>
+      
+      </div>
+      
+      <!-- =========================================================
+           DASHBOARD NAVBAR
+      
+      <div className="component-card" data-name="dashboard navbar admin analytics" data-cat="advanced">
+      
+        <div className="card-top">
+      
+          <span className="card-label">
+            Dashboard Navbar
+          </span>
+      
+          <span className="card-tag tag-popular">
+            Popular
+          </span>
+      
+        </div>
+      
+        <div className="nav-card-preview dashboard-preview">
+      
+          <nav className="demo-dashboard-nav">
+      
+            <div className="dashboard-left">
+      
+              <span className="dashboard-brand">
+                ⬡ Dashboard
+              </span>
+      
+              <div className="dashboard-search">
+      
+                <i className="fa-solid fa-magnifying-glass"></i>
+      
+                <input type="text" placeholder="Search..." />
+      
+              </div>
+      
+            </div>
+      
+            <div className="dashboard-right">
+      
+              <button className="dashboard-icon">
+                <i className="fa-regular fa-bell"></i>
+              </button>
+      
+              <button className="dashboard-icon">
+                <i className="fa-regular fa-envelope"></i>
+              </button>
+      
+              <img
+                src="https://i.pravatar.cc/100?img=15"
+                alt="Avatar"
+              />
+      
+            </div>
+      
+          </nav>
+      
+        </div>
+      
+        <p className="card-desc">
+          A professional admin dashboard navbar with search and notification actions.
+        </p>
+      
+        <div className="actions">
+      
+          <button className="action-btn view-btn" onclick="toggleCode('c19', this)">
+            <i className="fa-solid fa-code"></i>
+            View Code
+          </button>
+      
+          <button className="action-btn copy-btn" onclick="copyCode('c19', this)">
+            <i className="fa-solid fa-copy"></i>
+            Copy
+          </button>
+      
+        </div>
+      
+        <pre id="c19" className="code-block"><code>&lt;nav className="dashboard-navbar"&gt;
+        &lt;span className="brand"&gt;⬡ Dashboard&lt;/span&gt;
+      
+        &lt;input type="text" placeholder="Search..."&gt;
+      
+        &lt;div className="actions"&gt;
+          &lt;i className="fa-regular fa-bell"&gt;&lt;/i&gt;
+          &lt;i className="fa-regular fa-envelope"&gt;&lt;/i&gt;
+        &lt;/div&gt;
+      &lt;/nav&gt;</code></pre>
+      
+      </div> 
+          <!-- =========================================================
+           MACOS DOCK NAVBAR
+      
+      <div className="component-card" data-name="macos dock navbar floating apple glass" data-cat="advanced">
+      
+        <div className="card-top">
+      
+          <span className="card-label">
+            MacOS Dock Navbar
+          </span>
+      
+          <span className="card-tag tag-trending">
+            Trending
+          </span>
+      
+        </div>
+      
+        <div className="nav-card-preview dock-preview">
+      
+          <nav className="demo-dock-nav">
+      
+            <a href="#">
+              <i className="fa-solid fa-house"></i>
+            </a>
+      
+            <a href="#">
+              <i className="fa-solid fa-compass"></i>
+            </a>
+      
+            <a href="#">
+              <i className="fa-solid fa-heart"></i>
+            </a>
+      
+            <a href="#">
+              <i className="fa-solid fa-message"></i>
+            </a>
+      
+            <a href="#">
+              <i className="fa-solid fa-user"></i>
+            </a>
+      
+          </nav>
+      
+        </div>
+      
+        <p className="card-desc">
+          An Apple-inspired floating dock navbar with magnify hover effects.
+        </p>
+      
+        <div className="actions">
+      
+          <button className="action-btn view-btn" onclick="toggleCode('c16', this)">
+            <i className="fa-solid fa-code"></i>
+            View Code
+          </button>
+      
+          <button className="action-btn copy-btn" onclick="copyCode('c16', this)">
+            <i className="fa-solid fa-copy"></i>
+            Copy
+          </button>
+      
+        </div>
+      
+        <pre id="c16" className="code-block"><code>&lt;nav className="dock-navbar"&gt;
+        &lt;a href="#"&gt;&lt;i className="fa-solid fa-house"&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a href="#"&gt;&lt;i className="fa-solid fa-heart"&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a href="#"&gt;&lt;i className="fa-solid fa-user"&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/nav&gt;</code></pre>
+      
+      </div>
+      
+      <!-- =========================================================
+           MEGA MENU NAVBAR
+      
+      <div className="component-card" data-name="mega menu navbar enterprise dropdown" data-cat="advanced">
+      
+        <div className="card-top">
+      
+          <span className="card-label">
+            Mega Menu Navbar
+          </span>
+      
+          <span className="card-tag tag-popular">
+            Popular
+          </span>
+      
+        </div>
+      
+        <div className="nav-card-preview mega-preview">
+      
+          <nav className="demo-mega-nav">
+      
+            <span className="mega-brand">
+              ⬡ UIverse
+            </span>
+      
+            <div className="mega-links">
+      
+              <div className="mega-item">
+      
+                <a href="#">
+                  Components
+                </a>
+      
+                <div className="mega-dropdown">
+      
+                  <div className="mega-column">
+      
+                    <h4>UI Elements</h4>
+      
+                    <a href="#">
+                      Buttons
+                    </a>
+      
+                    <a href="#">
+                      Cards
+                    </a>
+      
+                    <a href="#">
+                      Inputs
+                    </a>
+      
+                  </div>
+      
+                  <div className="mega-column">
+      
+                    <h4>Navigation</h4>
+      
+                    <a href="#">
+                      Navbars
+                    </a>
+      
+                    <a href="#">
+                      Sidebars
+                    </a>
+      
+                    <a href="#">
+                      Menus
+                    </a>
+      
+                  </div>
+      
+                  <div className="mega-column">
+      
+                    <h4>Advanced</h4>
+      
+                    <a href="#">
+                      Dashboards
+                    </a>
+      
+                    <a href="#">
+                      Charts
+                    </a>
+      
+                    <a href="#">
+                      Animations
+                    </a>
+      
+                  </div>
+      
+                </div>
+      
+              </div>
+      
+              <a href="#">
+                Pricing
+              </a>
+      
+              <a href="#">
+                Docs
+              </a>
+      
+            </div>
+      
+            <button className="mega-btn">
+              Get Started
             </button>
       
           </nav>
@@ -156,44 +576,638 @@ export default function navbar(){
         </div>
       
         <p className="card-desc">
-          Futuristic neon navbar with glowing accents and cyberpunk inspired styling.
+          A professional enterprise-style navbar with large mega dropdown menus.
         </p>
       
         <div className="actions">
       
-          <button className="action-btn view-btn" onclick="toggleCode('c10', this)">
-            <i className="fa-solid fa-code"></i> View Code
+          <button className="action-btn view-btn" onclick="toggleCode('c17', this)">
+            <i className="fa-solid fa-code"></i>
+            View Code
           </button>
       
-          <button className="action-btn copy-btn" onclick="copyCode('c10', this)">
-            <i className="fa-solid fa-copy"></i> Copy
+          <button className="action-btn copy-btn" onclick="copyCode('c17', this)">
+            <i className="fa-solid fa-copy"></i>
+            Copy
           </button>
       
         </div>
       
-        <pre id="c10" className="code-block"><code>&lt;nav className="navbar-neon"&gt;
-        &lt;span className="brand"&gt;UIverse&lt;/span&gt;
+        <pre id="c17" className="code-block"><code>&lt;nav className="mega-navbar"&gt;
+        &lt;span className="brand"&gt;⬡ UIverse&lt;/span&gt;
       
-        &lt;div className="links"&gt;
-          &lt;a href="#"&gt;Docs&lt;/a&gt;
+        &lt;div className="mega-menu"&gt;
           &lt;a href="#"&gt;Components&lt;/a&gt;
-          &lt;a href="#"&gt;Community&lt;/a&gt;
+      
+          &lt;div className="dropdown"&gt;
+            &lt;a href="#"&gt;Buttons&lt;/a&gt;
+            &lt;a href="#"&gt;Cards&lt;/a&gt;
+            &lt;a href="#"&gt;Inputs&lt;/a&gt;
+          &lt;/div&gt;
         &lt;/div&gt;
-      
-        &lt;button&gt;Launch&lt;/button&gt;
-      &lt;/nav&gt;
-      
-      .navbar-neon {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 14px 24px;
-        background: #0f1117;
-        border: 1px solid rgba(0,255,200,0.18);
-      }</code></pre>
+      &lt;/nav&gt;</code></pre>
       
       </div>
-          {/* Simple Navbar */}
+          
+          <!-- =========================================================
+           PROFILE DROPDOWN NAVBAR
+      
+      <div className="component-card" data-name="profile dropdown navbar settings logout" data-cat="advanced">
+      
+        <div className="card-top">
+      
+          <span className="card-label">
+            Profile Dropdown Navbar
+          </span>
+      
+          <span className="card-tag tag-popular">
+            Popular
+          </span>
+      
+        </div>
+      
+        <div className="nav-card-preview">
+      
+          <nav className="demo-profile-nav">
+      
+      <div className="component-card" data-name="transparent hero navbar landing page" data-cat="glass">
+      
+        <div className="card-top">
+      
+          <span className="card-label">
+            Transparent Hero Navbar
+          </span>
+      
+          <span className="card-tag tag-trending">
+            Trending
+          </span>
+      
+        </div>
+      
+        <div className="nav-card-preview hero-nav-preview">
+      
+          <nav className="demo-hero-nav">
+      
+            <span className="hero-brand">
+              ⬡ UIverse
+            </span>
+      
+            <div className="hero-links">
+      
+              <a href="#">Home</a>
+      
+              <a href="#">Features</a>
+      
+              <a href="#">Pricing</a>
+      
+              <a href="#">Contact</a>
+      
+            </div>
+      
+            <button className="hero-nav-btn">
+              Get Started
+            </button>
+      
+          </nav>
+      
+        </div>
+      
+        <p className="card-desc">
+          A transparent landing-page navbar with glassmorphism and blur effects.
+        </p>
+      
+        <div className="actions">
+      
+          <button className="action-btn view-btn" onclick="toggleCode('c18', this)">
+            <i className="fa-solid fa-code"></i>
+            View Code
+          </button>
+      
+          <button className="action-btn copy-btn" onclick="copyCode('c18', this)">
+            <i className="fa-solid fa-copy"></i>
+            Copy
+          </button>
+      
+        </div>
+      
+        <pre id="c18" className="code-block"><code>&lt;nav className="hero-navbar"&gt;
+        &lt;span className="brand"&gt;⬡ UIverse&lt;/span&gt;
+      
+        &lt;div className="links"&gt;
+          &lt;a href="#"&gt;Home&lt;/a&gt;
+          &lt;a href="#"&gt;Features&lt;/a&gt;
+        &lt;/div&gt;
+      
+        &lt;button&gt;Get Started&lt;/button&gt;
+      &lt;/nav&gt;</code></pre>
+      
+      </div>
+      
+      <!-- =========================================================
+           SAAS APP NAVBAR
+      
+      <div className="component-card" data-name="saas app navbar modern workspace ai" data-cat="advanced">
+      
+        <div className="card-top">
+      
+          <span className="card-label">
+            SaaS App Navbar
+          </span>
+      
+          <span className="card-tag tag-popular">
+            Popular
+          </span>
+      
+        </div>
+      
+        <div className="nav-card-preview saas-preview">
+      
+          <nav className="demo-saas-nav">
+      
+            <div className="saas-left">
+      
+              <span className="saas-brand">
+                ⚡ UIverse
+              </span>
+      
+              <div className="saas-links">
+      
+                <a href="#">Products</a>
+      
+                <a href="#">Solutions</a>
+      
+                <a href="#">Enterprise</a>
+      
+                <a href="#">Resources</a>
+      
+              </div>
+      
+            </div>
+      
+            <div className="saas-right">
+      
+              <button className="saas-outline">
+                Login
+              </button>
+      
+              <button className="saas-primary">
+                Start Free
+              </button>
+      
+            </div>
+      
+          </nav>
+      
+        </div>
+      
+        <p className="card-desc">
+          A modern SaaS navbar with enterprise links and dual CTA actions.
+        </p>
+      
+        <div className="actions">
+      
+          <button className="action-btn view-btn" onclick="toggleCode('c20', this)">
+            <i className="fa-solid fa-code"></i>
+            View Code
+          </button>
+      
+          <button className="action-btn copy-btn" onclick="copyCode('c20', this)">
+            <i className="fa-solid fa-copy"></i>
+            Copy
+          </button>
+      
+        </div>
+      
+        <pre id="c20" className="code-block"><code>&lt;nav className="saas-navbar"&gt;
+        &lt;span className="brand"&gt;⚡ UIverse&lt;/span&gt;
+      
+        &lt;div className="links"&gt;
+          &lt;a href="#"&gt;Products&lt;/a&gt;
+          &lt;a href="#"&gt;Solutions&lt;/a&gt;
+          &lt;a href="#"&gt;Enterprise&lt;/a&gt;
+        &lt;/div&gt;
+      
+        &lt;div className="actions"&gt;
+          &lt;button className="outline"&gt;Login&lt;/button&gt;
+          &lt;button className="primary"&gt;Start Free&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/nav&gt;</code></pre>
+      
+      </div>
+      
+      <!-- =========================================================
+           ECOMMERCE NAVBAR
+      
+      <div className="component-card" data-name="ecommerce navbar shopping cart store" data-cat="advanced">
+      
+        <div className="card-top">
+      
+          <span className="card-label">
+            E-Commerce Navbar
+          </span>
+      
+          <span className="card-tag tag-trending">
+            Trending
+          </span>
+      
+        </div>
+      
+        <div className="nav-card-preview ecommerce-preview">
+      
+          <nav className="demo-ecommerce-nav">
+      
+            <span className="ecommerce-brand">
+              🛍 ShopUI
+            </span>
+      
+            <div className="ecommerce-search">
+      
+              <i className="fa-solid fa-magnifying-glass"></i>
+      
+              <input type="text" placeholder="Search products..." />
+      
+            </div>
+      
+            <div className="ecommerce-actions">
+      
+              <button>
+                <i className="fa-regular fa-heart"></i>
+              </button>
+      
+              <button>
+                <i className="fa-solid fa-cart-shopping"></i>
+              </button>
+      
+              <button>
+                <i className="fa-regular fa-user"></i>
+              </button>
+      
+            </div>
+      
+          </nav>
+      
+        </div>
+      
+        <p className="card-desc">
+          A premium shopping navbar with search and cart action buttons.
+        </p>
+      
+        <div className="actions">
+      
+          <button className="action-btn view-btn" onclick="toggleCode('c21', this)">
+            <i className="fa-solid fa-code"></i>
+            View Code
+          </button>
+      
+          <button className="action-btn copy-btn" onclick="copyCode('c21', this)">
+            <i className="fa-solid fa-copy"></i>
+            Copy
+          </button>
+      
+        </div>
+      
+        <pre id="c21" className="code-block"><code>&lt;nav className="ecommerce-navbar"&gt;
+        &lt;span className="brand"&gt;🛍 ShopUI&lt;/span&gt;
+      
+        &lt;div className="search"&gt;
+          &lt;i className="fa-solid fa-magnifying-glass"&gt;&lt;/i&gt;
+          &lt;input type="text" placeholder="Search products..."&gt;
+        &lt;/div&gt;
+      
+        &lt;div className="actions"&gt;
+          &lt;i className="fa-regular fa-heart"&gt;&lt;/i&gt;
+          &lt;i className="fa-solid fa-cart-shopping"&gt;&lt;/i&gt;
+        &lt;/div&gt;
+      &lt;/nav&gt;</code></pre>
+      
+      </div>
+      
+      <!-- =========================================================
+           DASHBOARD NAVBAR
+      
+      <div className="component-card" data-name="dashboard navbar admin analytics" data-cat="advanced">
+      
+        <div className="card-top">
+      
+          <span className="card-label">
+            Dashboard Navbar
+          </span>
+      
+          <span className="card-tag tag-popular">
+            Popular
+          </span>
+      
+        </div>
+      
+        <div className="nav-card-preview dashboard-preview">
+      
+          <nav className="demo-dashboard-nav">
+      
+            <div className="dashboard-left">
+      
+              <span className="dashboard-brand">
+                ⬡ Dashboard
+              </span>
+      
+              <div className="dashboard-search">
+      
+                <i className="fa-solid fa-magnifying-glass"></i>
+      
+                <input type="text" placeholder="Search..." />
+      
+              </div>
+      
+            </div>
+      
+            <div className="dashboard-right">
+      
+              <button className="dashboard-icon">
+                <i className="fa-regular fa-bell"></i>
+              </button>
+      
+              <button className="dashboard-icon">
+                <i className="fa-regular fa-envelope"></i>
+              </button>
+      
+              <img
+                src="https://i.pravatar.cc/100?img=15"
+                alt="Avatar"
+              />
+      
+            </div>
+      
+          </nav>
+      
+        </div>
+      
+        <p className="card-desc">
+          A professional admin dashboard navbar with search and notification actions.
+        </p>
+      
+        <div className="actions">
+      
+          <button className="action-btn view-btn" onclick="toggleCode('c19', this)">
+            <i className="fa-solid fa-code"></i>
+            View Code
+          </button>
+      
+          <button className="action-btn copy-btn" onclick="copyCode('c19', this)">
+            <i className="fa-solid fa-copy"></i>
+            Copy
+          </button>
+      
+        </div>
+      
+        <pre id="c19" className="code-block"><code>&lt;nav className="dashboard-navbar"&gt;
+        &lt;span className="brand"&gt;⬡ Dashboard&lt;/span&gt;
+      
+        &lt;input type="text" placeholder="Search..."&gt;
+      
+        &lt;div className="actions"&gt;
+          &lt;i className="fa-regular fa-bell"&gt;&lt;/i&gt;
+          &lt;i className="fa-regular fa-envelope"&gt;&lt;/i&gt;
+        &lt;/div&gt;
+      &lt;/nav&gt;</code></pre>
+      
+      </div> 
+          <!-- =========================================================
+           MACOS DOCK NAVBAR
+      
+      <div className="component-card" data-name="macos dock navbar floating apple glass" data-cat="advanced">
+      
+        <div className="card-top">
+      
+          <span className="card-label">
+            MacOS Dock Navbar
+          </span>
+      
+          <span className="card-tag tag-trending">
+            Trending
+          </span>
+      
+        </div>
+      
+        <div className="nav-card-preview dock-preview">
+      
+          <nav className="demo-dock-nav">
+      
+            <a href="#">
+              <i className="fa-solid fa-house"></i>
+            </a>
+      
+            <a href="#">
+              <i className="fa-solid fa-compass"></i>
+            </a>
+      
+            <a href="#">
+              <i className="fa-solid fa-heart"></i>
+            </a>
+      
+            <a href="#">
+              <i className="fa-solid fa-message"></i>
+            </a>
+      
+            <a href="#">
+              <i className="fa-solid fa-user"></i>
+            </a>
+      
+          </nav>
+      
+        </div>
+      
+        <p className="card-desc">
+          An Apple-inspired floating dock navbar with magnify hover effects.
+        </p>
+      
+        <div className="actions">
+      
+          <button className="action-btn view-btn" onclick="toggleCode('c16', this)">
+            <i className="fa-solid fa-code"></i>
+            View Code
+          </button>
+      
+          <button className="action-btn copy-btn" onclick="copyCode('c16', this)">
+            <i className="fa-solid fa-copy"></i>
+            Copy
+          </button>
+      
+        </div>
+      
+        <pre id="c16" className="code-block"><code>&lt;nav className="dock-navbar"&gt;
+        &lt;a href="#"&gt;&lt;i className="fa-solid fa-house"&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a href="#"&gt;&lt;i className="fa-solid fa-heart"&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a href="#"&gt;&lt;i className="fa-solid fa-user"&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/nav&gt;</code></pre>
+      
+      </div>
+      
+      <!-- =========================================================
+           MEGA MENU NAVBAR
+      
+      <div className="component-card" data-name="mega menu navbar enterprise dropdown" data-cat="advanced">
+      
+        <div className="card-top">
+      
+          <span className="card-label">
+            Mega Menu Navbar
+          </span>
+      
+          <span className="card-tag tag-popular">
+            Popular
+          </span>
+      
+        </div>
+      
+        <div className="nav-card-preview mega-preview">
+      
+          <nav className="demo-mega-nav">
+      
+            <span className="mega-brand">
+              ⬡ UIverse
+            </span>
+      
+            <div className="mega-links">
+      
+              <div className="mega-item">
+      
+                <a href="#">
+                  Components
+                </a>
+      
+                <div className="mega-dropdown">
+      
+                  <div className="mega-column">
+      
+                    <h4>UI Elements</h4>
+      
+                    <a href="#">
+                      Buttons
+                    </a>
+      
+                    <a href="#">
+                      Cards
+                    </a>
+      
+                    <a href="#">
+                      Inputs
+                    </a>
+      
+                  </div>
+      
+                  <div className="mega-column">
+      
+                    <h4>Navigation</h4>
+      
+                    <a href="#">
+                      Navbars
+                    </a>
+      
+                    <a href="#">
+                      Sidebars
+                    </a>
+      
+                    <a href="#">
+                      Menus
+                    </a>
+      
+                  </div>
+      
+                  <div className="mega-column">
+      
+                    <h4>Advanced</h4>
+      
+                    <a href="#">
+                      Dashboards
+                    </a>
+      
+                    <a href="#">
+                      Charts
+                    </a>
+      
+                    <a href="#">
+                      Animations
+                    </a>
+      
+                  </div>
+      
+                </div>
+      
+              </div>
+      
+              <a href="#">
+                Pricing
+              </a>
+      
+              <a href="#">
+                Docs
+              </a>
+      
+            </div>
+      
+            <button className="mega-btn">
+              Get Started
+            </button>
+      
+          </nav>
+      
+        </div>
+      
+        <p className="card-desc">
+          A professional enterprise-style navbar with large mega dropdown menus.
+        </p>
+      
+        <div className="actions">
+      
+          <button className="action-btn view-btn" onclick="toggleCode('c17', this)">
+            <i className="fa-solid fa-code"></i>
+            View Code
+          </button>
+      
+          <button className="action-btn copy-btn" onclick="copyCode('c17', this)">
+            <i className="fa-solid fa-copy"></i>
+            Copy
+          </button>
+      
+        </div>
+      
+        <pre id="c17" className="code-block"><code>&lt;nav className="mega-navbar"&gt;
+        &lt;span className="brand"&gt;⬡ UIverse&lt;/span&gt;
+      
+        &lt;div className="mega-menu"&gt;
+          &lt;a href="#"&gt;Components&lt;/a&gt;
+      
+          &lt;div className="dropdown"&gt;
+            &lt;a href="#"&gt;Buttons&lt;/a&gt;
+            &lt;a href="#"&gt;Cards&lt;/a&gt;
+            &lt;a href="#"&gt;Inputs&lt;/a&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/nav&gt;</code></pre>
+      
+      </div>
+          
+          <!-- =========================================================
+           PROFILE DROPDOWN NAVBAR
+      
+      <div className="component-card" data-name="profile dropdown navbar settings logout" data-cat="advanced">
+      
+        <div className="card-top">
+      
+          <span className="card-label">
+            Profile Dropdown Navbar
+          </span>
+      
+          <span className="card-tag tag-popular">
+            Popular
+          </span>
+      
+        </div>
+      
+        <div className="nav-card-preview">
+      
+          <nav className="demo-profile-nav">
+      
+          <!-- Simple Navbar */}
           <div className="component-card" data-name="simple navbar basic" data-cat="simple">
             <div className="card-top">
               <span className="card-label">Simple Navbar</span>
@@ -284,43 +1298,6 @@ export default function navbar(){
       .navbar-center a:hover { color: #eb6835; }</code></pre>
           </div>
       
-          {/* Transparent Navbar */}
-      <div className="component-card" data-name="transparent navbar modern" data-cat="transparent">
-        <div className="card-top">
-          <span className="card-label">Transparent Navbar</span>
-          <span className="card-tag tag-modern">Modern</span>
-        </div>
-        <div className="nav-card-preview">
-          <nav className="demo-nav-transparent">
-            <span className="dnav-brand">UIverse</span>
-            <div className="dnav-links">
-              <a href="#">Home</a>
-              <a href="#">Features</a>
-              <a href="#">Docs</a>
-              <a href="#">Contact</a>
-            </div>
-          </nav>
-        </div>
-        <p className="card-desc">A sleek transparent navbar with a blurred background effect, ideal for landing pages and modern designs.</p>
-        <div className="actions">
-          <button className="action-btn view-btn" onclick="toggleCode('c2', this)">
-            <i className="fa-solid fa-code"></i> View Code
-          </button>
-          <button className="action-btn copy-btn" onclick="copyCode('c2', this)">
-            <i className="fa-solid fa-copy"></i> Copy
-          </button>
-        </div>
-        <pre id="c2" className="code-block"><code>&lt;nav className="navbar-transparent"&gt;
-        &lt;span className="brand"&gt;UIverse&lt;/span&gt;
-        &lt;div className="links"&gt;
-          &lt;a href="#"&gt;Home&lt;/a&gt;
-          &lt;a href="#"&gt;Features&lt;/a&gt;
-          &lt;a href="#"&gt;Docs&lt;/a&gt;
-          &lt;a href="#"&gt;Contact&lt;/a&gt;
-        &lt;/div&gt;
-      &lt;/nav&gt;</code></pre>
-      </div>
-      
           {/* Button Navbar */}
           <div className="component-card" data-name="button navbar login cta" data-cat="simple">
             <div className="card-top">
@@ -386,7 +1363,7 @@ export default function navbar(){
             </div>
             <div className="nav-card-preview dark-preview">
               <nav className="demo-nav-dark">
-                <span className="dnav-brand" style="color:#fff;">G�� UIverse</span>
+                <span className="dnav-brand" style="color:#fff;">⬡ UIverse</span>
                 <div className="dnav-links">
                   <a href="#" style="color:#aaa;">Home</a>
                   <a href="#" style="color:#aaa;">Docs</a>
@@ -395,13 +1372,13 @@ export default function navbar(){
                 <button className="dnav-primary">Launch App</button>
               </nav>
             </div>
-            <p className="card-desc">A sleek dark-themed navbar with an accent CTA button G�� great for SaaS and dev tools.</p>
+            <p className="card-desc">A sleek dark-themed navbar with an accent CTA button — great for SaaS and dev tools.</p>
             <div className="actions">
               <button className="action-btn view-btn" onclick="toggleCode('c4', this)"><i className="fa-solid fa-code"></i> View Code</button>
               <button className="action-btn copy-btn" onclick="copyCode('c4', this)"><i className="fa-solid fa-copy"></i> Copy</button>
             </div>
             <pre id="c4" className="code-block"><code>&lt;nav className="navbar-dark"&gt;
-        &lt;span className="brand"&gt;G�� UIverse&lt;/span&gt;
+        &lt;span className="brand"&gt;⬡ UIverse&lt;/span&gt;
         &lt;div className="links"&gt;
           &lt;a href="#"&gt;Home&lt;/a&gt;
           &lt;a href="#"&gt;Docs&lt;/a&gt;
@@ -445,7 +1422,7 @@ export default function navbar(){
                 <button className="dnav-glass-btn">Contact</button>
               </nav>
             </div>
-            <p className="card-desc">A frosted-glass navbar with backdrop blur G�� perfect for image or gradient hero sections.</p>
+            <p className="card-desc">A frosted-glass navbar with backdrop blur — perfect for image or gradient hero sections.</p>
             <div className="actions">
               <button className="action-btn view-btn" onclick="toggleCode('c5', this)"><i className="fa-solid fa-code"></i> View Code</button>
               <button className="action-btn copy-btn" onclick="copyCode('c5', this)"><i className="fa-solid fa-copy"></i> Copy</button>
@@ -496,10 +1473,10 @@ export default function navbar(){
                   <i className="fa-solid fa-magnifying-glass"></i>
                   <input type="text" placeholder="Search docs..." />
                 </div>
-                <a className="dnav-primary-link" href="#">Get Started G��</a>
+                <a className="dnav-primary-link" href="#">Get Started →</a>
               </nav>
             </div>
-            <p className="card-desc">A navbar with an integrated search input G�� ideal for documentation or component libraries.</p>
+            <p className="card-desc">A navbar with an integrated search input — ideal for documentation or component libraries.</p>
             <div className="actions">
               <button className="action-btn view-btn" onclick="toggleCode('c6', this)"><i className="fa-solid fa-code"></i> View Code</button>
               <button className="action-btn copy-btn" onclick="copyCode('c6', this)"><i className="fa-solid fa-copy"></i> Copy</button>
@@ -510,7 +1487,7 @@ export default function navbar(){
           &lt;i className="fa-solid fa-magnifying-glass"&gt;&lt;/i&gt;
           &lt;input type="text" placeholder="Search docs..."&gt;
         &lt;/div&gt;
-        &lt;a href="#"&gt;Get Started G��&lt;/a&gt;
+        &lt;a href="#"&gt;Get Started →&lt;/a&gt;
       &lt;/nav&gt;
       
       .navbar-search {
@@ -556,7 +1533,7 @@ export default function navbar(){
                 </div>
               </nav>
             </div>
-            <p className="card-desc">A three-section navbar G�� brand left, main links center, utility links right.</p>
+            <p className="card-desc">A three-section navbar — brand left, main links center, utility links right.</p>
             <div className="actions">
               <button className="action-btn view-btn" onclick="toggleCode('c7', this)"><i className="fa-solid fa-code"></i> View Code</button>
               <button className="action-btn copy-btn" onclick="copyCode('c7', this)"><i className="fa-solid fa-copy"></i> Copy</button>
@@ -601,7 +1578,7 @@ export default function navbar(){
             </div>
             <div className="nav-card-preview">
               <nav className="demo-nav-gradient">
-                <span className="dnav-brand" style="color:#fff;">G�� UIverse</span>
+                <span className="dnav-brand" style="color:#fff;">⬡ UIverse</span>
                 <div className="dnav-links">
                   <a href="#" style="color:rgba(255,255,255,0.8);">Home</a>
                   <a href="#" style="color:rgba(255,255,255,0.8);">Work</a>
@@ -610,13 +1587,13 @@ export default function navbar(){
                 <button className="dnav-white-btn">Sign Up Free</button>
               </nav>
             </div>
-            <p className="card-desc">A bold gradient navbar G�� eye-catching and modern for landing pages.</p>
+            <p className="card-desc">A bold gradient navbar — eye-catching and modern for landing pages.</p>
             <div className="actions">
               <button className="action-btn view-btn" onclick="toggleCode('c8', this)"><i className="fa-solid fa-code"></i> View Code</button>
               <button className="action-btn copy-btn" onclick="copyCode('c8', this)"><i className="fa-solid fa-copy"></i> Copy</button>
             </div>
             <pre id="c8" className="code-block"><code>&lt;nav className="navbar-gradient"&gt;
-        &lt;span className="brand"&gt;G�� UIverse&lt;/span&gt;
+        &lt;span className="brand"&gt;⬡ UIverse&lt;/span&gt;
         &lt;div className="links"&gt;
           &lt;a href="#"&gt;Home&lt;/a&gt;
           &lt;a href="#"&gt;Work&lt;/a&gt;

@@ -1,0 +1,115 @@
+# CI Workflow: Performance Monitoring
+
+This GitHub Actions workflow runs performance checks on every push and pull request.
+
+## Setup
+
+1. Place this file in `.github/workflows/performance-check.yml`
+2. Commit and push to trigger the workflow
+
+## Workflow
+
+```yaml
+name: Performance Monitoring
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  performance-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run Performance Monitor
+        run: npm run perf:monitor
+        
+      - name: Upload Performance Reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: performance-reports
+          path: reports/performance-analysis/
+          retention-days: 30
+      
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('reports/performance-analysis/performance-report.json', 'utf8'));
+            const stats = report.stats;
+            
+            const comment = `## Performance Report
+            
+            - **Total Components**: ${stats.totalComponents}
+            - **Passed**: ${stats.successfulTests} ✓
+            - **Failed**: ${stats.failedTests} ✗
+            - **Violations**: ${stats.violations} ⚠️
+            - **Avg Load Time**: ${stats.avgLoadTime}ms
+            - **Max Load Time**: ${stats.maxLoadTime}ms
+            
+            [View Full Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+      
+      - name: Check Performance Budget
+        run: |
+          if [ -f "reports/performance-analysis/violations.json" ]; then
+            VIOLATIONS=$(cat reports/performance-analysis/violations.json | wc -l)
+            if [ $VIOLATIONS -gt 2 ]; then
+              echo "❌ Performance budget violations detected!"
+              cat reports/performance-analysis/violations.json
+              exit 1
+            fi
+          fi
+
+```
+
+## Features
+
+✅ Runs on every push to main/develop branches
+✅ Runs on all pull requests to main
+✅ Uploads performance reports as artifacts
+✅ Comments on PRs with performance summary
+✅ Fails build if violations detected
+✅ Tracks 30-day history of reports
+
+## Manual Trigger
+
+To run manually:
+
+1. Go to GitHub Actions tab
+2. Select "Performance Monitoring" workflow
+3. Click "Run workflow"
+4. Select branch and click "Run workflow"
+
+## Performance Budget Failure
+
+If the workflow fails due to performance violations:
+
+1. Check the PR comment with violation details
+2. Review slowest components in the report
+3. Optimize as needed
+4. Push fixes - workflow will re-run
+5. Approve PR once all checks pass

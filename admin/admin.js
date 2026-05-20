@@ -20,11 +20,13 @@ links.forEach(link => {
 
 const themeBtn = document.querySelector(".top-btn:last-child");
 
-themeBtn.addEventListener("click", () => {
+if (themeBtn) {
+  themeBtn.addEventListener("click", () => {
 
-  document.body.classList.toggle("light-mode");
+    document.body.classList.toggle("light-mode");
 
-});
+  });
+}
 
 // Fake analytics animation
 
@@ -40,8 +42,10 @@ bars.forEach((bar, index) => {
 
 const bellBtn = document.querySelector(".top-btn");
 
-bellBtn.addEventListener("click", () => {
+if (bellBtn) {
+  bellBtn.addEventListener("click", () => {
 
-  if (window.UIVERSE_DEBUG) alert("You have 3 new notifications!");
+    if (window.UIVERSE_DEBUG) alert("You have 3 new notifications!");
 
-});
+  });
+}

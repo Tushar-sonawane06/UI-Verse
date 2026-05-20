@@ -12,7 +12,7 @@ const BrowserTabs = {
     this._state.addTabBtn = document.getElementById("addTabBtn");
     this._state.tabsHeader = document.getElementById("tabsHeader");
 
-    if (!this._state.addTabBtn || !this._state.tabsHeader) {
+    if (!this._state.addTabBtn && !this._state.tabsHeader) {
       this._state.initialized = true;
       return;
     }
@@ -34,6 +34,7 @@ const BrowserTabs = {
     };
 
     const onAddClick = () => {
+      if (!this._state.tabsHeader) return;
       const newTab = document.createElement("div");
       newTab.classList.add("tab");
       newTab.innerHTML = `
@@ -45,10 +46,15 @@ const BrowserTabs = {
       this.activateTab(newTab);
     };
 
-    this._state.tabsHeader.addEventListener("click", onHeaderClick);
-    this._state.addTabBtn.addEventListener("click", onAddClick);
-    this._state.listeners.push({ el: this._state.tabsHeader, event: "click", handler: onHeaderClick });
-    this._state.listeners.push({ el: this._state.addTabBtn, event: "click", handler: onAddClick });
+    if (this._state.tabsHeader) {
+      this._state.tabsHeader.addEventListener("click", onHeaderClick);
+      this._state.listeners.push({ el: this._state.tabsHeader, event: "click", handler: onHeaderClick });
+    }
+
+    if (this._state.addTabBtn) {
+      this._state.addTabBtn.addEventListener("click", onAddClick);
+      this._state.listeners.push({ el: this._state.addTabBtn, event: "click", handler: onAddClick });
+    }
 
     this._state.initialized = true;
   },

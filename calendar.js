@@ -56,3 +56,22 @@ activeDay.addEventListener("click",()=>{
   activeDay.classList.toggle("pulse");
 
 });
+
+
+const modal = document.getElementById("eventModal");
+const overlay = document.getElementById("eventModalOverlay");
+const openBtn = document.querySelector(".floating-event-btn");
+const closeBtn = document.getElementById("closeEventModal");
+
+openBtn.addEventListener("click", () => {
+  modal.style.display = "block";
+  overlay.style.display = "block";
+});
+
+closeBtn.addEventListener("click", closeModal);
+overlay.addEventListener("click", closeModal);
+
+function closeModal() {
+  modal.style.display = "none";
+  overlay.style.display = "none";
+}

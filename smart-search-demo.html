@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Search & Filter Demo — UIverse</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <style>
+    :root {
+      --accent: #eb6835;
+      --bg: #0f1117;
+      --card: #161922;
+      --border: rgba(255, 255, 255, .06);
+      --text: #ffffff;
+      --muted: #9ca3af;
+      --transition: .3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f1117, #111827);
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      font-family: "Syne", sans-serif;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: var(--muted);
+      font-size: 1.1em;
+    }
+
+    .demo-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 1.3em;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Search Input */
+    #search-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: inherit;
+      margin-bottom: 12px;
+    }
+
+    #search-input::placeholder {
+      color: var(--muted);
+    }
+
+    #search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(235, 104, 53, 0.1);
+    }
+
+    /* Suggestions */
+    .suggestions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .suggestion-chip {
+      padding: 6px 12px;
+      background: rgba(235, 104, 53, 0.1);
+      border: 1px solid rgba(235, 104, 53, 0.3);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9em;
+    }
+
+    .suggestion-chip:hover {
+      background: rgba(235, 104, 53, 0.2);
+      border-color: var(--accent);
+    }
+
+    /* Filter Section */
+    .filter-group {
+      margin-bottom: 20px;
+    }
+
+    .filter-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+      font-size: 0.95em;
+    }
+
+    .filter-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+    }
+
+    .filter-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-checkbox:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .filter-checkbox input {
+      cursor: pointer;
+      accent-color: var(--accent);
+    }
+
+    /* Results */
+    #results {
+      margin-top: 20px;
+    }
+
+    .result-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .result-item:hover {
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .result-name {
+      font-weight: 700;
+      font-size: 1.05em;
+      margin-bottom: 6px;
+    }
+
+    .result-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 0.85em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .result-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag-chip {
+      font-size: 0.8em;
+      background: rgba(235, 104, 53, 0.1);
+      color: var(--accent);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .no-results {
+      text-align: center;
+      color: var(--muted);
+      padding: 24px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-value {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 0.85em;
+      color: var(--muted);
+    }
+
+    .reset-btn {
+      padding: 10px 16px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .reset-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>🔍 Smart Search & Filter</h1>
+      <p>Advanced component discovery system</p>
+    </div>
+
+    <!-- Search Section -->
+    <div class="demo-section">
+      <div class="section-title">
+        <i class="fas fa-search"></i>
+        Live Search
+      </div>
+      <input 
+        type="search" 
+        id="search-input" 
+        placeholder="Search components (e.g., button, form, responsive)..."
+      />
+      <div id="suggestions" class="suggestions"></div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="demo-section">
+      <div class="section-title">
+        <i class="fas fa-sliders-h"></i>
+        Advanced Filters
+      </div>
+
+      <!-- Categories -->
+      <div class="filter-group">
+        <div class="filter-title">Categories</div>
+        <div class="filter-options" id="category-filters"></div>
+      </div>
+
+      <!-- Tags -->
+      <div class="filter-group">
+        <div class="filter-title">Tags</div>
+        <div class="filter-options" id="tag-filters"></div>
+      </div>
+
+      <!-- Responsive -->
+      <div class="filter-group">
+        <div class="filter-title">Responsive Design</div>
+        <div class="filter-options">
+          <label class="filter-checkbox">
+            <input type="radio" name="responsive" value="all" checked />
+            All Components
+          </label>
+          <label class="filter-checkbox">
+            <input type="radio" name="responsive" value="true" />
+            Responsive Only
+          </label>
+        </div>
+      </div>
+
+      <button class="reset-btn" onclick="resetFilters()">Reset Filters</button>
+    </div>
+
+    <!-- Results Section -->
+    <div class="demo-section">
+      <div class="section-title">
+        <i class="fas fa-list"></i>
+        Results
+      </div>
+      <div id="results"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/features/smart-search.js"></script>
+  <script src="js/features/filter-manager.js"></script>
+
+  <script>
+    let allComponents = SmartSearch.search('');
+    let currentResults = allComponents;
+
+    // =========================================================
+    // Initialize Categories
+    // =========================================================
+    const categories = SmartSearch.getCategories();
+    const categoryContainer = document.getElementById('category-filters');
+    
+    categories.forEach(category => {
+      const label = document.createElement('label');
+      label.className = 'filter-checkbox';
+      label.innerHTML = `
+        <input type="checkbox" data-filter-type="category" value="${category}" />
+        ${category}
+      `;
+      categoryContainer.appendChild(label);
+    });
+
+    // =========================================================
+    // Initialize Tags
+    // =========================================================
+    const tags = SmartSearch.getAllTags().slice(0, 12); // Limit to first 12
+    const tagContainer = document.getElementById('tag-filters');
+    
+    tags.forEach(tag => {
+      const label = document.createElement('label');
+      label.className = 'filter-checkbox';
+      label.innerHTML = `
+        <input type="checkbox" data-filter-type="tag" value="${tag}" />
+        ${tag}
+      `;
+      tagContainer.appendChild(label);
+    });
+
+    // =========================================================
+    // Search Handler
+    // =========================================================
+    const searchInput = document.getElementById('search-input');
+    const suggestionsContainer = document.getElementById('suggestions');
+
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value;
+      
+      // Update search results
+      FilterManager.updateFilters({ query });
+      currentResults = FilterManager.applyFilters();
+      displayResults();
+
+      // Show suggestions
+      if (query.length > 1) {
+        const suggestions = SmartSearch.getSuggestions(query, 5);
+        suggestionsContainer.innerHTML = suggestions.map(s => 
+          `<div class="suggestion-chip" onclick="applySuggestion('${s}')">${s}</div>`
+        ).join('');
+      } else {
+        suggestionsContainer.innerHTML = '';
+      }
+    });
+
+    // =========================================================
+    // Apply Suggestion
+    // =========================================================
+    function applySuggestion(suggestion) {
+      searchInput.value = suggestion;
+      searchInput.dispatchEvent(new Event('input'));
+    }
+
+    // =========================================================
+    // Filter Handlers
+    // =========================================================
+    document.querySelectorAll('[data-filter-type]').forEach(checkbox => {
+      checkbox.addEventListener('change', (e) => {
+        const type = e.target.dataset.filterType;
+        const value = e.target.value;
+
+        if (type === 'category') {
+          if (e.target.checked) {
+            FilterManager.addCategory(value);
+          } else {
+            FilterManager.removeCategory(value);
+          }
+        } else if (type === 'tag') {
+          if (e.target.checked) {
+            FilterManager.addTag(value);
+          } else {
+            FilterManager.removeTag(value);
+          }
+        }
+
+        currentResults = FilterManager.applyFilters();
+        displayResults();
+      });
+    });
+
+    document.querySelectorAll('input[name="responsive"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        if (e.target.value === 'all') {
+          FilterManager.updateFilters({ responsive: undefined });
+        } else {
+          FilterManager.updateFilters({ responsive: e.target.value === 'true' });
+        }
+
+        currentResults = FilterManager.applyFilters();
+        displayResults();
+      });
+    });
+
+    // =========================================================
+    // Display Results
+    // =========================================================
+    function displayResults() {
+      const resultsContainer = document.getElementById('results');
+
+      if (currentResults.length === 0) {
+        resultsContainer.innerHTML = '<div class="no-results">No components found. Try adjusting your filters.</div>';
+        return;
+      }
+
+      const html = currentResults.map(result => `
+        <div class="result-item">
+          <div class="result-name">${result.name}</div>
+          <div class="result-meta">
+            <span>📁 ${result.category}</span>
+            <span>📄 ${result.page}</span>
+            <span>${result.responsive ? '✅ Responsive' : '❌ Not Responsive'}</span>
+          </div>
+          <div class="result-tags">
+            ${result.tags.slice(0, 5).map(tag => `<span class="tag-chip">${tag}</span>`).join('')}
+            ${result.tags.length > 5 ? `<span class="tag-chip">+${result.tags.length - 5}</span>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      resultsContainer.innerHTML = html + `
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-value">${currentResults.length}</div>
+            <div class="stat-label">Results Found</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">${SmartSearch.getCategories().length}</div>
+            <div class="stat-label">Categories</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">${SmartSearch.getAllTags().length}</div>
+            <div class="stat-label">Total Tags</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================================================
+    // Reset Filters
+    // =========================================================
+    function resetFilters() {
+      searchInput.value = '';
+      document.querySelectorAll('[data-filter-type]').forEach(cb => cb.checked = false);
+      document.querySelector('input[name="responsive"][value="all"]').checked = true;
+      
+      FilterManager.resetFilters();
+      currentResults = SmartSearch.search('');
+      suggestionsContainer.innerHTML = '';
+      displayResults();
+    }
+
+    // =========================================================
+    // Initial Display
+    // =========================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      displayResults();
+    });
+  </script>
+</body>
+</html>

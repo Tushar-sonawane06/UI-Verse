@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Search Filters — UIverse</title>
+  <meta name="description" content="Modern, premium interactive filtering bars, price range selectors, search tags, e-commerce panels, and perspective dropdowns featuring custom glows, HSL gradients, and glassmorphism layouts.">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <link rel="stylesheet" href="filters-premium.css">
+  <link rel="stylesheet" href="shared-sidebar.css">
+</head>
+
+<body>
+
+<div class="main-content">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Search filter components..." id="searchInput">
+    </div>
+    <div class="topbar-actions">
+      <button class="add-btn" onclick="activateAllFilters()"><i class="fa-solid fa-filter"></i> Activate All</button>
+      <button class="collection-btn" onclick="resetAllFilters()"><i class="fa-solid fa-rotate-left"></i> Reset All</button>
+      <button class="theme-btn"><i class="fa-solid fa-moon"></i></button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="breadcrumb">Home &gt; Search Filters</div>
+      <h1>Sleek Search Filters</h1>
+      <p>Modern reusable category filters, dual range sliders, search tags, collapsible sidebars, and 3D sort dropdowns. Designed with clean HSL gradients, frosted glass backdrops, and elastic hover keyframes.</p>
+      
+      <div class="hero-tags">
+        <span><i class="fa-solid fa-sliders"></i> Dual range</span>
+        <span><i class="fa-solid fa-tags"></i> Tag insertion</span>
+        <span><i class="fa-solid fa-caret-down"></i> 3D dropdown</span>
+      </div>
+    </div>
+
+    <!-- Hero Filter Preview Animation -->
+    <div class="hero-preview">
+      <div class="hero-filter-demo">
+        <div class="demo-search-pill">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Glassmorphic...</span>
+          <i class="fa-solid fa-circle-xmark"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTERS -->
+  <section class="filters">
+    <button class="active" onclick="filterCategory('all', this)">All Filters</button>
+    <button onclick="filterCategory('bar', this)">Category Bars</button>
+    <button onclick="filterCategory('price', this)">Price Ranges</button>
+    <button onclick="filterCategory('tags', this)">Search Tags</button>
+    <button onclick="filterCategory('dropdown', this)">Dropdowns</button>
+    <button onclick="filterCategory('chips', this)">Chip Filters</button>
+    <button onclick="filterCategory('rating', this)">Rating</button>
+    <button onclick="filterCategory('date', this)">Date Range</button>
+    <button onclick="filterCategory('color', this)">Color</button>
+    <button onclick="filterCategory('autocomplete', this)">Autocomplete</button>
+  </section>
+
+  <!-- SHOWROOM GRID -->
+  <div class="notification-grid" id="filtersGrid">
+
+    <!-- 1. CATEGORY FILTER BAR -->
+    <div class="component-card" data-category="bar">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          
+          <!-- Interactive Render -->
+          <div class="premium-category-bar">
+            <div class="category-tabs">
+              <div class="tab-item active" onclick="setCategoryTab(0, this)">All</div>
+              <div class="tab-item" onclick="setCategoryTab(1, this)">Design</div>
+              <div class="tab-item" onclick="setCategoryTab(2, this)">Code</div>
+              <div class="tab-item" onclick="setCategoryTab(3, this)">Audio</div>
+              
+              <!-- Sliding Indicator Underline -->
+              <div class="tab-glow-pill" id="tabGlow" style="left: 4px; width: 70px;"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Category Bar</h3>
+          <span>Category Bars</span>
+        </div>
+        <p>A premium horizontal tab filter bar featuring a neon gradient sliding pill background matching the selection size.</p>
+        
+        <div class="card-actions">
+          <button onclick="toggleCode('codeB', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeB', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+
+      <pre class="code-block" id="codeB" style="display:none;"><code>&lt;div class="premium-category-bar"&gt;
+  &lt;div class="category-tabs"&gt;
+    &lt;div class="tab-item active"&gt;All&lt;/div&gt;
+    &lt;div class="tab-item"&gt;Design&lt;/div&gt;
+    &lt;div class="tab-glow-pill" style="left: 4px; width: 70px;"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 2. PRICE RANGE FILTER -->
+    <div class="component-card" data-category="price">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          
+          <!-- Interactive Render -->
+          <div class="premium-price-range">
+            <div class="range-sliders-wrap">
+              <!-- Dual overlapping inputs -->
+              <input type="range" min="0" max="1000" value="150" class="range-thumb min-range" id="priceMin" oninput="updatePriceSliders()">
+              <input type="range" min="0" max="1000" value="800" class="range-thumb max-range" id="priceMax" oninput="updatePriceSliders()">
+              
+              <div class="slider-track-bg">
+                <div class="slider-track-fill" id="priceFill" style="left: 15%; right: 20%;"></div>
+              </div>
+            </div>
+            
+            <div class="price-labels">
+              <span class="price-box" id="priceMinBox">$150</span>
+              <span class="price-box" id="priceMaxBox">$800</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Price Range Filter</h3>
+          <span>Price Ranges</span>
+        </div>
+        <p>A dual range slider displaying a purple-to-orange gradient fill and glass-frosted min/max price indicator bubbles.</p>
+        
+        <div class="card-actions">
+          <button onclick="toggleCode('codeP', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeP', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+
+      <pre class="code-block" id="codeP" style="display:none;"><code>&lt;div class="premium-price-range"&gt;
+  &lt;div class="range-sliders-wrap"&gt;
+    &lt;input type="range" min="0" max="1000" value="150" class="range-thumb"&gt;
+    &lt;div class="slider-track-bg"&gt;
+      &lt;div class="slider-track-fill" style="left: 15%; right: 20%;"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 3. SEARCH WITH TAG FILTERS -->
+    <div class="component-card" data-category="tags">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          
+          <!-- Interactive Render -->
+          <div class="premium-search-tags-box">
+            <div class="search-tag-input-wrap">
+              <div class="active-tags-row" id="activeTagsRow">
+                <!-- Javascript inserts pills here -->
+                <div class="tag-pill">UI<i class="fa-solid fa-xmark" onclick="removeSearchTag(this)"></i></div>
+                <div class="tag-pill">Glass<i class="fa-solid fa-xmark" onclick="removeSearchTag(this)"></i></div>
+              </div>
+              <input type="text" placeholder="Type tag..." id="tagInput" onkeydown="handleTagInputKey(event)">
+            </div>
+            
+            <div class="suggested-tags">
+              <span class="suggested-pill" onclick="addSuggestedTag('Clean')">+ Clean</span>
+              <span class="suggested-pill" onclick="addSuggestedTag('3D')">+ 3D</span>
+              <span class="suggested-pill" onclick="addSuggestedTag('Neon')">+ Neon</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Search Tags</h3>
+          <span>Search Tags</span>
+        </div>
+        <p>A search box showing dynamic tag insertion pills. Entering texts or clicking suggest pills appends active glowing tags.</p>
+        
+        <div class="card-actions">
+          <button onclick="toggleCode('codeT', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeT', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+
+      <pre class="code-block" id="codeT" style="display:none;"><code>&lt;div class="premium-search-tags-box"&gt;
+  &lt;div class="search-tag-input-wrap"&gt;
+    &lt;div class="tag-pill"&gt;UI&lt;i class="fa-solid fa-xmark"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;input type="text" placeholder="Add tag..."&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 4. SIDEBAR FILTER PANEL -->
+    <div class="component-card" data-category="bar">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          
+          <!-- Interactive Render -->
+          <div class="premium-sidebar-filter-panel">
+            <div class="accordion-section">
+              <div class="accordion-header active" onclick="toggleAccordion(this)">
+                <span>Categories</span>
+                <i class="fa-solid fa-chevron-down"></i>
+              </div>
+              <div class="accordion-content" style="max-height: 100px;">
+                <label class="filter-checkbox-row">
+                  <input type="checkbox" checked>
+                  <span class="check-box-custom"></span>
+                  <span>Layout Templates</span>
+                </label>
+                <label class="filter-checkbox-row">
+                  <input type="checkbox">
+                  <span class="check-box-custom"></span>
+                  <span>UI Elements</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="accordion-section">
+              <div class="accordion-header" onclick="toggleAccordion(this)">
+                <span>Status</span>
+                <i class="fa-solid fa-chevron-down"></i>
+              </div>
+              <div class="accordion-content" style="max-height: 0px;">
+                <label class="filter-checkbox-row">
+                  <input type="checkbox" checked>
+                  <span class="check-box-custom"></span>
+                  <span>Stable Release</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Sidebar Filter</h3>
+          <span>Category Bars</span>
+        </div>
+        <p>A collapsible vertical sidebar e-commerce filter panel with accordion headers and animated neon checkboxes.</p>
+        
+        <div class="card-actions">
+          <button onclick="toggleCode('codeF', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeF', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+
+      <pre class="code-block" id="codeF" style="display:none;"><code>&lt;div class="premium-sidebar-filter-panel"&gt;
+  &lt;div class="accordion-section"&gt;
+    &lt;div class="accordion-header"&gt;
+      &lt;span&gt;Categories&lt;/span&gt;
+      &lt;i class="fa-solid fa-chevron-down"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;div class="accordion-content"&gt;
+      &lt;label class="filter-checkbox-row"&gt;
+        &lt;input type="checkbox"&gt;
+        &lt;span class="check-box-custom"&gt;&lt;/span&gt;
+      &lt;/label&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 5. ANIMATED FILTER DROPDOWN -->
+    <div class="component-card" data-category="dropdown">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          
+          <!-- Interactive Render -->
+          <div class="premium-sort-dropdown">
+            <button class="dropdown-trigger-btn" onclick="toggleSortDropdown(this)">
+              <span>Sort: Popularity</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            
+            <div class="dropdown-menu-list" id="dropdownMenu">
+              <div class="menu-item active" onclick="selectDropdownSort('Popularity', this)">
+                <span>Popularity</span>
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="menu-item" onclick="selectDropdownSort('Newest', this)">
+                <span>Newest</span>
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="menu-item" onclick="selectDropdownSort('Top Rated', this)">
+                <span>Top Rated</span>
+                <i class="fa-solid fa-check"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Sort Dropdown</h3>
+          <span>Dropdowns</span>
+        </div>
+        <p>A sorting dropdown menu that slides and scales open smoothly using a 3D perspective keyframe transform.</p>
+        
+        <div class="card-actions">
+          <button onclick="toggleCode('codeD', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeD', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+
+      <pre class="code-block" id="codeD" style="display:none;"><code>&lt;div class="premium-sort-dropdown"&gt;
+  &lt;button class="dropdown-trigger-btn"&gt;
+    &lt;span&gt;Sort: Popularity&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;div class="dropdown-menu-list"&gt;
+    &lt;div class="menu-item active"&gt;Popularity&lt;/div&gt;
+    &lt;div class="menu-item"&gt;Newest&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+
+    <div class="component-card" data-category="chips">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="premium-chip-filter">
+            <div class="chip-scroll-row" id="chipRow">
+              <div class="filter-chip active" onclick="toggleChip(this)"><i class="fa-solid fa-layer-group"></i> All</div>
+              <div class="filter-chip" onclick="toggleChip(this)"><i class="fa-solid fa-mobile-screen"></i> Mobile</div>
+              <div class="filter-chip" onclick="toggleChip(this)"><i class="fa-solid fa-desktop"></i> Desktop</div>
+              <div class="filter-chip" onclick="toggleChip(this)"><i class="fa-solid fa-tablet"></i> Tablet</div>
+              <div class="filter-chip" onclick="toggleChip(this)"><i class="fa-solid fa-wand-magic-sparkles"></i> Animated</div>
+              <div class="filter-chip" onclick="toggleChip(this)"><i class="fa-solid fa-moon"></i> Dark Mode</div>
+            </div>
+            <div class="chip-count-label" id="chipCountLabel">1 selected</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Multi-Select Chips</h3>
+          <span>Chip Filters</span>
+        </div>
+        <p>A horizontal scrollable chip row with multi-select toggle states, glow activation, and a live selection counter badge.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('codeChip', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeChip', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+
+      <pre class="code-block" id="codeChip" style="display:none;"><code>&lt;div class="premium-chip-filter"&gt;
+  &lt;div class="chip-scroll-row"&gt;
+    &lt;div class="filter-chip active"&gt;All&lt;/div&gt;
+    &lt;div class="filter-chip"&gt;Mobile&lt;/div&gt;
+    &lt;div class="filter-chip"&gt;Desktop&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="component-card" data-category="rating">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="premium-rating-filter">
+            <div class="rating-filter-title">Filter by Rating</div>
+            <div class="rating-rows">
+              <label class="rating-row" onclick="selectRating(this)">
+                <input type="radio" name="ratingFilter" value="5">
+                <div class="rating-stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <span class="rating-label">5 Stars</span>
+                <span class="rating-count">1.2k</span>
+              </label>
+              <label class="rating-row" onclick="selectRating(this)">
+                <input type="radio" name="ratingFilter" value="4">
+                <div class="rating-stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                </div>
+                <span class="rating-label">4 & up</span>
+                <span class="rating-count">3.8k</span>
+              </label>
+              <label class="rating-row" onclick="selectRating(this)">
+                <input type="radio" name="ratingFilter" value="3">
+                <div class="rating-stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                </div>
+                <span class="rating-label">3 & up</span>
+                <span class="rating-count">5.1k</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Rating Filter</h3>
+          <span>Rating</span>
+        </div>
+        <p>A star-based rating filter panel with glow-on-hover star rows, active selection highlight, and animated count badges.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('codeRating', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeRating', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+
+      <pre class="code-block" id="codeRating" style="display:none;"><code>&lt;div class="premium-rating-filter"&gt;
+  &lt;div class="rating-rows"&gt;
+    &lt;label class="rating-row"&gt;
+      &lt;input type="radio" name="ratingFilter" value="5"&gt;
+      &lt;div class="rating-stars"&gt;...stars...&lt;/div&gt;
+      &lt;span class="rating-label"&gt;5 Stars&lt;/span&gt;
+    &lt;/label&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="component-card" data-category="date">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="premium-date-range-filter">
+            <div class="date-range-header">
+              <i class="fa-solid fa-calendar-days"></i>
+              <span>Date Range</span>
+            </div>
+            <div class="date-inputs-row">
+              <div class="date-input-group">
+                <label>From</label>
+                <input type="date" id="dateFrom" class="date-input-field" value="2026-01-01">
+              </div>
+              <div class="date-arrow-divider"><i class="fa-solid fa-arrow-right"></i></div>
+              <div class="date-input-group">
+                <label>To</label>
+                <input type="date" id="dateTo" class="date-input-field" value="2026-05-31">
+              </div>
+            </div>
+            <div class="date-presets-row">
+              <button class="date-preset-btn" onclick="setDatePreset('week', this)">Last 7d</button>
+              <button class="date-preset-btn active" onclick="setDatePreset('month', this)">This Month</button>
+              <button class="date-preset-btn" onclick="setDatePreset('year', this)">This Year</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Date Range Filter</h3>
+          <span>Date Range</span>
+        </div>
+        <p>A glassmorphic date range picker with From/To date inputs and quick preset buttons for 7-day, monthly, and yearly ranges.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('codeDate', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeDate', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+
+      <pre class="code-block" id="codeDate" style="display:none;"><code>&lt;div class="premium-date-range-filter"&gt;
+  &lt;div class="date-inputs-row"&gt;
+    &lt;div class="date-input-group"&gt;
+      &lt;label&gt;From&lt;/label&gt;
+      &lt;input type="date" class="date-input-field"&gt;
+    &lt;/div&gt;
+    &lt;div class="date-input-group"&gt;
+      &lt;label&gt;To&lt;/label&gt;
+      &lt;input type="date" class="date-input-field"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="component-card" data-category="color">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="premium-color-swatch-filter">
+            <div class="color-filter-title">Filter by Color</div>
+            <div class="color-swatches-grid">
+              <div class="color-swatch active" style="--swatch-color: #7b61ff;" onclick="toggleSwatch(this)" title="Purple"></div>
+              <div class="color-swatch" style="--swatch-color: #ff7a3d;" onclick="toggleSwatch(this)" title="Orange"></div>
+              <div class="color-swatch" style="--swatch-color: #10b981;" onclick="toggleSwatch(this)" title="Emerald"></div>
+              <div class="color-swatch" style="--swatch-color: #ef4444;" onclick="toggleSwatch(this)" title="Red"></div>
+              <div class="color-swatch" style="--swatch-color: #06b6d4;" onclick="toggleSwatch(this)" title="Cyan"></div>
+              <div class="color-swatch" style="--swatch-color: #f59e0b;" onclick="toggleSwatch(this)" title="Amber"></div>
+              <div class="color-swatch" style="--swatch-color: #ec4899;" onclick="toggleSwatch(this)" title="Pink"></div>
+              <div class="color-swatch swatch-none" onclick="toggleSwatch(this)" title="None"><i class="fa-solid fa-ban"></i></div>
+            </div>
+            <div class="color-filter-result" id="colorResult">Purple selected</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Color Swatch Filter</h3>
+          <span>Color</span>
+        </div>
+        <p>A multi-select color dot swatch filter with glowing active ring animation, color names, and a live result readout below.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('codeColor', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeColor', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+
+      <pre class="code-block" id="codeColor" style="display:none;"><code>&lt;div class="premium-color-swatch-filter"&gt;
+  &lt;div class="color-swatches-grid"&gt;
+    &lt;div class="color-swatch active" style="--swatch-color:#7b61ff;"&gt;&lt;/div&gt;
+    &lt;div class="color-swatch" style="--swatch-color:#ff7a3d;"&gt;&lt;/div&gt;
+    &lt;div class="color-swatch" style="--swatch-color:#10b981;"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="component-card" data-category="autocomplete">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="premium-autocomplete-search">
+            <div class="autocomplete-input-wrap" id="autocompleteWrap">
+              <i class="fa-solid fa-magnifying-glass autocomplete-icon"></i>
+              <input type="text" id="autocompleteInput" placeholder="Search components..." autocomplete="off" oninput="handleAutocomplete(this.value)" onfocus="showAutoSuggestions()" onblur="hideAutoSuggestionsDelayed()">
+              <div class="autocomplete-kbd">⌘K</div>
+            </div>
+            <div class="autocomplete-dropdown" id="autoDropdown">
+              <div class="auto-suggestion-group">
+                <div class="auto-group-label">Components</div>
+                <div class="auto-item" onmousedown="selectAutoItem('Buttons')"><i class="fa-solid fa-hand-pointer"></i> Buttons</div>
+                <div class="auto-item" onmousedown="selectAutoItem('Cards')"><i class="fa-solid fa-table-cells-large"></i> Cards</div>
+                <div class="auto-item" onmousedown="selectAutoItem('Dropdowns')"><i class="fa-solid fa-caret-down"></i> Dropdowns</div>
+              </div>
+              <div class="auto-suggestion-group">
+                <div class="auto-group-label">Recent</div>
+                <div class="auto-item" onmousedown="selectAutoItem('Price Filter')"><i class="fa-solid fa-clock-rotate-left"></i> Price Filter</div>
+                <div class="auto-item" onmousedown="selectAutoItem('Search Tags')"><i class="fa-solid fa-clock-rotate-left"></i> Search Tags</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Autocomplete Search</h3>
+          <span>Autocomplete</span>
+        </div>
+        <p>A premium search input with animated grouped autocomplete dropdown, keyboard shortcut badge, and focus-triggered suggestions.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('codeAuto', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeAuto', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+
+      <pre class="code-block" id="codeAuto" style="display:none;"><code>&lt;div class="premium-autocomplete-search"&gt;
+  &lt;div class="autocomplete-input-wrap"&gt;
+    &lt;i class="fa-solid fa-magnifying-glass"&gt;&lt;/i&gt;
+    &lt;input type="text" placeholder="Search..."&gt;
+    &lt;div class="autocomplete-kbd"&gt;⌘K&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="autocomplete-dropdown"&gt;
+    &lt;div class="auto-suggestion-group"&gt;
+      &lt;div class="auto-group-label"&gt;Components&lt;/div&gt;
+      &lt;div class="auto-item"&gt;Buttons&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+  </div>
+
+  
+  <footer class="premium-footer">
+    <div class="footer-grid">
+      <!-- Brand column -->
+      <div class="footer-col brand-col">
+        <div class="footer-brand">
+          <span class="footer-brand-icon">⬡</span>
+          <span class="footer-brand-text">UIverse</span>
+        </div>
+        <p class="footer-desc">Premium open-source UI component showroom featuring modern glassmorphism layouts, glowing CSS keyframes, and highly interactive vanilla elements.</p>
+      </div>
+
+      <!-- Quick links -->
+      <div class="footer-col">
+        <h4>Design Suite</h4>
+        <ul class="footer-links">
+          <li><a href="button.html">Buttons</a></li>
+          <li><a href="cards.html">Cards</a></li>
+          <li><a href="inputs.html">Inputs</a></li>
+          <li><a href="dropdown-components.html">Dropdowns</a></li>
+        </ul>
+      </div>
+
+      <!-- Showrooms V2 -->
+      <div class="footer-col">
+        <h4>V2 Suites</h4>
+        <ul class="footer-links">
+          <li><a href="notifications-premium.html"><i class="fa-solid fa-bell"></i> Notifications V2</a></li>
+          <li><a href="step-indicators.html"><i class="fa-solid fa-list-check"></i> Steppers</a></li>
+          <li><a href="progress-premium.html"><i class="fa-solid fa-bars-progress"></i> Progress V2</a></li>
+          <li><a href="ratings-premium.html"><i class="fa-solid fa-star"></i> Ratings V2</a></li>
+          <li><a href="filters-premium.html"><i class="fa-solid fa-sliders"></i> Filters V2</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter column -->
+      <div class="footer-col newsletter-col">
+        <h4>Get UI Updates</h4>
+        <p>Subscribe to our newsletter to receive notification updates on new premium glass designs.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Enter your email...">
+          <button onclick="subscribeNewsletter(this)"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="footer-copyright">
+        &copy; 2026 UIverse Library. All rights reserved.
+      </div>
+      <div class="footer-socials">
+        <a href="#"><i class="fa-brands fa-github"></i></a>
+        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-discord"></i></a>
+        <a href="#"><i class="fa-brands fa-dribbble"></i></a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- INJECT SIDEBAR VIA CLIENT-SIDE HOOKS OR INLINE ASSETS -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-icon">⬡</span>
+    <span class="brand-text">UIverse <span style="font-size: 9px; background: linear-gradient(135deg, #eb6835, #7b61ff); color: white; padding: 1px 6px; border-radius: 10px; font-weight: 800; margin-left: 4px; letter-spacing: 0.5px; vertical-align: middle; box-shadow: 0 0 8px rgba(235,104,53,0.3);">V2</span></span>
+  </div>
+  <nav class="sidebar-nav">
+    <ul>
+      <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
+      <li><a href="button.html"><i class="fa-solid fa-hand-pointer"></i><span>Buttons</span></a></li>
+      <li><a href="dropdown-components.html"><i class="fa-solid fa-caret-down"></i><span>Dropdowns</span></a></li>
+      <li><a href="navbar.html"><i class="fa-solid fa-bars"></i><span>Navbar</span></a></li>
+      <li><a href="cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Cards</span></a></li>
+      <li><a href="flipcards.html"><i class="fa-solid fa-clone"></i><span>3D Cards</span></a></li>
+      <li><a href="inputs.html"><i class="fa-solid fa-keyboard"></i><span>Inputs</span></a></li>
+      <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><span>Forms</span></a></li>
+      <li><a href="badges.html"><i class="fa-solid fa-award"></i><span>Badges</span></a></li>
+      <li><a href="blog.html"><i class="fa-solid fa-blog"></i><span>Blog</span></a></li>
+      <li><a href="article.html"><i class="fa-solid fa-newspaper"></i><span>Articles</span></a></li>
+      <li><a href="alerts.html"><i class="fa-solid fa-triangle-exclamation"></i><span>Alerts</span></a></li>
+      <li><a href="color.html"><i class="fa-solid fa-palette"></i><span>Colors</span></a></li>
+      <li><a href="charts.html"><i class="fa-solid fa-chart-pie"></i><span>Charts</span></a></li>
+      <li><a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a></li>
+      <li><a href="div.html"><i class="fa-solid fa-square"></i><span>DIV</span></a></li>
+      <li><a href="widgets.html"><i class="fa-solid fa-layer-group"></i><span>Widgets</span></a></li>
+      <li><a href="search.html"><i class="fa-solid fa-magnifying-glass"></i><span>Search Bars</span></a></li>
+      <li><a href="hover.html"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Hover Effects</span></a></li>
+      <li><a href="error.html"><i class="fa-solid fa-circle-exclamation"></i><span>Error Pages</span></a></li>
+      <li><a href="ecommerce.html"><i class="fa-solid fa-cart-shopping"></i><span>E-commerce</span></a></li>
+      <li><a href="files.html"><i class="fa-solid fa-file-arrow-up"></i><span>Drag & Drop</span></a></li>
+      <li><a href="hero.html"><i class="fa-solid fa-star"></i><span>Hero Sections</span></a></li>
+      <li><a href="loaders.html"><i class="fa-solid fa-spinner"></i><span>Loaders</span></a></li>
+      <li><a href="timeline.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Timeline</span></a></li>
+      <li><a href="map.html"><i class="fa-solid fa-map-location-dot"></i><span>Maps</span></a></li>
+      <li><a href="menu.html"><i class="fa-solid fa-bars-staggered"></i><span>Menu</span></a></li>
+      <li><a href="pricing.html"><i class="fa-solid fa-tags"></i><span>Pricing</span></a></li>
+      <li>
+        <a href="subscription.html">
+          <i class="fa-solid fa-credit-card"></i>
+          <span>Subscription</span>
+        </a>
+      </li>
+      <li>
+        <a href="auth.html">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Authentication</span>
+        </a>
+      </li>
+        <li>
+          <a href="recovery.html">
+            <i class="fa-solid fa-key" aria-hidden="true"></i>
+            <span>Password Recovery</span>
+          </a>
+        </li>
+      <li><a href="section.html"><i class="fa-solid fa-rectangle-list"></i><span>Section</span></a></li>
+      <li><a href="span.html"><i class="fa-solid fa-code"></i><span>Span</span></a></li>
+      <li><a href="table.html"><i class="fa-solid fa-table"></i><span>Table</span></a></li>
+      <li><a href="tabs.html"><i class="fa-solid fa-table-columns"></i><span>Tabs</span></a></li>
+      <li><a href="terms.html"><i class="fa-solid fa-file-contract"></i><span>Terms</span></a></li>
+      <li><a href="testimonials.html"><i class="fa-solid fa-comments"></i><span>Testimonials</span></a></li>
+      <li><a href="toggles.html"><i class="fa-solid fa-toggle-on"></i><span>Toggle</span></a></li>
+      <li><a href="radiobutton.html"><i class="fa-solid fa-circle-dot"></i><span>Radio Buttons</span></a></li>
+      <li><a href="checkbox.html"><i class="fa-solid fa-square-check"></i><span>Checkboxes</span></a></li>
+      <li><a href="notifications-premium.html"><i class="fa-solid fa-bell"></i><span>Notifications V2</span></a></li>
+      <li><a href="step-indicators.html"><i class="fa-solid fa-list-check"></i><span>Steppers</span></a></li>
+      <li><a href="progress-premium.html"><i class="fa-solid fa-bars-progress"></i><span>Progress V2</span></a></li>
+      <li><a href="ratings-premium.html"><i class="fa-solid fa-star"></i><span>Ratings V2</span></a></li>
+      <li class="active"><a href="filters-premium.html"><i class="fa-solid fa-sliders"></i><span>Filters V2</span></a></li>
+      <li><a href="about.html"><i class="fa-solid fa-circle-info"></i><span>About</span></a></li>
+      <li><a href="documentation.html"><i class="fa-solid fa-book"></i><span>Documentation</span></a></li>
+      <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i><span>Faq</span></a></li>
+      <li><a href="contact.html"><i class="fa-regular fa-envelope"></i><span>Contact Us</span></a></li>
+    </ul>
+  </nav>
+</aside>
+
+<script>
+  // FILTER TAB highlights
+  const tabOffsets = {
+    0: { left: 4, width: 66 },
+    1: { left: 78, width: 88 },
+    2: { left: 174, width: 78 },
+    3: { left: 260, width: 80 }
+  };
+
+  function setCategoryTab(idx, btn) {
+    const tabs = document.querySelectorAll('.tab-item');
+    const glow = document.getElementById('tabGlow');
+
+    tabs.forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+
+    glow.style.left = tabOffsets[idx].left + 'px';
+    glow.style.width = tabOffsets[idx].width + 'px';
+  }
+
+  // Dual Range price slider
+  function updatePriceSliders() {
+    const minVal = parseInt(document.getElementById('priceMin').value);
+    const maxVal = parseInt(document.getElementById('priceMax').value);
+    const fill = document.getElementById('priceFill');
+
+    const minPct = (minVal / 1000) * 100;
+    const maxPct = 100 - ((maxVal / 1000) * 100);
+
+    fill.style.left = minPct + '%';
+    fill.style.right = maxPct + '%';
+
+    document.getElementById('priceMinBox').innerText = '$' + minVal;
+    document.getElementById('priceMaxBox').innerText = '$' + maxVal;
+  }
+
+  // Search input and tag tags addition/removal
+  function removeSearchTag(icon) {
+    const pill = icon.parentElement;
+    pill.style.opacity = '0';
+    pill.style.transform = 'scale(0.8)';
+    setTimeout(() => {
+      pill.remove();
+    }, 300);
+  }
+
+  function handleTagInputKey(e) {
+    if (e.key === 'Enter' && e.target.value.trim() !== '') {
+      const tagText = e.target.value.trim();
+      addSuggestedTag(tagText);
+      e.target.value = '';
+    }
+  }
+
+  function addSuggestedTag(tagText) {
+    const row = document.getElementById('activeTagsRow');
+    
+    // Check if tag already exists to preserve idempotence
+    const existingTags = Array.from(row.querySelectorAll('.tag-pill')).map(p => p.innerText.trim());
+    if (existingTags.includes(tagText)) return;
+
+    const newPill = document.createElement('div');
+    newPill.className = 'tag-pill';
+    newPill.innerHTML = `${tagText}<i class="fa-solid fa-xmark" onclick="removeSearchTag(this)"></i>`;
+    newPill.style.opacity = '0';
+    newPill.style.transform = 'scale(0.8)';
+    
+    row.appendChild(newPill);
+    
+    // Trigger transition
+    setTimeout(() => {
+      newPill.style.opacity = '1';
+      newPill.style.transform = 'scale(1)';
+    }, 50);
+  }
+
+  // Sidebar filter collapsible accordions
+  function toggleAccordion(header) {
+    const content = header.nextElementSibling;
+    const icon = header.querySelector('i');
+    header.classList.toggle('active');
+
+    if (header.classList.contains('active')) {
+      content.style.maxHeight = content.scrollHeight + 'px';
+      icon.style.transform = 'rotate(0deg)';
+    } else {
+      content.style.maxHeight = '0px';
+      icon.style.transform = 'rotate(-90deg)';
+    }
+  }
+
+  // Animated Sort Dropdown
+  function toggleSortDropdown(btn) {
+    const list = btn.nextElementSibling;
+    list.classList.toggle('open');
+  }
+
+  function selectDropdownSort(label, item) {
+    const trigger = document.querySelector('.dropdown-trigger-btn span');
+    const list = document.getElementById('dropdownMenu');
+    const items = list.querySelectorAll('.menu-item');
+
+    items.forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+
+    trigger.innerText = `Sort: ${label}`;
+    list.classList.remove('open');
+  }
+
+  function activateAllFilters() {
+    const item = document.querySelectorAll('.tab-item')[1];
+    setCategoryTab(1, item);
+
+    document.getElementById('priceMin').value = 300;
+    document.getElementById('priceMax').value = 950;
+    updatePriceSliders();
+
+    addSuggestedTag('Clean');
+    addSuggestedTag('3D');
+
+    document.querySelectorAll('.accordion-header').forEach(h => {
+      if (!h.classList.contains('active')) {
+        toggleAccordion(h);
+      }
+    });
+
+    document.querySelectorAll('.filter-checkbox-row input').forEach(c => c.checked = true);
+
+    const mItem = document.querySelectorAll('.menu-item')[2];
+    selectDropdownSort('Top Rated', mItem);
+
+    document.querySelectorAll('#chipRow .filter-chip').forEach((c, idx) => {
+      if (idx > 0) c.classList.add('active');
+    });
+    const chipCount = document.querySelectorAll('#chipRow .filter-chip.active').length;
+    document.getElementById('chipCountLabel').textContent = chipCount + ' selected';
+
+    const rRow = document.querySelectorAll('.rating-row')[0];
+    if (rRow) {
+      rRow.querySelector('input').checked = true;
+      selectRating(rRow);
+    }
+
+    const dateBtn = document.querySelectorAll('.date-preset-btn')[0];
+    if (dateBtn) setDatePreset('week', dateBtn);
+
+    document.querySelectorAll('.color-swatch').forEach((s, idx) => {
+      if (idx === 1 || idx === 2) s.classList.add('active');
+    });
+    toggleSwatch(document.createElement('div'));
+
+    document.getElementById('autocompleteInput').value = 'Buttons';
+    showAutoSuggestions();
+  }
+
+  function resetAllFilters() {
+    const item = document.querySelectorAll('.tab-item')[0];
+    setCategoryTab(0, item);
+
+    document.getElementById('priceMin').value = 150;
+    document.getElementById('priceMax').value = 800;
+    updatePriceSliders();
+
+    const row = document.getElementById('activeTagsRow');
+    row.innerHTML = `<div class="tag-pill">UI<i class="fa-solid fa-xmark" onclick="removeSearchTag(this)"></i></div><div class="tag-pill">Glass<i class="fa-solid fa-xmark" onclick="removeSearchTag(this)"></i></div>`;
+
+    document.querySelectorAll('.filter-checkbox-row input').forEach((c, idx) => {
+      c.checked = idx === 0 || idx === 2;
+    });
+
+    const mItem = document.querySelectorAll('.menu-item')[0];
+    selectDropdownSort('Popularity', mItem);
+
+    document.querySelectorAll('#chipRow .filter-chip').forEach((c, idx) => {
+      if (idx === 0) c.classList.add('active');
+      else c.classList.remove('active');
+    });
+    document.getElementById('chipCountLabel').textContent = '1 selected';
+
+    document.querySelectorAll('.rating-row').forEach(r => {
+      r.classList.remove('active');
+      r.querySelector('input').checked = false;
+    });
+
+    const dateBtn = document.querySelectorAll('.date-preset-btn')[1];
+    if (dateBtn) setDatePreset('month', dateBtn);
+
+    document.querySelectorAll('.color-swatch').forEach((s, idx) => {
+      if (idx === 0) s.classList.add('active');
+      else s.classList.remove('active');
+    });
+    document.getElementById('colorResult').textContent = 'Purple selected';
+
+    document.getElementById('autocompleteInput').value = '';
+    hideAutoSuggestionsDelayed();
+  }
+
+
+  // Filter category
+  function filterCategory(cat, btn) {
+    const buttons = document.querySelectorAll('.filters button');
+    buttons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const cards = document.querySelectorAll('.component-card');
+    cards.forEach(card => {
+      const cardCat = card.getAttribute('data-category');
+      if (cat === 'all' || cardCat === cat) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  // Search input system
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.component-card');
+    
+    cards.forEach(card => {
+      const title = card.querySelector('h3').innerText.toLowerCase();
+      const desc = card.querySelector('p').innerText.toLowerCase();
+      if (title.includes(query) || desc.includes(query)) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+
+  // Code toggle and copy clipboard methods
+  function toggleCode(id, btn) {
+    const block = document.getElementById(id);
+    if (block.style.display === 'none') {
+      block.style.display = 'block';
+      btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i> Hide Code';
+    } else {
+      block.style.display = 'none';
+      btn.innerHTML = '<i class="fa-solid fa-code"></i> View Code';
+    }
+  }
+
+  function copyCode(id, btn) {
+    const code = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(code).then(() => {
+      const origText = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+      btn.style.color = '#10b981';
+      btn.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+      setTimeout(() => {
+        btn.innerHTML = origText;
+        btn.style.color = '';
+        btn.style.borderColor = '';
+      }, 1800);
+    });
+  }
+
+  // Newsletter subscribe
+  function subscribeNewsletter(btn) {
+    const input = btn.previousElementSibling;
+    if (input.value.trim() !== '') {
+      const origHTML = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+      btn.style.background = '#10b981';
+      input.value = '';
+      setTimeout(() => {
+        btn.innerHTML = origHTML;
+        btn.style.background = '';
+      }, 2000);
+    }
+  }
+
+  function toggleChip(chip) {
+    chip.classList.toggle('active');
+    const row = document.getElementById('chipRow');
+    const count = row.querySelectorAll('.filter-chip.active').length;
+    const label = document.getElementById('chipCountLabel');
+    label.textContent = count === 0 ? 'None selected' : count + ' selected';
+  }
+
+  function selectRating(row) {
+    document.querySelectorAll('.rating-row').forEach(r => r.classList.remove('active'));
+    row.classList.add('active');
+  }
+
+  function setDatePreset(preset, btn) {
+    document.querySelectorAll('.date-preset-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const today = new Date();
+    const toInput = document.getElementById('dateTo');
+    const fromInput = document.getElementById('dateFrom');
+    toInput.value = today.toISOString().split('T')[0];
+    if (preset === 'week') {
+      const d = new Date(today); d.setDate(d.getDate() - 7);
+      fromInput.value = d.toISOString().split('T')[0];
+    } else if (preset === 'month') {
+      fromInput.value = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
+    } else if (preset === 'year') {
+      fromInput.value = new Date(today.getFullYear(), 0, 1).toISOString().split('T')[0];
+    }
+  }
+
+  const swatchNames = { '#7b61ff': 'Purple', '#ff7a3d': 'Orange', '#10b981': 'Emerald', '#ef4444': 'Red', '#06b6d4': 'Cyan', '#f59e0b': 'Amber', '#ec4899': 'Pink' };
+  function toggleSwatch(el) {
+    el.classList.toggle('active');
+    const active = Array.from(document.querySelectorAll('.color-swatch.active:not(.swatch-none)')).map(s => swatchNames[s.style.getPropertyValue('--swatch-color').trim()] || s.title);
+    const label = document.getElementById('colorResult');
+    label.textContent = active.length === 0 ? 'None selected' : active.join(', ') + ' selected';
+  }
+
+  function showAutoSuggestions() {
+    document.getElementById('autoDropdown').classList.add('open');
+    document.getElementById('autocompleteWrap').classList.add('focused');
+  }
+
+  function hideAutoSuggestionsDelayed() {
+    setTimeout(() => {
+      document.getElementById('autoDropdown').classList.remove('open');
+      document.getElementById('autocompleteWrap').classList.remove('focused');
+    }, 150);
+  }
+
+  function handleAutocomplete(val) {
+    const items = document.querySelectorAll('.auto-item');
+    items.forEach(item => {
+      item.style.display = val === '' || item.textContent.toLowerCase().includes(val.toLowerCase()) ? 'flex' : 'none';
+    });
+    if (val !== '') showAutoSuggestions();
+  }
+
+  function selectAutoItem(label) {
+    document.getElementById('autocompleteInput').value = label;
+    document.getElementById('autoDropdown').classList.remove('open');
+    document.getElementById('autocompleteWrap').classList.remove('focused');
+  }
+
+  window.addEventListener('click', (e) => {
+    if (!e.target.closest('.premium-sort-dropdown')) {
+      const list = document.getElementById('dropdownMenu');
+      if (list) list.classList.remove('open');
+    }
+  });
+
+  updatePriceSliders();
+
+</script>
+
+</body>
+</html>

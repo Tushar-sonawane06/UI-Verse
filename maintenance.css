@@ -1,0 +1,715 @@
+/* =================================================================
+   DESIGN SYSTEM & HSL TOKENS FOR MAINTENANCE CATEGORY
+   ================================================================= */
+
+:root {
+  /* Amber & Orange Warning Color Scheme */
+  --maint-primary-hsl: 38, 92%, 50%;     /* Warning Gold Amber */
+  --maint-secondary-hsl: 25, 95%, 53%;   /* Deep Warning Orange */
+  --maint-accent-hsl: 15, 90%, 55%;      /* Crimson Alert */
+  
+  --maint-primary: hsl(var(--maint-primary-hsl));
+  --maint-secondary: hsl(var(--maint-secondary-hsl));
+  --maint-accent: hsl(var(--maint-accent-hsl));
+
+  /* Light Theme Presets */
+  --maint-bg-subtle: #f8fafc;
+  --maint-panel-bg: rgba(255, 255, 255, 0.75);
+  --maint-card-border: rgba(226, 232, 240, 0.8);
+  --maint-text-main: #0f172a;
+  --maint-text-muted: #64748b;
+  --maint-input-bg: #ffffff;
+  --maint-input-border: #e2e8f0;
+  
+  --maint-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
+  --maint-shadow-md: 0 12px 24px -4px rgba(0, 0, 0, 0.06), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+  --maint-shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+}
+
+/* Dark Mode Overrides */
+body.dark-mode {
+  --maint-bg-subtle: #0b0f19;
+  --maint-panel-bg: rgba(22, 28, 45, 0.45);
+  --maint-card-border: rgba(255, 255, 255, 0.07);
+  --maint-text-main: #f8fafc;
+  --maint-text-muted: #94a3b8;
+  --maint-input-bg: #111827;
+  --maint-input-border: rgba(255, 255, 255, 0.1);
+  
+  --maint-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --maint-shadow-md: 0 12px 30px rgba(0, 0, 0, 0.35);
+  --maint-shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* =================================================================
+   SHOWCASE GRID ARCHITECTURE
+   ================================================================= */
+
+.maint-showcase-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
+  padding: 1.5rem 0;
+  width: 100%;
+}
+
+/* Responsive Collapse to Single Column on Tablet/Mobile */
+@media (max-width: 1024px) {
+  .maint-showcase-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* UIverse Pre-styled Preview Wrappers */
+.component-card {
+  background: var(--maint-panel-bg);
+  border: 1px solid var(--maint-card-border);
+  border-radius: 24px;
+  padding: 1.8rem;
+  box-shadow: var(--maint-shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.component-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--maint-shadow-lg);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.component-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 480px;
+  background: var(--maint-bg-subtle);
+  border-radius: 16px;
+  border: 1px dashed var(--maint-card-border);
+  padding: 2.5rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* =================================================================
+   1. SERVER MAINTENANCE PAGE COMPONENT
+   ================================================================= */
+
+.maint-server-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--maint-panel-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--maint-card-border);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: var(--maint-shadow-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.maint-server-card:hover {
+  transform: scale(1.01);
+}
+
+.maint-graphic-server {
+  width: 90px;
+  height: 90px;
+  background: rgba(245, 158, 11, 0.1);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  position: relative;
+}
+
+.maint-graphic-server i {
+  font-size: 2.5rem;
+  color: var(--maint-primary);
+}
+
+.maint-pulse-dot {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 10px #f59e0b;
+  animation: pulse-ring 2s infinite ease-in-out;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.5; }
+  100% { transform: scale(0.9); opacity: 1; }
+}
+
+.maint-input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 1.5rem;
+}
+
+.maint-input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--maint-input-bg);
+  border: 1px solid var(--maint-input-border);
+  font-size: 0.85rem;
+  color: var(--maint-text-main);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.maint-input:focus {
+  border-color: var(--maint-primary);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+}
+
+.maint-btn-submit {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--maint-primary), var(--maint-secondary));
+  color: white;
+  border: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+  transition: all 0.3s ease;
+}
+
+.maint-btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.3);
+}
+
+.maint-btn-submit:active {
+  transform: translateY(0);
+}
+
+/* =================================================================
+   2. UPDATE IN PROGRESS SCREEN COMPONENT
+   ================================================================= */
+
+.maint-update-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--maint-panel-bg);
+  border: 1px solid var(--maint-card-border);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: var(--maint-shadow-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.maint-gear-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 1.8rem;
+}
+
+.maint-gear-large {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 4rem;
+  color: var(--maint-primary);
+  animation: gear-spin-cw 8s infinite linear;
+}
+
+.maint-gear-small {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 2.2rem;
+  color: var(--maint-secondary);
+  animation: gear-spin-ccw 6s infinite linear;
+}
+
+@keyframes gear-spin-cw {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes gear-spin-ccw {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+.maint-progress-container {
+  width: 100%;
+  background: var(--maint-input-border);
+  border-radius: 50px;
+  height: 8px;
+  overflow: hidden;
+  margin: 1.5rem 0 8px 0;
+  position: relative;
+}
+
+.maint-progress-bar {
+  height: 100%;
+  width: 45%;
+  background: linear-gradient(90deg, var(--maint-primary) 0%, var(--maint-secondary) 100%);
+  border-radius: 50px;
+  transition: width 0.5s ease;
+}
+
+/* =================================================================
+   3. TECHNICAL ISSUE LAYOUT COMPONENT
+   ================================================================= */
+
+.maint-issue-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--maint-panel-bg);
+  border: 1px solid var(--maint-card-border);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: var(--maint-shadow-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.maint-warning-shell {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin-bottom: 1.5rem;
+}
+
+.maint-warning-glow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.1);
+  animation: radar-glow 2s infinite ease-out;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.maint-warning-glow:nth-child(2) {
+  animation-delay: 0.8s;
+}
+
+.maint-warning-inner {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.maint-warning-inner i {
+  font-size: 2.2rem;
+  color: #ef4444;
+}
+
+@keyframes radar-glow {
+  0% { transform: scale(0.8); opacity: 0.9; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.maint-debug-log {
+  width: 100%;
+  background: var(--maint-bg-subtle);
+  border: 1px solid var(--maint-input-border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-family: monospace;
+  font-size: 0.75rem;
+  text-align: left;
+  margin: 1.2rem 0;
+  color: var(--maint-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.maint-debug-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.maint-btn-outline {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--maint-text-main);
+  border: 1px solid var(--maint-input-border);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.maint-btn-outline:hover {
+  border-color: var(--maint-text-main);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* =================================================================
+   4. MAINTENANCE COUNTDOWN PAGE COMPONENT
+   ================================================================= */
+
+.maint-countdown-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--maint-panel-bg);
+  border: 1px solid var(--maint-card-border);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: var(--maint-shadow-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.maint-clock-graphic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.maint-clock-graphic i {
+  font-size: 2.4rem;
+  color: var(--maint-primary);
+  animation: clock-wobble 4s infinite ease-in-out;
+}
+
+@keyframes clock-wobble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-8deg); }
+  75% { transform: rotate(8deg); }
+}
+
+.maint-timer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+.maint-timer-box {
+  background: var(--maint-bg-subtle);
+  border: 1px solid var(--maint-input-border);
+  border-radius: 16px;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.maint-timer-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--maint-primary);
+}
+
+.maint-timer-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--maint-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+/* =================================================================
+   5. ANIMATED MAINTENANCE UI COMPONENT
+   ================================================================= */
+
+.maint-animated-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--maint-panel-bg);
+  border: 1px solid var(--maint-card-border);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: var(--maint-shadow-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.maint-scene-wrapper {
+  position: relative;
+  width: 160px;
+  height: 120px;
+  margin-bottom: 1rem;
+}
+
+.maint-scene-base {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  width: 120px;
+  height: 8px;
+  background: var(--maint-input-border);
+  border-radius: 10px;
+}
+
+.maint-scene-tool {
+  position: absolute;
+  font-size: 3.2rem;
+  color: var(--maint-primary);
+  bottom: 15px;
+  left: 55px;
+  animation: tool-bounce 2.2s infinite ease-in-out;
+  transform-origin: bottom center;
+}
+
+.maint-scene-gear {
+  position: absolute;
+  font-size: 2.4rem;
+  color: var(--maint-secondary);
+  top: 15px;
+  left: 30px;
+  animation: gear-spin-cw 10s infinite linear;
+}
+
+.maint-scene-gear-sub {
+  position: absolute;
+  font-size: 1.6rem;
+  color: var(--maint-accent);
+  top: 40px;
+  right: 35px;
+  animation: gear-spin-ccw 8s infinite linear;
+}
+
+@keyframes tool-bounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(15deg); }
+}
+
+.maint-scene-spark {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #f59e0b;
+  border-radius: 50%;
+  top: 60px;
+  left: 85px;
+  opacity: 0;
+  animation: spark-fly 1.8s infinite ease-in-out;
+}
+
+@keyframes spark-fly {
+  0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+  50% { transform: translate(15px, -15px) scale(1); opacity: 1; }
+  100% { transform: translate(25px, -25px) scale(0.2); opacity: 0; }
+}
+
+/* =================================================================
+   GLOBAL UTILITIES & ACTION INTERACTIVE CLASSES
+   ================================================================= */
+
+/* Copy Success Toast and Form Elements styling */
+.maint-success-text {
+  color: #10b981 !important;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 8px;
+  animation: scale-up 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes scale-up {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.file-upload-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--maint-bg-subtle);
+  border: 1px solid var(--maint-card-border);
+  padding: 10px 14px;
+  border-radius: 12px;
+  width: 100%;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  margin-left: var(--sidebar-w);
+  background: #111;
+  color: #aaa;
+  padding: 0;
+  margin-top: 60px;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+  gap: 40px;
+  padding: 56px 48px 40px;
+  max-width: 100%;
+}
+
+.footer-logo {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.footer-col p {
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0 0 16px;
+}
+
+.footer-col h3 {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-col ul li a {
+  color: #888;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color var(--transition);
+}
+
+.footer-col ul li a:hover {
+  color: var(--accent);
+}
+
+.socials {
+  display: flex;
+  gap: 12px;
+}
+
+.socials a {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #1e1e1e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all var(--transition);
+}
+
+.socials a:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.newsletter-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 14px;
+  background: #1e1e1e;
+  border: 1px solid #2a2a2a;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: 13px;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.newsletter-form input:focus {
+  border-color: var(--accent);
+}
+
+.newsletter-form button {
+  padding: 10px 18px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.newsletter-form button:hover {
+  background: #d45c28;
+}
+
+.footer-bottom {
+  border-top: 1px solid #1e1e1e;
+  padding: 20px 48px;
+  text-align: center;
+  font-size: 13px;
+  color: #555;
+}

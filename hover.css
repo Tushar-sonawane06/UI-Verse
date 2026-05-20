@@ -1,0 +1,1072 @@
+/* =========================================================
+   HOVER EFFECTS COMPONENTS PAGE — UIverse Premium
+========================================================= */
+/* =========================================================
+   RESET & BASE
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:"DM Sans",sans-serif;
+  background: linear-gradient(135deg, #0f172a, #111827);
+  color:white;
+  overflow-x:hidden;
+}
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.sidebar {
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: linear-gradient(160deg, #141428 0%, #1c1c35 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  border-right: 1px solid rgba(255,255,255,0.05);
+  transition: transform var(--transition);
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.brand-icon {
+  font-size: 24px;
+  color: var(--accent);
+}
+
+.brand-text {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 20px;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 12px;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-nav li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  color: #8a9bc0;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all var(--transition);
+}
+
+.sidebar-nav li a i {
+  width: 18px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.sidebar-nav li a:hover {
+  background: rgba(255,255,255,0.07);
+  color: #fff;
+  transform: translateX(3px);
+}
+
+.sidebar-nav li.active a {
+  background: linear-gradient(90deg, rgba(235,104,53,0.2) 0%, rgba(235,104,53,0.05) 100%);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
+}
+
+.sidebar-footer {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  gap: 16px;
+}
+
+.sidebar-footer a {
+  color: #6a7a94;
+  font-size: 16px;
+  transition: color var(--transition);
+}
+
+.sidebar-footer a:hover {
+  color: var(--accent);
+}
+
+/* Sidebar backdrop (mobile) */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1040;
+  backdrop-filter: blur(2px);
+}
+
+.sidebar-backdrop.visible {
+  display: block;
+}
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.main-home{
+  margin-left:250px;
+  padding:42px;
+}
+
+.page-header {
+  margin-bottom: 40px;
+}
+.page-header h1 {
+  font-size: 48px;
+  margin-bottom: 12px;
+  font-family: "Syne", sans-serif;
+  background: linear-gradient(90deg, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.page-header p {
+  color: #94a3b8;
+  font-size: 18px;
+  max-width: 600px;
+}
+
+.hover-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 30px;
+}
+
+.hover-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hover-info h2 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #f8fafc;
+}
+.hover-info p {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.component-preview {
+  height: 250px;
+  background: #0f172a;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.copy-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(168, 85, 247, 0.1);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.copy-btn:hover {
+  background: rgba(168, 85, 247, 0.2);
+  color: #fff;
+}
+
+.copy-btn.copied {
+  background: rgba(34, 197, 94, 0.1);
+  color: #4ade80;
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+/* =========================================================
+   1. HOVER REVEAL CARD
+========================================================= */
+.reveal-card {
+  position: relative;
+  width: 250px;
+  height: 150px;
+  background: #1e293b;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #334155;
+  cursor: pointer;
+}
+.reveal-front {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  background: #1e293b;
+  z-index: 2;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal-front i {
+  font-size: 32px;
+  color: #a855f7;
+}
+.reveal-card:hover .reveal-front {
+  transform: translateY(-100%);
+}
+.reveal-back {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  color: white;
+  z-index: 1;
+  padding: 20px;
+  text-align: center;
+}
+.reveal-back p {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* =========================================================
+   2. GLOW HOVER BUTTON
+========================================================= */
+.glow-btn {
+  position: relative;
+  padding: 16px 32px;
+  background: #0f172a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 1;
+}
+.glow-btn::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+  background-size: 400%;
+  border-radius: 10px;
+  z-index: -1;
+  filter: blur(5px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.glow-btn:hover::before {
+  opacity: 1;
+  animation: glowing 20s linear infinite;
+}
+.glow-btn::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: #1e293b;
+  border-radius: 6px;
+  z-index: -1;
+}
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
+/* =========================================================
+   3. 3D HOVER CARD
+========================================================= */
+.perspective-container {
+  perspective: 1000px;
+}
+.tilt-card {
+  width: 220px;
+  height: 220px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.0));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+  transition: transform 0.1s ease;
+  transform-style: preserve-3d;
+}
+.tilt-content {
+  transform: translateZ(50px);
+  text-align: center;
+}
+.tilt-content i {
+  font-size: 40px;
+  color: #38bdf8;
+  margin-bottom: 10px;
+}
+.tilt-content span {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}
+
+/* =========================================================
+   4. SPOTLIGHT HOVER EFFECT
+========================================================= */
+.spotlight-card {
+  width: 260px;
+  height: 160px;
+  background: #1e293b;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #334155;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.spotlight-card::before {
+  content: '';
+  position: absolute;
+  top: var(--y, 50%);
+  left: var(--x, 50%);
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(168,85,247,0.4) 0%, rgba(0,0,0,0) 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.spotlight-card:hover::before {
+  opacity: 1;
+}
+.spotlight-content {
+  position: relative;
+  z-index: 1;
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+/* =========================================================
+   5. FLOATING HOVER ELEMENTS
+========================================================= */
+.float-container {
+  display: flex;
+  gap: 20px;
+}
+.float-item {
+  width: 60px;
+  height: 60px;
+  background: #334155;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #94a3b8;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.float-item:hover {
+  transform: translateY(-15px) scale(1.1);
+  background: #a855f7;
+  color: white;
+  box-shadow: 0 20px 25px -5px rgba(168, 85, 247, 0.4), 0 10px 10px -5px rgba(168, 85, 247, 0.2);
+}
+
+/* 6. Magnetic Button */
+.magnetic-btn {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.magnetic-btn .btn-text {
+  display: inline-block;
+  transition: transform 0.1s ease-out;
+}
+
+/* 7. Glitch Text Effect */
+.glitch-text {
+  font-size: 48px;
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  color: #fff;
+  position: relative;
+}
+.glitch-text::before, .glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.hover-card:hover .glitch-text::before {
+  opacity: 1;
+  color: #0ff;
+  z-index: -1;
+  animation: glitch-anim-1 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+.hover-card:hover .glitch-text::after {
+  opacity: 1;
+  color: #f0f;
+  z-index: -2;
+  animation: glitch-anim-2 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite reverse;
+}
+@keyframes glitch-anim-1 {
+  0% { transform: translate(0) }
+  20% { transform: translate(-2px, 2px) }
+  40% { transform: translate(-2px, -2px) }
+  60% { transform: translate(2px, 2px) }
+  80% { transform: translate(2px, -2px) }
+  100% { transform: translate(0) }
+}
+@keyframes glitch-anim-2 {
+  0% { transform: translate(0) }
+  20% { transform: translate(2px, -2px) }
+  40% { transform: translate(2px, 2px) }
+  60% { transform: translate(-2px, -2px) }
+  80% { transform: translate(-2px, 2px) }
+  100% { transform: translate(0) }
+}
+
+/* 8. Neumorphic Inset Hover */
+.neumorphic-btn {
+  width: 80px;
+  height: 80px;
+  background: #1e293b;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #94a3b8;
+  box-shadow: 8px 8px 16px rgba(0,0,0,0.5), -8px -8px 16px rgba(255,255,255,0.05);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.neumorphic-btn:hover {
+  box-shadow: inset 8px 8px 16px rgba(0,0,0,0.5), inset -8px -8px 16px rgba(255,255,255,0.05);
+  color: #10b981;
+}
+
+/* 9. Image Zoom Overlay */
+.img-zoom-card {
+  width: 100%;
+  height: 200px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+.img-zoom-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.img-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(15, 23, 42, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.img-overlay h3 {
+  font-size: 20px;
+  color: #fff;
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+.img-overlay p {
+  font-size: 14px;
+  color: #3b82f6;
+  margin-top: 8px;
+  transform: translateY(20px);
+  transition: transform 0.3s ease 0.1s;
+}
+.hover-card:hover .img-zoom-card img {
+  transform: scale(1.1);
+}
+.hover-card:hover .img-overlay {
+  opacity: 1;
+}
+.hover-card:hover .img-overlay h3,
+.hover-card:hover .img-overlay p {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   FOOTER (Copied from Error Pages)
+========================================================= */
+.site-footer {
+  margin-top: 60px; /* Push below the grid */
+  background: #0f1115;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 60px 40px 20px;
+  margin-left: -42px; 
+  margin-right: -42px;
+  margin-bottom: -42px;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+  gap: 40px;
+  margin-bottom: 50px;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.footer-logo i {
+  color: #eb6835;
+  font-size: 24px;
+}
+.footer-logo span {
+  font-family: "Syne", sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: #eb6835;
+}
+.footer-brand p {
+  color: #8b949e;
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 250px;
+}
+.footer-socials {
+  display: flex;
+  gap: 12px;
+}
+.footer-socials a {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b949e;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.footer-socials a:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+.footer-links h4 {
+  color: #fff;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.footer-links a {
+  color: #8b949e;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+.footer-links a:hover {
+  color: #eb6835;
+}
+
+.footer-newsletter h4 {
+  color: #fff;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+.footer-newsletter p {
+  color: #8b949e;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+}
+.newsletter-form input {
+  flex: 1;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.newsletter-form input:focus {
+  border-color: #eb6835;
+}
+.newsletter-form button {
+  background: #eb6835;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.newsletter-form button:hover {
+  background: #d95a2b;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 20px;
+  text-align: center;
+}
+.footer-bottom p {
+  color: #6a7a94;
+  font-size: 13px;
+}
+.footer-bottom .heart {
+  color: #ef4444;
+}
+
+/* =========================================================
+   10. Liquid Distortion Hover Card
+   ========================================================= */
+.liquid-card {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.liquid-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.liquid-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.95), transparent);
+  text-align: left;
+  transform: translateY(10px);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.liquid-content h3 {
+  font-size: 16px;
+  color: #fff;
+  font-weight: 700;
+  font-family: "Syne", sans-serif;
+}
+
+.liquid-content p {
+  font-size: 11px;
+  color: #a855f7;
+  margin-top: 2px;
+}
+
+.liquid-card:hover .liquid-content {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* =========================================================
+   11. Aurora Gradient Hover Button
+   ========================================================= */
+.aurora-btn {
+  position: relative;
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px 36px;
+  border-radius: 99px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  overflow: visible;
+  transition: border-color 0.4s, transform 0.2s;
+  font-family: "DM Sans", sans-serif;
+}
+
+.aurora-btn-text {
+  position: relative;
+  z-index: 5;
+  letter-spacing: 0.5px;
+}
+
+.aurora-glow {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  opacity: 0;
+  filter: blur(24px);
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  mix-blend-mode: screen;
+}
+
+.aurora-glow:nth-child(1) {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.6) 0%, transparent 70%);
+  top: -20px;
+  left: -20px;
+}
+
+.aurora-glow:nth-child(2) {
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.6) 0%, transparent 70%);
+  bottom: -20px;
+  right: -20px;
+}
+
+.aurora-glow:nth-child(3) {
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.6) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.aurora-btn:hover {
+  border-color: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+}
+
+.aurora-btn:hover .aurora-glow {
+  opacity: 1;
+  animation: auroraSpin 8s linear infinite;
+}
+
+.aurora-btn:hover .aurora-glow:nth-child(2) {
+  animation: auroraSpin 6s linear infinite reverse;
+}
+
+@keyframes auroraSpin {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  50% { transform: translate(15px, -10px) rotate(180deg) scale(1.15); }
+  100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+}
+
+/* =========================================================
+   12. Tilt Glassmorphism Panel
+   ========================================================= */
+.glass-tilt-container {
+  perspective: 1200px;
+}
+
+.glass-tilt-card {
+  position: relative;
+  width: 250px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, box-shadow 0.3s;
+}
+
+.glass-tilt-card:hover {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.glass-shine {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 60%);
+  pointer-events: none;
+  z-index: 2;
+  transition: background 0.15s ease-out;
+}
+
+.glass-content {
+  position: relative;
+  z-index: 3;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  transform: translateZ(30px);
+  text-align: left;
+}
+
+.glass-badge {
+  font-size: 9px;
+  font-weight: 800;
+  color: #a855f7;
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  padding: 3px 8px;
+  border-radius: 99px;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.glass-content h3 {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 700;
+  font-family: "Syne", sans-serif;
+  margin-bottom: 4px;
+}
+
+.glass-content p {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 0;
+}
+
+/* =========================================================
+   13. Cursor Trail Hover Effect
+   ========================================================= */
+.trail-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background: #111827;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+#trailCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.trail-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: #4b5563;
+  letter-spacing: 0.5px;
+  z-index: 2;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* =========================================================
+   14. Morphing Icon Hover Card
+   ========================================================= */
+.morph-card {
+  position: relative;
+  width: 250px;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 20px;
+  padding: 20px;
+  transition: border-color 0.4s, background 0.4s;
+}
+
+.morph-svg-wrapper {
+  position: relative;
+  width: 65px;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.morph-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.morph-path {
+  fill: rgba(168, 85, 247, 0.1);
+  stroke: #a855f7;
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+  transition: d 0.5s cubic-bezier(0.25, 0.8, 0.25, 1.1), fill 0.5s, stroke 0.5s;
+}
+
+.morph-icon {
+  position: relative;
+  font-size: 20px;
+  color: #fff;
+  z-index: 2;
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1.2), color 0.5s;
+}
+
+.morph-content {
+  text-align: center;
+}
+
+.morph-content h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  font-family: "Syne", sans-serif;
+  margin-bottom: 2px;
+}
+
+.morph-content p {
+  font-size: 11px;
+  color: #64748b;
+  margin: 0;
+}
+
+.morph-card:hover {
+  border-color: rgba(168, 85, 247, 0.25);
+  background: rgba(168, 85, 247, 0.03);
+}
+
+.morph-card:hover .morph-path {
+  d: path("M50,4 Q90,4 90,45 Q90,80 50,96 Q10,80 10,45 Q10,4 50,4 Z");
+  fill: rgba(6, 182, 212, 0.15);
+  stroke: #06b6d4;
+}
+
+.morph-card:hover .morph-icon {
+  transform: rotate(360deg) scale(1.15);
+  color: #06b6d4;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media(max-width:1200px) {
+  .footer-top {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media(max-width:992px){
+  .main-home{ margin-left: 0; }
+  .sidebar{ display: none; }
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media(max-width:768px){
+  .hover-grid { grid-template-columns: 1fr; }
+  .footer-top {
+    grid-template-columns: 1fr;
+  }
+}

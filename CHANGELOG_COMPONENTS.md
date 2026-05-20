@@ -1,6 +1,6 @@
 # Component Changelog
 
-Generated: 2026-05-13T18:18:21.187Z
+Generated: 2026-05-20T10:18:08.951Z
 
 ## Alerts — alerts
 
@@ -84,7 +84,7 @@ Changelog:
 
 ## Navbar — navbar
 
-Path: Navbar.html
+Path: navbar.html
 
 Current version: **0.1.0**
 

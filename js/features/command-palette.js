@@ -55,6 +55,12 @@ const CommandPalette = (function () {
 
   // Build component list from page navigation
   function buildComponentList() {
+    // Use ComponentIndex if available
+    if (window.ComponentIndex) {
+      return window.ComponentIndex.getAll();
+    }
+
+    // Fallback: build from sidebar
     const items = [];
     
     // Get all navigation links from sidebar
@@ -104,6 +110,14 @@ const CommandPalette = (function () {
       return [];
     }
 
+    // Use ComponentIndex search if available (with Fuse.js)
+    if (window.ComponentIndex) {
+      const results = window.ComponentIndex.search(query);
+      _state.results = results;
+      return results;
+    }
+
+    // Fallback to custom fuzzy search
     const scored = _state.allItems.map((item) => {
       const titleScore = fuzzyScore(query, item.title);
       const categoryScore = fuzzyScore(query, item.category) * 0.5;
@@ -339,7 +353,7 @@ const CommandPalette = (function () {
   }
 
   // Initialize feature
-  function init() {
+  async function init() {
     if (_state.initialized) return;
 
     // Check for palette elements
@@ -347,6 +361,11 @@ const CommandPalette = (function () {
       console.warn('[CommandPalette] Palette DOM not found. Skipping initialization.');
       _state.initialized = true;
       return;
+    }
+
+    // Initialize ComponentIndex if available
+    if (window.ComponentIndex) {
+      await window.ComponentIndex.init();
     }
 
     _state.allItems = buildComponentList();

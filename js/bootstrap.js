@@ -3,15 +3,19 @@
  * 
  * Entry point for all JavaScript functionality
  * Registers and initializes all features using the UIverse registry system
- * with automatic dependency management
+ * with automatic dependency management, lazy loading, and duplicate prevention
  * 
  * All feature modules must be loaded before this script:
  * - js/registry.js (UIverse registry)
  * - js/core/*.js (core modules)
  * - js/features/*.js (feature modules)
+ * 
+ * Lazy loading is handled by js/core/lazy-loader.js
+ * Duplicate prevention via js/core/script-loader.js
  */
 
 const Bootstrap = {
+  initialized: false,
   /**
    * Register all available modules with the UIverse registry
    */
@@ -23,6 +27,10 @@ const Bootstrap = {
 
     if (typeof ComponentsRegistry !== 'undefined') {
       UIverse.register('ComponentsRegistry', ComponentsRegistry);
+    }
+
+    if (typeof ComponentIndex !== 'undefined') {
+      UIverse.register('ComponentIndex', ComponentIndex);
     }
 
     // Register feature modules (with optional conditional initialization)
@@ -43,7 +51,7 @@ const Bootstrap = {
     }
 
     if (typeof Search !== 'undefined') {
-      UIverse.register('Search', Search, ['ComponentsRegistry']);
+      UIverse.register('Search', Search, ['ComponentIndex']);
     }
 
     if (typeof Theme !== 'undefined') {
@@ -66,8 +74,13 @@ const Bootstrap = {
       UIverse.register('Accessibility', Accessibility);
     }
 
+    if (typeof AccessibilityChecker !== 'undefined') {
+      UIverse.register('AccessibilityChecker', AccessibilityChecker);
+    }
+
+
     if (typeof CommandPalette !== 'undefined') {
-      UIverse.register('CommandPalette', CommandPalette);
+      UIverse.register('CommandPalette', CommandPalette, ['ComponentIndex']);
     }
 
     if (typeof URLStateManager !== 'undefined') {
@@ -82,15 +95,44 @@ const Bootstrap = {
       UIverse.register('ComponentGallery', ComponentGallery);
     }
 
+    if (typeof Favorites !== 'undefined') {
+      UIverse.register('Favorites', Favorites);
+    }
+
+    if (typeof DevicePreview !== 'undefined') {
+      UIverse.register('DevicePreview', DevicePreview);
+    }
+
+    if (typeof KeyboardShortcuts !== 'undefined') {
+      UIverse.register('KeyboardShortcuts', KeyboardShortcuts);
+    }
+
+    if (typeof Download !== 'undefined') {
+      UIverse.register('Download', Download);
+    }
+
+    if (typeof Recent !== 'undefined') {
+      UIverse.register('Recent', Recent);
+    }
+
+    if (typeof TutorialMode !== 'undefined') {
+      UIverse.register('TutorialMode', TutorialMode);
+    }
+
     if (window.UIVERSE_DEBUG) {
       console.info('[Bootstrap] All modules registered with UIverse registry');
     }
   },
 
-  /**
-   * Initialize all features with conditional DOM checks
-   */
+/**
+    * Initialize all features with conditional DOM checks
+    */
   init() {
+    if (this.initialized) {
+      console.warn('[Bootstrap] Already initialized, skipping duplicate init');
+      return;
+    }
+    
     if (!window.UIverse) {
       console.error('[Bootstrap] UIverse registry not found. Make sure js/registry.js is loaded first.');
       return;
@@ -104,7 +146,8 @@ const Bootstrap = {
 
     // Initialize all registered modules (with dependencies handled by registry)
     const report = UIverse.initAll();
-
+    
+    this.initialized = true;
     this.logStatus(report);
   },
 
@@ -113,6 +156,10 @@ const Bootstrap = {
    * This prevents errors from modules expecting specific page elements
    */
   initConditionalModules() {
+    // Ensure TutorialMode exists even if feature ordering changes
+    if (typeof TutorialMode === 'undefined') {
+      // no-op
+    }
     // Skip Sidebar if element not present
     if (!document.querySelector(".sidebar")) {
       UIverse.modules['Sidebar'] && (UIverse.modules['Sidebar'].module.init = () => {});
@@ -145,9 +192,15 @@ const Bootstrap = {
 };
 
 /**
- * Start bootstrap on DOM ready
- */
+  * Start bootstrap on DOM ready
+  */
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize lazy loader for dynamic imports
+  if (typeof LazyLoader !== 'undefined') {
+    LazyLoader.init();
+    console.log('[Bootstrap] Lazy loader initialized');
+  }
+  
   Bootstrap.init();
 });
 

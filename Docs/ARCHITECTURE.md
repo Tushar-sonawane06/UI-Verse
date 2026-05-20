@@ -8,16 +8,13 @@ UIverse follows a simple static frontend architecture:
 - CSS → Styling
 - JavaScript → Interactivity
 
----
-
 ## 🧱 High-Level Architecture
 
 User → HTML → CSS → JS → Components
 
----
-
 ## 📂 Project Structure
 
+```text
 uiverse/
 │
 ├── index.html
@@ -31,27 +28,25 @@ uiverse/
 │   ├── navbars/
 │   ├── forms/
 │   └── loaders/
-
----
+```
 
 ## 🔑 Core Modules
 
 ### HTML
+
 Handles layout and structure.
 
 ### CSS
+
 Handles styling and responsiveness.
 
 ### JavaScript
-Handles interactivity like copy functionality.
 
----
+Handles interactivity like copy functionality.
 
 ## 🔄 Component Workflow
 
 Component → Page → Browser → User
-
----
 
 ## 📈 Scalability
 
@@ -59,8 +54,6 @@ Component → Page → Browser → User
 - Enhance JS features
 - Add dark mode
 - Future: React/Vue integration
-
----
 
 ## ✅ Conclusion
 

@@ -1,10 +1,20 @@
+
+.inline-code {
+  background: rgba(235,104,53,0.1);
+  color: var(--accent);
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  font-weight: 600;
+}
 /* ============================================================
    SIDEBAR
    ============================================================ */
 .sidebar {
   width: var(--sidebar-w);
   height: 100vh;
-  background: linear-gradient(160deg, #141428 0%, #1c1c35 100%);
+  background: var(--sidebar-bg);
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -12,7 +22,7 @@
   top: 0;
   left: 0;
   z-index: 1050;
-  border-right: 1px solid rgba(255,255,255,0.05);
+  border-right: 1px solid var(--sidebar-border);
   transition: transform var(--transition);
 }
 
@@ -21,7 +31,7 @@
   align-items: center;
   gap: 10px;
   padding: 22px 24px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid var(--sidebar-border);
 }
 
 .brand-icon {
@@ -57,7 +67,7 @@
   align-items: center;
   gap: 12px;
   padding: 11px 14px;
-  color: #8a9bc0;
+  color: var(--sidebar-text);
   text-decoration: none;
   border-radius: var(--radius-sm);
   font-size: 14px;
@@ -72,26 +82,30 @@
 }
 
 .sidebar-nav li a:hover {
-  background: rgba(255,255,255,0.07);
+  background: var(--sidebar-hover);
   color: #fff;
-  transform: translateX(3px);
+  transform: translateX(4px);
+}
+
+.sidebar-nav li a:active {
+  transform: translateX(2px) scale(0.98);
 }
 
 .sidebar-nav li.active a {
-  background: linear-gradient(90deg, rgba(235,104,53,0.2) 0%, rgba(235,104,53,0.05) 100%);
+  background: var(--sidebar-active);
   color: var(--accent);
   border-left: 3px solid var(--accent);
 }
 
 .sidebar-footer {
   padding: 20px 24px;
-  border-top: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid var(--sidebar-border);
   display: flex;
   gap: 16px;
 }
 
 .sidebar-footer a {
-  color: #6a7a94;
+  color: var(--sidebar-text);
   font-size: 16px;
   transition: color var(--transition);
 }
@@ -107,23 +121,13 @@
   inset: 0;
   background: rgba(0,0,0,0.5);
   z-index: 1040;
+  -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
 }
 
 .sidebar-backdrop.visible {
   display: block;
 }
-
-.inline-code {
-  background: rgba(235,104,53,0.1);
-  color: var(--accent);
-  padding: 2px 7px;
-  border-radius: 5px;
-  font-family: 'Courier New', monospace;
-  font-size: 12px;
-  font-weight: 600;
-}
-
 /* ============================================================
    PAGE HERO
    ============================================================ */
@@ -722,5 +726,4 @@ body.dark-mode .copy-toast { background: #f0f0f0; color: #111; }
 @media (max-width: 480px) {
   .filter-bar { flex-direction: column; align-items: stretch; }
   .filter-btn { text-align: center; }
-
 }

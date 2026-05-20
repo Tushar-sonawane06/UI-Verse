@@ -1,0 +1,59 @@
+name: Accessibility CI Enforcement
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  accessibility-check:
+    name: Accessibility Tests (axe-core)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run axe accessibility audit
+        run: npm run audit:a11y
+        continue-on-error: false
+
+      - name: Run Playwright accessibility tests
+        run: npm run test:e2e:accessibility
+        continue-on-error: false
+
+      - name: Generate accessibility report
+        if: always()
+        run: |
+          echo "## Accessibility Results" >> $GITHUB_STEP_SUMMARY
+          if [ -f tests-results/a11y-report.json ]; then
+            echo "✅ Accessibility tests completed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ Check accessibility test output" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  accessibility-required:
+    name: Block on Critical Issues
+    runs-on: ubuntu-latest
+    needs: accessibility-check
+    if: always()
+    steps:
+      - name: Check accessibility status
+        run: |
+          if [ "${{ needs.accessibility-check.result }}" != "success" ]; then
+            echo "❌ Accessibility checks failed - this must be fixed before merge"
+            exit 1
+          fi
+          echo "✅ All accessibility checks passed"

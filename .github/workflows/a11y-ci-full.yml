@@ -1,0 +1,114 @@
+name: Accessibility CI Full Validation
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  axe-audit:
+    name: Axe-core WCAG Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Run axe accessibility audit
+        run: npm run audit:a11y
+        continue-on-error: false
+
+      - name: Run Playwright a11y tests
+        run: npm run test:e2e:accessibility
+        continue-on-error: false
+
+      - name: Upload a11y report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: a11y-report
+          path: tests-results/a11y-*.json
+          retention-days: 7
+
+  pa11y-check:
+    name: Pa11y CI Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install pa11y
+        run: npm install -g pa11y
+
+      - name: Start server
+        run: npx serve -l 3000 &
+        timeout: 10
+
+      - name: Run pa11y scan
+        run: |
+          pa11y http://localhost:3000/index.html --standard WCAG2AA --reporter cli
+        continue-on-error: false
+
+  contrast-check:
+    name: Color Contrast Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run contrast audit
+        run: |
+          echo "Running color contrast validation..."
+          npm run audit:a11y
+
+  a11y-block:
+    name: Block on Critical Issues
+    runs-on: ubuntu-latest
+    needs: [axe-audit, pa11y-check, contrast-check]
+    if: always()
+    steps:
+      - name: Check results
+        run: |
+          AXE_RESULT="${{ needs.axe-audit.result }}"
+          PA11Y_RESULT="${{ needs.pa11y-check.result }}"
+          CONTRAST_RESULT="${{ needs.contrast-check.result }}"
+          
+          if [ "$AXE_RESULT" != "success" ] && [ "$AXE_RESULT" != "skipped" ]; then
+            echo "❌ Axe accessibility tests failed"
+            exit 1
+          fi
+          
+          if [ "$PA11Y_RESULT" != "success" ] && [ "$PA11Y_RESULT" != "skipped" ]; then
+            echo "❌ Pa11y tests failed"
+            exit 1
+          fi
+          
+          echo "✅ All accessibility checks passed"

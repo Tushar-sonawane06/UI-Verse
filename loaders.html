@@ -1,34 +1,643 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="
+      default-src 'self' https:;
+      base-uri 'self';
+      frame-ancestors 'none';
+      object-src 'none';
+      connect-src 'self' https:;
+      img-src 'self' data: https:;
+      font-src 'self' data: https:;
+      style-src 'self' https: 'unsafe-inline';
+      script-src 'self' https: 'unsafe-inline';
+    "
+  />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Loaders — UIverse</title>
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap"
+    rel="stylesheet"
+  />
 
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
 
   <!-- CSS -->
-  
-  <link rel="stylesheet" href="home.css">
-  <link rel="stylesheet" href="loaders.css">
+  <link rel="stylesheet" href="home.css" />
+  <link rel="stylesheet" href="loaders.css" />
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f5f7fb;
+      color: #111827;
+    }
+
+    body.dark-mode {
+      background: #0f172a;
+      color: #fff;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .main {
+      padding: 120px 40px 60px;
+      margin-left: 280px;
+    }
+
+    .main h1 {
+      font-size: 42px;
+      margin-bottom: 30px;
+      font-family: 'Syne', sans-serif;
+    }
+
+    .loaders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .component-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      transition: 0.3s;
+    }
+
+    body.dark-mode .component-card {
+      background: #1e293b;
+    }
+
+    .component-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .component-card h3 {
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+
+    .loader-demo-box {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.03);
+      border-radius: 14px;
+      margin-bottom: 20px;
+    }
+
+    body.dark-mode .loader-demo-box {
+      background: rgba(255,255,255,0.05);
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .actions button {
+      border: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #2563eb;
+      color: #fff;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .actions button:hover {
+      opacity: 0.9;
+    }
+
+    .code-block {
+      display: none;
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 16px;
+      border-radius: 12px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    .code-block.show {
+      display: block;
+    }
+
+    /* ================= LOADERS ================= */
+
+    .loader-spin {
+      width: 60px;
+      height: 60px;
+      border: 5px solid #dbeafe;
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .loader-gradient {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 6px solid transparent;
+      border-top: 6px solid #06b6d4;
+      border-right: 6px solid #8b5cf6;
+      animation: spin 1s linear infinite;
+    }
+
+    .loader-dots {
+      display: flex;
+      gap: 10px;
+    }
+
+    .loader-dots span {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #2563eb;
+      animation: bounce 0.6s infinite alternate;
+    }
+
+    .loader-dots span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .loader-dots span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .loader-pulse {
+      width: 60px;
+      height: 60px;
+      background: #2563eb;
+      border-radius: 50%;
+      animation: pulse 1s infinite;
+    }
+
+    .loader-bar-wrap {
+      width: 220px;
+      height: 12px;
+      background: #dbeafe;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .loader-bar {
+      width: 40%;
+      height: 100%;
+      background: #2563eb;
+      animation: loading 1.5s infinite;
+    }
+
+    .skeleton-card {
+      width: 240px;
+    }
+
+    .skeleton-avatar,
+    .skeleton-line {
+      background: linear-gradient(
+        90deg,
+        #e5e7eb 25%,
+        #f3f4f6 50%,
+        #e5e7eb 75%
+      );
+
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 10px;
+    }
+
+    .skeleton-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+
+    .skeleton-line {
+      height: 14px;
+      margin-bottom: 12px;
+    }
+
+    .l1 {
+      width: 100%;
+    }
+
+    .l2 {
+      width: 85%;
+    }
+
+    .l3 {
+      width: 65%;
+    }
+
+    .loader-bars {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      height: 70px;
+    }
+
+    .loader-bars span {
+      width: 10px;
+      height: 20px;
+      background: #2563eb;
+      border-radius: 10px;
+      animation: bars 1s infinite ease-in-out;
+    }
+
+    .loader-bars span:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    .loader-bars span:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    .loader-bars span:nth-child(4) {
+      animation-delay: 0.3s;
+    }
+
+    .loader-bars span:nth-child(5) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes bounce {
+      to {
+        transform: translateY(-12px);
+        opacity: 0.5;
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1.4);
+        opacity: 0;
+      }
+    }
+
+    @keyframes loading {
+      0% {
+        transform: translateX(-100%);
+      }
+
+      100% {
+        transform: translateX(350%);
+      }
+    }
+
+    @keyframes shimmer {
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    @keyframes bars {
+      0%, 100% {
+        height: 20px;
+      }
+
+      50% {
+        height: 70px;
+      }
+    }
+
+    /* ================= NAVBAR ================= */
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 280px;
+      right: 0;
+      height: 80px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    body.dark-mode .navbar {
+      background: rgba(15,23,42,0.95);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      font-family: 'Syne', sans-serif;
+    }
+
+    .search-bar {
+      position: relative;
+      width: 320px;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 12px 42px;
+      border-radius: 12px;
+      border: 1px solid #d1d5db;
+      outline: none;
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+    }
+
+    .search-kbd {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      opacity: 0.5;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn,
+    .theme-toggle {
+      border: none;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-weight: 600;
+    }
+
+    .primary-nav-btn {
+      background: #2563eb;
+      color: white;
+    }
+
+    .outline-nav-btn {
+      background: transparent;
+      border: 1px solid #d1d5db;
+    }
+
+    .theme-toggle {
+      width: 48px;
+      height: 48px;
+      font-size: 18px;
+    }
+
+    /* ================= SIDEBAR ================= */
+
+    .sidebar {
+      width: 280px;
+      height: 100vh;
+      background: #111827;
+      position: fixed;
+      top: 0;
+      left: 0;
+      overflow-y: auto;
+      padding: 30px 20px;
+      z-index: 1001;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 40px;
+      color: white;
+      font-size: 28px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+    }
+
+    .sidebar-nav ul {
+      list-style: none;
+    }
+
+    .sidebar-nav li {
+      margin-bottom: 10px;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      color: #cbd5e1;
+      transition: 0.3s;
+    }
+
+    .sidebar-nav li.active a,
+    .sidebar-nav a:hover {
+      background: #2563eb;
+      color: white;
+    }
+
+    .sidebar-footer {
+      margin-top: 40px;
+      display: flex;
+      gap: 14px;
+    }
+
+    .sidebar-footer a {
+      color: white;
+      font-size: 20px;
+    }
+
+    /* ================= FOOTER ================= */
+
+    .footer {
+      margin-left: 280px;
+      background: #fff;
+      padding: 60px 40px;
+      margin-top: 80px;
+    }
+
+    body.dark-mode .footer {
+      background: #111827;
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+    }
+
+    .footer-col h3 {
+      margin-bottom: 18px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      margin-bottom: 10px;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+    }
+
+    .newsletter-form button {
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .footer-bottom {
+      margin-top: 40px;
+      text-align: center;
+      opacity: 0.7;
+    }
+
+    /* ================= SCROLL BUTTON ================= */
+
+    #scrollTopBtn {
+      position: fixed;
+      right: 30px;
+      bottom: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s;
+    }
+
+    #scrollTopBtn.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ================= MOBILE ================= */
+
+    .menu-toggle {
+      display: none;
+    }
+
+    .sidebar-backdrop {
+      display: none;
+    }
+
+    @media (max-width: 991px) {
+
+      .sidebar {
+        left: -100%;
+        transition: 0.3s;
+      }
+
+      .sidebar.open {
+        left: 0;
+      }
+
+      .sidebar-backdrop.visible {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+      }
+
+      .navbar {
+        left: 0;
+      }
+
+      .main,
+      .footer {
+        margin-left: 0;
+      }
+
+      .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+      }
+
+      .search-bar {
+        display: none;
+      }
+
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="shared-sidebar.css">
 </head>
 
 <body>
-<!-- ================= SIDEBAR ================= -->
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-brand">
-    <span class="brand-icon">⬡</span>
-    <span class="brand-text">UIverse</span>
-  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon">⬡</span>
+      <span class="brand-text">UIverse <span style="font-size: 9px; background: linear-gradient(135deg, #eb6835, #7b61ff); color: white; padding: 1px 6px; border-radius: 10px; font-weight: 800; margin-left: 4px; letter-spacing: 0.5px; vertical-align: middle; box-shadow: 0 0 8px rgba(235,104,53,0.3);">V2</span></span>
+    </div>
 
   <nav class="sidebar-nav">
     <ul>
-      <li class="active">
+      <li>
         <a href="index.html">
           <i class="fa-solid fa-house"></i>
           <span>Home</span>
@@ -40,7 +649,19 @@
           <span>Buttons</span>
         </a>
       </li>
+            <li>
+        <a href="dropdown-components.html">
+          <i class="fa-solid fa-caret-down"></i>
+          <span>Dropdowns</span>
+        </a>
+      </li>
       <li>
+        <a href="profile-components.html">
+          <i class="fa-solid fa-user"></i>
+          <span>Profiles</span>
+        </a>
+      </li>
+<li>
         <a href="navbar.html">
           <i class="fa-solid fa-bars"></i>
           <span>Navbar</span>
@@ -53,12 +674,17 @@
         </a>
       </li>
       <li>
+        <a href="flipcards.html">
+          <i class="fa-solid fa-clone"></i>
+          <span>3D Cards</span>
+        </a>
+      </li>
+      <li>
         <a href="inputs.html">
           <i class="fa-solid fa-keyboard"></i>
           <span>Inputs</span>
         </a>
       </li>
-     
       <li>
         <a href="forms.html">
           <i class="fa-brands fa-wpforms"></i>
@@ -89,7 +715,6 @@
           <span>Alerts</span>
         </a>
       </li>
-      
       <li>
         <a href="color.html">
           <i class="fa-solid fa-palette"></i>
@@ -97,9 +722,15 @@
         </a>
       </li>
       <li>
+        <a href="charts.html">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Charts</span>
+        </a>
+      </li>
+      <li>
         <a href="dashboard.html">
           <i class="fa-solid fa-gauge-high"></i>
-          <span>Dashbord</span>
+          <span>Dashboard</span>
         </a>
       </li>
       <li>
@@ -107,11 +738,59 @@
           <i class="fa-solid fa-square"></i>
           <span>DIV</span>
         </a>
-        </li>
-        <li>
+      </li>
+      <li>
+        <a href="widgets.html">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Widgets</span>
+        </a>
+      </li>
+      <li>
+        <a href="search.html">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Search Bars</span>
+        </a>
+      </li>
+      <li>
+        <a href="hover.html">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>Hover Effects</span>
+        </a>
+      </li>
+      <li>
+        <a href="error.html">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span>Error Pages</span>
+        </a>
+      </li>
+      <li>
+        <a href="ecommerce.html">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span>E-commerce</span>
+        </a>
+      </li>
+      <li>
+        <a href="files.html">
+          <i class="fa-solid fa-file-arrow-up"></i>
+          <span>Drag & Drop</span>
+        </a>
+      </li>
+      <li>
+        <a href="hero.html">
+          <i class="fa-solid fa-star"></i>
+          <span>Hero Sections</span>
+        </a>
+      </li>
+      <li class="active">
         <a href="loaders.html">
           <i class="fa-solid fa-spinner"></i>
           <span>Loaders</span>
+        </a>
+      </li>
+      <li>
+        <a href="timeline.html">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Timeline</span>
         </a>
       </li>
       <li>
@@ -119,13 +798,13 @@
           <i class="fa-solid fa-map-location-dot"></i>
           <span>Maps</span>
         </a>
-        <li>
+      </li>
+      <li>
         <a href="menu.html">
-          <i class="fa-solid fa-bars"></i>
+          <i class="fa-solid fa-bars-staggered"></i>
           <span>Menu</span>
         </a>
       </li>
-      
       <li>
         <a href="pricing.html">
           <i class="fa-solid fa-tags"></i>
@@ -133,8 +812,26 @@
         </a>
       </li>
       <li>
+        <a href="subscription.html">
+          <i class="fa-solid fa-credit-card"></i>
+          <span>Subscription</span>
+        </a>
+      </li>
+      <li>
+        <a href="auth.html">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Authentication</span>
+        </a>
+      </li>
+        <li>
+          <a href="recovery.html">
+            <i class="fa-solid fa-key" aria-hidden="true"></i>
+            <span>Password Recovery</span>
+          </a>
+        </li>
+      <li>
         <a href="section.html">
-          <i class="fa-solid fa-layer-group"></i>
+          <i class="fa-solid fa-rectangle-list"></i>
           <span>Section</span>
         </a>
       </li>
@@ -174,15 +871,61 @@
           <span>Toggle</span>
         </a>
       </li>
-
       <li>
+        <a href="radiobutton.html">
+          <i class="fa-solid fa-circle-dot"></i>
+          <span>Radio Buttons</span>
+        </a>
+      </li>
+      <li>
+        <a href="checkbox.html">
+          <i class="fa-solid fa-square-check"></i>
+          <span>Checkboxes</span>
+        </a>
+      </li>
+      <li>
+        <a href="notifications-premium.html">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="step-indicators.html">
+          <i class="fa-solid fa-list-check"></i>
+          <span>Steppers</span>
+        </a>
+      </li>
+      <li>
+        <a href="progress-premium.html">
+          <i class="fa-solid fa-bars-progress"></i>
+          <span>Progress V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="ratings-premium.html">
+          <i class="fa-solid fa-star"></i>
+          <span>Ratings V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="filters-premium.html">
+          <i class="fa-solid fa-sliders"></i>
+          <span>Filters V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="admin-panel.html">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Admin Panel V2</span>
+        </a>
+      </li>
+<li>
         <a href="about.html">
           <i class="fa-solid fa-circle-info"></i>
           <span>About</span>
         </a>
       </li>
-      </li>
-        <li>
+      <li>
         <a href="documentation.html">
           <i class="fa-solid fa-book"></i>
           <span>Documentation</span>
@@ -196,62 +939,76 @@
       </li>
       <li>
         <a href="contact.html">
-          <i class="fa-solid fa-user"></i>
+          <i class="fa-regular fa-envelope"></i>
           <span>Contact Us</span>
         </a>
       </li>
     </ul>
   </nav>
 
-  <div class="sidebar-footer">
-    <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
-    <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-    <a href="#" title="Twitter"><i class="fab fa-x-twitter"></i></a>
-  </div>
-</aside>
+    <div class="sidebar-footer">
+      <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="#" title="Twitter"><i class="fab fa-x-twitter"></i></a>
+    </div>
+  </aside>
 
-<!-- ================= SIDEBAR BACKDROP ================= -->
-<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
-<!-- ================= NAVBAR ================= -->
-<header class="navbar" id="navbar">
-  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
-    <i class="fa-solid fa-bars"></i>
-  </button>
+  <!-- BACKDROP -->
+  <div
+    class="sidebar-backdrop"
+    id="sidebarBackdrop"
+    onclick="toggleSidebar()"
+  ></div>
 
-  <div class="logo">UIverse</div>
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
 
-  <div class="search-bar">
-    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    <input type="text" id="searchInput" placeholder="Search components..." onkeydown="handleSearch(event)" />
-    <kbd class="search-kbd">⌘K</kbd>
-  </div>
-
-  <div class="nav-right">
-    <button class="nav-btn outline-nav-btn">
-      <i class="fa-solid fa-plus"></i> Add Component
+    <button
+      class="menu-toggle"
+      onclick="toggleSidebar()"
+      aria-label="Toggle Sidebar"
+    >
+      <i class="fa-solid fa-bars"></i>
     </button>
-    <a href="MyCollection.html">
-      <button class="nav-btn primary-nav-btn">
-        <i class="fa-solid fa-bookmark"></i>
-        My Collection
+
+    <div class="logo">UIverse</div>
+
+    <div class="search-bar">
+
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+
+      <input
+        type="text"
+        placeholder="Search components..."
+      />
+
+      <kbd class="search-kbd">⌘K</kbd>
+
+    </div>
+
+    <div class="nav-right">
+
+      <button class="nav-btn outline-nav-btn">
+        <i class="fa-solid fa-plus"></i>
+        Add Component
       </button>
-    </a>
-    
 
-    <button id="darkModeToggle" class="theme-toggle">
-    <button class="nav-btn primary-nav-btn">
-      <i class="fa-solid fa-bookmark"></i> My Collection
-    </button>
-    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme">
-      <i class="fa-solid fa-moon"></i>
-    </button>
-  </div>
-</header>
+      <a href="MyCollection.html">
+        <button class="nav-btn primary-nav-btn">
+          <i class="fa-solid fa-bookmark"></i>
+          My Collection
+        </button>
+      </a>
 
-<!-- ======================================================
-   MAIN
-====================================================== -->
-<main class="main">
+      <button
+        id="darkModeToggle"
+        class="theme-toggle"
+        aria-label="Toggle Theme"
+      >
+        <i class="fa-solid fa-moon"></i>
+      </button>
+
+    </div>
 
   <h1>Loaders</h1>
   <div>
@@ -260,262 +1017,404 @@
       <input type="text" placeholder="Filter loaders..." id="loaderSearch">
     </form>
   </div>
+  </header>
 
-  <div class="loaders-grid">
+  <!-- MAIN -->
+  <main class="main">
 
-    <!-- Spin Loader -->
-    <div class="component-card">
+    <h1>Loaders</h1>
 
-      <h3>Spin Ring Loader</h3>
+    <div class="loaders-grid">
 
-      <div class="loader-demo-box">
-        <div class="loader-spin"></div>
-      </div>
+      <!-- Loader 1 -->
+      <div class="component-card">
 
-      <div class="actions">
-        <button onclick="toggleCode('loader1')">View Code</button>
-        <button onclick="copyCode('loader1')">Copy</button>
-      </div>
+        <h3>Spin Ring Loader</h3>
 
-      <pre id="loader1" class="code-block">
-&lt;div class="loader-spin"&gt;&lt;/div&gt;
-      </pre>
-
-    </div>
-
-    <!-- Gradient Loader -->
-    <div class="component-card">
-
-      <h3>Gradient Ring Loader</h3>
-
-      <div class="loader-demo-box">
-        <div class="loader-gradient"></div>
-      </div>
-
-      <div class="actions">
-        <button onclick="toggleCode('loader2')">View Code</button>
-        <button onclick="copyCode('loader2')">Copy</button>
-      </div>
-
-      <pre id="loader2" class="code-block">
-&lt;div class="loader-gradient"&gt;&lt;/div&gt;
-      </pre>
-
-    </div>
-
-    <!-- Dots -->
-    <div class="component-card">
-
-      <h3>Bouncing Dots Loader</h3>
-
-      <div class="loader-demo-box">
-
-        <div class="loader-dots">
-          <span></span>
-          <span></span>
-          <span></span>
+        <div class="loader-demo-box">
+          <div class="loader-spin"></div>
         </div>
 
+        <div class="actions">
+          <button onclick="toggleCode('loader1')">
+            View Code
+          </button>
+
+          <button onclick="copyCode('loader1')">
+            Copy
+          </button>
+        </div>
+
+        <pre id="loader1" class="code-block">
+&lt;div class="loader-spin"&gt;&lt;/div&gt;
+        </pre>
+
       </div>
 
-      <div class="actions">
-        <button onclick="toggleCode('loader3')">View Code</button>
-        <button onclick="copyCode('loader3')">Copy</button>
+      <!-- Loader 2 -->
+      <div class="component-card">
+
+        <h3>Gradient Ring Loader</h3>
+
+        <div class="loader-demo-box">
+          <div class="loader-gradient"></div>
+        </div>
+
+        <div class="actions">
+          <button onclick="toggleCode('loader2')">
+            View Code
+          </button>
+
+          <button onclick="copyCode('loader2')">
+            Copy
+          </button>
+        </div>
+
+        <pre id="loader2" class="code-block">
+&lt;div class="loader-gradient"&gt;&lt;/div&gt;
+        </pre>
+
       </div>
 
-      <pre id="loader3" class="code-block">
+      <!-- Loader 3 -->
+      <div class="component-card">
+
+        <h3>Bouncing Dots Loader</h3>
+
+        <div class="loader-demo-box">
+
+          <div class="loader-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+        </div>
+
+        <div class="actions">
+
+          <button onclick="toggleCode('loader3')">
+            View Code
+          </button>
+
+          <button onclick="copyCode('loader3')">
+            Copy
+          </button>
+
+        </div>
+
+        <pre id="loader3" class="code-block">
 &lt;div class="loader-dots"&gt;
   &lt;span&gt;&lt;/span&gt;
   &lt;span&gt;&lt;/span&gt;
   &lt;span&gt;&lt;/span&gt;
 &lt;/div&gt;
-      </pre>
+        </pre>
 
-    </div>
-
-    <!-- Pulse -->
-    <div class="component-card">
-
-      <h3>Pulse Loader</h3>
-
-      <div class="loader-demo-box">
-        <div class="loader-pulse"></div>
       </div>
 
-      <div class="actions">
-        <button onclick="toggleCode('loader4')">View Code</button>
-        <button onclick="copyCode('loader4')">Copy</button>
-      </div>
+      <!-- Loader 4 -->
+      <div class="component-card">
 
-      <pre id="loader4" class="code-block">
-&lt;div class="loader-pulse"&gt;&lt;/div&gt;
-      </pre>
+        <h3>Pulse Loader</h3>
 
-    </div>
-
-    <!-- Progress -->
-    <div class="component-card">
-
-      <h3>Progress Bar Loader</h3>
-
-      <div class="loader-demo-box">
-
-        <div class="loader-bar-wrap">
-          <div class="loader-bar"></div>
+        <div class="loader-demo-box">
+          <div class="loader-pulse"></div>
         </div>
 
+        <div class="actions">
+
+          <button onclick="toggleCode('loader4')">
+            View Code
+          </button>
+
+          <button onclick="copyCode('loader4')">
+            Copy
+          </button>
+
+        </div>
+
+        <pre id="loader4" class="code-block">
+&lt;div class="loader-pulse"&gt;&lt;/div&gt;
+        </pre>
+
       </div>
 
-      <div class="actions">
-        <button onclick="toggleCode('loader5')">View Code</button>
-        <button onclick="copyCode('loader5')">Copy</button>
-      </div>
+      <!-- Loader 5 -->
+      <div class="component-card">
 
-      <pre id="loader5" class="code-block">
+        <h3>Progress Bar Loader</h3>
+
+        <div class="loader-demo-box">
+
+          <div class="loader-bar-wrap">
+            <div class="loader-bar"></div>
+          </div>
+
+        </div>
+
+        <div class="actions">
+
+          <button onclick="toggleCode('loader5')">
+            View Code
+          </button>
+
+          <button onclick="copyCode('loader5')">
+            Copy
+          </button>
+
+        </div>
+
+        <pre id="loader5" class="code-block">
 &lt;div class="loader-bar-wrap"&gt;
   &lt;div class="loader-bar"&gt;&lt;/div&gt;
 &lt;/div&gt;
-      </pre>
+        </pre>
 
-    </div>
+      </div>
 
-    <!-- Skeleton -->
-    <div class="component-card">
+      <!-- Loader 6 -->
+      <div class="component-card">
 
-      <h3>Skeleton Card Loader</h3>
+        <h3>Skeleton Loader</h3>
 
-      <div class="loader-demo-box">
+        <div class="loader-demo-box">
 
-        <div class="skeleton-card">
+          <div class="skeleton-card">
 
-          <div class="skeleton-avatar"></div>
+            <div class="skeleton-avatar"></div>
 
-          <div class="skeleton-line l1"></div>
-          <div class="skeleton-line l2"></div>
-          <div class="skeleton-line l3"></div>
+            <div class="skeleton-line l1"></div>
+            <div class="skeleton-line l2"></div>
+            <div class="skeleton-line l3"></div>
+
+          </div>
 
         </div>
 
-      </div>
+        <div class="actions">
 
-      <div class="actions">
-        <button onclick="toggleCode('loader6')">View Code</button>
-        <button onclick="copyCode('loader6')">Copy</button>
-      </div>
+          <button onclick="toggleCode('loader6')">
+            View Code
+          </button>
 
-      <pre id="loader6" class="code-block">
+          <button onclick="copyCode('loader6')">
+            Copy
+          </button>
+
+        </div>
+
+        <pre id="loader6" class="code-block">
 &lt;div class="skeleton-card"&gt;
   ...
 &lt;/div&gt;
-      </pre>
+        </pre>
+
+      </div>
+
+      <!-- Loader 7 -->
+      <div class="component-card">
+
+        <h3>Audio Bars Loader</h3>
+
+        <div class="loader-demo-box">
+
+          <div class="loader-bars">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+        </div>
+
+        <div class="actions">
+
+          <button onclick="toggleCode('loader7')">
+            View Code
+          </button>
+
+          <button onclick="copyCode('loader7')">
+            Copy
+          </button>
+
+        </div>
+
+        <pre id="loader7" class="code-block">
+&lt;div class="loader-bars"&gt;
+  &lt;span&gt;&lt;/span&gt;
+&lt;/div&gt;
+        </pre>
+
+      </div>
+
+      <!-- Loader 8 -->
+      <div class="component-card">
+        <h3>Orbit Loader</h3>
+        <div class="loader-demo-box">
+          <div class="orbit-loader"><span></span></div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('loader8')">View Code</button>
+          <button onclick="copyCode('loader8')">Copy</button>
+        </div>
+        <pre id="loader8" class="code-block">
+&lt;div class="orbit-loader"&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+        </pre>
+      </div>
+
+      <!-- Loader 9 -->
+      <div class="component-card">
+        <h3>Wave Loader</h3>
+        <div class="loader-demo-box">
+          <div class="wave-loader">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('loader9')">View Code</button>
+          <button onclick="copyCode('loader9')">Copy</button>
+        </div>
+        <pre id="loader9" class="code-block">
+&lt;div class="wave-loader"&gt;
+  &lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;
+&lt;/div&gt;
+        </pre>
+      </div>
+
+      <!-- Loader 10 -->
+      <div class="component-card">
+        <h3>Infinity Loader</h3>
+        <div class="loader-demo-box">
+          <div class="infinity-loader">
+            <div></div><div></div>
+          </div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('loader10')">View Code</button>
+          <button onclick="copyCode('loader10')">Copy</button>
+        </div>
+        <pre id="loader10" class="code-block">
+&lt;div class="infinity-loader"&gt;
+  &lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;
+&lt;/div&gt;
+        </pre>
+      </div>
+
+      <!-- Loader 11 -->
+      <div class="component-card">
+        <h3>Neon Glow Loader</h3>
+        <div class="loader-demo-box">
+          <div class="neon-loader"></div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('loader11')">View Code</button>
+          <button onclick="copyCode('loader11')">Copy</button>
+        </div>
+        <pre id="loader11" class="code-block">
+&lt;div class="neon-loader"&gt;&lt;/div&gt;
+        </pre>
+      </div>
+
+      <!-- Loader 12 -->
+      <div class="component-card">
+        <h3>Ripple Loader</h3>
+        <div class="loader-demo-box">
+          <div class="ripple-loader">
+            <div></div><div></div>
+          </div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('loader12')">View Code</button>
+          <button onclick="copyCode('loader12')">Copy</button>
+        </div>
+        <pre id="loader12" class="code-block">
+&lt;div class="ripple-loader"&gt;
+  &lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;
+&lt;/div&gt;
+        </pre>
+      </div>
 
     </div>
 
-    <!-- Audio Bars -->
-    <div class="component-card">
+  </main>
 
-      <h3>Audio Bars Loader</h3>
+  <!-- SCROLL BUTTON -->
+  <button id="scrollTopBtn" onclick="scrollToTop()">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
 
-      <div class="loader-demo-box">
+  <!-- FOOTER -->
+  <footer class="footer">
 
-        <div class="loader-bars">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+    <div class="footer-container">
+
+      <div class="footer-col">
+
+        <h2>⬡ UIverse</h2>
+
+        <p>
+          Build modern reusable UI components
+          using HTML, CSS, and JavaScript.
+        </p>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h3>Explore</h3>
+
+        <ul>
+          <li><a href="#">Buttons</a></li>
+          <li><a href="#">Cards</a></li>
+          <li><a href="#">Forms</a></li>
+          <li><a href="#">Loaders</a></li>
+        </ul>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h3>Resources</h3>
+
+        <ul>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">GitHub Repo</a></li>
+        </ul>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h3>Newsletter</h3>
+
+        <div class="newsletter-form">
+
+          <input
+            type="email"
+            placeholder="your@email.com"
+          />
+
+          <button>
+            Subscribe
+          </button>
+
         </div>
 
       </div>
 
-      <div class="actions">
-        <button onclick="toggleCode('loader7')">View Code</button>
-        <button onclick="copyCode('loader7')">Copy</button>
-      </div>
-
-      <pre id="loader7" class="code-block">
-&lt;div class="loader-bars"&gt;
-  &lt;span&gt;&lt;/span&gt;
-&lt;/div&gt;
-      </pre>
-
     </div>
 
-  </div>
-
-</main>
-
-<!-- ======================================================
-   SCROLL BUTTON
-====================================================== -->
-<button id="scrollTopBtn" onclick="scrollToTop()">
-  <i class="fa-solid fa-chevron-up"></i>
-</button>
-
-<!-- ================= FOOTER ================= -->
-<footer class="footer">
-  <div class="footer-container">
-
-    <div class="footer-col brand">
-      <h2 class="footer-logo">⬡ UIverse</h2>
-      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
-      <div class="socials">
-        <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
-        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <a href="#" title="Twitter"><i class="fab fa-x-twitter"></i></a>
-      </div>
+    <div class="footer-bottom">
+      © 2026 UIverse. Made with ❤️ for developers.
     </div>
 
-    <div class="footer-col">
-      <h3>Explore</h3>
-      <ul>
-        <li><a href="button.html" style="color: black;">Buttons</a></li>
-        <li><a href="navbar.html" style="color: black;">Navbars</a></li>
-        <li><a href="cards.html" style="color: black;">Cards</a></li>
-        <li><a href="inputs.html" style="color: black;">Inputs</a></li>
-        <li><a href="forms.html" style="color: black;">Forms</a></li>
-      </ul>
-    </div>
+  </footer>
 
-    <div class="footer-col">
-      <h3>Resources</h3>
-      <ul>
-        <li><a href="#" style="color: black;">Documentation</a></li>
-        <li><a href="#" style="color: black;">Contribute</a></li>
-        <li><a href="#" style="color: black;">GitHub Repo</a></li>
-        <li><a href="#" style="color: black;">Community</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h3>Legal</h3>
-      <ul>
-        <li><a href="privacypolicy.html" style="color: black;">Privacy Policy</a></li>
-        <li><a href="terms.html" style="color: black;">Terms of Service</a></li>
-        <li><a href="license.html" style="color: black;">License</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col newsletter">
-      <h3>Stay Updated</h3>
-      <p>Get notified when new components drop.</p>
-      <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
-        <button type="button">Subscribe</button>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    <p style="color: black;">© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
-  </div>
-</footer>
-
-<!-- ======================================================
-   SCRIPT
-====================================================== -->
-<script>
+  <!-- SCRIPT -->
+  <script>
 
   /* ==============================
   Filter Scearch
@@ -537,97 +1436,111 @@
 
 
   /* DARK MODE */
+    /* ================= DARK MODE ================= */
 
-  const toggle = document.getElementById('darkModeToggle');
-  const icon = toggle.querySelector('i');
+    const toggle =
+      document.getElementById('darkModeToggle');
 
-  if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-mode');
-    icon.className = 'fa-solid fa-sun';
-  }
+    if (toggle) {
 
-  toggle.addEventListener('click', () => {
+      const icon =
+        toggle.querySelector('i');
 
-    document.body.classList.toggle('dark-mode');
+      if (
+        localStorage.getItem('theme') === 'dark'
+      ) {
 
-    const isDark = document.body.classList.contains('dark-mode');
+        document.body.classList.add('dark-mode');
 
-    icon.className = isDark
-      ? 'fa-solid fa-sun'
-      : 'fa-solid fa-moon';
+        icon.className =
+          'fa-solid fa-sun';
 
-    localStorage.setItem(
-      'theme',
-      isDark ? 'dark' : 'light'
-    );
+      }
 
-  });
+      toggle.addEventListener('click', () => {
 
-  /* SIDEBAR */
+        document.body.classList.toggle('dark-mode');
 
-  function toggleSidebar() {
+        const isDark =
+          document.body.classList.contains('dark-mode');
 
-    document
-      .getElementById('sidebar')
-      .classList.toggle('open');
+        icon.className = isDark
+          ? 'fa-solid fa-sun'
+          : 'fa-solid fa-moon';
 
-    document
-      .getElementById('sidebarBackdrop')
-      .classList.toggle('visible');
+        localStorage.setItem(
+          'theme',
+          isDark ? 'dark' : 'light'
+        );
 
-  }
+      });
 
-  /* SCROLL */
+    }
 
-  function scrollToTop() {
+    /* ================= TOGGLE SIDEBAR ================= */
 
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+    function toggleSidebar() {
+
+      document
+        .getElementById('sidebar')
+        .classList.toggle('open');
+
+      document
+        .getElementById('sidebarBackdrop')
+        .classList.toggle('visible');
+
+    }
+
+    /* ================= SCROLL ================= */
+
+    function scrollToTop() {
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+
+    }
+
+    window.addEventListener('scroll', () => {
+
+      document
+        .getElementById('scrollTopBtn')
+        .classList.toggle(
+          'visible',
+          window.scrollY > 400
+        );
+
     });
 
-  }
+    /* ================= CODE TOGGLE ================= */
 
-  window.addEventListener('scroll', () => {
+    function toggleCode(id) {
 
-    document
-      .getElementById('scrollTopBtn')
-      .classList.toggle(
-        'visible',
-        window.scrollY > 400
-      );
+      document
+        .getElementById(id)
+        .classList.toggle('show');
 
-    document
-      .getElementById('navbar')
-      .classList.toggle(
-        'scrolled',
-        window.scrollY > 40
-      );
+    }
 
-  });
+    /* ================= COPY ================= */
 
-  /* CODE TOGGLE */
+    function copyCode(id) {
 
-  function toggleCode(id) {
+      const code =
+        document.getElementById(id).innerText;
 
-    document
-      .getElementById(id)
-      .classList.toggle('show');
+      navigator.clipboard.writeText(code)
+        .then(() => {
+          alert('Code copied successfully!');
+        })
+        .catch(() => {
+          alert('Copy failed!');
+        });
 
-  }
+    }
 
-  /* COPY */
-
-  function copyCode(id) {
-
-    const code =
-      document.getElementById(id).innerText;
-
-    navigator.clipboard.writeText(code);
-
-  }
-
-</script>
+  </script>
 
 </body>
 </html>
