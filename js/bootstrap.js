@@ -57,6 +57,12 @@ const Bootstrap = {
     if (typeof ComponentIndex !== 'undefined') {
       UIverse.register('ComponentIndex', ComponentIndex, dependenciesFor('ComponentIndex'));
     }
+    if (typeof NavigationShortcuts !== 'undefined') {
+  UIverse.register(
+    'NavigationShortcuts',
+    NavigationShortcuts
+  );
+}
 
     if (typeof ComponentRecommendations !== 'undefined') {
       UIverse.register('ComponentRecommendations', ComponentRecommendations, dependenciesFor('ComponentRecommendations'));
@@ -170,6 +176,9 @@ if (typeof RelatedComponents !== 'undefined') {
     if (typeof Recent !== 'undefined') {
       UIverse.register('Recent', Recent);
     }
+    if (typeof TagFilter !== 'undefined') {
+  UIverse.register('TagFilter', TagFilter);
+}
 
     if (typeof TutorialMode !== 'undefined') {
       UIverse.register('TutorialMode', TutorialMode);

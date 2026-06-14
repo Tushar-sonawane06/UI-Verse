@@ -7,9 +7,11 @@ This document defines the standardized metadata schema for UIverse components. T
 ## Files
 
 ### 1. `components.json`
+
 Centralized metadata registry for all UI components with detailed information about each component.
 
 **Top-level structure:**
+
 - `version`: Schema version (e.g., "2.0.0")
 - `lastUpdated`: ISO date of last update
 - `totalComponents`: Total count of components across all categories
@@ -20,9 +22,11 @@ Centralized metadata registry for all UI components with detailed information ab
 - `metadata`: Project-level metadata
 
 ### 2. `registry.json`
+
 High-level registry for component organization, pagination, and build dependencies.
 
 **Top-level structure:**
+
 - `componentRegistry`: Organized components by category with file mappings
 - `pagination`: Pagination information for component listing
 - `dependencies`: Shared utilities and file relationships
@@ -50,17 +54,17 @@ High-level registry for component organization, pagination, and build dependenci
 
 ### Field Descriptions
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | string | Unique identifier (kebab-case) |
-| `name` | string | Human-readable component name |
-| `description` | string | Short description (1-2 sentences) |
-| `file` | string | HTML file containing the component |
-| `tags` | array | Search and categorization tags |
-| `dependencies` | array | Required CSS/JS files |
-| `sharedUtilities` | array | Reference to shared utility names |
-| `difficulty` | enum | beginner, intermediate, or advanced |
-| `responsive` | boolean | Whether component is responsive |
+| Field             | Type    | Description                          |
+| ----------------- | ------- | ------------------------------------ |
+| `id`              | string  | Unique identifier (kebab-case)       |
+| `name`            | string  | Human-readable component name        |
+| `description`     | string  | Short description (1-2 sentences)    |
+| `file`            | string  | HTML file containing the component   |
+| `tags`            | array   | Search and categorization tags       |
+| `dependencies`    | array   | Required CSS/JS files                |
+| `sharedUtilities` | array   | Reference to shared utility names    |
+| `difficulty`      | enum    | beginner, intermediate, or advanced  |
+| `responsive`      | boolean | Whether component is responsive      |
 | `darkModeSupport` | boolean | Whether component supports dark mode |
 
 ## Category Object Schema
@@ -73,7 +77,9 @@ High-level registry for component organization, pagination, and build dependenci
   "description": "Category description",
   "count": 24,
   "components": [
-    { /* component objects */ }
+    {
+      /* component objects */
+    }
   ]
 }
 ```
@@ -119,7 +125,7 @@ High-level registry for component organization, pagination, and build dependenci
 
 ```javascript
 const components = require('./components.json');
-const buttons = components.categories.find(cat => cat.id === 'buttons');
+const buttons = components.categories.find((cat) => cat.id === 'buttons');
 console.log(`Total buttons: ${buttons.count}`);
 ```
 
@@ -136,8 +142,8 @@ console.log(`JS files needed: ${buttonRegistry.jsFiles.join(', ')}`);
 
 ```javascript
 const components = require('./components.json');
-const allComponents = components.categories.flatMap(cat => cat.components);
-const beginnerFriendly = allComponents.filter(comp => comp.difficulty === 'beginner');
+const allComponents = components.categories.flatMap((cat) => cat.components);
+const beginnerFriendly = allComponents.filter((comp) => comp.difficulty === 'beginner');
 ```
 
 ### Checking Dark Mode Support
@@ -145,8 +151,8 @@ const beginnerFriendly = allComponents.filter(comp => comp.difficulty === 'begin
 ```javascript
 const components = require('./components.json');
 const darkModeReady = components.categories
-  .flatMap(cat => cat.components)
-  .filter(comp => comp.darkModeSupport);
+  .flatMap((cat) => cat.components)
+  .filter((comp) => comp.darkModeSupport);
 ```
 
 ## Integration Points
@@ -154,6 +160,7 @@ const darkModeReady = components.categories
 ### Backend API Integration
 
 These schemas can be used by a backend API to:
+
 1. Serve component metadata via REST endpoints
 2. Implement component search and filtering
 3. Generate component documentation
@@ -178,8 +185,8 @@ GET /api/components/:id/dependencies  - Get dependencies
 ```javascript
 // Load components metadata
 fetch('components.json')
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     // Populate component listings
     // Filter components by category
     // Display component information
@@ -224,6 +231,7 @@ fetch('components.json')
 ### Automated Validation (Future)
 
 A validation script could be created to automatically:
+
 - Check JSON validity
 - Verify file references
 - Detect duplicate IDs
@@ -233,10 +241,10 @@ A validation script could be created to automatically:
 
 ## Version History
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0.0 | 2026-06-11 | Initial schema release |
-| 2.0.0 | 2026-06-11 | Enhanced component metadata with more fields |
+| Version | Date       | Changes                                      |
+| ------- | ---------- | -------------------------------------------- |
+| 1.0.0   | 2026-06-11 | Initial schema release                       |
+| 2.0.0   | 2026-06-11 | Enhanced component metadata with more fields |
 
 ## Future Enhancements
 

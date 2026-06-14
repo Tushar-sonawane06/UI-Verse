@@ -117,17 +117,10 @@
         "snippets:validate": "node scripts/snippet-validate.js",
         "test:snippets:pipeline": "node --test tests/snippets/snippet-pipeline.test.js",
         "snippets:check": "npm run snippets:export && npm run snippets:validate",
-        "prepare": "npm run build",
-        "bench": "node bench/bench.js",
-        "bench:sizes": "node bench/bundle-sizes.js",
-        "bench:all": "npm run bench && npm run bench:sizes",
-        "security:test": "playwright test tests/security --config=playwright.state.config.ts --reporter=list",
-        "test:tokens": "node scripts/token-compliance.js",
-        "test:tokens:all": "node scripts/token-compliance.js --all",
-        "test:a11y:components": "playwright test tests/a11y/component-a11y.spec.ts --config=playwright.component-a11y.config.ts --reporter=list",
-        "test:visual:components": "playwright test tests/visual/component-screenshots.spec.ts --config=playwright.component-visual.config.ts --reporter=list",
-        "test:visual:update": "node scripts/update-visual-baselines.js",
-        "test:perf:components": "node scripts/perf-component-gate.js"
+        "test:unit": "jest",
+        "test:unit:coverage": "jest --coverage",
+        "test": "npm run test:unit:coverage && npm run wc:test",
+        "prepare": "npm run build"
     },
     "devDependencies": {
         "@axe-core/playwright": "^4.0.0",
@@ -155,9 +148,8 @@
         "dompurify": "^3.4.5",
         "fuse.js": "^7.3.0",
         "yjs": "^13.6.24",
-        "y-webrtc": "^10.3.1",
+        "y-webrtc": "^10.3.0",
         "y-indexeddb": "^9.0.12"
-        "fuse.js": "^7.3.0"
     },
     "lint-staged": {
         "*.html": "html-validate",

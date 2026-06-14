@@ -1,13 +1,17 @@
 class UVTooltip extends HTMLElement {
     constructor() {
         super();
-        const s = this.attachShadow({ mode: 'open' });
+        this._showBind = () => this.show();
+        this._hideBind = () => this.hide();
+        const s = this.attachShadow({ mode: "open" });
         s.innerHTML = `
       <span><slot></slot></span>
       <div class="tooltip" hidden>Tooltip text</div>
     `;
-        this._tooltipEl = s.querySelector('.tooltip');
-        if (typeof CSSStyleSheet !== 'undefined') {
+        this._tooltipEl = s.querySelector(".tooltip");
+        this._triggerEl = s.querySelector("span");
+        if (typeof CSSStyleSheet !== "undefined" &&
+            "replaceSync" in CSSStyleSheet.prototype) {
             const sheet = new CSSStyleSheet();
             sheet.replaceSync(`
         .tooltip {
@@ -29,7 +33,7 @@ class UVTooltip extends HTMLElement {
             s.adoptedStyleSheets = [sheet];
         }
         else {
-            const style = document.createElement('style');
+            const style = document.createElement("style");
             style.textContent = `
         .tooltip {
           position: absolute;
@@ -50,15 +54,28 @@ class UVTooltip extends HTMLElement {
             s.appendChild(style);
         }
     }
+    connectedCallback() {
+        this._triggerEl.addEventListener("mouseenter", this._showBind);
+        this._triggerEl.addEventListener("mouseleave", this._hideBind);
+        this._triggerEl.addEventListener("focusin", this._showBind);
+        this._triggerEl.addEventListener("focusout", this._hideBind);
+    }
+    disconnectedCallback() {
+        this._triggerEl.removeEventListener("mouseenter", this._showBind);
+        this._triggerEl.removeEventListener("mouseleave", this._hideBind);
+        this._triggerEl.removeEventListener("focusin", this._showBind);
+        this._triggerEl.removeEventListener("focusout", this._hideBind);
+    }
     show() {
-        this._tooltipEl.removeAttribute('hidden');
+        this._tooltipEl.removeAttribute("hidden");
     }
     hide() {
-        this._tooltipEl.setAttribute('hidden', '');
+        this._tooltipEl.setAttribute("hidden", "");
     }
 }
-if (typeof customElements !== 'undefined' && !customElements.get('uv-tooltip')) {
-    customElements.define('uv-tooltip', UVTooltip);
+if (typeof customElements !== "undefined" &&
+    !customElements.get("uv-tooltip")) {
+    customElements.define("uv-tooltip", UVTooltip);
 }
 
 export { UVTooltip };

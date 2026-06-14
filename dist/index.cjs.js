@@ -355,12 +355,12 @@ class UVModal extends HTMLElement {
         super();
         this._opened = false;
         this._handleKeyDown = (event) => {
-            if (event.key === 'Escape') {
+            if (event.key === "Escape" && this.opened) {
                 this.close();
-                this.dispatchEvent(new CustomEvent('close'));
+                this.dispatchEvent(new CustomEvent("close"));
             }
         };
-        const s = this.attachShadow({ mode: 'open' });
+        const s = this.attachShadow({ mode: "open" });
         s.innerHTML = `
       <div class="modal-overlay" role="dialog" aria-modal="true">
         <div class="modal-content" tabindex="-1">
@@ -368,7 +368,8 @@ class UVModal extends HTMLElement {
         </div>
       </div>
     `;
-        if (typeof CSSStyleSheet !== 'undefined') {
+        if (typeof CSSStyleSheet !== "undefined" &&
+            "replaceSync" in CSSStyleSheet.prototype) {
             const sheet = new CSSStyleSheet();
             sheet.replaceSync(`
         :host {
@@ -404,7 +405,7 @@ class UVModal extends HTMLElement {
             s.adoptedStyleSheets = [sheet];
         }
         else {
-            const style = document.createElement('style');
+            const style = document.createElement("style");
             style.textContent = `
         :host {
           display: none;
@@ -440,10 +441,10 @@ class UVModal extends HTMLElement {
         }
     }
     connectedCallback() {
-        this.addEventListener('keydown', this._handleKeyDown);
+        document.addEventListener("keydown", this._handleKeyDown);
     }
     disconnectedCallback() {
-        this.removeEventListener('keydown', this._handleKeyDown);
+        document.removeEventListener("keydown", this._handleKeyDown);
     }
     get opened() {
         return this._opened;
@@ -451,10 +452,10 @@ class UVModal extends HTMLElement {
     set opened(val) {
         this._opened = val;
         if (val) {
-            this.setAttribute('opened', '');
+            this.setAttribute("opened", "");
         }
         else {
-            this.removeAttribute('opened');
+            this.removeAttribute("opened");
         }
     }
     open() {
@@ -464,20 +465,24 @@ class UVModal extends HTMLElement {
         this.opened = false;
     }
 }
-if (typeof customElements !== 'undefined' && !customElements.get('uv-modal')) {
-    customElements.define('uv-modal', UVModal);
+if (typeof customElements !== "undefined" && !customElements.get("uv-modal")) {
+    customElements.define("uv-modal", UVModal);
 }
 
 class UVTooltip extends HTMLElement {
     constructor() {
         super();
-        const s = this.attachShadow({ mode: 'open' });
+        this._showBind = () => this.show();
+        this._hideBind = () => this.hide();
+        const s = this.attachShadow({ mode: "open" });
         s.innerHTML = `
       <span><slot></slot></span>
       <div class="tooltip" hidden>Tooltip text</div>
     `;
-        this._tooltipEl = s.querySelector('.tooltip');
-        if (typeof CSSStyleSheet !== 'undefined') {
+        this._tooltipEl = s.querySelector(".tooltip");
+        this._triggerEl = s.querySelector("span");
+        if (typeof CSSStyleSheet !== "undefined" &&
+            "replaceSync" in CSSStyleSheet.prototype) {
             const sheet = new CSSStyleSheet();
             sheet.replaceSync(`
         .tooltip {
@@ -499,7 +504,7 @@ class UVTooltip extends HTMLElement {
             s.adoptedStyleSheets = [sheet];
         }
         else {
-            const style = document.createElement('style');
+            const style = document.createElement("style");
             style.textContent = `
         .tooltip {
           position: absolute;
@@ -520,15 +525,28 @@ class UVTooltip extends HTMLElement {
             s.appendChild(style);
         }
     }
+    connectedCallback() {
+        this._triggerEl.addEventListener("mouseenter", this._showBind);
+        this._triggerEl.addEventListener("mouseleave", this._hideBind);
+        this._triggerEl.addEventListener("focusin", this._showBind);
+        this._triggerEl.addEventListener("focusout", this._hideBind);
+    }
+    disconnectedCallback() {
+        this._triggerEl.removeEventListener("mouseenter", this._showBind);
+        this._triggerEl.removeEventListener("mouseleave", this._hideBind);
+        this._triggerEl.removeEventListener("focusin", this._showBind);
+        this._triggerEl.removeEventListener("focusout", this._hideBind);
+    }
     show() {
-        this._tooltipEl.removeAttribute('hidden');
+        this._tooltipEl.removeAttribute("hidden");
     }
     hide() {
-        this._tooltipEl.setAttribute('hidden', '');
+        this._tooltipEl.setAttribute("hidden", "");
     }
 }
-if (typeof customElements !== 'undefined' && !customElements.get('uv-tooltip')) {
-    customElements.define('uv-tooltip', UVTooltip);
+if (typeof customElements !== "undefined" &&
+    !customElements.get("uv-tooltip")) {
+    customElements.define("uv-tooltip", UVTooltip);
 }
 
 class UVLanguageSwitcher extends HTMLElement {
@@ -763,12 +781,30 @@ if (typeof customElements !== 'undefined' && !customElements.get('uv-theme-switc
 class UVDropdown extends HTMLElement {
     constructor() {
         super();
-        const shadow = this.attachShadow({ mode: 'open' });
+        this._toggleBind = (e) => this.toggle(e);
+        this._closeOutsideBind = (e) => this.closeOutside(e);
+        this._handleKeyDown = (e) => {
+            if (e.key === "Escape" && this.open) {
+                this.open = false;
+                this.dispatchEvent(new CustomEvent("uiverse:dropdown-toggle", {
+                    detail: { open: false },
+                    bubbles: true,
+                }));
+            }
+        };
+        this._handleTriggerKeyDown = (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                this.toggle(e);
+            }
+        };
+        const shadow = this.attachShadow({ mode: "open" });
         shadow.innerHTML = `
       <slot name="trigger"></slot>
       <slot name="content"></slot>
     `;
-        if (typeof CSSStyleSheet !== 'undefined') {
+        if (typeof CSSStyleSheet !== "undefined" &&
+            "replaceSync" in CSSStyleSheet.prototype) {
             const sheet = new CSSStyleSheet();
             sheet.replaceSync(`
         :host {
@@ -794,7 +830,7 @@ class UVDropdown extends HTMLElement {
             shadow.adoptedStyleSheets = [sheet];
         }
         else {
-            const style = document.createElement('style');
+            const style = document.createElement("style");
             style.textContent = `
         :host {
           display: inline-block;
@@ -820,32 +856,42 @@ class UVDropdown extends HTMLElement {
         }
     }
     static get observedAttributes() {
-        return ['open'];
+        return ["open"];
     }
     get open() {
-        return this.hasAttribute('open');
+        return this.hasAttribute("open");
     }
     set open(val) {
         if (val) {
-            this.setAttribute('open', '');
+            this.setAttribute("open", "");
         }
         else {
-            this.removeAttribute('open');
+            this.removeAttribute("open");
         }
     }
     connectedCallback() {
         var _a;
         const triggerSlot = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.querySelector('slot[name="trigger"]');
-        triggerSlot === null || triggerSlot === void 0 ? void 0 : triggerSlot.addEventListener('click', this.toggle.bind(this));
-        document.addEventListener('click', this.closeOutside.bind(this));
+        triggerSlot === null || triggerSlot === void 0 ? void 0 : triggerSlot.addEventListener("click", this._toggleBind);
+        triggerSlot === null || triggerSlot === void 0 ? void 0 : triggerSlot.addEventListener("keydown", this._handleTriggerKeyDown);
+        this.addEventListener("keydown", this._handleKeyDown);
+        document.addEventListener("click", this._closeOutsideBind);
     }
     disconnectedCallback() {
-        document.removeEventListener('click', this.closeOutside.bind(this));
+        var _a;
+        const triggerSlot = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.querySelector('slot[name="trigger"]');
+        triggerSlot === null || triggerSlot === void 0 ? void 0 : triggerSlot.removeEventListener("click", this._toggleBind);
+        triggerSlot === null || triggerSlot === void 0 ? void 0 : triggerSlot.removeEventListener("keydown", this._handleTriggerKeyDown);
+        this.removeEventListener("keydown", this._handleKeyDown);
+        document.removeEventListener("click", this._closeOutsideBind);
     }
     toggle(e) {
         e.stopPropagation();
         this.open = !this.open;
-        this.dispatchEvent(new CustomEvent('uiverse:dropdown-toggle', { detail: { open: this.open }, bubbles: true }));
+        this.dispatchEvent(new CustomEvent("uiverse:dropdown-toggle", {
+            detail: { open: this.open },
+            bubbles: true,
+        }));
     }
     closeOutside(e) {
         if (!this.contains(e.target)) {
@@ -853,8 +899,9 @@ class UVDropdown extends HTMLElement {
         }
     }
 }
-if (typeof customElements !== 'undefined' && !customElements.get('uv-dropdown')) {
-    customElements.define('uv-dropdown', UVDropdown);
+if (typeof customElements !== "undefined" &&
+    !customElements.get("uv-dropdown")) {
+    customElements.define("uv-dropdown", UVDropdown);
 }
 
 class UVTabs extends HTMLElement {

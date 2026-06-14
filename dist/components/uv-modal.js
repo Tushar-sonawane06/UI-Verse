@@ -3,12 +3,12 @@ class UVModal extends HTMLElement {
         super();
         this._opened = false;
         this._handleKeyDown = (event) => {
-            if (event.key === 'Escape') {
+            if (event.key === "Escape" && this.opened) {
                 this.close();
-                this.dispatchEvent(new CustomEvent('close'));
+                this.dispatchEvent(new CustomEvent("close"));
             }
         };
-        const s = this.attachShadow({ mode: 'open' });
+        const s = this.attachShadow({ mode: "open" });
         s.innerHTML = `
       <div class="modal-overlay" role="dialog" aria-modal="true">
         <div class="modal-content" tabindex="-1">
@@ -16,7 +16,8 @@ class UVModal extends HTMLElement {
         </div>
       </div>
     `;
-        if (typeof CSSStyleSheet !== 'undefined') {
+        if (typeof CSSStyleSheet !== "undefined" &&
+            "replaceSync" in CSSStyleSheet.prototype) {
             const sheet = new CSSStyleSheet();
             sheet.replaceSync(`
         :host {
@@ -52,7 +53,7 @@ class UVModal extends HTMLElement {
             s.adoptedStyleSheets = [sheet];
         }
         else {
-            const style = document.createElement('style');
+            const style = document.createElement("style");
             style.textContent = `
         :host {
           display: none;
@@ -88,10 +89,10 @@ class UVModal extends HTMLElement {
         }
     }
     connectedCallback() {
-        this.addEventListener('keydown', this._handleKeyDown);
+        document.addEventListener("keydown", this._handleKeyDown);
     }
     disconnectedCallback() {
-        this.removeEventListener('keydown', this._handleKeyDown);
+        document.removeEventListener("keydown", this._handleKeyDown);
     }
     get opened() {
         return this._opened;
@@ -99,10 +100,10 @@ class UVModal extends HTMLElement {
     set opened(val) {
         this._opened = val;
         if (val) {
-            this.setAttribute('opened', '');
+            this.setAttribute("opened", "");
         }
         else {
-            this.removeAttribute('opened');
+            this.removeAttribute("opened");
         }
     }
     open() {
@@ -112,8 +113,8 @@ class UVModal extends HTMLElement {
         this.opened = false;
     }
 }
-if (typeof customElements !== 'undefined' && !customElements.get('uv-modal')) {
-    customElements.define('uv-modal', UVModal);
+if (typeof customElements !== "undefined" && !customElements.get("uv-modal")) {
+    customElements.define("uv-modal", UVModal);
 }
 
 export { UVModal };

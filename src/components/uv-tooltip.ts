@@ -1,16 +1,21 @@
 export class UVTooltip extends HTMLElement {
   private _tooltipEl: HTMLElement;
+  private _triggerEl: HTMLElement;
 
   constructor() {
     super();
-    const s = this.attachShadow({ mode: 'open' });
+    const s = this.attachShadow({ mode: "open" });
     s.innerHTML = `
       <span><slot></slot></span>
       <div class="tooltip" hidden>Tooltip text</div>
     `;
-    this._tooltipEl = s.querySelector('.tooltip') as HTMLElement;
+    this._tooltipEl = s.querySelector(".tooltip") as HTMLElement;
+    this._triggerEl = s.querySelector("span") as HTMLElement;
 
-    if (typeof CSSStyleSheet !== 'undefined') {
+    if (
+      typeof CSSStyleSheet !== "undefined" &&
+      "replaceSync" in CSSStyleSheet.prototype
+    ) {
       const sheet = new CSSStyleSheet();
       sheet.replaceSync(`
         .tooltip {
@@ -31,7 +36,7 @@ export class UVTooltip extends HTMLElement {
       `);
       s.adoptedStyleSheets = [sheet];
     } else {
-      const style = document.createElement('style');
+      const style = document.createElement("style");
       style.textContent = `
         .tooltip {
           position: absolute;
@@ -53,16 +58,35 @@ export class UVTooltip extends HTMLElement {
     }
   }
 
+  private _showBind = () => this.show();
+  private _hideBind = () => this.hide();
+
+  connectedCallback() {
+    this._triggerEl.addEventListener("mouseenter", this._showBind);
+    this._triggerEl.addEventListener("mouseleave", this._hideBind);
+    this._triggerEl.addEventListener("focusin", this._showBind);
+    this._triggerEl.addEventListener("focusout", this._hideBind);
+  }
+
+  disconnectedCallback() {
+    this._triggerEl.removeEventListener("mouseenter", this._showBind);
+    this._triggerEl.removeEventListener("mouseleave", this._hideBind);
+    this._triggerEl.removeEventListener("focusin", this._showBind);
+    this._triggerEl.removeEventListener("focusout", this._hideBind);
+  }
+
   show() {
-    this._tooltipEl.removeAttribute('hidden');
+    this._tooltipEl.removeAttribute("hidden");
   }
 
   hide() {
-    this._tooltipEl.setAttribute('hidden', '');
+    this._tooltipEl.setAttribute("hidden", "");
   }
 }
 
-if (typeof customElements !== 'undefined' && !customElements.get('uv-tooltip')) {
-  customElements.define('uv-tooltip', UVTooltip);
+if (
+  typeof customElements !== "undefined" &&
+  !customElements.get("uv-tooltip")
+) {
+  customElements.define("uv-tooltip", UVTooltip);
 }
-

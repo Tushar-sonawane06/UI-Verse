@@ -2,6 +2,163 @@
 <html lang="en">
 
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tooltip Components — UIverse</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#09090f;
+  --card:#14141f;
+  --border:rgba(255,255,255,.08);
+  --text:#fff;
+  --muted:#9ca3af;
+  --primary:#7c3aed;
+  --secondary:#06b6d4;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:"DM Sans",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+.hero{
+  text-align:center;
+  padding:80px 20px;
+}
+
+.hero h1{
+  font-family:"Syne",sans-serif;
+  font-size:clamp(2.5rem,5vw,5rem);
+  margin-bottom:1rem;
+}
+
+.hero p{
+  color:var(--muted);
+  max-width:700px;
+  margin:auto;
+}
+
+.grid{
+  max-width:1200px;
+  margin:auto;
+  padding:40px 20px 100px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:24px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:40px;
+  text-align:center;
+  transition:.35s ease;
+}
+
+.card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(124,58,237,.5);
+}
+
+.demo-title{
+  margin-bottom:30px;
+  font-weight:700;
+}
+
+.tooltip-wrapper{
+  position:relative;
+  display:inline-block;
+}
+
+.btn{
+  padding:12px 24px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(
+    135deg,
+    var(--primary),
+    var(--secondary)
+  );
+  color:white;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.tooltip{
+  position:absolute;
+  background:#111827;
+  color:white;
+  padding:10px 14px;
+  border-radius:12px;
+  white-space:nowrap;
+  opacity:0;
+  visibility:hidden;
+  transition:.25s;
+  font-size:.875rem;
+}
+
+.tooltip-wrapper:hover .tooltip{
+  opacity:1;
+  visibility:visible;
+}
+
+/* Top */
+.top{
+  bottom:120%;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+/* Bottom */
+.bottom{
+  top:120%;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+/* Left */
+.left{
+  right:120%;
+  top:50%;
+  transform:translateY(-50%);
+}
+
+/* Right */
+.right{
+  left:120%;
+  top:50%;
+  transform:translateY(-50%);
+}
+
+.section-heading{
+  text-align:center;
+  font-family:"Syne",sans-serif;
+  font-size:2rem;
+  margin-bottom:20px;
+}
+
+.badge{
+  display:inline-block;
+  padding:8px 16px;
+  border-radius:999px;
+  background:rgba(124,58,237,.15);
+  color:#a78bfa;
+  margin-bottom:16px;
+}
+</style>
 
 <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-nr+G5cRikxeDAszxtxz5ch7U6EL6aF8E+ylJwOKN/VA='; script-src-attr 'unsafe-hashes' 'sha256-nr+G5cRikxeDAszxtxz5ch7U6EL6aF8E+ylJwOKN/VA='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
@@ -36,9 +193,72 @@ href="tooltips.css">
 
 <body>
 
+<header class="hero">
+  <div class="badge">UIverse Components</div>
+
+  <h1>Tooltip Components</h1>
+
+  <p>
+    Discover modern tooltip designs featuring clean animations,
+    glassmorphism styling, responsive layouts, and accessible interactions.
+  </p>
+</header>
+
+<section>
+  <h2 class="section-heading">Tooltip Variants</h2>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="demo-title">Top Tooltip</div>
+
+      <div class="tooltip-wrapper">
+        <button class="btn">Hover Me</button>
+        <span class="tooltip top">
+          Appears Above
+        </span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="demo-title">Bottom Tooltip</div>
+
+      <div class="tooltip-wrapper">
+        <button class="btn">Hover Me</button>
+        <span class="tooltip bottom">
+          Appears Below
+        </span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="demo-title">Left Tooltip</div>
+
+      <div class="tooltip-wrapper">
+        <button class="btn">Hover Me</button>
+        <span class="tooltip left">
+          Appears Left
+        </span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="demo-title">Right Tooltip</div>
+
+      <div class="tooltip-wrapper">
+        <button class="btn">Hover Me</button>
+        <span class="tooltip right">
+          Appears Right
+        </span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</body>
 <!-- ==================================
 BACKGROUND
-================================== -->
 
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
@@ -46,7 +266,6 @@ BACKGROUND
 
 <!-- ==================================
 NAVBAR
-================================== -->
 
 <header class="navbar">
 
@@ -118,7 +337,6 @@ Get Started
 
 <!-- ==================================
 HERO
-================================== -->
 
 <section class="hero">
 
@@ -198,7 +416,6 @@ Premium Tooltip
 
 <!-- ==================================
 BASIC TOOLTIPS
-================================== -->
 
 <section class="basic-section">
 
@@ -330,7 +547,6 @@ Appears Right
 
 <!-- ==================================
 ICON TOOLTIPS
-================================== -->
 
 <section class="icon-section">
 
@@ -405,7 +621,6 @@ Notifications
 </section>
 <!-- ==================================
 COLORED TOOLTIPS
-================================== -->
 
 <section class="colored-section">
 
@@ -537,7 +752,6 @@ More Information
 
 <!-- ==================================
 GLASSMORPHISM TOOLTIPS
-================================== -->
 
 <section class="glass-section">
 
@@ -613,7 +827,6 @@ Security
 
 <!-- ==================================
 BUTTON TOOLTIPS
-================================== -->
 
 <section class="button-section">
 
@@ -695,7 +908,6 @@ Remove permanently
 
 <!-- ==================================
 GRADIENT TOOLTIPS
-================================== -->
 
 <section class="gradient-section">
 
@@ -771,7 +983,6 @@ Creative Assets
 
 <!-- ==================================
 NEON TOOLTIPS
-================================== -->
 
 <section class="neon-section">
 
@@ -847,7 +1058,6 @@ CONNECTED
 
 <!-- ==================================
 STATUS TOOLTIPS
-================================== -->
 
 <section class="status-section">
 
@@ -928,7 +1138,6 @@ Connection Lost
 </section>
 <!-- ==================================
 PROFILE TOOLTIPS
-================================== -->
 
 <section class="profile-section">
 
@@ -1046,7 +1255,6 @@ Product Manager
 
 <!-- ==================================
 PRODUCT TOOLTIPS
-================================== -->
 
 <section class="product-section">
 
@@ -1164,7 +1372,6 @@ RGB Backlit Switches
 
 <!-- ==================================
 IMAGE HOVER TOOLTIPS
-================================== -->
 
 <section class="image-section">
 
@@ -1234,7 +1441,6 @@ City Lights
 
 <!-- ==================================
 SOCIAL TOOLTIPS
-================================== -->
 
 <section class="social-section">
 
@@ -1310,7 +1516,6 @@ Twitter/X
 
 <!-- ==================================
 TEAM MEMBER TOOLTIPS
-================================== -->
 
 <section class="team-section">
 
@@ -1416,7 +1621,6 @@ UX Researcher
 
 <!-- ==================================
 PRICING TOOLTIPS
-================================== -->
 
 <section class="pricing-section">
 
@@ -1516,7 +1720,6 @@ Unlimited resources
 
 <!-- ==================================
 DASHBOARD STATS
-================================== -->
 
 <section class="dashboard-section">
 
@@ -1609,7 +1812,6 @@ Highest this quarter
 </section>
 <!-- ==================================
 INTERACTIVE TOOLTIPS
-================================== -->
 
 <section class="interactive-section">
 
@@ -1691,7 +1893,6 @@ Manage profile and preferences.
 
 <!-- ==================================
 RICH CONTENT TOOLTIPS
-================================== -->
 
 <section class="rich-section">
 
@@ -1782,7 +1983,6 @@ UI Design Masterclass
 
 <!-- ==================================
 DASHBOARD WIDGET TOOLTIPS
-================================== -->
 
 <section class="widget-section">
 
@@ -1888,7 +2088,6 @@ Highest sales period
 
 <!-- ==================================
 NOTIFICATION TOOLTIPS
-================================== -->
 
 <section class="notification-section">
 
@@ -1952,7 +2151,6 @@ Meeting at 2 PM
 
 <!-- ==================================
 AI ASSISTANT TOOLTIPS
-================================== -->
 
 <section class="ai-section">
 
@@ -2033,7 +2231,6 @@ Provides business insights.
 
 <!-- ==================================
 GLASS TOOLTIP CARDS
-================================== -->
 
 <section class="glass-card-section">
 
@@ -2139,7 +2336,6 @@ Excellent Performance
 
 <!-- ==================================
 ADVANCED HOVER EFFECTS
-================================== -->
 
 <section class="advanced-section">
 
@@ -2214,7 +2410,6 @@ Neon Glow Tooltip
 </section>
 <!-- ==================================
 ANIMATED TOOLTIPS
-================================== -->
 
 <section class="animated-section">
 
@@ -2290,7 +2485,6 @@ Bounce Effect
 
 <!-- ==================================
 FLOATING TOOLTIPS
-================================== -->
 
 <section class="floating-section">
 
@@ -2366,7 +2560,6 @@ Track Goals
 
 <!-- ==================================
 FAQ TOOLTIPS
-================================== -->
 
 <section class="faq-section">
 
@@ -2445,7 +2638,6 @@ to different screen sizes.
 
 <!-- ==================================
 DOCUMENTATION
-================================== -->
 
 <section class="docs-section">
 
@@ -2483,7 +2675,6 @@ transform:translateY(0);
 
 <!-- ==================================
 CTA BANNER
-================================== -->
 
 <section class="cta-section">
 
@@ -2541,7 +2732,6 @@ View Library
 
 <!-- ==================================
 NEWSLETTER
-================================== -->
 
 <section class="newsletter-section">
 
@@ -2581,7 +2771,6 @@ Subscribe
 
 <!-- ==================================
 FOOTER
-================================== -->
 
 <footer class="footer">
 
@@ -2671,7 +2860,6 @@ Company
 
 <!-- ==================================
 SCROLL TO TOP
-================================== -->
 
 <button
 class="scroll-top"
@@ -2683,7 +2871,6 @@ id="scrollTop">
 
 <!-- ==================================
 SCROLL SCRIPT
-================================== -->
 
 <script>
 

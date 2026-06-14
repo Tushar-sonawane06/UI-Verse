@@ -208,8 +208,38 @@ ${componentsList}
     }
   }
 
+  async function generateFrameworkBundle(items, framework, options = {}) {
+    if (!window.FrameworkTranspiler) {
+      throw new Error('FrameworkTranspiler not loaded. Ensure js/features/framework-export.js is loaded before bundle exporter.');
+    }
+
+    const name = options.name || `uiverse-${framework}`;
+    const filename = name.replace(/[^a-z0-9_-]/gi, '-').toLowerCase() + `-${framework}.zip`;
+
+    const JSZip = await loadJSZip();
+    const zip = new JSZip();
+
+    items.forEach((item, idx) => {
+      const result = window.FrameworkTranspiler.transpile(
+        item.html || '',
+        item.css || '',
+        framework,
+        item.label || `Component${idx + 1}`
+      );
+      const ext = framework === 'react' ? 'tsx' : framework === 'vue' ? 'vue' : framework === 'svelte' ? 'svelte' : 'ts';
+      zip.file(`${result.componentName || 'Component'}.${ext}`, result.code);
+    });
+
+    const blob = await zip.generateAsync({ type: 'blob' });
+    downloadBlob(blob, filename);
+    recordExport(name, items);
+
+    return { name, filename, count: items.length, framework };
+  }
+
   return {
     generateBundle,
+    generateFrameworkBundle,
     getHistoryList,
     clearHistory,
     deduplicateCss,
