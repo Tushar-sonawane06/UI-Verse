@@ -1,0 +1,405 @@
+/* ==========================================================
+   Related Components
+   Core Layout
+   ========================================================== */
+
+.related-components-section {
+  margin-top: 48px;
+  padding: 24px;
+
+  border-radius: 16px;
+}
+
+.related-components-title {
+  margin-bottom: 12px;
+
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.related-components-description {
+  margin-bottom: 24px;
+
+  line-height: 1.6;
+}
+
+.related-components-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(260px, 1fr)
+    );
+
+  gap: 20px;
+}
+
+.related-component-card {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  min-height: 220px;
+
+  padding: 18px;
+
+  border-radius: 14px;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    opacity .25s ease;
+}
+
+.related-component-card:hover {
+  transform:
+    translateY(-4px);
+}
+
+.related-component-card.focus {
+  outline: 2px solid currentColor;
+}
+
+.related-component-card.visible {
+  animation:
+    relatedFadeIn .3s ease;
+}
+
+/* ==========================================================
+   Header
+   ========================================================== */
+
+.related-card-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 16px;
+}
+
+.related-card-header h3 {
+  margin: 0;
+
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.related-score-badge {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 38px;
+  min-height: 38px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ==========================================================
+   Body
+   ========================================================== */
+
+.related-card-body {
+  flex: 1;
+}
+
+.related-category {
+  margin-bottom: 12px;
+
+  font-size: 14px;
+}
+
+.related-tags {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.related-tag {
+  padding: 4px 10px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ==========================================================
+   Footer
+   ========================================================== */
+
+.related-card-footer {
+  margin-top: 16px;
+}
+
+.related-open-btn {
+  width: 100%;
+
+  padding: 10px 14px;
+
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    transform .2s ease,
+    opacity .2s ease;
+}
+
+.related-open-btn:hover {
+  transform:
+    translateY(-2px);
+}
+
+.related-open-btn:active {
+  transform:
+    translateY(0);
+}
+
+.related-open-btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ==========================================================
+   Empty State
+   ========================================================== */
+
+.related-components-empty {
+  text-align: center;
+
+  padding: 40px 20px;
+
+  border-radius: 12px;
+}
+
+.related-components-empty h3 {
+  margin-bottom: 8px;
+}
+
+/* ==========================================================
+   Recently Viewed
+   ========================================================== */
+
+.recently-viewed-components {
+  margin-top: 32px;
+}
+
+.recently-viewed-components h3 {
+  margin-bottom: 12px;
+}
+
+.recently-viewed-item {
+  padding: 10px 12px;
+  margin-bottom: 8px;
+
+  border-radius: 8px;
+}
+
+/* ==========================================================
+   Loading State
+   ========================================================== */
+
+.related-components-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 200px;
+}
+
+.related-components-loading::after {
+  content: "";
+
+  width: 32px;
+  height: 32px;
+
+  border-radius: 50%;
+
+  animation:
+    relatedSpin 1s linear infinite;
+}
+
+/* ==========================================================
+   Hover Variants
+   ========================================================== */
+
+.related-component-card.variant-1:hover {
+  transform:
+    translateY(-3px);
+}
+
+.related-component-card.variant-2:hover {
+  transform:
+    scale(1.02);
+}
+
+.related-component-card.variant-3:hover {
+  transform:
+    translateY(-2px)
+    scale(1.01);
+}
+
+/* ==========================================================
+   Visibility Animations
+   ========================================================== */
+
+@keyframes relatedFadeIn {
+  from {
+    opacity: 0;
+    transform:
+      translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes relatedSpin {
+  from {
+    transform:
+      rotate(0deg);
+  }
+
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+/* ==========================================================
+   Accessibility
+   ========================================================== */
+
+.related-component-card[tabindex="0"] {
+  cursor: pointer;
+}
+
+.related-component-card:focus-visible {
+  outline-offset: 3px;
+}
+
+/* ==========================================================
+   Mobile
+   ========================================================== */
+
+@media (max-width: 640px) {
+
+  .related-components-section {
+    padding: 16px;
+  }
+
+  .related-components-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .related-component-card {
+    min-height: auto;
+  }
+
+  .related-open-btn {
+    width: 100%;
+  }
+}
+
+/* ==========================================================
+   Tablet
+   ========================================================== */
+
+@media (min-width: 641px)
+and (max-width: 1024px) {
+
+  .related-components-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+}
+
+/* ==========================================================
+   Desktop
+   ========================================================== */
+
+@media (min-width: 1025px) {
+
+  .related-components-grid {
+    grid-template-columns:
+      repeat(
+        auto-fit,
+        minmax(
+          280px,
+          1fr
+        )
+      );
+  }
+
+  .related-component-card:hover {
+    animation:
+      relatedFloat .3s ease;
+  }
+}
+
+@keyframes relatedFloat {
+  0% {
+    transform:
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateY(-5px);
+  }
+
+  100% {
+    transform:
+      translateY(-4px);
+  }
+}
+
+/* ==========================================================
+   Dark Theme
+   ========================================================== */
+
+[data-theme="dark"]
+.related-component-card,
+.dark
+.related-component-card {
+  backdrop-filter:
+    blur(8px);
+}
+
+[data-theme="dark"]
+.related-open-btn,
+.dark
+.related-open-btn {
+  color: inherit;
+}
+
+/* ==========================================================
+   Light Theme
+   ========================================================== */
+
+[data-theme="light"]
+.related-component-card,
+.light
+.related-component-card {
+  backdrop-filter:
+    blur(4px);
+}
