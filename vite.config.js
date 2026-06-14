@@ -11,6 +11,7 @@ export default defineConfig({
         forms: resolve(__dirname, 'forms.html'),
         cards: resolve(__dirname, 'cards.html'),
         buttons: resolve(__dirname, 'button.html'),
+        workspace: resolve(__dirname, 'workspace.html'),
         badges: resolve(__dirname, 'badges.html'),
         alerts: resolve(__dirname, 'alerts.html'),
         toggles: resolve(__dirname, 'toggles.html'),

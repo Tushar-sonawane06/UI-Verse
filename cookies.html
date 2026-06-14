@@ -1285,6 +1285,84 @@ document.querySelectorAll(".counter").forEach(counter => {
     <i class="fa-solid fa-cookie"></i>
   </div>
 
+  </footer>
+ <!-- Cookie Consent Banner -->
+<div id="cookie-banner" class="cookie-banner">
+  <div class="banner-content">
+    <p>
+      We use cookies to personalize content, analyze traffic, and improve your experience.
+      You can choose to accept all, reject all, or manage your preferences.
+    </p>
+  </div>
+  <div class="banner-actions">
+    <button id="accept-all" class="banner-btn">Accept All</button>
+    <button id="reject-all" class="banner-btn">Reject All</button>
+    <button id="manage-prefs" class="banner-btn">Manage Preferences</button>
+  </div>
+</div>
+
+<!-- Preferences Modal -->
+<div id="cookie-modal" class="cookie-modal hidden">
+  <div class="modal-content">
+    <h3>Manage Cookie Preferences</h3>
+    <p>Select which types of cookies you want to allow:</p>
+    <form id="cookie-form">
+      <label>
+        <input type="checkbox" disabled checked />
+        Necessary (always enabled)
+      </label>
+      <label>
+        <input type="checkbox" id="analytics" />
+        Analytics
+      </label>
+      <label>
+        <input type="checkbox" id="marketing" />
+        Marketing
+      </label>
+    </form>
+    <div class="modal-actions">
+      <button id="save-prefs" class="banner-btn">Save Preferences</button>
+      <button id="close-modal" class="banner-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const banner = document.getElementById("cookie-banner");
+  const modal = document.getElementById("cookie-modal");
+
+  // Check localStorage
+  if (localStorage.getItem("cookieConsent")) {
+    banner.style.display = "none";
+  }
+
+  document.getElementById("accept-all").onclick = () => {
+    localStorage.setItem("cookieConsent", "accepted");
+    banner.style.display = "none";
+  };
+
+  document.getElementById("reject-all").onclick = () => {
+    localStorage.setItem("cookieConsent", "rejected");
+    banner.style.display = "none";
+  };
+
+  document.getElementById("manage-prefs").onclick = () => {
+    modal.classList.remove("hidden");
+  };
+
+  document.getElementById("save-prefs").onclick = () => {
+    const prefs = {
+      analytics: document.getElementById("analytics").checked,
+      marketing: document.getElementById("marketing").checked,
+    };
+    localStorage.setItem("cookieConsent", JSON.stringify(prefs));
+    modal.classList.add("hidden");
+    banner.style.display = "none";
+  };
+});
+
+</script>
   <div>
     <h3>Privacy First</h3>
 

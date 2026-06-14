@@ -383,7 +383,8 @@ const Recent = {
   }
 };
 
-// Export for use in bootstrap
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = Recent;
 }
+
+window.Recent = Recent;

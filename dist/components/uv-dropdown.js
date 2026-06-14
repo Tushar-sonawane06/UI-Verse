@@ -1,4 +1,4 @@
-class UVDropdown extends HTMLElement {
+export class UVDropdown extends HTMLElement {
     constructor() {
         super();
         const shadow = this.attachShadow({ mode: 'open' });
@@ -94,6 +94,3 @@ class UVDropdown extends HTMLElement {
 if (typeof customElements !== 'undefined' && !customElements.get('uv-dropdown')) {
     customElements.define('uv-dropdown', UVDropdown);
 }
-
-export { UVDropdown };
-//# sourceMappingURL=uv-dropdown.js.map

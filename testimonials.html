@@ -627,6 +627,110 @@
     &lt;p class="t-text"&gt;Extremely robust component matrices... &lt;span class="term-cursor"&gt;_&lt;/span&gt;&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;</pre>
+    </div>
+  </div>
+</main>
+
+<section class="testimonials-carousel">
+  <div class="carousel-track">
+    <div class="testimonial-card">
+      <img src="avatar1.jpg" alt="User Avatar" class="avatar" />
+      <h3>Jane Doe</h3>
+      <p class="role">Product Manager</p>
+      <p class="review">UIverse helped us speed up development with beautiful components!</p>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="avatar2.jpg" alt="User Avatar" class="avatar" />
+      <h3>John Smith</h3>
+      <p class="role">Frontend Developer</p>
+      <p class="review">The carousel is smooth and responsive, perfect for landing pages.</p>
+    </div>
+
+    <!-- Add 3+ more testimonial cards -->
+  </div>
+
+  <!-- Navigation -->
+  <button class="carousel-btn prev">&#10094;</button>
+  <button class="carousel-btn next">&#10095;</button>
+
+  <!-- Dots -->
+  <div class="carousel-dots"></div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const track = document.querySelector(".carousel-track");
+  const cards = document.querySelectorAll(".testimonial-card");
+  const prevBtn = document.querySelector(".prev");
+  const nextBtn = document.querySelector(".next");
+  const dotsContainer = document.querySelector(".carousel-dots");
+
+  let index = 0;
+  let autoPlay;
+
+  // Create dots
+  cards.forEach((_, i) => {
+    const dot = document.createElement("button");
+    if (i === 0) dot.classList.add("active");
+    dotsContainer.appendChild(dot);
+    dot.addEventListener("click", () => goToSlide(i));
+  });
+
+  const dots = dotsContainer.querySelectorAll("button");
+
+  function updateCarousel() {
+    track.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach(dot => dot.classList.remove("active"));
+    dots[index].classList.add("active");
+  }
+
+  function goToSlide(i) {
+    index = i;
+    updateCarousel();
+    resetAutoPlay();
+  }
+
+  function nextSlide() {
+    index = (index + 1) % cards.length;
+    updateCarousel();
+  }
+
+  function prevSlide() {
+    index = (index - 1 + cards.length) % cards.length;
+    updateCarousel();
+  }
+
+  nextBtn.addEventListener("click", nextSlide);
+  prevBtn.addEventListener("click", prevSlide);
+
+  // Auto-play every 4s
+  function startAutoPlay() {
+    autoPlay = setInterval(nextSlide, 4000);
+  }
+
+  function resetAutoPlay() {
+    clearInterval(autoPlay);
+    startAutoPlay();
+  }
+
+  track.addEventListener("mouseenter", () => clearInterval(autoPlay));
+  track.addEventListener("mouseleave", startAutoPlay);
+
+  startAutoPlay();
+});
+
+</script>
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo"><i class="fa-solid fa-cube"></i> UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="#" title="Twitter"><i class="fab fa-x-twitter"></i></a>
       </div>
 
     </div>

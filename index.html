@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="home.css">
   <link rel="stylesheet" href="shared-page.css">
   <link rel="stylesheet" href="layout.css">
+  <link rel="stylesheet" href="command-palette.css">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -577,8 +578,47 @@
   </div>
 </footer>
 
+<!-- Command Palette Overlay -->
+<div id="commandPaletteOverlay" class="command-palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="command-palette-container">
+    <div class="command-palette-tabs">
+      <button class="command-palette-tab active" data-mode="search" aria-label="Search components">Search</button>
+      <button class="command-palette-tab" data-mode="generate" aria-label="Generate with AI">Generate</button>
+    </div>
+    <div class="command-palette-search">
+      <div class="command-palette-input-wrapper">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="commandPaletteInput" class="command-palette-input" placeholder="Search components... (Cmd+K)" autocomplete="off" aria-label="Search components">
+      </div>
+    </div>
+    <div class="command-palette-generate" id="generatePanel">
+      <div class="command-palette-input-wrapper">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <input type="text" id="generateInput" class="command-palette-input" placeholder="Describe a component... e.g. glassmorphism login card" autocomplete="off" aria-label="Describe component to generate">
+      </div>
+      <div class="generate-preview" id="generatePreview">
+        <iframe id="generatePreviewFrame" sandbox="allow-scripts" title="AI generated preview" style="width:100%;min-height:200px;border:1px solid var(--border-primary);border-radius:var(--radius-md);background:transparent;"></iframe>
+      </div>
+      <div class="generate-actions">
+        <button id="generateBtn" class="action-btn primary-btn">Generate</button>
+        <button id="refineBtn" class="action-btn outline-btn" style="display:none;">Refine</button>
+        <button id="copyGeneratedBtn" class="action-btn outline-btn" style="display:none;">Copy Code</button>
+      </div>
+      <div class="generate-status" id="generateStatus" aria-live="polite"></div>
+    </div>
+    <ul id="commandPaletteResults" class="command-palette-results"></ul>
+    <div class="command-palette-footer">
+      <div class="command-palette-footer-item"><span class="command-palette-footer-kbd">↑↓</span><span>Navigate</span></div>
+      <div class="command-palette-footer-item"><span class="command-palette-footer-kbd">⏎</span><span>Select</span></div>
+      <div class="command-palette-footer-item"><span class="command-palette-footer-kbd">Esc</span><span>Close</span></div>
+    </div>
+  </div>
+</div>
+
 <!-- ================= SCRIPTS ================= -->
 <!-- FIX #6: All scripts moved to end of <body> — removed <script> from inside <header> -->
+<script src="js/features/command-palette.js"></script>
+<script src="js/features/ai-generator.js"></script>
 <script src="index.js"></script>
 <script src="js/core/component-discovery.js"></script>
 <script src="js/core/component-index.js"></script>
@@ -600,19 +640,8 @@
     }
   });
 
-  // Dark mode toggle
-  const darkModeToggleBtn = document.getElementById('darkModeToggle');
-  const darkModeIcon = darkModeToggleBtn.querySelector('i');
-  if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-mode');
-    darkModeIcon.className = 'fa-solid fa-sun';
-  }
-  darkModeToggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    const isDark = document.body.classList.contains('dark-mode');
-    darkModeIcon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  });
+  // Dark mode is initialized by script.js initDarkMode() function
+  // Theme preference is persisted to localStorage and respects system preference
 
   // Sidebar toggle
   function toggleSidebar() {
@@ -669,6 +698,7 @@
     navigator.serviceWorker.register('/sw.js');
   }
 </script>
+<script src="script.js"></script>
 <script src="dist/shared.js"></script>
 
 </body>

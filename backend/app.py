@@ -2,8 +2,11 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import re
 import threading
 import sqlite3
+from collections import defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.parse import quote
@@ -1568,6 +1571,158 @@ def equipment_entry() -> object:
 @app.get("/equipment-detail.html")
 def equipment_detail_entry() -> object:
     return send_from_directory(PROJECT_ROOT, "equipment-detail.html")
+
+
+# ── AI Component Generation ──────────────────────────
+
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
+_generate_rate_limit: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+_generate_cache: dict[str, str] = {}
+
+FEW_SHOT_EXAMPLES = """
+Example 1 — Gradient Button:
+HTML: <button class="gradient-btn">Click Me</button>
+CSS: .gradient-btn { padding: 10px 24px; border: none; color: white; background: linear-gradient(45deg, #eb6835, #6c5ce7); border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s; } .gradient-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+
+Example 2 — Glass Card:
+HTML: <div class="glass-card"><h3>Glassmorphism</h3><p>Frosted glass effect.</p></div>
+CSS: .glass-card { padding: 24px; border-radius: 14px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px); color: white; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+
+Example 3 — Neon Button:
+HTML: <button class="neon-btn">Glow</button>
+CSS: .neon-btn { padding: 10px 24px; background: transparent; color: #00ffe0; border: 1.5px solid #00ffe0; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s; } .neon-btn:hover { box-shadow: 0 0 16px #00ffe0, 0 0 40px rgba(0,255,224,0.3); }
+"""
+
+DESIGN_TOKENS = """
+Color palette:
+- Primary accent: #eb6835 (use as --accent)
+- Text primary: #111111
+- Text secondary: #666666
+- Background primary: #f5f4f2
+- Background secondary: #ffffff
+- Border: #ebebeb
+- Card background: #ffffff
+- Surface elevated: #ffffff
+- Surface muted: #f0ede9
+
+Spacing & radius:
+- Small radius: 8px
+- Medium radius: 14px
+- Large radius: 20px
+- Shadows: 0 2px 8px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.12)
+
+Typography:
+- Body font: 'DM Sans', Arial, sans-serif
+- Heading font: 'Syne', sans-serif
+
+Rules:
+- Use CSS custom properties where possible: --accent, --radius-md, --shadow-md, etc.
+- Output ONLY the HTML and CSS. No markdown fences, no explanations.
+- HTML first, then CSS. Separate them with a blank line.
+- Make components self-contained and copy-paste ready.
+- Use pure CSS, no external dependencies.
+- Ensure responsive design with flexbox or grid.
+"""
+
+
+@app.post("/api/generate")
+def api_generate() -> tuple[object, int]:
+    import requests
+
+    if not OPENAI_API_KEY:
+        return jsonify({"error": "AI generation is not configured. Set OPENAI_API_KEY."}), 503
+
+    payload = request.get_json(silent=True) or {}
+    user_prompt = str(payload.get("prompt", "")).strip()
+    refinement = str(payload.get("refinement", "")).strip()
+    previous = str(payload.get("previous", "")).strip()
+
+    if not user_prompt:
+        return jsonify({"error": "Prompt is required."}), 400
+
+    client_ip = request.remote_addr or "unknown"
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+    if _generate_rate_limit[client_ip][today] >= 10:
+        return jsonify({"error": "Daily generation limit reached (10/day)."}), 429
+
+    _generate_rate_limit[client_ip][today] += 1
+
+    system_prompt = (
+        "You are an expert UI component generator for UIverse, a design system library. "
+        "You generate pure HTML and CSS components that follow the UIverse design tokens. "
+        "Respond with ONLY the HTML followed by CSS. No markdown code blocks, no explanations. "
+        "The HTML and CSS must be valid and self-contained. "
+        "Use the provided design tokens and few-shot examples as style guidance.\n\n"
+        f"{DESIGN_TOKENS}\n\n"
+        f"{FEW_SHOT_EXAMPLES}"
+    )
+
+    user_content = user_prompt
+    if previous:
+        user_content = f"Previous component:\n{previous}\n\nRefinement instruction: {user_prompt}"
+    if refinement:
+        user_content += f"\nAdditional context: {refinement}"
+
+    cache_key = f"{user_content}:{refinement}:{previous}"
+    if cache_key in _generate_cache:
+        cached = _generate_cache[cache_key]
+        parts = cached.split("\n\n", 1)
+        return jsonify({"html": parts[0] if len(parts) > 1 else "", "css": parts[1] if len(parts) > 1 else cached, "cached": True}), 200
+
+    try:
+        response = requests.post(
+            OPENAI_API_URL,
+            headers={
+                "Authorization": f"Bearer {OPENAI_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": "gpt-4o-mini",
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_content},
+                ],
+                "temperature": 0.7,
+                "max_tokens": 1200,
+            },
+            timeout=30,
+        )
+        response.raise_for_status()
+        data = response.json()
+        content = data["choices"][0]["message"]["content"]
+
+        html_part = ""
+        css_part = ""
+        parts = re.split(r"\n\s*\n", content.strip(), maxsplit=1)
+        if len(parts) == 2:
+            html_part = parts[0].strip()
+            css_part = parts[1].strip()
+        else:
+            css_start = re.search(r"(?:^|\n)\s*[.#@a-zA-Z][^{]*\{", content)
+            if css_start:
+                html_part = content[:css_start.start()].strip()
+                css_part = content[css_start.start():].strip()
+            else:
+                html_part = content.strip()
+                css_part = ""
+
+        html_part = re.sub(r"```html?", "", html_part, flags=re.I).strip()
+        css_part = re.sub(r"```css?", "", css_part, flags=re.I).strip()
+
+        _generate_cache[cache_key] = f"{html_part}\n\n{css_part}"
+
+        return jsonify({"html": html_part, "css": css_part, "cached": False}), 200
+
+    except requests.exceptions.Timeout:
+        return jsonify({"error": "Generation timed out. Please try again."}), 504
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": f"Generation failed: {str(e)}"}), 502
+    except Exception as e:
+        return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
+@app.get("/workspace.html")
+def workspace_entry() -> object:
+    return send_from_directory(PROJECT_ROOT, "workspace.html")
 
 
 if __name__ == "__main__":

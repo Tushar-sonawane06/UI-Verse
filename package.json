@@ -64,6 +64,7 @@
         "perf:monitor": "node scripts/performance-monitor.js",
         "perf:check": "node scripts/performance-monitor.js && echo '✅ Performance check completed'",
         "perf:dashboard": "npm run perf:monitor && echo '📊 Open performance-dashboard.html in your browser'",
+        "perf:lighthouse": "npx @lhci/cli autorun",
         "performance:budgets": "node scripts/perf-budget-checker.js",
         "performance:budgets:verify": "node scripts/perf-budget-checker.js --check",
         "wc:register": "node -e \"console.log('Web components are ES modules; import them in the browser via <script type=\\\"module\\\">')\"",
@@ -116,12 +117,18 @@
         "snippets:validate": "node scripts/snippet-validate.js",
         "test:snippets:pipeline": "node --test tests/snippets/snippet-pipeline.test.js",
         "snippets:check": "npm run snippets:export && npm run snippets:validate",
-        "prepare": "npm run build"
+        "prepare": "npm run build",
+        "bench": "node bench/bench.js",
+        "bench:sizes": "node bench/bundle-sizes.js",
+        "bench:all": "npm run bench && npm run bench:sizes",
+        "security:test": "playwright test tests/security --config=playwright.state.config.ts --reporter=list",
+        "test:tokens": "node scripts/token-compliance.js",
+        "test:tokens:all": "node scripts/token-compliance.js --all",
+        "test:a11y:components": "playwright test tests/a11y/component-a11y.spec.ts --config=playwright.component-a11y.config.ts --reporter=list",
+        "test:visual:components": "playwright test tests/visual/component-screenshots.spec.ts --config=playwright.component-visual.config.ts --reporter=list",
+        "test:visual:update": "node scripts/update-visual-baselines.js",
+        "test:perf:components": "node scripts/perf-component-gate.js"
     },
-    "bench": "node bench/bench.js",
-    "bench:sizes": "node bench/bundle-sizes.js",
-    "bench:all": "npm run bench && npm run bench:sizes",
-    "security:test": "playwright test tests/security --config=playwright.state.config.ts --reporter=list",
     "devDependencies": {
         "@axe-core/playwright": "^4.0.0",
         "@playwright/test": "^1.40.0",
@@ -135,6 +142,7 @@
         "html-validate": "^8.5.0",
         "jsdom": "^22.1.0",
         "linkinator": "^7.6.1",
+        "postcss": "^8.4.38",
         "rollup": "^3.30.0",
         "sharp": "^0.33.5",
         "storybook": "^8.6.18",
@@ -145,6 +153,10 @@
     },
     "dependencies": {
         "dompurify": "^3.4.5",
+        "fuse.js": "^7.3.0",
+        "yjs": "^13.6.24",
+        "y-webrtc": "^10.3.1",
+        "y-indexeddb": "^9.0.12"
         "fuse.js": "^7.3.0"
     },
     "lint-staged": {

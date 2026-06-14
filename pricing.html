@@ -1172,6 +1172,78 @@
 
 </main>
 
+<section class="pricing-section">
+  <!-- Billing Toggle -->
+  <div class="billing-toggle">
+    <span>Monthly</span>
+    <label class="switch">
+      <input type="checkbox" id="billing-toggle">
+      <span class="slider"></span>
+    </label>
+    <span>Yearly <span class="discount">Save 20%</span></span>
+  </div>
+
+  <!-- Pricing Cards -->
+  <div class="pricing-grid">
+    <!-- Free -->
+    <div class="pricing-card">
+      <h3>Free</h3>
+      <p class="price" data-month="0" data-year="0">$0</p>
+      <ul>
+        <li>3 Projects</li>
+        <li>Community Support</li>
+      </ul>
+      <button class="cta">Get Started</button>
+    </div>
+
+    <!-- Pro (Most Popular) -->
+    <div class="pricing-card popular">
+      <div class="badge">Most Popular</div>
+      <h3>Pro</h3>
+      <p class="price" data-month="29" data-year="24">$29</p>
+      <ul>
+        <li>Unlimited Projects</li>
+        <li>Team Collaboration</li>
+        <li>Priority Support</li>
+      </ul>
+      <button class="cta">Choose Pro</button>
+    </div>
+
+    <!-- Enterprise -->
+    <div class="pricing-card">
+      <h3>Enterprise</h3>
+      <p class="price" data-month="99" data-year="79">$99</p>
+      <ul>
+        <li>Custom Solutions</li>
+        <li>Dedicated Support</li>
+        <li>Advanced Analytics</li>
+      </ul>
+      <button class="cta">Contact Sales</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.getElementById("billing-toggle");
+  const prices = document.querySelectorAll(".price");
+
+  function updatePrices() {
+    prices.forEach(price => {
+      const month = price.getAttribute("data-month");
+      const year = price.getAttribute("data-year");
+      price.textContent = toggle.checked ? `$${year}` : `$${month}`;
+    });
+  }
+
+  toggle.addEventListener("change", updatePrices);
+
+  // Initialize default (monthly)
+  updatePrices();
+});
+
+</script>
+
 <!-- Scroll to Top -->
 <button id="scrollTopBtn" onclick="scrollToTop()">
   <i class="fa-solid fa-chevron-up"></i>

@@ -57,7 +57,10 @@ const qsa = (selector, root = document) => Array.from(root.querySelectorAll(sele
  * @param {string} message
  * @param {number} [duration=2000] - ms before auto-dismiss
  */
+let lastToastShownAt = 0;
+
 function showToast(message, duration = 2000) {
+  lastToastShownAt = Date.now();
   const TOAST_ID = "toast-notification";
 
   // Remove any existing toast immediately
@@ -93,6 +96,31 @@ function showToast(message, duration = 2000) {
    – Consolidates copyCode / copyHTML / copyCSS
      and the colour helpers.
 ───────────────────────────────────────────── */
+
+// Show feedback for copy actions that call the Clipboard API directly.
+try {
+  if (typeof navigator !== "undefined" && navigator.clipboard && navigator.clipboard.writeText) {
+    const originalWriteText = navigator.clipboard.writeText;
+    Object.defineProperty(navigator.clipboard, "writeText", {
+      value: function (text) {
+        return originalWriteText.call(navigator.clipboard, text)
+          .then((value) => {
+            const copiedAt = Date.now();
+            setTimeout(() => {
+              if (lastToastShownAt < copiedAt) {
+                showToast("Code copied to clipboard!");
+              }
+            }, 0);
+            return value;
+          });
+      },
+      configurable: true,
+      writable: true
+    });
+  }
+} catch (e) {
+  console.warn("Could not intercept clipboard writer:", e);
+}
 
 /**
  * Decode HTML entities (e.g. &lt; → <) from a code block's innerHTML.
@@ -296,14 +324,6 @@ function toggleCode(id, btn) {
    – Merges the two conflicting dark-mode blocks.
 ───────────────────────────────────────────── */
 
-/**
- * Apply the persisted (or system) theme immediately, then wire up any
- * toggle button found on the page.
- *
- * Supports two button patterns used across the codebase:
- *   1. id="theme-toggle"   → updates innerText
- *   2. id="darkModeToggle" → updates a child <i> icon class
- */
 function initDarkMode() {
   const saved = localStorage.getItem(THEME_KEY);
 
@@ -311,7 +331,7 @@ function initDarkMode() {
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const shouldBeDark = saved === "dark" || (!saved && prefersDark);
 
-  document.body.classList.toggle(DARK_CLASS, shouldBeDark);
+  document.documentElement.classList.toggle(DARK_CLASS, shouldBeDark);
 
   /** Sync all toggle button variants to the current theme state. */
   const syncButtons = (isDark) => {
@@ -331,7 +351,7 @@ function initDarkMode() {
 
   /** Shared click handler for both button patterns. */
   const handleToggle = () => {
-    const isDark = document.body.classList.toggle(DARK_CLASS);
+    const isDark = document.documentElement.classList.toggle(DARK_CLASS);
     localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
     syncButtons(isDark);
   };
@@ -760,6 +780,83 @@ function initLegacyCardFavorites() {
      fall back to injecting a <script> tag.
 ───────────────────────────────────────────── */
 
+/* ================= COLLABORATE BUTTONS ================= */
+function splitCodeBlock(text) {
+  const decoded = text
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&');
+  const cssStart = decoded.search(/(?:^|\n)\s*([.#@][^{]+\{|[a-z]+[\s,]*\{)/i);
+  if (cssStart > 0) {
+    return {
+      html: decoded.slice(0, cssStart).trim(),
+      css: decoded.slice(cssStart).trim(),
+      js: ''
+    };
+  }
+  return { html: decoded.trim(), css: '', js: '' };
+}
+
+function initCollaborateButtons() {
+  const cards = document.querySelectorAll('.component-card');
+  if (cards.length === 0) return;
+
+  if (!document.getElementById('collab-btn-styles')) {
+    const style = document.createElement('style');
+    style.id = 'collab-btn-styles';
+    style.textContent = '.action-btn.collab-btn{background:#6c5ce7;color:#fff;border-color:#6c5ce7}.action-btn.collab-btn:hover{background:#5b4cc4}';
+    document.head.appendChild(style);
+  }
+
+  cards.forEach((card) => {
+    const actions = card.querySelector('.actions');
+    const codeBlock = card.querySelector('.code-block');
+    const preview = card.querySelector('.card-preview');
+    if (!actions || !codeBlock || !preview) return;
+
+    const btn = document.createElement('button');
+    btn.className = 'action-btn collab-btn';
+    btn.innerHTML = '<i class="fa-solid fa-users"></i> Collaborate';
+    btn.title = 'Open in collaborative workspace';
+
+    btn.addEventListener('click', () => {
+      const raw = codeBlock.innerText;
+      const split = splitCodeBlock(raw);
+      const title = card.querySelector('.card-label')?.textContent?.trim() || 'component';
+      const roomId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Math.random().toString(36).slice(2, 8);
+
+      const seed = {
+        html: split.html || preview.innerHTML,
+        css: split.css,
+        js: split.js,
+        title: title
+      };
+
+      sessionStorage.setItem('workspace-seed', JSON.stringify(seed));
+      window.location.href = 'workspace.html#room=' + roomId;
+    });
+
+    actions.appendChild(btn);
+  });
+}
+
+/* ================= INIT (DOMContentLoaded) ================= */
+window.addEventListener("DOMContentLoaded", () => {
+  initSidebar();
+  initLegacyCardFavorites();
+  initRecentComponentsTracker();
+  initLiveSandboxes();
+  initCollaborateButtons();
+  initDevicePreviewFeature();
+  initKeyboardShortcutsFeature();
+  initDownloadFeature();
+  initDarkMode();
+  initScrollTop();
+  initProgressBar();
+  initSearchFilter();
+});
+
+/* eof */
 /**
  * Generic feature bootstrapper.
  * Skips loading if the guard condition is falsy.

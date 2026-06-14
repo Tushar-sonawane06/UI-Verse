@@ -1,4 +1,4 @@
-class UVTabs extends HTMLElement {
+export class UVTabs extends HTMLElement {
     constructor() {
         super();
         const shadow = this.attachShadow({ mode: 'open' });
@@ -140,6 +140,3 @@ class UVTabs extends HTMLElement {
 if (typeof customElements !== 'undefined' && !customElements.get('uv-tabs')) {
     customElements.define('uv-tabs', UVTabs);
 }
-
-export { UVTabs };
-//# sourceMappingURL=uv-tabs.js.map

@@ -1,4 +1,4 @@
-class UVLanguageSwitcher extends HTMLElement {
+export class UVLanguageSwitcher extends HTMLElement {
     constructor() {
         super();
         this._onChange = this._onChange.bind(this);
@@ -129,6 +129,3 @@ class UVLanguageSwitcher extends HTMLElement {
 if (typeof customElements !== 'undefined' && !customElements.get('uv-language-switcher')) {
     customElements.define('uv-language-switcher', UVLanguageSwitcher);
 }
-
-export { UVLanguageSwitcher };
-//# sourceMappingURL=uv-language-switcher.js.map

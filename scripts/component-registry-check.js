@@ -140,6 +140,9 @@ function validateComponentRegistry(options = {}) {
   const pathToId = new Map();
 
   registry.forEach((entry, index) => {
+    const marker = `registry entry #${index + 1}`;
+    const id = String(entry && entry.id || '').trim();
+    const pagePath = String(entry && entry.path || '').trim();
 
     // JSON structural check
     if (!entry.title || typeof entry.title !== 'string') {
@@ -148,10 +151,6 @@ function validateComponentRegistry(options = {}) {
     if (!entry.category || typeof entry.category !== 'string') {
       errors.push(`[${id}] Component is missing a valid 'category' string.`);
     }
-    
-    const marker = `registry entry #${index + 1}`;
-    const id = String(entry && entry.id || '').trim();
-    const pagePath = String(entry && entry.path || '').trim();
 
     if (!id) {
       errors.push(`${marker}: missing required field 'id'.`);

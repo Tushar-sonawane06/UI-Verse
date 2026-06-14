@@ -18,7 +18,8 @@ const CommandPalette = (function () {
     allItems: [],
     listeners: [],
     modalCleanup: null,
-    restoreFocusTo: null
+    restoreFocusTo: null,
+    mode: 'search'
   };
 
   const STORAGE_KEY = 'uiverse_command_palette_recent';
@@ -265,6 +266,11 @@ const CommandPalette = (function () {
       case 'Enter':
         if (contract && typeof contract.isEnterKey === 'function' && !contract.isEnterKey(event)) break;
         event.preventDefault();
+        if (_state.mode === 'generate') {
+          const genBtn = document.getElementById('generateBtn');
+          if (genBtn && !genBtn.disabled) genBtn.click();
+          break;
+        }
         if (_state.results[_state.selectedIndex]) {
           navigateToItem(_state.results[_state.selectedIndex]);
         }
@@ -290,10 +296,19 @@ const CommandPalette = (function () {
     _state.isOpen = true;
     _state.selectedIndex = 0;
     _state.results = [];
+    _state.mode = 'search';
     _state.restoreFocusTo = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
     const overlay = document.getElementById('commandPaletteOverlay');
     const input = document.getElementById('commandPaletteInput');
+
+    document.querySelectorAll('.command-palette-tab').forEach((t) => t.classList.toggle('active', t.dataset.mode === 'search'));
+    const searchPanel = document.querySelector('.command-palette-search');
+    const generatePanel = document.getElementById('generatePanel');
+    const resultsEl = document.getElementById('commandPaletteResults');
+    if (searchPanel) searchPanel.style.display = '';
+    if (generatePanel) generatePanel.style.display = 'none';
+    if (resultsEl) resultsEl.style.display = '';
 
     if (overlay) {
       overlay.classList.add('open');
@@ -423,6 +438,29 @@ const CommandPalette = (function () {
       _state.listeners.push({ el: input, event: 'input', handler: handleInput });
       _state.listeners.push({ el: input, event: 'keydown', handler: handleKeydown });
     }
+
+    document.querySelectorAll('.command-palette-tab').forEach((tab) => {
+      const onTabClick = () => {
+        const mode = tab.dataset.mode;
+        _state.mode = mode;
+        document.querySelectorAll('.command-palette-tab').forEach((t) => t.classList.toggle('active', t.dataset.mode === mode));
+        const searchPanel = document.querySelector('.command-palette-search');
+        const generatePanel = document.getElementById('generatePanel');
+        const resultsEl = document.getElementById('commandPaletteResults');
+        if (searchPanel) searchPanel.style.display = mode === 'search' ? '' : 'none';
+        if (generatePanel) generatePanel.style.display = mode === 'generate' ? 'grid' : 'none';
+        if (resultsEl) resultsEl.style.display = mode === 'search' ? '' : 'none';
+        if (mode === 'search' && input) {
+          input.focus();
+          renderResults();
+        } else if (mode === 'generate') {
+          const genInput = document.getElementById('generateInput');
+          if (genInput) genInput.focus();
+        }
+      };
+      tab.addEventListener('click', onTabClick);
+      _state.listeners.push({ el: tab, event: 'click', handler: onTabClick });
+    });
 
     if (overlay) {
       overlay.addEventListener('click', onOverlayClick);

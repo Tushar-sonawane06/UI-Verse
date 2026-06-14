@@ -1,4 +1,4 @@
-class UVThemeSwitcher extends HTMLElement {
+export class UVThemeSwitcher extends HTMLElement {
     constructor() {
         super();
         this._handleChange = this._handleChange.bind(this);
@@ -94,6 +94,3 @@ class UVThemeSwitcher extends HTMLElement {
 if (typeof customElements !== 'undefined' && !customElements.get('uv-theme-switcher')) {
     customElements.define('uv-theme-switcher', UVThemeSwitcher);
 }
-
-export { UVThemeSwitcher };
-//# sourceMappingURL=uv-theme-switcher.js.map
