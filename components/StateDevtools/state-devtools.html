@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>State DevTools</title>
+  <link rel="stylesheet" href="state-devtools.css">
+</head>
+<body>
+  <div id="state-devtools" class="state-devtools" role="region" aria-label="State Manager DevTools">
+    <!-- Header -->
+    <div class="devtools-header">
+      <h2 class="devtools-title">State DevTools</h2>
+      <div class="devtools-controls">
+        <button id="btn-dock" class="devtools-btn" title="Toggle Dock">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/>
+          </svg>
+        </button>
+        <button id="btn-close" class="devtools-btn" title="Close">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="devtools-tabs" role="tablist">
+      <button class="tab-btn active" data-tab="timeline" role="tab" aria-selected="true">Timeline</button>
+      <button class="tab-btn" data-tab="state" role="tab" aria-selected="false">State</button>
+      <button class="tab-btn" data-tab="diff" role="tab" aria-selected="false">Diff</button>
+      <button class="tab-btn" data-tab="export" role="tab" aria-selected="false">Export</button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="devtools-content">
+      <!-- Timeline Tab -->
+      <div class="tab-panel active" id="panel-timeline" role="tabpanel">
+        <!-- Slider Controls -->
+        <div class="slider-section">
+          <div class="slider-header">
+            <span class="slider-label">History Timeline</span>
+            <span class="slider-info" id="slider-info">0 / 0</span>
+          </div>
+          <input type="range" id="history-slider" class="history-slider" min="0" max="0" value="0" disabled>
+          <div class="slider-buttons">
+            <button id="btn-undo" class="control-btn" disabled title="Undo (Ctrl+Z)">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/>
+              </svg>
+              Undo
+            </button>
+            <button id="btn-redo" class="control-btn" disabled title="Redo (Ctrl+Shift+Z)">
+              Redo
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Action Log Table -->
+        <div class="action-log-section">
+          <h3 class="section-title">Action Log</h3>
+          <div class="action-log-container">
+            <table class="action-log-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Type</th>
+                  <th>Path</th>
+                  <th>Value</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody id="action-log-body">
+                <!-- Action rows will be inserted here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- State Tab -->
+      <div class="tab-panel" id="panel-state" role="tabpanel">
+        <div class="state-section">
+          <div class="state-header">
+            <h3 class="section-title">Current State</h3>
+            <button id="btn-copy-state" class="devtools-btn-small" title="Copy State">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+              </svg>
+              Copy
+            </button>
+          </div>
+          <pre id="state-viewer" class="state-viewer">{ }</pre>
+        </div>
+      </div>
+
+      <!-- Diff Tab -->
+      <div class="tab-panel" id="panel-diff" role="tabpanel">
+        <div class="diff-section">
+          <div class="diff-header">
+            <h3 class="section-title">State Diff</h3>
+            <div class="diff-controls">
+              <select id="diff-from" class="diff-select">
+                <option value="">Select state...</option>
+              </select>
+              <span class="diff-arrow">→</span>
+              <select id="diff-to" class="diff-select">
+                <option value="">Select state...</option>
+              </select>
+              <button id="btn-compute-diff" class="devtools-btn-small">Compute Diff</button>
+            </div>
+          </div>
+          <div class="diff-viewer" id="diff-viewer">
+            <div class="diff-placeholder">Select two states to compare</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Export Tab -->
+      <div class="tab-panel" id="panel-export" role="tabpanel">
+        <div class="export-section">
+          <h3 class="section-title">Import / Export</h3>
+          
+          <div class="export-group">
+            <label class="export-label">Export State</label>
+            <button id="btn-export" class="export-btn">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+              </svg>
+              Download JSON
+            </button>
+            <button id="btn-copy-export" class="export-btn">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+              </svg>
+              Copy to Clipboard
+            </button>
+          </div>
+
+          <div class="export-group">
+            <label class="export-label">Import State</label>
+            <textarea id="import-textarea" class="import-textarea" placeholder="Paste JSON state data here..."></textarea>
+            <div class="import-buttons">
+              <button id="btn-import" class="export-btn primary">Import State</button>
+              <button id="btn-import-file" class="export-btn">Load from File</button>
+            </div>
+            <input type="file" id="import-file-input" accept=".json" style="display: none;">
+          </div>
+
+          <div class="export-group">
+            <label class="export-label">Quick Actions</label>
+            <div class="quick-actions">
+              <button id="btn-clear-history" class="action-btn danger">Clear History</button>
+              <button id="btn-reset-state" class="action-btn danger">Reset State</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="devtools-status">
+      <span class="status-item" id="status-history">
+        <span class="status-dot"></span>
+        <span class="status-text">History: 0</span>
+      </span>
+      <span class="status-item" id="status-paused">
+        <span class="status-dot inactive"></span>
+        <span class="status-text">Recording</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Floating Toggle Button (when devtools is closed) -->
+  <button id="btn-open-devtools" class="devtools-toggle" title="Open State DevTools" style="display: none;">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+      <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+    </svg>
+    <span class="toggle-badge" id="toggle-badge" style="display: none;">0</span>
+  </button>
+
+  <script src="state-devtools.js"></script>
+</body>
+</html>

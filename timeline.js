@@ -118,7 +118,13 @@ function initTheme() {
   if (!themeToggle) return;
   
   // Check user preference
-  const savedTheme = localStorage.getItem('theme');
+  let savedTheme = null;
+  try {
+    savedTheme = localStorage.getItem('theme');
+  } catch (e) {
+    console.warn('localStorage access denied. Falling back to non-persistent state.', e);
+  }
+
   const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   
   if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
@@ -131,11 +137,19 @@ function initTheme() {
   
   themeToggle.addEventListener('click', () => {
     const isDark = document.body.classList.toggle('dark-mode');
+    try {
+      if (isDark) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
+    } catch (e) {
+      console.warn('localStorage access denied. Falling back to non-persistent state.', e);
+    }
+
     if (isDark) {
-      localStorage.setItem('theme', 'dark');
       themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
     } else {
-      localStorage.setItem('theme', 'light');
       themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
     }
   });
