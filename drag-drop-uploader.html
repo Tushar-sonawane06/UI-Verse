@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI-Verse - Advanced Drag-and-Drop Uploader Sandbox</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ==========================================================================
+           1. DESIGN TOKENS, CORE CONFIGURATIONS & DESIGN VARIABLES
+           ========================================================================== */
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: rgba(99, 102, 241, 0.08);
+            --primary-solid-light: #e0e7ff;
+            
+            /* Status Accents */
+            --success: #10b981;
+            --success-hover: #059669;
+            --success-light: rgba(16, 185, 129, 0.1);
+            --warning: #f59e0b;
+            --warning-light: rgba(245, 158, 11, 0.1);
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+            --danger-light: rgba(239, 68, 68, 0.1);
+            --info: #06b6d4;
+            --info-light: rgba(6, 182, 212, 0.1);
+            
+            /* Interface Canvas Variables - Light Mode Default */
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-sidebar: #0f172a;
+            --border-color: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-on-sidebar: #94a3b8;
+            --code-bg: #1e1e2e;
+            
+            /* Structural Radius Metrics */
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-round: 9999px;
+            
+            /* Shadow Systems */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05);
+            
+            /* Drag and Drop Structural Parameters */
+            --dropzone-border-color: #cbd5e1;
+            --dropzone-bg: #ffffff;
+            --dropzone-icon-color: #94a3b8;
+            
+            /* Physics Timing Kinetics Curves */
+            --transition-normal: 0.3s;
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Dark Contrast Mode Variable Overrides */
+        [data-theme="dark"] {
+            --bg-main: #090d16;
+            --bg-card: #131b2e;
+            --border-color: #22314d;
+            --text-main: #f1f5f9;
+            --text-muted: #8495aa;
+            --dropzone-border-color: #2c3f63;
+            --dropzone-bg: #16223b;
+            --dropzone-icon-color: #4a618c;
+            --primary-solid-light: #1e294b;
+        }
+
+        /* Essential Framework CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+            transition: background-color var(--transition-normal), color var(--transition-normal);
+        }
+
+        /* ==========================================================================
+           2. CENTRAL LAYOUT BLUEPRINT HOUSING (DASHBOARD FRAME)
+           ========================================================================== */
+        .app-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Control Center Panel */
+        .app-sidebar {
+            width: 280px;
+            background-color: var(--bg-sidebar);
+            color: #ffffff;
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .app-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .app-brand i {
+            color: var(--primary);
+            font-size: 1.6rem;
+        }
+
+        .sidebar-heading {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            padding-left: 0.75rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-item {
+            margin-bottom: 0.35rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 1rem;
+            color: var(--text-on-sidebar);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s var(--ease-smooth);
+        }
+
+        .sidebar-link-inner {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+        }
+
+        .sidebar-link.active i {
+            color: var(--primary);
+        }
+
+        .menu-count-badge {
+            font-size: 0.75rem;
+            background-color: rgba(255,255,255,0.08);
+            padding: 0.15rem 0.5rem;
+            border-radius: var(--radius-sm);
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Storage Allocation Mini-Widget Inside Sidebar Footer */
+        .sidebar-storage-widget {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            margin-top: auto;
+        }
+
+        .storage-widget-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-on-sidebar);
+            margin-bottom: 0.5rem;
+        }
+
+        .storage-track-line {
+            height: 6px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: var(--radius-round);
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .storage-fill-line {
+            height: 100%;
+            width: 42%;
+            background: linear-gradient(90deg, var(--primary), var(--info));
+            border-radius: var(--radius-round);
+            transition: width 0.5s var(--ease-smooth);
+        }
+
+        /* Workspace Core Segment Layout track */
+        .app-main {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2.5rem 3.5rem;
+            max-width: 1500px;
+            width: calc(100% - 280px);
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-title h1 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        .theme-toggle-trigger {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-round);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s var(--ease-smooth);
+        }
+
+        .theme-toggle-trigger:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        /* ==========================================================================
+           3. SANDBOX CORE WRAPPERS & TWO-COLUMN ECOSYSTEM GRID
+           ========================================================================== */
+        .sandbox-workspace-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .workspace-block-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .block-header-bar {
+            padding: 1.25rem 1.75rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.005);
+        }
+
+        .block-heading-title {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
+        .block-heading-title i {
+            color: var(--primary);
+        }
+
+        .block-badge {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .block-body-canvas {
+            padding: 2.25rem;
+        }
+
+        /* ==========================================================================
+           4. CORE COMPONENT STYLING: DRAG-AND-DROP WORKSPACE ZONE
+           ========================================================================== */
+        .uv-dropzone-container {
+            border: 2px dashed var(--dropzone-border-color);
+            background-color: var(--dropzone-bg);
+            border-radius: var(--radius-lg);
+            padding: 4rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            outline: none;
+            user-select: none;
+            transition: border-color 0.25s var(--ease-smooth), 
+                        background-color 0.25s var(--ease-smooth), 
+                        transform 0.2s var(--ease-smooth);
+        }
+
+        /* Interactive State Shifts programmatically wired via dragover listeners */
+        .uv-dropzone-container.drag-over-active {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+            transform: scale(0.99);
+        }
+
+        .uv-dropzone-hidden-input {
+            display: none;
+        }
+
+        .uv-dropzone-icon-housing {
+            width: 72px;
+            height: 72px;
+            border-radius: var(--radius-round);
+            background-color: var(--bg-main);
+            color: var(--dropzone-icon-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.85rem;
+            transition: all 0.3s var(--ease-bounce);
+        }
+
+        .uv-dropzone-container.drag-over-active .uv-dropzone-icon-housing {
+            background-color: var(--primary-solid-light);
+            color: var(--primary);
+            transform: translateY(-4px) scale(1.05);
+        }
+
+        .uv-dropzone-primary-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.35rem;
+        }
+
+        .uv-dropzone-primary-text span {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .uv-dropzone-secondary-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .uv-dropzone-limit-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.35rem 0.75rem;
+            border-radius: var(--radius-round);
+            background-color: var(--bg-main);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+        }
+
+        /* ==========================================================================
+           5. CORE COMPONENT STYLING: LIVE STREAMING UPLOAD PIPELINE
+           ========================================================================== */
+        .pipeline-empty-state {
+            text-align: center;
+            padding: 3.5rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .pipeline-empty-state i {
+            font-size: 2.5rem;
+            color: var(--border-color);
+            margin-bottom: 1rem;
+        }
+
+        .pipeline-empty-state p {
+            font-size: 0.9rem;
+            max-width: 240px;
+            margin: 0 auto;
+        }
+
+        .uv-pipeline-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 480px;
+            overflow-y: auto;
+            padding-right: 0.25rem;
+        }
+
+        .uv-pipeline-item {
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.15rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            position: relative;
+            animation: slideInNode 0.35s var(--ease-bounce) forwards;
+        }
+
+        @keyframes slideInNode {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .file-type-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        /* File Type Color Variants */
+        .type-image { color: var(--primary); background-color: rgba(99, 102, 241, 0.05); }
+        .type-video { color: var(--accent-purple); background-color: rgba(168, 85, 247, 0.05); }
+        .type-audio { color: var(--info); background-color: rgba(6, 182, 212, 0.05); }
+        .type-document { color: var(--warning); background-color: rgba(245, 158, 11, 0.05); }
+        .type-archive { color: var(--danger); background-color: rgba(239, 68, 68, 0.05); }
+
+        .file-item-workspace-core {
+            flex: 1;
+            min-width: 0; /* Fix flex text clipping bugs */
+        }
+
+        .file-meta-row-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.35rem;
+            gap: 0.5rem;
+        }
+
+        .file-name-string {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-size-string {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        /* Progress Metrics System */
+        .file-progress-track-shell {
+            height: 5px;
+            background-color: var(--border-color);
+            border-radius: var(--radius-round);
+            overflow: hidden;
+            margin-bottom: 0.4rem;
+            position: relative;
+        }
+
+        .file-progress-fill-node {
+            height: 100%;
+            width: 0%;
+            background-color: var(--primary);
+            border-radius: var(--radius-round);
+            transition: width 0.2s linear;
+        }
+
+        .file-meta-row-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .upload-status-label {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .upload-status-label i.fa-spinner {
+            animation: rotationalSpin 1s infinite linear;
+        }
+
+        @keyframes rotationalSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        .upload-percentage-string {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* Action Controls Internal to Item Rows */
+        .item-action-trigger-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            width: 28px;
+            height: 28px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            margin-top: -0.25rem;
+        }
+
+        .item-action-trigger-btn:hover {
+            background-color: var(--border-color);
+            color: var(--danger);
+        }
+
+        /* Item Row Complete/Failure Modifiers */
+        .uv-pipeline-item.state-complete {
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .uv-pipeline-item.state-complete .file-progress-fill-node {
+            background-color: var(--success);
+        }
+
+        .uv-pipeline-item.state-complete .upload-status-label {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           6. LIVE CODE INSPECTOR SUB-PANEL SYSTEM
+           ========================================================================== */
+        .inspector-control-housing {
+            margin-top: 3rem;
+        }
+
+        .inspector-action-bar {
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: flex-end;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            background-color: rgba(0,0,0,0.005);
+            border-top-left-radius: var(--radius-md);
+            border-top-right-radius: var(--radius-md);
+        }
+
+        .code-toggle-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            padding: 0.45rem 1.15rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s var(--ease-smooth);
+        }
+
+        .code-toggle-btn:hover, .code-toggle-btn.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .code-drawer-housing {
+            max-height: 0;
+            overflow: hidden;
+            background-color: var(--code-bg);
+            border-bottom-left-radius: var(--radius-md);
+            border-bottom-right-radius: var(--radius-md);
+            transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+        }
+
+        .code-drawer-housing.open {
+            max-height: 2000px;
+            border: 1px solid var(--code-bg);
+            transition: max-height 0.4s cubic-bezier(1, 0, 1, 0);
+        }
+
+        .code-block-wrapper {
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .code-block-wrapper pre {
+            margin: 0;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #a9b1d6;
+            line-height: 1.6;
+        }
+
+        .copy-floating-trigger {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.4rem 0.85rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-floating-trigger:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* ==========================================================================
+           7. SYSTEM OVERLAY TOAST DISPATCH HOUSING
+           ========================================================================== */
+        .toast-system-overlay-hub {
+            position: fixed;
+            bottom: 2.5rem;
+            right: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            z-index: 99999;
+            pointer-events: none;
+        }
+
+        .toast-popup-node {
+            pointer-events: auto;
+            background-color: var(--bg-sidebar);
+            color: white;
+            padding: 1.1rem 1.6rem;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            min-width: 320px;
+            border-left: 4px solid var(--primary);
+            transform: translateY(100px);
+            opacity: 0;
+            animation: slideToastIn 0.35s forwards var(--ease-bounce);
+        }
+
+        @keyframes slideToastIn {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Mobile Dynamic Breakpoints Adaptive Adjustments */
+        @media (max-width: 1100px) {
+            .sandbox-workspace-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 992px) {
+            .app-sidebar { transform: translateX(-280px); }
+            .app-main { margin-left: 0; width: 100%; padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-wrapper">
+        <aside class="app-sidebar">
+            <div class="sidebar-top-group">
+                <a href="#" class="app-brand">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>UI-Verse Nexus</span>
+                </a>
+                
+                <div class="sidebar-segment">
+                    <div class="sidebar-heading">Storage Hub</div>
+                    <ul class="sidebar-menu">
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link active">
+                                <div class="sidebar-link-inner"><i class="fa-solid fa-folder-open"></i><span>All Files</span></div>
+                                <span class="menu-count-badge" id="sidebarFileCountTag">0</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">
+                                <div class="sidebar-link-inner"><i class="fa-solid fa-images"></i><span>Images</span></div>
+                                <span class="menu-count-badge">0</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">
+                                <div class="sidebar-link-inner"><i class="fa-solid fa-file-lines"></i><span>Documents</span></div>
+                                <span class="menu-count-badge">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-storage-widget">
+                <div class="storage-widget-meta">
+                    <span>Space Used</span>
+                    <span id="storageWidgetPercentageText">4.2 GB of 10 GB</span>
+                </div>
+                <div class="storage-track-line">
+                    <div class="storage-fill-line" id="storageWidgetFillBar"></div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="app-main">
+            <header class="app-header">
+                <div class="header-title">
+                    <h1>Drag-and-Drop Staging Zone</h1>
+                    <p>Advanced real-time multi-threaded batch upload simulation panel environment.</p>
+                </div>
+                <button class="theme-toggle-trigger" id="canvasThemeToggle" title="Invert Workspace Vision Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </header>
+
+            <div class="sandbox-workspace-grid">
+                
+                <div class="workspace-block-card">
+                    <div class="block-header-bar">
+                        <span class="block-heading-title"><i class="fa-solid fa-circle-dot"></i> Interactive Drop Area</span>
+                        <span class="block-badge">Vanilla API</span>
+                    </div>
+                    <div class="block-body-canvas">
+                        
+                        <div class="uv-dropzone-container" id="dropzoneContainer" tabindex="0">
+                            <input type="file" class="uv-dropzone-hidden-input" id="dropzoneHiddenInput" multiple>
+                            
+                            <div class="uv-dropzone-icon-housing">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+                            <p class="uv-dropzone-primary-text">Drag & drop files here or <span>browse local files</span></p>
+                            <p class="uv-dropzone-secondary-text">Supports images, documents, and archives up to 50MB per batch context.</p>
+                            
+                            <div class="uv-dropzone-limit-tag">
+                                <i class="fa-solid fa-shield-halved"></i> Secure end-to-end transport layer active
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="workspace-block-card">
+                    <div class="block-header-bar">
+                        <span class="block-heading-title"><i class="fa-solid fa-wave-square"></i> Upload Queue Stream</span>
+                        <span class="block-badge" id="queueStatusBadge">Idle</span>
+                    </div>
+                    <div class="block-body-canvas" style="padding: 1.5rem;">
+                        
+                        <div class="pipeline-empty-state" id="queueEmptyState">
+                            <i class="fa-solid fa-box-open"></i>
+                            <p>No active upload transactions detected in the file pipeline stream context.</p>
+                        </div>
+
+                        <ul class="uv-pipeline-list" id="pipelineStreamList" style="display: none;">
+                            </ul>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="inspector-control-housing">
+                <div class="inspector-action-bar">
+                    <button class="code-toggle-btn" id="drawerToggleBtn"><i class="fa-solid fa-code"></i> Code Spec</button>
+                </div>
+                <div class="code-drawer-housing" id="codeDrawerContainer">
+                    <div class="code-block-wrapper">
+                        <button class="copy-floating-trigger" id="clipCopyTrigger">Copy Snippet</button>
+                        <pre><code>&lt;div class="uv-dropzone-container" id="dropzone"&gt;\n  &lt;input type="file" class="uv-dropzone-hidden-input" multiple&gt;\n  &lt;div class="uv-dropzone-icon-housing"&gt;&lt;i class="fa-solid fa-cloud-arrow-up"&gt;&lt;/i&gt;&lt;/div&gt;\n  &lt;p&gt;Drag & drop files here or &lt;span&gt;browse&lt;/span&gt;&lt;/p&gt;\n&lt;/div&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-system-overlay-hub" id="globalToastOverlayHub"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // System Global Cache Allocation References
+            const Application_Cache = {
+                toastQueueCount: 0,
+                maxAllowedToasts: 4,
+                stagedTotalBytesUsed: 4509715200, // 4.2 GB Starting value
+                totalStorageCapacityBytes: 10737418240, // 10 GB Scale limit
+                activeBatchUploadTasks: new Map()
+            };
+
+            // Module UI Hook Selectors
+            const dropzone = document.getElementById('dropzoneContainer');
+            const hiddenInput = document.getElementById('dropzoneHiddenInput');
+            const queueEmptyState = document.getElementById('queueEmptyState');
+            const pipelineList = document.getElementById('pipelineStreamList');
+            const fileCountBadge = document.getElementById('sidebarFileCountTag');
+            const queueStatusBadge = document.getElementById('queueStatusBadge');
+            const fillBar = document.getElementById('storageWidgetFillBar');
+            const textPercentageText = document.getElementById('storageWidgetPercentageText');
+
+            // Hook Event Listener: Trigger hidden platform native file browser arrays
+            dropzone.addEventListener('click', () => hiddenInput.click());
+            
+            // Allow basic keyboard access loops to engage focus selection streams
+            dropzone.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    hiddenInput.click();
+                }
+            });
+
+            // ==========================================================================
+            // DRAG-AND-DROP API MECHANICAL BINDINGS LISTENERS
+            // ==========================================================================
+            const preventDefaults = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            };
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, preventDefaults, false);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropzone.addEventListener(eventName, () => {
+                    dropzone.classList.add('drag-over-active');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, () => {
+                    dropzone.classList.remove('drag-over-active');
+                }, false);
+            });
+
+            dropzone.addEventListener('drop', (e) => {
+                const capturedDataTransferStream = e.dataTransfer;
+                const extractedFileList = capturedDataTransferStream.files;
+                
+                if (extractedFileList.length > 0) {
+                    processIncomingFileBatchStream(extractedFileList);
+                }
+            });
+
+            hiddenInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    processIncomingFileBatchStream(e.target.files);
+                    hiddenInput.value = ''; // Flush native selector fields immediately
+                }
+            });
+
+            // ==========================================================================
+            // COMPONENT CORE PROCESSING HOOK PIPELINE DATA ARRAYS
+            // ==========================================================================
+            function processIncomingFileBatchStream(files) {
+                // Shift visibility maps across container cards panels
+                queueEmptyState.style.display = 'none';
+                pipelineList.style.display = 'flex';
+                queueStatusBadge.textContent = 'Uploading...';
+                queueStatusBadge.style.backgroundColor = 'var(--warning)';
+                queueStatusBadge.style.color = '#ffffff';
+
+                Array.from(files).forEach(file => {
+                    const uniqueTaskId = 'task_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    injectRowItemIntoPipelineStream(file, uniqueTaskId);
+                    initiateSimulatedProgressThread(file, uniqueTaskId);
+                });
+
+                updateSidebarStorageAllocationMetrics();
+            }
+
+            function injectRowItemIntoPipelineStream(file, taskId) {
+                const rowListItem = document.createElement('li');
+                rowListItem.className = 'uv-pipeline-item';
+                rowListItem.id = taskId;
+
+                // Match file icon profiles against text type strings configurations
+                let resolvedTypeClass = 'type-document';
+                let iconGlyphClass = 'fa-file-code';
+                
+                const typeString = file.type.toLowerCase();
+                const nameString = file.name.toLowerCase();
+
+                if (typeString.startsWith('image/')) { resolvedTypeClass = 'type-image'; iconGlyphClass = 'fa-file-image'; }
+                else if (typeString.startsWith('video/')) { resolvedTypeClass = 'type-video'; iconGlyphClass = 'fa-file-video'; }
+                else if (typeString.startsWith('audio/')) { resolvedTypeClass = 'type-audio'; iconGlyphClass = 'fa-file-audio'; }
+                else if (nameString.endsWith('.zip') || nameString.endsWith('.rar') || nameString.endsWith('.tar') || nameString.endsWith('.gz')) {
+                    resolvedTypeClass = 'type-archive'; iconGlyphClass = 'fa-file-zipper';
+                } else if (nameString.endsWith('.pdf') || nameString.endsWith('.doc') || nameString.endsWith('.docx') || nameString.endsWith('.txt')) {
+                    resolvedTypeClass = 'type-document'; iconGlyphClass = 'fa-file-pdf';
+                }
+
+                const printableSizeString = calculateBytesHumanReadableString(file.size);
+
+                rowListItem.innerHTML = `
+                    <div class="file-type-icon-box ${resolvedTypeClass}">
+                        <i class="fa-solid ${iconGlyphClass}"></i>
+                    </div>
+                    <div class="file-item-workspace-core">
+                        <div class="file-meta-row-top">
+                            <span class="file-name-string" title="${file.name}">${file.name}</span>
+                            <span class="file-size-string">${printableSizeString}</span>
+                        </div>
+                        <div class="file-progress-track-shell">
+                            <div class="file-progress-fill-node" id="fill_${taskId}"></div>
+                        </div>
+                        <div class="file-meta-row-bottom">
+                            <span class="upload-status-label" id="statusLabel_${taskId}">
+                                <i class="fa-solid fa-spinner"></i> Transmitting chunks...
+                            </span>
+                            <span class="upload-percentage-string" id="percent_${taskId}">0%</span>
+                        </div>
+                    </div>
+                    <button class="item-action-trigger-btn" title="Cancel transaction upload" data-task-id="${taskId}">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                `;
+
+                pipelineList.appendChild(rowListItem);
+                
+                // Attach transactional closure interception listeners onto cancel cross tags
+                rowListItem.querySelector('.item-action-trigger-btn').addEventListener('click', (e) => {
+                    const explicitTaskId = e.currentTarget.getAttribute('data-task-id');
+                    terminateActiveTransactionThread(explicitTaskId);
+                });
+            }
+
+            function initiateSimulatedProgressThread(file, taskId) {
+                let currentProgressPercentage = 0;
+                const fillNode = document.getElementById(`fill_${taskId}`);
+                const percentText = document.getElementById(`percent_${taskId}`);
+                const statusLabel = document.getElementById(`statusLabel_${taskId}`);
+
+                // Generate variance profiles to simulate real concurrent network speeds loops
+                const totalDurationSteps = Math.floor(Math.random() * 25) + 15;
+                let stepIntervalCounter = 0;
+
+                const networkOrchestrationLoopTimer = setInterval(() => {
+                    stepIntervalCounter++;
+                    currentProgressPercentage = Math.min(100, Math.floor((stepIntervalCounter / totalDurationSteps) * 100));
+
+                    // Mutate DOM surface layouts via accelerated task scheduling frame lines
+                    if (fillNode) fillNode.style.width = `${currentProgressPercentage}%`;
+                    if (percentText) percentText.textContent = `${currentProgressPercentage}%`;
+
+                    if (currentProgressPercentage >= 100) {
+                        clearInterval(networkOrchestrationLoopTimer);
+                        Application_Cache.activeBatchUploadTasks.delete(taskId);
+                        
+                        const itemWrapperCard = document.getElementById(taskId);
+                        if (itemWrapperCard) itemWrapperCard.classList.add('state-complete');
+                        if (statusLabel) statusLabel.innerHTML = `<i class="fa-solid fa-circle-check"></i> Complete`;
+                        
+                        // Push metadata storage variables higher onto systemic tracker indices
+                        Application_Cache.stagedTotalBytesUsed += file.size;
+                        updateSidebarStorageAllocationMetrics();
+                        
+                        dispatchOverlayToastAlert(`File [${file.name}] pushed onto workspace nodes successfully.`, 'success');
+                        evaluateOverallQueueActiveState();
+                    }
+                }, 180);
+
+                Application_Cache.activeBatchUploadTasks.set(taskId, networkOrchestrationLoopTimer);
+            }
+
+            function terminateActiveTransactionThread(taskId) {
+                if (Application_Cache.activeBatchUploadTasks.has(taskId)) {
+                    clearInterval(Application_Cache.activeBatchUploadTasks.get(taskId));
+                    Application_Cache.activeBatchUploadTasks.delete(taskId);
+                }
+
+                const itemRowDomElement = document.getElementById(taskId);
+                if (itemRowDomElement) {
+                    itemRowDomElement.style.transform = 'scale(0.9) translateX(50px)';
+                    itemRowDomElement.style.opacity = '0';
+                    itemRowDomElement.style.transition = 'all 0.3s var(--ease-smooth)';
+                    
+                    setTimeout(() => {
+                        itemRowDomElement.remove();
+                        evaluateOverallQueueActiveState();
+                    }, 300);
+                }
+                
+                dispatchOverlayToastAlert('Transaction sequence dropped by user framework interaction flags.', 'warning');
+            }
+
+            function evaluateOverallQueueActiveState() {
+                const remainingRows = pipelineList.querySelectorAll('.uv-pipeline-item:not(.state-complete)');
+                const totalItemRowsCount = pipelineList.querySelectorAll('.uv-pipeline-item').length;
+                
+                fileCountBadge.textContent = totalItemRowsCount;
+
+                if (totalItemRowsCount === 0) {
+                    queueEmptyState.style.display = 'block';
+                    pipelineList.style.display = 'none';
+                }
+
+                if (remainingRows.length === 0) {
+                    queueStatusBadge.textContent = 'Idle';
+                    queueStatusBadge.style.backgroundColor = '';
+                    queueStatusBadge.style.color = '';
+                }
+            }
+
+            function updateSidebarStorageAllocationMetrics() {
+                const fractionPercentageUsed = (Application_Cache.stagedTotalBytesUsed / Application_Cache.totalStorageCapacityBytes) * 100;
+                if (fillBar) fillBar.style.width = `${Math.min(100, fractionPercentageUsed)}%`;
+                
+                const formattedUsedGB = (Application_Cache.stagedTotalBytesUsed / 1073741824).toFixed(2);
+                if (textPercentageText) textPercentageText.textContent = `${formattedUsedGB} GB of 10 GB`;
+            }
+
+            function calculateBytesHumanReadableString(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const baseScaleFactor = 1024;
+                const extensionUnitsArray = ['Bytes', 'KB', 'MB', 'GB'];
+                const scaleExponentIndex = Math.floor(Math.log(bytes) / Math.log(baseScaleFactor));
+                return parseFloat((bytes / Math.pow(baseScaleFactor, scaleExponentIndex)).toFixed(2)) + ' ' + extensionUnitsArray[scaleExponentIndex];
+            }
+
+            // ==========================================================================
+            // APPLICATION FRAMEWORK DEPLOYMENT PERIPHERALS MODULE HOOKS
+            // ==========================================================================
+            const codeDrawer = document.getElementById('codeDrawerContainer');
+            const drawerToggle = document.getElementById('drawerToggleBtn');
+            
+            drawerToggle.addEventListener('click', () => {
+                codeDrawer.classList.toggle('open');
+                drawerToggle.classList.toggle('active');
+                
+                const isOpen = codeDrawer.classList.contains('open');
+                drawerToggle.innerHTML = isOpen ? 
+                    `<i class="fa-solid fa-folder-open"></i> Hide Spec` : 
+                    `<i class="fa-solid fa-code"></i> Code Spec`;
+            });
+
+            const copyBtn = document.getElementById('clipCopyTrigger');
+            copyBtn.addEventListener('click', () => {
+                const codeSnippetBlock = copyBtn.nextElementSibling.querySelector('code');
+                let unescapedCleanText = codeSnippetBlock.innerText.replace(/\\n/g, '\n');
+                
+                navigator.clipboard.writeText(unescapedCleanText).then(() => {
+                    copyBtn.textContent = 'Copied text!';
+                    copyBtn.style.backgroundColor = 'var(--success)';
+                    dispatchOverlayToastAlert('Component markup asset structure template duplicated onto system clip frames.');
+                    
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Copy Snippet';
+                        copyBtn.style.backgroundColor = '';
+                    }, 2000);
+                });
+            });
+
+            const toastHubOverlay = document.getElementById('globalToastOverlayHub');
+            function dispatchOverlayToastAlert(messageTextString, notificationThemeProfile = 'success') {
+                if (!toastHubOverlay) return;
+
+                if (Application_Cache.toastQueueCount >= Application_Cache.maxAllowedToasts) {
+                    const targetOldestToast = toastHubOverlay.querySelector('.toast-popup-node');
+                    if (targetOldestToast) targetOldestToast.remove();
+                    Application_Cache.toastQueueCount = Math.max(0, Application_Cache.toastQueueCount - 1);
+                }
+
+                const toastPopupNode = document.createElement('div');
+                toastPopupNode.className = 'toast-popup-node';
+                toastPopupNode.innerHTML = `<i class="fa-solid fa-circle-check" style="color:var(--primary)"></i> <span>${messageTextString}</span>`;
+                
+                toastHubOverlay.appendChild(toastPopupNode);
+                Application_Cache.toastQueueCount++;
+
+                setTimeout(() => {
+                    toastPopupNode.style.opacity = '0';
+                    toastPopupNode.style.transform = 'translateY(20px)';
+                    toastPopupNode.style.transition = 'all 0.3s var(--ease-smooth)';
+                    setTimeout(() => {
+                        toastPopupNode.remove();
+                        Application_Cache.toastQueueCount = Math.max(0, Application_Cache.toastQueueCount - 1);
+                    }, 350);
+                }, 3500);
+            }
+
+            const canvasThemeToggle = document.getElementById('canvasThemeToggle');
+            canvasThemeToggle.addEventListener('click', () => {
+                const selectedModeStateToken = document.body.getAttribute('data-theme');
+                if (selectedModeStateToken === 'dark') {
+                    document.body.removeAttribute('data-theme');
+                    canvasThemeToggle.innerHTML = `<i class="fa-solid fa-moon"></i>`;
+                    dispatchOverlayToastAlert('Platform workspace elements inverted back onto standard Light Spectrum profiles.');
+                } else {
+                    document.body.setAttribute('data-theme', 'dark');
+                    canvasThemeToggle.innerHTML = `<i class="fa-solid fa-sun"></i>`;
+                    dispatchOverlayToastAlert('Platform workspace elements inverted onto dark high-density luminance modes.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
