@@ -16,6 +16,49 @@
   <!-- UIverse Runtime Loader -->
   <script src="js/loader.js" defer></script>
     <link rel="stylesheet" href="shared-sidebar.css">
+<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
 </head>
 
 <body>
@@ -25,7 +68,11 @@
   <div class="sidebar-brand">
     <span class="brand-icon" aria-hidden="true">⬡</span>
     <span class="brand-text">Ulverse <span class="brand-version">V2</span></span>
-  </div>
+  
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    </div>
 
   <nav class="sidebar-nav" aria-label="Component categories">
     <ul>

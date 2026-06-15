@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI-Verse - Offline Network-Status Notification Engine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ==========================================================================
+           1. CORE DESIGN SYSTEM VARIABLES & GLOBAL CONFIGURATIONS
+           ========================================================================== */
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: rgba(99, 102, 241, 0.08);
+            
+            /* Structural Alert Colors */
+            --success: #10b981;
+            --success-hover: #059669;
+            --success-light: rgba(16, 185, 129, 0.08);
+            --warning: #f59e0b;
+            --warning-light: rgba(245, 158, 11, 0.08);
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+            --danger-light: rgba(239, 68, 68, 0.08);
+            
+            /* Interface Canvas Variables - Default Light Layout */
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-sidebar: #0f172a;
+            --border-color: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-on-sidebar: #94a3b8;
+            --code-bg: #1e1e2e;
+            
+            /* Boundary Proportions Variables */
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-round: 9999px;
+            
+            /* Dynamic Elevation Drops Shadows */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05);
+            --shadow-banner: 0 12px 40px rgba(15, 23, 42, 0.22);
+            
+            /* Motion Kinetics Timing Curves */
+            --transition-normal: 0.3s;
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* High-Density Dark Mode Variable Mappings */
+        [data-theme="dark"] {
+            --bg-main: #090d16;
+            --bg-card: #131b2e;
+            --border-color: #22314d;
+            --text-main: #f1f5f9;
+            --text-muted: #8495aa;
+            --shadow-banner: 0 12px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Standard CSS Resets */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+            transition: background-color var(--transition-normal), color var(--transition-normal);
+        }
+
+        /* ==========================================================================
+           2. CENTRAL LAYOUTBLUEPRINT FRAMEWORK (DASHBOARD)
+           ========================================================================== */
+        .hub-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Control Center Sidebar Structural Grid */
+        .hub-sidebar {
+            width: 280px;
+            background-color: var(--bg-sidebar);
+            color: #ffffff;
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .hub-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .hub-brand i {
+            color: var(--primary);
+            font-size: 1.6rem;
+        }
+
+        .sidebar-heading {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.25);
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            padding-left: 0.75rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-item {
+            margin-bottom: 0.35rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 1rem;
+            color: var(--text-on-sidebar);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s var(--ease-smooth);
+        }
+
+        .sidebar-link-inner {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+        }
+
+        .sidebar-link.active i {
+            color: var(--primary);
+        }
+
+        .sidebar-status-pill {
+            font-size: 0.75rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+        }
+        
+        .status-online-pill { background-color: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .status-offline-pill { background-color: rgba(239, 68, 68, 0.15); color: var(--danger); }
+
+        /* Workspace Core Canvas Framework Body */
+        .hub-main {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2.5rem 3.5rem;
+            max-width: 1500px;
+            width: calc(100% - 280px);
+        }
+
+        .hub-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-title h1 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle-trigger {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-round);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s var(--ease-smooth);
+        }
+
+        .theme-toggle-trigger:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        /* ==========================================================================
+           3. TWO-COLUMN BLUEPRINT WORKSPACE LAB GRID
+           ========================================================================== */
+        .sandbox-workspace-grid {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .workspace-block-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .block-header-bar {
+            padding: 1.25rem 1.75rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.005);
+        }
+
+        .block-heading-title {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
+        .block-heading-title i {
+            color: var(--primary);
+        }
+
+        .block-badge {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .block-body-canvas {
+            padding: 2.25rem;
+        }
+
+        /* Central Form Interactive Fields Controllers */
+        .mock-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .mock-form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .mock-form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid var(--border-color);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .mock-form-input:focus {
+            border-color: var(--primary);
+            background-color: var(--bg-card);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+
+        /* Staging Trigger Buttons Grid */
+        .simulation-controls-box {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .sim-btn {
+            width: 100%;
+            padding: 0.85rem 1.25rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            transition: all 0.2s var(--ease-smooth);
+            color: #ffffff;
+        }
+
+        .btn-drop-signal { background-color: var(--danger); }
+        .btn-drop-signal:hover { background-color: var(--danger-hover); transform: translateY(-1px); }
+        
+        .btn-restore-signal { background-color: var(--success); }
+        .btn-restore-signal:hover { background-color: var(--success-hover); transform: translateY(-1px); }
+
+        /* Sync Logs Feed Panel */
+        .logs-terminal-stream {
+            list-style: none;
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            height: 180px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .log-line-item {
+            display: flex;
+            gap: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .log-line-item.info-line i { color: var(--primary); }
+        .log-line-item.success-line i { color: var(--success); }
+        .log-line-item.danger-line i { color: var(--danger); }
+
+        /* ==========================================================================
+           4. CORE COMPONENT STYLING: OFFLINE SYSTEM DISPATCH BANNER
+           ========================================================================== */
+        .uv-status-banner-housing {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999999;
+            transform: translateY(-120%); /* Locked offscreen by default configurations */
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        opacity 0.3s var(--ease-smooth);
+        }
+
+        /* Open programmatic active state mappings */
+        .uv-status-banner-housing.banner-active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .uv-status-banner-card {
+            background-color: var(--bg-sidebar);
+            color: #ffffff;
+            padding: 1rem 1.75rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-banner);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2.5rem;
+            width: 100%;
+            max-width: 580px;
+            border-left: 5px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .banner-left-context {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .banner-icon-box {
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            position: relative;
+        }
+
+        /* Pulsing indicator ring effects for real-time status alerts draw */
+        .banner-icon-box::after {
+            content: '';
+            position: absolute;
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
+            animation: pulseWaveAlert 2s infinite linear;
+        }
+
+        @keyframes pulseWaveAlert {
+            0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.3); }
+            70% { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+        }
+
+        .banner-text-frame h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: -0.1px;
+            margin-bottom: 0.15rem;
+        }
+
+        .banner-text-frame p {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+
+        /* Action Buttons mapped straight inside alert containers */
+        .banner-action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            padding: 0.45rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s var(--ease-smooth);
+        }
+
+        .banner-action-btn:hover {
+            background: #ffffff;
+            color: var(--bg-sidebar);
+            border-color: #ffffff;
+        }
+
+        /* Context Specific Theme Mappings via internal dynamic modifiers */
+        .uv-status-banner-card.mode-offline {
+            border-left-color: var(--danger);
+        }
+        .uv-status-banner-card.mode-offline .banner-icon-box {
+            color: var(--danger);
+        }
+
+        .uv-status-banner-card.mode-online {
+            border-left-color: var(--success);
+        }
+        .uv-status-banner-card.mode-online .banner-icon-box {
+            color: var(--success);
+        }
+        .uv-status-banner-card.mode-online .banner-icon-box i {
+            animation: none;
+        }
+
+        /* ==========================================================================
+           5. LIVE CODE SPECTATOR INTERACTION SUB-PANELS
+           ========================================================================== */
+        .inspector-control-housing {
+            margin-top: 3.5rem;
+        }
+
+        .inspector-action-bar {
+            padding: 0.85rem 1.75rem;
+            display: flex;
+            justify-content: flex-end;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            background-color: rgba(0, 0, 0, 0.005);
+            border-top-left-radius: var(--radius-md);
+            border-top-right-radius: var(--radius-md);
+        }
+
+        .code-toggle-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1.25rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-fast) var(--ease-smooth);
+        }
+
+        .code-toggle-btn:hover, .code-toggle-btn.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .code-drawer-housing {
+            max-height: 0;
+            overflow: hidden;
+            background-color: var(--code-bg);
+            border-bottom-left-radius: var(--radius-md);
+            border-bottom-right-radius: var(--radius-md);
+            transition: max-height var(--transition-normal) cubic-bezier(0, 1, 0, 1);
+        }
+
+        .code-drawer-housing.open {
+            max-height: 2000px;
+            border: 1px solid var(--code-bg);
+            transition: max-height var(--transition-normal) cubic-bezier(1, 0, 1, 0);
+        }
+
+        .code-block-wrapper {
+            padding: 1.75rem;
+            position: relative;
+        }
+
+        .code-block-wrapper pre {
+            margin: 0;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #a9b1d6;
+            line-height: 1.6;
+        }
+
+        .copy-floating-trigger {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.45rem 0.95rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-floating-trigger:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Global Peripheral Toast Core Overlay Alerts */
+        .toast-system-overlay-hub {
+            position: fixed;
+            bottom: 2.5rem;
+            right: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            z-index: 999999;
+            pointer-events: none;
+        }
+
+        .toast-popup-node {
+            pointer-events: auto;
+            background-color: var(--bg-sidebar);
+            color: white;
+            padding: 1.1rem 1.6rem;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            font-size: 0.925rem;
+            font-weight: 500;
+            min-width: 320px;
+            border-left: 4px solid var(--primary);
+            transform: translateY(100px);
+            opacity: 0;
+            animation: slideToastIn 0.35s forwards var(--ease-bounce);
+        }
+
+        @keyframes slideToastIn {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 1150px) {
+            .sandbox-workspace-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 992px) {
+            .hub-sidebar { transform: translateX(-280px); }
+            .hub-main { margin-left: 0; width: 100%; padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hub-wrapper">
+        <aside class="hub-sidebar">
+            <a href="#" class="hub-brand">
+                <i class="fa-solid fa-network-wired"></i>
+                <span>Nexus NetLab</span>
+            </a>
+            
+            <div class="sidebar-segment">
+                <div class="sidebar-heading">Ecosystem State</div>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link active">
+                            <div class="sidebar-link-inner"><i class="fa-solid fa-server"></i><span>Cloud Sync</span></div>
+                            <span class="sidebar-status-pill status-online-pill" id="sidebarStatusIndicator">ONLINE</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <div class="sidebar-link-inner"><i class="fa-solid fa-database"></i><span>Local Cache</span></div>
+                            <span class="menu-count-badge" id="sidebarCacheCountTag" style="font-size:0.75rem; background:rgba(255,255,255,0.06); padding:0.15rem 0.5rem; border-radius:4px;">0 blocks</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="hub-main">
+            <header class="hub-header">
+                <div class="header-title">
+                    <h1>Network Status Monitor</h1>
+                    <p>Real-time connectivity interruption interceptor banner with local buffer integration.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle-trigger" id="canvasThemeToggle" title="Toggle System Theme Mode">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="sandbox-workspace-grid">
+                
+                <div class="workspace-block-card">
+                    <div class="block-header-bar">
+                        <span class="block-heading-title"><i class="fa-solid fa-file-pen"></i> Form State Backup Staging</span>
+                        <span class="block-badge">Persistent</span>
+                    </div>
+                    <div class="block-body-canvas">
+                        <form id="sandboxMockForm" onsubmit="event.preventDefault();">
+                            <div class="mock-form-group">
+                                <label for="documentTitle">Project Descriptor Name</label>
+                                <input type="text" class="mock-form-input" id="documentTitle" placeholder="Enter configuration tags strings..." autocomplete="off">
+                            </div>
+                            <div class="mock-form-group">
+                                <label for="documentPayload">Data Payload Package</label>
+                                <textarea class="mock-form-input" id="documentPayload" rows="4" placeholder="Type transactional fields here (auto-caches locally when offline)..." autocomplete="off"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="workspace-block-card">
+                    <div class="block-header-bar">
+                        <span class="block-heading-title"><i class="fa-solid fa-tower-broadcast"></i> Network Trigger Array</span>
+                        <span class="block-badge">Control Unit</span>
+                    </div>
+                    <div class="block-body-canvas" style="display:flex; flex-direction:column; gap:1.75rem;">
+                        
+                        <div class="simulation-controls-box">
+                            <button class="sim-btn btn-drop-signal" id="triggerOfflineBtn">
+                                <i class="fa-solid fa-wifi"></i> Simulate Connection Drop
+                            </button>
+                            <button class="sim-btn btn-restore-signal" id="triggerOnlineBtn" style="display: none;">
+                                <i class="fa-solid fa-circle-nodes"></i> Restore Connectivity Track
+                            </button>
+                        </div>
+
+                        <div class="terminal-container">
+                            <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom:0.5rem; color:var(--text-muted);">
+                                Telemetry Action Stream Log
+                            </div>
+                            <ul class="logs-terminal-stream" id="logsTerminalStream">
+                                <li class="log-line-item info-line"><i class="fa-solid fa-info"></i> <span>Telemetry track deployed. Core hooks operational.</span></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="inspector-control-housing">
+                <div class="inspector-action-bar">
+                    <button class="code-toggle-btn" id="drawerToggleBtn"><i class="fa-solid fa-code"></i> Code Spec</button>
+                </div>
+                <div class="code-drawer-housing" id="codeDrawerContainer">
+                    <div class="code-block-wrapper">
+                        <button class="copy-floating-trigger" id="clipCopyTrigger">Copy Snippet</button>
+                        <pre><code>&lt;!-- Smart Network Notification Banner Layout Framework Template --&gt;\n&lt;div class="uv-status-banner-housing" id="networkBanner"&gt;\n  &lt;div class="uv-status-banner-card mode-offline"&gt;\n    &lt;div class="banner-left-context"&gt;\n      &lt;div class="banner-icon-box"&gt;&lt;i class="fa-solid fa-wifi"&gt;&lt;/i&gt;&lt;/div&gt;\n      &lt;div class="banner-text-frame"&gt;\n        &lt;h4&gt;Network Connection Interrupted&lt;/h4&gt;\n        &lt;p&gt;Data writes are safely redirected to backup caching modules.&lt;/p&gt;\n      &lt;/div&gt;\n    &lt;/div&gt;\n  &lt;/div&gt;\n&lt;/div&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="uv-status-banner-housing" id="networkStatusBannerHousing">
+        <div class="uv-status-banner-card mode-offline" id="networkStatusBannerCard">
+            <div class="banner-left-context">
+                <div class="banner-icon-box" id="bannerIconContainer">
+                    <i class="fa-solid fa-wifi" id="bannerIconGlyph"></i>
+                </div>
+                <div class="banner-text-frame">
+                    <h4 id="bannerHeaderTitle">Network Disconnected</h4>
+                    <p id="bannerSubDescription">Local updates are currently locked inside local buffer frames.</p>
+                </div>
+            </div>
+            <div class="banner-right-actions">
+                <button class="banner-action-btn" id="bannerActionTriggerBtn" style="display:none;">Sync Cache</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-system-overlay-hub" id="globalToastOverlayHub"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Core Context Framework Variables Store Maps
+            const Runtime_Context_Cache = {
+                toastQueueCounter: 0,
+                maxToastsAllowed: 4,
+                isSystemArtificiallyOffline: false,
+                localBufferBlocksCount: 0,
+                bannerAutoDismissTimer: null
+            };
+
+            // Capture Node Target Access Allocations Selector Links
+            const bannerHousing = document.getElementById('networkStatusBannerHousing');
+            const bannerCard = document.getElementById('networkStatusBannerCard');
+            const bannerHeader = document.getElementById('bannerHeaderTitle');
+            const bannerDesc = document.getElementById('bannerSubDescription');
+            const bannerIconGlyph = document.getElementById('bannerIconGlyph');
+            const bannerActionBtn = document.getElementById('bannerActionTriggerBtn');
+            
+            const sidebarPill = document.getElementById('sidebarStatusIndicator');
+            const cacheCounterTag = document.getElementById('sidebarCacheCountTag');
+            const logsTerminal = document.getElementById('logsTerminalStream');
+            
+            const btnSimOffline = document.getElementById('triggerOfflineBtn');
+            const btnSimOnline = document.getElementById('triggerOnlineBtn');
+            const inputTitle = document.getElementById('documentTitle');
+            const inputPayload = document.getElementById('documentPayload');
+
+            // Initialize baseline network status parameters cleanly on startup
+            synchronizeEcosystemConnectivityTrack(navigator.onLine);
+
+            // ==========================================================================
+            // NATIVE BROWSER WEB API LISTENER CORE CONNECTIONS
+            // ==========================================================================
+            window.addEventListener('online', () => {
+                if (!Runtime_Context_Cache.isSystemArtificiallyOffline) {
+                    synchronizeEcosystemConnectivityTrack(true);
+                }
+            });
+
+            window.addEventListener('offline', () => {
+                synchronizeEcosystemConnectivityTrack(false);
+            });
+
+            // ==========================================================================
+            // SIMULATED HARNESS GESTURE CONTROL CAPTURES
+            // ==========================================================================
+            btnSimOffline.addEventListener('click', () => {
+                Runtime_Context_Cache.isSystemArtificiallyOffline = true;
+                btnSimOffline.style.display = 'none';
+                btnSimOnline.style.display = 'flex';
+                synchronizeEcosystemConnectivityTrack(false);
+            });
+
+            btnSimOnline.addEventListener('click', () => {
+                Runtime_Context_Cache.isSystemArtificiallyOffline = false;
+                btnSimOnline.style.display = 'none';
+                btnSimOffline.style.display = 'flex';
+                synchronizeEcosystemConnectivityTrack(true);
+            });
+
+            // Monitor keyboard validation checks and cache states across input nodes
+            [inputTitle, inputPayload].forEach(inputNode => {
+                inputNode.addEventListener('input', () => {
+                    if (!navigator.onLine || Runtime_Context_Cache.isSystemArtificiallyOffline) {
+                        Runtime_Context_Cache.localBufferBlocksCount++;
+                        cacheCounterTag.textContent = `${Runtime_Context_Cache.localBufferBlocksCount} blocks`;
+                        appendTerminalLogItem("Local update cached to isolation storage buffer layer.", "info-line");
+                    }
+                });
+            });
+
+            // ==========================================================================
+            // CENTRALIZED STATUS ARCHITECTURE RENDERING PIPELINES
+            // ==========================================================================
+            function synchronizeEcosystemConnectivityTrack(isOnline) {
+                clearTimeout(Runtime_Context_Cache.bannerAutoDismissTimer);
+
+                if (isOnline) {
+                    // Update core structural flags across global dashboard matrices
+                    sidebarPill.textContent = "ONLINE";
+                    sidebarPill.className = "sidebar-status-pill status-online-pill";
+                    appendTerminalLogItem("Transport channel handshake confirmed. Connected.", "success-line");
+
+                    // Mutate banner variables properties to display success recovery states
+                    bannerCard.className = "uv-status-banner-card mode-online";
+                    bannerIconGlyph.className = "fa-solid fa-circle-check";
+                    bannerHeader.textContent = "Connection Restored";
+                    
+                    if (Runtime_Context_Cache.localBufferBlocksCount > 0) {
+                        bannerDesc.textContent = `Syncing ${Runtime_Context_Cache.localBufferBlocksCount} cached storage block transactions...`;
+                        bannerActionBtn.style.display = "block";
+                    } else {
+                        bannerDesc.textContent = "Your session is fully synchronized with remote workspace nodes.";
+                        bannerActionBtn.style.display = "none";
+                    }
+
+                    // Schedule automatic dismiss animation frame timing delays
+                    bannerHousing.classList.add('banner-active');
+                    Runtime_Context_Cache.bannerAutoDismissTimer = setTimeout(() => {
+                        bannerHousing.classList.remove('banner-active');
+                    }, 4000);
+
+                } else {
+                    // Update core structural flags across global dashboard matrices
+                    sidebarPill.textContent = "OFFLINE";
+                    sidebarPill.className = "sidebar-status-pill status-offline-pill";
+                    appendTerminalLogItem("Heartbeat missed. Connection carrier wave tracking lost.", "danger-line");
+
+                    // Mutate banner variables properties to display warning connection drop logs
+                    bannerCard.className = "uv-status-banner-card mode-offline";
+                    bannerIconGlyph.className = "fa-solid fa-wifi";
+                    bannerHeader.textContent = "Network Carrier Disconnected";
+                    bannerDesc.textContent = "Local workspace variables updates are securely buffered inside browser operational modules.";
+                    bannerActionBtn.style.display = "none";
+                    
+                    bannerHousing.classList.add('banner-active');
+                }
+            }
+
+            // Sync caching trigger execution mock pipelines handler
+            bannerActionBtn.addEventListener('click', () => {
+                bannerActionBtn.disabled = true;
+                bannerActionBtn.textContent = "Syncing...";
+                appendTerminalLogItem("Flushing buffer blocks to upstream storage clusters...", "info-line");
+
+                setTimeout(() => {
+                    appendTerminalLogItem(`Successfully integrated ${Runtime_Context_Cache.localBufferBlocksCount} data blocks cleanly.`, "success-line");
+                    Runtime_Context_Cache.localBufferBlocksCount = 0;
+                    cacheCounterTag.textContent = "0 blocks";
+                    
+                    bannerDesc.textContent = "Ecosystem context data synchronization process absolute.";
+                    bannerActionBtn.style.display = "none";
+                    bannerActionBtn.disabled = false;
+                    bannerActionBtn.textContent = "Sync Cache";
+                    
+                    dispatchOverlayToastAlert("Cloud cache sync complete. Structural integrity intact.", "success");
+                    
+                    setTimeout(() => {
+                        bannerHousing.classList.remove('banner-active');
+                    }, 1500);
+                }, 1800);
+            });
+
+            // Terminal display utilities log generator
+            function appendTerminalLogItem(messageText, lineClassType) {
+                const logLine = document.createElement('li');
+                logLine.className = `log-line-item ${lineClassType}`;
+                
+                let iconType = 'fa-info';
+                if (lineClassType === 'success-line') iconType = 'fa-circle-check';
+                if (lineClassType === 'danger-line') iconType = 'fa-triangle-exclamation';
+
+                logLine.innerHTML = `<i class="fa-solid ${iconType}"></i> <span>[${new Date().toLocaleTimeString()}] ${messageText}</span>`;
+                logsTerminal.appendChild(logLine);
+                logsTerminal.scrollTop = logsTerminal.scrollHeight; // Keep scrolling focused down
+            }
+
+            // ==========================================================================
+            // APPLICATION SANDBOX PERIPHERALS EXPORTER HOOKS MODULES
+            // ==========================================================================
+            const codeDrawer = document.getElementById('codeDrawerContainer');
+            const drawerToggle = document.getElementById('drawerToggleBtn');
+            
+            drawerToggle.addEventListener('click', () => {
+                codeDrawer.classList.toggle('open');
+                drawerToggle.classList.toggle('active');
+                
+                const isOpen = codeDrawer.classList.contains('open');
+                drawerToggle.innerHTML = isOpen ? 
+                    `<i class="fa-solid fa-folder-open"></i> Hide Spec` : 
+                    `<i class="fa-solid fa-code"></i> Code Spec`;
+            });
+
+            const copyBtn = document.getElementById('clipCopyTrigger');
+            copyBtn.addEventListener('click', () => {
+                const codeSnippetBlock = copyBtn.nextElementSibling.querySelector('code');
+                let unescapedCleanText = codeSnippetBlock.innerText.replace(/\\n/g, '\n');
+                
+                navigator.clipboard.writeText(unescapedCleanText).then(() => {
+                    copyBtn.textContent = 'Copied text!';
+                    copyBtn.style.backgroundColor = 'var(--success)';
+                    dispatchOverlayToastAlert('Component alert tracking template copied to clipboard storage targets.');
+                    
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Copy Snippet';
+                        copyBtn.style.backgroundColor = '';
+                    }, 2000);
+                });
+            });
+
+            const toastHubOverlay = document.getElementById('globalToastOverlayHub');
+            function dispatchOverlayToastAlert(messageTextString, notificationThemeProfile = 'success') {
+                if (!toastHubOverlay) return;
+
+                if (Runtime_Context_Cache.toastQueueCounter >= Runtime_Context_Cache.maxToastsAllowed) {
+                    const targetOldestToast = toastHubOverlay.querySelector('.toast-popup-node');
+                    if (targetOldestToast) targetOldestToast.remove();
+                    Runtime_Context_Cache.toastQueueCounter = Math.max(0, Runtime_Context_Cache.toastQueueCounter - 1);
+                }
+
+                const toastPopupNode = document.createElement('div');
+                toastPopupNode.className = 'toast-popup-node';
+                toastPopupNode.innerHTML = `<i class="fa-solid fa-circle-check" style="color:var(--primary)"></i> <span>${messageTextString}</span>`;
+                
+                toastHubOverlay.appendChild(toastPopupNode);
+                Runtime_Context_Cache.toastQueueCounter++;
+
+                setTimeout(() => {
+                    toastPopupNode.style.opacity = '0';
+                    toastPopupNode.style.transform = 'translateY(20px)';
+                    toastPopupNode.style.transition = 'all 0.3s var(--ease-smooth)';
+                    setTimeout(() => {
+                        toastPopupNode.remove();
+                        Runtime_Context_Cache.toastQueueCounter = Math.max(0, Runtime_Context_Cache.toastQueueCounter - 1);
+                    }, 350);
+                }, 3500);
+            }
+
+            const canvasThemeToggle = document.getElementById('canvasThemeToggle');
+            canvasThemeToggle.addEventListener('click', () => {
+                const selectedModeStateToken = document.body.getAttribute('data-theme');
+                if (selectedModeStateToken === 'dark') {
+                    document.body.removeAttribute('data-theme');
+                    canvasThemeToggle.innerHTML = `<i class="fa-solid fa-moon"></i>`;
+                    dispatchOverlayToastAlert('Layout parameters restored to Light Specification channels.');
+                } else {
+                    document.body.setAttribute('data-theme', 'dark');
+                    canvasThemeToggle.innerHTML = `<i class="fa-solid fa-sun"></i>`;
+                    dispatchOverlayToastAlert('Layout parameters altered onto high-contrast Dark Contrast mode.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

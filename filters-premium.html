@@ -14,7 +14,50 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <link rel="stylesheet" href="filters-premium.css">
-    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
+</head>
 
 <body>
 
@@ -1031,6 +1074,263 @@
     &lt;/div&gt;</code></pre>
     </div>
 
+    <!-- 1. NEUMORPHIC RANGE SLIDER -->
+    <div class="component-card" data-category="neumorphic">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="neumorphic-filter">
+            <h4 class="neu-title">Volume Level</h4>
+            <div class="neu-range-wrap">
+              <input type="range" class="neu-range" min="0" max="100" value="75" oninput="document.getElementById('neuVal').innerText=this.value+'%'">
+            </div>
+            <div class="neu-value" id="neuVal">75%</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Neumorphic Range</h3><span>Neumorphic</span></div>
+        <p>Soft UI 3D extruded range slider with floating value display.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('codeNeu', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('codeNeu', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codeNeu" style="display:none;"><code>&lt;div class="neumorphic-filter"&gt;
+  &lt;input type="range" class="neu-range" min="0" max="100" value="75"&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 2. CIRCULAR COLOR SWATCHES -->
+    <div class="component-card" data-category="colors">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="circ-color-filter">
+            <h4>Select Color</h4>
+            <div class="circ-colors">
+              <div class="circ-swatch" style="--c:#ff5252;" onclick="toggleCirc(this)"></div>
+              <div class="circ-swatch active" style="--c:#448aff;" onclick="toggleCirc(this)"></div>
+              <div class="circ-swatch" style="--c:#69f0ae;" onclick="toggleCirc(this)"></div>
+              <div class="circ-swatch" style="--c:#ffd740;" onclick="toggleCirc(this)"></div>
+              <div class="circ-swatch" style="--c:#e040fb;" onclick="toggleCirc(this)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Circular Colors</h3><span>Color</span></div>
+        <p>Animated ring selection for color swatches with pop effect.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('codeCirc', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('codeCirc', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codeCirc" style="display:none;"><code>&lt;div class="circ-colors"&gt;
+  &lt;div class="circ-swatch" style="--c:#ff5252;"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 3. GLASSMORPHIC PILL TAGS -->
+    <div class="component-card" data-category="tags">
+      <div class="card-preview" style="background: linear-gradient(135deg, #1e3a8a, #7c3aed);">
+        <div class="card-interactive-area full-width">
+          <div class="glass-tags-wrap">
+            <div class="glass-tag active" onclick="this.classList.toggle('active')">Design</div>
+            <div class="glass-tag" onclick="this.classList.toggle('active')">Code</div>
+            <div class="glass-tag" onclick="this.classList.toggle('active')">Marketing</div>
+            <div class="glass-tag active" onclick="this.classList.toggle('active')">AI</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Glassmorphic Tags</h3><span>Tags</span></div>
+        <p>Frosted glass effect pills with active states for multi-select.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('codeGlass', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('codeGlass', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codeGlass" style="display:none;"><code>&lt;div class="glass-tag active"&gt;Design&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 4. GRADIENT RANGE SELECTION -->
+    <div class="component-card" data-category="range">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="grad-range-filter">
+            <h4>Intensity</h4>
+            <input type="range" class="grad-range" min="1" max="100" value="50" oninput="this.style.setProperty('--val', this.value+'%')">
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Gradient Range</h3><span>Slider</span></div>
+        <p>Slider that dynamically colors its track using a gradient mask based on value.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('codeGrad', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('codeGrad', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codeGrad" style="display:none;"><code>&lt;input type="range" class="grad-range"&gt;</code></pre>
+    </div>
+
+    <!-- 5. 3D TOGGLE LIST -->
+    <div class="component-card" data-category="toggles">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="toggle-3d-list">
+            <label class="toggle-3d"><input type="checkbox" checked><span class="t-slider"></span><span class="t-label">Wi-Fi</span></label>
+            <label class="toggle-3d"><input type="checkbox"><span class="t-slider"></span><span class="t-label">Bluetooth</span></label>
+            <label class="toggle-3d"><input type="checkbox" checked><span class="t-slider"></span><span class="t-label">NFC</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>3D Toggle List</h3><span>Toggles</span></div>
+        <p>Chunky 3D toggle switches with realistic depth and shadow.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('codeTog', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('codeTog', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codeTog" style="display:none;"><code>&lt;label class="toggle-3d"&gt;
+  &lt;input type="checkbox"&gt;&lt;span class="t-slider"&gt;&lt;/span&gt;
+&lt;/label&gt;</code></pre>
+    </div>
+
+    <!-- 6. GLOWING CHECKBOX TREE -->
+    <div class="component-card" data-category="checkbox">
+      <div class="card-preview" style="background:#111827;">
+        <div class="card-interactive-area full-width">
+          <div class="glow-check-tree">
+            <label class="glow-check"><input type="checkbox" checked><span class="g-box"></span> Electronics</label>
+            <div class="glow-check-sub">
+              <label class="glow-check"><input type="checkbox" checked><span class="g-box"></span> Phones</label>
+              <label class="glow-check"><input type="checkbox"><span class="g-box"></span> Laptops</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Glowing Checkbox</h3><span>Tree</span></div>
+        <p>Neon glowing checkboxes for dark UI category filtering.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('codeGlow', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('codeGlow', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codeGlow" style="display:none;"><code>&lt;label class="glow-check"&gt;
+  &lt;input type="checkbox"&gt;&lt;span class="g-box"&gt;&lt;/span&gt; Text
+&lt;/label&gt;</code></pre>
+    </div>
+
+    <!-- 7. PRICING TIERS FILTER -->
+    <div class="component-card" data-category="pricing">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="tier-filter-wrap">
+            <div class="tier-card" onclick="selectTier(this)">Basic<br><span>$10</span></div>
+            <div class="tier-card active" onclick="selectTier(this)">Pro<br><span>$29</span></div>
+            <div class="tier-card" onclick="selectTier(this)">Ultra<br><span>$99</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Pricing Tiers</h3><span>Selection</span></div>
+        <p>Selectable pricing tier cards that act as high-level filters.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('codeTier', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('codeTier', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codeTier" style="display:none;"><code>&lt;div class="tier-card active"&gt;Pro&lt;br&gt;&lt;span&gt;$29&lt;/span&gt;&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 8. EXPANDING RADIAL MENU -->
+    <div class="component-card" data-category="radial">
+      <div class="card-preview">
+        <div class="card-interactive-area" style="position:relative; height:180px;">
+          <div class="radial-filter" id="radialFilter">
+            <button class="rad-btn main-rad" onclick="this.parentElement.classList.toggle('open')"><i class="fa-solid fa-filter"></i></button>
+            <button class="rad-btn item-rad r1" title="Sort A-Z"><i class="fa-solid fa-arrow-down-a-z"></i></button>
+            <button class="rad-btn item-rad r2" title="Price Low-High"><i class="fa-solid fa-dollar-sign"></i></button>
+            <button class="rad-btn item-rad r3" title="Top Rated"><i class="fa-solid fa-star"></i></button>
+            <button class="rad-btn item-rad r4" title="Newest"><i class="fa-solid fa-clock"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Radial Menu</h3><span>Menu</span></div>
+        <p>Floating action button that expands into a radial filter menu.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('codeRad', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('codeRad', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codeRad" style="display:none;"><code>&lt;div class="radial-filter open"&gt;
+  &lt;button class="rad-btn main-rad"&gt;...&lt;/button&gt;
+  &lt;button class="rad-btn item-rad r1"&gt;...&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 9. MINIMALIST SLIDING TABS -->
+    <div class="component-card" data-category="tabs">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="min-sliding-tabs">
+            <div class="min-tab-bg" id="minTabBg"></div>
+            <button class="min-tab active" onclick="moveMinTab(this, 0)">Daily</button>
+            <button class="min-tab" onclick="moveMinTab(this, 1)">Weekly</button>
+            <button class="min-tab" onclick="moveMinTab(this, 2)">Monthly</button>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Sliding Tabs</h3><span>Filter Tabs</span></div>
+        <p>Minimalist tab control with sliding background indicator.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('codeTabs', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('codeTabs', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codeTabs" style="display:none;"><code>&lt;div class="min-sliding-tabs"&gt;
+  &lt;div class="min-tab-bg"&gt;&lt;/div&gt;
+  &lt;button class="min-tab active"&gt;Daily&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 10. POLAROID IMAGE FILTER -->
+    <div class="component-card" data-category="image">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="polaroid-filter-wrap">
+            <div class="pol-card active" onclick="togglePol(this)">
+              <div class="pol-img" style="background:#f43f5e;"></div>
+              <span>Red</span>
+            </div>
+            <div class="pol-card" onclick="togglePol(this)">
+              <div class="pol-img" style="background:#3b82f6;"></div>
+              <span>Blue</span>
+            </div>
+            <div class="pol-card" onclick="togglePol(this)">
+              <div class="pol-img" style="background:#10b981;"></div>
+              <span>Green</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Visual Image Filter</h3><span>Cards</span></div>
+        <p>Image-based selection cards with hover lift and border highlight.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('codePol', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('codePol', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codePol" style="display:none;"><code>&lt;div class="pol-card active"&gt;
+  &lt;div class="pol-img"&gt;&lt;/div&gt;
+  &lt;span&gt;Label&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+    </div>
   </div>
 
 
@@ -1126,7 +1426,11 @@
   <div class="sidebar-brand">
     <span class="brand-icon">⬡</span>
     <span class="brand-text">UIverse <span style="font-size: 9px; background: linear-gradient(135deg, #eb6835, #7b61ff); color: white; padding: 1px 6px; border-radius: 10px; font-weight: 800; margin-left: 4px; letter-spacing: 0.5px; vertical-align: middle; box-shadow: 0 0 8px rgba(235,104,53,0.3);">V2</span></span>
-  </div>
+  
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    </div>
   <nav class="sidebar-nav">
     <ul>
       <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
@@ -1196,6 +1500,7 @@
     </ul>
   </nav>
 </aside>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
 <script>
   // FILTER TAB highlights
@@ -1667,6 +1972,30 @@
     const v = +input.value;
     document.getElementById('cyberSliderFill').style.width = (v / 255 * 100) + '%';
     document.getElementById('cyberHexVal').textContent = '0x' + v.toString(16).toUpperCase().padStart(2, '0');
+  }
+
+  // New Filter JS Logic
+  function toggleCirc(el) {
+    document.querySelectorAll('.circ-swatch').forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function selectTier(el) {
+    document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function moveMinTab(el, index) {
+    const parent = el.parentElement;
+    parent.querySelectorAll('.min-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const bg = parent.querySelector('.min-tab-bg');
+    bg.style.left = `calc(4px + ${index * 33.333}%)`;
+  }
+
+  function togglePol(el) {
+    document.querySelectorAll('.pol-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
   }
 
 </script>

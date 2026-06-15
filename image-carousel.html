@@ -30,7 +30,50 @@
 
 
   <!-- UIverse Modular CSS Architecture -->
-    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
+</head>
 
 <body>
   <!-- ================= SIDEBAR ================= -->
@@ -39,7 +82,11 @@
   <div class="sidebar-brand">
     <span class="brand-icon">⬡</span>
     <span class="brand-text">UIverse</span>
-  </div>
+  
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    </div>
 
           <nav class="sidebar-nav">
     <ul>
@@ -374,6 +421,7 @@
 </div>
 
 </aside>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
 
   <!-- ================= NAVBAR ================= -->
@@ -1227,6 +1275,131 @@
           View Component
         </a>
 
+      </div>
+
+      <!-- ================= 1. PERSPECTIVE CAROUSEL ================= -->
+      <div class="image-carousel-card">
+        <div class="image-preview perspective-gallery">
+          <div class="persp-img left"></div>
+          <div class="persp-img center"></div>
+          <div class="persp-img right"></div>
+        </div>
+        <h3>Perspective Gallery</h3>
+        <p>Interactive 3D perspective gallery slider.</p>
+        <a href="#">View Component</a>
+      </div>
+
+      <!-- ================= 2. EXPANDABLE CAROUSEL ================= -->
+      <div class="image-carousel-card">
+        <div class="image-preview expandable-carousel">
+          <div class="expand-card"></div>
+          <div class="expand-card active"></div>
+          <div class="expand-card"></div>
+        </div>
+        <h3>Expandable Carousel</h3>
+        <p>Hover to expand images smoothly.</p>
+        <a href="#">View Component</a>
+      </div>
+
+      <!-- ================= 3. SPHERE CAROUSEL ================= -->
+      <div class="image-carousel-card">
+        <div class="image-preview sphere-carousel">
+          <div class="sphere s1"></div>
+          <div class="sphere s2"></div>
+          <div class="sphere s3"></div>
+        </div>
+        <h3>Sphere Carousel</h3>
+        <p>Round floating bubble-like image displays.</p>
+        <a href="#">View Component</a>
+      </div>
+
+      <!-- ================= 4. STACK V2 CAROUSEL ================= -->
+      <div class="image-carousel-card">
+        <div class="image-preview stack-v2-gallery">
+          <div class="st-card back"></div>
+          <div class="st-card mid"></div>
+          <div class="st-card front"></div>
+        </div>
+        <h3>Stack V2 Slider</h3>
+        <p>Top-down overlapping image stack effect.</p>
+        <a href="#">View Component</a>
+      </div>
+
+      <!-- ================= 5. CURVED CAROUSEL ================= -->
+      <div class="image-carousel-card">
+        <div class="image-preview curved-gallery">
+          <div class="curve-track">
+            <div class="curve-item"></div>
+            <div class="curve-item"></div>
+            <div class="curve-item"></div>
+          </div>
+        </div>
+        <h3>Curved Carousel</h3>
+        <p>Images rotating on a curved horizontal path.</p>
+        <a href="#">View Component</a>
+      </div>
+
+      <!-- ================= 6. BOOK FOLD GALLERY ================= -->
+      <div class="image-carousel-card">
+        <div class="image-preview book-fold-gallery">
+          <div class="book-page left"></div>
+          <div class="book-page right"></div>
+        </div>
+        <h3>Book Fold Gallery</h3>
+        <p>3D book page turning effect slider.</p>
+        <a href="#">View Component</a>
+      </div>
+
+      <!-- ================= 7. FLIP CAROUSEL ================= -->
+      <div class="image-carousel-card">
+        <div class="image-preview flip-carousel">
+          <div class="flip-inner">
+            <div class="flip-front"></div>
+            <div class="flip-back"></div>
+          </div>
+        </div>
+        <h3>Card Flip Carousel</h3>
+        <p>Hover to flip images like 3D cards.</p>
+        <a href="#">View Component</a>
+      </div>
+
+      <!-- ================= 8. ZOOM GRID CAROUSEL ================= -->
+      <div class="image-carousel-card">
+        <div class="image-preview zoom-grid-carousel">
+          <div class="z-item"></div>
+          <div class="z-item"></div>
+          <div class="z-item"></div>
+          <div class="z-item"></div>
+        </div>
+        <h3>Zoom Grid</h3>
+        <p>Interactive grid with scale-up hover animations.</p>
+        <a href="#">View Component</a>
+      </div>
+
+      <!-- ================= 9. CYLINDER CAROUSEL ================= -->
+      <div class="image-carousel-card">
+        <div class="image-preview cylinder-carousel">
+          <div class="cyl-wrap">
+            <div class="cyl-face"></div>
+            <div class="cyl-face"></div>
+            <div class="cyl-face"></div>
+          </div>
+        </div>
+        <h3>Cylinder Carousel</h3>
+        <p>Spinning 3D cylindrical image gallery.</p>
+        <a href="#">View Component</a>
+      </div>
+
+      <!-- ================= 10. TILT GALLERY ================= -->
+      <div class="image-carousel-card">
+        <div class="image-preview tilt-gallery">
+          <div class="tilt-box">
+            <div class="tilt-inner"></div>
+          </div>
+        </div>
+        <h3>Tilt Gallery</h3>
+        <p>Mouse-follow 3D tilt effect on images.</p>
+        <a href="#">View Component</a>
       </div>
 
     </div>

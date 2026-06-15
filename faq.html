@@ -42,7 +42,51 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="playground.css">
   <link rel="stylesheet" href="faq.css">
-  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n  <script src="js/loader.js" defer></script>
+<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
+</head>
 
 <body>
 
@@ -53,7 +97,11 @@
   <div class="sidebar-brand">
     <span class="brand-icon">⬡</span>
     <span class="brand-text">UIverse <span style="font-size: 9px; background: linear-gradient(135deg, #eb6835, #7b61ff); color: white; padding: 1px 6px; border-radius: 10px; font-weight: 800; margin-left: 4px; letter-spacing: 0.5px; vertical-align: middle; box-shadow: 0 0 8px rgba(235,104,53,0.3);">V2</span></span>
-  </div>
+  
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    </div>
 
           <nav class="sidebar-nav">
     <ul>
@@ -963,6 +1011,166 @@
             </p>
           </div>
         </div>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-11" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-11">
+                How often are new components added?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-11" class="faq-answer" role="region" aria-labelledby="faq-question-11" aria-hidden="true">
+            <p>
+              We add new components regularly! Our community and core team are always working on fresh designs. Check back often or subscribe to updates.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-12" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-12">
+                Can I request a specific component?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-12" class="faq-answer" role="region" aria-labelledby="faq-question-12" aria-hidden="true">
+            <p>
+              Yes! You can request new components by opening an issue on our GitHub repository. We prioritize requests based on community demand.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-13" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-13">
+                Are there dark mode versions?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-13" class="faq-answer" role="region" aria-labelledby="faq-question-13" aria-hidden="true">
+            <p>
+              Most of our components come with dark mode support out of the box, or use CSS variables that easily adapt to dark themes.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-14" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-14">
+                What browsers are supported?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-14" class="faq-answer" role="region" aria-labelledby="faq-question-14" aria-hidden="true">
+            <p>
+              UIverse supports all modern browsers including Chrome, Firefox, Safari, and Edge. We aim for graceful degradation on older browsers.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-15" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-15">
+                Is there a Tailwind CSS version?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-15" class="faq-answer" role="region" aria-labelledby="faq-question-15" aria-hidden="true">
+            <p>
+              While UIverse uses vanilla CSS by default to ensure no dependencies, many components have community-contributed Tailwind CSS versions available in our snippets library.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-16" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-16">
+                How do I report a bug?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-16" class="faq-answer" role="region" aria-labelledby="faq-question-16" aria-hidden="true">
+            <p>
+              You can report bugs by creating an issue on our GitHub page. Please include browser details and steps to reproduce the issue.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-17" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-17">
+                Are there premium components?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-17" class="faq-answer" role="region" aria-labelledby="faq-question-17" aria-hidden="true">
+            <p>
+              Currently, all components are 100% free. In the future, we may offer premium UI kits, but the core library will always remain free.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-18" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-18">
+                How do I copy the code?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-18" class="faq-answer" role="region" aria-labelledby="faq-question-18" aria-hidden="true">
+            <p>
+              Each component has a "View Code" and "Copy Code" button. Simply click to copy the HTML and CSS directly to your clipboard.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-19" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-19">
+                Can I use it in commercial projects?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-19" class="faq-answer" role="region" aria-labelledby="faq-question-19" aria-hidden="true">
+            <p>
+              Yes! UIverse is licensed under MIT, which means you are free to use, modify, and distribute it in both personal and commercial projects.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-20" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-20">
+                Do I need to give attribution?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-20" class="faq-answer" role="region" aria-labelledby="faq-question-20" aria-hidden="true">
+            <p>
+              While attribution is not legally required under our license, we deeply appreciate it if you link back to UIverse or mention us!
+            </p>
+          </div>
+        </details>
 
       </section>
 

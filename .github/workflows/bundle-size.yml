@@ -1,0 +1,112 @@
+name: Bundle Size Tracker
+
+on:
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  bundle-size:
+    name: Check Bundle Size Changes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production bundle
+        run: npm run build
+
+      - name: Calculate bundle sizes
+        id: sizes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const zlib = require('zlib');
+
+            const files = [
+              'dist/index.js',
+              'dist/index.cjs.js',
+              'dist/index.esm.js',
+              'dist/index.umd.js',
+              'design-tokens.css',
+              'style.css'
+            ];
+
+            const results = [];
+            for (const file of files) {
+              try {
+                const content = fs.readFileSync(file);
+                const size = Buffer.byteLength(content);
+                const gzip = zlib.gzipSync(content);
+                const gzipSize = Buffer.byteLength(gzip);
+                const brotli = zlib.brotliCompressSync(content);
+                const brotliSize = Buffer.byteLength(brotli);
+                results.push({ file, size, gzipSize, brotliSize });
+              } catch {
+                results.push({ file, size: 'N/A', gzipSize: 'N/A', brotliSize: 'N/A' });
+              }
+            }
+
+            const tableRows = results.map(r =>
+              `| ${r.file} | ${typeof r.size === 'number' ? (r.size / 1024).toFixed(2) + ' KB' : r.size} | ${typeof r.gzipSize === 'number' ? (r.gzipSize / 1024).toFixed(2) + ' KB' : r.gzipSize} | ${typeof r.brotliSize === 'number' ? (r.brotliSize / 1024).toFixed(2) + ' KB' : r.brotliSize} |`
+            ).join('\n');
+
+            const totalSize = results
+              .filter(r => typeof r.size === 'number')
+              .reduce((sum, r) => sum + r.size, 0);
+            const totalGzip = results
+              .filter(r => typeof r.gzipSize === 'number')
+              .reduce((sum, r) => sum + r.gzipSize, 0);
+
+            const commentBody = `## Bundle Size Report
+
+            | File | Raw Size | Gzip | Brotli |
+            |------|----------|------|--------|
+            ${tableRows}
+
+            **Total Raw:** ${(totalSize / 1024).toFixed(2)} KB
+            **Total Gzip:** ${(totalGzip / 1024).toFixed(2)} KB
+            `;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+
+            const botComment = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('Bundle Size Report')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: commentBody
+              });
+            } else {
+              const prNumber = context.payload.pull_request?.number;
+              if (prNumber) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  body: commentBody
+                });
+              }
+            }

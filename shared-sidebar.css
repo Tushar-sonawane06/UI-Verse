@@ -34,8 +34,9 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 22px 24px;
+  padding: 16px 16px 16px 24px;
   border-bottom: 1px solid var(--sidebar-border);
+  min-height: 64px;
 }
 
 .brand-icon {
@@ -133,31 +134,56 @@
   pointer-events: all;
 }
 
-/* Responsive Styles */
+/* ============================================================
+   RESPONSIVE SIDEBAR BEHAVIOUR
+   ============================================================ */
+
+/* --- MOBILE (≤900 px) --- */
 @media (max-width: 900px) {
+  /* Sidebar hidden by default on mobile */
   .sidebar {
     transform: translateX(-100%);
   }
-  
+
+  /* Shown when body has .sidebar-open */
   body.sidebar-open .sidebar {
     transform: translateX(0);
   }
-  
-  .main, .main-content, .main-home, .full-page {
+
+  /* Navbar stretches full-width on mobile */
+  body .navbar {
+    left: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Content fills full width on mobile */
+  .main, .main-content, .main-home, .full-page,
+  main, .container, .page-content {
     margin-left: 0 !important;
     width: 100% !important;
   }
 }
 
+/* --- DESKTOP (>900 px): sidebar-hidden collapses sidebar --- */
 @media (min-width: 901px) {
   body.sidebar-hidden .sidebar {
     transform: translateX(-100%);
   }
-  
+
+  /* Navbar shifts to fill full width when sidebar is hidden */
+  body.sidebar-hidden .navbar {
+    left: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Content fills full width when sidebar is hidden */
   body.sidebar-hidden .main,
   body.sidebar-hidden .main-content,
   body.sidebar-hidden .main-home,
-  body.sidebar-hidden .full-page {
+  body.sidebar-hidden .full-page,
+  body.sidebar-hidden main,
+  body.sidebar-hidden .container,
+  body.sidebar-hidden .page-content {
     margin-left: 0 !important;
     width: 100% !important;
   }
@@ -408,20 +434,22 @@ body.sidebar-hidden .navbar {
 }
 
 /* Menu Toggle Button (Hamburger) */
-body .navbar .menu-toggle {
+body .navbar .menu-toggle,
+body .navbar .menu-toggle-btn {
   background: none !important;
   border: none !important;
   color: #94a3b8 !important;
   font-size: 20px !important;
   cursor: pointer !important;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  margin-right: 12px;
-  transition: color 0.2s;
+  display: flex !important; /* Always show the hamburger button */
+  align-items: center !important;
+  justify-content: center !important;
+  margin-right: 12px !important;
+  transition: color 0.2s !important;
 }
 
-body .navbar .menu-toggle:hover {
+body .navbar .menu-toggle:hover,
+body .navbar .menu-toggle-btn:hover {
   color: #ffffff !important;
 }
 
@@ -430,7 +458,8 @@ body .navbar .menu-toggle:hover {
     left: 0 !important;
     padding: 0 16px !important;
   }
-  body .navbar .menu-toggle {
+  body .navbar .menu-toggle,
+  body .navbar .menu-toggle-btn {
     display: flex !important;
   }
 }
@@ -596,5 +625,57 @@ body .navbar .theme-toggle:hover {
     display: none !important; /* Hide docs on very small screen */
   }
 }
+
+/* Compatibility classes for inline toggle scripts */
+.sidebar.open {
+  transform: translateX(0) !important;
+}
+.sidebar-backdrop.visible {
+  opacity: 1 !important;
+  pointer-events: all !important;
+}
+
+/* ============================================================
+   SIDEBAR CLOSE / TOGGLE BUTTON (inside the sidebar)
+   ============================================================ */
+.sidebar-toggle-btn {
+  /* Push button all the way to the right of the brand row */
+  margin-left: auto !important;
+  flex-shrink: 0 !important;
+
+  /* Reset all common overrides */
+  background: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+
+  /* Size & appearance */
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+
+  /* Colour */
+  color: #64748b !important;
+  font-size: 16px !important;
+
+  /* Smooth hover */
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease !important;
+}
+
+.sidebar-toggle-btn:hover {
+  background: rgba(235, 104, 53, 0.12) !important;
+  color: #eb6835 !important;
+  transform: scale(1.08) !important;
+}
+
+.sidebar-toggle-btn:active {
+  transform: scale(0.95) !important;
+}
+
+
 
 

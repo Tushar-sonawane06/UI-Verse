@@ -1,0 +1,71 @@
+{
+  "name": "UI-Verse Development",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+  "forwardPorts": [5173, 6006, 5500],
+  "portsAttributes": {
+    "5173": {
+      "label": "Vite Dev Server",
+      "onAutoForward": "openBrowser"
+    },
+    "6006": {
+      "label": "Storybook",
+      "onAutoForward": "openPreview"
+    },
+    "5500": {
+      "label": "Live Server",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "npm install",
+  "postStartCommand": "npm run build 2>/dev/null; echo 'UI-Verse environment ready!'",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "stylelint.vscode-stylelint",
+        "esbenp.prettier-vscode",
+        "editorconfig.editorconfig",
+        "ms-playwright.playwright",
+        "bierner.lit-html",
+        "runem.lit-plugin",
+        "christian-kohler.npm-intellisense",
+        "christian-kohler.path-intellisense",
+        "eamodio.gitlens",
+        "github.vscode-github-actions",
+        "github.vscode-pull-request-github",
+        "streetsidesoftware.code-spell-checker",
+        "yzhang.markdown-all-in-one",
+        "davidanson.vscode-markdownlint",
+        "ritwickdey.liveserver",
+        "deque-systems.vscode-axe-linter",
+        "naumovs.color-highlight"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit",
+          "source.fixAll.stylelint": "explicit"
+        },
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.rulers": [120],
+        "editor.tabSize": 2,
+        "files.eol": "\n",
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "css.validate": false,
+        "scss.validate": false,
+        "stylelint.validate": ["css", "html"],
+        "eslint.validate": ["javascript", "html"]
+      }
+    }
+  },
+  "remoteUser": "node",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    }
+  }
+}

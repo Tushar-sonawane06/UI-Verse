@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UVMicro Loader - Usage Example</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #1a1a2e;
+      color: #eee;
+    }
+    h1 { color: #4ecdc4; }
+    h2 { color: #ff6b6b; margin-top: 30px; }
+    code {
+      background: #16213e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #16213e;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    .demo-section {
+      margin: 30px 0;
+      padding: 20px;
+      background: #16213e;
+      border-radius: 8px;
+    }
+    .note {
+      background: #2d2d44;
+      border-left: 4px solid #4ecdc4;
+      padding: 15px;
+      margin: 20px 0;
+    }
+    .warning {
+      background: #2d2d44;
+      border-left: 4px solid #ff6b6b;
+      padding: 15px;
+      margin: 20px 0;
+    }
+    .component-container {
+      padding: 20px;
+      background: #0d1117;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔧 UI-Verse Micro-Frontend Loader</h1>
+  <p>Dynamic component loading with Shadow DOM encapsulation and isolated script execution.</p>
+
+  <div class="note">
+    <strong>⚡ Quick Start:</strong> Include the loader and initialize with a component registry
+  </div>
+
+  <h2>Basic Usage</h2>
+  
+  <pre><code>&lt;!-- 1. Include the loader --&gt;
+&lt;script src="uv-micro-loader.js"&gt;&lt;/script&gt;
+
+&lt;!-- 2. Configure and initialize --&gt;
+&lt;script&gt;
+  UVMicro.init('/component-registry.json')
+    .then(() =&gt; console.log('Components ready!'));
+&lt;/script&gt;
+
+&lt;!-- 3. Use components anywhere in your HTML --&gt;
+&lt;uv-button variant="primary"&gt;Click Me&lt;/uv-button&gt;
+&lt;uv-modal title="Hello"&gt;Modal content here&lt;/uv-modal&gt;</code></pre>
+
+  <h2>Programmatic Registration</h2>
+
+  <pre><code>// Register components manually
+UVMicro.register('my-button', {
+  props: ['variant', 'disabled'],
+  assets: {
+    styles: `
+      :host { display: inline-block; }
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        background: #4ecdc4;
+        color: #1a1a2e;
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    `,
+    scripts: [{
+      code: `
+        // Runs in isolated realm
+        const btn = shadowRoot.querySelector('button');
+        btn.addEventListener('click', () =&gt; {
+          console.log('Button clicked!');
+        });
+      `
+    }]
+  },
+  template: '/components/my-button.html'
+});
+
+// Or register multiple at once
+UVMicro.registerAll({
+  'my-button': { ... },
+  'my-card': { ... },
+  'my-dropdown': { ... }
+});</code></pre>
+
+  <h2>Loading from JSON</h2>
+
+  <pre><code>// Load individual component
+await UVMicro.load('/components/uv-button.json');
+
+// Component JSON format
+{
+  "tagName": "uv-button",
+  "props": ["variant", "size", "disabled"],
+  "assets": {
+    "styles": [
+      "/styles/uv-button.css",
+      ":host { display: inline-flex; }"
+    ],
+    "scripts": ["/scripts/uv-button.js"]
+  },
+  "template": "/components/uv-button.html"
+}</code></pre>
+
+  <h2>Configuration</h2>
+
+  <pre><code>// Configure before init
+window.UVMicroConfig = {
+  registryUrl: '/component-registry.json',
+  realmTimeout: 5000,
+  styleEncapsulation: true,
+  debug: true
+};
+
+// Then include the loader script
+&lt;script src="uv-micro-loader.js"&gt;&lt;/script&gt;</code></pre>
+
+  <h2>Shadow DOM Benefits</h2>
+
+  <div class="demo-section">
+    <p>Components loaded with UVMicro are encapsulated in Shadow DOM:</p>
+    <ul>
+      <li>✅ <strong>Style Isolation:</strong> Component styles don't leak to host page</li>
+      <li>✅ <strong>Style Protection:</strong> Host page styles don't affect component</li>
+      <li>✅ <strong>Script Isolation:</strong> Component scripts run in isolated realms</li>
+      <li>✅ <strong>No Global Pollution:</strong> Components can't modify window globals</li>
+    </ul>
+  </div>
+
+  <h2>Isolated Script Execution</h2>
+
+  <div class="warning">
+    <strong>🔒 Security:</strong> Component scripts execute in sandboxed iframes to prevent
+    XSS and other security issues when loading third-party components.
+  </div>
+
+  <pre><code>// Execute custom code in isolated realm
+await UVMicro.executeInRealm(`
+  // This code runs in complete isolation
+  // No access to parent page's variables
+  const secret = 'cannot leak to parent';
+  console.log('Running in isolated realm');
+`, { someData: 'passed from parent' });</code></pre>
+
+  <h2>API Reference</h2>
+
+  <pre><code>// Initialize with registry
+UVMicro.init(registryUrl) → Promise&lt;UVMicro&gt;
+
+// Register single component
+UVMicro.register(tagName, definition) → Promise&lt;UVMicro&gt;
+
+// Register multiple components
+UVMicro.registerAll(components) → UVMicro
+
+// Load component from URL
+UVMicro.load(url) → Promise&lt;UVMicro&gt;
+
+// Execute in isolated realm
+UVMicro.executeInRealm(code, context) → Promise&lt;any&gt;
+
+// Get component definition
+UVMicro.getDefinition(tagName) → object | undefined
+
+// Check if registered
+UVMicro.isRegistered(tagName) → boolean</code></pre>
+
+  <h2>Browser Support</h2>
+
+  <p>The loader requires modern browser features:</p>
+  <ul>
+    <li>Custom Elements v1</li>
+    <li>Shadow DOM (closed mode)</li>
+    <li>ES6+ (async/await, Promises, Classes)</li>
+    <li>fetch API</li>
+  </ul>
+
+  <div class="note">
+    <strong>📦 Polyfills:</strong> For older browser support, include the following polyfills before the loader:
+    <pre><code>&lt;script src="custom-elements.min.js"&gt;&lt;/script&gt;
+&lt;script src="es6-promise.min.js"&gt;&lt;/script&gt;
+&lt;script src="fetch.min.js"&gt;&lt;/script&gt;</code></pre>
+  </div>
+
+</body>
+</html>

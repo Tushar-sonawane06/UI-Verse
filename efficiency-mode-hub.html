@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI-Verse - Low-Battery CSS Efficiency Mode Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ==========================================================================
+           1. CORE SYSTEM VARIABLES & ACCELERATED SPECIFICATIONS DESIGN TOKENS
+           ========================================================================== */
+        :root {
+            /* Standard Colors Palette - Ultra High-Performance Configuration */
+            --primary-hsl: 239, 84%, 66%;
+            --primary: hsl(var(--primary-hsl));
+            --primary-hover: hsl(239, 84%, 58%);
+            --primary-light: hsla(var(--primary-hsl), 0.08);
+            
+            /* High-Performance Rich Background Gradients Baseline Matrix */
+            --gradient-main: linear-gradient(135deg, #1e1b4b 0%, #111827 50%, #030712 100%);
+            --gradient-accent: linear-gradient(135deg, #6366f1, #a855f7);
+            --gradient-card: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.85) 100%);
+            --glass-filter: blur(16px);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            
+            /* Core Semantic Functional Tokens Mappings */
+            --success: #10b981;
+            --success-light: rgba(16, 185, 129, 0.1);
+            --warning: #f59e0b;
+            --warning-light: rgba(245, 158, 11, 0.1);
+            --danger: #ef4444;
+            --danger-light: rgba(239, 68, 68, 0.1);
+            
+            /* Interface Canvas Surfaces Variables */
+            --bg-main: #090d16;
+            --bg-card: #131b2e;
+            --border-color: #22314d;
+            --text-main: #f1f5f9;
+            --text-muted: #8495aa;
+            --text-on-sidebar: #94a3b8;
+            --code-bg: #1e1e2e;
+            
+            /* Box Scale Dimensions Radius Metrics */
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-round: 9999px;
+            
+            /* High-Performance Box Elevation Shadows */
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.45);
+            
+            /* Dynamic Mechanical Physics Kinetics Animation Curves */
+            --transition-speed: 0.35s;
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            
+            /* Performance Pipeline Configuration Variables */
+            --global-animation-state: running;
+        }
+
+        /* ==========================================================================
+           2. THE DYNAMIC LOW-POWER SWITCH CONFIGURATIONS OVERRIDE CORE CLASS
+           ========================================================================== */
+        body.low-power-saving {
+            /* Deallocate rich high-performance canvas parameters immediately */
+            --gradient-main: #060911;
+            --gradient-accent: #6366f1;
+            --gradient-card: #111a2e;
+            --glass-filter: none !important;
+            --glass-border: 1px solid var(--border-color);
+            --bg-main: #060911;
+            --bg-card: #111a2e;
+            
+            /* Flatten volumetric shadows profiles to prevent hardware compositing passes */
+            --shadow-sm: none !important;
+            --shadow-md: none !important;
+            --shadow-lg: none !important;
+            
+            /* Drop animation kinetic loops to zero execution threads scale */
+            --global-animation-state: paused !important;
+            --transition-speed: 0s !important;
+        }
+
+        /* Enforce absolute deallocation of CSS continuous animation threads */
+        body.low-power-saving *,
+        body.low-power-saving *::before,
+        body.low-power-saving *::after {
+            animation-duration: 0s !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0s !important;
+            transition-delay: 0s !important;
+        }
+
+        /* Essential Framework CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--gradient-main);
+            color: var(--text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ==========================================================================
+           3. APPLICATION WORKSPACE CONTAINER LAYOUT BLUEPRINT
+           ========================================================================== */
+        .hub-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Control Center Panel Sidebar Layer */
+        .hub-sidebar {
+            width: 280px;
+            background-color: rgba(15, 23, 42, 0.9);
+            backdrop-filter: var(--glass-filter);
+            -webkit-backdrop-filter: var(--glass-filter);
+            border-right: var(--glass-border);
+            color: #ffffff;
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .hub-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-decoration: none;
+            margin-bottom: 2.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .hub-brand i {
+            color: var(--primary);
+            font-size: 1.6rem;
+        }
+
+        .sidebar-heading {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: rgba(255, 255, 255, 0.25);
+            margin-bottom: 0.85rem;
+            font-weight: 700;
+            padding-left: 0.75rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-item {
+            margin-bottom: 0.35rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.8rem 1rem;
+            color: var(--text-on-sidebar);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all var(--transition-speed) var(--ease-smooth);
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+        }
+
+        .sidebar-link.active i {
+            color: var(--primary);
+        }
+
+        /* Workspace Runway Display Center Body Grid */
+        .hub-main {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2.5rem 3.5rem;
+            max-width: 1500px;
+            width: calc(100% - 280px);
+        }
+
+        .hub-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-title h1 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        /* ==========================================================================
+           4. TWO-COLUMN BLUEPRINT WORKSPACE GRIDS & DASHBOARD GRAPH CARDS
+           ========================================================================== */
+        .sandbox-workspace-grid {
+            display: grid;
+            grid-template-columns: 1.25fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .workspace-block-card {
+            background: var(--gradient-card);
+            backdrop-filter: var(--glass-filter);
+            -webkit-backdrop-filter: var(--glass-filter);
+            border: var(--glass-border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .block-header-bar {
+            padding: 1.25rem 1.75rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.01);
+        }
+
+        .block-heading-title {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
+        .block-heading-title i {
+            color: var(--primary);
+        }
+
+        .block-badge {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .block-body-canvas {
+            padding: 2.25rem;
+        }
+
+        /* ==========================================================================
+           5. CORE ATOMIC COMPONENT SPECIFICATION: LOW-POWER TOGGLE FIELD SWITCH
+           ========================================================================== */
+        .uv-efficiency-widget-wrapper {
+            background-color: rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .widget-meta-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .widget-meta-title {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.25px;
+        }
+
+        .widget-meta-desc {
+            font-size: 0.825rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* The Custom Structural Switch Box label Engine */
+        .uv-switch-toggle-label {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .uv-switch-hidden-checkbox {
+            display: none;
+        }
+
+        .uv-switch-track-hull {
+            width: 58px;
+            height: 30px;
+            background-color: #334155;
+            border-radius: var(--radius-round);
+            position: relative;
+            padding: 4px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            transition: background-color var(--transition-speed) var(--ease-smooth);
+        }
+
+        .uv-switch-thumb-node {
+            width: 22px;
+            height: 22px;
+            background-color: #ffffff;
+            border-radius: var(--radius-round);
+            position: absolute;
+            top: 4px; left: 4px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: #64748b;
+            transition: transform var(--transition-speed) var(--ease-bounce), 
+                        background-color var(--transition-speed);
+        }
+
+        /* Checkbox state modifications selector matrices mappings */
+        .uv-switch-hidden-checkbox:checked + .uv-switch-track-hull {
+            background-color: var(--success);
+        }
+
+        .uv-switch-hidden-checkbox:checked + .uv-switch-track-hull .uv-switch-thumb-node {
+            transform: translateX(28px);
+            color: var(--success);
+        }
+
+        /* ==========================================================================
+           6. COMPONENT STAGING GRAPHICS AREA (HEAVY CSS ANIMATION TARGETS)
+           ========================================================================== */
+        .performance-testing-dock {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .anim-staged-box {
+            background-color: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 2rem 1rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 140px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .anim-box-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Test Object 1: Complex 3D Rotational Matrix Loop */
+        .heavy-spinning-cube {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, var(--primary), var(--accent-pink));
+            border-radius: var(--radius-sm);
+            animation: endlessCubeRotate 3s infinite linear;
+            animation-play-state: var(--global-animation-state);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        @keyframes endlessCubeRotate {
+            0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+            50% { transform: rotate(180deg) scale(1.15); filter: hue-rotate(180deg); }
+            100% { transform: rotate(360deg) scale(1); filter: hue-rotate(360deg); }
+        }
+
+        /* Test Object 2: Ambient Particle Halo Pulse Waves */
+        .heavy-halo-pulsar {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-round);
+            background-color: var(--accent-purple);
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .heavy-halo-pulsar::before,
+        .heavy-halo-pulsar::after {
+            content: '';
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border: 2px solid var(--accent-purple);
+            border-radius: var(--radius-round);
+            opacity: 0;
+            animation: expandPulseHalo 2s infinite linear;
+            animation-play-state: var(--global-animation-state);
+        }
+
+        .heavy-halo-pulsar::after {
+            animation-delay: 1s;
+        }
+
+        @keyframes expandPulseHalo {
+            0% { transform: scale(0.6); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: scale(1.4); opacity: 0; box-shadow: inset 0 0 10px rgba(168, 85, 247, 0.5); }
+        }
+
+        /* ==========================================================================
+           7. HARDWARE TELEMETRY HARDWARE DASHBOARD PANELS METRICS
+           ========================================================================== */
+        .telemetry-dashboard-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .metric-row-tracker {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .metric-value-output {
+            font-family: monospace;
+            font-size: 1rem;
+            color: var(--primary);
+            transition: color var(--transition-speed);
+        }
+
+        body.low-power-saving .metric-value-output {
+            color: var(--text-main);
+        }
+
+        /* Simulated Core Graph Activity Line Channels */
+        .simulated-graph-track {
+            height: 45px;
+            background-color: rgba(0,0,0,0.15);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 4px;
+            gap: 2px;
+        }
+
+        .graph-bar-node {
+            flex: 1;
+            background-color: var(--primary);
+            height: 40%;
+            border-top-left-radius: 2px;
+            border-top-right-radius: 2px;
+            opacity: 0.8;
+            transition: height 0.3s ease, background-color var(--transition-speed);
+        }
+
+        body.low-power-saving .graph-bar-node {
+            background-color: var(--text-muted);
+            height: 5% !important; /* Flatten telemetry tracks instantly on power saves */
+        }
+
+        /* ==========================================================================
+           8. LIVE CODE COHORT SPECIFICATION DRAWERS
+           ========================================================================== */
+        .inspector-control-housing {
+            margin-top: 3.5rem;
+        }
+
+        .inspector-action-bar {
+            padding: 0.85rem 1.75rem;
+            display: flex;
+            justify-content: flex-end;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            background-color: rgba(0, 0, 0, 0.005);
+            border-top-left-radius: var(--radius-md);
+            border-top-right-radius: var(--radius-md);
+        }
+
+        .code-drawer-housing {
+            max-height: 0;
+            overflow: hidden;
+            background-color: var(--code-bg);
+            border-bottom-left-radius: var(--radius-md);
+            border-bottom-right-radius: var(--radius-md);
+            transition: max-height var(--transition-normal) cubic-bezier(0, 1, 0, 1);
+        }
+
+        .code-drawer-housing.open {
+            max-height: 2000px;
+            border: 1px solid var(--code-bg);
+            transition: max-height var(--transition-normal) cubic-bezier(1, 0, 1, 0);
+        }
+
+        .code-block-wrapper {
+            padding: 1.75rem;
+            position: relative;
+        }
+
+        .code-block-wrapper pre {
+            margin: 0;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #a9b1d6;
+            line-height: 1.6;
+        }
+
+        .copy-floating-trigger {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 0.45rem 0.95rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-floating-trigger:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* ==========================================================================
+           9. SYSTEM OVERLAY TOAST INJECTOR GRIDS HOUSING
+           ========================================================================== */
+        .toast-system-overlay-hub {
+            position: fixed;
+            bottom: 2.5rem;
+            right: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            z-index: 999999;
+            pointer-events: none;
+        }
+
+        .toast-popup-node {
+            pointer-events: auto;
+            background-color: rgba(15, 23, 42, 0.95);
+            color: white;
+            padding: 1.1rem 1.6rem;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            font-size: 0.925rem;
+            font-weight: 500;
+            min-width: 320px;
+            border-left: 4px solid var(--primary);
+            transform: translateY(100px);
+            opacity: 0;
+            animation: slideToastIn 0.35s forwards var(--ease-bounce);
+        }
+
+        @keyframes slideToastIn {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Responsive Hardware Media Adapter Breakpoints Matrices */
+        @media (max-width: 1150px) {
+            .sandbox-workspace-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+        }
+        @media (max-width: 992px) {
+            .hub-sidebar { transform: translateX(-280px); }
+            .hub-main { margin-left: 0; width: 100%; padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hub-wrapper">
+        <aside class="hub-sidebar">
+            <a href="#" class="hub-brand">
+                <i class="fa-solid fa-battery-three-quarters"></i>
+                <span>EcoMesh IO</span>
+            </a>
+            
+            <div class="sidebar-segment">
+                <div class="sidebar-heading">System Rails</div>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link active">
+                            <i class="fa-solid fa-gauge-high"></i><span>Power Rails</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fa-solid fa-microchip"></i><span>Core Clusters</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="hub-main">
+            <header class="hub-header">
+                <div class="header-title">
+                    <h1>Battery-Saving CSS Switch</h1>
+                    <p>Dynamic runtime utility that alters core presentation layers to preserve device processor threads.</p>
+                </div>
+            </header>
+
+            <div class="sandbox-workspace-grid">
+                
+                <div class="workspace-block-card">
+                    <div class="block-header-bar">
+                        <span class="block-heading-title"><i class="fa-solid fa-toggle-on"></i> Core Switch Module</span>
+                        <span class="block-badge">Atomic</span>
+                    </div>
+                    <div class="block-body-canvas">
+                        
+                        <div class="uv-efficiency-widget-wrapper">
+                            <div class="widget-meta-info">
+                                <span class="widget-meta-title">CSS Hardware Efficiency Mode</span>
+                                <span class="widget-meta-desc" id="widgetStatusDescLabel">Deallocate gradients, shadows, and loops thread streams.</span>
+                            </div>
+                            
+                            <label class="uv-switch-toggle-label">
+                                <input type="checkbox" class="uv-switch-hidden-checkbox" id="efficiencySystemToggle">
+                                <div class="uv-switch-track-hull">
+                                    <div class="uv-switch-thumb-node" id="switchThumbIcon">
+                                        <i class="fa-solid fa-bolt-lightning"></i>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="performance-testing-dock">
+                            <div class="anim-staged-box">
+                                <span class="anim-box-title">3D Transform Loop</span>
+                                <div class="heavy-spinning-cube"></div>
+                            </div>
+                            <div class="anim-staged-box">
+                                <span class="anim-box-title">Halo Shadow Waves</span>
+                                <div class="heavy-halo-pulsar"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="workspace-block-card">
+                    <div class="block-header-bar">
+                        <span class="block-heading-title"><i class="fa-solid fa-chart-line"></i> Telemetry Analyzer</span>
+                        <span class="block-badge" id="telemetryStateBadge">Unrestricted</span>
+                    </div>
+                    <div class="block-body-canvas">
+                        <div class="telemetry-dashboard-panel">
+                            
+                            <div class="metric-block">
+                                <div class="metric-row-tracker">
+                                    <span>Calculated Thread Usage</span>
+                                    <span class="metric-value-output" id="threadMetricVal">60 Hz</span>
+                                </div>
+                            </div>
+
+                            <div class="metric-block">
+                                <div class="metric-row-tracker" style="margin-bottom: 0.5rem;">
+                                    <span>Render Pipeline Load</span>
+                                    <span class="metric-value-output" id="loadMetricVal">42%</span>
+                                </div>
+                                <div class="simulated-graph-track" id="telemetryGraphTrack">
+                                    </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="inspector-control-housing">
+                <div class="inspector-action-bar">
+                    <button class="code-toggle-btn" id="drawerToggleBtn"><i class="fa-solid fa-code"></i> Code Spec</button>
+                </div>
+                <div class="code-drawer-housing" id="codeDrawerContainer">
+                    <div class="code-block-wrapper">
+                        <button class="copy-floating-trigger" id="clipCopyTrigger">Copy Snippet</button>
+                        <pre><code>&lt;!-- Low Power CSS Efficiency Mode Switch Component Configuration --&gt;\n&lt;label class="uv-switch-toggle-label"&gt;\n  &lt;input type="checkbox" class="uv-switch-hidden-checkbox" id="ecoToggle"&gt;\n  &lt;div class="uv-switch-track-hull"&gt;\n    &lt;div class="uv-switch-thumb-node"&gt;&lt;i class="fa-solid fa-bolt"&gt;&lt;/i&gt;&lt;/div&gt;\n  &lt;/div&gt;\n&lt;/label&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-system-overlay-hub" id="globalToastOverlayHub"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Core Framework Memory Management State Cache Maps
+            const Workspace_Cache_Metrics = {
+                toastQueueCounter: 0,
+                maxAllowedToasts: 4,
+                graphUpdateIntervalId: null,
+                isEfficiencyModeEngaged: false
+            };
+
+            // Capture Node Target Access Selectors Hooks
+            const masterToggle = document.getElementById('efficiencySystemToggle');
+            const widgetDesc = document.getElementById('widgetStatusDescLabel');
+            const thumbIcon = document.getElementById('switchThumbIcon').querySelector('i');
+            const telemetryBadge = document.getElementById('telemetryStateBadge');
+            const threadValText = document.getElementById('threadMetricVal');
+            const loadValText = document.getElementById('loadMetricVal');
+            const graphTrack = document.getElementById('telemetryGraphTrack');
+
+            // Generate graphic bar columns nodes inside canvas graph shells
+            const baselineTotalBarsCount = 28;
+            for(let i = 0; i < baselineTotalBarsCount; i++) {
+                const barNode = document.createElement('div');
+                barNode.className = 'graph-bar-node';
+                graphTrack.appendChild(barNode);
+            }
+            const structuralGraphBarsCollection = graphTrack.querySelectorAll('.graph-bar-node');
+
+            // Initialize structural core telemetry looping updates
+            deployLiveHardwareTelemetrySimulationLoop();
+
+            // ==========================================================================
+            // DYNAMIC COMPONENT STATE MUTATION BINDINGS INTERACTION
+            // ==========================================================================
+            masterToggle.addEventListener('change', (eventContext) => {
+                const isCheckedState = eventContext.target.checked;
+                Workspace_Cache_Metrics.isEfficiencyModeEngaged = isCheckedState;
+
+                if(isCheckedState) {
+                    const executionFrame = () => {
+                        document.body.classList.add('low-power-saving');
+                        thumbIcon.className = 'fa-solid fa-leaf';
+                        widgetDesc.textContent = "Battery conservation structural locks engaged. GPU thread loops paused.";
+                        
+                        telemetryBadge.textContent = "Throttled";
+                        telemetryBadge.style.backgroundColor = 'var(--danger-light)';
+                        telemetryBadge.style.color = 'var(--danger)';
+                        
+                        threadValText.textContent = "0 Hz (Static)";
+                        loadValText.textContent = "1.5%";
+                    };
+                    requestAnimationFrame(executionFrame);
+                    
+                    dispatchOverlayToastAlert("Efficiency profile active. Render layout resource footprint dropped to minimum values.", "success");
+                } else {
+                    const restorationFrame = () => {
+                        document.body.classList.remove('low-power-saving');
+                        thumbIcon.className = 'fa-solid fa-bolt-lightning';
+                        widgetDesc.textContent = "Deallocate gradients, shadows, and loops thread streams.";
+                        
+                        telemetryBadge.textContent = "Unrestricted";
+                        telemetryBadge.style.backgroundColor = '';
+                        telemetryBadge.style.color = '';
+                    };
+                    requestAnimationFrame(restorationFrame);
+                    
+                    dispatchOverlayToastAlert("Efficiency profile deactivated. Returning to rich graphics layout matrix profiles.", "info");
+                }
+            });
+
+            // Asynchronous background metric looping task simulator
+            function deployLiveHardwareTelemetrySimulationLoop() {
+                Workspace_Cache_Metrics.graphUpdateIntervalId = setInterval(() => {
+                    // Bypass random generation changes while efficiency locks freeze the system layers
+                    if(Workspace_Cache_Metrics.isEfficiencyModeEngaged) return;
+
+                    let accumulatedLoadFactor = 0;
+
+                    structuralGraphBarsCollection.forEach(bar => {
+                        const randomHeightAllocation = Math.floor(Math.random() * 75) + 15;
+                        accumulatedLoadFactor += randomHeightAllocation;
+
+                        const loopUpdateFrameTask = () => {
+                            bar.style.height = `${randomHeightAllocation}%`;
+                        };
+                        requestAnimationFrame(loopUpdateFrameTask);
+                    });
+
+                    // Update textual telemetry counters metric displays fields
+                    const meanLoadCalculatedResult = Math.floor(accumulatedLoadFactor / baselineTotalBarsCount);
+                    loadValText.textContent = `${meanLoadCalculatedResult}%`;
+                    threadValText.textContent = `${Math.floor(Math.random() * 4) + 58} Hz`;
+
+                }, 400);
+            }
+
+            // ==========================================================================
+            // COHORT SYSTEM OVERLAY INTEGRATIONS PIPELINE UTILITIES
+            // ==========================================================================
+            const codeDrawer = document.getElementById('codeDrawerContainer');
+            const drawerToggle = document.getElementById('drawerToggleBtn');
+            
+            drawerToggle.addEventListener('click', () => {
+                codeDrawer.classList.toggle('open');
+                drawerToggle.classList.toggle('active');
+                
+                const isOpen = codeDrawer.classList.contains('open');
+                drawerToggle.innerHTML = isOpen ? 
+                    `<i class="fa-solid fa-folder-open"></i> Hide Spec` : 
+                    `<i class="fa-solid fa-code"></i> Code Spec`;
+            });
+
+            const copyBtn = document.getElementById('clipCopyTrigger');
+            copyBtn.addEventListener('click', () => {
+                const codeSnippetBlock = copyBtn.nextElementSibling.querySelector('code');
+                let unescapedCleanText = codeSnippetBlock.innerText.replace(/\\n/g, '\n');
+                
+                navigator.clipboard.writeText(unescapedCleanText).then(() => {
+                    copyBtn.textContent = 'Copied text!';
+                    copyBtn.style.backgroundColor = 'var(--success)';
+                    dispatchOverlayToastAlert('Efficiency switch structural asset markup copied onto system clipboard context.');
+                    
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Copy Snippet';
+                        copyBtn.style.backgroundColor = '';
+                    }, 2000);
+                });
+            });
+
+            const toastHubOverlay = document.getElementById('globalToastOverlayHub');
+            function dispatchOverlayToastAlert(messageTextString, notificationThemeProfile = 'success') {
+                if (!toastHubOverlay) return;
+
+                if (Workspace_Cache_Metrics.toastQueueCounter >= Workspace_Cache_Metrics.maxAllowedToasts) {
+                    const targetOldestToast = toastHubOverlay.querySelector('.toast-popup-node');
+                    if (targetOldestToast) targetOldestToast.remove();
+                    Workspace_Cache_Metrics.toastQueueCounter = Math.max(0, Workspace_Cache_Metrics.toastQueueCounter - 1);
+                }
+
+                const toastPopupNode = document.createElement('div');
+                toastPopupNode.className = 'toast-popup-node';
+                toastPopupNode.innerHTML = `<i class="fa-solid fa-circle-check" style="color:var(--primary)"></i> <span>${messageTextString}</span>`;
+                
+                toastHubOverlay.appendChild(toastPopupNode);
+                Workspace_Cache_Metrics.toastQueueCounter++;
+
+                setTimeout(() => {
+                    toastPopupNode.style.opacity = '0';
+                    toastPopupNode.style.transform = 'translateY(20px)';
+                    toastPopupNode.style.transition = 'all 0.3s var(--ease-smooth)';
+                    setTimeout(() => {
+                        toastPopupNode.remove();
+                        Workspace_Cache_Metrics.toastQueueCounter = Math.max(0, Workspace_Cache_Metrics.toastQueueCounter - 1);
+                    }, 350);
+                }, 3500);
+            }
+        });
+    </script>
+</body>
+</html>

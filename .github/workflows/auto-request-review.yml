@@ -1,0 +1,84 @@
+name: Auto Request Review
+
+on:
+  pull_request_target:
+    types: [opened, reopened, ready_for_review]
+    branches: [main, master]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  request-reviewers:
+    name: Assign Reviewers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Request reviewers based on changed files
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number
+            });
+
+            const changedPaths = files.map(f => f.filename);
+            const author = pr.user.login;
+
+            const reviewerMap = [
+              { patterns: ['src/', 'src/components/', 'src/design-tokens.ts'], reviewers: ['Tushar-sonawane06'] },
+              { patterns: ['js/core/', 'js/features/'], reviewers: ['Tushar-sonawane06'] },
+              { patterns: ['scripts/'], reviewers: ['Tushar-sonawane06'] },
+              { patterns: ['tests/', 'test/'], reviewers: ['Tushar-sonawane06'] },
+              { patterns: ['.github/', '.github/workflows/'], reviewers: ['Tushar-sonawane06'] },
+              { patterns: ['Docs/', 'docs/', '*.md'], reviewers: ['Tushar-sonawane06'] },
+              { patterns: ['css/', 'themes/', 'design-tokens.css'], reviewers: ['Tushar-sonawane06'] },
+              { patterns: ['locales/', 'src/i18n/'], reviewers: ['Tushar-sonawane06'] },
+              { patterns: ['stories/', '.storybook/'], reviewers: ['Tushar-sonawane06'] },
+            ];
+
+            let suggestedReviewers = new Set();
+            for (const filePath of changedPaths) {
+              for (const mapping of reviewerMap) {
+                const matches = mapping.patterns.some(p => filePath.startsWith(p) || filePath === p);
+                if (matches) {
+                  mapping.reviewers.forEach(r => suggestedReviewers.add(r));
+                }
+              }
+            }
+
+            const reviewers = Array.from(suggestedReviewers).filter(r => r !== author);
+
+            if (reviewers.length > 0) {
+              await github.rest.pulls.requestReviewers({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                reviewers: reviewers
+              });
+            }
+
+            const prAuthor = pr.user.login;
+            const commentBody = `Thanks for the PR, @${prAuthor}! 
+
+            I've automatically requested a review from the relevant team members based on the files changed.
+
+            ### Changed Files Summary
+            ${files.map(f => `- ${f.filename} (+${f.additions}/-${f.deletions})`).join('\n')}
+
+            A maintainer will review your changes soon. Please ensure:
+            - ✅ Code follows project conventions
+            - ✅ Tests pass
+            - ✅ No unrelated changes are included`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body: commentBody
+            });

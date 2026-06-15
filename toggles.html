@@ -1182,7 +1182,50 @@
       }
     }
   </style>
-    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
+</head>
 
 <body>
 
@@ -1191,7 +1234,11 @@
   <div class="sidebar-brand">
     <span class="brand-icon">⬡</span>
     <span class="brand-text">UIverse <span style="font-size: 9px; background: linear-gradient(135deg, #eb6835, #7b61ff); color: white; padding: 1px 6px; border-radius: 10px; font-weight: 800; margin-left: 4px; letter-spacing: 0.5px; vertical-align: middle; box-shadow: 0 0 8px rgba(235,104,53,0.3);">V2</span></span>
-  </div>
+  
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    </div>
 
         <nav class="sidebar-nav">
     <ul>
@@ -1510,6 +1557,7 @@
     <a href="#" title="Twitter"><i class="fab fa-x-twitter"></i></a>
   </div>
 </aside>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
 <!-- ================= NAVBAR ================= -->
 <!-- ================= NAVBAR ================= -->
@@ -2402,6 +2450,576 @@
       <pre id="code18" class="code-block"><code>.toggle-swirl input:checked + label::after{ transform:translateX(34px) rotate(360deg); }</code></pre>
     </div>
 
+    <!-- NEW: Flat Dark Toggle -->
+    <div class="component-card" data-cat="basic" data-name="flat dark toggle">
+      <div class="card-top">
+        <span class="card-label">Flat Dark Toggle</span>
+        <span class="card-tag tag-essential">Basic</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-flat-dark">
+              <input type="checkbox" id="flat-dark-t1" />
+              <label for="flat-dark-t1"></label>
+            </div>
+            <span class="toggle-label-text">Minimalist</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A simple flat, slightly rounded dark-themed toggle.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code19', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code19', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code19" class="code-block"><code>.toggle-flat-dark input:checked + label { background-color: #1e293b; }</code></pre>
+    </div>
+
+    <!-- NEW: Sharp Square Toggle -->
+    <div class="component-card" data-cat="basic" data-name="sharp square toggle">
+      <div class="card-top">
+        <span class="card-label">Sharp Square Toggle</span>
+        <span class="card-tag tag-essential">Basic</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-sharp">
+              <input type="checkbox" id="sharp-t1" />
+              <label for="sharp-t1"></label>
+            </div>
+            <span class="toggle-label-text">Angular</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A sharp-edged, strictly rectangular toggle for a rigid UI style.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code20', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code20', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code20" class="code-block"><code>.toggle-sharp input:checked + label { background-color: var(--accent-green-core); }</code></pre>
+    </div>
+
+    <!-- NEW: Thin Track Toggle -->
+    <div class="component-card" data-cat="styled" data-name="thin track toggle">
+      <div class="card-top">
+        <span class="card-label">Thin Track Toggle</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-thin">
+              <input type="checkbox" id="thin-t1" />
+              <label for="thin-t1"></label>
+            </div>
+            <span class="toggle-label-text">Elegant</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A toggle with a thin track background and a prominent thumb.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code21', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code21', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code21" class="code-block"><code>.toggle-thin label::after { box-shadow: 0 2px 5px rgba(0,0,0,0.3); }</code></pre>
+    </div>
+
+    <!-- NEW: Outline Shift Toggle -->
+    <div class="component-card" data-cat="styled" data-name="outline shift toggle">
+      <div class="card-top">
+        <span class="card-label">Outline Shift Toggle</span>
+        <span class="card-tag tag-essential">Basic</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-outline-shift">
+              <input type="checkbox" id="outline-shift-t1" />
+              <label for="outline-shift-t1"></label>
+            </div>
+            <span class="toggle-label-text">Outline</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A hollow toggle where checking it fills the thumb and colors the border.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code22', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code22', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code22" class="code-block"><code>.toggle-outline-shift input:checked + label { border-color: var(--accent-cyan-core); }</code></pre>
+    </div>
+
+    <!-- NEW: Dual Color Toggle -->
+    <div class="component-card" data-cat="styled" data-name="dual color toggle">
+      <div class="card-top">
+        <span class="card-label">Dual Color Toggle</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-dual-color">
+              <input type="checkbox" id="dual-color-t1" />
+              <label for="dual-color-t1"></label>
+            </div>
+            <span class="toggle-label-text">Gradient shift</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">The background smoothly transitions between red and green using gradient position.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code23', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code23', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code23" class="code-block"><code>.toggle-dual-color input:checked + label { background-position: right bottom; }</code></pre>
+    </div>
+
+    <!-- NEW: Pulse Toggle -->
+    <div class="component-card" data-cat="animated" data-name="pulse toggle">
+      <div class="card-top">
+        <span class="card-label">Pulse Toggle</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-pulse">
+              <input type="checkbox" id="pulse-t1" />
+              <label for="pulse-t1"></label>
+            </div>
+            <span class="toggle-label-text">Animated</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A toggle that pulses with an animated box-shadow when active.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code24', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code24', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code24" class="code-block"><code>@keyframes pulseToggle { 0% { box-shadow: 0 0 0 0 rgba(236,72,153,0.4); } ... }</code></pre>
+    </div>
+
+    <!-- NEW: Retro Toggle -->
+    <div class="component-card" data-cat="styled" data-name="retro toggle">
+      <div class="card-top">
+        <span class="card-label">Retro Toggle</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-retro">
+              <input type="checkbox" id="retro-t1" />
+              <label for="retro-t1"></label>
+            </div>
+            <span class="toggle-label-text">8-bit vibe</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A retro, 90s-inspired hard shadowed toggle component.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code25', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code25', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code25" class="code-block"><code>.toggle-retro label { border: 3px solid #000; box-shadow: 3px 3px 0 #000; }</code></pre>
+    </div>
+
+    <!-- NEW: Material Toggle -->
+    <div class="component-card" data-cat="styled" data-name="material toggle">
+      <div class="card-top">
+        <span class="card-label">Material Toggle</span>
+        <span class="card-tag tag-essential">Basic</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-material">
+              <input type="checkbox" id="material-t1" />
+              <label for="material-t1"></label>
+            </div>
+            <span class="toggle-label-text">Android style</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Inspired by the classic Material Design toggle switch.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code26', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code26', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code26" class="code-block"><code>.toggle-material input:checked + label { background-color: rgba(16, 185, 129, 0.5); }</code></pre>
+    </div>
+
+    <!-- NEW: Ghost Toggle -->
+    <div class="component-card" data-cat="styled" data-name="ghost toggle">
+      <div class="card-top">
+        <span class="card-label">Ghost Toggle</span>
+        <span class="card-tag tag-essential">Basic</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-ghost">
+              <input type="checkbox" id="ghost-t1" />
+              <label for="ghost-t1"></label>
+            </div>
+            <span class="toggle-label-text">Transparent</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A subtle, fully transparent track with an opaque active thumb.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code27', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code27', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code27" class="code-block"><code>.toggle-ghost label { background-color: transparent; }</code></pre>
+    </div>
+
+    <!-- NEW: Sliding Text Toggle -->
+    <div class="component-card" data-cat="animated" data-name="sliding text toggle">
+      <div class="card-top">
+        <span class="card-label">Sliding Text Toggle</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-sliding-text">
+              <input type="checkbox" id="sliding-text-t1" />
+              <label for="sliding-text-t1"></label>
+            </div>
+            <span class="toggle-label-text">Dynamic labels</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Text labels (YES/NO) that slide dynamically when toggled.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code28', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code28', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code28" class="code-block"><code>.toggle-sliding-text input:checked + label::before { content: "YES"; left: 10px; }</code></pre>
+    </div>
+
+    <!-- 1. Day/Night Icon Swap Toggle -->
+    <div class="component-card" data-cat="animated" data-name="day night icon swap">
+      <div class="card-top">
+        <span class="card-label">Day/Night Swap</span>
+        <span class="card-tag tag-new">New</span>
+      </div>
+      <div class="card-preview">
+        <style>
+          .theme-toggle-1 { position: relative; width: 60px; height: 30px; border-radius: 15px; background: #333; cursor: pointer; transition: 0.3s; display: inline-block; }
+          .theme-toggle-1 input { display: none; }
+          .theme-toggle-1 .thumb { position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; background: #fff; border-radius: 50%; transition: 0.3s; display: flex; align-items: center; justify-content: center; color: #f39c12; font-size: 14px; }
+          .theme-toggle-1 input:checked ~ .thumb { left: 33px; background: #111; color: #f1c40f; }
+          .theme-toggle-1 input:checked ~ .thumb::after { content: "☽"; }
+          .theme-toggle-1 .thumb::after { content: "☀"; }
+        </style>
+        <label class="theme-toggle-1">
+          <input type="checkbox" />
+          <div class="thumb"></div>
+        </label>
+      </div>
+      <p class="card-desc">A classic sun/moon icon swap toggle.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-theme1', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-theme1', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="code-theme1" class="code-block"><code>/* See preview for CSS */</code></pre>
+    </div>
+
+    <!-- 2. Cyberpunk Theme Toggle -->
+    <div class="component-card" data-cat="animated" data-name="cyberpunk theme toggle">
+      <div class="card-top">
+        <span class="card-label">Cyberpunk Theme</span>
+        <span class="card-tag tag-new">New</span>
+      </div>
+      <div class="card-preview">
+        <style>
+          .theme-toggle-2 { position: relative; width: 64px; height: 32px; border: 2px solid #0ff; background: #111; border-radius: 4px; cursor: pointer; box-shadow: 0 0 10px #0ff; transition: 0.3s; display: inline-block; }
+          .theme-toggle-2 input { display: none; }
+          .theme-toggle-2 .thumb { position: absolute; top: 2px; left: 2px; width: 24px; height: 24px; background: #0ff; border-radius: 2px; transition: 0.3s; box-shadow: 0 0 5px #0ff; }
+          .theme-toggle-2 input:checked ~ .thumb { left: 34px; background: #f0f; box-shadow: 0 0 5px #f0f; }
+          .theme-toggle-2:has(input:checked) { border-color: #f0f; box-shadow: 0 0 10px #f0f; }
+        </style>
+        <label class="theme-toggle-2">
+          <input type="checkbox" />
+          <div class="thumb"></div>
+        </label>
+      </div>
+      <p class="card-desc">A neon cyberpunk style toggle for edgy interfaces.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-theme2', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-theme2', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="code-theme2" class="code-block"><code>/* See preview for CSS */</code></pre>
+    </div>
+
+    <!-- 3. Eclipse Theme Toggle -->
+    <div class="component-card" data-cat="animated" data-name="eclipse theme toggle">
+      <div class="card-top">
+        <span class="card-label">Eclipse Toggle</span>
+        <span class="card-tag tag-new">New</span>
+      </div>
+      <div class="card-preview">
+        <style>
+          .theme-toggle-3 { position: relative; width: 60px; height: 30px; background: #87ceeb; border-radius: 15px; cursor: pointer; transition: 0.5s; overflow: hidden; display: inline-block; }
+          .theme-toggle-3 input { display: none; }
+          .theme-toggle-3 .sun { position: absolute; width: 24px; height: 24px; background: #ffd700; border-radius: 50%; top: 3px; left: 3px; transition: 0.5s; box-shadow: 0 0 10px #ffd700; }
+          .theme-toggle-3 input:checked ~ .sun { background: #fff; box-shadow: 0 0 15px #fff; left: 33px; }
+          .theme-toggle-3:has(input:checked) { background: #1a237e; }
+        </style>
+        <label class="theme-toggle-3">
+          <input type="checkbox" />
+          <div class="sun"></div>
+        </label>
+      </div>
+      <p class="card-desc">Smooth eclipse transition from sky blue to deep night.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-theme3', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-theme3', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="code-theme3" class="code-block"><code>/* See preview for CSS */</code></pre>
+    </div>
+
+    <!-- 4. Minimal Text Toggle -->
+    <div class="component-card" data-cat="animated" data-name="minimal text theme toggle">
+      <div class="card-top">
+        <span class="card-label">Minimal Text</span>
+        <span class="card-tag tag-new">New</span>
+      </div>
+      <div class="card-preview">
+        <style>
+          .theme-toggle-4 { position: relative; width: 70px; height: 34px; background: #eee; border-radius: 17px; cursor: pointer; display: inline-block; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+          .theme-toggle-4 input { display: none; }
+          .theme-toggle-4 .slider { position: absolute; top: 2px; left: 2px; width: 30px; height: 30px; background: #fff; border-radius: 15px; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; font-weight: bold; color: #333; font-family: sans-serif; font-size: 12px; }
+          .theme-toggle-4 input:checked ~ .slider { left: 38px; background: #333; color: #fff; }
+          .theme-toggle-4 .slider::after { content: "LT"; }
+          .theme-toggle-4 input:checked ~ .slider::after { content: "DK"; }
+          .theme-toggle-4:has(input:checked) { background: #555; }
+        </style>
+        <label class="theme-toggle-4">
+          <input type="checkbox" />
+          <div class="slider"></div>
+        </label>
+      </div>
+      <p class="card-desc">Minimalist L/D text toggle for clean dashboards.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-theme4', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-theme4', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="code-theme4" class="code-block"><code>/* See preview for CSS */</code></pre>
+    </div>
+
+    <!-- 5. Expanding Glow Toggle -->
+    <div class="component-card" data-cat="animated" data-name="expanding glow toggle">
+      <div class="card-top">
+        <span class="card-label">Expanding Glow</span>
+        <span class="card-tag tag-new">New</span>
+      </div>
+      <div class="card-preview">
+        <style>
+          .theme-toggle-5 { position: relative; width: 60px; height: 30px; border-radius: 15px; background: #e0e0e0; cursor: pointer; display: inline-block; overflow: hidden; }
+          .theme-toggle-5 input { display: none; }
+          .theme-toggle-5 .glow { position: absolute; width: 24px; height: 24px; background: #fff; border-radius: 50%; top: 3px; left: 3px; transition: 0.4s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+          .theme-toggle-5 input:checked ~ .glow { left: 33px; background: #222; transform: scale(1.1); box-shadow: 0 0 15px rgba(255,255,255,0.5); }
+          .theme-toggle-5:has(input:checked) { background: #333; }
+        </style>
+        <label class="theme-toggle-5">
+          <input type="checkbox" />
+          <div class="glow"></div>
+        </label>
+      </div>
+      <p class="card-desc">Toggle thumb expands and glows upon entering dark mode.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-theme5', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-theme5', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="code-theme5" class="code-block"><code>/* See preview for CSS */</code></pre>
+    </div>
+
+    <!-- 6. Slide-to-Unlock Theme -->
+    <div class="component-card" data-cat="animated" data-name="slide to unlock theme">
+      <div class="card-top">
+        <span class="card-label">Slide Theme Switch</span>
+        <span class="card-tag tag-new">New</span>
+      </div>
+      <div class="card-preview">
+        <style>
+          .theme-toggle-6 { position: relative; width: 90px; height: 34px; background: #dcdde1; border-radius: 17px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; color: #7f8fa6; font-size: 12px; font-weight: bold; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
+          .theme-toggle-6 input { display: none; }
+          .theme-toggle-6 .slider { position: absolute; left: 4px; top: 4px; width: 40px; height: 26px; background: #fff; border-radius: 13px; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; }
+          .theme-toggle-6 input:checked ~ .slider { left: 46px; background: #2f3640; }
+          .theme-toggle-6:has(input:checked) { background: #192a56; color: #f5f6fa; }
+        </style>
+        <label class="theme-toggle-6">
+          <input type="checkbox" />
+          <span>DAY</span>
+          <span>NTE</span>
+          <div class="slider"></div>
+        </label>
+      </div>
+      <p class="card-desc">Wider toggle providing distinct DAY and NTE active zones.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-theme6', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-theme6', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="code-theme6" class="code-block"><code>/* See preview for CSS */</code></pre>
+    </div>
+
+    <!-- 7. Rotational 3D Theme Switch -->
+    <div class="component-card" data-cat="animated" data-name="rotational 3d theme switch">
+      <div class="card-top">
+        <span class="card-label">3D Rotate Theme</span>
+        <span class="card-tag tag-new">New</span>
+      </div>
+      <div class="card-preview">
+        <style>
+          .theme-toggle-7 { position: relative; width: 60px; height: 30px; perspective: 100px; display: inline-block; cursor: pointer; }
+          .theme-toggle-7 input { display: none; }
+          .theme-toggle-7 .flipper { position: absolute; width: 100%; height: 100%; border-radius: 15px; background: #ff7f50; transition: transform 0.6s; transform-style: preserve-3d; }
+          .theme-toggle-7 input:checked ~ .flipper { transform: rotateX(180deg); background: #2c3e50; }
+          .theme-toggle-7 .thumb { position: absolute; width: 26px; height: 26px; top: 2px; background: #fff; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.3); transition: 0.6s; left: 2px; }
+          .theme-toggle-7 input:checked ~ .flipper .thumb { transform: translateX(30px); }
+        </style>
+        <label class="theme-toggle-7">
+          <input type="checkbox" />
+          <div class="flipper"><div class="thumb"></div></div>
+        </label>
+      </div>
+      <p class="card-desc">The entire track flips in 3D space when changing themes.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-theme7', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-theme7', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="code-theme7" class="code-block"><code>/* See preview for CSS */</code></pre>
+    </div>
+
+    <!-- 8. Neumorphic Light/Dark Button -->
+    <div class="component-card" data-cat="animated" data-name="neumorphic theme toggle">
+      <div class="card-top">
+        <span class="card-label">Neumorphic Switch</span>
+        <span class="card-tag tag-new">New</span>
+      </div>
+      <div class="card-preview">
+        <style>
+          .theme-toggle-8 { position: relative; width: 64px; height: 32px; background: #e0e5ec; border-radius: 16px; box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff; cursor: pointer; display: inline-block; transition: 0.3s; }
+          .theme-toggle-8 input { display: none; }
+          .theme-toggle-8 .thumb { position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; background: #e0e5ec; border-radius: 50%; box-shadow: 4px 4px 8px #a3b1c6, -4px -4px 8px #ffffff; transition: 0.3s; }
+          .theme-toggle-8 input:checked ~ .thumb { left: 35px; background: #2b2b2b; box-shadow: 2px 2px 5px #111, -2px -2px 5px #444; }
+          .theme-toggle-8:has(input:checked) { background: #2b2b2b; box-shadow: inset 4px 4px 8px #1a1a1a, inset -4px -4px 8px #3c3c3c; }
+        </style>
+        <label class="theme-toggle-8">
+          <input type="checkbox" />
+          <div class="thumb"></div>
+        </label>
+      </div>
+      <p class="card-desc">Soft neumorphic shadows that adapt to dark mode.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-theme8', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-theme8', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="code-theme8" class="code-block"><code>/* See preview for CSS */</code></pre>
+    </div>
+
+    <!-- 9. Cloud & Stars Toggle -->
+    <div class="component-card" data-cat="animated" data-name="cloud and stars theme toggle">
+      <div class="card-top">
+        <span class="card-label">Cloud & Stars</span>
+        <span class="card-tag tag-new">New</span>
+      </div>
+      <div class="card-preview">
+        <style>
+          .theme-toggle-9 { position: relative; width: 64px; height: 32px; background: #87ceeb; border-radius: 16px; cursor: pointer; display: inline-block; transition: 0.4s; overflow: hidden; }
+          .theme-toggle-9 input { display: none; }
+          .theme-toggle-9 .orb { position: absolute; width: 26px; height: 26px; background: #fff; border-radius: 50%; top: 3px; left: 3px; transition: 0.4s; z-index: 2; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
+          .theme-toggle-9 .cloud { position: absolute; right: 8px; top: 12px; width: 14px; height: 6px; background: #fff; border-radius: 6px; transition: 0.4s; }
+          .theme-toggle-9 input:checked ~ .orb { left: 35px; background: #f1c40f; box-shadow: 0 0 10px #f1c40f; }
+          .theme-toggle-9 input:checked ~ .cloud { right: 40px; background: transparent; box-shadow: 4px -2px 0 0 #fff, 8px 2px 0 0 #fff; height: 2px; width: 2px; border-radius: 50%; top: 16px; }
+          .theme-toggle-9:has(input:checked) { background: #2c3e50; }
+        </style>
+        <label class="theme-toggle-9">
+          <input type="checkbox" />
+          <div class="cloud"></div>
+          <div class="orb"></div>
+        </label>
+      </div>
+      <p class="card-desc">Clouds transform into tiny stars when the theme switches.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-theme9', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-theme9', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="code-theme9" class="code-block"><code>/* See preview for CSS */</code></pre>
+    </div>
+
+    <!-- 10. Emoji Sun/Moon Switch -->
+    <div class="component-card" data-cat="animated" data-name="emoji sun moon toggle">
+      <div class="card-top">
+        <span class="card-label">Emoji Theme Switch</span>
+        <span class="card-tag tag-new">New</span>
+      </div>
+      <div class="card-preview">
+        <style>
+          .theme-toggle-10 { position: relative; width: 64px; height: 32px; background: #e1b12c; border-radius: 16px; cursor: pointer; display: inline-block; transition: 0.4s; }
+          .theme-toggle-10 input { display: none; }
+          .theme-toggle-10 .emoji { position: absolute; left: 4px; top: 4px; font-size: 18px; line-height: 24px; transition: 0.4s; }
+          .theme-toggle-10 .emoji::before { content: "🌞"; }
+          .theme-toggle-10 input:checked ~ .emoji { left: 38px; transform: rotate(360deg); }
+          .theme-toggle-10 input:checked ~ .emoji::before { content: "🌚"; }
+          .theme-toggle-10:has(input:checked) { background: #2f3640; }
+        </style>
+        <label class="theme-toggle-10">
+          <input type="checkbox" />
+          <div class="emoji"></div>
+        </label>
+      </div>
+      <p class="card-desc">Playful emoji-based theme indicator with rotation animation.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code-theme10', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('code-theme10', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="code-theme10" class="code-block"><code>/* See preview for CSS */</code></pre>
+    </div>
   </main>
 
   <!-- TOAST -->

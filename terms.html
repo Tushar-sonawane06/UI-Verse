@@ -27,7 +27,50 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="terms.css">
-    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
+</head>
 
 <body>
 
@@ -37,6 +80,10 @@
     <div class="sidebar-brand">
       <span class="brand-icon">⬡</span>
       <span class="brand-text">UIverse</span>
+    
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
     </div>
 
     <nav class="sidebar-nav">
@@ -381,6 +428,7 @@
     </nav>
 
   </aside>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
   <!-- ================= NAVBAR ================= -->
   <header class="navbar" id="navbar">
@@ -777,72 +825,54 @@
 
 
 
-  <!-- ================= SCRIPT ================= -->
-  <script>
-    const toggle = document.getElementById('themeToggle');
-    const icon = toggle.querySelector('i');
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="forms.html">Forms</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+      </ul>
+    </div>
 
-    // load theme
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-      icon.className = 'fa-solid fa-sun';
-    }
+    <div class="footer-col">
+      <h3>Legal</h3>
+
+      <ul>
+        <li><a href="license.html">License</a></li>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+
+      <p>Get notified when new UI components are released.</p>
+
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com">
+        <button>Subscribe</button>
+      </div>
+    </div>
+
   </div>
 
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+    <p>© 2026 UIverse. Crafted for developers worldwide.</p>
   </div>
+
 </footer>
 
-<script>
-  if (typeof subscribe !== 'function') {
-    function subscribe() {
-      const emailInput = document.getElementById("newsletterEmail");
-      if (emailInput && emailInput.value.trim()) {
-        alert("Thanks for subscribing with: " + emailInput.value.trim());
-        emailInput.value = "";
-      } else {
-        alert("Please enter a valid email address.");
-      }
-    }
-  }
-</script>
+  <button id="scrollTopBtn" class="scroll-top" aria-label="Scroll back to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
 
-<!-- ================= SCRIPT ================= -->
-<script>
-const toggle = document.getElementById('themeToggle');
-const icon = toggle.querySelector('i');
 
-    // toggle theme
-    toggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
 
-      const dark = document.body.classList.contains('dark-mode');
+  <button id="scrollTopBtn" class="scroll-top" aria-label="Scroll back to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
 
-      icon.className = dark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
 
-      localStorage.setItem('theme', dark ? 'dark' : 'light');
-    });
-
-    // navbar scroll effect
-    window.addEventListener('scroll', () => {
-      document.getElementById('navbar')
-        .classList.toggle('scrolled', window.scrollY > 40);
-    });
-
-    document.querySelectorAll(".collapsible").forEach(button => {
-      button.addEventListener("click", () => {
-        const expanded = button.getAttribute("aria-expanded") === "true";
-        button.setAttribute("aria-expanded", !expanded);
-
-        const content = button.nextElementSibling;
-        if (expanded) {
-          content.hidden = true;
-        } else {
-          content.hidden = false;
-        }
-      });
-    });
 
     document.querySelectorAll(".collapsible").forEach(button => {
       button.addEventListener("click", () => {
@@ -881,5 +911,19 @@ const icon = toggle.querySelector('i');
 
   <script src="dist/shared.js"></script>
 </body>
+  <!-- ================= SCRIPT ================= -->
 
-</html>
+    const toggle = document.getElementById('themeToggle');
+    const icon = toggle.querySelector('i');
+
+    // load theme
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      icon.className = 'fa-solid fa-sun';
+    }
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>

@@ -1,0 +1,868 @@
+/* ==========================================================================
+   1. CORE DESIGN SYSTEM DESIGN TOKENS & SEMANTIC CUSTOM VARIABLE MAPS
+   ========================================================================== */
+:root {
+    /* Color Palette Configuration Matrix - Indigo Base Coordinates */
+    --primary-hsl: 239, 84%, 66%;
+    --primary: hsl(var(--primary-hsl));
+    --primary-hover: hsl(239, 84%, 58%);
+    --primary-light: hsla(var(--primary-hsl), 0.08);
+    --primary-solid-light: #e0e7ff;
+    
+    /* Functional Semantic Accent Status Tokens */
+    --success: #10b981;
+    --success-hover: #059669;
+    --success-light: rgba(16, 185, 129, 0.08);
+    --success-border: rgba(16, 185, 129, 0.25);
+    
+    --warning: #f59e0b;
+    --warning-hover: #d97706;
+    --warning-light: rgba(245, 158, 11, 0.08);
+    --warning-border: rgba(245, 158, 11, 0.2);
+    
+    --danger: #ef4444;
+    --danger-hover: #dc2626;
+    --danger-light: rgba(239, 68, 68, 0.08);
+    --danger-border: rgba(239, 68, 68, 0.25);
+    
+    --info: #06b6d4;
+    --info-light: rgba(6, 182, 212, 0.08);
+    --info-border: rgba(6, 182, 212, 0.2);
+
+    /* Baseline Interface Surfaces Configuration - Light Mode Default */
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-sidebar: #0f172a;
+    --border-color: #e2e8f0;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --text-on-sidebar: #94a3b8;
+    --code-bg: #1e1e2e;
+    
+    /* Box Density Metrics Border Profiles */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-round: 9999px;
+    
+    /* Volumetric Drop Shadow Elevation Matrix */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-banner: 0 12px 40px 0 rgba(15, 23, 42, 0.22);
+    
+    /* Mechanical Animation Kinetics Curves */
+    --transition-fast: 0.15s;
+    --transition-normal: 0.3s;
+    --transition-slow: 0.5s;
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ==========================================================================
+   2. SYSTEM INVERTED LUMINANCE MODIFIERS ([data-theme="dark"])
+   ========================================================================== */
+[data-theme="dark"] {
+    --bg-main: #090d16;
+    --bg-card: #131b2e;
+    --border-color: #22314d;
+    --text-main: #f1f5f9;
+    --text-muted: #8495aa;
+    --primary-light: hsla(var(--primary-hsl), 0.16);
+    --shadow-banner: 0 12px 40px 0 rgba(0, 0, 0, 0.55);
+}
+
+/* ==========================================================================
+   3. PROJECT DOM BASE RESET UTILITIES
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+    scroll-behavior: smooth;
+    text-size-adjust: 100%;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.5;
+    overflow-x: hidden;
+    transition: background-color var(--transition-normal) var(--ease-smooth), 
+                color var(--transition-normal) var(--ease-smooth);
+}
+
+/* Focused Element Access Latch Framework Metrics */
+:focus-visible {
+    outline: 2px dashed var(--primary);
+    outline-offset: 4px;
+}
+
+/* Workspace Layer Custom Scrollbars Layouts */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: var(--radius-round);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ==========================================================================
+   4. CENTRAL WORKSPACE CONTAINER BLUEPRINTS
+   ========================================================================== */
+.hub-wrapper {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Sidebar Dashboard Navigation Layer Grid */
+.hub-sidebar {
+    width: 280px;
+    background-color: var(--bg-sidebar);
+    color: #ffffff;
+    padding: 2.5rem 1.5rem;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transition-normal) var(--ease-smooth);
+}
+
+.hub-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+
+.hub-brand i {
+    background: linear-gradient(135deg, var(--primary), var(--primary-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.75rem;
+}
+
+.sidebar-segment {
+    margin-top: 2.5rem;
+}
+
+.sidebar-heading {
+    font-size: 0.725rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: rgba(255, 255, 255, 0.25);
+    margin-bottom: 1rem;
+    font-weight: 700;
+    padding-left: 0.75rem;
+}
+
+.sidebar-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.15rem;
+    color: var(--text-on-sidebar);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transition-fast) var(--ease-smooth);
+}
+
+.sidebar-link-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.sidebar-link-inner i {
+    width: 20px;
+    font-size: 1.1rem;
+    text-align: center;
+    transition: color var(--transition-fast);
+}
+
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: #ffffff;
+}
+
+.sidebar-link.active {
+    background-color: rgba(255, 255, 255, 0.04);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.sidebar-link.active i {
+    color: var(--primary);
+}
+
+/* Status Indicators Nested into Side Navigation Slots */
+.sidebar-status-pill {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.status-online-pill {
+    background-color: rgba(16, 185, 129, 0.14);
+    color: var(--success);
+}
+
+.status-offline-pill {
+    background-color: rgba(239, 68, 68, 0.14);
+    color: var(--danger);
+}
+
+.menu-count-badge {
+    font-size: 0.725rem;
+    background-color: rgba(255, 255, 255, 0.06);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+}
+
+/* Main Display Context Area Runway */
+.hub-main {
+    flex: 1;
+    margin-left: 280px;
+    padding: 2.5rem 4rem;
+    max-width: 1500px;
+    width: calc(100% - 280px);
+    transition: margin var(--transition-normal) var(--ease-smooth);
+}
+
+/* ==========================================================================
+   5. FRAMEWORK MASTER CANVAS HEADER SECTIONS
+   ========================================================================== */
+.hub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-title h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.75px;
+}
+
+.header-title p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-top: 0.35rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+}
+
+.theme-toggle-trigger {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    border-radius: var(--radius-round);
+    cursor: pointer;
+    color: var(--text-main);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-fast) var(--ease-smooth);
+}
+
+.theme-toggle-trigger:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: scale(1.05);
+}
+
+/* ==========================================================================
+   6. SANDBOX ECOSYSTEM COHORT STAGING GRIDS & BLOCKS
+   ========================================================================== */
+.sandbox-workspace-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 2.75rem;
+    align-items: start;
+}
+
+.workspace-block-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color var(--transition-normal) var(--ease-smooth),
+                box-shadow var(--transition-normal) var(--ease-smooth);
+}
+
+.workspace-block-card:hover {
+    border-color: hsla(var(--primary-hsl), 0.2);
+    box-shadow: var(--shadow-md);
+}
+
+.block-header-bar {
+    padding: 1.25rem 1.75rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.005);
+}
+
+.block-heading-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.block-badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.block-body-canvas {
+    padding: 2.5rem;
+}
+
+/* ==========================================================================
+   7. CORE STAGING BLOCK: MOCK FORMS & CONTROL INTERFACES
+   ========================================================================== */
+.mock-form-group {
+    margin-bottom: 1.75rem;
+}
+
+.mock-form-group:last-child {
+    margin-bottom: 0;
+}
+
+.mock-form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--text-main);
+    letter-spacing: -0.1px;
+}
+
+.mock-form-input {
+    width: 100%;
+    padding: 0.8rem 1.15rem;
+    border: 1.5px solid var(--border-color);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color var(--transition-fast) var(--ease-smooth),
+                background-color var(--transition-fast) var(--ease-smooth),
+                box-shadow var(--transition-fast) var(--ease-smooth);
+}
+
+.mock-form-input:focus {
+    border-color: var(--primary);
+    background-color: var(--bg-card);
+    box-shadow: 0 0 0 4px var(--primary-light);
+}
+
+textarea.mock-form-input {
+    resize: vertical;
+    min-height: 110px;
+}
+
+/* Network Simulator Harness Control Panel */
+.simulation-controls-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+}
+
+.sim-btn {
+    width: 100%;
+    padding: 0.95rem 1.5rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.925rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    transition: transform var(--transition-fast) var(--ease-smooth),
+                background-color var(--transition-fast) var(--ease-smooth),
+                box-shadow var(--transition-fast) var(--ease-smooth);
+    color: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+
+.sim-btn active {
+    transform: translateY(1px);
+}
+
+.btn-drop-signal {
+    background-color: var(--danger);
+}
+
+.btn-drop-signal:hover {
+    background-color: var(--danger-hover);
+    box-shadow: 0 4px 12px 0 rgba(239, 68, 68, 0.25);
+}
+
+.btn-restore-signal {
+    background-color: var(--success);
+}
+
+.btn-restore-signal:hover {
+    background-color: var(--success-hover);
+    box-shadow: 0 4px 12px 0 rgba(16, 185, 129, 0.25);
+}
+
+/* ==========================================================================
+   8. REAL-TIME DATA STREAM TERMINAL MONITORS
+   ========================================================================== */
+.terminal-container {
+    margin-top: 0.5rem;
+}
+
+.logs-terminal-stream {
+    list-style: none;
+    background-color: var(--bg-main);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 1.25rem;
+    height: 190px;
+    overflow-y: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.825rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.log-line-item {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    line-height: 1.4;
+    color: var(--text-muted);
+    animation: terminalLinePushIn 0.25s var(--ease-bounce) forwards;
+}
+
+@keyframes terminalLinePushIn {
+    from { opacity: 0; transform: translateX(-4px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.log-line-item i {
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+}
+
+.log-line-item.info-line i { color: var(--primary); }
+.log-line-item.success-line i { color: var(--success); }
+.log-line-item.danger-line i { color: var(--danger); }
+
+.log-line-item span {
+    word-break: break-all;
+}
+
+/* ==========================================================================
+   9. CORE COMPONENT SPECIFIC: NETWORK STATUS RUNTIME ALERT BANNER
+   ========================================================================== */
+.uv-status-banner-housing {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999999;
+    transform: translateY(-130%); /* Hidden offscreen natively by bounding box parameters */
+    opacity: 0;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    padding: 1.75rem;
+    transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                opacity 0.3s var(--ease-smooth);
+}
+
+/* Active Class Programmatic Hook for Triggering Inward Entry */
+.uv-status-banner-housing.banner-active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.uv-status-banner-card {
+    background-color: var(--bg-sidebar);
+    color: #ffffff;
+    padding: 1.15rem 2rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-banner);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.75rem;
+    width: 100%;
+    max-width: 620px;
+    border-left: 5px solid var(--primary);
+    position: relative;
+    overflow: hidden;
+    transition: border-color var(--transition-normal), background-color var(--transition-normal);
+}
+
+.banner-left-context {
+    display: flex;
+    align-items: center;
+    gap: 1.15rem;
+    min-width: 0; /* Protects grid bounds text sizing components */
+}
+
+.banner-icon-box {
+    font-size: 1.35rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+/* Continuous status emission wave effect animation layers */
+.banner-icon-box::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-round);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.35);
+    animation: broadcastPulsingWave 2.2s infinite linear;
+}
+
+@keyframes broadcastPulsingWave {
+    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.35); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+.banner-text-frame {
+    min-width: 0;
+}
+
+.banner-text-frame h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.25px;
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.banner-text-frame p {
+    font-size: 0.825rem;
+    color: rgba(255, 255, 255, 0.72);
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Micro Sync Caching Controllers Internals */
+.banner-action-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #ffffff;
+    padding: 0.5rem 1.15rem;
+    font-size: 0.825rem;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition-fast) var(--ease-smooth);
+    box-shadow: var(--shadow-sm);
+}
+
+.banner-action-btn:hover {
+    background: #ffffff;
+    color: var(--bg-sidebar);
+    border-color: #ffffff;
+    transform: scale(1.02);
+}
+
+.banner-action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Interactive Connection Loss Context Overrides Map */
+.uv-status-banner-card.mode-offline {
+    border-left-color: var(--danger);
+}
+
+.uv-status-banner-card.mode-offline .banner-icon-box {
+    color: var(--danger);
+}
+
+.uv-status-banner-card.mode-offline .banner-icon-box::after {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+    animation: broadcastOfflineWave 2s infinite linear;
+}
+
+@keyframes broadcastOfflineWave {
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+    70% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* Interactive Connection Restore Recovery Overrides Map */
+.uv-status-banner-card.mode-online {
+    border-left-color: var(--success);
+}
+
+.uv-status-banner-card.mode-online .banner-icon-box {
+    color: var(--success);
+}
+
+.uv-status-banner-card.mode-online .banner-icon-box::after {
+    animation: none; /* Kill pulsing overhead when recovery operations resolve */
+}
+
+/* ==========================================================================
+   10. AUTOMATED SANDBOX TECHNICAL DRAWERS CODE EXPLORERS
+   ========================================================================== */
+.inspector-control-housing {
+    margin-top: 3.5rem;
+}
+
+.inspector-action-bar {
+    padding: 0.85rem 1.75rem;
+    display: flex;
+    justify-content: flex-end;
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    background-color: rgba(0, 0, 0, 0.005);
+    border-top-left-radius: var(--radius-md);
+    border-top-right-radius: var(--radius-md);
+}
+
+.code-drawer-housing {
+    max-height: 0;
+    overflow: hidden;
+    background-color: var(--code-bg);
+    border-bottom-left-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+    transition: max-height var(--transition-normal) cubic-bezier(0, 1, 0, 1);
+}
+
+.code-drawer-housing.open {
+    max-height: 2000px;
+    border: 1px solid var(--code-bg);
+    transition: max-height var(--transition-slow) cubic-bezier(1, 0, 1, 0);
+}
+
+.code-block-wrapper {
+    padding: 1.75rem;
+    position: relative;
+}
+
+.code-block-wrapper pre {
+    margin: 0;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.85rem;
+    color: #a9b1d6;
+    line-height: 1.6;
+}
+
+.copy-floating-trigger {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    padding: 0.45rem 0.95rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast) var(--ease-smooth);
+}
+
+.copy-floating-trigger:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   11. FIXED OVERLAY PERIPHERALS SYSTEM TOAST INJECTION GRIDS
+   ========================================================================== */
+.toast-system-overlay-hub {
+    position: fixed;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    z-index: 999999;
+    pointer-events: none;
+}
+
+.toast-popup-node {
+    pointer-events: auto;
+    background-color: var(--bg-sidebar);
+    color: #ffffff;
+    padding: 1.1rem 1.6rem;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 0.925rem;
+    font-weight: 500;
+    min-width: 320px;
+    max-width: 480px;
+    border-left: 4px solid var(--primary);
+    transform: translateY(120px) scale(0.9);
+    opacity: 0;
+    animation: pushToastIn 0.38s forwards var(--ease-bounce);
+}
+
+@keyframes pushToastIn {
+    to { 
+        transform: translateY(0) scale(1); 
+        opacity: 1; 
+    }
+}
+
+/* ==========================================================================
+   12. DEVICE HARDWARE INTERACTION RESPONSIVE MEDIA BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 1300px) {
+    .sandbox-workspace-grid {
+        gap: 2rem;
+    }
+    .hub-main {
+        padding: 2.5rem 2.5rem;
+    }
+}
+
+@media (max-width: 1150px) {
+    .sandbox-workspace-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .hub-sidebar {
+        transform: translateX(-280px);
+    }
+    /* Dynamic active handles targets for mobile toggle expansion configurations */
+    .hub-sidebar.mobile-open {
+        transform: translateX(0);
+    }
+    .hub-main {
+        margin-left: 0;
+        width: 100%;
+        padding: 2rem 2rem;
+    }
+    .hub-header {
+        margin-bottom: 3rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hub-main {
+        padding: 1.5rem 1.25rem;
+    }
+    .hub-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    .header-actions {
+        align-self: flex-end;
+    }
+    .block-body-canvas {
+        padding: 1.75rem 1.25rem;
+    }
+    .uv-status-banner-housing {
+        padding: 1rem;
+    }
+    .uv-status-banner-card {
+        padding: 1rem 1.25rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+    }
+    .banner-action-btn {
+        width: 100%;
+        text-align: center;
+    }
+    .toast-system-overlay-hub {
+        left: 1.25rem;
+        right: 1.25rem;
+        bottom: 1.25rem;
+    }
+    .toast-popup-node {
+        min-width: 100%;
+    }
+}
+/* ==========================================================================
+   END OF FILE SPECIFICATION CSS - UI-VERSE 2026
+   ========================================================================== */

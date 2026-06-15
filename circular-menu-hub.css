@@ -1,0 +1,849 @@
+/* ==========================================================================
+   1. CORE DESIGN SYSTEM TOKENS & ATOMIC GLOBAL VARIABLE MAPS
+   ========================================================================== */
+:root {
+    /* Color Palette Configuration Matrix */
+    --primary-hsl: 239, 84%, 66%;
+    --primary: hsl(var(--primary-hsl));
+    --primary-hover: hsl(239, 84%, 58%);
+    --primary-light: hsla(var(--primary-hsl), 0.12);
+    
+    /* Secondary Accent Vectors */
+    --accent-pink: #ec4899;
+    --accent-pink-hover: #db2777;
+    --accent-purple: #a855f7;
+    --accent-purple-hover: #9333ea;
+    --accent-cyan: #06b6d4;
+    --accent-cyan-hover: #0891b2;
+    
+    /* Semantic Status Feedback Tokens */
+    --success: #10b981;
+    --success-hover: #059669;
+    --success-light: rgba(16, 185, 129, 0.1);
+    --warning: #f59e0b;
+    --warning-hover: #d97706;
+    --warning-light: rgba(245, 158, 11, 0.1);
+    --danger: #ef4444;
+    --danger-hover: #dc2626;
+    --danger-light: rgba(239, 68, 68, 0.1);
+    
+    /* Light Theme Interface Surfaces Mapping */
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-sidebar: #0f172a;
+    --border-color: #e2e8f0;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --text-on-sidebar: #94a3b8;
+    --code-bg: #1e1e2e;
+    
+    /* Structural Scale Proportions */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-round: 9999px;
+    
+    /* Volumetric Shadow Elevation Profiles */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-fab: 0 8px 32px 0 rgba(99, 102, 241, 0.35);
+    
+    /* Dynamic Animation Physics Curves */
+    --transition-fast: 0.15s;
+    --transition-normal: 0.3s;
+    --transition-slow: 0.5s;
+    --ease-spring: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.5);
+}
+
+/* ==========================================================================
+   2. SYSTEM DARK CONTRAST HIGH-DENSITY OVERRIDES ([data-theme="dark"])
+   ========================================================================== */
+[data-theme="dark"] {
+    --bg-main: #090d16;
+    --bg-card: #131b2e;
+    --border-color: #1f2b44;
+    --text-main: #f1f5f9;
+    --text-muted: #8898aa;
+    --primary-light: hsla(var(--primary-hsl), 0.2);
+    
+    /* Dark Surface Deepened Shadow Profiles */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.25), 0 2px 4px -2px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.35), 0 8px 10px -6px rgba(0, 0, 0, 0.35);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.45), 0 10px 10px -5px rgba(0, 0, 0, 0.45);
+    --shadow-fab: 0 8px 32px 0 rgba(99, 102, 241, 0.2);
+}
+
+/* ==========================================================================
+   3. GLOBAL PROJECT RESET UTILITIES & ACCESSIBILITY STYLES
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+    scroll-behavior: smooth;
+    text-size-adjust: 100%;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.5;
+    overflow-x: hidden;
+    transition: background-color var(--transition-normal) var(--ease-smooth), 
+                color var(--transition-normal) var(--ease-smooth);
+}
+
+/* Framework Layout Scrollbar Elements */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: var(--radius-round);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ==========================================================================
+   4. HOUSING LAYER WORKSPACE CANVAS LAYOUTS
+   ========================================================================== */
+.hub-wrapper {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+}
+
+.hub-sidebar {
+    width: 270px;
+    background-color: var(--bg-sidebar);
+    color: #ffffff;
+    padding: 2.5rem 1.5rem;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform var(--transition-normal) var(--ease-smooth);
+}
+
+.hub-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 3.5rem;
+    color: #ffffff;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+
+.hub-brand i {
+    background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.6rem;
+}
+
+.sidebar-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1.25rem;
+    color: var(--text-on-sidebar);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transition-fast) var(--ease-smooth);
+}
+
+.sidebar-link i {
+    width: 20px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.04);
+    color: #ffffff;
+}
+
+.sidebar-link.active {
+    background-color: var(--primary-light);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.sidebar-link.active i {
+    color: var(--primary);
+}
+
+/* Core Main Structural Track */
+.hub-main {
+    flex: 1;
+    margin-left: 270px;
+    padding: 2.5rem 4rem;
+    max-width: 1500px;
+    width: calc(100% - 270px);
+    transition: margin var(--transition-normal) var(--ease-smooth);
+}
+
+/* Header Node Subsections */
+.hub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-meta h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.75px;
+}
+
+.header-meta p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-top: 0.35rem;
+}
+
+.theme-toggle-trigger {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    border-radius: var(--radius-round);
+    cursor: pointer;
+    color: var(--text-main);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-fast) var(--ease-smooth);
+}
+
+.theme-toggle-trigger:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: scale(1.05);
+}
+
+/* ==========================================================================
+   5. GRID PATTERNS, WRAPPERS, AND DISPLAY SECTIONS
+   ========================================================================== */
+.sandbox-section {
+    margin-bottom: 5rem;
+    scroll-margin-top: 2.5rem;
+}
+
+.section-title-bar {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    color: var(--text-main);
+}
+
+.section-title-bar i {
+    color: var(--primary);
+}
+
+.showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 2.5rem;
+}
+
+/* Independent Component Cards Shell */
+.showcase-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transition-fast) var(--ease-smooth), 
+                box-shadow var(--transition-fast) var(--ease-smooth),
+                border-color var(--transition-normal) var(--ease-smooth);
+}
+
+.showcase-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: hsla(var(--primary-hsl), 0.3);
+}
+
+.card-top-bar {
+    padding: 1.25rem 1.75rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.005);
+}
+
+.card-heading-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.card-badge-tag {
+    font-size: 0.725rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Stage Staging Alignment Context */
+.card-viewport-stage {
+    padding: 4.5rem 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    min-height: 280px;
+    position: relative;
+    background-image: radial-gradient(var(--border-color) 1.2px, transparent 1.2px);
+    background-size: 22px 22px;
+    background-position: center;
+}
+
+.card-actions-panel {
+    padding: 0.95rem 1.75rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    background-color: rgba(0, 0, 0, 0.005);
+}
+
+.explorer-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    padding: 0.45rem 1.15rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    transition: var(--transition-fast) var(--ease-smooth);
+}
+
+.explorer-btn:hover, .explorer-btn.active {
+    border-color: var(--primary);
+    color: var(--primary);
+    background-color: var(--primary-light);
+}
+
+/* ==========================================================================
+   6. CODE EXTRACTION PANEL HOOK PIPELINE
+   ========================================================================== */
+.drawer-code-container {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-normal) cubic-bezier(0, 1, 0, 1);
+    background-color: var(--code-bg);
+}
+
+.drawer-code-container.expanded {
+    max-height: 1500px;
+    transition: max-height var(--transition-slow) cubic-bezier(1, 0, 1, 0);
+}
+
+.code-shell-wrapper {
+    position: relative;
+    padding: 1.75rem;
+}
+
+.code-shell-wrapper pre {
+    margin: 0;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.85rem;
+    color: #a9b1d6;
+    line-height: 1.6;
+}
+
+.copy-absolute-trigger {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    padding: 0.45rem 0.85rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast) var(--ease-smooth);
+}
+
+.copy-absolute-trigger:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   7. SPEED DIAL ENGINE INTERNALS (THE MECHANICAL STYLING)
+   ========================================================================== */
+
+/* Universal Positioning Anchor Wrapper */
+.uv-speed-dial-housing {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Core Native Floating Trigger Unit Layout */
+.uv-fab-base {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-round);
+    background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+    border: none;
+    color: #ffffff;
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-fab);
+    position: relative;
+    z-index: 10;
+    outline: none;
+    transition: transform var(--transition-normal) var(--ease-spring), 
+                background var(--transition-normal) var(--ease-smooth),
+                box-shadow var(--transition-fast) var(--ease-smooth);
+}
+
+.uv-fab-base:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 36px 0 rgba(99, 102, 241, 0.45);
+}
+
+.uv-fab-base:focus-visible {
+    box-shadow: 0 0 0 4px var(--primary-light), var(--shadow-fab);
+}
+
+/* Sub-action Satellite Nodes Blueprint Layouts */
+.uv-fab-item-node {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-round);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 1.15rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+    position: absolute;
+    z-index: 5;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(0, 0) scale(0.3);
+    outline: none;
+    transition: transform 0.35s var(--ease-spring), 
+                opacity 0.25s var(--ease-smooth),
+                background-color var(--transition-fast) var(--ease-smooth),
+                color var(--transition-fast) var(--ease-smooth),
+                border-color var(--transition-fast) var(--ease-smooth);
+}
+
+.uv-fab-item-node:hover {
+    background-color: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+}
+
+.uv-fab-item-node:focus-visible {
+    box-shadow: 0 0 0 3px var(--primary-light), var(--shadow-md);
+}
+
+/* ==========================================================================
+   8. SPECIFIC STRUCTURAL SELECTION PROFILE VARIATIONS (1 - 8)
+   ========================================================================== */
+
+/* --- VARIATION 1: NORTH-EAST ARC SPAN ($90^\circ$ SPAN) --- */
+.dial-v1-housing.active .uv-fab-base {
+    transform: rotate(135deg);
+    background: linear-gradient(135deg, var(--danger), #f43f5e);
+    box-shadow: 0 8px 32px 0 rgba(239, 68, 68, 0.4);
+}
+
+.dial-v1-housing.active .node-v1-1 { opacity: 1; pointer-events: auto; transform: translate(0px, -76px) scale(1); }
+.dial-v1-housing.active .node-v1-2 { opacity: 1; pointer-events: auto; transform: translate(54px, -54px) scale(1); }
+.dial-v1-housing.active .node-v1-3 { opacity: 1; pointer-events: auto; transform: translate(76px, 0px) scale(1); }
+
+/* --- VARIATION 2: LINEAR COLUMN STACK --- */
+.dial-v2-housing {
+    flex-direction: column-reverse;
+}
+
+.dial-v2-housing .uv-fab-item-node {
+    position: relative;
+    transform: translateY(16px) scale(0.5);
+    margin-bottom: -42px; /* Pull into underlying alignment bounds when dormant */
+}
+
+.dial-v2-housing.active .uv-fab-base {
+    transform: rotate(45deg);
+}
+
+.dial-v2-housing.active .uv-fab-item-node {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    margin-bottom: 12px; /* Push outwards cleanly on grid line indexes */
+}
+
+/* Ordered delay chains for waterfall loading curves */
+.dial-v2-housing .node-v2-1 { transition-delay: 0.03s; }
+.dial-v2-housing .node-v2-2 { transition-delay: 0.08s; }
+.dial-v2-housing .node-v2-3 { transition-delay: 0.13s; }
+
+/* --- VARIATION 3: UPPER HALF PANORAMIC ARC ($180^\circ$) --- */
+.dial-v3-housing.active .uv-fab-base {
+    transform: scale(0.92);
+    background: var(--bg-sidebar);
+}
+[data-theme="dark"] .dial-v3-housing.active .uv-fab-base {
+    background: #ffffff;
+    color: var(--bg-sidebar);
+}
+
+.dial-v3-housing.active .node-v3-1 { opacity: 1; pointer-events: auto; transform: translate(-82px, 0px) scale(1); }
+.dial-v3-housing.active .node-v3-2 { opacity: 1; pointer-events: auto; transform: translate(-58px, -58px) scale(1); }
+.dial-v3-housing.active .node-v3-3 { opacity: 1; pointer-events: auto; transform: translate(0px, -82px) scale(1); }
+.dial-v3-housing.active .node-v3-4 { opacity: 1; pointer-events: auto; transform: translate(58px, -58px) scale(1); }
+.dial-v3-housing.active .node-v3-5 { opacity: 1; pointer-events: auto; transform: translate(82px, 0px) scale(1); }
+
+/* --- VARIATION 4: FULL RADIAL ORBIT CONSTELLATION ($360^\circ$) --- */
+.dial-v4-housing.active .uv-fab-base {
+    background: var(--accent-cyan);
+    box-shadow: 0 8px 32px 0 rgba(6, 182, 212, 0.4);
+    transform: rotate(360deg);
+}
+
+.dial-v4-housing.active .node-v4-1 { opacity: 1; pointer-events: auto; transform: translate(0px, -86px) scale(1); }
+.dial-v4-housing.active .node-v4-2 { opacity: 1; pointer-events: auto; transform: translate(61px, -61px) scale(1); }
+.dial-v4-housing.active .node-v4-3 { opacity: 1; pointer-events: auto; transform: translate(86px, 0px) scale(1); }
+.dial-v4-housing.active .node-v4-4 { opacity: 1; pointer-events: auto; transform: translate(61px, 61px) scale(1); }
+.dial-v4-housing.active .node-v4-5 { opacity: 1; pointer-events: auto; transform: translate(0px, 86px) scale(1); }
+.dial-v4-housing.active .node-v4-6 { opacity: 1; pointer-events: auto; transform: translate(-61px, 61px) scale(1); }
+.dial-v4-housing.active .node-v4-7 { opacity: 1; pointer-events: auto; transform: translate(-86px, 0px) scale(1); }
+.dial-v4-housing.active .node-v4-8 { opacity: 1; pointer-events: auto; transform: translate(-61px, -61px) scale(1); }
+
+/* --- VARIATION 5: NEUMORPHIC ANALOG FLUID LAYER --- */
+.uv-fab-neu-base {
+    width: 58px;
+    height: 58px;
+    border-radius: var(--radius-round);
+    background: #e0e0e0;
+    border: none;
+    color: #4a5568;
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 6px 6px 14px #bebebe, -6px -6px 14px #ffffff;
+    position: relative;
+    z-index: 10;
+    outline: none;
+    transition: transform var(--transition-normal) var(--ease-spring),
+                box-shadow var(--transition-normal) var(--ease-smooth),
+                color var(--transition-fast);
+}
+
+.uv-fab-neu-base:hover {
+    color: var(--primary);
+}
+
+.uv-fab-neu-node {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-round);
+    background: #e0e0e0;
+    border: none;
+    color: #4a5568;
+    font-size: 1.15rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 4px 4px 10px #bebebe, -4px -4px 10px #ffffff;
+    position: absolute;
+    z-index: 5;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.4);
+    outline: none;
+    transition: transform 0.35s var(--ease-spring), opacity 0.25s var(--ease-smooth), color var(--transition-fast);
+}
+
+.uv-fab-neu-node:hover {
+    color: var(--accent-pink);
+    box-shadow: inset 2px 2px 5px #bebebe, inset -2px -2px 5px #ffffff;
+}
+
+.dial-v5-housing.active .uv-fab-neu-base {
+    box-shadow: inset 4px 4px 10px #bebebe, inset -4px -4px 10px #ffffff;
+    color: var(--primary);
+    transform: scale(0.95);
+}
+
+.dial-v5-housing.active .node-v5-1 { opacity: 1; pointer-events: auto; transform: translate(-76px, -32px) scale(1); }
+.dial-v5-housing.active .node-v5-2 { opacity: 1; pointer-events: auto; transform: translate(-52px, -72px) scale(1); }
+.dial-v5-housing.active .node-v5-3 { opacity: 1; pointer-events: auto; transform: translate(0px, -88px) scale(1); }
+
+/* --- VARIATION 6: STAIR-STEPPING LINEAR CHIPS TEXT WRAPPER --- */
+.dial-v6-housing {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+}
+
+.uv-fab-chip-node {
+    padding: 0.55rem 1.15rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(18px);
+    transition: transform 0.25s var(--ease-smooth), 
+                opacity 0.2s var(--ease-smooth),
+                background-color var(--transition-fast),
+                color var(--transition-fast);
+    white-space: nowrap;
+    margin-bottom: -35px; /* Offset overlapping bounds stacked fields */
+}
+
+.uv-fab-chip-node:hover {
+    background-color: var(--primary-light);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.dial-v6-housing.active .uv-fab-base {
+    background: var(--text-main);
+    transform: rotate(90deg);
+}
+
+.dial-v6-housing.active .uv-fab-chip-node {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    margin-bottom: 12px;
+}
+
+.dial-v6-housing .node-v6-1 { transition-delay: 0.04s; }
+.dial-v6-housing .node-v6-2 { transition-delay: 0.09s; }
+.dial-v6-housing .node-v6-3 { transition-delay: 0.14s; }
+
+/* --- VARIATION 7: GLASSMORPHISM BACKDROP BLUR --- */
+.uv-fab-glass-node {
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-round);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(0, 0) scale(0.3);
+    transition: transform 0.3s var(--ease-spring), opacity 0.2s ease;
+}
+
+.uv-fab-glass-node:hover {
+    background: rgba(255, 255, 255, 0.35);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.1) !important;
+}
+
+.dial-v7-housing.active .uv-fab-base {
+    background: linear-gradient(135deg, #10b981, #059669);
+    box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.4);
+}
+
+.dial-v7-housing.active .node-v7-1 { opacity: 1; pointer-events: auto; transform: translate(-72px, -42px) scale(1); }
+.dial-v7-housing.active .node-v7-2 { opacity: 1; pointer-events: auto; transform: translate(-42px, -72px) scale(1); }
+
+/* --- VARIATION 8: ELASTIC MECHANICAL STRETCH OVERRIDES --- */
+.dial-v8-housing .uv-fab-item-node {
+    transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.42, 1.65), opacity 0.25s linear;
+}
+
+.dial-v8-housing.active .uv-fab-base {
+    background: linear-gradient(135deg, #f59e0b, #eab308);
+    box-shadow: 0 8px 32px 0 rgba(245, 158, 11, 0.4);
+}
+
+.dial-v8-housing.active .node-v8-1 { opacity: 1; pointer-events: auto; transform: translate(0px, -96px) scale(1); }
+.dial-v8-housing.active .node-v8-2 { opacity: 1; pointer-events: auto; transform: translate(96px, 0px) scale(1); }
+
+/* ==========================================================================
+   9. FIXED ALERTS PIPELINE TOAST STRUCTURAL CONTAINERS
+   ========================================================================== */
+.toast-pipeline-housing {
+    position: fixed;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    z-index: 99999;
+    pointer-events: none;
+}
+
+.toast-popup-card {
+    pointer-events: auto;
+    background-color: var(--bg-sidebar);
+    color: #ffffff;
+    padding: 1.1rem 1.6rem;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 0.925rem;
+    font-weight: 500;
+    min-width: 320px;
+    max-width: 480px;
+    border-left: 4px solid var(--primary);
+    transform: translateY(120px) scale(0.9);
+    opacity: 0;
+    animation: alertSlideIn 0.4s forwards var(--ease-spring);
+}
+
+@keyframes alertSlideIn {
+    to { 
+        transform: translateY(0) scale(1); 
+        opacity: 1; 
+    }
+}
+
+/* ==========================================================================
+   10. SCREEN ADAPTERS & RESPONSIVE BREAKPOINT MATRICES
+   ========================================================================== */
+@media (max-width: 1200px) {
+    .showcase-grid {
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: 2rem;
+    }
+    .hub-main {
+        padding: 2.5rem 2.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .hub-sidebar {
+        transform: translateX(-270px);
+    }
+    /* Hook classes for programmatic active menu layout extensions */
+    .hub-sidebar.mobile-open {
+        transform: translateX(0);
+    }
+    .hub-main {
+        margin-left: 0;
+        width: 100%;
+        padding: 2rem 2rem;
+    }
+    .hub-header {
+        margin-bottom: 3rem;
+    }
+    .header-meta h1 {
+        font-size: 1.85rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hub-main {
+        padding: 1.5rem 1.25rem;
+    }
+    .hub-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    .theme-toggle-trigger {
+        align-self: flex-end;
+    }
+    .showcase-grid {
+        grid-template-columns: 1fr;
+    }
+    .card-viewport-stage {
+        padding: 3.5rem 1.5rem;
+        min-height: 260px;
+    }
+    .toast-pipeline-housing {
+        left: 1.25rem;
+        right: 1.25rem;
+        bottom: 1.25rem;
+    }
+    .toast-popup-card {
+        min-width: 100%;
+    }
+}
