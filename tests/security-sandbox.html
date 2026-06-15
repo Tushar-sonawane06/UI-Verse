@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Sandbox - CSP Violation Testing</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #ff6b6b;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      color: #888;
+      margin-bottom: 30px;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: #4ecdc4;
+      color: #1a1a2e;
+    }
+    .btn-primary:hover {
+      background: #45b7aa;
+    }
+    .btn-secondary {
+      background: #6c5ce7;
+      color: white;
+    }
+    .btn-secondary:hover {
+      background: #5a4bd6;
+    }
+    .btn-danger {
+      background: #ff6b6b;
+      color: white;
+    }
+    .btn-danger:hover {
+      background: #ff5252;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 20px;
+    }
+    @media (max-width: 1000px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .panel {
+      background: #16213e;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .panel-header {
+      background: #0f3460;
+      padding: 15px 20px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .panel-content {
+      padding: 20px;
+    }
+    .sandbox-frame {
+      width: 100%;
+      height: 500px;
+      border: 2px solid #4ecdc4;
+      border-radius: 4px;
+      background: white;
+    }
+    .violations-list {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .violation-item {
+      padding: 10px;
+      margin-bottom: 8px;
+      background: #1f2937;
+      border-radius: 4px;
+      border-left: 3px solid #ff6b6b;
+    }
+    .violation-item.resolved {
+      border-left-color: #4ecdc4;
+      background: #1a2f23;
+    }
+    .violation-item .type {
+      font-size: 11px;
+      color: #888;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .violation-item .message {
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    .violation-item .details {
+      font-size: 11px;
+      color: #666;
+      font-family: monospace;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      background: #16213e;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #4ecdc4;
+    }
+    .stat-value.danger {
+      color: #ff6b6b;
+    }
+    .stat-label {
+      color: #888;
+      font-size: 12px;
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+    .component-select {
+      width: 100%;
+      padding: 10px;
+      background: #1f2937;
+      color: white;
+      border: 1px solid #374151;
+      border-radius: 4px;
+      margin-bottom: 15px;
+    }
+    .code-preview {
+      background: #0d1117;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      max-height: 200px;
+      overflow: auto;
+    }
+    .status-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    .status-indicator.active {
+      background: #ff6b6b;
+      animation: pulse 1s infinite;
+    }
+    .status-indicator.safe {
+      background: #4ecdc4;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .no-violations {
+      text-align: center;
+      padding: 40px;
+      color: #4ecdc4;
+    }
+    .no-violations svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔒 Security Sandbox - CSP Violation Testing</h1>
+    <p class="subtitle">Run components in isolated iframes with strict Content Security Policy to detect security issues</p>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-value" id="total-tests">0</div>
+        <div class="stat-label">Tests Run</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value danger" id="total-violations">0</div>
+        <div class="stat-label">Violations</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="resolved-count">0</div>
+        <div class="stat-label">Auto-Fixed</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn-primary" onclick="runTest()">▶️ Run All Tests</button>
+      <button class="btn-secondary" onclick="clearResults()">🗑️ Clear Results</button>
+      <button class="btn-danger" onclick="exportReport()">📊 Export Report</button>
+    </div>
+
+    <div class="layout">
+      <div class="panel">
+        <div class="panel-header">
+          <span>
+            <span class="status-indicator active" id="status-indicator"></span>
+            Component Sandbox
+          </span>
+          <select id="component-select" class="component-select" style="width: auto; margin: 0;">
+            <option value="">Select a component...</option>
+          </select>
+        </div>
+        <div class="panel-content">
+          <iframe id="sandbox-frame" class="sandbox-frame" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span>📋 Violation Log</span>
+          <span id="violation-count">0 violations</span>
+        </div>
+        <div class="panel-content">
+          <div id="violations-list" class="violations-list">
+            <div class="no-violations">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+              </svg>
+              <p>No violations detected yet</p>
+              <p style="color: #666; font-size: 12px;">Run tests to check for CSP violations</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top: 20px;">
+      <div class="panel-header">
+        <span>🔍 Code Analysis Preview</span>
+      </div>
+      <div class="panel-content">
+        <pre id="code-preview" class="code-preview">// Select a component to preview its code</pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // CSP Violation tracking
+    const violations = [];
+    const autoFixed = new Set();
+    let totalTests = 0;
+
+    // Components to test
+    const components = [
+      { name: 'Button', path: 'components/uv-button.js', pattern: 'onclick' },
+      { name: 'Modal', path: 'components/uv-modal.js', pattern: 'eval' },
+      { name: 'Dropdown', path: 'components/uv-dropdown.js', pattern: 'innerHTML' },
+      { name: 'Tabs', path: 'components/uv-tabs.js', pattern: 'onclick' },
+      { name: 'Tooltip', path: 'components/uv-tooltip.js', pattern: 'innerHTML' },
+      { name: 'Theme Switcher', path: 'components/uv-theme-switcher.js', pattern: 'eval' },
+      { name: 'Language Switcher', path: 'components/uv-language-switcher.js', pattern: 'onclick' }
+    ];
+
+    // Initialize component selector
+    function init() {
+      const select = document.getElementById('component-select');
+      components.forEach((comp, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = comp.name;
+        select.appendChild(option);
+      });
+
+      select.addEventListener('change', (e) => {
+        if (e.target.value !== '') {
+          loadComponentPreview(components[e.target.value]);
+        }
+      });
+
+      // Listen for CSP violations from iframe
+      window.addEventListener('message', handleIframeMessage);
+    }
+
+    // Load component preview
+    async function loadComponentPreview(component) {
+      try {
+        const response = await fetch(component.path);
+        const code = await response.text();
+        document.getElementById('code-preview').textContent = code;
+      } catch (e) {
+        document.getElementById('code-preview').textContent = `// Error loading component: ${e.message}`;
+      }
+    }
+
+    // Run security tests
+    async function runTest() {
+      const select = document.getElementById('component-select');
+      const selectedIndex = select.value;
+      
+      document.getElementById('status-indicator').classList.add('active');
+      document.getElementById('status-indicator').classList.remove('safe');
+
+      if (selectedIndex !== '') {
+        // Test single component
+        await testComponent(components[selectedIndex]);
+      } else {
+        // Test all components
+        for (const component of components) {
+          await testComponent(component);
+        }
+      }
+
+      document.getElementById('status-indicator').classList.remove('active');
+      document.getElementById('status-indicator').classList.add('safe');
+      updateStats();
+    }
+
+    // Test a single component
+    async function testComponent(component) {
+      totalTests++;
+      
+      const frame = document.getElementById('sandbox-frame');
+      
+      // Create a sandboxed HTML page with strict CSP
+      const testPage = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+        </head>
+        <body>
+          <script>
+            // Capture CSP violations
+            document.addEventListener('securitypolicyviolation', (event) => {
+              window.parent.postMessage({
+                type: 'csp-violation',
+                violation: {
+                  blockedURI: event.blockedURI,
+                  violatedDirective: event.violatedDirective,
+                  originalPolicy: event.originalPolicy,
+                  disposition: event.disposition
+                }
+              }, '*');
+            });
+
+            // Load and execute the component
+            try {
+              fetch('${component.path}')
+                .then(r => r.text())
+                .then(code => {
+                  // Execute in try-catch to catch runtime errors
+                  eval(code);
+                })
+                .catch(err => {
+                  console.error('Failed to load component:', err);
+                });
+            } catch (e) {
+              console.error('Execution error:', e);
+            }
+          <\/script>
+        </body>
+        </html>
+      `;
+
+      frame.srcdoc = testPage;
+
+      // Wait for test to complete
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+
+    // Handle messages from iframe
+    function handleIframeMessage(event) {
+      if (event.data && event.data.type === 'csp-violation') {
+        const violation = event.data.violation;
+        violation.timestamp = new Date().toISOString();
+        violation.resolved = false;
+        
+        violations.push(violation);
+        renderViolations();
+        updateStats();
+        
+        // Attempt to auto-fix if possible
+        autoFixViolation(violation);
+      }
+    }
+
+    // Auto-fix violations
+    async function autoFixViolation(violation) {
+      // This would call the security-sanitizer.js script
+      // For now, just mark as detected
+      console.log('Violation detected:', violation);
+    }
+
+    // Render violations list
+    function renderViolations() {
+      const container = document.getElementById('violations-list');
+      
+      if (violations.length === 0) {
+        container.innerHTML = `
+          <div class="no-violations">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </svg>
+            <p>No violations detected</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = violations.map((v, index) => `
+        <div class="violation-item ${v.resolved ? 'resolved' : ''}">
+          <div class="type">${v.disposition || 'report'}</div>
+          <div class="message">${v.violatedDirective}</div>
+          <div class="details">
+            Blocked: ${v.blockedURI || 'inline script'}
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('violation-count').textContent = `${violations.length} violations`;
+    }
+
+    // Update statistics
+    function updateStats() {
+      document.getElementById('total-tests').textContent = totalTests;
+      document.getElementById('total-violations').textContent = violations.length;
+      document.getElementById('resolved-count').textContent = violations.filter(v => v.resolved).length;
+    }
+
+    // Clear results
+    function clearResults() {
+      violations.length = 0;
+      autoFixed.clear();
+      totalTests = 0;
+      renderViolations();
+      updateStats();
+      document.getElementById('code-preview').textContent = '// Select a component to preview its code';
+    }
+
+    // Export report
+    function exportReport() {
+      const report = {
+        timestamp: new Date().toISOString(),
+        summary: {
+          totalTests,
+          totalViolations: violations.length,
+          resolvedCount: violations.filter(v => v.resolved).length
+        },
+        violations: violations
+      };
+
+      const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `csp-violation-report-${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Initialize on load
+    init();
+  </script>
+</body>
+</html>

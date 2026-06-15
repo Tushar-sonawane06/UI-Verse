@@ -2,8 +2,11 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import re
 import threading
 import sqlite3
+from collections import defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.parse import quote
@@ -1568,6 +1571,774 @@ def equipment_entry() -> object:
 @app.get("/equipment-detail.html")
 def equipment_detail_entry() -> object:
     return send_from_directory(PROJECT_ROOT, "equipment-detail.html")
+
+
+# ── AI Component Generation ──────────────────────────
+
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
+_generate_rate_limit: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+_generate_cache: dict[str, str] = {}
+
+FEW_SHOT_EXAMPLES = """
+Example 1 — Gradient Button:
+HTML: <button class="gradient-btn">Click Me</button>
+CSS: .gradient-btn { padding: 10px 24px; border: none; color: white; background: linear-gradient(45deg, #eb6835, #6c5ce7); border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s; } .gradient-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+
+Example 2 — Glass Card:
+HTML: <div class="glass-card"><h3>Glassmorphism</h3><p>Frosted glass effect.</p></div>
+CSS: .glass-card { padding: 24px; border-radius: 14px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px); color: white; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+
+Example 3 — Neon Button:
+HTML: <button class="neon-btn">Glow</button>
+CSS: .neon-btn { padding: 10px 24px; background: transparent; color: #00ffe0; border: 1.5px solid #00ffe0; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s; } .neon-btn:hover { box-shadow: 0 0 16px #00ffe0, 0 0 40px rgba(0,255,224,0.3); }
+"""
+
+DESIGN_TOKENS = """
+Color palette:
+- Primary accent: #eb6835 (use as --accent)
+- Text primary: #111111
+- Text secondary: #666666
+- Background primary: #f5f4f2
+- Background secondary: #ffffff
+- Border: #ebebeb
+- Card background: #ffffff
+- Surface elevated: #ffffff
+- Surface muted: #f0ede9
+
+Spacing & radius:
+- Small radius: 8px
+- Medium radius: 14px
+- Large radius: 20px
+- Shadows: 0 2px 8px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.12)
+
+Typography:
+- Body font: 'DM Sans', Arial, sans-serif
+- Heading font: 'Syne', sans-serif
+
+Rules:
+- Use CSS custom properties where possible: --accent, --radius-md, --shadow-md, etc.
+- Output ONLY the HTML and CSS. No markdown fences, no explanations.
+- HTML first, then CSS. Separate them with a blank line.
+- Make components self-contained and copy-paste ready.
+- Use pure CSS, no external dependencies.
+- Ensure responsive design with flexbox or grid.
+"""
+
+
+@app.post("/api/generate")
+def api_generate() -> tuple[object, int]:
+    import requests
+
+    if not OPENAI_API_KEY:
+        return jsonify({"error": "AI generation is not configured. Set OPENAI_API_KEY."}), 503
+
+    payload = request.get_json(silent=True) or {}
+    user_prompt = str(payload.get("prompt", "")).strip()
+    refinement = str(payload.get("refinement", "")).strip()
+    previous = str(payload.get("previous", "")).strip()
+
+    if not user_prompt:
+        return jsonify({"error": "Prompt is required."}), 400
+
+    client_ip = request.remote_addr or "unknown"
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+    if _generate_rate_limit[client_ip][today] >= 10:
+        return jsonify({"error": "Daily generation limit reached (10/day)."}), 429
+
+    _generate_rate_limit[client_ip][today] += 1
+
+    system_prompt = (
+        "You are an expert UI component generator for UIverse, a design system library. "
+        "You generate pure HTML and CSS components that follow the UIverse design tokens. "
+        "Respond with ONLY the HTML followed by CSS. No markdown code blocks, no explanations. "
+        "The HTML and CSS must be valid and self-contained. "
+        "Use the provided design tokens and few-shot examples as style guidance.\n\n"
+        f"{DESIGN_TOKENS}\n\n"
+        f"{FEW_SHOT_EXAMPLES}"
+    )
+
+    user_content = user_prompt
+    if previous:
+        user_content = f"Previous component:\n{previous}\n\nRefinement instruction: {user_prompt}"
+    if refinement:
+        user_content += f"\nAdditional context: {refinement}"
+
+    cache_key = f"{user_content}:{refinement}:{previous}"
+    if cache_key in _generate_cache:
+        cached = _generate_cache[cache_key]
+        parts = cached.split("\n\n", 1)
+        return jsonify({"html": parts[0] if len(parts) > 1 else "", "css": parts[1] if len(parts) > 1 else cached, "cached": True}), 200
+
+    try:
+        response = requests.post(
+            OPENAI_API_URL,
+            headers={
+                "Authorization": f"Bearer {OPENAI_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": "gpt-4o-mini",
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_content},
+                ],
+                "temperature": 0.7,
+                "max_tokens": 1200,
+            },
+            timeout=30,
+        )
+        response.raise_for_status()
+        data = response.json()
+        content = data["choices"][0]["message"]["content"]
+
+        html_part = ""
+        css_part = ""
+        parts = re.split(r"\n\s*\n", content.strip(), maxsplit=1)
+        if len(parts) == 2:
+            html_part = parts[0].strip()
+            css_part = parts[1].strip()
+        else:
+            css_start = re.search(r"(?:^|\n)\s*[.#@a-zA-Z][^{]*\{", content)
+            if css_start:
+                html_part = content[:css_start.start()].strip()
+                css_part = content[css_start.start():].strip()
+            else:
+                html_part = content.strip()
+                css_part = ""
+
+        html_part = re.sub(r"```html?", "", html_part, flags=re.I).strip()
+        css_part = re.sub(r"```css?", "", css_part, flags=re.I).strip()
+
+        _generate_cache[cache_key] = f"{html_part}\n\n{css_part}"
+
+        return jsonify({"html": html_part, "css": css_part, "cached": False}), 200
+
+    except requests.exceptions.Timeout:
+        return jsonify({"error": "Generation timed out. Please try again."}), 504
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": f"Generation failed: {str(e)}"}), 502
+    except Exception as e:
+        return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
+@app.get("/workspace.html")
+def workspace_entry() -> object:
+    return send_from_directory(PROJECT_ROOT, "workspace.html")
+
+
+MARKETPLACE_DB_PATH = BASE_DIR / "data" / "component_marketplace.sqlite3"
+
+
+def get_marketplace_connection() -> sqlite3.Connection:
+    connection = sqlite3.connect(MARKETPLACE_DB_PATH)
+    connection.row_factory = sqlite3.Row
+    connection.execute("PRAGMA foreign_keys = ON")
+    return connection
+
+
+def ensure_marketplace_db() -> None:
+    MARKETPLACE_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    with get_marketplace_connection() as connection:
+        connection.executescript(
+            """
+            CREATE TABLE IF NOT EXISTS creators (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT NOT NULL UNIQUE,
+                display_name TEXT NOT NULL,
+                avatar_url TEXT,
+                bio TEXT,
+                github_url TEXT,
+                website TEXT,
+                joined_at TEXT NOT NULL,
+                total_downloads INTEGER DEFAULT 0,
+                total_earnings REAL DEFAULT 0
+            );
+
+            CREATE TABLE IF NOT EXISTS marketplace_components (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                slug TEXT NOT NULL UNIQUE,
+                name TEXT NOT NULL,
+                description TEXT,
+                html_content TEXT,
+                css_content TEXT,
+                js_content TEXT,
+                author_id INTEGER NOT NULL,
+                version TEXT NOT NULL DEFAULT '1.0.0',
+                category TEXT,
+                tags TEXT,
+                status TEXT NOT NULL DEFAULT 'pending',
+                price_cents INTEGER DEFAULT 0,
+                download_count INTEGER DEFAULT 0,
+                avg_rating REAL DEFAULT 0,
+                rating_count INTEGER DEFAULT 0,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                FOREIGN KEY (author_id) REFERENCES creators(id)
+            );
+
+            CREATE TABLE IF NOT EXISTS ratings (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                component_id INTEGER NOT NULL,
+                user_id TEXT NOT NULL,
+                score INTEGER NOT NULL CHECK(score >= 1 AND score <= 5),
+                created_at TEXT NOT NULL,
+                FOREIGN KEY (component_id) REFERENCES marketplace_components(id),
+                UNIQUE(component_id, user_id)
+            );
+
+            CREATE TABLE IF NOT EXISTS reviews (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                component_id INTEGER NOT NULL,
+                user_id TEXT NOT NULL,
+                user_name TEXT,
+                body TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                FOREIGN KEY (component_id) REFERENCES marketplace_components(id)
+            );
+
+            CREATE TABLE IF NOT EXISTS submissions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                component_name TEXT NOT NULL,
+                description TEXT,
+                html_content TEXT,
+                css_content TEXT,
+                js_content TEXT,
+                author_name TEXT NOT NULL,
+                author_email TEXT,
+                github_username TEXT,
+                status TEXT NOT NULL DEFAULT 'pending',
+                moderator_notes TEXT,
+                created_at TEXT NOT NULL,
+                reviewed_at TEXT
+            );
+            """
+        )
+
+
+def recalc_component_rating(connection: sqlite3.Connection, component_id: int) -> None:
+    row = connection.execute(
+        "SELECT AVG(score) as avg, COUNT(*) as cnt FROM ratings WHERE component_id = ?",
+        (component_id,),
+    ).fetchone()
+    connection.execute(
+        "UPDATE marketplace_components SET avg_rating = ?, rating_count = ? WHERE id = ?",
+        (round(row["avg"] or 0, 2), row["cnt"] or 0, component_id),
+    )
+
+
+@app.get("/api/marketplace/components")
+def list_marketplace_components() -> tuple[dict[str, object], int]:
+    category = request.args.get("category")
+    tag = request.args.get("tag")
+    author = request.args.get("author")
+    status = request.args.get("status", "approved")
+    sort = request.args.get("sort", "rating")
+    limit = int(request.args.get("limit", 50))
+    offset = int(request.args.get("offset", 0))
+
+    filters = ["c.status = ?"]
+    params = [status]
+
+    if category:
+        filters.append("c.category = ?")
+        params.append(category)
+    if tag:
+        filters.append("c.tags LIKE ?")
+        params.append(f"%{tag}%")
+    if author:
+        filters.append("cr.username = ?")
+        params.append(author)
+
+    order_clause = {
+        "rating": "c.avg_rating DESC, c.download_count DESC",
+        "newest": "c.created_at DESC",
+        "downloads": "c.download_count DESC",
+        "name": "c.name ASC",
+    }.get(sort, "c.avg_rating DESC, c.download_count DESC")
+
+    with get_marketplace_connection() as connection:
+        rows = connection.execute(
+            f"""
+            SELECT c.*, cr.username as author_username, cr.display_name as author_name
+            FROM marketplace_components c
+            JOIN creators cr ON cr.id = c.author_id
+            WHERE {' AND '.join(filters)}
+            ORDER BY {order_clause}
+            LIMIT ? OFFSET ?
+            """,
+            params + [limit, offset],
+        ).fetchall()
+
+        total = connection.execute(
+            f"SELECT COUNT(*) as cnt FROM marketplace_components c JOIN creators cr ON cr.id = c.author_id WHERE {' AND '.join(filters)}",
+            params,
+        ).fetchone()["cnt"]
+
+    return jsonify({
+        "components": [
+            {
+                "id": row["id"],
+                "slug": row["slug"],
+                "name": row["name"],
+                "description": row["description"],
+                "category": row["category"],
+                "tags": (row["tags"] or "").split(","),
+                "version": row["version"],
+                "price_cents": row["price_cents"],
+                "download_count": row["download_count"],
+                "avg_rating": row["avg_rating"],
+                "rating_count": row["rating_count"],
+                "author": {"username": row["author_username"], "display_name": row["author_name"]},
+                "created_at": row["created_at"],
+            }
+            for row in rows
+        ],
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+    }), 200
+
+
+@app.get("/api/marketplace/components/<slug>")
+def get_marketplace_component(slug: str) -> tuple[dict[str, object], int]:
+    with get_marketplace_connection() as connection:
+        row = connection.execute(
+            """
+            SELECT c.*, cr.username as author_username, cr.display_name as author_name, cr.bio as author_bio
+            FROM marketplace_components c
+            JOIN creators cr ON cr.id = c.author_id
+            WHERE c.slug = ?
+            """,
+            (slug,),
+        ).fetchone()
+
+        if row is None:
+            return jsonify({"error": "Component not found."}), 404
+
+        reviews = connection.execute(
+            "SELECT * FROM reviews WHERE component_id = ? ORDER BY created_at DESC LIMIT 20",
+            (row["id"],),
+        ).fetchall()
+
+    return jsonify({
+        "id": row["id"],
+        "slug": row["slug"],
+        "name": row["name"],
+        "description": row["description"],
+        "html_content": row["html_content"],
+        "css_content": row["css_content"],
+        "js_content": row["js_content"],
+        "category": row["category"],
+        "tags": (row["tags"] or "").split(","),
+        "version": row["version"],
+        "price_cents": row["price_cents"],
+        "download_count": row["download_count"],
+        "avg_rating": row["avg_rating"],
+        "rating_count": row["rating_count"],
+        "author": {"username": row["author_username"], "display_name": row["author_name"], "bio": row["author_bio"]},
+        "reviews": [
+            {"id": r["id"], "user_name": r["user_name"], "body": r["body"], "created_at": r["created_at"]}
+            for r in reviews
+        ],
+        "created_at": row["created_at"],
+    }), 200
+
+
+@app.post("/api/marketplace/ratings")
+def submit_rating() -> tuple[dict[str, object], int]:
+    payload = request.get_json(silent=True) or {}
+    required = ["component_id", "user_id", "score"]
+    missing = [f for f in required if f not in payload]
+    if missing:
+        return jsonify({"error": "Missing fields.", "missing": missing}), 400
+
+    try:
+        component_id = int(payload["component_id"])
+        user_id = str(payload["user_id"])
+        score = int(payload["score"])
+    except (TypeError, ValueError):
+        return jsonify({"error": "Invalid payload."}), 400
+
+    if score < 1 or score > 5:
+        return jsonify({"error": "Score must be 1-5."}), 400
+
+    with get_marketplace_connection() as connection:
+        connection.execute(
+            """
+            INSERT INTO ratings (component_id, user_id, score, created_at)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(component_id, user_id) DO UPDATE SET score=excluded.score, created_at=excluded.created_at
+            """,
+            (component_id, user_id, score, datetime.utcnow().isoformat(timespec="seconds") + "Z"),
+        )
+        recalc_component_rating(connection, component_id)
+        connection.commit()
+
+    return jsonify({"message": "Rating recorded."}), 201
+
+
+@app.get("/api/marketplace/ratings")
+def get_ratings() -> tuple[dict[str, object], int]:
+    component_id = int(request.args.get("component_id", 0))
+    if not component_id:
+        return jsonify({"error": "component_id required."}), 400
+
+    with get_marketplace_connection() as connection:
+        row = connection.execute(
+            "SELECT AVG(score) as avg, COUNT(*) as cnt FROM ratings WHERE component_id = ?",
+            (component_id,),
+        ).fetchone()
+
+    return jsonify({"avg_rating": round(row["avg"] or 0, 2), "count": row["cnt"] or 0}), 200
+
+
+@app.post("/api/marketplace/reviews")
+def submit_review() -> tuple[dict[str, object], int]:
+    payload = request.get_json(silent=True) or {}
+    required = ["component_id", "user_id", "body"]
+    missing = [f for f in required if f not in payload]
+    if missing:
+        return jsonify({"error": "Missing fields.", "missing": missing}), 400
+
+    try:
+        component_id = int(payload["component_id"])
+        user_id = str(payload["user_id"])
+        user_name = str(payload.get("user_name") or "Anonymous")
+        body = str(payload["body"]).strip()
+    except (TypeError, ValueError):
+        return jsonify({"error": "Invalid payload."}), 400
+
+    if len(body) < 3:
+        return jsonify({"error": "Review body too short."}), 400
+
+    with get_marketplace_connection() as connection:
+        cursor = connection.execute(
+            "INSERT INTO reviews (component_id, user_id, user_name, body, created_at) VALUES (?, ?, ?, ?, ?)",
+            (component_id, user_id, user_name, body, datetime.utcnow().isoformat(timespec="seconds") + "Z"),
+        )
+        connection.commit()
+
+    return jsonify({"message": "Review posted.", "review_id": cursor.lastrowid}), 201
+
+
+@app.post("/api/marketplace/submit")
+def submit_component() -> tuple[dict[str, object], int]:
+    payload = request.get_json(silent=True) or {}
+    required = ["component_name", "html_content", "css_content", "author_name"]
+    missing = [f for f in required if f not in payload]
+    if missing:
+        return jsonify({"error": "Missing fields.", "missing": missing}), 400
+
+    name = str(payload["component_name"]).strip()
+    description = str(payload.get("description") or "").strip()
+    html_content = str(payload["html_content"]).strip()
+    css_content = str(payload["css_content"]).strip()
+    js_content = str(payload.get("js_content") or "").strip()
+    author_name = str(payload["author_name"]).strip()
+    author_email = str(payload.get("author_email") or "").strip()
+    github_username = str(payload.get("github_username") or "").strip()
+
+    if not name or not html_content or not css_content or not author_name:
+        return jsonify({"error": "Name, HTML, CSS, and author name are required."}), 400
+
+    with get_marketplace_connection() as connection:
+        cursor = connection.execute(
+            """
+            INSERT INTO submissions (component_name, description, html_content, css_content, js_content,
+                author_name, author_email, github_username, status, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)
+            """,
+            (name, description, html_content, css_content, js_content, author_name, author_email, github_username,
+             datetime.utcnow().isoformat(timespec="seconds") + "Z"),
+        )
+        connection.commit()
+
+    return jsonify({"message": "Submission received.", "submission_id": cursor.lastrowid, "status": "pending"}), 201
+
+
+@app.get("/api/marketplace/submissions")
+def list_submissions() -> tuple[dict[str, object], int]:
+    status = request.args.get("status", "pending")
+    with get_marketplace_connection() as connection:
+        rows = connection.execute(
+            "SELECT * FROM submissions WHERE status = ? ORDER BY created_at DESC",
+            (status,),
+        ).fetchall()
+
+    return jsonify({
+        "submissions": [
+            {
+                "id": r["id"],
+                "component_name": r["component_name"],
+                "description": r["description"],
+                "author_name": r["author_name"],
+                "status": r["status"],
+                "created_at": r["created_at"],
+                "reviewed_at": r["reviewed_at"],
+            }
+            for r in rows
+        ]
+    }), 200
+
+
+@app.get("/api/marketplace/creators/<username>")
+def get_creator_profile(username: str) -> tuple[dict[str, object], int]:
+    with get_marketplace_connection() as connection:
+        creator = connection.execute(
+            "SELECT * FROM creators WHERE username = ?", (username,)
+        ).fetchone()
+
+        if creator is None:
+            return jsonify({"error": "Creator not found."}), 404
+
+        components = connection.execute(
+            "SELECT slug, name, description, avg_rating, download_count, version, created_at FROM marketplace_components WHERE author_id = ? AND status = 'approved' ORDER BY created_at DESC",
+            (creator["id"],),
+        ).fetchall()
+
+    return jsonify({
+        "username": creator["username"],
+        "display_name": creator["display_name"],
+        "bio": creator["bio"],
+        "avatar_url": creator["avatar_url"],
+        "github_url": creator["github_url"],
+        "website": creator["website"],
+        "joined_at": creator["joined_at"],
+        "total_downloads": creator["total_downloads"],
+        "components": [
+            {
+                "slug": c["slug"],
+                "name": c["name"],
+                "description": c["description"],
+                "avg_rating": c["avg_rating"],
+                "download_count": c["download_count"],
+                "version": c["version"],
+                "created_at": c["created_at"],
+            }
+            for c in components
+        ],
+    }), 200
+
+
+@app.get("/api/marketplace/trending")
+def get_trending() -> tuple[dict[str, object], int]:
+    limit = int(request.args.get("limit", 10))
+    with get_marketplace_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT c.*, cr.username as author_username, cr.display_name as author_name
+            FROM marketplace_components c
+            JOIN creators cr ON cr.id = c.author_id
+            WHERE c.status = 'approved'
+            ORDER BY (c.download_count * 0.6 + c.avg_rating * 0.4) DESC
+            LIMIT ?
+            """,
+            (limit,),
+        ).fetchall()
+
+    return jsonify({
+        "components": [
+            {
+                "slug": r["slug"],
+                "name": r["name"],
+                "description": r["description"],
+                "avg_rating": r["avg_rating"],
+                "download_count": r["download_count"],
+                "author": {"username": r["author_username"], "display_name": r["author_name"]},
+            }
+            for r in rows
+        ]
+    }), 200
+
+
+@app.get("/api/marketplace/new-arrivals")
+def get_new_arrivals() -> tuple[dict[str, object], int]:
+    limit = int(request.args.get("limit", 10))
+    with get_marketplace_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT c.*, cr.username as author_username, cr.display_name as author_name
+            FROM marketplace_components c
+            JOIN creators cr ON cr.id = c.author_id
+            WHERE c.status = 'approved'
+            ORDER BY c.created_at DESC
+            LIMIT ?
+            """,
+            (limit,),
+        ).fetchall()
+
+    return jsonify({
+        "components": [
+            {
+                "slug": r["slug"],
+                "name": r["name"],
+                "description": r["description"],
+                "avg_rating": r["avg_rating"],
+                "download_count": r["download_count"],
+                "author": {"username": r["author_username"], "display_name": r["author_name"]},
+            }
+            for r in rows
+        ]
+    }), 200
+
+
+@app.post("/api/marketplace/components/<slug>/download")
+def record_download(slug: str) -> tuple[dict[str, object], int]:
+    with get_marketplace_connection() as connection:
+        connection.execute(
+            "UPDATE marketplace_components SET download_count = download_count + 1 WHERE slug = ?",
+            (slug,),
+        )
+        connection.commit()
+    return jsonify({"message": "Download recorded."}), 200
+
+
+# Theme Content Negotiation Metrics Endpoints
+# Provides cache statistics, access distribution, and high-churn language tracking
+
+_theme_negotiator_instance = None
+_theme_metrics_cache = {}
+
+
+def get_theme_negotiator():
+    """Get or initialize the theme negotiator instance for metrics tracking."""
+    global _theme_negotiator_instance
+    if _theme_negotiator_instance is None:
+        try:
+            from pathlib import Path
+            import sys
+            root_path = Path(__file__).parent.parent
+            sys.path.insert(0, str(root_path))
+            from theme_content_negotiation import ThemeContentNegotiator
+            _theme_negotiator_instance = ThemeContentNegotiator(
+                enableCaching=True,
+                cacheSize=100,
+                trackingEnabled=True,
+                maxAccessLogSize=1000
+            )
+        except (ImportError, Exception) as e:
+            return None
+    return _theme_negotiator_instance
+
+
+@app.get("/api/theme/metrics/locale-groups")
+def get_metrics_by_locale_group():
+    """Get cache hit/miss ratios per locale grouping.
+    
+    Returns metrics for each locale group showing:
+    - Number of cache hits and misses
+    - Hit/miss ratios
+    - Eviction tracking
+    """
+    negotiator = get_theme_negotiator()
+    if negotiator is None:
+        return jsonify({"error": "Theme negotiator not available"}), 503
+    
+    metrics = negotiator.getMetricsByLocaleGroup()
+    return jsonify({
+        "locale_groups": metrics,
+        "timestamp": datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    }), 200
+
+
+@app.get("/api/theme/metrics/high-churn-languages")
+def get_high_churn_languages():
+    """Identify language combinations with high cache churn (frequent evictions).
+    
+    Parameters:
+    - threshold: Eviction rate threshold (0-1) to consider high-churn. Default: 0.1
+    
+    Returns language combinations sorted by eviction rate (highest first).
+    """
+    negotiator = get_theme_negotiator()
+    if negotiator is None:
+        return jsonify({"error": "Theme negotiator not available"}), 503
+    
+    try:
+        threshold = float(request.args.get("threshold", 0.1))
+        threshold = max(0, min(1, threshold))  # Clamp to 0-1
+    except ValueError:
+        threshold = 0.1
+    
+    high_churn = negotiator.getHighChurnLanguages(threshold)
+    return jsonify({
+        "threshold": threshold,
+        "high_churn_languages": high_churn,
+        "timestamp": datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    }), 200
+
+
+@app.get("/api/theme/metrics/access-distribution")
+def get_access_distribution():
+    """Get access distribution statistics and patterns.
+    
+    Returns:
+    - Overall cache performance (hit rate, miss rate)
+    - Cache size and capacity
+    - Access frequency distribution buckets
+    - Average accesses per cached item
+    """
+    negotiator = get_theme_negotiator()
+    if negotiator is None:
+        return jsonify({"error": "Theme negotiator not available"}), 503
+    
+    distribution = negotiator.getAccessDistribution()
+    return jsonify({
+        "access_distribution": distribution,
+        "timestamp": datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    }), 200
+
+
+@app.get("/api/theme/metrics/summary")
+def get_metrics_summary():
+    """Get comprehensive metrics summary combining all cache statistics.
+    
+    Returns overall cache performance, locale group breakdown, and churn analysis.
+    """
+    negotiator = get_theme_negotiator()
+    if negotiator is None:
+        return jsonify({"error": "Theme negotiator not available"}), 503
+    
+    locale_metrics = negotiator.getMetricsByLocaleGroup()
+    access_dist = negotiator.getAccessDistribution()
+    high_churn = negotiator.getHighChurnLanguages(0.1)
+    
+    return jsonify({
+        "summary": {
+            "cache_enabled": True,
+            "tracking_enabled": True,
+            "total_cache_hits": access_dist["totalCacheHits"],
+            "total_cache_misses": access_dist["totalCacheMisses"],
+            "total_evictions": access_dist["totalEvictions"],
+            "overall_hit_ratio": access_dist["overallHitRatio"],
+            "cache_fullness": access_dist["currentCacheSize"] / access_dist["maxCacheSize"]
+        },
+        "locale_groups": locale_metrics,
+        "high_churn_languages": high_churn,
+        "access_distribution": access_dist,
+        "timestamp": datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    }), 200
+
+
+@app.post("/api/theme/metrics/reset")
+def reset_tracking():
+    """Reset all tracking statistics (admin endpoint).
+    
+    Clears cache hit/miss counts, eviction tracking, and access logs.
+    Use with caution - this resets all historical metrics.
+    """
+    negotiator = get_theme_negotiator()
+    if negotiator is None:
+        return jsonify({"error": "Theme negotiator not available"}), 503
+    
+    negotiator.resetTracking()
+    return jsonify({
+        "message": "Tracking statistics reset",
+        "timestamp": datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    }), 200
+
+
+ensure_marketplace_db()
 
 
 if __name__ == "__main__":

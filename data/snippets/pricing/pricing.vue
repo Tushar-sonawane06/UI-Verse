@@ -42,6 +42,241 @@
 
 </div>
 
+
+<!-- ================= GLASSMORPHISM PRICING ================= -->
+
+<div class="component-card">
+
+  <div class="glass-pricing-grid">
+
+    <!-- BASIC -->
+    <div class="glass-card">
+
+      <div class="glass-top">
+        <span class="glass-plan">Basic</span>
+        <h2>$9</h2>
+        <p>/ month</p>
+      </div>
+
+      <ul class="glass-features">
+        <li><i class="fa-solid fa-check"></i> 5 Projects</li>
+        <li><i class="fa-solid fa-check"></i> Email Support</li>
+        <li><i class="fa-solid fa-check"></i> Analytics</li>
+      </ul>
+
+      <button class="glass-btn">
+        Start Free
+      </button>
+
+    </div>
+
+    <!-- TEAM -->
+    <div class="glass-card featured-glass">
+
+      <div class="popular-pill">
+        Recommended
+      </div>
+
+      <div class="glass-top">
+        <span class="glass-plan">Team</span>
+        <h2>$29</h2>
+        <p>/ month</p>
+      </div>
+
+      <ul class="glass-features">
+        <li><i class="fa-solid fa-check"></i> Unlimited Projects</li>
+        <li><i class="fa-solid fa-check"></i> Team Access</li>
+        <li><i class="fa-solid fa-check"></i> Priority Support</li>
+        <li><i class="fa-solid fa-check"></i> API Access</li>
+      </ul>
+
+      <button class="glass-btn active-btn">
+        Get Team Plan
+      </button>
+
+    </div>
+
+    <!-- AGENCY -->
+    <div class="glass-card">
+
+      <div class="glass-top">
+        <span class="glass-plan">Agency</span>
+        <h2>$79</h2>
+        <p>/ month</p>
+      </div>
+
+      <ul class="glass-features">
+        <li><i class="fa-solid fa-check"></i> White Label</li>
+        <li><i class="fa-solid fa-check"></i> Unlimited Users</li>
+        <li><i class="fa-solid fa-check"></i> Dedicated Manager</li>
+      </ul>
+
+      <button class="glass-btn">
+        Contact Us
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= NEON PRICING ================= -->
+
+<div class="component-card">
+
+  <div class="neon-pricing-grid">
+
+    <!-- SILVER -->
+    <div class="neon-card silver">
+
+      <h3>Silver</h3>
+
+      <div class="neon-price">
+        $15
+      </div>
+
+      <p class="neon-desc">
+        Great for freelancers
+      </p>
+
+      <ul>
+        <li>5 GB Storage</li>
+        <li>Custom Domain</li>
+        <li>Email Support</li>
+      </ul>
+
+      <button class="neon-btn">
+        Select Plan
+      </button>
+
+    </div>
+
+    <!-- GOLD -->
+    <div class="neon-card gold">
+
+      <div class="neon-badge">
+        <i class="fa-solid fa-crown"></i>
+        BEST VALUE
+      </div>
+
+      <h3>Gold</h3>
+
+      <div class="neon-price">
+        $49
+      </div>
+
+      <p class="neon-desc">
+        Ideal for startups
+      </p>
+
+      <ul>
+        <li>Unlimited Storage</li>
+        <li>AI Analytics</li>
+        <li>24/7 Support</li>
+      </ul>
+
+      <button class="neon-btn active-neon">
+        Choose Gold
+      </button>
+
+    </div>
+
+    <!-- PLATINUM -->
+    <div class="neon-card platinum">
+
+      <h3>Platinum</h3>
+
+      <div class="neon-price">
+        $99
+      </div>
+
+      <p class="neon-desc">
+        Enterprise solution
+      </p>
+
+      <ul>
+        <li>Unlimited Everything</li>
+        <li>Dedicated Manager</li>
+        <li>Custom Integrations</li>
+      </ul>
+
+      <button class="neon-btn">
+        Contact Sales
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= MINIMAL PRICING ================= -->
+
+<div class="component-card">
+
+  <div class="minimal-pricing-grid">
+
+    <!-- LITE -->
+    <div class="minimal-card">
+
+      <span class="mini-label">
+        Lite
+      </span>
+
+      <h2>$5</h2>
+
+      <p>
+        Small personal websites
+      </p>
+
+      <button class="minimal-btn">
+        Buy Now
+      </button>
+
+    </div>
+
+    <!-- PLUS -->
+    <div class="minimal-card dark-mini">
+
+      <span class="mini-label">
+        Plus
+      </span>
+
+      <h2>$19</h2>
+
+      <p>
+        Best for professionals
+      </p>
+
+      <button class="minimal-btn light-btn">
+        Choose Plus
+      </button>
+
+    </div>
+
+    <!-- ULTRA -->
+    <div class="minimal-card">
+
+      <span class="mini-label">
+        Ultra
+      </span>
+
+      <h2>$59</h2>
+
+      <p>
+        Built for agencies
+      </p>
+
+      <button class="minimal-btn">
+        Upgrade
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 <!-- ================= COMPONENT CARD ================= -->
 
 <div class="component-card">

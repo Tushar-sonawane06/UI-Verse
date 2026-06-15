@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community Comments — Enhanced UI</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0f1220;
+      --card:#171a2b;
+      --muted:#9aa3b2;
+      --text:#e9ecf1;
+      --accent:#6c7cff;
+      --accent2:#22c55e;
+      --border:rgba(255,255,255,0.08);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"DM Sans",sans-serif;
+      background:linear-gradient(135deg,#0f1220,#0b0d17);
+      color:var(--text);
+    }
+
+    .community-section{
+      max-width:900px;
+      margin:40px auto;
+      padding:20px;
+    }
+
+    .section-header{
+      text-align:center;
+      margin-bottom:30px;
+    }
+
+    .section-tag{
+      display:inline-block;
+      padding:6px 12px;
+      background:rgba(108,124,255,0.15);
+      border:1px solid var(--border);
+      border-radius:20px;
+      font-size:13px;
+      color:var(--accent);
+    }
+
+    .section-title{
+      font-size:32px;
+      margin:10px 0;
+    }
+
+    .section-desc{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .comment-box{
+      display:flex;
+      gap:12px;
+      background:var(--card);
+      padding:14px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      margin-bottom:25px;
+    }
+
+    .comment-user img{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+    }
+
+    textarea{
+      width:100%;
+      min-height:70px;
+      resize:none;
+      background:transparent;
+      border:none;
+      color:var(--text);
+      outline:none;
+      font-size:14px;
+    }
+
+    .comment-actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:10px;
+    }
+
+    .comment-tools button,
+    .post-btn{
+      border:none;
+      padding:6px 10px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:13px;
+    }
+
+    .comment-tools button{
+      background:rgba(255,255,255,0.05);
+      color:var(--text);
+    }
+
+    .post-btn{
+      background:var(--accent);
+      color:white;
+      transition:0.2s;
+    }
+
+    .post-btn:hover{
+      transform:scale(1.05);
+    }
+
+    .comments-wrapper{
+      display:flex;
+      flex-direction:column;
+      gap:15px;
+    }
+
+    .comment-card{
+      background:var(--card);
+      padding:16px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      transition:0.2s;
+    }
+
+    .comment-card:hover{
+      transform:translateY(-2px);
+    }
+
+    .comment-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .comment-profile{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    .comment-profile img{
+      width:40px;
+      height:40px;
+      border-radius:50%;
+    }
+
+    .comment-profile h3{
+      margin:0;
+      font-size:14px;
+    }
+
+    .comment-profile span{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .comment-text{
+      margin:12px 0;
+      font-size:14px;
+      color:var(--text);
+    }
+
+    .comment-footer{
+      display:flex;
+      gap:10px;
+    }
+
+    .comment-footer button{
+      background:transparent;
+      border:1px solid var(--border);
+      color:var(--text);
+      padding:5px 10px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:13px;
+    }
+
+    .comment-footer button:hover{
+      border-color:var(--accent);
+    }
+
+    .dark-toggle{
+      position:fixed;
+      top:20px;
+      right:20px;
+      background:var(--card);
+      border:1px solid var(--border);
+      padding:8px 12px;
+      border-radius:10px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<button class="dark-toggle" onclick="toggleTheme()">🌓 Theme</button>
+
+<section class="community-section">
+
+  <div class="section-header">
+    <span class="section-tag">💬 Developer Community</span>
+    <h1 class="section-title">Community Discussions</h1>
+    <p class="section-desc">Share ideas and collaborate with developers worldwide</p>
+  </div>
+
+  <div class="comment-box">
+    <div class="comment-user">
+      <img src="https://i.pravatar.cc/100?img=12" />
+    </div>
+
+    <div style="flex:1">
+      <textarea id="commentInput" placeholder="Write something meaningful..."></textarea>
+
+      <div class="comment-actions">
+        <div class="comment-tools">
+          <button>😊 Emoji</button>
+          <button>📎 Attach</button>
+        </div>
+
+        <button class="post-btn" onclick="postComment()">Post</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="comments-wrapper" id="commentsWrapper"></div>
+
+</section>
+
+<script>
+function postComment(){
+  const input=document.getElementById('commentInput');
+  if(!input.value.trim()) return;
+
+  const wrapper=document.getElementById('commentsWrapper');
+
+  const card=document.createElement('div');
+  card.className='comment-card';
+  card.innerHTML=`
+    <div class="comment-top">
+      <div class="comment-profile">
+        <img src="https://i.pravatar.cc/100?img=32" />
+        <div>
+          <h3>You</h3>
+          <span>Just now</span>
+        </div>
+      </div>
+    </div>
+    <p class="comment-text">${input.value}</p>
+    <div class="comment-footer">
+      <button onclick="like(this)">❤️ <span>0</span></button>
+      <button>💬 Reply</button>
+      <button>🔗 Share</button>
+    </div>
+  `;
+
+  wrapper.prepend(card);
+  input.value='';
+}
+
+function like(btn){
+  const span=btn.querySelector('span');
+  span.textContent=parseInt(span.textContent)+1;
+}
+
+function toggleTheme(){
+  document.body.classList.toggle('light');
+}
+</script>
+
+    <script src="../dist/shared.js"></script>
+</body>
+</html>

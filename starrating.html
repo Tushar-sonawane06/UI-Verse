@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Star Rating Component</title>
+  <link rel="stylesheet" href="starrating.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">⭐ Star Rating Component</h1>
+    <p class="subtitle">Hover to preview, click to lock your rating. Supports half-stars!</p>
+
+    <!-- Component -->
+    <div class="star-rating" id="starRating">
+      <span class="star" data-value="0.5">★</span>
+      <span class="star" data-value="1">★</span>
+      <span class="star" data-value="1.5">★</span>
+      <span class="star" data-value="2">★</span>
+      <span class="star" data-value="2.5">★</span>
+      <span class="star" data-value="3">★</span>
+      <span class="star" data-value="3.5">★</span>
+      <span class="star" data-value="4">★</span>
+      <span class="star" data-value="4.5">★</span>
+      <span class="star" data-value="5">★</span>
+    </div>
+
+    <!-- Label -->
+    <p id="ratingLabel" class="rating-label">No rating selected</p>
+  </div>
+
+  <script>
+    const stars = document.querySelectorAll(".star");
+const ratingLabel = document.getElementById("ratingLabel");
+
+let currentRating = 0;
+
+// Highlight stars up to hovered value
+function highlightStars(value) {
+  stars.forEach(star => {
+    const starValue = parseFloat(star.dataset.value);
+    star.classList.toggle("active", starValue <= value);
+  });
+}
+
+// Update label
+function updateLabel(value) {
+  if (value === 0) {
+    ratingLabel.textContent = "No rating selected";
+  } else {
+    ratingLabel.textContent = `${value} out of 5`;
+  }
+}
+
+// Hover preview
+stars.forEach(star => {
+  star.addEventListener("mouseenter", () => {
+    const value = parseFloat(star.dataset.value);
+    highlightStars(value);
+    updateLabel(value);
+  });
+
+  star.addEventListener("mouseleave", () => {
+    highlightStars(currentRating);
+    updateLabel(currentRating);
+  });
+
+  // Click to lock rating
+  star.addEventListener("click", () => {
+    currentRating = parseFloat(star.dataset.value);
+    highlightStars(currentRating);
+    updateLabel(currentRating);
+  });
+});
+
+  </script>
+</body>
+</html>

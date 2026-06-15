@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Optimizer Demo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .btn-primary {
+      background: #4a90d9;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #357abd;
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #545b62;
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .image-card {
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .image-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .image-card .info {
+      padding: 15px;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .image-card .info strong {
+      color: #333;
+    }
+
+    .status {
+      padding: 15px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .status h3 {
+      margin-bottom: 10px;
+    }
+
+    .status-log {
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 12px;
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    .log-entry {
+      padding: 4px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .log-entry.success {
+      color: #28a745;
+    }
+
+    .log-entry.info {
+      color: #17a2b8;
+    }
+
+    .log-entry.error {
+      color: #dc3545;
+    }
+
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+      color: #666;
+    }
+
+    .loading::after {
+      content: '';
+      width: 30px;
+      height: 30px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #4a90d9;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Image Optimizer Demo</h1>
+  
+  <div class="controls">
+    <button class="btn-primary" onclick="runDemo()">Run Optimization Demo</button>
+    <button class="btn-secondary" onclick="clearCache()">Clear Cache</button>
+    <button class="btn-secondary" onclick="checkCacheSize()">Check Cache Size</button>
+  </div>
+
+  <div class="image-grid" id="imageGrid">
+    <!-- Images will be inserted here -->
+  </div>
+
+  <div class="status">
+    <h3>Status Log</h3>
+    <div class="status-log" id="statusLog"></div>
+  </div>
+
+  <!-- Load the image optimizer runtime -->
+  <script src="js/image-optimizer-runtime.js"></script>
+  
+  <script>
+    const statusLog = document.getElementById('statusLog');
+    const imageGrid = document.getElementById('imageGrid');
+
+    function log(message, type = 'info') {
+      const entry = document.createElement('div');
+      entry.className = `log-entry ${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      statusLog.insertBefore(entry, statusLog.firstChild);
+    }
+
+    function createImageCard(url, title) {
+      const card = document.createElement('div');
+      card.className = 'image-card';
+      card.innerHTML = `
+        <img data-optimize data-src="${url}" src="${url}" alt="${title}" loading="lazy">
+        <div class="info">
+          <strong>${title}</strong><br>
+          <span class="status-text">Waiting for optimization...</span>
+        </div>
+      `;
+      return card;
+    }
+
+    async function runDemo() {
+      log('Starting demo...', 'info');
+      imageGrid.innerHTML = '';
+
+      const testImages = [
+        { url: 'https://picsum.photos/800/600', title: 'Random Image 1 (800x600)' },
+        { url: 'https://picsum.photos/1200/800', title: 'Random Image 2 (1200x800)' },
+        { url: 'https://picsum.photos/600/400', title: 'Random Image 3 (600x400)' },
+        { url: 'https://picsum.photos/1024/768', title: 'Random Image 4 (1024x768)' }
+      ];
+
+      // Add image cards
+      for (const img of testImages) {
+        const card = createImageCard(img.url, img.title);
+        imageGrid.appendChild(card);
+      }
+
+      // Wait a bit for images to be added
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Initialize and optimize all images
+      if (window.ImageOptimizer) {
+        log('ImageOptimizer initialized', 'success');
+
+        // Listen for optimization events
+        document.querySelectorAll('img[data-optimize]').forEach(img => {
+          img.addEventListener('image-optimized', (e) => {
+            const card = img.closest('.image-card');
+            const statusText = card.querySelector('.status-text');
+            const details = e.detail;
+            
+            statusText.textContent = `Optimized! ${details.width}x${details.height}, from cache: ${details.fromCache}`;
+            log(`${img.alt}: Optimized to ${details.width}x${details.height}, from cache: ${details.fromCache}`, 'success');
+          });
+        });
+
+        try {
+          await window.ImageOptimizer.optimizeAll();
+          log('All images processed', 'success');
+        } catch (error) {
+          log(`Optimization error: ${error.message}`, 'error');
+        }
+      } else {
+        log('ImageOptimizer not loaded', 'error');
+      }
+    }
+
+    async function clearCache() {
+      if (window.ImageOptimizer) {
+        try {
+          await window.ImageOptimizer.clearCache();
+          log('Cache cleared', 'success');
+        } catch (error) {
+          log(`Clear cache error: ${error.message}`, 'error');
+        }
+      }
+    }
+
+    async function checkCacheSize() {
+      if (window.ImageOptimizer) {
+        try {
+          await window.ImageOptimizer.getCacheSize();
+        } catch (error) {
+          log(`Cache size error: ${error.message}`, 'error');
+        }
+      }
+    }
+
+    // Log when worker is ready
+    window.addEventListener('load', () => {
+      log('Page loaded, ImageOptimizer runtime available', 'info');
+    });
+  </script>
+</body>
+</html>

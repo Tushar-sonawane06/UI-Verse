@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cookie Consent Banner</title>
+  <link rel="stylesheet" href="cookiebanner.css">
+</head>
+<body>
+  <h1>Demo Page</h1>
+  <p>Scroll down to see the cookie banner at the bottom.</p>
+
+  <!-- Cookie Banner -->
+  <div id="cookieBanner" class="cookie-banner hidden">
+    <div class="banner-content">
+      <p>
+        We use cookies to personalize content, analyze traffic, and improve your experience.
+        You can choose to accept all, decline, or customize your preferences.
+      </p>
+    </div>
+    <div class="banner-actions">
+      <button id="acceptBtn" class="banner-btn primary">Accept All</button>
+      <button id="declineBtn" class="banner-btn outline">Decline</button>
+      <button id="customizeBtn" class="banner-btn">Customize</button>
+    </div>
+  </div>
+
+  <!-- Preferences Modal -->
+  <div id="cookieModal" class="cookie-modal hidden">
+    <div class="modal-content">
+      <h3>Manage Cookie Preferences</h3>
+      <form id="cookieForm">
+        <label>
+          <input type="checkbox" disabled checked>
+          Necessary (always enabled)
+        </label>
+        <label>
+          <input type="checkbox" id="analytics">
+          Analytics
+        </label>
+        <label>
+          <input type="checkbox" id="marketing">
+          Marketing
+        </label>
+      </form>
+      <div class="modal-actions">
+        <button id="savePrefs" class="banner-btn primary">Save Preferences</button>
+        <button id="closeModal" class="banner-btn outline">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const banner = document.getElementById("cookieBanner");
+const modal = document.getElementById("cookieModal");
+
+const acceptBtn = document.getElementById("acceptBtn");
+const declineBtn = document.getElementById("declineBtn");
+const customizeBtn = document.getElementById("customizeBtn");
+const savePrefs = document.getElementById("savePrefs");
+const closeModal = document.getElementById("closeModal");
+
+function showBanner() {
+  if (!localStorage.getItem("cookieConsent")) {
+    banner.classList.add("show");
+  }
+}
+
+function setConsent(value) {
+  localStorage.setItem("cookieConsent", value);
+  banner.classList.remove("show");
+}
+
+acceptBtn.addEventListener("click", () => setConsent("accepted"));
+declineBtn.addEventListener("click", () => setConsent("declined"));
+
+customizeBtn.addEventListener("click", () => {
+  modal.classList.remove("hidden");
+});
+
+savePrefs.addEventListener("click", () => {
+  const analytics = document.getElementById("analytics").checked;
+  const marketing = document.getElementById("marketing").checked;
+  const prefs = { analytics, marketing };
+  localStorage.setItem("cookieConsent", JSON.stringify(prefs));
+  modal.classList.add("hidden");
+  banner.classList.remove("show");
+});
+
+closeModal.addEventListener("click", () => {
+  modal.classList.add("hidden");
+});
+
+// Show banner on load
+document.addEventListener("DOMContentLoaded", showBanner);
+
+  </script>
+</body>
+</html>

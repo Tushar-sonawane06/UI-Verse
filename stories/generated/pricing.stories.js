@@ -1,0 +1,1691 @@
+import { createShadowRootStory } from '../storybook-utils.js';
+
+export default {
+  title: 'Components/Pricing',
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+### Description
+Pricing layouts and plan cards
+
+### Info & Metadata
+- **Category**: Layout
+- **Tags**: <code>pricing</code>, <code>plans</code>, <code>billing</code>, <code>subscription</code>
+
+### Usage
+Embed the HTML markup inside your document and include the listed CSS styles.
+
+#### HTML Markup:
+\`\`\`html
+<main class="main-home">
+
+
+  <!-- ================= PRICING HERO ================= -->
+
+<div class="pricing-page-hero">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <i class="fa-solid fa-chevron-right"></i>
+    <span>Pricing</span>
+  </div>
+
+  <h1 class="page-title">
+    Pricing Card Components
+  </h1>
+
+  <p class="page-desc">
+    Modern SaaS pricing UI components with billing toggles,
+    glowing cards, feature lists, and responsive layouts.
+  </p>
+
+  <div class="page-meta">
+
+    <span class="meta-badge">
+      <i class="fa-solid fa-layer-group"></i>
+      3 Plans
+    </span>
+
+    <span class="meta-badge">
+      <i class="fa-solid fa-toggle-on"></i>
+      Billing Toggle
+    </span>
+
+    <span class="meta-badge">
+      <i class="fa-solid fa-code"></i>
+      HTML + CSS
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- ================= GLASSMORPHISM PRICING ================= -->
+
+<div class="component-card">
+
+  <div class="glass-pricing-grid">
+
+    <!-- BASIC -->
+    <div class="glass-card">
+
+      <div class="glass-top">
+        <span class="glass-plan">Basic</span>
+        <h2>$9</h2>
+        <p>/ month</p>
+      </div>
+
+      <ul class="glass-features">
+        <li><i class="fa-solid fa-check"></i> 5 Projects</li>
+        <li><i class="fa-solid fa-check"></i> Email Support</li>
+        <li><i class="fa-solid fa-check"></i> Analytics</li>
+      </ul>
+
+      <button class="glass-btn">
+        Start Free
+      </button>
+
+    </div>
+
+    <!-- TEAM -->
+    <div class="glass-card featured-glass">
+
+      <div class="popular-pill">
+        Recommended
+      </div>
+
+      <div class="glass-top">
+        <span class="glass-plan">Team</span>
+        <h2>$29</h2>
+        <p>/ month</p>
+      </div>
+
+      <ul class="glass-features">
+        <li><i class="fa-solid fa-check"></i> Unlimited Projects</li>
+        <li><i class="fa-solid fa-check"></i> Team Access</li>
+        <li><i class="fa-solid fa-check"></i> Priority Support</li>
+        <li><i class="fa-solid fa-check"></i> API Access</li>
+      </ul>
+
+      <button class="glass-btn active-btn">
+        Get Team Plan
+      </button>
+
+    </div>
+
+    <!-- AGENCY -->
+    <div class="glass-card">
+
+      <div class="glass-top">
+        <span class="glass-plan">Agency</span>
+        <h2>$79</h2>
+        <p>/ month</p>
+      </div>
+
+      <ul class="glass-features">
+        <li><i class="fa-solid fa-check"></i> White Label</li>
+        <li><i class="fa-solid fa-check"></i> Unlimited Users</li>
+        <li><i class="fa-solid fa-check"></i> Dedicated Manager</li>
+      </ul>
+
+      <button class="glass-btn">
+        Contact Us
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= NEON PRICING ================= -->
+
+<div class="component-card">
+
+  <div class="neon-pricing-grid">
+
+    <!-- SILVER -->
+    <div class="neon-card silver">
+
+      <h3>Silver</h3>
+
+      <div class="neon-price">
+        $15
+      </div>
+
+      <p class="neon-desc">
+        Great for freelancers
+      </p>
+
+      <ul>
+        <li>5 GB Storage</li>
+        <li>Custom Domain</li>
+        <li>Email Support</li>
+      </ul>
+
+      <button class="neon-btn">
+        Select Plan
+      </button>
+
+    </div>
+
+    <!-- GOLD -->
+    <div class="neon-card gold">
+
+      <div class="neon-badge">
+        <i class="fa-solid fa-crown"></i>
+        BEST VALUE
+      </div>
+
+      <h3>Gold</h3>
+
+      <div class="neon-price">
+        $49
+      </div>
+
+      <p class="neon-desc">
+        Ideal for startups
+      </p>
+
+      <ul>
+        <li>Unlimited Storage</li>
+        <li>AI Analytics</li>
+        <li>24/7 Support</li>
+      </ul>
+
+      <button class="neon-btn active-neon">
+        Choose Gold
+      </button>
+
+    </div>
+
+    <!-- PLATINUM -->
+    <div class="neon-card platinum">
+
+      <h3>Platinum</h3>
+
+      <div class="neon-price">
+        $99
+      </div>
+
+      <p class="neon-desc">
+        Enterprise solution
+      </p>
+
+      <ul>
+        <li>Unlimited Everything</li>
+        <li>Dedicated Manager</li>
+        <li>Custom Integrations</li>
+      </ul>
+
+      <button class="neon-btn">
+        Contact Sales
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= MINIMAL PRICING ================= -->
+
+<div class="component-card">
+
+  <div class="minimal-pricing-grid">
+
+    <!-- LITE -->
+    <div class="minimal-card">
+
+      <span class="mini-label">
+        Lite
+      </span>
+
+      <h2>$5</h2>
+
+      <p>
+        Small personal websites
+      </p>
+
+      <button class="minimal-btn">
+        Buy Now
+      </button>
+
+    </div>
+
+    <!-- PLUS -->
+    <div class="minimal-card dark-mini">
+
+      <span class="mini-label">
+        Plus
+      </span>
+
+      <h2>$19</h2>
+
+      <p>
+        Best for professionals
+      </p>
+
+      <button class="minimal-btn light-btn">
+        Choose Plus
+      </button>
+
+    </div>
+
+    <!-- ULTRA -->
+    <div class="minimal-card">
+
+      <span class="mini-label">
+        Ultra
+      </span>
+
+      <h2>$59</h2>
+
+      <p>
+        Built for agencies
+      </p>
+
+      <button class="minimal-btn">
+        Upgrade
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+<!-- ================= COMPONENT CARD ================= -->
+
+<div class="component-card">
+
+  <!-- TOP -->
+
+  <div class="card-top">
+
+    <div>
+      <h2 class="card-label">
+        Interactive Pricing Table
+      </h2>
+    </div>
+
+    <span class="card-tag">
+      Popular
+    </span>
+
+  </div>
+
+  <!-- DESCRIPTION -->
+
+  <p class="card-desc">
+    Fully responsive SaaS pricing section with
+    monthly, quarterly, and yearly billing toggle.
+  </p>
+
+  <!-- ================= TOGGLE ================= -->
+
+  <div class="billing-toggle-wrap">
+
+    <div class="billing-toggle">
+
+      <button class="toggle-btn active"
+        data-period="month">
+
+        Monthly
+
+      </button>
+
+      <button class="toggle-btn"
+        data-period="quarter">
+
+        Quarterly
+
+      </button>
+
+      <button class="toggle-btn"
+        data-period="year">
+
+        Yearly
+
+        <span class="save-chip">
+          Save 40%
+        </span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- ================= PRICING GRID ================= -->
+
+  <div class="pricing-grid-preview">
+
+    <!-- FREE -->
+
+    <div class="plan-card free-card">
+
+      <div class="plan-name">
+        Free
+      </div>
+
+      <p class="plan-tagline">
+        For hobby projects
+      </p>
+
+      <div class="plan-price-wrap">
+
+        <span class="plan-amount"
+          data-month="$0"
+          data-quarter="$0"
+          data-year="$0">
+
+          $0
+
+        </span>
+
+        <span class="plan-period">
+          / month
+        </span>
+
+      </div>
+
+      <ul class="plan-features">
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          3 Projects
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Community Support
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Basic Analytics
+        </li>
+
+        <li class="muted">
+          <i class="fa-solid fa-xmark"></i>
+          Custom Domains
+        </li>
+
+        <li class="muted">
+          <i class="fa-solid fa-xmark"></i>
+          Priority Support
+        </li>
+
+      </ul>
+
+      <button class="plan-btn plan-btn-outline">
+        Get Started
+      </button>
+
+    </div>
+
+    <!-- PRO -->
+
+    <div class="plan-card pro-card">
+
+      <div class="recommended-badge">
+
+        <i class="fa-solid fa-star"></i>
+
+        Most Popular
+
+      </div>
+
+      <div class="plan-name">
+        Pro
+      </div>
+
+      <p class="plan-tagline">
+        Best for growing startups
+      </p>
+
+      <div class="plan-price-wrap">
+
+        <span class="plan-old"
+          data-month="$49"
+          data-quarter="$44"
+          data-year="$39">
+
+          $49
+
+        </span>
+
+        <span class="plan-amount"
+          data-month="$29"
+          data-quarter="$26"
+          data-year="$19">
+
+          $29
+
+        </span>
+
+        <span class="plan-period">
+          / month
+        </span>
+
+      </div>
+
+      <ul class="plan-features">
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Unlimited Projects
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Team Collaboration
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Priority Support
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Custom Domains
+        </li>
+
+        <li class="muted">
+          <i class="fa-solid fa-xmark"></i>
+          White Label
+        </li>
+
+      </ul>
+
+      <button class="plan-btn plan-btn-accent">
+        Choose Pro
+      </button>
+
+    </div>
+
+    <!-- ENTERPRISE -->
+
+    <div class="plan-card enterprise-card">
+
+      <div class="plan-name">
+        Enterprise
+      </div>
+
+      <p class="plan-tagline">
+        For large organizations
+      </p>
+
+      <div class="plan-price-wrap">
+
+        <span class="plan-old"
+          data-month="$149"
+          data-quarter="$134"
+          data-year="$119">
+
+          $149
+
+        </span>
+
+        <span class="plan-amount"
+          data-month="$99"
+          data-quarter="$89"
+          data-year="$69">
+
+          $99
+
+        </span>
+
+        <span class="plan-period">
+          / month
+        </span>
+
+      </div>
+
+      <ul class="plan-features">
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Dedicated Manager
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          White Label
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          SLA Guarantee
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Custom Integrations
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Unlimited Storage
+        </li>
+
+      </ul>
+
+      <button class="plan-btn business-btn">
+        Contact Sales
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- ================= ACTION BUTTONS ================= -->
+
+  <div class="actions">
+
+    <button class="action-btn view-btn"
+      onclick="toggleCode('pc1', this)">
+
+      <i class="fa-solid fa-code"></i>
+      View Code
+
+    </button>
+
+    <button class="action-btn copy-btn"
+      onclick="copyCode('pc1', this)">
+
+      <i class="fa-solid fa-copy"></i>
+      Copy
+
+    </button>
+
+  </div>
+
+  <!-- ================= CODE BLOCK ================= -->
+
+  <pre id="pc1" class="code-block"><code>
+
+&lt;div class="pricing-grid-preview"&gt;
+
+  &lt;div class="plan-card free-card"&gt;&lt;/div&gt;
+
+  &lt;div class="plan-card pro-card"&gt;&lt;/div&gt;
+
+  &lt;div class="plan-card enterprise-card"&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+  </code></pre>
+
+</div>
+  
+
+  <!-- ================= ACTION BUTTONS ================= -->
+
+  <div class="actions">
+
+    <button class="action-btn view-btn"
+      onclick="toggleCode('pc1', this)">
+
+      <i class="fa-solid fa-code"></i>
+      View Code
+
+    </button>
+
+    <button class="action-btn copy-btn"
+      onclick="copyCode('pc1', this)">
+
+      <i class="fa-solid fa-copy"></i>
+      Copy
+
+    </button>
+
+  </div>
+
+  <!-- ================= CODE BLOCK ================= -->
+
+  <pre id="pc1" class="code-block"><code>
+
+&lt;div class="pricing-grid-preview"&gt;
+
+  &lt;div class="plan-card free-card"&gt;
+    ...
+  &lt;/div&gt;
+
+  &lt;div class="plan-card pro-card"&gt;
+    ...
+  &lt;/div&gt;
+
+  &lt;div class="plan-card enterprise-card"&gt;
+    ...
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+  </code></pre>
+
+</div>
+
+<!-- ================= SECOND COMPONENT ================= -->
+
+<div class="component-card">
+
+  <div class="pricing-grid">
+
+    <!-- STARTER -->
+    <div class="pricing-card starter">
+
+      <div class="card-glow"></div>
+
+      <div class="pricing-card-content">
+
+        <div class="plan-header">
+          <h3>Starter</h3>
+          <p>Perfect for personal projects</p>
+        </div>
+
+        <div class="plan-price">
+          <span class="old-price">$19</span>
+          <span class="amount">$12</span>
+        </div>
+
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> Basic analytics</li>
+          <li><i class="fa-solid fa-check"></i> Custom domains</li>
+          <li><i class="fa-solid fa-check"></i> Email support</li>
+        </ul>
+
+        <button class="plan-btn">
+          Choose Starter
+        </button>
+
+      </div>
+    </div>
+
+    <!-- PRO -->
+    <div class="pricing-card pro featured">
+
+      <div class="popular-badge">
+        Most Popular
+      </div>
+
+      <div class="card-glow"></div>
+
+      <div class="pricing-card-content">
+
+        <div class="plan-header">
+          <h3>Pro</h3>
+          <p>Best for scaling your business</p>
+        </div>
+
+        <div class="plan-price">
+          <span class="old-price">$49</span>
+          <span class="amount">$29</span>
+        </div>
+
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> Advanced analytics</li>
+          <li><i class="fa-solid fa-check"></i> Unlimited projects</li>
+          <li><i class="fa-solid fa-check"></i> Priority support</li>
+          <li><i class="fa-solid fa-check"></i> Team collaboration</li>
+        </ul>
+
+        <button class="plan-btn secondary">
+          Choose Pro
+        </button>
+
+      </div>
+    </div>
+
+    <!-- BUSINESS -->
+    <div class="pricing-card business">
+
+      <div class="card-glow"></div>
+
+      <div class="pricing-card-content">
+
+        <div class="plan-header">
+          <h3>Business</h3>
+          <p>For growing startups & teams</p>
+    
+
+        <div class="plan-price">
+          <span class="old-price">$99</span>
+          <span class="amount">$59</span>
+        </div>
+
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> AI-powered insights</li>
+          <li><i class="fa-solid fa-check"></i> Unlimited storage</li>
+          <li><i class="fa-solid fa-check"></i> Dedicated manager</li>
+          <li><i class="fa-solid fa-check"></i> 24/7 live support</li>
+        </ul>
+
+        <button class="plan-btn business-btn">
+          Choose Business
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+
+    <button class="action-btn view-btn"
+      onclick="toggleCode('pc2', this)">
+
+      <i class="fa-solid fa-code"></i>
+      View Code
+
+    </button>
+
+    <button class="action-btn copy-btn"
+      onclick="copyCode('pc2', this)">
+
+      <i class="fa-solid fa-copy"></i>
+      Copy
+
+    </button>
+
+  </div>
+
+  <!-- CODE -->
+  <pre id="pc2" class="code-block"><code>
+
+&lt;div class="pricing-grid"&gt;
+
+  &lt;div class="pricing-card starter"&gt;
+    ...
+  &lt;/div&gt;
+
+  &lt;div class="pricing-card pro"&gt;
+    ...
+  &lt;/div&gt;
+
+  &lt;div class="pricing-card business"&gt;
+    ...
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+  </code></pre>
+
+</div>
+ <!-- /pricing-grid-preview -->
+
+    
+ <button id="cta-get-started" class="cta-secondary">Get Started</button>
+<button id="cta-choose-pro" class="cta-primary">Choose Pro</button>
+<button id="cta-contact-sales" class="cta-secondary">Contact Sales</button>
+
+<button id="billing-monthly">Monthly</button>
+<button id="billing-quarterly">Quarterly</button>
+<button id="billing-yearly">Yearly</button>
+
+  <div class="billing-toggle" role="group" aria-label="Billing options">
+  <button class="toggle-btn" aria-pressed="true" aria-label="Monthly billing">Monthly</button>
+  <button class="toggle-btn" aria-pressed="false" aria-label="Quarterly billing">Quarterly</button>
+  <button class="toggle-btn" aria-pressed="false" aria-label="Yearly billing">Yearly</button>
+</div>
+
+
+</main>
+\`\`\`
+
+#### Style Sheets:
+- \`/design-tokens.css\`
+- \`/dist/shared.css\`
+- \`https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css\`
+- \`/pricing.css\`
+
+#### JavaScript Scripts:
+- \`/dist/shared.js\`
+
+### Accessibility (a11y) Checklist
+
+- [x] Semantic HTML: appropriate tags are utilized.
+- [x] Focus states: interactive elements show native or custom focus styling.
+- [x] Color contrast: contrast ratios meet WCAG standard compliance.
+
+
+### Visual & Interactive Test Cases
+
+- [x] Render check: component layout presents visual elements clearly.
+- [x] Hover check: interactive elements trigger hover states and transitions.
+- [x] Responsive layout: scales and nests correctly across viewports.
+
+`
+      }
+    }
+  }
+};
+
+export const Default = {
+  render: () => createShadowRootStory({
+    title: 'Pricing',
+    styles: ["/design-tokens.css","/dist/shared.css","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css","/pricing.css"],
+    content: `<main class="main-home">
+
+
+  <!-- ================= PRICING HERO ================= -->
+
+<div class="pricing-page-hero">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <i class="fa-solid fa-chevron-right"></i>
+    <span>Pricing</span>
+  </div>
+
+  <h1 class="page-title">
+    Pricing Card Components
+  </h1>
+
+  <p class="page-desc">
+    Modern SaaS pricing UI components with billing toggles,
+    glowing cards, feature lists, and responsive layouts.
+  </p>
+
+  <div class="page-meta">
+
+    <span class="meta-badge">
+      <i class="fa-solid fa-layer-group"></i>
+      3 Plans
+    </span>
+
+    <span class="meta-badge">
+      <i class="fa-solid fa-toggle-on"></i>
+      Billing Toggle
+    </span>
+
+    <span class="meta-badge">
+      <i class="fa-solid fa-code"></i>
+      HTML + CSS
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- ================= GLASSMORPHISM PRICING ================= -->
+
+<div class="component-card">
+
+  <div class="glass-pricing-grid">
+
+    <!-- BASIC -->
+    <div class="glass-card">
+
+      <div class="glass-top">
+        <span class="glass-plan">Basic</span>
+        <h2>$9</h2>
+        <p>/ month</p>
+      </div>
+
+      <ul class="glass-features">
+        <li><i class="fa-solid fa-check"></i> 5 Projects</li>
+        <li><i class="fa-solid fa-check"></i> Email Support</li>
+        <li><i class="fa-solid fa-check"></i> Analytics</li>
+      </ul>
+
+      <button class="glass-btn">
+        Start Free
+      </button>
+
+    </div>
+
+    <!-- TEAM -->
+    <div class="glass-card featured-glass">
+
+      <div class="popular-pill">
+        Recommended
+      </div>
+
+      <div class="glass-top">
+        <span class="glass-plan">Team</span>
+        <h2>$29</h2>
+        <p>/ month</p>
+      </div>
+
+      <ul class="glass-features">
+        <li><i class="fa-solid fa-check"></i> Unlimited Projects</li>
+        <li><i class="fa-solid fa-check"></i> Team Access</li>
+        <li><i class="fa-solid fa-check"></i> Priority Support</li>
+        <li><i class="fa-solid fa-check"></i> API Access</li>
+      </ul>
+
+      <button class="glass-btn active-btn">
+        Get Team Plan
+      </button>
+
+    </div>
+
+    <!-- AGENCY -->
+    <div class="glass-card">
+
+      <div class="glass-top">
+        <span class="glass-plan">Agency</span>
+        <h2>$79</h2>
+        <p>/ month</p>
+      </div>
+
+      <ul class="glass-features">
+        <li><i class="fa-solid fa-check"></i> White Label</li>
+        <li><i class="fa-solid fa-check"></i> Unlimited Users</li>
+        <li><i class="fa-solid fa-check"></i> Dedicated Manager</li>
+      </ul>
+
+      <button class="glass-btn">
+        Contact Us
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= NEON PRICING ================= -->
+
+<div class="component-card">
+
+  <div class="neon-pricing-grid">
+
+    <!-- SILVER -->
+    <div class="neon-card silver">
+
+      <h3>Silver</h3>
+
+      <div class="neon-price">
+        $15
+      </div>
+
+      <p class="neon-desc">
+        Great for freelancers
+      </p>
+
+      <ul>
+        <li>5 GB Storage</li>
+        <li>Custom Domain</li>
+        <li>Email Support</li>
+      </ul>
+
+      <button class="neon-btn">
+        Select Plan
+      </button>
+
+    </div>
+
+    <!-- GOLD -->
+    <div class="neon-card gold">
+
+      <div class="neon-badge">
+        <i class="fa-solid fa-crown"></i>
+        BEST VALUE
+      </div>
+
+      <h3>Gold</h3>
+
+      <div class="neon-price">
+        $49
+      </div>
+
+      <p class="neon-desc">
+        Ideal for startups
+      </p>
+
+      <ul>
+        <li>Unlimited Storage</li>
+        <li>AI Analytics</li>
+        <li>24/7 Support</li>
+      </ul>
+
+      <button class="neon-btn active-neon">
+        Choose Gold
+      </button>
+
+    </div>
+
+    <!-- PLATINUM -->
+    <div class="neon-card platinum">
+
+      <h3>Platinum</h3>
+
+      <div class="neon-price">
+        $99
+      </div>
+
+      <p class="neon-desc">
+        Enterprise solution
+      </p>
+
+      <ul>
+        <li>Unlimited Everything</li>
+        <li>Dedicated Manager</li>
+        <li>Custom Integrations</li>
+      </ul>
+
+      <button class="neon-btn">
+        Contact Sales
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= MINIMAL PRICING ================= -->
+
+<div class="component-card">
+
+  <div class="minimal-pricing-grid">
+
+    <!-- LITE -->
+    <div class="minimal-card">
+
+      <span class="mini-label">
+        Lite
+      </span>
+
+      <h2>$5</h2>
+
+      <p>
+        Small personal websites
+      </p>
+
+      <button class="minimal-btn">
+        Buy Now
+      </button>
+
+    </div>
+
+    <!-- PLUS -->
+    <div class="minimal-card dark-mini">
+
+      <span class="mini-label">
+        Plus
+      </span>
+
+      <h2>$19</h2>
+
+      <p>
+        Best for professionals
+      </p>
+
+      <button class="minimal-btn light-btn">
+        Choose Plus
+      </button>
+
+    </div>
+
+    <!-- ULTRA -->
+    <div class="minimal-card">
+
+      <span class="mini-label">
+        Ultra
+      </span>
+
+      <h2>$59</h2>
+
+      <p>
+        Built for agencies
+      </p>
+
+      <button class="minimal-btn">
+        Upgrade
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+<!-- ================= COMPONENT CARD ================= -->
+
+<div class="component-card">
+
+  <!-- TOP -->
+
+  <div class="card-top">
+
+    <div>
+      <h2 class="card-label">
+        Interactive Pricing Table
+      </h2>
+    </div>
+
+    <span class="card-tag">
+      Popular
+    </span>
+
+  </div>
+
+  <!-- DESCRIPTION -->
+
+  <p class="card-desc">
+    Fully responsive SaaS pricing section with
+    monthly, quarterly, and yearly billing toggle.
+  </p>
+
+  <!-- ================= TOGGLE ================= -->
+
+  <div class="billing-toggle-wrap">
+
+    <div class="billing-toggle">
+
+      <button class="toggle-btn active"
+        data-period="month">
+
+        Monthly
+
+      </button>
+
+      <button class="toggle-btn"
+        data-period="quarter">
+
+        Quarterly
+
+      </button>
+
+      <button class="toggle-btn"
+        data-period="year">
+
+        Yearly
+
+        <span class="save-chip">
+          Save 40%
+        </span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- ================= PRICING GRID ================= -->
+
+  <div class="pricing-grid-preview">
+
+    <!-- FREE -->
+
+    <div class="plan-card free-card">
+
+      <div class="plan-name">
+        Free
+      </div>
+
+      <p class="plan-tagline">
+        For hobby projects
+      </p>
+
+      <div class="plan-price-wrap">
+
+        <span class="plan-amount"
+          data-month="$0"
+          data-quarter="$0"
+          data-year="$0">
+
+          $0
+
+        </span>
+
+        <span class="plan-period">
+          / month
+        </span>
+
+      </div>
+
+      <ul class="plan-features">
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          3 Projects
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Community Support
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Basic Analytics
+        </li>
+
+        <li class="muted">
+          <i class="fa-solid fa-xmark"></i>
+          Custom Domains
+        </li>
+
+        <li class="muted">
+          <i class="fa-solid fa-xmark"></i>
+          Priority Support
+        </li>
+
+      </ul>
+
+      <button class="plan-btn plan-btn-outline">
+        Get Started
+      </button>
+
+    </div>
+
+    <!-- PRO -->
+
+    <div class="plan-card pro-card">
+
+      <div class="recommended-badge">
+
+        <i class="fa-solid fa-star"></i>
+
+        Most Popular
+
+      </div>
+
+      <div class="plan-name">
+        Pro
+      </div>
+
+      <p class="plan-tagline">
+        Best for growing startups
+      </p>
+
+      <div class="plan-price-wrap">
+
+        <span class="plan-old"
+          data-month="$49"
+          data-quarter="$44"
+          data-year="$39">
+
+          $49
+
+        </span>
+
+        <span class="plan-amount"
+          data-month="$29"
+          data-quarter="$26"
+          data-year="$19">
+
+          $29
+
+        </span>
+
+        <span class="plan-period">
+          / month
+        </span>
+
+      </div>
+
+      <ul class="plan-features">
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Unlimited Projects
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Team Collaboration
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Priority Support
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Custom Domains
+        </li>
+
+        <li class="muted">
+          <i class="fa-solid fa-xmark"></i>
+          White Label
+        </li>
+
+      </ul>
+
+      <button class="plan-btn plan-btn-accent">
+        Choose Pro
+      </button>
+
+    </div>
+
+    <!-- ENTERPRISE -->
+
+    <div class="plan-card enterprise-card">
+
+      <div class="plan-name">
+        Enterprise
+      </div>
+
+      <p class="plan-tagline">
+        For large organizations
+      </p>
+
+      <div class="plan-price-wrap">
+
+        <span class="plan-old"
+          data-month="$149"
+          data-quarter="$134"
+          data-year="$119">
+
+          $149
+
+        </span>
+
+        <span class="plan-amount"
+          data-month="$99"
+          data-quarter="$89"
+          data-year="$69">
+
+          $99
+
+        </span>
+
+        <span class="plan-period">
+          / month
+        </span>
+
+      </div>
+
+      <ul class="plan-features">
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Dedicated Manager
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          White Label
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          SLA Guarantee
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Custom Integrations
+        </li>
+
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Unlimited Storage
+        </li>
+
+      </ul>
+
+      <button class="plan-btn business-btn">
+        Contact Sales
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- ================= ACTION BUTTONS ================= -->
+
+  <div class="actions">
+
+    <button class="action-btn view-btn"
+      onclick="toggleCode('pc1', this)">
+
+      <i class="fa-solid fa-code"></i>
+      View Code
+
+    </button>
+
+    <button class="action-btn copy-btn"
+      onclick="copyCode('pc1', this)">
+
+      <i class="fa-solid fa-copy"></i>
+      Copy
+
+    </button>
+
+  </div>
+
+  <!-- ================= CODE BLOCK ================= -->
+
+  <pre id="pc1" class="code-block"><code>
+
+&lt;div class="pricing-grid-preview"&gt;
+
+  &lt;div class="plan-card free-card"&gt;&lt;/div&gt;
+
+  &lt;div class="plan-card pro-card"&gt;&lt;/div&gt;
+
+  &lt;div class="plan-card enterprise-card"&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+  </code></pre>
+
+</div>
+  
+
+  <!-- ================= ACTION BUTTONS ================= -->
+
+  <div class="actions">
+
+    <button class="action-btn view-btn"
+      onclick="toggleCode('pc1', this)">
+
+      <i class="fa-solid fa-code"></i>
+      View Code
+
+    </button>
+
+    <button class="action-btn copy-btn"
+      onclick="copyCode('pc1', this)">
+
+      <i class="fa-solid fa-copy"></i>
+      Copy
+
+    </button>
+
+  </div>
+
+  <!-- ================= CODE BLOCK ================= -->
+
+  <pre id="pc1" class="code-block"><code>
+
+&lt;div class="pricing-grid-preview"&gt;
+
+  &lt;div class="plan-card free-card"&gt;
+    ...
+  &lt;/div&gt;
+
+  &lt;div class="plan-card pro-card"&gt;
+    ...
+  &lt;/div&gt;
+
+  &lt;div class="plan-card enterprise-card"&gt;
+    ...
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+  </code></pre>
+
+</div>
+
+<!-- ================= SECOND COMPONENT ================= -->
+
+<div class="component-card">
+
+  <div class="pricing-grid">
+
+    <!-- STARTER -->
+    <div class="pricing-card starter">
+
+      <div class="card-glow"></div>
+
+      <div class="pricing-card-content">
+
+        <div class="plan-header">
+          <h3>Starter</h3>
+          <p>Perfect for personal projects</p>
+        </div>
+
+        <div class="plan-price">
+          <span class="old-price">$19</span>
+          <span class="amount">$12</span>
+        </div>
+
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> Basic analytics</li>
+          <li><i class="fa-solid fa-check"></i> Custom domains</li>
+          <li><i class="fa-solid fa-check"></i> Email support</li>
+        </ul>
+
+        <button class="plan-btn">
+          Choose Starter
+        </button>
+
+      </div>
+    </div>
+
+    <!-- PRO -->
+    <div class="pricing-card pro featured">
+
+      <div class="popular-badge">
+        Most Popular
+      </div>
+
+      <div class="card-glow"></div>
+
+      <div class="pricing-card-content">
+
+        <div class="plan-header">
+          <h3>Pro</h3>
+          <p>Best for scaling your business</p>
+        </div>
+
+        <div class="plan-price">
+          <span class="old-price">$49</span>
+          <span class="amount">$29</span>
+        </div>
+
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> Advanced analytics</li>
+          <li><i class="fa-solid fa-check"></i> Unlimited projects</li>
+          <li><i class="fa-solid fa-check"></i> Priority support</li>
+          <li><i class="fa-solid fa-check"></i> Team collaboration</li>
+        </ul>
+
+        <button class="plan-btn secondary">
+          Choose Pro
+        </button>
+
+      </div>
+    </div>
+
+    <!-- BUSINESS -->
+    <div class="pricing-card business">
+
+      <div class="card-glow"></div>
+
+      <div class="pricing-card-content">
+
+        <div class="plan-header">
+          <h3>Business</h3>
+          <p>For growing startups & teams</p>
+    
+
+        <div class="plan-price">
+          <span class="old-price">$99</span>
+          <span class="amount">$59</span>
+        </div>
+
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> AI-powered insights</li>
+          <li><i class="fa-solid fa-check"></i> Unlimited storage</li>
+          <li><i class="fa-solid fa-check"></i> Dedicated manager</li>
+          <li><i class="fa-solid fa-check"></i> 24/7 live support</li>
+        </ul>
+
+        <button class="plan-btn business-btn">
+          Choose Business
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+
+    <button class="action-btn view-btn"
+      onclick="toggleCode('pc2', this)">
+
+      <i class="fa-solid fa-code"></i>
+      View Code
+
+    </button>
+
+    <button class="action-btn copy-btn"
+      onclick="copyCode('pc2', this)">
+
+      <i class="fa-solid fa-copy"></i>
+      Copy
+
+    </button>
+
+  </div>
+
+  <!-- CODE -->
+  <pre id="pc2" class="code-block"><code>
+
+&lt;div class="pricing-grid"&gt;
+
+  &lt;div class="pricing-card starter"&gt;
+    ...
+  &lt;/div&gt;
+
+  &lt;div class="pricing-card pro"&gt;
+    ...
+  &lt;/div&gt;
+
+  &lt;div class="pricing-card business"&gt;
+    ...
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+  </code></pre>
+
+</div>
+ <!-- /pricing-grid-preview -->
+
+    
+ <button id="cta-get-started" class="cta-secondary">Get Started</button>
+<button id="cta-choose-pro" class="cta-primary">Choose Pro</button>
+<button id="cta-contact-sales" class="cta-secondary">Contact Sales</button>
+
+<button id="billing-monthly">Monthly</button>
+<button id="billing-quarterly">Quarterly</button>
+<button id="billing-yearly">Yearly</button>
+
+  <div class="billing-toggle" role="group" aria-label="Billing options">
+  <button class="toggle-btn" aria-pressed="true" aria-label="Monthly billing">Monthly</button>
+  <button class="toggle-btn" aria-pressed="false" aria-label="Quarterly billing">Quarterly</button>
+  <button class="toggle-btn" aria-pressed="false" aria-label="Yearly billing">Yearly</button>
+</div>
+
+
+</main>`
+  })
+};

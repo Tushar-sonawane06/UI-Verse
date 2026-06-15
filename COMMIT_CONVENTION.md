@@ -1,6 +1,7 @@
 # Commit Message Convention
 
 ## Format
+
 ```
 <type>(<scope>): <description>
 
@@ -10,6 +11,7 @@
 ```
 
 ## Types
+
 - **feat**: New feature
 - **fix**: Bug fix
 - **docs**: Documentation changes
@@ -20,6 +22,7 @@
 - **chore**: Maintenance
 
 ## Examples
+
 ```
 feat(search): add live filtering
 fix(toast): resolve duplicate notifications
@@ -27,6 +30,7 @@ docs(readme): update installation instructions
 ```
 
 ## Breaking Changes
+
 ```
 feat(api)!: change response format
 

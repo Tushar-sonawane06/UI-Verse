@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Radio Button Components — UIverse</title>
   <meta name="description" content="Modern reusable radio button UI components with responsive layouts, interactive styling, and smooth animations.">
 
+  
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
@@ -13,32 +15,77 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
   <link rel="stylesheet" href="radiobutton.css">
-  <link rel="stylesheet" href="shared-sidebar.css">
-</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
 
 <div class="main-content">
 
   <!-- TOPBAR -->
-  <header class="topbar">
-    <div class="search-box">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" placeholder="Search components...">
-    </div>
-    <div class="topbar-actions">
-      <button class="add-btn">
-        <i class="fa-solid fa-plus"></i>
-        Add Component
-      </button>
-      <button class="collection-btn">
-        My Collection
-      </button>
-      <button class="theme-btn">
-        <i class="fa-solid fa-moon"></i>
-      </button>
-    </div>
-  </header>
+  <!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
 
   <!-- HERO -->
   <section class="hero">
@@ -695,24 +742,452 @@
 }</code></pre>
     </div>
 
+    <!-- ============ ADDITIONAL COMPONENTS (5 NEW) ============ -->
+
+    <!-- BADGE RADIO -->
+    <div class="component-card">
+      <div class="card-preview">
+        <div class="badge-radio-group">
+          <label class="badge-radio">
+            <input type="radio" name="badge" checked>
+            <span class="badge-indicator"></span>
+            <span class="badge-count">4</span>
+          </label>
+          <label class="badge-radio">
+            <input type="radio" name="badge">
+            <span class="badge-indicator"></span>
+            <span class="badge-count">12</span>
+          </label>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Badge Radio</h3><span>Compact</span></div>
+        <p>Small badge-style radios ideal for notifications and quick counts.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('r11')"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('r11')"><i class="fa-solid fa-copy"></i> Copy</button>
+          <button><i class="fa-solid fa-bookmark"></i> Save</button>
+        </div>
+      </div>
+      <pre id="r11" class="code-block" style="display:none;"><code>&lt;label class="badge-radio"&gt;
+  &lt;input type="radio" name="badge" checked&gt;
+  &lt;span class="badge-indicator"&gt;&lt;/span&gt;
+  &lt;span class="badge-count"&gt;4&lt;/span&gt;
+&lt;/label&gt;</code></pre>
+    </div>
+
+    <!-- ICON RADIO -->
+    <div class="component-card">
+      <div class="card-preview">
+        <div class="icon-radio-group">
+          <label class="icon-radio">
+            <input type="radio" name="icon">
+            <i class="fa-solid fa-wifi"></i>
+          </label>
+          <label class="icon-radio">
+            <input type="radio" name="icon" checked>
+            <i class="fa-brands fa-bluetooth-b"></i>
+          </label>
+          <label class="icon-radio">
+            <input type="radio" name="icon">
+            <i class="fa-solid fa-bell"></i>
+          </label>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Icon Radio</h3><span>UI</span></div>
+        <p>Centered icon radios for compact control panels and quick toggles.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('r12')"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('r12')"><i class="fa-solid fa-copy"></i> Copy</button>
+          <button><i class="fa-solid fa-bookmark"></i> Save</button>
+        </div>
+      </div>
+      <pre id="r12" class="code-block" style="display:none;"><code>&lt;label class="icon-radio"&gt;
+  &lt;input type="radio" name="icon" checked&gt;
+  &lt;i class="fa-solid fa-bluetooth"&gt;&lt;/i&gt;
+&lt;/label&gt;</code></pre>
+    </div>
+
+    <!-- RING RADIO -->
+    <div class="component-card">
+      <div class="card-preview">
+        <div class="ring-radio-group">
+          <label class="ring-radio">
+            <input type="radio" name="ring" checked>
+            <span class="ring-dot"></span>
+            <span class="minimal-label">Primary</span>
+          </label>
+          <label class="ring-radio">
+            <input type="radio" name="ring">
+            <span class="ring-dot"></span>
+            <span class="minimal-label">Secondary</span>
+          </label>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Ring Radio</h3><span>Focus</span></div>
+        <p>Radio with an animated outer ring — great for emphasizing selection.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('r13')"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('r13')"><i class="fa-solid fa-copy"></i> Copy</button>
+          <button><i class="fa-solid fa-bookmark"></i> Save</button>
+        </div>
+      </div>
+      <pre id="r13" class="code-block" style="display:none;"><code>&lt;label class="ring-radio"&gt;
+  &lt;input type="radio" name="ring" checked&gt;
+  &lt;span class="ring-dot"&gt;&lt;/span&gt;
+  &lt;span&gt;Primary&lt;/span&gt;
+&lt;/label&gt;</code></pre>
+    </div>
+
+    <!-- STEPPER RADIO -->
+    <div class="component-card">
+      <div class="card-preview">
+        <div class="stepper-radio-group">
+          <label class="stepper-radio">
+            <input type="radio" name="stepper" checked>
+            <div class="step-number">1</div>
+            <div class="stepper-body">Account setup<br><small>Enter profile details</small></div>
+          </label>
+          <label class="stepper-radio">
+            <input type="radio" name="stepper">
+            <div class="step-number">2</div>
+            <div class="stepper-body">Billing<br><small>Choose plan</small></div>
+          </label>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Stepper Radio</h3><span>Workflow</span></div>
+        <p>Numbered stepper radios for multi-step flows and wizards.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('r14')"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('r14')"><i class="fa-solid fa-copy"></i> Copy</button>
+          <button><i class="fa-solid fa-bookmark"></i> Save</button>
+        </div>
+      </div>
+      <pre id="r14" class="code-block" style="display:none;"><code>&lt;label class="stepper-radio"&gt;
+  &lt;input type="radio" name="stepper" checked&gt;
+  &lt;div class="step-number"&gt;1&lt;/div&gt;
+  &lt;div class="stepper-body"&gt;Account setup&lt;/div&gt;
+&lt;/label&gt;</code></pre>
+    </div>
+
+    <!-- INLINE RADIO -->
+    <div class="component-card">
+      <div class="card-preview">
+        <div class="inline-radio-group">
+          <label class="inline-radio">
+            <input type="radio" name="inline" checked>
+            <span class="inline-dot"></span>
+            <span class="minimal-label">Yes</span>
+          </label>
+          <label class="inline-radio">
+            <input type="radio" name="inline">
+            <span class="inline-dot"></span>
+            <span class="minimal-label">No</span>
+          </label>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Compact Inline Radio</h3><span>Form</span></div>
+        <p>Compact inline radios built for dense form rows and settings panels.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('r15')"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('r15')"><i class="fa-solid fa-copy"></i> Copy</button>
+          <button><i class="fa-solid fa-bookmark"></i> Save</button>
+        </div>
+      </div>
+      <pre id="r15" class="code-block" style="display:none;"><code>&lt;label class="inline-radio"&gt;
+  &lt;input type="radio" name="inline" checked&gt;
+  &lt;span class="inline-dot"&gt;&lt;/span&gt;
+  &lt;span&gt;Yes&lt;/span&gt;
+&lt;/label&gt;</code></pre>
+    </div>
+
+    <!-- ============ COMPONENT: COLOR SWATCH RADIO ============ -->
+    <style>
+      .swatch-dot.indigo { background: #6366f1; }
+      .swatch-dot.green { background: #10b981; }
+      .swatch-dot.orange { background: #f97316; }
+      .swatch-dot.pink { background: #ec4899; }
+      .swatch-dot.yellow { background: #eab308; }
+    </style>
+
+    <div class="component-card">
+      <div class="card-preview">
+        <div class="swatch-radio-group">
+          <label class="swatch-radio">
+            <input type="radio" name="swatch" checked title="Indigo" aria-label="Indigo">
+            <span class="swatch-dot indigo"></span>
+          </label>
+          <label class="swatch-radio">
+            <input type="radio" name="swatch" title="Green" aria-label="Green">
+            <span class="swatch-dot green"></span>
+          </label>
+          <label class="swatch-radio">
+            <input type="radio" name="swatch" title="Orange" aria-label="Orange">
+            <span class="swatch-dot orange"></span>
+          </label>
+          <label class="swatch-radio">
+            <input type="radio" name="swatch" title="Pink" aria-label="Pink">
+            <span class="swatch-dot pink"></span>
+          </label>
+          <label class="swatch-radio">
+            <input type="radio" name="swatch" title="Yellow" aria-label="Yellow">
+            <span class="swatch-dot yellow"></span>
+          </label>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Color Swatch Radio</h3>
+          <span>Picker</span>
+        </div>
+        <p>Circular colour swatch radio selector — ideal for theme or palette pickers with a ring highlight on selection.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('r16')"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('r16')"><i class="fa-solid fa-copy"></i> Copy</button>
+          <button type="button"><i class="fa-solid fa-bookmark"></i> Save</button>
+        </div>
+      </div>
+      <pre id="r16" class="code-block" style="display:none;"><code>&lt;label class="swatch-radio"&gt;
+      &lt;input type="radio" name="swatch" checked&gt;
+      &lt;span class="swatch-dot indigo"&gt;&lt;/span&gt;
+    &lt;/label&gt;
+
+    .swatch-radio input:checked ~ .swatch-dot {
+      box-shadow: 0 0 0 3px #0b0f1a, 0 0 0 5px currentColor;
+      transform: scale(1.15);
+    }</code></pre>
+    </div>
+
+    <!-- ============ COMPONENT: HORIZONTAL CARD RADIO ============ -->
+    <div class="component-card">
+      <div class="card-preview">
+        <div class="hcard-radio-group">
+          <label class="hcard-radio">
+            <input type="radio" name="hcard" checked>
+            <div class="hcard-inner">
+              <i class="fa-solid fa-house"></i>
+              <div class="hcard-text">
+                <strong>Home</strong>
+                <span>123 Main St</span>
+              </div>
+              <div class="hcard-pip"></div>
+            </div>
+          </label>
+          <label class="hcard-radio">
+            <input type="radio" name="hcard">
+            <div class="hcard-inner">
+              <i class="fa-solid fa-building"></i>
+              <div class="hcard-text">
+                <strong>Office</strong>
+                <span>456 Work Ave</span>
+              </div>
+              <div class="hcard-pip"></div>
+            </div>
+          </label>
+          <label class="hcard-radio">
+            <input type="radio" name="hcard">
+            <div class="hcard-inner">
+              <i class="fa-solid fa-location-dot"></i>
+              <div class="hcard-text">
+                <strong>Other</strong>
+                <span>Custom address</span>
+              </div>
+              <div class="hcard-pip"></div>
+            </div>
+          </label>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Address Radio Card</h3>
+          <span>Delivery</span>
+        </div>
+        <p>Horizontal card radio for selecting saved addresses or delivery locations with icon, label, and animated pip.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('r17')"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('r17')"><i class="fa-solid fa-copy"></i> Copy</button>
+          <button type="button"><i class="fa-solid fa-bookmark"></i> Save</button>
+        </div>
+      </div>
+      <pre id="r17" class="code-block" style="display:none;"><code>&lt;label class="hcard-radio"&gt;
+      &lt;input type="radio" name="hcard" checked&gt;
+      &lt;div class="hcard-inner"&gt;
+        &lt;i class="fa-solid fa-house"&gt;&lt;/i&gt;
+        &lt;div class="hcard-text"&gt;
+          &lt;strong&gt;Home&lt;/strong&gt;
+          &lt;span&gt;123 Main St&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="hcard-pip"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/label&gt;
+
+    .hcard-radio input:checked ~ .hcard-inner {
+      border-color: #6366f1;
+      background: rgba(99,102,241,0.08);
+    }
+    .hcard-radio input:checked ~ .hcard-inner .hcard-pip {
+      background: #6366f1;
+      box-shadow: 0 0 8px rgba(99,102,241,0.5);
+    }</code></pre>
+    </div>
+
+    <!-- ============ COMPONENT: STAR RATING RADIO ============ -->
+    <div class="component-card">
+      <div class="card-preview">
+        <div class="star-radio-group">
+          <label class="star-radio"><input type="radio" name="star" value="1" aria-label="1 star"><i class="fa-solid fa-star"></i></label>
+          <label class="star-radio"><input type="radio" name="star" value="2" aria-label="2 stars"><i class="fa-solid fa-star"></i></label>
+          <label class="star-radio"><input type="radio" name="star" value="3" checked aria-label="3 stars"><i class="fa-solid fa-star"></i></label>
+          <label class="star-radio"><input type="radio" name="star" value="4" aria-label="4 stars"><i class="fa-solid fa-star"></i></label>
+          <label class="star-radio"><input type="radio" name="star" value="5" aria-label="5 stars"><i class="fa-solid fa-star"></i></label>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Star Rating Radio</h3>
+          <span>Rating</span>
+        </div>
+        <p>Classic five-star rating implemented as a pure CSS radio group with a hover fill-cascade effect.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('r18')"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('r18')"><i class="fa-solid fa-copy"></i> Copy</button>
+          <button type="button"><i class="fa-solid fa-bookmark"></i> Save</button>
+        </div>
+      </div>
+      <pre id="r18" class="code-block" style="display:none;"><code>&lt;div class="star-radio-group"&gt;
+      &lt;label class="star-radio"&gt;&lt;input type="radio" name="star" value="1"&gt;&lt;i class="fa-solid fa-star"&gt;&lt;/i&gt;&lt;/label&gt;
+      &lt;label class="star-radio"&gt;&lt;input type="radio" name="star" value="2"&gt;&lt;i class="fa-solid fa-star"&gt;&lt;/i&gt;&lt;/label&gt;
+      &lt;label class="star-radio"&gt;&lt;input type="radio" name="star" value="3"&gt;&lt;i class="fa-solid fa-star"&gt;&lt;/i&gt;&lt;/label&gt;
+      &lt;label class="star-radio"&gt;&lt;input type="radio" name="star" value="4"&gt;&lt;i class="fa-solid fa-star"&gt;&lt;/i&gt;&lt;/label&gt;
+      &lt;label class="star-radio"&gt;&lt;input type="radio" name="star" value="5"&gt;&lt;i class="fa-solid fa-star"&gt;&lt;/i&gt;&lt;/label&gt;
+    &lt;/div&gt;
+
+    .star-radio-group { direction: rtl; }
+    .star-radio i { color: #334155; transition: color .2s; }
+    .star-radio:hover ~ .star-radio i,
+    .star-radio:hover i { color: #eab308; }</code></pre>
+    </div>
+
+    <!-- ============ COMPONENT: PILL CHIP RADIO ============ -->
+    <div class="component-card">
+      <div class="card-preview">
+        <div class="chip-radio-group">
+          <label class="chip-radio"><input type="radio" name="chip" checked><span>Design</span></label>
+          <label class="chip-radio"><input type="radio" name="chip"><span>Engineering</span></label>
+          <label class="chip-radio"><input type="radio" name="chip"><span>Marketing</span></label>
+          <label class="chip-radio"><input type="radio" name="chip"><span>Product</span></label>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Pill Chip Radio</h3>
+          <span>Filter</span>
+        </div>
+        <p>Tag-style pill chips as radio buttons — perfect for category filters, tags, and preference selectors.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('r19')"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('r19')"><i class="fa-solid fa-copy"></i> Copy</button>
+          <button type="button"><i class="fa-solid fa-bookmark"></i> Save</button>
+        </div>
+      </div>
+      <pre id="r19" class="code-block" style="display:none;"><code>&lt;label class="chip-radio"&gt;
+      &lt;input type="radio" name="chip" checked&gt;
+      &lt;span&gt;Design&lt;/span&gt;
+    &lt;/label&gt;
+
+    .chip-radio input:checked ~ span {
+      background: #6366f1;
+      color: #fff;
+      border-color: #6366f1;
+    }</code></pre>
+    </div>
+
+    <!-- ============ COMPONENT: DARK/LIGHT THEME RADIO ============ -->
+    <div class="component-card">
+      <div class="card-preview">
+        <div class="theme-radio-group">
+          <label class="theme-radio">
+            <input type="radio" name="thememode" checked>
+            <div class="theme-card-inner theme-light-card">
+              <i class="fa-solid fa-sun"></i>
+              <span>Light</span>
+              <div class="theme-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+          </label>
+          <label class="theme-radio">
+            <input type="radio" name="thememode">
+            <div class="theme-card-inner theme-dark-card">
+              <i class="fa-solid fa-moon"></i>
+              <span>Dark</span>
+              <div class="theme-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+          </label>
+          <label class="theme-radio">
+            <input type="radio" name="thememode">
+            <div class="theme-card-inner theme-auto-card">
+              <i class="fa-solid fa-circle-half-stroke"></i>
+              <span>Auto</span>
+              <div class="theme-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+          </label>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Theme Mode Radio</h3>
+          <span>Settings</span>
+        </div>
+        <p>Visual theme selector with icon cards for Light, Dark, and Auto modes — great for settings panels.</p>
+        <div class="card-actions">
+          <button type="button" onclick="toggleCode('r20')"><i class="fa-solid fa-code"></i> View Code</button>
+          <button type="button" onclick="copyCode('r20')"><i class="fa-solid fa-copy"></i> Copy</button>
+          <button type="button"><i class="fa-solid fa-bookmark"></i> Save</button>
+        </div>
+      </div>
+      <pre id="r20" class="code-block" style="display:none;"><code>&lt;label class="theme-radio"&gt;
+      &lt;input type="radio" name="thememode" checked&gt;
+      &lt;div class="theme-card-inner theme-light-card"&gt;
+        &lt;i class="fa-solid fa-sun"&gt;&lt;/i&gt;
+        &lt;span&gt;Light&lt;/span&gt;
+        &lt;div class="theme-check"&gt;&lt;i class="fa-solid fa-check"&gt;&lt;/i&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/label&gt;
+
+    .theme-radio input:checked ~ .theme-card-inner {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 2px rgba(99,102,241,0.25);
+    }
+    .theme-radio input:checked ~ .theme-card-inner .theme-check {
+      opacity: 1;
+      transform: scale(1);
+    }</code></pre>
+    </div>
+
   </section>
 
 </div>
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
-
-    <div class="socials">
-  <a href="https://github.com" target="_blank" title="GitHub">
-    <i class="fab fa-github"></i>
-  </a>
-  <a href="https://linkedin.com" target="_blank" title="LinkedIn">
-    <i class="fab fa-linkedin"></i>
-  </a>
-  <a href="https://twitter.com" target="_blank" title="Twitter">
-    <i class="fab fa-x-twitter"></i>
-  </a>
-</div>
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
 
     <div class="footer-col">
       <h3>Explore</h3>
@@ -729,10 +1204,9 @@
       <h3>Resources</h3>
       <ul>
         <li><a href="documentation.html">Documentation</a></li>
-        <li><a href="contribute.html">Contribute</a></li>
-        <li><a href="https://github.com/uiverse/uiverse" target="_blank">GitHub Repo</a></li>
-        <li><a href="community.html">Community</a></li>
-        <li><a href="support.html">Support</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
     </div>
 
@@ -749,17 +1223,37 @@
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
         <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
-
   </div>
 
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
 <script>
 function toggleCode(id) {
   const el = document.getElementById(id);
@@ -774,5 +1268,6 @@ function copyCode(id) {
 }
 </script>
 
+  <script src="dist/shared.js"></script>
 </body>
 </html>

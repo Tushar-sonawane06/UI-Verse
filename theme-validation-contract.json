@@ -1,0 +1,523 @@
+{
+  "apiVersion": "1.0.1",
+  "title": "UIverse Theme Validation API Contract",
+  "description": "Dedicated API contract specification for theme validation workflows with semantic color error granularity",
+  "baseUrl": "/api/themes",
+  "endpoints": [
+    {
+      "id": "validate-single",
+      "path": "/validate",
+      "method": "POST",
+      "summary": "Validate single theme",
+      "description": "Validate a theme object against the UIverse theme schema with detailed error reporting",
+      "requestBody": {
+        "required": true,
+        "contentType": "application/json",
+        "fields": {
+          "id": {
+            "type": "string",
+            "required": true,
+            "pattern": "^[a-zA-Z0-9-]+$",
+            "minLength": 1,
+            "maxLength": 50,
+            "description": "Unique theme identifier"
+          },
+          "name": {
+            "type": "string",
+            "required": true,
+            "minLength": 1,
+            "maxLength": 100,
+            "description": "Human-readable theme name"
+          },
+          "description": {
+            "type": "string",
+            "required": false,
+            "maxLength": 500,
+            "description": "Theme description"
+          },
+          "isDark": {
+            "type": "boolean",
+            "required": true,
+            "description": "Whether theme is dark mode"
+          },
+          "colors": {
+            "type": "object",
+            "required": true,
+            "fields": {
+              "primary": { "type": "color", "required": true },
+              "secondary": { "type": "color", "required": true },
+              "accent": { "type": "color", "required": true },
+              "background": { "type": "color", "required": true },
+              "surface": { "type": "color", "required": true },
+              "surfaceBorder": { "type": "color", "required": false },
+              "text": {
+                "type": "object",
+                "required": true,
+                "fields": {
+                  "primary": { "type": "color", "required": true },
+                  "secondary": { "type": "color", "required": true }
+                }
+              }
+            }
+          },
+          "typography": {
+            "type": "object",
+            "required": false,
+            "fields": {
+              "fontHeading": { "type": "string", "required": true },
+              "fontBody": { "type": "string", "required": true },
+              "fontMono": { "type": "string", "required": false }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Validation completed (always returns 200, check valid property)",
+          "contentType": "application/json",
+          "schema": {
+            "valid": { "type": "boolean" },
+            "errors": { "type": "array", "items": "validationError" },
+            "warnings": { "type": "array", "items": "validationError" },
+            "metadata": {
+              "timestamp": { "type": "string", "format": "ISO8601" },
+              "validator": { "type": "string" },
+              "errorCount": { "type": "integer" },
+              "warningCount": { "type": "integer" },
+              "validationDuration": { "type": "integer", "unit": "milliseconds" }
+            }
+          }
+        },
+        "400": {
+          "description": "Malformed request body or missing required fields",
+          "contentType": "application/json",
+          "schema": {
+            "error": { "type": "string" },
+            "details": { "type": "string" },
+            "httpStatus": 400
+          }
+        }
+      },
+      "headers": {
+        "request": ["Content-Type: application/json"],
+        "response": [
+          "Content-Type: application/json",
+          "X-Validation-Duration: <milliseconds>",
+          "Cache-Control: max-age=3600"
+        ]
+      }
+    },
+    {
+      "id": "validate-batch",
+      "path": "/validate-batch",
+      "method": "POST",
+      "summary": "Validate multiple themes",
+      "description": "Batch validate multiple theme objects in a single request",
+      "requestBody": {
+        "required": true,
+        "contentType": "application/json",
+        "fields": {
+          "themes": {
+            "type": "array",
+            "required": true,
+            "minItems": 1,
+            "maxItems": 100,
+            "description": "Array of theme objects to validate"
+          },
+          "stopOnFirst": {
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Stop validation on first error"
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Batch validation completed",
+          "contentType": "application/json",
+          "schema": {
+            "results": {
+              "type": "array",
+              "items": {
+                "themeId": { "type": "string" },
+                "validation": { "type": "validationResult" }
+              }
+            },
+            "summary": {
+              "total": { "type": "integer" },
+              "valid": { "type": "integer" },
+              "invalid": { "type": "integer" },
+              "totalErrors": { "type": "integer" },
+              "totalWarnings": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "validate-color",
+      "path": "/validate-color",
+      "method": "POST",
+      "summary": "Validate color value",
+      "description": "Validate a single color value with format detection and WCAG contrast analysis",
+      "requestBody": {
+        "required": true,
+        "contentType": "application/json",
+        "fields": {
+          "color": {
+            "type": "string",
+            "required": true,
+            "description": "Color in hex (#RRGGBB, #RRGGBBAA) or rgb(a) format"
+          },
+          "strict": {
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "description": "Enforce strict color format validation"
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Color validation result with semantic error details",
+          "schema": {
+            "valid": { "type": "boolean" },
+            "color": { "type": "string" },
+            "format": { "type": "string", "enum": ["hex", "rgb", "rgba"] },
+            "normalized": { "type": "string", "description": "Normalized hex color value" },
+            "contrast": {
+              "white": { "type": "number", "range": [1, 21] },
+              "black": { "type": "number", "range": [1, 21] }
+            },
+            "wcagCompliance": {
+              "wcagAA": { "type": "boolean" },
+              "wcagAAA": { "type": "boolean" }
+            },
+            "colorSpace": { "type": "string", "description": "Detected color space (RGB, Lab, HSL, etc.)" },
+            "processingDetails": {
+              "type": "object",
+              "description": "Details about color processing and normalization"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "validate-schema",
+      "path": "/validate-schema",
+      "method": "GET",
+      "summary": "Get validation schema",
+      "description": "Retrieve the JSON schema used for theme validation",
+      "parameters": [
+        {
+          "name": "format",
+          "in": "query",
+          "type": "string",
+          "required": false,
+          "enum": ["json-schema", "openapi", "raw"],
+          "default": "json-schema",
+          "description": "Schema format to return"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Validation schema in requested format",
+          "contentType": "application/json"
+        }
+      },
+      "caching": {
+        "ttl": 86400,
+        "description": "Schema cached for 24 hours"
+      }
+    },
+    {
+      "id": "validate-report",
+      "path": "/validate-report",
+      "method": "POST",
+      "summary": "Generate validation report",
+      "description": "Generate detailed validation report with accessibility analysis and recommendations",
+      "requestBody": {
+        "required": true,
+        "contentType": "application/json"
+      },
+      "responses": {
+        "200": {
+          "description": "Comprehensive validation report",
+          "schema": {
+            "validation": { "type": "validationResult" },
+            "report": {
+              "colorContrast": {
+                "type": "object",
+                "analysis": "WCAG contrast ratio analysis"
+              },
+              "accessibility": {
+                "type": "object",
+                "wcagAA": { "type": "boolean" },
+                "wcagAAA": { "type": "boolean" },
+                "issues": { "type": "array" }
+              },
+              "colorProcessing": {
+                "type": "object",
+                "description": "Detailed color processing analysis"
+              },
+              "recommendations": { "type": "array" },
+              "score": { "type": "number", "range": [0, 100] }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "dataTypes": {
+    "validationError": {
+      "field": { "type": "string", "description": "Field path (dot notation)" },
+      "message": { "type": "string", "description": "Human-readable error message" },
+      "code": {
+        "type": "string",
+        "enum": [
+          "MISSING_REQUIRED_FIELD",
+          "INVALID_TYPE",
+          "INVALID_FORMAT",
+          "INVALID_COLOR",
+          "VALUE_TOO_SHORT",
+          "VALUE_TOO_LONG",
+          "INVALID_PATTERN",
+          "CONSTRAINT_VIOLATION",
+          "COLOR_FORMAT_MISMATCH",
+          "COLOR_PARSE_ERROR",
+          "COLOR_SPACE_INCOMPATIBLE",
+          "RGB_COMPONENT_OUT_OF_RANGE",
+          "HEX_DIGIT_INVALID",
+          "COLOR_NORMALIZATION_FAILED"
+        ]
+      },
+      "constraint": { "type": "string", "description": "Violated constraint" },
+      "severity": { "type": "string", "enum": ["error", "warning"] },
+      "colorDetails": {
+        "type": "object",
+        "description": "Optional: detailed color error information",
+        "properties": {
+          "attemptedFormat": { "type": "string" },
+          "expectedFormats": { "type": "array" },
+          "colorValue": { "type": "string" },
+          "failureReason": { "type": "string" },
+          "colorSpace": { "type": "string" },
+          "suggestion": { "type": "string" }
+        }
+      }
+    },
+    "validationResult": {
+      "valid": { "type": "boolean" },
+      "errors": { "type": "array", "items": "validationError" },
+      "warnings": { "type": "array", "items": "validationError" },
+      "metadata": {
+        "timestamp": { "type": "string" },
+        "validator": { "type": "string" },
+        "errorCount": { "type": "integer" },
+        "warningCount": { "type": "integer" },
+        "validationDuration": { "type": "integer" }
+      }
+    }
+  },
+  "errorCodes": {
+    "MISSING_REQUIRED_FIELD": {
+      "httpStatus": 422,
+      "description": "Required field is missing",
+      "example": "Missing required field: colors.primary"
+    },
+    "INVALID_TYPE": {
+      "httpStatus": 422,
+      "description": "Field has incorrect type",
+      "example": "Field isDark must be boolean, received string"
+    },
+    "INVALID_FORMAT": {
+      "httpStatus": 422,
+      "description": "Field format is invalid",
+      "example": "Field id must match pattern: ^[a-zA-Z0-9-]+$"
+    },
+    "INVALID_COLOR": {
+      "httpStatus": 422,
+      "description": "Color value is invalid (generic fallback)",
+      "example": "Color must be valid hex (#RRGGBB) or rgb format"
+    },
+    "COLOR_FORMAT_MISMATCH": {
+      "httpStatus": 422,
+      "description": "Color provided in unsupported format",
+      "example": "Color uses unsupported HSL format; provide hex or rgb(a)",
+      "semantic": "Indicates format incompatibility, not parsing failure"
+    },
+    "COLOR_PARSE_ERROR": {
+      "httpStatus": 422,
+      "description": "Color string cannot be parsed",
+      "example": "Unable to parse color value '#GGGGGG': invalid hex digits",
+      "semantic": "String syntax is malformed or contains invalid characters"
+    },
+    "COLOR_SPACE_INCOMPATIBLE": {
+      "httpStatus": 422,
+      "description": "Color space does not match theme requirements",
+      "example": "Lab color space not compatible with RGB-only theme",
+      "semantic": "Color exists in wrong color space context"
+    },
+    "RGB_COMPONENT_OUT_OF_RANGE": {
+      "httpStatus": 422,
+      "description": "RGB component value outside valid range [0-255]",
+      "example": "RGB component value 300 exceeds maximum of 255",
+      "semantic": "Numeric component value is out of bounds"
+    },
+    "HEX_DIGIT_INVALID": {
+      "httpStatus": 422,
+      "description": "Hex color contains invalid digit characters",
+      "example": "Hex color '#XXYYZZ' contains invalid digits: X, Y, Z",
+      "semantic": "Specific digits are not valid hexadecimal"
+    },
+    "COLOR_NORMALIZATION_FAILED": {
+      "httpStatus": 422,
+      "description": "Color could not be normalized to canonical format",
+      "example": "Unable to normalize color due to ambiguous format specification",
+      "semantic": "Conversion between color spaces failed"
+    },
+      "description": "Color value is invalid",
+      "example": "Color must be valid hex (#RRGGBB) or rgb format"
+    },
+    "VALUE_TOO_SHORT": {
+      "httpStatus": 422,
+      "description": "String value is below minimum",
+      "example": "Field name minimum length is 1"
+    },
+    "VALUE_TOO_LONG": {
+      "httpStatus": 422,
+      "description": "String value exceeds maximum",
+      "example": "Field description maximum length is 500"
+    },
+    "INVALID_PATTERN": {
+      "httpStatus": 422,
+      "description": "Value violates pattern",
+      "example": "Field id contains invalid characters"
+    },
+    "CONSTRAINT_VIOLATION": {
+      "httpStatus": 422,
+      "description": "Business constraint violation",
+      "example": "Theme ID already exists"
+    }
+  },
+  "colorProcessingGuide": {
+    "supportedFormats": ["hex-3", "hex-6", "hex-8", "rgb", "rgba"],
+    "colorSpaces": ["RGB"],
+    "hexFormats": {
+      "hex-3": { "pattern": "#RGB", "example": "#F0A", "normalized": "#FF00AA" },
+      "hex-6": { "pattern": "#RRGGBB", "example": "#FF00AA", "normalized": "#FF00AA" },
+      "hex-8": { "pattern": "#RRGGBBAA", "example": "#FF00AACC", "normalized": "#FF00AACC" }
+    },
+    "rgbFormats": {
+      "rgb": { "pattern": "rgb(r, g, b)", "example": "rgb(255, 0, 170)", "componentRange": [0, 255] },
+      "rgba": { "pattern": "rgba(r, g, b, a)", "example": "rgba(255, 0, 170, 0.8)", "componentRange": [0, 255], "alphaRange": [0, 1] }
+    },
+    "errorRecovery": {
+      "colorFormatMismatch": "Use hex or rgb format; convert from HSL/Lab if needed",
+      "parseError": "Check for typos; verify hex digits are 0-9, a-f",
+      "outOfRange": "Ensure RGB components are 0-255, alpha is 0-1",
+      "normalizationFailed": "Verify color space compatibility and format specification"
+    }
+  },
+  "examples": {
+    "validationRequest": {
+      "id": "custom-light",
+      "name": "Custom Light Theme",
+      "isDark": false,
+      "colors": {
+        "primary": "#6c5ce7",
+        "secondary": "#00cec9",
+        "accent": "#eb6835",
+        "background": "#f5f4f2",
+        "surface": "#ffffff",
+        "text": {
+          "primary": "#111111",
+          "secondary": "#666666"
+        }
+      }
+    },
+    "validationSuccess": {
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "metadata": {
+        "timestamp": "2026-06-15T10:30:45.123Z",
+        "validator": "1.0.1",
+        "errorCount": 0,
+        "warningCount": 0,
+        "validationDuration": 12
+      }
+    },
+    "validationFailureWithSemanticErrors": {
+    "validationFailure": {
+      "valid": false,
+      "errors": [
+        {
+          "field": "colors.primary",
+          "message": "Color must be valid hex or rgb format",
+          "code": "INVALID_COLOR",
+          "severity": "error"
+        },
+        {
+          "field": "id",
+          "message": "Required field is missing",
+          "code": "MISSING_REQUIRED_FIELD",
+          "severity": "error"
+        }
+      ],
+      "warnings": [],
+      "metadata": {
+        "timestamp": "2026-06-11T15:30:45.123Z",
+        "validator": "1.0.0",
+        "errorCount": 2,
+        "warningCount": 0,
+        "validationDuration": 8
+      }
+    }
+  },
+  "conventions": {
+    "httpMethods": "Use POST for validation operations (not idempotent)",
+    "httpStatus": "Always return 200 for successful validation requests, check valid property",
+    "timestamps": "All timestamps in ISO 8601 format with milliseconds",
+    "errorMessages": "Clear, actionable, user-friendly messages",
+    "errorCodes": "Machine-readable codes for client-side handling"
+  },
+  "rateLimiting": {
+    "enabled": true,
+    "limits": {
+      "perMinute": 60,
+      "perHour": 1000,
+      "perDay": 10000
+    },
+    "headers": [
+      "X-RateLimit-Limit",
+      "X-RateLimit-Remaining",
+      "X-RateLimit-Reset"
+    ]
+  },
+  "caching": {
+    "schema": {
+      "ttl": 86400,
+      "policy": "Cache schema for 24 hours"
+    },
+    "validation": {
+      "ttl": 3600,
+      "policy": "Cache validation results for 1 hour"
+    }
+  },
+  "authentication": {
+    "required": false,
+    "description": "Public API, no authentication required",
+    "rateLimitingApplied": true
+  },
+  "versionHistory": [
+    {
+      "version": "1.0.0",
+      "date": "2026-06-11",
+      "changes": "Initial API contract specification",
+      "endpoints": 5,
+      "dataTypes": 2
+    }
+  ]
+}

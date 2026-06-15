@@ -1,0 +1,28 @@
+name: CI - Component Changelog Compliance
+
+on:
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'components/**'
+  workflow_dispatch:
+
+jobs:
+  changelog-compliance:
+    name: Check Component Changelog
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify Component Changelog
+        run: npm run components:changelog:check

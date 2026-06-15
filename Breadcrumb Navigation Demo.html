@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Breadcrumb Navigation Demo</title>
+    <link rel="stylesheet" href="Breadcrumb Navigation Demo.css">
+</head>
+
+<body>
+    <h1 class="demo-title">📂 Breadcrumb Navigation Demo</h1>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+            <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="docs.html"><i class="fa-solid fa-book"></i> Docs</a></li>
+            <li><a href="ai-components.html"><i class="fa-solid fa-cubes"></i> Components</a></li>
+            <li class="current" aria-current="page"><i class="fa-solid fa-code-branch"></i> Breadcrumb</li>
+        </ol>
+    </nav>
+
+
+
+    <script>
+        // Example: dynamically generate breadcrumb from path
+        function generateBreadcrumb(pathArray) {
+            const breadcrumb = document.querySelector(".breadcrumb ol");
+            breadcrumb.innerHTML = "";
+
+            pathArray.forEach((item, index) => {
+                const li = document.createElement("li");
+                if (index === pathArray.length - 1) {
+                    li.textContent = item;
+                    li.classList.add("current");
+                    li.setAttribute("aria-current", "page");
+                } else {
+                    const a = document.createElement("a");
+                    a.href = "#";
+                    a.textContent = item;
+                    li.appendChild(a);
+                }
+                breadcrumb.appendChild(li);
+            });
+        }
+
+        // Example usage
+        generateBreadcrumb(["Home", "Docs", "Components", "Breadcrumb"]);
+
+    </script>
+</body>
+
+</html>

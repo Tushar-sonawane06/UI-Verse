@@ -1,33 +1,461 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Music Player UI</title>
-  <link rel="stylesheet" href="player.css">
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes' 'sha256-3jKq4osvg1CQtq+6qqpYbu4Mko/0Y20ipaiS1zfOdAE='; style-src-attr 'unsafe-hashes' 'sha256-3jKq4osvg1CQtq+6qqpYbu4Mko/0Y20ipaiS1zfOdAE='">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeoBeat Music Player</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg1: #0f172a;
+      --bg2: #1e293b;
+      --accent: #7c3aed;
+      --accent2: #22c55e;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --surface: rgba(255, 255, 255, 0.05);
+      --surface-hover: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    .skip-link:focus {
+      left: 12px;
+      top: 12px;
+      width: auto;
+      height: auto;
+      padding: 6px 14px;
+      background: var(--accent);
+      color: white;
+      border-radius: 6px;
+      z-index: 100;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at top, var(--bg2), var(--bg1));
+      color: var(--text);
+    }
+
+    .music-player {
+      width: 360px;
+      padding: 24px 20px 20px;
+      border-radius: 24px;
+      background: var(--surface);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .top-bar button {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+      line-height: 1;
+    }
+    .top-bar button:hover {
+      color: var(--text);
+      background: var(--surface-hover);
+    }
+    .top-bar button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .album-wrapper {
+      margin: 22px auto;
+      width: 200px;
+      height: 200px;
+      position: relative;
+    }
+
+    .vinyl-ring {
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      border: 2px dashed rgba(255, 255, 255, 0.15);
+      animation: spin 12s linear infinite;
+      animation-play-state: paused;
+    }
+    .vinyl-ring.spinning {
+      animation-play-state: running;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .album-cover {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid rgba(255, 255, 255, 0.08);
+      display: block;
+      transition: box-shadow 0.4s;
+    }
+    .album-cover.playing {
+      box-shadow: 0 0 0 6px rgba(124, 58, 237, 0.25), 0 0 40px rgba(124, 58, 237, 0.2);
+    }
+
+    .song-details {
+      text-align: center;
+      margin-top: 4px;
+    }
+    .song-details h2 {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .song-details p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .song-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .like-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 15px;
+      padding: 4px;
+      border-radius: 50%;
+      transition: color 0.2s, transform 0.15s;
+      line-height: 1;
+    }
+    .like-btn:hover { transform: scale(1.2); }
+    .like-btn.liked { color: #f43f5e; }
+    .like-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    
+
+    .music-progress {
+      margin-top: 20px;
+    }
+
+    .time {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      position: relative;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 10px;
+      pointer-events: none;
+      position: relative;
+      transition: width 0.1s linear;
+    }
+
+    .progress-thumb {
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%) scale(0);
+      width: 13px;
+      height: 13px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+      transition: transform 0.15s;
+    }
+
+    .progress-track:hover .progress-thumb,
+    .progress-track:focus-within .progress-thumb {
+      transform: translateY(-50%) scale(1);
+    }
+
+    .progress-range {
+      position: absolute;
+      inset: -8px 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: calc(100% + 16px);
+    }
+
+    .volume-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .volume-row i {
+      font-size: 14px;
+      color: var(--muted);
+      width: 16px;
+      text-align: center;
+    }
+
+    .volume-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      flex: 1;
+      height: 4px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      outline: none;
+      cursor: pointer;
+    }
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--text);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .volume-slider:hover::-webkit-slider-thumb { transform: scale(1.2); }
+    .volume-slider::-moz-range-thumb {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--text);
+      cursor: pointer;
+      border: none;
+    }
+    .volume-slider:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .control-btn,
+    .play-btn {
+      border: none;
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .control-btn:focus-visible,
+    .play-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .control-btn {
+      width: 42px;
+      height: 42px;
+      background: var(--surface-hover);
+      color: var(--text);
+      font-size: 15px;
+    }
+    .control-btn:hover { transform: scale(1.1); }
+    .control-btn.active { color: var(--accent2); }
+
+    .play-btn {
+      width: 58px;
+      height: 58px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      font-size: 18px;
+      box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+    }
+    .play-btn:hover { transform: scale(1.08); }
+    .play-btn:active { transform: scale(0.96); }
+
+    .bottom-options {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 18px;
+    }
+
+    .option-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 15px;
+      padding: 8px;
+      border-radius: 8px;
+      transition: color 0.2s, transform 0.15s;
+      line-height: 1;
+    }
+    .option-btn:hover {
+      color: var(--text);
+      transform: translateY(-2px);
+    }
+    .option-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+  </style>
 </head>
+
 <body>
+  <a class="skip-link" href="#player">Skip to player</a>
 
-  <div class="music-player">
+  <div class="music-player" id="player" role="region" aria-label="Music Player">
 
-    <div class="album-cover">
-      IMAGE
+    <div class="top-bar">
+      <button type="button" aria-label="Go back"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+      <span>Now Playing</span>
+      <button type="button" aria-label="More options"><i class="fa-solid fa-ellipsis" aria-hidden="true"></i></button>
+    </div>
+
+    <div class="album-wrapper">
+      <div class="vinyl-ring" id="vinylRing" aria-hidden="true"></div>
+      <img
+        class="album-cover"
+        id="albumCover"
+        src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=600&auto=format&fit=crop"
+        alt="Dream Waves album art"
+      />
     </div>
 
     <div class="song-details">
-      <h2>Dream Waves</h2>
-      <p>Unknown Artist</p>
+      <div class="song-header">
+        <h2 id="songTitle">Dream Waves</h2>
+        <button type="button" class="like-btn" id="likeBtn" aria-label="Like this song" aria-pressed="false">
+          <i class="fa-solid fa-heart" aria-hidden="true"></i>
+        </button>
+      </div>
+      <p id="artistName">Unknown Artist</p>
     </div>
 
-    <div class="progress-container">
-      <div class="progress-bar"></div>
+    <div class="music-progress" role="group" aria-label="Playback position">
+      <div class="time">
+        <span id="currentTime" aria-live="off">0:00</span>
+        <span id="totalTime">3:45</span>
+      </div>
+      <div class="progress-track" id="progressTrack">
+        <div class="progress-fill" id="progressFill">
+          <div class="progress-thumb" aria-hidden="true"></div>
+        </div>
+        <input
+          class="progress-range"
+          type="range"
+          min="0"
+          max="225"
+          value="0"
+          step="1"
+          id="progressRange"
+          aria-label="Seek"
+          aria-valuemin="0"
+          aria-valuemax="225"
+          aria-valuenow="0"
+          aria-valuetext="0 seconds"
+        />
+      </div>
+    </div>
+
+    <div class="volume-row" role="group" aria-label="Volume">
+      <i class="fa-solid fa-volume-low" aria-hidden="true"></i>
+      <input
+        class="volume-slider"
+        type="range"
+        min="0"
+        max="100"
+        value="80"
+        step="1"
+        id="volumeSlider"
+        aria-label="Volume"
+      />
+      <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
     </div>
 
     <div class="controls">
-      <button id="prev">⏮</button>
-      <button id="play">▶</button>
-      <button id="next">⏭</button>
+      <button type="button" class="control-btn" id="shuffleBtn" aria-label="Shuffle" aria-pressed="false">
+        <i class="fa-solid fa-shuffle" aria-hidden="true"></i>
+      </button>
+
+      <button type="button" class="control-btn" id="prevBtn" aria-label="Previous track">
+        <i class="fa-solid fa-backward-step" aria-hidden="true"></i>
+      </button>
+
+      <button type="button" class="play-btn" id="playBtn" aria-label="Play">
+        <i class="fa-solid fa-play" id="playIcon" aria-hidden="true"></i>
+      </button>
+
+      <button type="button" class="control-btn" id="nextBtn" aria-label="Next track">
+        <i class="fa-solid fa-forward-step" aria-hidden="true"></i>
+      </button>
+
+      <button type="button" class="control-btn" id="repeatBtn" aria-label="Repeat" aria-pressed="false">
+        <i class="fa-solid fa-repeat" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="bottom-options">
+      <button type="button" class="option-btn" aria-label="Add to playlist">
+        <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
+      </button>
+      <button type="button" class="option-btn" aria-label="View lyrics">
+        <i class="fa-solid fa-music" aria-hidden="true"></i>
+      </button>
+      <button type="button" class="option-btn" aria-label="Share">
+        <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+      </button>
     </div>
 
   </div>

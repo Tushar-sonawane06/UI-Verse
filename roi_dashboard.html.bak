@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="dist/shared.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' http://127.0.0.1:5000 http://localhost:5000 https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-inline'; style-src 'self' https: 'unsafe-inline'">
+  <title>Crop ROI Lab — UI-Verse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="roi_dashboard.css">
+</head>
+<body>
+  <main class="roi-shell">
+    <section class="hero-panel">
+      <div class="hero-copy">
+        <span class="eyebrow">Agricultural finance intelligence</span>
+        <h1>Predict crop yield and ROI before the season starts.</h1>
+        <p>
+          Enter acreage, soil conditions, crop choice, budget, and input costs to forecast harvest output,
+          projected revenue, and net return from the next cycle.
+        </p>
+        <div class="hero-pills">
+          <span>Yield forecast</span>
+          <span>Profitability analysis</span>
+          <span>Chart.js breakdown</span>
+        </div>
+      </div>
+      <a class="back-link" href="index.html">← Back to UIverse</a>
+    </section>
+
+    <section class="dashboard-grid">
+      <form id="roi-form" class="input-card">
+        <div class="card-heading">
+          <h2>Forecast inputs</h2>
+          <p>Use recent season data to estimate your next harvest.</p>
+        </div>
+
+        <div class="field-grid">
+          <label>
+            Acreage
+            <input name="acreage" type="number" min="0.1" step="0.1" value="40" required>
+          </label>
+          <label>
+            Seed Cost
+            <input name="seed_cost" type="number" min="0" step="50" value="1200" required>
+          </label>
+          <label>
+            Fertilizer Cost
+            <input name="fertilizer_cost" type="number" min="0" step="50" value="1500" required>
+          </label>
+          <label>
+            Current Budget
+            <input name="budget" type="number" min="0" step="100" value="7500" required>
+          </label>
+          <label>
+            Soil Type
+            <select name="soil_type" required>
+              <option value="Loamy">Loamy</option>
+              <option value="Sandy">Sandy</option>
+              <option value="Clay">Clay</option>
+              <option value="Silt">Silt</option>
+              <option value="Black">Black</option>
+            </select>
+          </label>
+          <label>
+            Target Crop
+            <select name="target_crop" required>
+              <option value="Corn">Corn</option>
+              <option value="Wheat">Wheat</option>
+              <option value="Rice">Rice</option>
+              <option value="Soybean">Soybean</option>
+              <option value="Cotton">Cotton</option>
+            </select>
+          </label>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          <span class="btn-label">Predict ROI</span>
+          <span class="btn-arrow">↗</span>
+        </button>
+        <p class="form-note">The API uses a lightweight regression model trained on crop history data bundled with the project.</p>
+        <p id="status" class="status" aria-live="polite"></p>
+      </form>
+
+      <section class="results-card">
+        <div class="card-heading">
+          <h2>Forecast output</h2>
+          <p>Updated after each prediction request.</p>
+        </div>
+
+        <div class="metrics-grid">
+          <article class="metric">
+            <span class="metric-label">Expected yield</span>
+            <strong id="yield-value">0.00 tons</strong>
+          </article>
+          <article class="metric">
+            <span class="metric-label">Projected revenue</span>
+            <strong id="revenue-value">$0</strong>
+          </article>
+          <article class="metric">
+            <span class="metric-label">Expected profit</span>
+            <strong id="profit-value">$0</strong>
+          </article>
+          <article class="metric highlight">
+            <span class="metric-label">Estimated ROI</span>
+            <strong id="roi-value">0%</strong>
+          </article>
+        </div>
+
+        <div class="chart-wrap">
+          <canvas id="roiChart" height="160" aria-label="Costs versus returns chart" role="img"></canvas>
+        </div>
+
+        <div class="breakdown-grid">
+          <div>
+            <span class="metric-label">Input costs</span>
+            <strong id="cost-value">$0</strong>
+          </div>
+          <div>
+            <span class="metric-label">Budget gap</span>
+            <strong id="gap-value">$0</strong>
+          </div>
+          <div>
+            <span class="metric-label">Crop price</span>
+            <strong id="price-value">$0 / ton</strong>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="js/features/roi-dashboard.js"></script>
+  <script src="dist/shared.js"></script>
+</body>
+</html>

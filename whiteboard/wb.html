@@ -1,47 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="../dist/shared.css">
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Whiteboard UI</title>
+  <title>Digital Whiteboard Pro</title>
+  <title>Digital Whiteboard</title>
   <link rel="stylesheet" href="wb.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
 
-  <div class="whiteboard-container">
+<a class="skip-link" href="#main-content">
+  Skip to main content
+</a>
 
-    <div class="toolbar">
+<main id="main-content">
 
-      <h2>Digital Whiteboard</h2>
+<div class="whiteboard-container">
 
-      <div class="tools">
+  <header class="toolbar">
 
-        <input type="color" id="colorPicker">
+    <div class="toolbar-left">
+      <h2>🎨 Whiteboard Pro</h2>
+    </div>
+
+    <div class="tools">
+
+      <div class="tool-group">
+        <label for="colorPicker">Color</label>
+        <input type="color" id="colorPicker" value="#2563eb">
+      </div>
+
+      <div class="tool-group">
+        <label for="brushSize">
+          Size <span id="sizeValue">4</span>px
+        </label>
 
         <input
           type="range"
           id="brushSize"
           min="1"
-          max="20"
+          max="30"
           value="4"
         >
+      </div>
 
-        <button id="eraserBtn">
-          Eraser
+      <button class="tool-btn active" id="penBtn">
+        ✏️ Pen
+      </button>
+
+      <button class="tool-btn" id="eraserBtn">
+        🧽 Eraser
+      </button>
+
+      <button class="tool-btn" id="undoBtn">
+        ↶ Undo
+      </button>
+
+      <button class="tool-btn" id="redoBtn">
+        ↷ Redo
+      </button>
+
+      <button class="tool-btn danger" id="clearBtn">
+        🗑 Clear
+      </button>
+
+      <button class="tool-btn success" id="saveBtn">
+        💾 Save
+      </button>
+
+    </div>
+
+  </header>
+
+  <section class="canvas-wrapper">
+    <canvas id="canvas"></canvas>
+  </section>
+
+  <footer class="status-bar">
+    <span>Ready</span>
+    <span>Shortcut: Ctrl + Z (Undo)</span>
+  </footer>
+
+</div>
+
+</main>
+
+<script src="wb.js"></script>
+<script src="../dist/shared.js"></script>
+
+
+  <div class="whiteboard-container">
+    <div class="toolbar">
+
+      <div class="toolbar-left">
+        <div class="toolbar-brand">
+          <h2>DIGITAL WHITEBOARD</h2>
+        </div>
+        
+        <div class="action-pill">
+          <button type="button" id="undoBtn" class="pill-btn" title="Undo (Ctrl+Z)" aria-label="Undo last action">
+            <i class="fa-solid fa-rotate-left"></i>
+          </button>
+          <button type="button" id="redoBtn" class="pill-btn" title="Redo (Ctrl+Y)" aria-label="Redo last action">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+          <button type="button" id="saveModalBtn" class="pill-btn" title="Save Drawing" aria-label="Save drawing">
+            <i class="fa-solid fa-download"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="tools">
+        <div class="brush-controls">
+          <div class="size-wrap">
+            <input type="range" id="brushSize" min="1" max="20" value="4" aria-label="Brush size">
+          </div>
+        </div>
+
+        <div class="tool-toggle" id="toolToggle" role="group" aria-label="Drawing tools">
+          <button type="button" class="tool-btn active" id="brushBtn" title="Brush" aria-pressed="true">
+            <i class="fa-solid fa-paintbrush"></i>
+          </button>
+          <button type="button" class="tool-btn" id="eraserBtn" title="Eraser" aria-pressed="false">
+            <i class="fa-solid fa-eraser"></i>
+          </button>
+          <button type="button" class="tool-btn" id="fillBtn" title="Fill" aria-pressed="false">
+            <i class="fa-solid fa-fill-drip"></i>
+          </button>
+        </div>
+
+        <div class="shape-picker-wrapper" id="shapePickerWrapper">
+          <button type="button" id="shapeBtn" class="icon-btn shape-trigger" title="Shapes" aria-pressed="false" aria-haspopup="true" aria-expanded="false">
+            <i class="fa-regular fa-square" id="shapeBtnIcon"></i>
+          </button>
+          <div class="shape-popover" id="shapePopover" role="menu" aria-label="Shape tools">
+            <button type="button" class="shape-opt" data-shape="line" role="menuitem">
+              <i class="fa-solid fa-minus"></i>
+              <span>Line</span>
+            </button>
+            <button type="button" class="shape-opt" data-shape="rect" role="menuitem">
+              <i class="fa-regular fa-square"></i>
+              <span>Rect</span>
+            </button>
+            <button type="button" class="shape-opt" data-shape="ellipse" role="menuitem">
+              <i class="fa-regular fa-circle"></i>
+              <span>Ellipse</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="color-wrap">
+          <input type="color" id="colorPicker" aria-label="Pick a color" title="Color picker">
+          <span class="color-indicator" id="colorIndicator"></span>
+        </div>
+
+        <button type="button" id="clearBtn" class="icon-btn danger-btn circle-btn" aria-label="Clear whiteboard" title="Clear whiteboard">
+          <i class="fa-solid fa-trash-can"></i>
         </button>
-
-        <button id="clearBtn">
-          Clear
-        </button>
-
       </div>
 
     </div>
 
-    <canvas id="canvas"></canvas>
+    <div class="canvas-wrap">
+      <canvas id="canvas"></canvas>
+      <div class="canvas-hint" id="canvasHint">Click and drag to draw</div>
+    </div>
+  </div>
 
+  <div class="save-modal-overlay" id="saveModalOverlay">
+    <div class="save-modal">
+      <h3>Save Drawing As...</h3>
+      <p>Choose your preferred format to download.</p>
+      <div class="save-modal-actions">
+        <button id="savePngBtn" class="modal-format-btn">
+          <i class="fa-solid fa-image"></i> PNG (Lossless)
+        </button>
+        <button id="saveJpgBtn" class="modal-format-btn">
+          <i class="fa-regular fa-image"></i> JPG (Smaller Size)
+        </button>
+      </div>
+      <button id="cancelSaveBtn" class="modal-cancel-btn">Cancel</button>
+    </div>
   </div>
 
   <script src="wb.js"></script>
+  <script src="../dist/shared.js"></script>
 </body>
 </html>

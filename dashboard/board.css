@@ -51,3 +51,133 @@ body{
   color:#555;
   font-size:18px;
 }
+
+/* =======================
+   RESET
+======================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+  background: #0f172a;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* =======================
+   MAIN CONTAINER
+======================= */
+
+.dashboard-container {
+  width: 90%;
+  max-width: 1000px;
+  text-align: center;
+}
+
+/* TITLE */
+
+.dashboard-container h1 {
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #e2e8f0;
+}
+
+/* =======================
+   GRID
+======================= */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* =======================
+   STAT CARD
+======================= */
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 25px 20px;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+/* glow effect */
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(59, 130, 246, 0.15),
+    transparent 60%
+  );
+  transform: rotate(0deg);
+  transition: 0.5s;
+  opacity: 0;
+}
+
+.stat-card:hover::before {
+  opacity: 1;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+/* =======================
+   TEXT
+======================= */
+
+.stat-card h2 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #38bdf8;
+  margin-bottom: 8px;
+}
+
+.stat-card p {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+}
+
+/* =======================
+   RESPONSIVE
+======================= */
+
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-container h1 {
+    font-size: 1.6rem;
+  }
+}

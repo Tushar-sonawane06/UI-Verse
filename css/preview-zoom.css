@@ -1,0 +1,408 @@
+.pz-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px;
+  margin-bottom: 12px;
+
+  border-radius: 10px;
+}
+
+.pz-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 40px;
+  min-height: 40px;
+
+  padding: 8px 12px;
+
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    transform .2s ease,
+    opacity .2s ease,
+    background-color .2s ease;
+}
+
+.pz-btn:hover {
+  transform: translateY(-2px);
+}
+
+.pz-btn:active {
+  transform: translateY(0);
+}
+
+.pz-btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.pz-current-value {
+  min-width: 60px;
+
+  text-align: center;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.pz-preset-select {
+  min-width: 90px;
+
+  padding: 8px;
+
+  border-radius: 8px;
+}
+
+.pz-status-overlay {
+  position: fixed;
+
+  left: 50%;
+  top: 40px;
+
+  transform:
+    translateX(-50%)
+    translateY(-10px);
+
+  padding: 12px 18px;
+
+  border-radius: 12px;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    opacity .2s ease,
+    transform .2s ease;
+
+  z-index: 9999;
+}
+
+.pz-status-overlay.visible {
+  opacity: 1;
+
+  transform:
+    translateX(-50%)
+    translateY(0);
+}
+
+.preview-box,
+.card-preview,
+.component-preview {
+  transition:
+    transform .2s ease;
+}
+
+@media (max-width: 768px) {
+  .pz-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .pz-btn {
+    flex: 1;
+  }
+
+  .pz-preset-select {
+    width: 100%;
+  }
+}
+
+
+/* Toolbar Variants */
+
+.pz-toolbar.compact {
+  gap: 4px;
+  padding: 6px;
+}
+
+.pz-toolbar.large {
+  gap: 12px;
+  padding: 16px;
+}
+
+.pz-toolbar.sticky {
+  position: sticky;
+  top: 10px;
+  z-index: 50;
+}
+
+/* Button Variants */
+
+.pz-btn.primary {
+  font-weight: 700;
+}
+
+.pz-btn.secondary {
+  opacity: .85;
+}
+
+.pz-btn.danger {
+  opacity: .9;
+}
+
+.pz-btn.disabled,
+.pz-btn:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+  pointer-events: none;
+}
+
+/* Preset Dropdown */
+
+.pz-preset-select:hover {
+  opacity: .95;
+}
+
+.pz-preset-select:focus {
+  outline: none;
+}
+
+.pz-preset-select option {
+  padding: 6px;
+}
+
+/* Zoom Status Overlay Variants */
+
+.pz-status-overlay.small {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+.pz-status-overlay.large {
+  padding: 16px 24px;
+  font-size: 18px;
+}
+
+.pz-status-overlay.success {
+  animation:
+    pzFadeIn .25s ease,
+    pzPulse .8s ease;
+}
+
+/* Animations */
+
+@keyframes pzFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pzFadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes pzPulse {
+  0% {
+    transform:
+      translateX(-50%)
+      scale(.9);
+  }
+
+  50% {
+    transform:
+      translateX(-50%)
+      scale(1.05);
+  }
+
+  100% {
+    transform:
+      translateX(-50%)
+      scale(1);
+  }
+}
+
+@keyframes pzBounce {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes pzGlow {
+  0% {
+    opacity: .6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: .6;
+  }
+}
+
+/* Preview States */
+
+.preview-box.zoom-active,
+.card-preview.zoom-active,
+.component-preview.zoom-active {
+  will-change: transform;
+}
+
+.preview-box.zoom-transition,
+.card-preview.zoom-transition,
+.component-preview.zoom-transition {
+  transition:
+    transform .2s ease,
+    opacity .2s ease;
+}
+
+.preview-box.zoom-disabled,
+.card-preview.zoom-disabled,
+.component-preview.zoom-disabled {
+  pointer-events: none;
+}
+
+/* Zoom Level Classes */
+
+.zoom-level-50 {
+  transform: scale(.5);
+}
+
+.zoom-level-75 {
+  transform: scale(.75);
+}
+
+.zoom-level-100 {
+  transform: scale(1);
+}
+
+.zoom-level-125 {
+  transform: scale(1.25);
+}
+
+.zoom-level-150 {
+  transform: scale(1.5);
+}
+
+.zoom-level-200 {
+  transform: scale(2);
+}
+
+.zoom-level-300 {
+  transform: scale(3);
+}
+
+/* Accessibility */
+
+.pz-btn[aria-pressed="true"] {
+  font-weight: 700;
+}
+
+.pz-btn:focus-visible,
+.pz-preset-select:focus-visible {
+  outline-offset: 3px;
+}
+
+/* Dark Theme */
+
+[data-theme="dark"] .pz-toolbar,
+.dark .pz-toolbar {
+  border-radius: 10px;
+}
+
+[data-theme="dark"] .pz-btn,
+.dark .pz-btn {
+  color: inherit;
+}
+
+[data-theme="dark"] .pz-status-overlay,
+.dark .pz-status-overlay {
+  backdrop-filter: blur(8px);
+}
+
+/* Light Theme */
+
+[data-theme="light"] .pz-status-overlay,
+.light .pz-status-overlay {
+  backdrop-filter: blur(4px);
+}
+
+/* Toolbar Groups */
+
+.pz-group {
+  display: flex;
+  gap: 6px;
+}
+
+.pz-group.vertical {
+  flex-direction: column;
+}
+
+/* Mobile */
+
+@media (max-width: 640px) {
+
+  .pz-toolbar {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .pz-btn {
+    min-height: 36px;
+    font-size: 12px;
+  }
+
+  .pz-current-value {
+    width: 100%;
+  }
+
+  .pz-group {
+    width: 100%;
+  }
+}
+
+/* Tablet */
+
+@media (min-width: 641px) and (max-width: 1024px) {
+
+  .pz-toolbar {
+    gap: 8px;
+  }
+
+  .pz-btn {
+    min-width: 44px;
+  }
+}
+
+/* Desktop */
+
+@media (min-width: 1025px) {
+
+  .pz-toolbar {
+    gap: 10px;
+  }
+
+  .pz-btn:hover {
+    animation:
+      pzBounce .25s ease;
+  }
+}

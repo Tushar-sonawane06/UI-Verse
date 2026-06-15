@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-WTWI7yWmQYl+2d0wz55WYL0Gu/1qwpcXPhogMz3tvl8='; script-src-attr 'unsafe-hashes' 'sha256-WTWI7yWmQYl+2d0wz55WYL0Gu/1qwpcXPhogMz3tvl8='; style-src 'self' https: 'unsafe-hashes' 'sha256-1KmfX0MLOtdHhRsALk6HRRZTk3rCN5zT3aZJY7ziSwk=' 'sha256-4m5DrzWq5fpYtMLXgW4IKPyNWL5GuOJSQa2MwaAcxDw=' 'sha256-6Nl2A8HR6GF2FU0uDdkFGnoXwZslzlGdiQJpQuxL2N4=' 'sha256-BSOVbChNPPTZy1HMSrNLunHHSVX1qrXKjcfFHysco58=' 'sha256-JCJQeyM0iEQ0xyAyEVb8sdxs6RQnDDC4BuEvmZqEfik=' 'sha256-RHBAFAfyD2F7bc5wt3ZbVqVC2cpVzfbC0/eCeArVBss=' 'sha256-WO7G0bikCcwoZ6jQJSJiY9wLeVjuafFOqRFVY0sV4ik=' 'sha256-Xe7yU5HUsZLA+Tv6EuS8uEH2CQNr+oFQhFJa3507gnA=' 'sha256-Ycp2S8+GZIfw8tA9pD2eRjkLKWou6egl+pHqktS/lMk=' 'sha256-jf8EVHxEssD2oR8g9pOH6PyjJwURDLyvtNzdsLEXprY=' 'sha256-tpWMbUlP5Uw0VavQx+88OMYf+mw5b4WiOzPF2oUguaY='; style-src-attr 'unsafe-hashes' 'sha256-1KmfX0MLOtdHhRsALk6HRRZTk3rCN5zT3aZJY7ziSwk=' 'sha256-4m5DrzWq5fpYtMLXgW4IKPyNWL5GuOJSQa2MwaAcxDw=' 'sha256-6Nl2A8HR6GF2FU0uDdkFGnoXwZslzlGdiQJpQuxL2N4=' 'sha256-BSOVbChNPPTZy1HMSrNLunHHSVX1qrXKjcfFHysco58=' 'sha256-JCJQeyM0iEQ0xyAyEVb8sdxs6RQnDDC4BuEvmZqEfik=' 'sha256-RHBAFAfyD2F7bc5wt3ZbVqVC2cpVzfbC0/eCeArVBss=' 'sha256-WO7G0bikCcwoZ6jQJSJiY9wLeVjuafFOqRFVY0sV4ik=' 'sha256-Xe7yU5HUsZLA+Tv6EuS8uEH2CQNr+oFQhFJa3507gnA=' 'sha256-Ycp2S8+GZIfw8tA9pD2eRjkLKWou6egl+pHqktS/lMk=' 'sha256-jf8EVHxEssD2oR8g9pOH6PyjJwURDLyvtNzdsLEXprY=' 'sha256-tpWMbUlP5Uw0VavQx+88OMYf+mw5b4WiOzPF2oUguaY='">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Bench Result Dashboard</title>
+  </head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+  <div class="container">
+
+    <!-- HEADER -->
+    <header class="header">
+
+      <div class="header-left">
+        <h1>Bench Results Dashboard</h1>
+        <p>Performance overview, analytics & candidate insights</p>
+      </div>
+
+      <div class="search-box">
+        <span>🔍</span>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search candidate..."
+        / data-a11y-remediation="label-needed">
+      </div>
+
+    </header>
+
+    <!-- STATS -->
+    <section class="stats">
+
+      <div class="card primary">
+        <h3>Total Candidates</h3>
+        <p id="total">0</p>
+      </div>
+
+      <div class="card success">
+        <h3>Passed</h3>
+        <p id="passed">0</p>
+      </div>
+
+      <div class="card danger">
+        <h3>Failed</h3>
+        <p id="failed">0</p>
+      </div>
+
+      <div class="card warning">
+        <h3>Average Score</h3>
+        <p id="average">0%</p>
+      </div>
+
+    </section>
+
+    <!-- TABLE -->
+    <section class="table-wrapper">
+
+      <div class="table-top">
+        <div>
+          <h2>Candidate Results</h2>
+          <p>Live result tracking table</p>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Score</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody id="resultTable"></tbody>
+
+        </table>
+      </div>
+
+    </section>
+
+  </div>
+
+  <script>
+    const results = [
+      { name: "Aman Verma", score: 92 },
+      { name: "Priya Singh", score: 76 },
+      { name: "Rahul Das", score: 45 },
+      { name: "Sneha Roy", score: 88 },
+      { name: "Rohit Kumar", score: 39 },
+      { name: "Anjali Sharma", score: 81 },
+      { name: "Vikash Gupta", score: 57 },
+      { name: "Neha Kapoor", score: 63 },
+      { name: "Karan Mehta", score: 28 },
+      { name: "Pooja Jain", score: 71 }
+    ];
+
+    const table = document.getElementById("resultTable");
+    const searchInput = document.getElementById("searchInput");
+
+    function renderTable(data) {
+      table.innerHTML = "";
+
+      data.forEach((candidate, index) => {
+        const status = candidate.score >= 50 ? "Passed" : "Failed";
+
+        table.innerHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${candidate.name}</td>
+            <td>
+  <div class="progress-wrap">
+    <div
+      class="progress-bar"
+      style="width:${candidate.score}%"
+    ></div>
+    <span class="score-text">${candidate.score}%</span>
+  </div>
+</td>
+              <span class="badge ${status === "Passed" ? "pass" : "fail"}">
+                ${status}
+              </span>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function updateStats(data) {
+      const total = data.length;
+      const passed = data.filter(c => c.score >= 50).length;
+      const failed = total - passed;
+
+      const average = (
+        data.reduce((sum, c) => sum + c.score, 0) / total
+      ).toFixed(1);
+
+      document.getElementById("total").textContent = total;
+      document.getElementById("passed").textContent = passed;
+      document.getElementById("failed").textContent = failed;
+      document.getElementById("average").textContent = average + "%";
+    }
+
+    searchInput.addEventListener("input", (e) => {
+      const value = e.target.value.toLowerCase();
+
+      const filtered = results.filter(candidate =>
+        candidate.name.toLowerCase().includes(value)
+      );
+
+      renderTable(filtered);
+      updateStats(filtered);
+    });
+
+    renderTable(results);
+    updateStats(results);
+  </script>
+
+        <script src="../dist/shared.js"></script>
+</body>
+</html>

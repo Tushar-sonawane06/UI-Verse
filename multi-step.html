@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Multi-Step Form / Stepper UI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="form-container">
+    <h1 class="form-title">📝 Multi-Step Form Demo</h1>
+    <p class="form-subtitle">Complete the steps below to submit your details</p>
+
+    <!-- Stepper Progress -->
+    <div class="stepper">
+      <div class="step active" data-step="1">Step 1</div>
+      <div class="step" data-step="2">Step 2</div>
+      <div class="step" data-step="3">Step 3</div>
+      <div class="step" data-step="4">Review</div>
+    </div>
+
+    <!-- Form Steps -->
+    <form id="multiStepForm">
+      <!-- Step 1 -->
+      <div class="form-step active">
+        <h2>Personal Information</h2>
+        <label>Name: <input type="text" id="name" required></label>
+        <label>Email: <input type="email" id="email" required></label>
+        <button type="button" class="next-btn">Next ➡️</button>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="form-step">
+        <h2>Address Details</h2>
+        <label>Street: <input type="text" id="street" required></label>
+        <label>City: <input type="text" id="city" required></label>
+        <button type="button" class="back-btn">⬅️ Back</button>
+        <button type="button" class="next-btn">Next ➡️</button>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="form-step">
+        <h2>Preferences</h2>
+        <label>
+          Subscribe to newsletter:
+          <input type="checkbox" id="newsletter">
+        </label>
+        <label>
+          Choose role:
+          <select id="role" required>
+            <option value="">Select...</option>
+            <option value="Developer">Developer</option>
+            <option value="Designer">Designer</option>
+            <option value="Manager">Manager</option>
+          </select>
+        </label>
+        <button type="button" class="back-btn">⬅️ Back</button>
+        <button type="button" class="next-btn">Next ➡️</button>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="form-step">
+        <h2>Review & Submit</h2>
+        <div id="reviewSection"></div>
+        <button type="button" class="back-btn">⬅️ Back</button>
+        <button type="submit" class="submit-btn">✅ Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="toast" class="toast">Form Submitted!</div>
+
+  <script>
+    const steps = document.querySelectorAll(".step");
+const formSteps = document.querySelectorAll(".form-step");
+const nextBtns = document.querySelectorAll(".next-btn");
+const backBtns = document.querySelectorAll(".back-btn");
+const form = document.getElementById("multiStepForm");
+const toast = document.getElementById("toast");
+
+let currentStep = 0;
+
+// Show step
+function showStep(stepIndex) {
+  formSteps.forEach((step, i) => {
+    step.classList.toggle("active", i === stepIndex);
+  });
+  steps.forEach((step, i) => {
+    step.classList.remove("active", "completed");
+    if (i === stepIndex) step.classList.add("active");
+    else if (i < stepIndex) step.classList.add("completed");
+  });
+}
+
+// Validation
+function validateStep(stepIndex) {
+  const inputs = formSteps[stepIndex].querySelectorAll("input[required], select[required]");
+  for (let input of inputs) {
+    if (!input.value) {
+      input.style.borderColor = "red";
+      return false;
+    } else {
+      input.style.borderColor = "#ddd";
+    }
+  }
+  return true;
+}
+
+// Populate review section
+function populateReview() {
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const street = document.getElementById("street").value;
+  const city = document.getElementById("city").value;
+  const newsletter = document.getElementById("newsletter").checked ? "Yes" : "No";
+  const role = document.getElementById("role").value;
+
+  const reviewSection = document.getElementById("reviewSection");
+  reviewSection.innerHTML = `
+    <h3>Review Your Details</h3>
+    <p><strong>Name:</strong> ${name}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Street:</strong> ${street}</p>
+    <p><strong>City:</strong> ${city}</p>
+    <p><strong>Newsletter:</strong> ${newsletter}</p>
+    <p><strong>Role:</strong> ${role}</p>
+  `;
+}
+
+// Next button logic
+nextBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    if (validateStep(currentStep)) {
+      currentStep++;
+      if (currentStep >= formSteps.length) currentStep = formSteps.length - 1;
+      if (currentStep === formSteps.length - 1) populateReview();
+      showStep(currentStep);
+    }
+  });
+});
+
+// Back button logic
+backBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentStep--;
+    if (currentStep < 0) currentStep = 0;
+    showStep(currentStep);
+  });
+});
+
+// Submit form
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  showToast("✅ Form Submitted Successfully!");
+  form.reset();
+  currentStep = 0;
+  showStep(currentStep);
+});
+
+// Toast notification
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2500);
+}
+
+// Initialize
+showStep(currentStep);
+
+  </script>
+</body>
+</html>

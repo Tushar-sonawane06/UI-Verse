@@ -1,47 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="../dist/shared.css">
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes' 'sha256-3G/QP1sQHarh1Eh5rWrVQg1SsdKYm0SDjh6c8ztBNVc='; style-src-attr 'unsafe-hashes' 'sha256-3G/QP1sQHarh1Eh5rWrVQg1SsdKYm0SDjh6c8ztBNVc='">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Password Strength Checker UI</title>
+  <title>Password Strength Checker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <link rel="stylesheet" href="pass.css">
 </head>
 <body>
+  <div class="ps-root">
+    <div class="ps-card" id="psCard">
 
-  <div class="password-container">
+      <div class="ps-label">
+        <i class="ti ti-lock" aria-hidden="true"></i>
+        password strength
+      </div>
 
-    <h1>Password Strength Checker</h1>
+      <div class="ps-input-wrap">
+        <input
+          class="ps-input"
+          type="password"
+          id="psInput"
+          placeholder="enter your password"
+          autocomplete="new-password"
+          spellcheck="false"
+          aria-label="Password"
+        >
+        <button type="button" class="ps-toggle" id="psToggle" aria-label="Show password" title="Toggle visibility">
+          <i class="ti ti-eye" id="eyeIcon" aria-hidden="true"></i>
+        </button>
+      </div>
 
-    <div class="input-box">
+      <div class="ps-bar-wrap">
+        <div class="ps-bar-fill" id="psBar"></div>
+      </div>
 
-      <input
-        type="password"
-        id="password"
-        placeholder="Enter password"
-      >
+      <div class="ps-status">
+        <span class="ps-strength-text" id="psStrengthText">—</span>
+        <span class="ps-entropy" id="psEntropy"></span>
+      </div>
 
-      <button id="toggleBtn">
-        Show
-      </button>
+      <div class="ps-criteria">
+        <div class="ps-criterion" id="cLen">
+          <i class="ti ti-circle-check" aria-hidden="true"></i> 8+ characters
+        </div>
+        <div class="ps-criterion" id="cLen12">
+          <i class="ti ti-circle-check" aria-hidden="true"></i> 12+ characters
+        </div>
+        <div class="ps-criterion" id="cUpper">
+          <i class="ti ti-circle-check" aria-hidden="true"></i> uppercase letter
+        </div>
+        <div class="ps-criterion" id="cLower">
+          <i class="ti ti-circle-check" aria-hidden="true"></i> lowercase letter
+        </div>
+        <div class="ps-criterion" id="cNum">
+          <i class="ti ti-circle-check" aria-hidden="true"></i> number
+        </div>
+        <div class="ps-criterion" id="cSym">
+          <i class="ti ti-circle-check" aria-hidden="true"></i> special symbol
+        </div>
+      </div>
+
+      <div class="ps-copy-row">
+        <button type="button" class="ps-btn" id="psClear" aria-label="Clear password">
+          <i class="ti ti-x" aria-hidden="true"></i> clear
+        </button>
+        <button type="button" class="ps-btn" id="psCopy" aria-label="Copy password">
+          <i class="ti ti-copy" aria-hidden="true"></i> copy
+        </button>
+        <button type="button" class="ps-btn primary" id="psGenerate" aria-label="Generate strong password">
+          <i class="ti ti-wand" aria-hidden="true"></i> generate
+        </button>
+      </div>
 
     </div>
-
-    <div class="strength-bar">
-
-      <div
-        class="strength-fill"
-        id="strengthFill"
-      ></div>
-
-    </div>
-
-    <p id="strengthText">
-      Password Strength
-    </p>
-
   </div>
 
   <script src="pass.js"></script>
+  <script src="../dist/shared.js"></script>
 </body>
 </html>

@@ -1,299 +1,758 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <!-- Strong CSP -->
-  <meta
-    http-equiv="Content-Security-Policy"
-    content="
-      default-src 'self' https:;
-      base-uri 'self';
-      frame-ancestors 'none';
-      object-src 'none';
-      connect-src 'self' https:;
-      img-src 'self' data: https:;
-      font-src 'self' data: https:;
-      script-src 'self' https: 'unsafe-hashes';
-      script-src-attr 'unsafe-hashes';
-      style-src 'self' https: 'unsafe-inline';
-      style-src-attr 'unsafe-inline';
-      upgrade-insecure-requests;
-    "
-  >
-
-  <title>Offline — UI-Verse</title>
-
-  <link
-    rel="stylesheet"
-    href="offline.css"
-  >
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Offline / 404 — Premium UI-Verse</title>
 
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
+    /* --- CSS DESIGN SYSTEM & VARIABLES --- */
+    :root {
+      --bg1: #0f172a;
+      --bg2: #1e293b;
+      --card: #111827cc;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-hover: #0ea5e9;
+      --danger: #fb7185;
+      --success: #22c55e;
+      --border: rgba(255, 255, 255, 0.08);
+      --font-stack: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
-    body{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-      font-family:
-        Inter,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-
-      background:
-        radial-gradient(circle at top left,#1e293b,#020617);
-
-      color:#fff;
-      overflow:hidden;
-      position:relative;
+    /* Light Theme Variations */
+    [data-theme="light"] {
+      --bg1: #f1f5f9;
+      --bg2: #e2e8f0;
+      --card: rgba(255, 255, 255, 0.85);
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #0ea5e9;
+      --accent-hover: #0284c7;
+      --danger: #e11d48;
+      --success: #16a34a;
+      --border: rgba(0, 0, 0, 0.08);
     }
 
-    /* Animated background */
-    body::before,
-    body::after{
-      content:"";
-      position:absolute;
-      width:400px;
-      height:400px;
-      border-radius:50%;
-      filter:blur(80px);
-      opacity:.25;
-      animation:float 10s ease-in-out infinite;
+    /* --- BASE RESET --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: var(--font-stack);
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    body::before{
-      background:#3b82f6;
-      top:-100px;
-      left:-100px;
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+      color: var(--text);
+      overflow-x: hidden;
+      padding: 20px;
     }
 
-    body::after{
-      background:#8b5cf6;
-      bottom:-120px;
-      right:-120px;
-      animation-delay:3s;
+    /* --- LAYOUT UTILITIES --- */
+    .wrapper {
+      text-align: center;
+      width: 100%;
+      max-width: 650px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
     }
 
-    @keyframes float{
-      0%,100%{
-        transform:translateY(0px);
-      }
-      50%{
-        transform:translateY(25px);
-      }
+    .card {
+      width: 100%;
+      padding: 40px 30px;
+      border-radius: 24px;
+      background: var(--card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      animation: float 4s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
     }
 
-    .card{
-      width:100%;
-      max-width:520px;
-      padding:42px 34px;
-      border-radius:28px;
-
-      background:rgba(255,255,255,.08);
-
-      border:1px solid rgba(255,255,255,.12);
-
-      backdrop-filter:blur(18px);
-
-      box-shadow:
-        0 10px 40px rgba(0,0,0,.35);
-
-      text-align:center;
-      position:relative;
-      z-index:1;
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
     }
 
-    .icon{
-      width:90px;
-      height:90px;
-      margin:0 auto 24px;
-
-      display:flex;
-      align-items:center;
-      justify-content:center;
-
-      border-radius:50%;
-
-      background:
-        linear-gradient(
-          135deg,
-          #3b82f6,
-          #8b5cf6
-        );
-
-      box-shadow:
-        0 8px 30px rgba(59,130,246,.4);
+    /* --- THEME TOGGLE BUTTON --- */
+    .theme-toggle {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .icon svg{
-      width:44px;
-      height:44px;
-      stroke:#fff;
+    .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.05);
     }
 
-    h1{
-      font-size:2.2rem;
-      margin-bottom:14px;
-      font-weight:800;
-      letter-spacing:-0.03em;
+    /* --- TYPOGRAPHY & HEADER ELEMS --- */
+    .error-code {
+      font-size: 96px;
+      font-weight: 900;
+      letter-spacing: 6px;
+      color: var(--danger);
+      line-height: 1;
+      margin-bottom: 10px;
+      animation: pulse 2s infinite;
+      user-select: none;
     }
 
-    p{
-      color:rgba(255,255,255,.82);
-      line-height:1.7;
-      font-size:1rem;
-      margin-bottom:14px;
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(0.98); }
     }
 
-    .offline-note{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-
-      padding:12px 18px;
-      margin-top:12px;
-
-      border-radius:999px;
-
-      background:rgba(255,255,255,.08);
-
-      border:1px solid rgba(255,255,255,.08);
-
-      font-size:.95rem;
-      color:#cbd5e1;
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-top: 10px;
     }
 
-    .dot{
-      width:10px;
-      height:10px;
-      border-radius:50%;
-      background:#22c55e;
-
-      box-shadow:
-        0 0 12px #22c55e;
+    p {
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 15px;
     }
 
-    .reload-btn{
-      margin-top:28px;
-
-      border:none;
-      outline:none;
-
-      padding:14px 24px;
-
-      border-radius:14px;
-
-      font-size:1rem;
-      font-weight:700;
-
-      cursor:pointer;
-
-      color:#fff;
-
-      background:
-        linear-gradient(
-          135deg,
-          #2563eb,
-          #7c3aed
-        );
-
-      transition:
-        transform .25s ease,
-        box-shadow .25s ease;
+    /* --- STATUS CHIPS --- */
+    .status-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .reload-btn:hover{
-      transform:translateY(-2px);
-
-      box-shadow:
-        0 10px 22px rgba(37,99,235,.35);
+    .status {
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background: rgba(251, 113, 133, 0.1);
+      color: var(--danger);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .reload-btn:active{
-      transform:scale(.98);
+    .status.online {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--success);
     }
 
-    @media (max-width:600px){
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
 
-      .card{
-        padding:34px 24px;
-      }
+    /* --- INTERACTIVE ACTION BUTTONS --- */
+    .actions {
+      margin-top: 25px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-      h1{
-        font-size:1.8rem;
-      }
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
 
-      p{
-        font-size:.95rem;
-      }
+    .btn-primary {
+      background: var(--accent);
+      color: #001018;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      background: var(--accent-hover);
+      box-shadow: 0 6px 16px rgba(56, 189, 248, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    /* --- MINIGAME EMBED --- */
+    .game-area {
+      margin-top: 30px;
+      border-top: 1px dashed var(--border);
+      padding-top: 25px;
+    }
+
+    .game-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    canvas {
+      background: rgba(0, 0, 0, 0.2);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      cursor: crosshair;
+    }
+
+    .game-controls {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* --- DIAGNOSTICS ACCORDION --- */
+    .diagnostics {
+      margin-top: 20px;
+      text-align: left;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .diag-header {
+      background: rgba(0, 0, 0, 0.1);
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+
+    .diag-header:hover {
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .diag-content {
+      padding: 16px;
+      font-family: monospace;
+      font-size: 12px;
+      display: none;
+      background: rgba(0, 0, 0, 0.15);
+      border-top: 1px solid var(--border);
+      max-height: 150px;
+      overflow-y: auto;
+      color: var(--muted);
+    }
+
+    .diag-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .diag-value {
+      color: var(--text);
+    }
+
+    /* --- FOOTER ELEMENTS --- */
+    .footer-tips {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .auto-retry-msg {
+      font-size: 12px;
+      color: var(--accent);
+      margin-top: 8px;
+      font-weight: 500;
     }
   </style>
-  <link rel="stylesheet" href="shared-sidebar.css">
 </head>
 
 <body>
+  <div class="wrapper">
+    <div class="card">
+      
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+        <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
+      </button>
 
-  <main class="card">
+      <div class="error-code" id="errorVisual">404</div>
 
-    <div class="icon">
+      <h1 id="title">Checking Network...</h1>
 
-      <svg
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.8"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M2.25 12.75l2.25 2.25m0 0L6.75 12.75m-2.25 2.25V9a6 6 0 0111.456-2.472M21.75 11.25L19.5 9m0 0l-2.25 2.25M19.5 9v6a6 6 0 01-11.456 2.472"
-        />
-      </svg>
+      <p id="msg">
+        Please wait a moment while we parse your network status and attempt to securely reconnect you to the servers.
+      </p>
 
+      <div class="status-container">
+        <div id="status" class="status">
+          <div class="status-dot"></div>
+          <span id="statusText">Initializing diagnostics...</span>
+        </div>
+        <div id="pingStatus" class="status" style="display:none;">
+          <div class="status-dot"></div>
+          <span id="pingText">Latency: --</span>
+        </div>
+      </div>
+
+      <div id="autoRetry" class="auto-retry-msg"></div>
+
+      <div class="actions">
+        <button class="btn btn-primary" onclick="forceManualRetry()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          Retry Connection
+        </button>
+        <button class="btn btn-secondary" id="toggleGameBtn" onclick="toggleGameVisibility()">
+          🎮 Play Mini-Game
+        </button>
+      </div>
+
+      <div class="game-area" id="gameArea" style="display: none;">
+        <div class="game-title">
+          <span>Breakout Offline Arcade</span>
+          <span id="gameScore" style="color:var(--accent)">Score: 0</span>
+        </div>
+        <canvas id="breakoutCanvas" width="480" height="240"></canvas>
+        <div class="game-controls">
+          Move your mouse / drag finger across canvas to slide paddle.
+        </div>
+      </div>
+
+      <div class="diagnostics">
+        <div class="diag-header" onclick="toggleDiagnostics()">
+          <span>📊 Deep Network Diagnostics</span>
+          <span id="diagArrow">▼</span>
+        </div>
+        <div class="diag-content" id="diagContent">
+          <div class="diag-row">
+            <span>Browser API Status:</span>
+            <span class="diag-value" id="diagBrowserOnline">--</span>
+          </div>
+          <div class="diag-row">
+            <span>Effective Network Type:</span>
+            <span class="diag-value" id="diagNetType">--</span>
+          </div>
+          <div class="diag-row">
+            <span>Downlink Bandwidth Capacity:</span>
+            <span class="diag-value" id="diagDownlink">--</span>
+          </div>
+          <div class="diag-row">
+            <span>Round Trip Time (RTT):</span>
+            <span class="diag-value" id="diagRtt">--</span>
+          </div>
+          <div class="diag-row">
+            <span>Secure Edge Ping Verification:</span>
+            <span class="diag-value" id="diagPingVerify">--</span>
+          </div>
+          <div class="diag-row">
+            <span>Timestamp:</span>
+            <span class="diag-value" id="diagTime">--</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-tips">
+        <strong>Pro Tip:</strong> <span id="tipText">Cached views are accessible even when your network state drops off.</span>
+      </div>
     </div>
+  </div>
 
-    <h1>You're Offline</h1>
+  <script>
+    // --- GLOBAL APP APPLICATION STATE ---
+    const state = {
+      isOnline: navigator.onLine,
+      retryCountdown: 15,
+      countdownTimerInterval: null,
+      pingInterval: null,
+      theme: 'dark',
+      gameRunning: false,
+      tips: [
+        "Cached pages remain active, providing offline resilience capabilities.",
+        "Check local router configuration paths if connectivity errors persist.",
+        "Ensure network cables are structured securely and securely nested.",
+        "Flushing DNS caches can resolve lingering address translation issues.",
+        "Your UI interactions stay tracked client-side and synchronize smoothly upon recovery."
+      ],
+      currentTipIndex: 0
+    };
 
-    <p>
-      No internet connection detected.
-      Don’t worry — cached pages and assets
-      are still available offline.
-    </p>
+    // --- GAME MODULE LOGIC (BREAKOUT) ---
+    const canvas = document.getElementById("breakoutCanvas");
+    const ctx = canvas.getContext("2d");
+    
+    let ballRadius = 6;
+    let x = canvas.width / 2;
+    let y = canvas.height - 30;
+    let dx = 2.5;
+    let dy = -2.5;
+    
+    let paddleHeight = 10;
+    let paddleWidth = 75;
+    let paddleX = (canvas.width - paddleWidth) / 2;
+    
+    let score = 0;
+    let gameLoopId = null;
 
-    <p>
-      Once you're connected again,
-      reload the page to sync the latest updates.
-    </p>
+    // Bricks distribution structures
+    const brickRowCount = 3;
+    const brickColumnCount = 7;
+    const brickWidth = 55;
+    const brickHeight = 15;
+    const brickPadding = 7;
+    const brickOffsetTop = 15;
+    const brickOffsetLeft = 25;
+    
+    let bricks = [];
+    function initBricks() {
+      bricks = [];
+      for (let c = 0; c < brickColumnCount; c++) {
+        bricks[c] = [];
+        for (let r = 0; r < brickRowCount; r++) {
+          bricks[c][r] = { x: 0, y: 0, status: 1 };
+        }
+      }
+    }
 
-    <div class="offline-note">
-      <span class="dot"></span>
-      Offline mode active
-    </div>
+    // Capture Input Events securely across multiple formats
+    document.addEventListener("mousemove", mouseMoveHandler, false);
+    canvas.addEventListener("touchmove", touchMoveHandler, { passive: true });
 
-    <button
-      class="reload-btn"
-      type="button"
-      onclick="window.location.reload()"
-    >
-      Reload Page
-    </button>
+    function mouseMoveHandler(e) {
+      const relativeX = e.clientX - canvas.getBoundingClientRect().left;
+      if (relativeX > 0 && relativeX < canvas.width) {
+        paddleX = relativeX - paddleWidth / 2;
+      }
+    }
 
-  </main>
+    function touchMoveHandler(e) {
+      if(e.touches.length > 0) {
+        const relativeX = e.touches[0].clientX - canvas.getBoundingClientRect().left;
+        if (relativeX > 0 && relativeX < canvas.width) {
+          paddleX = relativeX - paddleWidth / 2;
+        }
+      }
+    }
 
+    function collisionDetection() {
+      for (let c = 0; c < brickColumnCount; c++) {
+        for (let r = 0; r < brickRowCount; r++) {
+          let b = bricks[c][r];
+          if (b.status === 1) {
+            if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
+              dy = -dy;
+              b.status = 0;
+              score++;
+              document.getElementById("gameScore").textContent = "Score: " + score;
+              if (score === brickRowCount * brickColumnCount) {
+                // Next wave challenge
+                initBricks();
+                dx *= 1.1;
+                dy *= 1.1;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    function drawBall() {
+      ctx.beginPath();
+      ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--danger').trim() || "#fb7185";
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function drawPaddle() {
+      ctx.beginPath();
+      ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || "#38bdf8";
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function drawBricks() {
+      for (let c = 0; c < brickColumnCount; c++) {
+        for (let r = 0; r < brickRowCount; r++) {
+          if (bricks[c][r].status === 1) {
+            let brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
+            let brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
+            bricks[c][r].x = brickX;
+            bricks[c][r].y = brickY;
+            ctx.beginPath();
+            ctx.rect(brickX, brickY, brickWidth, brickHeight);
+            ctx.fillStyle = "rgba(148, 163, 184, 0.6)";
+            ctx.fill();
+            ctx.closePath();
+          }
+        }
+      }
+    }
+
+    function gameLoop() {
+      if (!state.gameRunning) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawBricks();
+      drawBall();
+      drawPaddle();
+      collisionDetection();
+
+      if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+        dx = -dx;
+      }
+      if (y + dy < ballRadius) {
+        dy = -dy;
+      } else if (y + dy > canvas.height - ballRadius) {
+        if (x > paddleX && x < paddleX + paddleWidth) {
+          dy = -dy;
+        } else {
+          // Restart loop dynamically
+          score = 0;
+          document.getElementById("gameScore").textContent = "Score: " + score;
+          x = canvas.width / 2;
+          y = canvas.height - 30;
+          dx = 2.5;
+          dy = -2.5;
+          initBricks();
+        }
+      }
+
+      x += dx;
+      y += dy;
+      gameLoopId = requestAnimationFrame(gameLoop);
+    }
+
+    function toggleGameVisibility() {
+      const area = document.getElementById("gameArea");
+      const btn = document.getElementById("toggleGameBtn");
+      if (area.style.display === "none") {
+        area.style.display = "block";
+        btn.textContent = "🙈 Hide Mini-Game";
+        state.gameRunning = true;
+        initBricks();
+        gameLoop();
+      } else {
+        area.style.display = "none";
+        btn.textContent = "🎮 Play Mini-Game";
+        state.gameRunning = false;
+        cancelAnimationFrame(gameLoopId);
+      }
+    }
+
+
+    // --- ACCORDION DIAGNOSTICS CONTROL ---
+    function toggleDiagnostics() {
+      const panel = document.getElementById("diagContent");
+      const arrow = document.getElementById("diagArrow");
+      if(panel.style.display === "block") {
+        panel.style.display = "none";
+        arrow.textContent = "▼";
+      } else {
+        panel.style.display = "block";
+        arrow.textContent = "▲";
+        collectDiagnosticsData();
+      }
+    }
+
+    function collectDiagnosticsData() {
+      document.getElementById("diagBrowserOnline").textContent = navigator.onLine ? "ONLINE_VALID" : "OFFLINE_SIGNAL";
+      
+      const nav = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (nav) {
+        document.getElementById("diagNetType").textContent = (nav.effectiveType || "UNKNOWN").toUpperCase();
+        document.getElementById("diagDownlink").textContent = nav.downlink ? nav.downlink + " Mbps" : "UNAVAILABLE";
+        document.getElementById("diagRtt").textContent = nav.rtt ? nav.rtt + " ms" : "UNAVAILABLE";
+      } else {
+        document.getElementById("diagNetType").textContent = "API_UNSUPPORTED";
+        document.getElementById("diagDownlink").textContent = "API_UNSUPPORTED";
+        document.getElementById("diagRtt").textContent = "API_UNSUPPORTED";
+      }
+      
+      document.getElementById("diagTime").textContent = new Date().toISOString().replace('T', ' ').substring(0, 19);
+    }
+
+
+    // --- SYSTEM NETWORK MANAGEMENT & VERIFICATION ENGINE ---
+    async function verifyRealInternetPing() {
+      // Use standard connection properties safely 
+      if (!navigator.onLine) {
+        handleStatusChange(false);
+        return false;
+      }
+
+      const pingUrl = "https://images.unsplash.com/photo-1546776310-eef45dd6d63c?auto=format&fit=crop&w=10&q=10"; // Ultra light footprint asset
+      const startTime = performance.now();
+      
+      try {
+        const response = await fetch(pingUrl, { mode: 'no-cors', cache: 'no-store', signal: AbortSignal.timeout(4000) });
+        const endTime = performance.now();
+        const latency = Math.round(endTime - startTime);
+        
+        // Show real latency telemetry values
+        const pingStatus = document.getElementById("pingStatus");
+        const pingText = document.getElementById("pingText");
+        pingStatus.style.display = "inline-flex";
+        pingStatus.className = "status online";
+        pingText.textContent = `Latency: ${latency}ms`;
+        document.getElementById("diagPingVerify").textContent = `SUCCESS (${latency}ms)`;
+        
+        handleStatusChange(true);
+        return true;
+      } catch (error) {
+        const pingStatus = document.getElementById("pingStatus");
+        const pingText = document.getElementById("pingText");
+        pingStatus.style.display = "inline-flex";
+        pingStatus.className = "status";
+        pingText.textContent = "Edge Ping: Failed";
+        document.getElementById("diagPingVerify").textContent = "ROUTING_FAILURE_DROP";
+        
+        handleStatusChange(false);
+        return false;
+      }
+    }
+
+    function handleStatusChange(isTrulyOnline) {
+      const status = document.getElementById("status");
+      const statusText = document.getElementById("statusText");
+      const title = document.getElementById("title");
+      const msg = document.getElementById("msg");
+      const visual = document.getElementById("errorVisual");
+
+      state.isOnline = isTrulyOnline;
+
+      if (isTrulyOnline) {
+        statusText.textContent = "You are back online";
+        status.classList.add("online");
+        
+        visual.textContent = "200";
+        visual.style.color = "var(--success)";
+        
+        title.textContent = "Connection Restored";
+        msg.textContent = "Excellent news! Your digital bridge to our active stack infrastructure is fully functional again. You can continue seamless operations.";
+        
+        clearInterval(state.countdownTimerInterval);
+        document.getElementById("autoRetry").textContent = "";
+      } else {
+        statusText.textContent = "No internet connection";
+        status.classList.remove("online");
+        
+        visual.textContent = "404";
+        visual.style.color = "var(--danger)";
+        
+        title.textContent = "You're Offline";
+        msg.textContent = "It looks like your network connectivity stream dropped off, or our central application context has become unreachable.";
+        
+        initiateAutoRetrySequence();
+      }
+      collectDiagnosticsData();
+    }
+
+    function initiateAutoRetrySequence() {
+      clearInterval(state.countdownTimerInterval);
+      state.retryCountdown = 20;
+      
+      const retryContainer = document.getElementById("autoRetry");
+      
+      state.countdownTimerInterval = setInterval(() => {
+        state.retryCountdown--;
+        if (state.retryCountdown <= 0) {
+          retryContainer.textContent = "Executing background validation check...";
+          verifyRealInternetPing();
+        } else {
+          retryContainer.textContent = `Automated verification check passing in ${state.retryCountdown}s`;
+        }
+      }, 1000);
+    }
+
+    function forceManualRetry() {
+      const retryContainer = document.getElementById("autoRetry");
+      retryContainer.textContent = "Running instant diagnostic validation sweep...";
+      verifyRealInternetPing().then(isOnline => {
+        if(!isOnline) {
+          retryContainer.textContent = "Validation completed: host still unresolved.";
+        }
+      });
+    }
+
+    // --- COSMETIC TIMEOUT & CONTENT DECORATORS ---
+    function rotateFooterTips() {
+      setInterval(() => {
+        state.currentTipIndex = (state.currentTipIndex + 1) % state.tips.length;
+        document.getElementById("tipText").textContent = state.tips[state.currentTipIndex];
+      }, 7000);
+    }
+
+    // Theme Customizer Logic Configuration
+    const themeToggleBtn = document.getElementById("themeToggle");
+    themeToggleBtn.addEventListener("click", () => {
+      const currentTheme = document.documentElement.getAttribute("data-theme") || 'dark';
+      if(currentTheme === 'dark') {
+        document.documentElement.setAttribute("data-theme", "light");
+        document.getElementById("themeIcon").textContent = "☀️";
+        document.getElementById("themeText").textContent = "Light Mode";
+      } else {
+        document.documentElement.removeAttribute("data-theme");
+        document.getElementById("themeIcon").textContent = "🌙";
+        document.getElementById("themeText").textContent = "Dark Mode";
+      }
+    });
+
+    // --- SYSTEM CORE LIFECYCLE LISTENERS ---
+    window.addEventListener("online", () => verifyRealInternetPing());
+    window.addEventListener("offline", () => handleStatusChange(false));
+
+    // Global Initialization Entry Hook
+    (function initializeCoreRuntime() {
+      verifyRealInternetPing();
+      rotateFooterTips();
+      collectDiagnosticsData();
+    })();
+  </script>
 </body>
 </html>

@@ -113,3 +113,77 @@ profileBtn.addEventListener(
   );
 
 });
+
+// ===============================
+// BudgetFlow UI INTERACTIONS
+// ===============================
+
+// Sidebar active link switch
+const links = document.querySelectorAll(".nav a");
+
+links.forEach(link => {
+  link.addEventListener("click", () => {
+    links.forEach(l => l.classList.remove("active"));
+    link.classList.add("active");
+  });
+});
+
+// Smooth hover animation for cards
+const cards = document.querySelectorAll(".card");
+
+cards.forEach(card => {
+  card.addEventListener("mouseenter", () => {
+    card.style.transform = "translateY(-6px)";
+  });
+
+  card.addEventListener("mouseleave", () => {
+    card.style.transform = "translateY(0)";
+  });
+});
+
+// Search filter (simple UI demo)
+const searchInput = document.querySelector(".search input");
+const transactions = document.querySelectorAll(".txn");
+
+if (searchInput) {
+  searchInput.addEventListener("input", (e) => {
+    const value = e.target.value.toLowerCase();
+
+    transactions.forEach(txn => {
+      const text = txn.innerText.toLowerCase();
+      txn.style.display = text.includes(value) ? "flex" : "none";
+    });
+  });
+}
+
+// Animate bars on load
+window.addEventListener("load", () => {
+  const bars = document.querySelectorAll(".bar");
+
+  bars.forEach(bar => {
+    const height = bar.style.height;
+    bar.style.height = "0";
+
+    setTimeout(() => {
+      bar.style.height = height;
+    }, 200);
+  });
+});
+
+// Add ripple effect to buttons
+const buttons = document.querySelectorAll("button");
+
+buttons.forEach(btn => {
+  btn.addEventListener("click", function (e) {
+    const ripple = document.createElement("span");
+    ripple.classList.add("ripple");
+
+    const rect = this.getBoundingClientRect();
+    ripple.style.left = `${e.clientX - rect.left}px`;
+    ripple.style.top = `${e.clientY - rect.top}px`;
+
+    this.appendChild(ripple);
+
+    setTimeout(() => ripple.remove(), 600);
+  });
+});

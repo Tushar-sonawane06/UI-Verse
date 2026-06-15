@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown Timer to Custom Date</title>
+  <link rel="stylesheet" href="countdowntimer.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">⏳ Countdown Timer</h1>
+    <p class="subtitle">Set a target date and watch the countdown tick down!</p>
+
+    <!-- Input Section -->
+    <div class="input-section">
+      <input type="text" id="eventLabel" placeholder="Event label (e.g. Exam)">
+      <input type="datetime-local" id="targetDate">
+      <button id="startBtn">Start Countdown</button>
+    </div>
+
+    <!-- Countdown Display -->
+    <div id="countdownCard" class="countdown-card hidden">
+      <h2 id="eventTitle"></h2>
+      <div class="time-boxes">
+        <div class="time-box"><span id="days">00</span><small>Days</small></div>
+        <div class="time-box"><span id="hours">00</span><small>Hours</small></div>
+        <div class="time-box"><span id="minutes">00</span><small>Minutes</small></div>
+        <div class="time-box"><span id="seconds">00</span><small>Seconds</small></div>
+      </div>
+      <p id="completionMsg" class="completion-msg"></p>
+    </div>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById("startBtn");
+const targetDateInput = document.getElementById("targetDate");
+const eventLabelInput = document.getElementById("eventLabel");
+
+const countdownCard = document.getElementById("countdownCard");
+const eventTitle = document.getElementById("eventTitle");
+const daysEl = document.getElementById("days");
+const hoursEl = document.getElementById("hours");
+const minutesEl = document.getElementById("minutes");
+const secondsEl = document.getElementById("seconds");
+const completionMsg = document.getElementById("completionMsg");
+
+let countdownInterval;
+
+function startCountdown() {
+  const targetDate = new Date(targetDateInput.value);
+  const label = eventLabelInput.value.trim() || "Event";
+
+  if (!targetDateInput.value) {
+    alert("Please select a target date!");
+    return;
+  }
+
+  eventTitle.textContent = `${label} Countdown:`;
+  countdownCard.classList.remove("hidden");
+  completionMsg.textContent = "";
+
+  clearInterval(countdownInterval);
+
+  countdownInterval = setInterval(() => {
+    const now = new Date();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+      clearInterval(countdownInterval);
+      daysEl.textContent = "00";
+      hoursEl.textContent = "00";
+      minutesEl.textContent = "00";
+      secondsEl.textContent = "00";
+      completionMsg.textContent = "⏰ Time's up!";
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    daysEl.textContent = String(days).padStart(2, "0");
+    hoursEl.textContent = String(hours).padStart(2, "0");
+    minutesEl.textContent = String(minutes).padStart(2, "0");
+    secondsEl.textContent = String(seconds).padStart(2, "0");
+  }, 1000);
+}
+
+startBtn.addEventListener("click", startCountdown);
+
+  </script>
+</body>
+</html>

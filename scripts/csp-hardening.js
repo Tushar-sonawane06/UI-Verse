@@ -4,6 +4,15 @@ const crypto = require('crypto');
 
 const ROOT = process.cwd();
 const SKIP_DIRS = new Set(['.git', 'node_modules', 'playwright-report', 'test-results', 'generated-images', 'coverage', 'dist']);
+const DYNAMIC_HASHES_FILE = path.join(ROOT, 'dynamic-csp-hashes.json');
+let dynamicHashes = {};
+if (fs.existsSync(DYNAMIC_HASHES_FILE)) {
+  try {
+    dynamicHashes = JSON.parse(fs.readFileSync(DYNAMIC_HASHES_FILE, 'utf8'));
+  } catch (e) {
+    console.error('Warning: Failed to load dynamic-csp-hashes.json:', e.message);
+  }
+}
 const INLINE_SCRIPT_RE = /<script\b(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi;
 const INLINE_STYLE_RE = /<style\b[^>]*>([\s\S]*?)<\/style>/gi;
 const STYLE_ATTR_RE = /\sstyle\s*=\s*("([^"]*)"|'([^']*)')/gi;
@@ -28,28 +37,49 @@ function walk(dir, results = []) {
 }
 
 function hashValue(value) {
-  return `sha256-${crypto.createHash('sha256').update(value, 'utf8').digest('base64')}`;
+  return `'sha256-${crypto.createHash('sha256').update(value, 'utf8').digest('base64')}'`;
 }
 
 function collectHashes(html) {
+  // Strip HTML comments to avoid hashing commented-out elements/scripts
+  const cleanHtml = html.replace(/<!--[\s\S]*?-->/g, '');
+
+  // Reset global regex states for sequential run safety
+  INLINE_SCRIPT_RE.lastIndex = 0;
+  INLINE_STYLE_RE.lastIndex = 0;
+  STYLE_ATTR_RE.lastIndex = 0;
+  EVENT_ATTR_RE.lastIndex = 0;
+
   const scriptHashes = new Set();
   const styleHashes = new Set();
 
   let match;
-  while ((match = INLINE_SCRIPT_RE.exec(html)) !== null) {
-    scriptHashes.add(hashValue(match[1]));
+  while ((match = INLINE_SCRIPT_RE.exec(cleanHtml)) !== null) {
+    const code = match[1].replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    if (code.trim()) {
+      scriptHashes.add(hashValue(code));
+    }
   }
 
-  while ((match = INLINE_STYLE_RE.exec(html)) !== null) {
-    styleHashes.add(hashValue(match[1]));
+  while ((match = INLINE_STYLE_RE.exec(cleanHtml)) !== null) {
+    const style = match[1].replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    if (style.trim()) {
+      styleHashes.add(hashValue(style));
+    }
   }
 
-  while ((match = STYLE_ATTR_RE.exec(html)) !== null) {
-    styleHashes.add(hashValue(match[2] || match[3] || ''));
+  while ((match = STYLE_ATTR_RE.exec(cleanHtml)) !== null) {
+    const val = (match[2] || match[3] || '').trim();
+    if (val) {
+      styleHashes.add(hashValue(val));
+    }
   }
 
-  while ((match = EVENT_ATTR_RE.exec(html)) !== null) {
-    scriptHashes.add(hashValue(match[3] || match[4] || ''));
+  while ((match = EVENT_ATTR_RE.exec(cleanHtml)) !== null) {
+    const handler = (match[3] || match[4] || '').trim();
+    if (handler) {
+      scriptHashes.add(hashValue(handler));
+    }
   }
 
   return {
@@ -67,13 +97,13 @@ function buildPolicy(scriptHashes, styleHashes) {
     "base-uri 'self'",
     "frame-ancestors 'none'",
     "object-src 'none'",
-    "connect-src 'self' https:",
+    "connect-src 'self' https: http://127.0.0.1:* http://localhost:* ws://127.0.0.1:* ws://localhost:* wss://*",
     "img-src 'self' data: https:",
     "font-src 'self' data: https:",
     `script-src 'self' https: 'unsafe-hashes'${scriptHashesText}`,
     `script-src-attr 'unsafe-hashes'${scriptHashesText}`,
-    `style-src 'self' https: 'unsafe-hashes'${styleHashesText}`,
-    `style-src-attr 'unsafe-hashes'${styleHashesText}`
+    `style-src 'self' 'unsafe-inline' https: 'unsafe-hashes'${styleHashesText}`,
+    `style-src-attr 'unsafe-inline' 'unsafe-hashes'${styleHashesText}`
   ].join('; ');
 }
 
@@ -97,10 +127,37 @@ function insertOrReplaceMeta(html, policy) {
   return html.replace(headMatch[0], `${headMatch[0]}\n  ${metaTag}`);
 }
 
+
+function generateStyleHashes(content) {
+  const crypto = require('crypto');
+  const hashes = [];
+  const matches = content.match(/<style[^>]*>([\s\S]*?)<\/style>/gi) || [];
+  for (const styleTag of matches) {
+    const css = styleTag.replace(/<style[^>]*>|<\/style>/gi, '');
+    const hash = crypto.createHash('sha256').update(css).digest('base64');
+    hashes.push(`'sha256-${hash}'`);
+  }
+  return hashes;
+}
+    
 function processFile(htmlFile, checkOnly) {
   const original = fs.readFileSync(htmlFile, 'utf8');
   const { scriptHashes, styleHashes } = collectHashes(original);
-  const policy = buildPolicy(scriptHashes, styleHashes);
+
+  // Merge dynamic hashes
+  const relativePath = path.relative(ROOT, htmlFile).split(path.sep).join('/');
+  if (dynamicHashes[relativePath]) {
+    const fileDynScript = dynamicHashes[relativePath].scriptHashes || [];
+    const fileDynStyle = dynamicHashes[relativePath].styleHashes || [];
+    fileDynScript.forEach(h => {
+      if (!scriptHashes.includes(h)) scriptHashes.push(h);
+    });
+    fileDynStyle.forEach(h => {
+      if (!styleHashes.includes(h)) styleHashes.push(h);
+    });
+  }
+
+  const policy = buildPolicy(scriptHashes.sort(), styleHashes.sort());
   const updated = insertOrReplaceMeta(original, policy);
 
   if (checkOnly) {

@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +12,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="table.css">
-</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
 
@@ -42,30 +41,78 @@
 <section class="section">
   <h2>👨‍💼 Employee Directory</h2>
 
-  <div class="table-wrapper">
-    <table class="ui-table">
-      <thead>
-        <tr>
-          <th>ID</th><th>Name</th><th>Role</th><th>Dept</th><th>Status</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr><td>01</td><td>Arjun Mehta</td><td>Frontend Dev</td><td>Eng</td><td>Active</td></tr>
-        <tr><td>02</td><td>Meera Das</td><td>UI Designer</td><td>Design</td><td>Active</td></tr>
-        <tr><td>03</td><td>Rahul Sharma</td><td>Backend Dev</td><td>Eng</td><td>Active</td></tr>
-        <tr><td>04</td><td>Sneha Roy</td><td>PM</td><td>Product</td><td>Active</td></tr>
-        <tr><td>05</td><td>Vikram Singh</td><td>DevOps</td><td>Infra</td><td>Inactive</td></tr>
-        <tr><td>06</td><td>Ishita Jain</td><td>Analyst</td><td>Data</td><td>Active</td></tr>
-        <tr><td>07</td><td>Karan Mehta</td><td>ML Eng</td><td>AI</td><td>Active</td></tr>
-      </tbody>
-    </table>
+  <div class="export-buttons">
+    <button onclick="exportTable(this, 'csv')">Export CSV</button>
+    <button onclick="exportTable(this, 'excel')">Export Excel</button>
+    <button onclick="exportTable(this, 'pdf')">Export PDF</button>
   </div>
+
+  <!-- Search bar -->
+<input type="text" id="tableSearch" placeholder="Search table..." />
+
+<!-- Filter dropdowns -->
+<select id="roleFilter">
+  <option value="">All Roles</option>
+  <option value="Frontend Dev">Frontend Dev</option>
+  <option value="Backend Dev">Backend Dev</option>
+  <option value="UI Designer">UI Designer</option>
+</select>
+
+<select id="statusFilter">
+  <option value="">All Status</option>
+  <option value="Active">Active</option>
+  <option value="Inactive">Inactive</option>
+</select>
+
+<div class="table-wrapper">
+  <table class="ui-table" id="employeeTable">
+    <thead>
+      <tr>
+        <th onclick="sortTable(0)">ID ⬍</th>
+        <th onclick="sortTable(1)">Name ⬍</th>
+        <th onclick="sortTable(2)">Role ⬍</th>
+        <th onclick="sortTable(3)">Dept ⬍</th>
+        <th onclick="sortTable(4)">Status ⬍</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>01</td><td>Arjun Mehta</td><td>Frontend Dev</td><td>Eng</td><td>Active</td></tr>
+      <tr><td>02</td><td>Meera Das</td><td>UI Designer</td><td>Design</td><td>Active</td></tr>
+  <div class="table-wrapper">
+  <table class="ui-table" role="table" aria-label="Employee Directory">
+    <thead>
+      <tr role="row">
+        <th scope="col" role="columnheader">ID</th>
+        <th scope="col" role="columnheader">Name</th>
+        <th scope="col" role="columnheader">Role</th>
+        <th scope="col" role="columnheader">Dept</th>
+        <th scope="col" role="columnheader">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr role="row">
+        <td role="cell">01</td>
+        <td role="cell">Arjun Mehta</td>
+        <td role="cell">Frontend Dev</td>
+        <td role="cell">Eng</td>
+        <td role="cell">Active</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
 </section>
 
 <!-- ================= TABLE 2 ================= -->
 <section class="section">
   <h2>🧑‍💻 User Management</h2>
+
+  <div class="export-buttons">
+    <button onclick="exportTable(this, 'csv')">Export CSV</button>
+    <button onclick="exportTable(this, 'excel')">Export Excel</button>
+    <button onclick="exportTable(this, 'pdf')">Export PDF</button>
+  </div>
 
   <div class="table-wrapper">
     <table class="ui-table">
@@ -91,6 +138,12 @@
 <section class="section">
   <h2>📊 Analytics Team</h2>
 
+  <div class="export-buttons">
+    <button onclick="exportTable(this, 'csv')">Export CSV</button>
+    <button onclick="exportTable(this, 'excel')">Export Excel</button>
+    <button onclick="exportTable(this, 'pdf')">Export PDF</button>
+  </div>
+
   <div class="table-wrapper">
     <table class="ui-table">
       <thead>
@@ -115,6 +168,12 @@
 <section class="section">
   <h2>💰 Payroll System</h2>
 
+  <div class="export-buttons">
+    <button onclick="exportTable(this, 'csv')">Export CSV</button>
+    <button onclick="exportTable(this, 'excel')">Export Excel</button>
+    <button onclick="exportTable(this, 'pdf')">Export PDF</button>
+  </div>
+
   <div class="table-wrapper">
     <table class="ui-table">
       <thead>
@@ -137,6 +196,12 @@
 <!-- ================= TABLE 5 ================= -->
 <section class="section">
   <h2>📁 Project Tracker</h2>
+
+  <div class="export-buttons">
+    <button onclick="exportTable(this, 'csv')">Export CSV</button>
+    <button onclick="exportTable(this, 'excel')">Export Excel</button>
+    <button onclick="exportTable(this, 'pdf')">Export PDF</button>
+  </div>
 
   <div class="table-wrapper">
     <table class="ui-table">
@@ -161,6 +226,12 @@
 <section class="section">
   <h2>💳 Transactions</h2>
 
+  <div class="export-buttons">
+    <button onclick="exportTable(this, 'csv')">Export CSV</button>
+    <button onclick="exportTable(this, 'excel')">Export Excel</button>
+    <button onclick="exportTable(this, 'pdf')">Export PDF</button>
+  </div>
+
   <div class="table-wrapper">
     <table class="ui-table">
       <thead>
@@ -180,10 +251,282 @@
   </div>
 </section>
 
+<!-- ================= TABLE 8 ================= -->
+<section class="section">
+  <h2>📈 Sales Performance Dashboard</h2>
+
+  <div class="table-wrapper">
+    <table class="ui-table modern-table">
+      <thead>
+        <tr>
+          <th>Sales Rep</th>
+          <th>Region</th>
+          <th>Revenue</th>
+          <th>Deals Closed</th>
+          <th>Growth</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>
+            <div class="table-user">
+              <img src="https://i.pravatar.cc/80?img=15" alt="">
+              <span>Emma Watson</span>
+            </div>
+          </td>
+          <td>North America</td>
+          <td>$82,400</td>
+          <td>41</td>
+          <td class="positive">+18%</td>
+          <td><span class="badge success">Top Performer</span></td>
+        </tr>
+
+        <tr>
+          <td>
+            <div class="table-user">
+              <img src="https://i.pravatar.cc/80?img=21" alt="">
+              <span>David Lee</span>
+            </div>
+          </td>
+          <td>Europe</td>
+          <td>$65,200</td>
+          <td>35</td>
+          <td class="positive">+11%</td>
+          <td><span class="badge active">Active</span></td>
+        </tr>
+
+        <tr>
+          <td>
+            <div class="table-user">
+              <img src="https://i.pravatar.cc/80?img=31" alt="">
+              <span>Sophia Turner</span>
+            </div>
+          </td>
+          <td>Asia</td>
+          <td>$92,000</td>
+          <td>48</td>
+          <td class="positive">+25%</td>
+          <td><span class="badge success">Excellent</span></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================= TABLE 9 ================= -->
+<section class="section">
+  <h2>🚀 Startup Investment Portfolio</h2>
+
+  <div class="table-wrapper">
+    <table class="ui-table glass-table">
+      <thead>
+        <tr>
+          <th>Startup</th>
+          <th>Industry</th>
+          <th>Funding</th>
+          <th>Investors</th>
+          <th>Stage</th>
+          <th>ROI</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>NeuroAI</td>
+          <td>Artificial Intelligence</td>
+          <td>$5M</td>
+          <td>12</td>
+          <td>Series A</td>
+          <td class="positive">+48%</td>
+        </tr>
+
+        <tr>
+          <td>EcoGrid</td>
+          <td>Clean Energy</td>
+          <td>$2.8M</td>
+          <td>7</td>
+          <td>Seed</td>
+          <td class="positive">+23%</td>
+        </tr>
+
+        <tr>
+          <td>HealthSync</td>
+          <td>Healthcare</td>
+          <td>$9.2M</td>
+          <td>15</td>
+          <td>Series B</td>
+          <td class="negative">-4%</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================= TABLE 10 ================= -->
+<section class="section">
+  <h2>🛒 E-Commerce Orders</h2>
+
+  <div class="table-wrapper">
+    <table class="ui-table ecommerce-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Customer</th>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Delivery</th>
+          <th>Payment</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>#ORD-1291</td>
+          <td>Olivia Brown</td>
+          <td>MacBook Pro</td>
+          <td>$2,499</td>
+          <td><span class="badge success">Delivered</span></td>
+          <td><span class="badge active">Paid</span></td>
+        </tr>
+
+        <tr>
+          <td>#ORD-1292</td>
+          <td>James Wilson</td>
+          <td>Gaming Monitor</td>
+          <td>$799</td>
+          <td><span class="badge pending">Shipping</span></td>
+          <td><span class="badge success">Paid</span></td>
+        </tr>
+
+        <tr>
+          <td>#ORD-1293</td>
+          <td>Charlotte Hall</td>
+          <td>iPhone 17</td>
+          <td>$1,399</td>
+          <td><span class="badge danger">Delayed</span></td>
+          <td><span class="badge active">Paid</span></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================= TABLE 11 ================= -->
+<section class="section">
+  <h2>🌍 Global Traffic Sources</h2>
+
+  <div class="table-wrapper">
+    <table class="ui-table premium-table">
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Visitors</th>
+          <th>Bounce Rate</th>
+          <th>Avg. Time</th>
+          <th>Conversion</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>Organic Search</td>
+          <td>182K</td>
+          <td>34%</td>
+          <td>4m 22s</td>
+          <td>8.4%</td>
+        </tr>
+
+        <tr>
+          <td>Social Media</td>
+          <td>94K</td>
+          <td>42%</td>
+          <td>2m 51s</td>
+          <td>4.2%</td>
+        </tr>
+
+        <tr>
+          <td>Email Campaign</td>
+          <td>38K</td>
+          <td>19%</td>
+          <td>6m 10s</td>
+          <td>14.7%</td>
+        </tr>
+
+        <tr>
+          <td>Referral</td>
+          <td>61K</td>
+          <td>27%</td>
+          <td>3m 42s</td>
+          <td>7.1%</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================= TABLE 12 ================= -->
+<section class="section">
+  <h2>🧠 AI Model Leaderboard</h2>
+
+  <div class="table-wrapper">
+    <table class="ui-table neon-table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Accuracy</th>
+          <th>Latency</th>
+          <th>Dataset</th>
+          <th>Rank</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>GPT-X Ultra</td>
+          <td>98.7%</td>
+          <td>0.8s</td>
+          <td>WebScale-9</td>
+          <td>🥇</td>
+        </tr>
+
+        <tr>
+          <td>VisionNet AI</td>
+          <td>96.1%</td>
+          <td>1.2s</td>
+          <td>ImageNet++</td>
+          <td>🥈</td>
+        </tr>
+
+        <tr>
+          <td>Quantum NLP</td>
+          <td>94.4%</td>
+          <td>1.8s</td>
+          <td>MultiLang-XL</td>
+          <td>🥉</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</section>
+
 <!-- ================= TABLE 7 ================= -->
 <section class="section">
   <h2>🎧 Support Tickets</h2>
 
+  <div class="export-buttons">
+    <button onclick="exportTable(this, 'csv')">Export CSV</button>
+    <button onclick="exportTable(this, 'excel')">Export Excel</button>
+    <button onclick="exportTable(this, 'pdf')">Export PDF</button>
+  </div>
+
+  
   <div class="table-wrapper">
     <table class="ui-table">
       <thead>
@@ -204,10 +547,6 @@
 
 </main>
 
-<!-- ================= FOOTER ================= -->
-<footer class="footer">
-  <p>© 2026 UIverse — Advanced Table System</p>
-</footer>
 
 
   <meta
@@ -243,8 +582,7 @@
     href="table.css"
   >
 
-  <link rel="stylesheet" href="shared-sidebar.css">
-</head>
+  </head>
 
 <body>
 <!-- ================= SIDEBAR ================= -->
@@ -564,12 +902,6 @@
       </li>
     </ul>
   </nav>
-
-  <div class="sidebar-footer">
-    <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
-    <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-    <a href="#" title="Twitter"><i class="fab fa-x-twitter"></i></a>
-  </div>
 </aside>
 
 <!-- ================= SIDEBAR BACKDROP ================= -->
@@ -586,60 +918,214 @@
         </div>
         <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
         <div class="footer-socials">
-          <a href="#"><i class="fa-brands fa-github"></i></a>
-          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#">
+            <i class="fa-brands fa-github">
+            </i>
+          </a>
+          <a href="#">
+            <i class="fa-brands fa-linkedin-in">
+            </i>
+          </a>
+          <a href="#">
+            <i class="fa-brands fa-x-twitter">
+          </i>
+          </a>
         </div>
       </div>
       
       <div class="footer-links">
         <h4>Explore</h4>
         <ul>
-          <li><a href="button.html">Buttons</a></li>
-          <li><a href="navbar.html">Navbars</a></li>
-          <li><a href="cards.html">Cards</a></li>
-          <li><a href="inputs.html">Inputs</a></li>
-          <li><a href="forms.html">Forms</a></li>
+          <li>
+            <a href="button.html">Buttons</a>
+          </li>
+          <li>
+            <a href="navbar.html">Navbars</a>
+          </li>
+          <li>
+            
+            <a href="cards.html">Cards</a>
+          </li>
+          <li>
+            <a href="inputs.html">Inputs</a>
+          </li>
+          <li>
+            <a href="forms.html">Forms</a>
+          </li>
         </ul>
+
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
+
+ <!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
+    </div>
 
       <div class="footer-links">
         <h4>Resources</h4>
         <ul>
-          <li><a href="#">Documentation</a></li>
-          <li><a href="#">Contribute</a></li>
-          <li><a href="#">GitHub Repo</a></li>
-          <li><a href="#">Community</a></li>
+          <li>
+            <a href="#">Documentation</a>
+          </li>
+          <li>
+            <a href="#">Contribute</a>
+          </li>
+          <li>
+            <a href="#">GitHub Repo</a>
+          </li>
+          <li>
+            <a href="#">Community</a>
+          </li>
         </ul>
       </div>
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
 
-      <div class="footer-links">
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
-          <li><a href="#">License</a></li>
-        </ul>
-      </div>
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
 
-      <div class="footer-newsletter">
-        <h4>Stay Updated</h4>
-        <p>Get notified when new components drop.</p>
-        <div class="newsletter-form">
-          <input type="email" placeholder="your@email.com" />
-          <button type="button">Subscribe</button>
-        </div>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
-    
-    <div class="footer-bottom">
-      <p>© 2026 UIverse. Made with <i class="fa-solid fa-heart heart"></i> for developers worldwide.</p>
-    </div>
-  </footer>
+  </div>
 
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
+  
 </main>
 
 <script src="table.js"></script>
+<button id="scrollTopBtn" aria-label="Back to top">⬆</button>
 
+  <script src="dist/shared.js"></script>
 </body>
 </html>

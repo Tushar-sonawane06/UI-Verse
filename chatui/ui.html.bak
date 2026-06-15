@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modern Chat UI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="chat-container">
+
+    <!-- HEADER -->
+
+    <div class="chat-header">
+
+      <div class="profile">
+
+        <div class="avatar">
+          AI
+        </div>
+
+        <div class="profile-info">
+          <h2>AI Assistant</h2>
+          <div class="status">Online</div>
+        </div>
+
+      </div>
+
+      <button class="menu-btn">⋮</button>
+
+    </div>
+
+    <!-- CHAT AREA -->
+
+    <div class="chat-box" id="chatBox">
+
+      <div class="message received">
+        👋 Hello! Welcome to the futuristic chat interface.
+        <span class="time">10:30 AM</span>
+      </div>
+
+      <div class="message sent">
+        Wow! This upgraded UI looks amazing 🔥
+        <span class="time">10:31 AM</span>
+      </div>
+
+      <div class="message received">
+        You can now create beautiful modern interfaces with glassmorphism effects.
+        <span class="time">10:32 AM</span>
+      </div>
+
+      <!-- TYPING INDICATOR -->
+
+      <div class="typing">
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </div>
+
+    </div>
+
+    <!-- INPUT -->
+
+    <div class="chat-input">
+
+      <input
+        type="text"
+        id="messageInput"
+        placeholder="Type your message..."
+      />
+
+      <button class="send-btn" id="sendBtn">
+        ➤
+      </button>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    const sendBtn = document.getElementById("sendBtn");
+    const messageInput = document.getElementById("messageInput");
+    const chatBox = document.getElementById("chatBox");
+
+    function sendMessage(){
+
+      const text = messageInput.value.trim();
+
+      if(text === "") return;
+
+      const message = document.createElement("div");
+
+      message.classList.add("message","sent");
+
+      const currentTime = new Date().toLocaleTimeString([],{
+        hour:'2-digit',
+        minute:'2-digit'
+      });
+
+      message.innerHTML = `
+        ${text}
+        <span class="time">${currentTime}</span>
+      `;
+
+      chatBox.appendChild(message);
+
+      messageInput.value = "";
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      setTimeout(()=>{
+
+        const reply = document.createElement("div");
+
+        reply.classList.add("message","received");
+
+        reply.innerHTML = `
+          Thanks for your message 🚀
+          <span class="time">${currentTime}</span>
+        `;
+
+        chatBox.appendChild(reply);
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+      },1000);
+
+    }
+
+    sendBtn.addEventListener("click",sendMessage);
+
+    messageInput.addEventListener("keypress",(e)=>{
+
+      if(e.key === "Enter"){
+        sendMessage();
+      }
+
+    });
+
+  </script>
+
+    <script src="../dist/shared.js"></script>
+</body>
+</html>

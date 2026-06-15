@@ -24,6 +24,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Security assets verification
+        run: npm run security:assets:verify
+
+      - name: Performance budgets verification
+        run: npm run performance:budgets:verify
+
       - name: HTML lint
         run: npm run lint:html
 
@@ -33,14 +39,50 @@ jobs:
       - name: JavaScript lint
         run: npm run lint:js
 
+      - name: Dependency graph check
+        run: npm run dependencies:check
+
+      - name: Dependency graph regression tests
+        run: npm run test:dependencies:graph
+
       - name: Component metadata check
         run: npm run components:version:check
+
+      - name: Component versioning regression tests
+        run: npm run test:versioning:check
+
+      - name: Component registry consistency check
+        run: npm run components:registry:check
+
+      - name: Component registry validator unit tests
+        run: npm run test:registry:check
+
+      - name: i18n locale validation
+        run: npm run i18n:validate
+
+      - name: i18n dist sync check
+        run: npm run i18n:sync:check
+
+      - name: Snippet pipeline sync check
+        run: npm run snippets:check
+
+      - name: Snippet pipeline regression tests
+        run: npm run test:snippets:pipeline
+
+      - name: Component discovery ranking tests
+        run: npm run test:search:rank
 
       - name: Package smoke test
         run: npm run package:check
 
       - name: Accessibility audit
         run: npm run audit:a11y
+
+      - name: Accessibility remediation baseline gate
+        run: npm run a11y:remediation:check
+
+      - name: Accessibility remediation check tests
+        run: npm run test:a11y:remediation:check
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps

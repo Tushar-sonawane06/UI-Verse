@@ -1,18 +1,19 @@
-:root{
+/*:root{
 
-  --bg:#060816;
-  --card:#12192b;
-
+  
+  --card:white;
+   --bg: #ffffff;
+  --text: #000000;
   --border:rgba(255,255,255,.08);
 
-  --text:#ffffff;
+  
   --muted:#98a3bd;
 
   --accent:#ff7a3d;
   --accent2:#7b61ff;
 
   --transition:.35s ease;
-}
+}*/
 
 *{
   margin:0;
@@ -20,21 +21,61 @@
   box-sizing:border-box;
 }
 
-body{
+/*body{
 
-  background:
-    linear-gradient(
-      180deg,
-      #050816,
-      #0b1022
-    );
-
-  color:var(--text);
-
-  font-family:'DM Sans',sans-serif;
-
-  overflow-x:hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
 }
+body.light {
+  background: #ffffff;
+  color: #000000;
+}
+
+body.dark {
+  background: #0f172a;
+  color: #ffffff;
+}*/
+/* Default (light mode) */
+:root {
+  --bg: #ffffff;
+  --text: #000000;
+  --card: #ffffff;
+  --border: rgba(0,0,0,.08);
+  --sidebar-bg: #1e293b;
+  --sidebar-text: #cbd5e1;
+  --sidebar-border: rgba(255,255,255,.1);
+  --sidebar-hover: rgba(255,255,255,.08);
+  --sidebar-active: rgba(123,97,255,.2);
+}
+
+/* Light Theme */
+body.light {
+  --bg: #ffffff;
+  --text: #000000;
+  --card: #ffffff;
+  --border: rgba(0,0,0,.08);
+  --sidebar-bg: #1e293b;
+  --sidebar-text: #cbd5e1;
+  --sidebar-border: rgba(255,255,255,.1);
+  --sidebar-hover: rgba(255,255,255,.08);
+  --sidebar-active: rgba(123,97,255,.2);
+}
+
+/* Dark Theme */
+body.dark {
+  --bg: #0f172a;
+  --text: #ffffff;
+  --card: #1e293b;
+  --border: rgba(255,255,255,.1);
+  --sidebar-bg: #1e293b;
+  --sidebar-text: #cbd5e1;
+  --sidebar-border: rgba(255,255,255,.1);
+  --sidebar-hover: rgba(255,255,255,.08);
+  --sidebar-active: rgba(123,97,255,.2);
+}
+
 /* ============================================================
    SIDEBAR
    ============================================================ */
@@ -110,7 +151,7 @@ body{
 
 .sidebar-nav li a:hover {
   background: var(--sidebar-hover);
-  color: #fff;
+  color: black;
   transform: translateX(4px);
 }
 
@@ -174,7 +215,7 @@ body{
   padding:0 30px;
 
   background:
-    rgba(5,8,22,.82);
+    #ffffff;
 
   backdrop-filter:blur(18px);
 
@@ -184,6 +225,53 @@ body{
   z-index:999;
 }
 
+
+.accordion-card{
+  position:relative;
+  overflow:hidden;
+
+  background:rgba(255,255,255,.06);
+
+  backdrop-filter:blur(20px);
+
+  border:1px solid rgba(255,255,255,.12);
+
+  border-radius:24px;
+
+  transition:.4s ease;
+}
+
+.accordion-card:hover{
+  transform:translateY(-8px);
+
+  box-shadow:
+  0 20px 60px rgba(123,97,255,.18);
+}
+
+.accordion-content{
+  max-height:0;
+  overflow:hidden;
+
+  opacity:0;
+
+  transition:
+    max-height .4s ease,
+    opacity .3s ease;
+}
+
+.accordion-item.active .accordion-content{
+  max-height:300px;
+  opacity:1;
+}
+
+
+.accordion-btn i{
+  transition:.3s ease;
+}
+
+.accordion-item.active i{
+  transform:rotate(45deg);
+}
 .search-bar{
 
   width:420px;
@@ -197,8 +285,7 @@ body{
 
   border-radius:999px;
 
-  background:
-    rgba(255,255,255,.05);
+  
 
   border:
     1px solid var(--border);
@@ -213,7 +300,7 @@ body{
 
   background:none;
 
-  color:white;
+  color:#ffffff;
 }
 
 .nav-actions{
@@ -238,8 +325,7 @@ body{
 
 .outline-btn{
 
-  background:
-    rgba(255,255,255,.06);
+  background:#ffffff;
 
   color:white;
 }
@@ -255,7 +341,192 @@ body{
 
   color:white;
 }
+body.light {
+      background: #ffffff;
+      color: #000000;
+      transition: background 0.3s, color 0.3s;
+    }
 
+    body.dark {
+      background: #0f172a;
+      color: #ffffff;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #e2e8f0;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: background 0.3s;
+    }
+
+    .theme-toggle:hover {
+      background: #cbd5e1;
+    }
+
+    .theme-toggle i {
+      font-size: 20px;
+      color: #333;
+      transition: color 0.3s;
+    }
+
+    body.dark .theme-toggle {
+      background: #1e293b;
+    }
+
+    body.dark .theme-toggle i {
+      color: #facc15; /* yellow for moon */
+    }
+    .accordion-card{
+  background:#fff;
+  border:1px solid #edf2f7;
+  border-radius:24px;
+  padding:24px;
+  box-shadow:
+  0 10px 30px rgba(15,23,42,.05);
+  transition:.35s ease;
+}
+
+.accordion-card:hover{
+  transform:translateY(-6px);
+  box-shadow:
+  0 20px 45px rgba(15,23,42,.08);
+}
+
+.card-label{
+  display:inline-block;
+  padding:6px 14px;
+  border-radius:999px;
+  background:#eef2ff;
+  color:#6366f1;
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:1px;
+}
+
+.accordion-btn{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 0;
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+  color:#111827;
+}
+.revenue-card .card-label{
+  background:#eef2ff;
+  color:#6366f1;
+}
+
+.accordion-item{
+  border-top:1px solid #f1f5f9;
+}
+
+.accordion-content p{
+  color:#64748b;
+  line-height:1.7;
+}
+.ai-card .card-label{
+  background:#eef2ff;
+  color:#6366f1;
+}
+
+.api-card .card-label{
+  background:#ecfeff;
+  color:#0891b2;
+}
+
+.design-card .card-label{
+  background:#fdf4ff;
+  color:#c026d3;
+}
+
+.tools-card .card-label{
+  background:#ecfccb;
+  color:#65a30d;
+}
+
+.showcase-card .card-label{
+  background:#fff7ed;
+  color:#ea580c;
+}
+
+.cert-card .card-label{
+  background:#fef3c7;
+  color:#ca8a04;
+}
+
+.success-card .card-label{
+  background:#dcfce7;
+  color:#16a34a;
+}
+
+.compare-card .card-label{
+  background:#ede9fe;
+  color:#7c3aed;
+}
+.startup-card .card-label{
+  background:#ecfdf5;
+  color:#10b981;
+}
+
+.creative-card .card-label{
+  background:#fdf4ff;
+  color:#d946ef;
+}
+
+.analytics-card .card-label{
+  background:#eff6ff;
+  color:#2563eb;
+}
+
+.community-card .card-label{
+  background:#fff7ed;
+  color:#ea580c;
+}
+
+.automation-card .card-label{
+  background:#ecfeff;
+  color:#0891b2;
+}
+
+.academy-card .card-label{
+  background:#fefce8;
+  color:#ca8a04;
+}
+
+.trending-card .card-label{
+  background:#fef2f2;
+  color:#dc2626;
+}
+
+.project-card .card-label{
+  background:#eef2ff;
+  color:#6366f1;
+}
+
+.premium-card .card-label{
+  background:#faf5ff;
+  color:#9333ea;
+}
+
+.gaming-card .card-label{
+  background:#f0fdf4;
+  color:#16a34a;
+}
 /* MAIN */
 
 .main-home{
@@ -263,6 +534,7 @@ body{
   margin-left:240px;
 
   padding:120px 40px 60px;
+  background-color: #fff;
 }
 
 /* HERO */
@@ -282,8 +554,7 @@ body{
 
   border-radius:999px;
 
-  background:
-    rgba(255,255,255,.06);
+  background:#ffffff;
 
   border:
     1px solid var(--border);
@@ -342,16 +613,13 @@ body{
   gap:30px;
 }
 
+
+
 /* CARD */
 
 .accordion-card{
 
-  background:
-    linear-gradient(
-      145deg,
-      #12192b,
-      #172038
-    );
+  background:#ffffff;
 
   border:
     1px solid var(--border);
@@ -391,6 +659,7 @@ body{
   line-height:1.2;
 
   font-family:'Syne',sans-serif;
+  color: orangered;
 }
 
 /* ACCORDION */
@@ -429,7 +698,7 @@ body{
 
   background:none;
 
-  color:white;
+  color:blueviolet;
 
   display:flex;
   justify-content:space-between;
@@ -521,4 +790,483 @@ body{
     grid-template-columns:1fr;
   }
 
+}
+
+.footer {
+  margin-left: 250px;
+  background: #090c15 !important;
+  padding: 80px 40px 40px;
+  border-top: 1px solid rgb(255 255 255 / 5%) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(235 104 53 / 20%), transparent);
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  font-size: 24px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--accent), #ff8e53);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+}
+
+.footer-col p {
+  color: #8a9bc0;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.footer-col h3 {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 12px;
+}
+
+.footer-col ul li a {
+  color: #8a9bc0;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.footer-col ul li a:hover {
+  color: var(--accent);
+  padding-left: 4px;
+}
+
+.footer-col.newsletter .newsletter-form {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.footer-col.newsletter input[type="email"] {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  background: rgb(255 255 255 / 2%);
+  border: 1px solid rgb(255 255 255 / 8%);
+  color: #fff;
+  outline: none;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.footer-col.newsletter input[type="email"]:focus {
+  border-color: var(--accent);
+  background: rgb(255 255 255 / 4%);
+  box-shadow: 0 0 10px rgb(235 104 53 / 20%);
+}
+
+.footer-col.newsletter button {
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.footer-col.newsletter button:hover {
+  background: #d45c28;
+  box-shadow: 0 4px 12px rgb(235 104 53 / 30%);
+}
+
+.socials {
+  display: flex;
+  gap: 12px;
+}
+
+.socials a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 3%);
+  border: 1px solid rgb(255 255 255 / 6%);
+  color: #8a9bc0;
+  transition: all 0.3s ease;
+}
+
+.socials a:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgb(255 255 255 / 4%);
+  margin-top: 60px;
+  padding-top: 24px;
+  text-align: center;
+}
+
+.footer-bottom p {
+  color: #6a7a94;
+  font-size: 13px;
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN
+   ============================================================ */
+@media (max-width: 1200px) {
+  .footer-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .footer-col.brand,
+  .footer-col.newsletter {
+    grid-column: span 3;
+  }
+}
+
+@media (max-width: 992px) {
+  .main-content {
+    margin-left: 0;
+    padding: 32px 24px;
+  }
+
+  .footer {
+    margin-left: 0;
+    padding: 60px 24px 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .footer-col.brand,
+  .footer-col.newsletter {
+    grid-column: span 1;
+  }
+}
+/* ============================================================
+   THEME STYLING OVERRIDES
+   Navbar, Sidebar, and Footer theme colors:
+   - Light Mode: White background, dark text/icons
+   - Dark Mode: Black background, light/white text/icons
+   ============================================================ */
+
+/* ==========================================
+   1. LIGHT MODE SPECIFIC (body:not(.dark-mode))
+   ========================================== */
+body:not(.dark-mode) .navbar,
+body:not(.dark-mode) header.navbar,
+body:not(.dark-mode) nav.navbar,
+body:not(.dark-mode) .sidebar,
+body:not(.dark-mode) aside.sidebar,
+body:not(.dark-mode) .footer,
+body:not(.dark-mode) footer.footer {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Ensure text, icons, links inside these components are dark */
+body:not(.dark-mode) .navbar *,
+body:not(.dark-mode) header.navbar *,
+body:not(.dark-mode) nav.navbar *,
+body:not(.dark-mode) .sidebar *,
+body:not(.dark-mode) aside.sidebar *,
+body:not(.dark-mode) .footer *,
+body:not(.dark-mode) footer.footer * {
+  color: #334155 !important;
+}
+
+/* Titles and major headings */
+body:not(.dark-mode) .navbar .logo,
+body:not(.dark-mode) .sidebar .sidebar-brand,
+body:not(.dark-mode) .sidebar h2,
+body:not(.dark-mode) .sidebar .brand-text,
+body:not(.dark-mode) .footer h2,
+body:not(.dark-mode) .footer h3,
+body:not(.dark-mode) .footer-logo {
+  color: #0f172a !important;
+}
+
+/* Sidebar navigation links */
+body:not(.dark-mode) .sidebar-nav li a,
+body:not(.dark-mode) .sidebar ul li a,
+body:not(.dark-mode) .sidebar a {
+  background: transparent !important;
+  color: #475569 !important;
+}
+
+/* Sidebar active link and hover states */
+body:not(.dark-mode) .sidebar-nav li.active a,
+body:not(.dark-mode) .sidebar-nav li a:hover,
+body:not(.dark-mode) .sidebar ul li.active a,
+body:not(.dark-mode) .sidebar ul li a:hover,
+body:not(.dark-mode) .sidebar a:hover,
+body:not(.dark-mode) .sidebar .active a {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+body:not(.dark-mode) .sidebar-nav li.active a *,
+body:not(.dark-mode) .sidebar-nav li a:hover *,
+body:not(.dark-mode) .sidebar ul li.active a *,
+body:not(.dark-mode) .sidebar ul li a:hover *,
+body:not(.dark-mode) .sidebar a:hover *,
+body:not(.dark-mode) .sidebar .active a * {
+  color: #0f172a !important;
+}
+
+/* Footer links hover */
+body:not(.dark-mode) .footer a:hover,
+body:not(.dark-mode) footer.footer a:hover {
+  color: #4f46e5 !important; /* Premium brand indigo */
+}
+
+/* Search bar inside navbar */
+body:not(.dark-mode) .search-bar input {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+body:not(.dark-mode) .search-bar input::placeholder {
+  color: #64748b !important;
+}
+
+/* Outline and secondary buttons inside light navbar/sidebar */
+body:not(.dark-mode) .navbar .nav-btn.outline-nav-btn,
+body:not(.dark-mode) .navbar .outline-btn {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+body:not(.dark-mode) .navbar .nav-btn.outline-nav-btn:hover,
+body:not(.dark-mode) .navbar .outline-btn:hover {
+  background-color: #f1f5f9 !important;
+}
+
+
+/* ==========================================
+   2. DARK MODE SPECIFIC (body.dark-mode)
+   ========================================== */
+body.dark-mode .navbar,
+body.dark-mode header.navbar,
+body.dark-mode nav.navbar,
+body.dark-mode .sidebar,
+body.dark-mode aside.sidebar,
+body.dark-mode .footer,
+body.dark-mode footer.footer {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #f8fafc !important;
+  border-color: #1e293b !important;
+  box-shadow: none !important;
+}
+
+/* Ensure text, icons, links inside these components are light */
+body.dark-mode .navbar *,
+body.dark-mode header.navbar *,
+body.dark-mode nav.navbar *,
+body.dark-mode .sidebar *,
+body.dark-mode aside.sidebar *,
+body.dark-mode .footer *,
+body.dark-mode footer.footer * {
+  color: #cbd5e1 !important; /* slate-300 */
+}
+
+/* Titles and major headings */
+body.dark-mode .navbar .logo,
+body.dark-mode .sidebar .sidebar-brand,
+body.dark-mode .sidebar h2,
+body.dark-mode .sidebar .brand-text,
+body.dark-mode .footer h2,
+body.dark-mode .footer h3,
+body.dark-mode .footer-logo {
+  color: #ffffff !important;
+}
+
+/* Sidebar navigation links */
+body.dark-mode .sidebar-nav li a,
+body.dark-mode .sidebar ul li a,
+body.dark-mode .sidebar a {
+  background: transparent !important;
+  color: #94a3b8 !important;
+}
+
+/* Sidebar active link and hover states */
+body.dark-mode .sidebar-nav li.active a,
+body.dark-mode .sidebar-nav li a:hover,
+body.dark-mode .sidebar ul li.active a,
+body.dark-mode .sidebar ul li a:hover,
+body.dark-mode .sidebar a:hover,
+body.dark-mode .sidebar .active a {
+  background-color: #1e293b !important; /* slate-800 */
+  color: #ffffff !important;
+}
+
+body.dark-mode .sidebar-nav li.active a *,
+body.dark-mode .sidebar-nav li a:hover *,
+body.dark-mode .sidebar ul li.active a *,
+body.dark-mode .sidebar ul li a:hover *,
+body.dark-mode .sidebar a:hover *,
+body.dark-mode .sidebar .active a * {
+  color: #ffffff !important;
+}
+
+/* Footer links hover */
+body.dark-mode .footer a:hover,
+body.dark-mode footer.footer a:hover {
+  color: #818cf8 !important; /* Indigo-400 */
+}
+
+/* Search bar inside navbar */
+body.dark-mode .search-bar input {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+  border: 1px solid #1e293b !important;
+}
+body.dark-mode .search-bar input::placeholder {
+  color: #475569 !important;
+}
+
+/* Secondary/outline buttons in dark navbar */
+body.dark-mode .navbar .nav-btn.outline-nav-btn,
+body.dark-mode .navbar .outline-btn {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #334155 !important;
+}
+body.dark-mode .navbar .nav-btn.outline-nav-btn:hover,
+body.dark-mode .navbar .outline-btn:hover {
+  background-color: #0f172a !important;
+}
+
+
+/* ==========================================
+   3. THEME TOGGLE BUTTON STYLING (GLOBAL)
+   ========================================== */
+.theme-toggle,
+#darkModeToggle,
+#theme-toggle {
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-size: 1.15rem !important;
+  padding: 8px 12px !important;
+  border-radius: 9999px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+
+body:not(.dark-mode) .theme-toggle,
+body:not(.dark-mode) #darkModeToggle,
+body:not(.dark-mode) #theme-toggle {
+  color: #475569 !important;
+  background-color: #f1f5f9 !important;
+}
+body:not(.dark-mode) .theme-toggle:hover,
+body:not(.dark-mode) #darkModeToggle:hover,
+body:not(.dark-mode) #theme-toggle:hover {
+  color: #0f172a !important;
+  background-color: #e2e8f0 !important;
+  transform: scale(1.05);
+}
+
+body.dark-mode .theme-toggle,
+body.dark-mode #darkModeToggle,
+body.dark-mode #theme-toggle {
+  color: #e2e8f0 !important;
+  background-color: #1e293b !important;
+}
+body.dark-mode .theme-toggle:hover,
+body.dark-mode #darkModeToggle:hover,
+body.dark-mode #theme-toggle:hover {
+  color: #ffffff !important;
+  background-color: #334155 !important;
+  transform: scale(1.05);
+}
+
+/* Floating theme toggle button (for pages without navbar/sidebar) */
+.theme-toggle-floating {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  z-index: 9999 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+body.dark-mode .theme-toggle-floating {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+}
+
+/* Sidebar list item toggle button */
+.sidebar .theme-toggle-sidebar {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 10px 16px !important;
+  width: calc(100% - 32px) !important;
+  margin: 10px 16px !important;
+  border-radius: 8px !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+body:not(.dark-mode) .sidebar .theme-toggle-sidebar {
+  color: #475569 !important;
+  background-color: #f1f5f9 !important;
+}
+body:not(.dark-mode) .sidebar .theme-toggle-sidebar:hover {
+  color: #0f172a !important;
+  background-color: #e2e8f0 !important;
+}
+body.dark-mode .sidebar .theme-toggle-sidebar {
+  color: #cbd5e1 !important;
+  background-color: #1e293b !important;
+}
+body.dark-mode .sidebar .theme-toggle-sidebar:hover {
+  color: #ffffff !important;
+  background-color: #334155 !important;
 }

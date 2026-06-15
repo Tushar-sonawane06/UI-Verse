@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Components Index | UIverse</title>
+  <meta name="description" content="Centralized UIverse component categories with visual previews and sorting by popularity or recency.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg: #f6f6ef;
+      --panel: #fffef6;
+      --text: #222016;
+      --muted: #6d644f;
+      --line: #ded4bd;
+      --accent: #d9682a;
+      --accent-2: #145f88;
+      --accent-3: #6c8d24;
+      --radius-lg: 22px;
+      --radius-md: 14px;
+      --shadow: 0 20px 50px rgba(34, 32, 22, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+      background:
+        radial-gradient(1000px 520px at 12% -8%, rgba(20, 95, 136, 0.15), transparent 62%),
+        radial-gradient(920px 460px at 94% 2%, rgba(217, 104, 42, 0.16), transparent 58%),
+        linear-gradient(180deg, #f9f8f2 0%, #f1eddf 100%);
+      min-height: 100vh;
+    }
+
+    .page {
+      width: min(1180px, 94vw);
+      margin: 0 auto;
+      padding: 34px 0 60px;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      text-decoration: none;
+      font-family: "Syne", sans-serif;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .brand i {
+      color: var(--accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.75);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .hero {
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.8), rgba(255, 249, 232, 0.92)),
+        linear-gradient(160deg, rgba(20, 95, 136, 0.08), rgba(217, 104, 42, 0.08));
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      padding: 26px clamp(18px, 2vw, 34px);
+      margin-bottom: 22px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-family: "Syne", sans-serif;
+      font-size: clamp(1.7rem, 3.2vw, 2.55rem);
+      letter-spacing: 0.01em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 64ch;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .meta-pill {
+      border-radius: 999px;
+      padding: 9px 12px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--line);
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #4a422f;
+    }
+
+    .toolbar {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 18px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .toolbar h2 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: #5f563f;
+      font-family: "Syne", sans-serif;
+    }
+
+    .sort-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      color: #5a513c;
+    }
+
+    .sort-control select {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fffdf5;
+      color: var(--text);
+      padding: 8px 12px;
+      font-weight: 700;
+      font-family: inherit;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .category-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      border: 1px solid #d5cab2;
+      background: linear-gradient(180deg, #fffef7 0%, #f6f1df 100%);
+      box-shadow: 0 12px 24px rgba(58, 42, 14, 0.08);
+      padding: 15px;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 10px;
+      overflow: hidden;
+      transform: translateY(10px);
+      opacity: 0;
+      animation: rise 420ms ease forwards;
+    }
+
+    .category-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -30% -52% auto;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(20, 95, 136, 0.16), transparent 64%);
+      pointer-events: none;
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-title {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Syne", sans-serif;
+      font-size: 1.12rem;
+    }
+
+    .count-badge {
+      border-radius: 999px;
+      background: rgba(20, 95, 136, 0.12);
+      color: #0f4f72;
+      border: 1px solid rgba(20, 95, 136, 0.3);
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 5px 10px;
+      letter-spacing: 0.02em;
+    }
+
+    .preview-block {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 6px;
+      border-radius: var(--radius-md);
+      border: 1px solid #dfd5bf;
+      background: #fffdf3;
+      padding: 8px;
+    }
+
+    .preview-cell {
+      border-radius: 8px;
+      min-height: 20px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      background: linear-gradient(135deg, #f9e7d8 0%, #e8f2f8 100%);
+    }
+
+    .preview-cell:nth-child(3n) {
+      background: linear-gradient(135deg, #dfecf5 0%, #f8f0de 100%);
+    }
+
+    .preview-cell:nth-child(4n) {
+      background: linear-gradient(135deg, #f7e7db 0%, #eff6de 100%);
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.84rem;
+      color: #5d5543;
+    }
+
+    .meta-row strong {
+      color: #2f2818;
+    }
+
+    .item-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 5px;
+    }
+
+    .item-links a {
+      color: #215c7f;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .item-links a:hover {
+      text-decoration: underline;
+    }
+
+    .empty {
+      border: 1px dashed #c7ba9e;
+      border-radius: 14px;
+      background: #fffdf4;
+      text-align: center;
+      padding: 28px;
+      color: #5e563f;
+      font-weight: 700;
+    }
+
+    @keyframes rise {
+      from {
+        transform: translateY(16px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-meta {
+        justify-content: flex-start;
+      }
+
+      .top-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .toolbar {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="top-nav">
+      <a class="brand" href="../index.html">
+        <i class="fa-solid fa-cubes"></i>
+        <span>UIverse Components</span>
+      </a>
+      <a class="home-link" href="../index.html">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to Home
+      </a>
+    </div>
+
+    <section class="hero">
+      <div>
+        <h1>Component Categories Index</h1>
+        <p>Auto-generated from the repository structure. Browse every category with visual previews, then jump directly to any component page.</p>
+      </div>
+      <div class="hero-meta" id="heroMeta"></div>
+    </section>
+
+    <section class="toolbar">
+      <h2>Categories</h2>
+      <label class="sort-control" for="sortMode">
+        Sort by
+        <select id="sortMode" aria-label="Sort categories">
+          <option value="popularity">Popularity</option>
+          <option value="recency">Recency</option>
+          <option value="name">Alphabetical</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="cards-grid" id="cardsGrid" aria-live="polite"></section>
+  </div>
+
+  <script src="./components-index-data.js"></script>
+  <script>
+    (function bootstrapComponentsIndex() {
+      const source = window.UIVerseComponentsIndexData;
+      const cardsGrid = document.getElementById('cardsGrid');
+      const heroMeta = document.getElementById('heroMeta');
+      const sortMode = document.getElementById('sortMode');
+
+      if (!source || !Array.isArray(source.categories)) {
+        cardsGrid.innerHTML = '<div class="empty">Component index data is missing. Run: npm run components:index:generate</div>';
+        return;
+      }
+
+      function formatDate(isoString) {
+        const date = new Date(isoString);
+        if (Number.isNaN(date.getTime())) return 'Unknown';
+
+        return new Intl.DateTimeFormat('en', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }).format(date);
+      }
+
+      function renderHero() {
+        heroMeta.innerHTML = [
+          '<span class="meta-pill">' + source.totalCategories + ' Categories</span>',
+          '<span class="meta-pill">' + source.totalComponents + ' Components</span>',
+          '<span class="meta-pill">Generated ' + formatDate(source.generatedAt) + '</span>'
+        ].join('');
+      }
+
+      function compareCategories(a, b, mode) {
+        if (mode === 'recency') {
+          return Date.parse(b.latestUpdatedAt) - Date.parse(a.latestUpdatedAt);
+        }
+
+        if (mode === 'name') {
+          return a.name.localeCompare(b.name);
+        }
+
+        if (b.popularityScore !== a.popularityScore) {
+          return b.popularityScore - a.popularityScore;
+        }
+
+        return b.count - a.count;
+      }
+
+      function toCardMarkup(category, index) {
+        const previewCells = category.previewItems.map(function () {
+          return '<span class="preview-cell" aria-hidden="true"></span>';
+        }).join('');
+
+        const itemLinks = category.previewItems.map(function (item) {
+          const href = '../' + item.path;
+          return '<li><a href="' + href + '">' + item.title + '</a></li>';
+        }).join('');
+
+        return '' +
+          '<article class="category-card" style="animation-delay:' + (index * 45) + 'ms">' +
+            '<div class="card-head">' +
+              '<h3 class="card-title"><i class="fa-solid ' + category.icon + '"></i>' + category.name + '</h3>' +
+              '<span class="count-badge">' + category.count + ' items</span>' +
+            '</div>' +
+            '<div class="preview-block">' + previewCells + '</div>' +
+            '<div class="meta-row">' +
+              '<span>Popularity <strong>' + category.popularityScore + '/100</strong></span>' +
+              '<span>Updated <strong>' + formatDate(category.latestUpdatedAt) + '</strong></span>' +
+            '</div>' +
+            '<ul class="item-links">' + itemLinks + '</ul>' +
+          '</article>';
+      }
+
+      function renderCards() {
+        const mode = sortMode.value;
+        const ordered = source.categories
+          .slice()
+          .sort(function (a, b) { return compareCategories(a, b, mode); });
+
+        cardsGrid.innerHTML = ordered.length
+          ? ordered.map(toCardMarkup).join('')
+          : '<div class="empty">No categories available.</div>';
+      }
+
+      sortMode.addEventListener('change', renderCards);
+      renderHero();
+      renderCards();
+    })();
+  </script>
+    <script src="../dist/shared.js"></script>
+</body>
+</html>

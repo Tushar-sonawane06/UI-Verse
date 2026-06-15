@@ -15,3 +15,31 @@ setInterval(() => {
   ramValue.textContent = `${ram}%`;
 
 }, 3000);
+
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+const movieCards = document.querySelectorAll(".movie-card");
+
+// search function
+function searchMovie() {
+  const query = searchInput.value.toLowerCase().trim();
+
+  movieCards.forEach(card => {
+    const title = card.dataset.title;
+
+    if (title.includes(query)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+// event listeners
+searchBtn.addEventListener("click", searchMovie);
+
+searchInput.addEventListener("keyup", (e) => {
+  if (e.key === "Enter") {
+    searchMovie();
+  }
+});

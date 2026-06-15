@@ -1,24 +1,26 @@
 :root {
   --sidebar-width: 240px;
 }
-body {
-  height: auto !important;
-  min-height: 100vh !important;
-  background-color: #f9fafb !important;
+
+html body {
+  height: auto;
+  min-height: 100vh;
+  background-color: #f9fafb;
 }
-body.dark-mode {
-  background-color: #0b0f19 !important;
+
+html body.dark-mode {
+  background-color: #0b0f19;
 }
-.main {
+body .main {
   margin-left: var(--sidebar-width);
   margin-top: 70px;
   padding: 40px;
   min-height: calc(100vh - 70px);
-  background: #f9fafb !important;
+  background: #f9fafb;
   transition: background 0.3s ease;
 }
-body.dark-mode .main {
-  background: #0b0f19 !important;
+html body.dark-mode .main {
+  background: #0b0f19;
 }
 .page-header {
   text-align: center;
@@ -61,17 +63,17 @@ body.dark-mode .page-header p {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-body.dark-mode .component-card {
-  background: #111827 !important;
-  border-color: #1f2937 !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+html body.dark-mode .component-card {
+  background: #111827;
+  border-color: #1f2937;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 .component-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
 }
-body.dark-mode .component-card:hover {
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4) !important;
+html body.dark-mode .component-card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 .component-card h3 {
   font-family: 'Poppins', sans-serif;
@@ -80,8 +82,8 @@ body.dark-mode .component-card:hover {
   color: #111827;
   margin: 0;
 }
-body.dark-mode .component-card h3 {
-  color: #f3f4f6 !important;
+html body.dark-mode .component-card h3 {
+  color: #f3f4f6;
 }
 .card-dev {
   position: relative;
@@ -174,6 +176,28 @@ body.dark-mode .card-dev-text {
 body.dark-mode .card-creative {
   background: #1f2937;
   border-color: #374151;
+}
+
+.component-card {
+  background: rgba(255,255,255,.04);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 24px;
+  overflow: hidden;
+  transition: .35s ease;
+}
+
+.component-card:hover {
+  transform: translateY(-8px);
+  box-shadow:
+  0 30px 60px rgba(0,0,0,.25);
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns:
+  repeat(auto-fill,minmax(340px,1fr));
+  gap: 28px;
 }
 .card-creative img {
   width: 100%;
@@ -562,16 +586,16 @@ body.dark-mode .card-tech-text {
   color: #374151;
   border: 1px solid #e5e7eb;
 }
-body.dark-mode .view-btn {
-  background: #374151 !important;
-  color: #f3f4f6 !important;
-  border-color: #4b5563 !important;
+html body.dark-mode .view-btn {
+  background: #374151;
+  color: #f3f4f6;
+  border-color: #4b5563;
 }
 .view-btn:hover {
   background: #e5e7eb;
 }
-body.dark-mode .view-btn:hover {
-  background: #4b5563 !important;
+html body.dark-mode .view-btn:hover {
+  background: #4b5563;
 }
 .copy-btn {
   background: #eb6835;
@@ -712,3 +736,3759 @@ body.dark-mode .view-btn:hover {
   color: #6b7280;
   margin: 0;
 }
+
+/* UI-Cards.css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #1e293b, #111827);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+  overflow-x: hidden;
+}
+/* ==========================================
+ROOT VARIABLES
+
+:root{
+
+--bg:#0b1020;
+
+--card:#121a2f;
+--card2:#1a2540;
+
+--primary:#6366f1;
+--secondary:#8b5cf6;
+
+--accent:#06b6d4;
+--success:#22c55e;
+
+--text:#ffffff;
+--muted:#94a3b8;
+
+--border:
+rgba(255,255,255,.08);
+
+--radius:24px;
+
+}
+
+/* ==========================================
+SECTION LAYOUT
+
+.cards-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fill,minmax(360px,1fr));
+
+gap:28px;
+
+}
+
+.component-card{
+
+padding:28px;
+
+border-radius:28px;
+
+background:
+linear-gradient(
+145deg,
+var(--card),
+var(--card2)
+);
+
+border:
+1px solid var(--border);
+
+overflow:hidden;
+
+transition:.35s ease;
+
+}
+
+.component-card:hover{
+
+transform:
+translateY(-8px);
+
+box-shadow:
+0 25px 50px rgba(0,0,0,.25);
+
+}
+
+.component-card h3{
+
+font-size:1rem;
+
+font-weight:700;
+
+margin-bottom:20px;
+
+color:#cbd5e1;
+
+}
+
+/* ==========================================
+FINTECH CARD
+
+.bank-card{
+
+padding:28px;
+
+border-radius:24px;
+
+background:
+linear-gradient(
+135deg,
+#4f46e5,
+#7c3aed
+);
+
+color:white;
+
+}
+
+.bank-top{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:40px;
+
+}
+
+.bank-top span{
+
+font-size:.85rem;
+
+letter-spacing:2px;
+
+}
+
+.bank-card h2{
+
+font-size:2.3rem;
+
+margin-bottom:8px;
+
+}
+
+.bank-card p{
+
+opacity:.8;
+
+margin-bottom:24px;
+
+}
+
+.bank-bottom{
+
+display:flex;
+
+justify-content:space-between;
+
+}
+
+.bank-bottom small{
+
+display:block;
+
+opacity:.7;
+
+margin-bottom:6px;
+
+}
+
+/* ==========================================
+NFT CARD
+
+.nft-card{
+
+overflow:hidden;
+
+border-radius:22px;
+
+background:#0f172a;
+
+}
+
+.nft-card img{
+
+width:100%;
+
+height:230px;
+
+object-fit:cover;
+
+}
+
+.nft-body{
+
+padding:22px;
+
+}
+
+.nft-body span{
+
+color:#8b5cf6;
+
+font-weight:700;
+
+}
+
+.nft-body h4{
+
+font-size:1.5rem;
+
+margin:10px 0;
+
+color:white;
+
+}
+
+.nft-body p{
+
+color:#94a3b8;
+
+line-height:1.7;
+
+margin-bottom:20px;
+
+}
+
+.nft-footer{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+.nft-footer strong{
+
+color:white;
+
+font-size:1.2rem;
+
+}
+
+.nft-footer button{
+
+padding:10px 18px;
+
+border:none;
+
+border-radius:12px;
+
+background:#8b5cf6;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+MUSIC PLAYER
+
+.music-card{
+
+text-align:center;
+
+padding:25px;
+
+}
+
+.music-card img{
+
+width:180px;
+height:180px;
+
+border-radius:20px;
+
+object-fit:cover;
+
+margin-bottom:20px;
+
+}
+
+.music-card h4{
+
+font-size:1.4rem;
+
+color:white;
+
+margin-bottom:8px;
+
+}
+
+.music-card p{
+
+color:var(--muted);
+
+margin-bottom:20px;
+
+}
+
+.music-progress{
+
+height:8px;
+
+border-radius:999px;
+
+background:
+rgba(255,255,255,.08);
+
+overflow:hidden;
+
+margin-bottom:22px;
+
+}
+
+.music-progress span{
+
+display:block;
+
+width:65%;
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+var(--primary),
+var(--accent)
+);
+
+}
+
+.music-controls{
+
+display:flex;
+
+justify-content:center;
+
+gap:24px;
+
+font-size:1.3rem;
+
+color:white;
+
+}
+
+/* ==========================================
+STREAMING CARD
+
+.stream-card{
+
+position:relative;
+
+overflow:hidden;
+
+border-radius:24px;
+
+}
+
+.stream-card img{
+
+width:100%;
+
+height:320px;
+
+object-fit:cover;
+
+}
+
+.stream-overlay{
+
+position:absolute;
+
+inset:0;
+
+padding:24px;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:flex-end;
+
+background:
+linear-gradient(
+transparent,
+rgba(0,0,0,.85)
+);
+
+}
+
+.stream-overlay span{
+
+align-self:flex-start;
+
+padding:8px 14px;
+
+border-radius:999px;
+
+background:#ef4444;
+
+color:white;
+
+font-size:.75rem;
+
+font-weight:700;
+
+margin-bottom:12px;
+
+}
+
+.stream-overlay h4{
+
+font-size:2rem;
+
+color:white;
+
+margin-bottom:16px;
+
+}
+
+.stream-overlay button{
+
+width:max-content;
+
+padding:12px 20px;
+
+border:none;
+
+border-radius:14px;
+
+background:white;
+
+cursor:pointer;
+
+font-weight:700;
+
+}
+
+/* ==========================================
+COURSE CARD
+
+.course-card{
+
+padding:30px;
+
+text-align:center;
+
+}
+
+.course-icon{
+
+width:80px;
+height:80px;
+
+margin:auto;
+
+display:flex;
+
+align-items:center;
+justify-content:center;
+
+border-radius:20px;
+
+font-size:2rem;
+
+background:
+rgba(99,102,241,.15);
+
+color:#818cf8;
+
+margin-bottom:20px;
+
+}
+
+.course-card h4{
+
+font-size:1.5rem;
+
+color:white;
+
+margin-bottom:10px;
+
+}
+
+.course-card p{
+
+color:var(--muted);
+
+margin-bottom:20px;
+
+line-height:1.7;
+
+}
+
+.course-bar{
+
+height:10px;
+
+border-radius:999px;
+
+background:
+rgba(255,255,255,.08);
+
+overflow:hidden;
+
+margin-bottom:10px;
+
+}
+
+.course-bar span{
+
+display:block;
+
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+#22c55e,
+#4ade80
+);
+
+}
+
+.course-card small{
+
+color:#94a3b8;
+
+}
+
+.course-card button{
+
+margin-top:20px;
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:14px;
+
+background:#6366f1;
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+HERO BENTO
+
+.hero-bento-card{
+
+padding:50px;
+
+border-radius:24px;
+
+background:
+linear-gradient(
+135deg,
+#4f46e5,
+#06b6d4
+);
+
+color:white;
+
+min-height:320px;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+}
+
+.hero-bento-card span{
+
+font-weight:700;
+
+letter-spacing:2px;
+
+}
+
+.hero-bento-card h2{
+
+font-size:3rem;
+
+line-height:1.1;
+
+margin:18px 0;
+
+}
+
+.hero-bento-card p{
+
+max-width:500px;
+
+line-height:1.8;
+
+margin-bottom:24px;
+
+}
+
+.hero-bento-card button{
+
+width:max-content;
+
+padding:14px 22px;
+
+border:none;
+
+border-radius:14px;
+
+font-weight:700;
+
+cursor:pointer;
+
+background:white;
+
+color:#111827;
+
+}
+/* ==========================================
+FITNESS TRACKER
+
+.fitness-card{
+
+padding:30px;
+
+text-align:center;
+
+}
+
+.fitness-ring{
+
+width:180px;
+height:180px;
+
+margin:auto;
+
+border-radius:50%;
+
+display:flex;
+flex-direction:column;
+
+align-items:center;
+justify-content:center;
+
+background:
+conic-gradient(
+#22c55e 75%,
+rgba(255,255,255,.08) 75%
+);
+
+position:relative;
+
+}
+
+.fitness-ring::before{
+
+content:"";
+
+position:absolute;
+
+width:135px;
+height:135px;
+
+border-radius:50%;
+
+background:#121a2f;
+
+}
+
+.fitness-ring h2,
+.fitness-ring span{
+
+position:relative;
+z-index:2;
+
+color:white;
+
+}
+
+.fitness-ring h2{
+
+font-size:2rem;
+
+}
+
+.fitness-ring span{
+
+color:var(--muted);
+
+}
+
+.fitness-stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:18px;
+
+margin:30px 0;
+
+}
+
+.fitness-stats div{
+
+padding:18px;
+
+border-radius:18px;
+
+background:
+rgba(255,255,255,.05);
+
+}
+
+.fitness-stats strong{
+
+display:block;
+
+font-size:1.3rem;
+
+color:white;
+
+}
+
+.fitness-stats span{
+
+color:var(--muted);
+
+}
+
+.fitness-card button{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:14px;
+
+background:#22c55e;
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+TRAVEL CARD
+
+.travel-card{
+
+overflow:hidden;
+
+border-radius:24px;
+
+background:#0f172a;
+
+}
+
+.travel-card img{
+
+width:100%;
+
+height:240px;
+
+object-fit:cover;
+
+}
+
+.travel-body{
+
+padding:24px;
+
+}
+
+.travel-body span{
+
+color:#38bdf8;
+
+font-size:.85rem;
+
+font-weight:700;
+
+letter-spacing:1px;
+
+}
+
+.travel-body h4{
+
+font-size:1.7rem;
+
+color:white;
+
+margin:12px 0;
+
+}
+
+.travel-body p{
+
+color:var(--muted);
+
+line-height:1.7;
+
+margin-bottom:20px;
+
+}
+
+.travel-footer{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+.travel-footer strong{
+
+font-size:1.4rem;
+
+color:white;
+
+}
+
+.travel-footer button{
+
+padding:12px 18px;
+
+border:none;
+
+border-radius:12px;
+
+background:#06b6d4;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+STARTUP CARD
+
+.startup-card{
+
+padding:30px;
+
+border-radius:24px;
+
+background:
+linear-gradient(
+135deg,
+#111827,
+#1f2937
+);
+
+}
+
+.startup-badge{
+
+display:inline-block;
+
+padding:8px 14px;
+
+border-radius:999px;
+
+background:#22c55e;
+
+color:white;
+
+font-size:.75rem;
+
+font-weight:700;
+
+margin-bottom:20px;
+
+}
+
+.startup-card h4{
+
+font-size:1.8rem;
+
+color:white;
+
+margin-bottom:12px;
+
+}
+
+.startup-card p{
+
+color:var(--muted);
+
+line-height:1.7;
+
+margin-bottom:25px;
+
+}
+
+.startup-stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:16px;
+
+margin-bottom:24px;
+
+}
+
+.startup-stats div{
+
+padding:16px;
+
+border-radius:16px;
+
+background:
+rgba(255,255,255,.05);
+
+}
+
+.startup-stats strong{
+
+display:block;
+
+font-size:1.3rem;
+
+color:white;
+
+}
+
+.startup-stats span{
+
+color:var(--muted);
+
+}
+
+.startup-card button{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:14px;
+
+background:#6366f1;
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+AI AGENT CARD
+
+.agent-card{
+
+padding:32px;
+
+text-align:center;
+
+}
+
+.agent-avatar{
+
+width:90px;
+height:90px;
+
+margin:auto;
+
+display:flex;
+
+align-items:center;
+justify-content:center;
+
+border-radius:24px;
+
+font-size:2rem;
+
+background:
+linear-gradient(
+135deg,
+#6366f1,
+#8b5cf6
+);
+
+color:white;
+
+margin-bottom:22px;
+
+}
+
+.agent-card h4{
+
+font-size:1.6rem;
+
+color:white;
+
+margin-bottom:10px;
+
+}
+
+.agent-card p{
+
+color:var(--muted);
+
+margin-bottom:24px;
+
+}
+
+.agent-status{
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+gap:10px;
+
+margin-bottom:24px;
+
+color:white;
+
+}
+
+.agent-status span{
+
+width:10px;
+height:10px;
+
+border-radius:50%;
+
+background:#22c55e;
+
+}
+
+.agent-card button{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:14px;
+
+background:#8b5cf6;
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+SMART HOME
+
+.smart-card{
+
+padding:30px;
+
+}
+
+.smart-card h4{
+
+font-size:1.8rem;
+
+color:white;
+
+margin-bottom:24px;
+
+}
+
+.smart-devices{
+
+display:grid;
+
+grid-template-columns:
+repeat(3,1fr);
+
+gap:14px;
+
+margin-bottom:24px;
+
+}
+
+.smart-devices div{
+
+padding:18px;
+
+text-align:center;
+
+border-radius:18px;
+
+background:
+rgba(255,255,255,.05);
+
+}
+
+.smart-devices i{
+
+font-size:1.4rem;
+
+margin-bottom:10px;
+
+color:#facc15;
+
+display:block;
+
+}
+
+.smart-devices span{
+
+color:white;
+
+font-size:.9rem;
+
+}
+
+.smart-card button{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:14px;
+
+background:#f59e0b;
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+CRYPTO CARD
+
+.crypto-card{
+
+padding:30px;
+
+border-radius:24px;
+
+background:
+linear-gradient(
+135deg,
+#0f172a,
+#1e293b
+);
+
+}
+
+.crypto-top{
+
+margin-bottom:20px;
+
+}
+
+.crypto-top h4{
+
+color:var(--muted);
+
+margin-bottom:8px;
+
+}
+
+.crypto-top strong{
+
+font-size:2rem;
+
+color:white;
+
+}
+
+.crypto-change{
+
+display:inline-block;
+
+padding:8px 14px;
+
+border-radius:999px;
+
+background:
+rgba(34,197,94,.15);
+
+color:#4ade80;
+
+font-weight:700;
+
+margin-bottom:24px;
+
+}
+
+.crypto-assets{
+
+display:grid;
+
+gap:14px;
+
+}
+
+.crypto-assets div{
+
+display:flex;
+
+justify-content:space-between;
+
+padding:16px;
+
+border-radius:16px;
+
+background:
+rgba(255,255,255,.05);
+
+}
+
+.crypto-assets span{
+
+color:var(--muted);
+
+}
+
+.crypto-assets strong{
+
+color:white;
+
+}
+
+/* ==========================================
+SOCIAL PROFILE
+
+.social-card{
+
+padding:30px;
+
+text-align:center;
+
+}
+
+.social-card img{
+
+width:110px;
+height:110px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+margin-bottom:20px;
+
+border:4px solid #6366f1;
+
+}
+
+.social-card h4{
+
+font-size:1.5rem;
+
+color:white;
+
+margin-bottom:8px;
+
+}
+
+.social-card p{
+
+color:var(--muted);
+
+margin-bottom:24px;
+
+}
+
+.social-stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:16px;
+
+margin-bottom:24px;
+
+}
+
+.social-stats div{
+
+padding:16px;
+
+border-radius:16px;
+
+background:
+rgba(255,255,255,.05);
+
+}
+
+.social-stats strong{
+
+display:block;
+
+font-size:1.3rem;
+
+color:white;
+
+}
+
+.social-stats span{
+
+color:var(--muted);
+
+}
+
+.social-card button{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:14px;
+
+background:#ec4899;
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+/* ==========================================
+E-COMMERCE PRODUCT CARD
+
+.shop-card{
+
+position:relative;
+
+padding:24px;
+
+text-align:center;
+
+overflow:hidden;
+
+}
+
+.shop-badge{
+
+position:absolute;
+
+top:18px;
+left:18px;
+
+padding:8px 14px;
+
+border-radius:999px;
+
+background:#22c55e;
+
+color:white;
+
+font-size:.75rem;
+
+font-weight:700;
+
+}
+
+.shop-card img{
+
+width:100%;
+
+height:220px;
+
+object-fit:cover;
+
+border-radius:18px;
+
+margin-bottom:20px;
+
+}
+
+.shop-card h4{
+
+font-size:1.5rem;
+
+color:white;
+
+margin-bottom:10px;
+
+}
+
+.shop-card p{
+
+color:var(--muted);
+
+margin-bottom:20px;
+
+}
+
+.shop-price{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:12px;
+
+margin-bottom:20px;
+
+}
+
+.shop-price strong{
+
+font-size:1.5rem;
+
+color:white;
+
+}
+
+.shop-price span{
+
+text-decoration:line-through;
+
+color:var(--muted);
+
+}
+
+.shop-card button{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:14px;
+
+background:
+linear-gradient(
+135deg,
+#6366f1,
+#8b5cf6
+);
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+SAAS DASHBOARD CARD
+
+.saas-card{
+
+padding:30px;
+
+}
+
+.saas-header{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-bottom:18px;
+
+}
+
+.saas-header h4{
+
+color:white;
+
+}
+
+.saas-header span{
+
+color:#22c55e;
+
+font-weight:700;
+
+}
+
+.saas-card h2{
+
+font-size:2.5rem;
+
+color:white;
+
+margin-bottom:25px;
+
+}
+
+.saas-chart{
+
+height:120px;
+
+display:flex;
+
+align-items:flex-end;
+
+gap:12px;
+
+}
+
+.saas-chart div{
+
+flex:1;
+
+border-radius:12px 12px 0 0;
+
+background:
+linear-gradient(
+180deg,
+#6366f1,
+#06b6d4
+);
+
+}
+
+.saas-chart div:nth-child(1){height:50%;}
+.saas-chart div:nth-child(2){height:80%;}
+.saas-chart div:nth-child(3){height:65%;}
+.saas-chart div:nth-child(4){height:100%;}
+.saas-chart div:nth-child(5){height:75%;}
+
+/* ==========================================
+JOB LISTING CARD
+
+.job-card{
+
+padding:28px;
+
+}
+
+.job-top{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:18px;
+
+}
+
+.job-top h4{
+
+font-size:1.4rem;
+
+color:white;
+
+}
+
+.job-top span{
+
+padding:8px 12px;
+
+border-radius:999px;
+
+background:
+rgba(34,197,94,.15);
+
+color:#4ade80;
+
+font-size:.8rem;
+
+}
+
+.job-card p{
+
+color:var(--muted);
+
+line-height:1.7;
+
+margin-bottom:20px;
+
+}
+
+.job-tags{
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:10px;
+
+margin-bottom:22px;
+
+}
+
+.job-tags span{
+
+padding:8px 12px;
+
+border-radius:999px;
+
+background:
+rgba(255,255,255,.06);
+
+color:#cbd5e1;
+
+font-size:.85rem;
+
+}
+
+.job-card button{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:14px;
+
+background:#06b6d4;
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+EVENT TICKET CARD
+
+.ticket-card{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:28px;
+
+border-radius:24px;
+
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#f97316
+);
+
+color:white;
+
+}
+
+.ticket-left h4{
+
+font-size:1.5rem;
+
+margin-bottom:8px;
+
+}
+
+.ticket-divider{
+
+width:2px;
+height:80px;
+
+background:
+rgba(255,255,255,.35);
+
+}
+
+.ticket-right{
+
+text-align:right;
+
+}
+
+.ticket-right strong{
+
+display:block;
+
+font-size:1.8rem;
+
+margin-bottom:8px;
+
+}
+
+/* ==========================================
+WEATHER CARD
+
+.weather-card{
+
+padding:35px;
+
+text-align:center;
+
+background:
+linear-gradient(
+135deg,
+#0ea5e9,
+#38bdf8
+);
+
+border-radius:24px;
+
+color:white;
+
+}
+
+.weather-card i{
+
+font-size:3rem;
+
+margin-bottom:18px;
+
+}
+
+.weather-card h2{
+
+font-size:3rem;
+
+margin-bottom:10px;
+
+}
+
+.weather-card p{
+
+margin-bottom:24px;
+
+}
+
+.weather-details{
+
+display:flex;
+
+justify-content:space-between;
+
+font-size:.9rem;
+
+}
+
+/* ==========================================
+BANKING ANALYTICS
+
+.bank-analytics-card{
+
+padding:30px;
+
+}
+
+.bank-header{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-bottom:16px;
+
+}
+
+.bank-header h4{
+
+color:white;
+
+}
+
+.bank-header span{
+
+color:#22c55e;
+
+font-weight:700;
+
+}
+
+.bank-analytics-card h2{
+
+font-size:2.5rem;
+
+color:white;
+
+margin-bottom:25px;
+
+}
+
+.bank-bars{
+
+height:120px;
+
+display:flex;
+
+align-items:flex-end;
+
+gap:12px;
+
+}
+
+.bank-bars div{
+
+flex:1;
+
+border-radius:10px 10px 0 0;
+
+background:
+linear-gradient(
+180deg,
+#22c55e,
+#4ade80
+);
+
+}
+
+.bank-bars div:nth-child(1){height:45%;}
+.bank-bars div:nth-child(2){height:80%;}
+.bank-bars div:nth-child(3){height:60%;}
+.bank-bars div:nth-child(4){height:100%;}
+.bank-bars div:nth-child(5){height:70%;}
+
+/* ==========================================
+TESTIMONIAL CARD
+
+.testimonial-card{
+
+padding:30px;
+
+}
+
+.testimonial-card p{
+
+font-size:1.1rem;
+
+line-height:1.9;
+
+color:white;
+
+margin-bottom:24px;
+
+font-style:italic;
+
+}
+
+.testimonial-user{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+}
+
+.testimonial-user img{
+
+width:60px;
+height:60px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+.testimonial-user h4{
+
+color:white;
+
+margin-bottom:4px;
+
+}
+
+.testimonial-user span{
+
+color:var(--muted);
+
+font-size:.9rem;
+
+}
+
+/* ==========================================
+ANALYTICS BENTO
+
+.analytics-bento{
+
+padding:40px;
+
+border-radius:24px;
+
+background:
+linear-gradient(
+135deg,
+#111827,
+#1e293b
+);
+
+min-height:280px;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:space-between;
+
+}
+
+.analytics-top span{
+
+color:#06b6d4;
+
+font-weight:700;
+
+}
+
+.analytics-top h2{
+
+font-size:3rem;
+
+color:white;
+
+margin-top:12px;
+
+}
+
+.analytics-stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:20px;
+
+}
+
+.analytics-stats div{
+
+padding:20px;
+
+border-radius:18px;
+
+background:
+rgba(255,255,255,.05);
+
+}
+
+.analytics-stats strong{
+
+display:block;
+
+font-size:1.6rem;
+
+color:white;
+
+margin-bottom:6px;
+
+}
+
+.analytics-stats span{
+
+color:var(--muted);
+
+}
+/* ==========================================
+E-COMMERCE PRODUCT CARD
+
+.shop-card{
+
+position:relative;
+
+padding:24px;
+
+text-align:center;
+
+overflow:hidden;
+
+}
+
+.shop-badge{
+
+position:absolute;
+
+top:18px;
+left:18px;
+
+padding:8px 14px;
+
+border-radius:999px;
+
+background:#22c55e;
+
+color:white;
+
+font-size:.75rem;
+
+font-weight:700;
+
+}
+
+.shop-card img{
+
+width:100%;
+
+height:220px;
+
+object-fit:cover;
+
+border-radius:18px;
+
+margin-bottom:20px;
+
+}
+
+.shop-card h4{
+
+font-size:1.5rem;
+
+color:white;
+
+margin-bottom:10px;
+
+}
+
+.shop-card p{
+
+color:var(--muted);
+
+margin-bottom:20px;
+
+}
+
+.shop-price{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:12px;
+
+margin-bottom:20px;
+
+}
+
+.shop-price strong{
+
+font-size:1.5rem;
+
+color:white;
+
+}
+
+.shop-price span{
+
+text-decoration:line-through;
+
+color:var(--muted);
+
+}
+
+.shop-card button{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:14px;
+
+background:
+linear-gradient(
+135deg,
+#6366f1,
+#8b5cf6
+);
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+SAAS DASHBOARD CARD
+
+.saas-card{
+
+padding:30px;
+
+}
+
+.saas-header{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-bottom:18px;
+
+}
+
+.saas-header h4{
+
+color:white;
+
+}
+
+.saas-header span{
+
+color:#22c55e;
+
+font-weight:700;
+
+}
+
+.saas-card h2{
+
+font-size:2.5rem;
+
+color:white;
+
+margin-bottom:25px;
+
+}
+
+.saas-chart{
+
+height:120px;
+
+display:flex;
+
+align-items:flex-end;
+
+gap:12px;
+
+}
+
+.saas-chart div{
+
+flex:1;
+
+border-radius:12px 12px 0 0;
+
+background:
+linear-gradient(
+180deg,
+#6366f1,
+#06b6d4
+);
+
+}
+
+.saas-chart div:nth-child(1){height:50%;}
+.saas-chart div:nth-child(2){height:80%;}
+.saas-chart div:nth-child(3){height:65%;}
+.saas-chart div:nth-child(4){height:100%;}
+.saas-chart div:nth-child(5){height:75%;}
+
+/* ==========================================
+JOB LISTING CARD
+
+.job-card{
+
+padding:28px;
+
+}
+
+.job-top{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:18px;
+
+}
+
+.job-top h4{
+
+font-size:1.4rem;
+
+color:white;
+
+}
+
+.job-top span{
+
+padding:8px 12px;
+
+border-radius:999px;
+
+background:
+rgba(34,197,94,.15);
+
+color:#4ade80;
+
+font-size:.8rem;
+
+}
+
+.job-card p{
+
+color:var(--muted);
+
+line-height:1.7;
+
+margin-bottom:20px;
+
+}
+
+.job-tags{
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:10px;
+
+margin-bottom:22px;
+
+}
+
+.job-tags span{
+
+padding:8px 12px;
+
+border-radius:999px;
+
+background:
+rgba(255,255,255,.06);
+
+color:#cbd5e1;
+
+font-size:.85rem;
+
+}
+
+.job-card button{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:14px;
+
+background:#06b6d4;
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+EVENT TICKET CARD
+
+.ticket-card{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:28px;
+
+border-radius:24px;
+
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#f97316
+);
+
+color:white;
+
+}
+
+.ticket-left h4{
+
+font-size:1.5rem;
+
+margin-bottom:8px;
+
+}
+
+.ticket-divider{
+
+width:2px;
+height:80px;
+
+background:
+rgba(255,255,255,.35);
+
+}
+
+.ticket-right{
+
+text-align:right;
+
+}
+
+.ticket-right strong{
+
+display:block;
+
+font-size:1.8rem;
+
+margin-bottom:8px;
+
+}
+
+/* ==========================================
+WEATHER CARD
+
+.weather-card{
+
+padding:35px;
+
+text-align:center;
+
+background:
+linear-gradient(
+135deg,
+#0ea5e9,
+#38bdf8
+);
+
+border-radius:24px;
+
+color:white;
+
+}
+
+.weather-card i{
+
+font-size:3rem;
+
+margin-bottom:18px;
+
+}
+
+.weather-card h2{
+
+font-size:3rem;
+
+margin-bottom:10px;
+
+}
+
+.weather-card p{
+
+margin-bottom:24px;
+
+}
+
+.weather-details{
+
+display:flex;
+
+justify-content:space-between;
+
+font-size:.9rem;
+
+}
+
+/* ==========================================
+BANKING ANALYTICS
+
+.bank-analytics-card{
+
+padding:30px;
+
+}
+
+.bank-header{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-bottom:16px;
+
+}
+
+.bank-header h4{
+
+color:white;
+
+}
+
+.bank-header span{
+
+color:#22c55e;
+
+font-weight:700;
+
+}
+
+.bank-analytics-card h2{
+
+font-size:2.5rem;
+
+color:white;
+
+margin-bottom:25px;
+
+}
+
+.bank-bars{
+
+height:120px;
+
+display:flex;
+
+align-items:flex-end;
+
+gap:12px;
+
+}
+
+.bank-bars div{
+
+flex:1;
+
+border-radius:10px 10px 0 0;
+
+background:
+linear-gradient(
+180deg,
+#22c55e,
+#4ade80
+);
+
+}
+
+.bank-bars div:nth-child(1){height:45%;}
+.bank-bars div:nth-child(2){height:80%;}
+.bank-bars div:nth-child(3){height:60%;}
+.bank-bars div:nth-child(4){height:100%;}
+.bank-bars div:nth-child(5){height:70%;}
+
+/* ==========================================
+TESTIMONIAL CARD
+
+.testimonial-card{
+
+padding:30px;
+
+}
+
+.testimonial-card p{
+
+font-size:1.1rem;
+
+line-height:1.9;
+
+color:white;
+
+margin-bottom:24px;
+
+font-style:italic;
+
+}
+
+.testimonial-user{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+}
+
+.testimonial-user img{
+
+width:60px;
+height:60px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+.testimonial-user h4{
+
+color:white;
+
+margin-bottom:4px;
+
+}
+
+.testimonial-user span{
+
+color:var(--muted);
+
+font-size:.9rem;
+
+}
+
+/* ==========================================
+ANALYTICS BENTO
+
+.analytics-bento{
+
+padding:40px;
+
+border-radius:24px;
+
+background:
+linear-gradient(
+135deg,
+#111827,
+#1e293b
+);
+
+min-height:280px;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:space-between;
+
+}
+
+.analytics-top span{
+
+color:#06b6d4;
+
+font-weight:700;
+
+}
+
+.analytics-top h2{
+
+font-size:3rem;
+
+color:white;
+
+margin-top:12px;
+
+}
+
+.analytics-stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:20px;
+
+}
+
+.analytics-stats div{
+
+padding:20px;
+
+border-radius:18px;
+
+background:
+rgba(255,255,255,.05);
+
+}
+
+.analytics-stats strong{
+
+display:block;
+
+font-size:1.6rem;
+
+color:white;
+
+margin-bottom:6px;
+
+}
+
+.analytics-stats span{
+
+color:var(--muted);
+
+}
+/* ==========================================
+APPLE WIDGET
+
+.apple-widget{
+
+padding:30px;
+
+border-radius:28px;
+
+background:
+linear-gradient(
+145deg,
+#f8fafc,
+#e2e8f0
+);
+
+color:#111827;
+
+}
+
+.apple-top{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-bottom:20px;
+
+}
+
+.apple-top span{
+
+color:#64748b;
+
+font-weight:600;
+
+}
+
+.apple-widget h2{
+
+font-size:2rem;
+
+margin-bottom:10px;
+
+}
+
+.apple-widget p{
+
+color:#475569;
+
+line-height:1.7;
+
+}
+
+/* ==========================================
+NOTION CARD
+========================================== */
+
+.notion-card{
+
+padding:30px;
+
+background:#ffffff;
+
+border-radius:24px;
+
+color:#111827;
+
+}
+
+.notion-icon{
+
+font-size:2rem;
+
+margin-bottom:16px;
+
+}
+
+.notion-card h4{
+
+font-size:1.5rem;
+
+margin-bottom:16px;
+
+}
+
+.notion-card ul{
+
+padding-left:18px;
+
+margin-bottom:20px;
+
+}
+
+.notion-card li{
+
+margin-bottom:10px;
+
+}
+
+.notion-card button{
+
+padding:12px 18px;
+
+border:none;
+
+border-radius:12px;
+
+background:#111827;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+AURORA CARD
+========================================== */
+
+.aurora-card{
+
+position:relative;
+
+overflow:hidden;
+
+padding:40px;
+
+border-radius:28px;
+
+background:#0f172a;
+
+}
+
+.aurora-glow{
+
+position:absolute;
+
+inset:-40%;
+
+background:
+conic-gradient(
+from 180deg,
+#06b6d4,
+#8b5cf6,
+#ec4899,
+#06b6d4
+);
+
+filter:blur(60px);
+
+opacity:.6;
+
+animation:
+rotateGlow 12s linear infinite;
+
+}
+
+.aurora-content{
+
+position:relative;
+
+z-index:2;
+
+color:white;
+
+}
+
+.aurora-content span{
+
+color:#38bdf8;
+
+font-weight:700;
+
+}
+
+.aurora-content h2{
+
+font-size:2.5rem;
+
+margin:16px 0;
+
+}
+
+.aurora-content p{
+
+color:#cbd5e1;
+
+margin-bottom:20px;
+
+}
+
+.aurora-content button{
+
+padding:12px 20px;
+
+border:none;
+
+border-radius:14px;
+
+background:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+LIQUID CARD
+========================================== */
+
+.liquid-card{
+
+position:relative;
+
+overflow:hidden;
+
+padding:35px;
+
+border-radius:28px;
+
+background:
+linear-gradient(
+135deg,
+#6366f1,
+#ec4899
+);
+
+color:white;
+
+}
+
+.liquid-shape{
+
+position:absolute;
+
+width:220px;
+height:220px;
+
+border-radius:50%;
+
+background:
+rgba(255,255,255,.15);
+
+top:-80px;
+right:-60px;
+
+}
+
+.liquid-card h4{
+
+position:relative;
+
+font-size:1.8rem;
+
+margin-bottom:12px;
+
+}
+
+.liquid-card p{
+
+position:relative;
+
+margin-bottom:20px;
+
+line-height:1.8;
+
+}
+
+.liquid-card button{
+
+position:relative;
+
+padding:12px 18px;
+
+border:none;
+
+border-radius:12px;
+
+background:white;
+
+color:#111827;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+AI ASSISTANT
+========================================== */
+
+.assistant-card{
+
+padding:30px;
+
+text-align:center;
+
+}
+
+.assistant-avatar{
+
+width:90px;
+height:90px;
+
+margin:auto;
+
+margin-bottom:20px;
+
+display:flex;
+
+align-items:center;
+justify-content:center;
+
+border-radius:24px;
+
+font-size:2rem;
+
+background:
+linear-gradient(
+135deg,
+#06b6d4,
+#6366f1
+);
+
+color:white;
+
+}
+
+.assistant-card h4{
+
+font-size:1.6rem;
+
+color:white;
+
+margin-bottom:10px;
+
+}
+
+.assistant-card p{
+
+color:var(--muted);
+
+margin-bottom:20px;
+
+}
+
+.assistant-status{
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+gap:10px;
+
+margin-bottom:22px;
+
+}
+
+/* =========================
+   MUSIC CARD
+
+.music-card{
+  background:#111827;
+  color:#fff;
+  border-radius:24px;
+  padding:24px;
+  text-align:center;
+  transition:.35s;
+}
+
+.music-card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:18px;
+  margin-bottom:18px;
+}
+
+.music-card h4{
+  margin-bottom:4px;
+}
+
+.music-card p{
+  opacity:.7;
+}
+
+.music-controls{
+  margin-top:18px;
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  font-size:1.25rem;
+}
+
+.music-card:hover{
+  transform:translateY(-8px);
+}
+
+
+/* =========================
+   SOCIAL CARD
+
+.social-card{
+  background:#fff;
+  border-radius:20px;
+  padding:22px;
+  box-shadow:0 15px 40px rgba(0,0,0,.08);
+}
+
+.social-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.social-header img{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+}
+
+.social-header span{
+  color:#777;
+  font-size:.85rem;
+}
+
+.social-actions{
+  display:flex;
+  gap:24px;
+  margin-top:18px;
+  color:#666;
+}
+
+
+/* =========================
+   COURSE CARD
+
+.course-card{
+  padding:24px;
+  border-radius:24px;
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:white;
+}
+
+.course-tag{
+  display:inline-block;
+  padding:6px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.15);
+  margin-bottom:16px;
+}
+
+.course-meta{
+  display:flex;
+  justify-content:space-between;
+  margin:18px 0;
+}
+
+.course-card button{
+  width:100%;
+  border:none;
+  padding:12px;
+  border-radius:12px;
+  background:white;
+  color:#111;
+  font-weight:700;
+}
+
+
+/* =========================
+   BANK CARD
+
+.bank-card{
+  min-height:220px;
+  border-radius:24px;
+  padding:28px;
+  background:linear-gradient(
+      135deg,
+      #0f172a,
+      #1e293b
+  );
+  color:white;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.bank-card h2{
+  letter-spacing:4px;
+  font-size:1.8rem;
+}
+
+.bank-footer{
+  display:flex;
+  justify-content:space-between;
+}
+
+
+/* =========================
+   NOTIFICATION CARD
+
+.notification-card{
+  display:flex;
+  gap:18px;
+  align-items:center;
+  padding:20px;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.notification-card i{
+  width:56px;
+  height:56px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#eef2ff;
+  color:#6366f1;
+  font-size:1.2rem;
+}
+
+
+/* =========================
+   STATS CARD
+
+.stats-card{
+  text-align:center;
+  padding:30px;
+  border-radius:24px;
+  background:linear-gradient(
+      135deg,
+      #10b981,
+      #06b6d4
+  );
+  color:white;
+}
+
+.stats-card i{
+  font-size:2rem;
+  margin-bottom:16px;
+}
+
+.stats-card h2{
+  font-size:3rem;
+  margin-bottom:8px;
+}
+
+
+/* =========================
+   TRAVEL CARD
+
+.travel-card{
+  overflow:hidden;
+  border-radius:24px;
+  background:white;
+  box-shadow:0 20px 50px rgba(0,0,0,.08);
+}
+
+.travel-card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+}
+
+.travel-body{
+  padding:20px;
+}
+
+.travel-body button{
+  margin-top:14px;
+  width:100%;
+}
+
+
+/* =========================
+   NFT CARD
+
+.nft-card{
+  padding:18px;
+  border-radius:24px;
+  background:#0f172a;
+  color:white;
+}
+
+.nft-card img{
+  width:100%;
+  border-radius:18px;
+  margin-bottom:16px;
+}
+
+.nft-card button{
+  width:100%;
+  margin-top:14px;
+}
+
+
+/* =========================
+   WORKSPACE CARD
+
+.workspace-card{
+  padding:24px;
+  border-radius:24px;
+  background:#fff;
+  box-shadow:0 15px 40px rgba(0,0,0,.08);
+}
+
+.workspace-users{
+  display:flex;
+  margin-top:20px;
+}
+
+.workspace-users img{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:3px solid white;
+  margin-left:-10px;
+}
+
+.workspace-users img:first-child{
+  margin-left:0;
+}
+
+
+/* =========================
+   BENTO DASHBOARD
+
+.dashboard-bento{
+  padding:42px;
+  min-height:320px;
+  border-radius:32px;
+  background:linear-gradient(
+      135deg,
+      #0f172a,
+      #1e293b,
+      #2563eb
+  );
+  color:white;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.dashboard-bento span{
+  color:#93c5fd;
+  font-weight:700;
+  letter-spacing:2px;
+}
+
+.dashboard-bento h2{
+  margin:14px 0;
+  font-size:2.3rem;
+}
+
+.dashboard-stats{
+  margin-top:24px;
+  display:flex;
+  gap:30px;
+}
+
+.dashboard-stats strong{
+  display:block;
+  font-size:1.5rem;
+}
+
+
+/* =========================
+   GLOBAL CARD HOVER
+
+.music-card,
+.social-card,
+.course-card,
+.bank-card,
+.notification-card,
+.stats-card,
+.travel-card,
+.nft-card,
+.workspace-card,
+.dashboard-bento{
+  transition:all .35s ease;
+}
+
+.music-card:hover,
+.social-card:hover,
+.course-card:hover,
+.bank-card:hover,
+.notification-card:hover,
+.stats-card:hover,
+.travel-card:hover,
+.nft-card:hover,
+.workspace-card:hover,
+.dashboard-bento:hover{
+  transform:translateY(-8px);
+  box-shadow:0 25px 60px rgba(0,0,0,.15);
+}
+
+.team-card img{
+  width:100%;
+  height:280px;
+  object-fit:cover;
+.assistant-status span{
+
+width:10px;
+height:10px;
+
+border-radius:50%;
+
+background:#22c55e;
+
+}
+
+.assistant-card button{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:14px;
+
+background:#06b6d4;
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+CALENDAR CARD
+========================================== */
+
+.calendar-card{
+
+padding:30px;
+
+text-align:center;
+
+}
+
+.calendar-header{
+
+margin-bottom:20px;
+
+}
+
+.calendar-header h4{
+
+font-size:1.4rem;
+
+color:white;
+
+}
+
+.calendar-date{
+
+font-size:5rem;
+
+font-weight:800;
+
+color:#6366f1;
+
+margin-bottom:10px;
+
+}
+
+.calendar-card p{
+
+color:var(--muted);
+
+margin-bottom:22px;
+
+}
+
+.calendar-card button{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:14px;
+
+background:#6366f1;
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+DASHBOARD HERO
+========================================== */
+
+.dashboard-hero{
+
+padding:45px;
+
+border-radius:28px;
+
+background:
+linear-gradient(
+135deg,
+#111827,
+#1e293b
+);
+
+display:flex;
+
+justify-content:space-between;
+
+gap:30px;
+
+align-items:center;
+
+min-height:300px;
+
+}
+
+.hero-left span{
+
+color:#06b6d4;
+
+font-weight:700;
+
+}
+
+.hero-left h2{
+
+font-size:3rem;
+
+line-height:1.1;
+
+color:white;
+
+margin:18px 0;
+
+}
+
+.hero-left p{
+
+color:#cbd5e1;
+
+max-width:450px;
+
+}
+
+.hero-right{
+
+display:grid;
+
+gap:18px;
+
+}
+
+.hero-right div{
+
+padding:20px;
+
+border-radius:18px;
+
+background:
+rgba(255,255,255,.05);
+
+}
+
+.hero-right strong{
+
+display:block;
+
+font-size:1.8rem;
+
+color:white;
+
+margin-bottom:6px;
+
+}
+
+.hero-right span{
+
+color:var(--muted);
+
+}
+
+/* ==========================================
+SHOWCASE CARD
+========================================== */
+
+.showcase-card{
+
+padding:60px;
+
+border-radius:28px;
+
+background:
+linear-gradient(
+135deg,
+#4f46e5,
+#8b5cf6,
+#06b6d4
+);
+
+color:white;
+
+min-height:360px;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+}
+
+.showcase-card span{
+
+font-weight:700;
+
+letter-spacing:2px;
+
+}
+
+.showcase-card h2{
+
+font-size:3.5rem;
+
+line-height:1.1;
+
+margin:20px 0;
+
+}
+
+.showcase-card p{
+
+max-width:600px;
+
+line-height:1.8;
+
+margin-bottom:24px;
+
+}
+
+.showcase-card button{
+
+width:max-content;
+
+padding:14px 22px;
+
+border:none;
+
+border-radius:14px;
+
+background:white;
+
+color:#111827;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ==========================================
+ANIMATIONS
+========================================== */
+
+@keyframes rotateGlow{
+
+from{
+
+transform:rotate(0deg);
+
+}
+
+to{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+@keyframes floatCard{
+
+0%{transform:translateY(0);}
+50%{transform:translateY(-8px);}
+100%{transform:translateY(0);}
+
+}
+
+.aurora-card,
+.showcase-card{
+
+animation:
+floatCard 6s ease-in-out infinite;
+
+}
+
+/* ==========================================
+RESPONSIVE
+========================================== */
+
+@media(max-width:992px){
+
+.dashboard-hero{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+.hero-right{
+
+width:100%;
+
+grid-template-columns:
+repeat(2,1fr);
+
+}
+
+}
+
+@media(max-width:768px){
+
+.cards-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.hero-right{
+
+grid-template-columns:1fr;
+
+}
+
+.analytics-stats,
+.finance-bottom,
+.social-stats,
+fitness-stats,
+startup-stats{
+
+grid-template-columns:1fr;
+
+}
+
+.dashboard-hero{
+
+padding:30px;
+
+}
+
+.showcase-card{
+
+padding:40px;
+
+}
+
+.showcase-card h2{
+
+font-size:2.5rem;
+
+}
+
+.hero-left h2{
+
+font-size:2.4rem;
+
+}
+
+}
+
+/* ==========================================
+PREMIUM HOVER EFFECTS
+========================================== */
+
+.bank-card:hover,
+.crypto-card:hover,
+.travel-card:hover,
+.hotel-card:hover,
+.shop-card:hover,
+.agent-card:hover,
+.assistant-card:hover{
+
+transform:
+translateY(-8px);
+
+transition:.35s ease;
+
+}
+
+button:hover{
+
+filter:brightness(1.08);
+
+transform:
+translateY(-2px);
+
+transition:.3s ease;
+
+}
+
+/* ==========================================
+END OF FILE
+========================================== */

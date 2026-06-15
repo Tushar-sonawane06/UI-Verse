@@ -142,3 +142,41 @@ cards.forEach(card => {
   });
 
 });
+
+// Smooth card hover enhancement
+document.querySelectorAll(".news-card").forEach(card => {
+  card.addEventListener("mouseenter", () => {
+    card.style.boxShadow = "0 10px 30px rgba(0,0,0,0.3)";
+  });
+
+  card.addEventListener("mouseleave", () => {
+    card.style.boxShadow = "none";
+  });
+});
+
+// Bookmark toggle effect
+document.querySelectorAll(".bookmark-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.classList.toggle("active");
+  });
+});
+
+const bookmarkButtons = document.querySelectorAll('.bookmark-btn');
+
+bookmarkButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+
+    const icon = button.querySelector('i');
+
+    icon.classList.toggle('fa-regular');
+    icon.classList.toggle('fa-solid');
+
+    button.classList.toggle('active');
+  });
+});
+
+const notificationButton = document.querySelector('.notification-btn');
+
+notificationButton.addEventListener('click', () => {
+  alert('No new notifications right now.');
+});

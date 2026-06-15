@@ -55,7 +55,10 @@ You can contribute in several ways:
 - **💡 Suggest Features:** Propose new ideas or improvements.
 - **📖 Improve Documentation:** Enhance clarity, grammar, or structure.
 - **⚡ Add Code:** Fix bugs, build new features, or optimize existing ones.
-- **🧪 Test:** Help us find issues by testing code in different environments.
+- **🧪 Test:** Help us find issues by testing code in different environments. Run local verification gates before submitting PRs:
+  - Verify metadata JSON schema files: `npm run components:version:check`
+  - Perform static analysis styling check: `npm run lint:css`
+  - Verify layout schema constraints: `npm run lint:html`
 
 ![Line](https://user-images.githubusercontent.com/85225156/171937799-8fc9e255-9889-4642-9c92-6df85fb86e82.gif)
 
@@ -100,15 +103,32 @@ Click on the Fork button.
 
 ### 3️⃣ Create a Branch
 
-git checkout -b feature/your-feature-name
+Create a branch using lowercase letters, hyphens, and descriptive prefixes:
+- `fix/` for bug fixes (e.g., `fix/navbar-mobile-overflow`)
+- `feat/` for new components or features (e.g., `feat/loading-skeleton-ui`)
+- `refactor/` for refactoring existing components (e.g., `refactor/reusable-modal`)
+- `docs/` for documentation changes (e.g., `docs/improve-setup-guide`)
+- `ci/` or `chore/` for workflows and maintenance (e.g., `ci/pr-title-validator`)
+
+```bash
+git checkout -b prefix/descriptive-branch-name
+```
 
 ### 4️⃣ Make Changes
 
-Follow structure, keep code clean, add comments if needed.
+Follow the project structure, maintain Vanilla CSS styling, verify responsiveness, and ensure semantic accessibility.
 
 ### 5️⃣ Commit Changes
 
-git commit -m "Added: new feature"
+Use Conventional Commits syntax for all commit messages to ensure clean changelogs:
+- `feat: add new gradient button component`
+- `fix: resolve mobile overflow on cards layout`
+- `docs: update setup and local testing instructions`
+- `refactor: extract reusable dropdown trigger logic`
+
+```bash
+git commit -m "prefix: brief description of changes"
+```
 
 ### 6️⃣ Push Changes
 
@@ -310,3 +330,20 @@ The structure and recommendations follow **GitHub Open Source Guides** and best 
 ### Thank you for contributing to UI-Verse 🌟
 
 ### We can't wait to see what you build! 🍽️✨
+
+## ♿ Accessibility Testing (A11y)
+
+We run automated accessibility checks as part of CI. Before opening a PR, run the Playwright + axe accessibility checks locally to catch regressions.
+
+Run the representative a11y checks:
+
+```bash
+npm ci
+npx playwright install --with-deps
+npm run a11y:test || npm run test:e2e:accessibility
+```
+
+Reports are written to `tests-results/` as JSON files (e.g. `tests-results/a11y-_index.html.json`). If violations are found, fix them in the component markup (semantic HTML, ARIA, contrast, focus handling) and re-run tests.
+
+If you need help triaging violations, open an issue and include the report file.
+

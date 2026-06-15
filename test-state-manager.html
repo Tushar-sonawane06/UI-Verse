@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>State Manager Test - Time Travel Debugging</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .test-section {
+      background: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .test-section h2 {
+      margin-bottom: 15px;
+      color: #555;
+      font-size: 18px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: #4a90d9;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #357abd;
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #545b62;
+    }
+
+    .btn-success {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #218838;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #c82333;
+    }
+
+    .state-display {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .history-display {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 15px;
+    }
+
+    .history-display h3 {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .history-list {
+      list-style: none;
+      padding: 0;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .history-item {
+      padding: 8px 12px;
+      border-bottom: 1px solid #eee;
+      font-size: 13px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .history-item.current {
+      background: #e3f2fd;
+      font-weight: bold;
+    }
+
+    .history-item .action-type {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .history-item .action-type.SET { background: #4a90d9; color: white; }
+    .history-item .action-type.RESET { background: #dcdcaa; color: #333; }
+
+    .subscriber-log {
+      background: #fff3cd;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      font-size: 12px;
+      max-height: 100px;
+      overflow-y: auto;
+    }
+
+    .subscriber-log .log-entry {
+      padding: 2px 0;
+      border-bottom: 1px solid #ffeeba;
+    }
+  </style>
+</head>
+<body>
+  <h1>State Manager - Time Travel Debugging Test</h1>
+
+  <!-- State Controls -->
+  <div class="test-section">
+    <h2>State Controls</h2>
+    <div class="controls">
+      <button class="btn-primary" onclick="setUserName()">Set User Name</button>
+      <button class="btn-primary" onclick="setUserAge()">Set User Age</button>
+      <button class="btn-primary" onclick="setUserPrefs()">Set User Prefs</button>
+      <button class="btn-secondary" onclick="addCounter()">Add Counter</button>
+      <button class="btn-success" onclick="openDevTools()">Open DevTools</button>
+      <button class="btn-danger" onclick="resetAll()">Reset All</button>
+    </div>
+    
+    <h3>Current State:</h3>
+    <div class="state-display" id="stateDisplay">{ }</div>
+
+    <div class="subscriber-log">
+      <strong>Subscriber Notifications:</strong>
+      <div id="subscriberLog"></div>
+    </div>
+  </div>
+
+  <!-- Time Travel Controls -->
+  <div class="test-section">
+    <h2>Time Travel Controls</h2>
+    <div class="controls">
+      <button class="btn-primary" onclick="testUndo()">Undo</button>
+      <button class="btn-primary" onclick="testRedo()">Redo</button>
+      <button class="btn-secondary" onclick="testJumpTo()">Jump to Index</button>
+      <input type="number" id="jumpIndex" placeholder="Index" style="padding: 10px; width: 80px;">
+    </div>
+    
+    <div class="controls">
+      <button class="btn-secondary" onclick="testExport()">Export State</button>
+      <button class="btn-secondary" onclick="testImport()">Import Test State</button>
+      <button class="btn-danger" onclick="testClearHistory()">Clear History</button>
+    </div>
+
+    <div class="history-display">
+      <h3>History Stack:</h3>
+      <ul class="history-list" id="historyList">
+        <li class="history-item">No history yet</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Load state manager as a regular script -->
+  <script src="js/core/state-manager.js"></script>
+  
+  <script>
+    let updateCount = 0;
+    let userNameCounter = 0;
+    let counterValue = 0;
+
+    // Subscribe to all state changes
+    if (window.StateManager) {
+      window.StateManager.subscribe(null, (state) => {
+        updateDisplay();
+        updateSubscriberLog('State updated');
+      });
+    }
+
+    function updateDisplay() {
+      const state = window.StateManager.get();
+      document.getElementById('stateDisplay').textContent = JSON.stringify(state, null, 2);
+      updateHistoryList();
+    }
+
+    function updateSubscriberLog(message) {
+      const log = document.getElementById('subscriberLog');
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message} (update #${++updateCount})`;
+      log.insertBefore(entry, log.firstChild);
+      
+      // Keep only last 10 entries
+      while (log.children.length > 10) {
+        log.removeChild(log.lastChild);
+      }
+    }
+
+    function updateHistoryList() {
+      const history = window.StateManager.getHistory();
+      const list = document.getElementById('historyList');
+      list.innerHTML = '';
+
+      history.actions.forEach((action, index) => {
+        const li = document.createElement('li');
+        li.className = 'history-item' + (index === history.currentIndex ? ' current' : '');
+        li.innerHTML = `
+          <span>#${action.id}</span>
+          <span class="action-type ${action.type}">${action.type}</span>
+          <span>${action.path || '-'}</span>
+          <span>${action.value !== undefined ? JSON.stringify(action.value) : '-'}</span>
+        `;
+        li.onclick = () => window.StateManager.jumpTo(index);
+        li.style.cursor = 'pointer';
+        list.appendChild(li);
+      });
+
+      if (history.actions.length === 0) {
+        list.innerHTML = '<li class="history-item">No history yet</li>';
+      }
+    }
+
+    function setUserName() {
+      userNameCounter++;
+      window.StateManager.set('user.name', `User ${userNameCounter}`);
+    }
+
+    function setUserAge() {
+      window.StateManager.set('user.age', Math.floor(Math.random() * 50) + 18);
+    }
+
+    function setUserPrefs() {
+      window.StateManager.set('user.preferences', {
+        theme: Math.random() > 0.5 ? 'dark' : 'light',
+        language: 'en'
+      });
+    }
+
+    function addCounter() {
+      counterValue++;
+      window.StateManager.set('counter', counterValue);
+    }
+
+    function resetAll() {
+      if (confirm('Reset all state and history?')) {
+        window.StateManager.reset();
+        userNameCounter = 0;
+        counterValue = 0;
+        updateSubscriberLog('State reset');
+      }
+    }
+
+    function testUndo() {
+      const result = window.StateManager.undo();
+      updateSubscriberLog(result ? 'Undo performed' : 'Nothing to undo');
+    }
+
+    function testRedo() {
+      const result = window.StateManager.redo();
+      updateSubscriberLog(result ? 'Redo performed' : 'Nothing to redo');
+    }
+
+    function testJumpTo() {
+      const index = parseInt(document.getElementById('jumpIndex').value, 10);
+      if (!isNaN(index)) {
+        const result = window.StateManager.jumpTo(index);
+        updateSubscriberLog(result ? `Jumped to index ${index}` : `Invalid index ${index}`);
+      }
+    }
+
+    function testExport() {
+      const data = window.StateManager.exportState();
+      console.log('Exported state:', data);
+      alert('State exported to console. Check browser console for JSON output.');
+    }
+
+    function testImport() {
+      const testState = {
+        current: {
+          user: { name: 'Imported User', age: 25 },
+          settings: { theme: 'dark' }
+        },
+        exportedAt: new Date().toISOString()
+      };
+      window.StateManager.importState(JSON.stringify(testState));
+      updateSubscriberLog('Test state imported');
+    }
+
+    function testClearHistory() {
+      if (confirm('Clear all history?')) {
+        window.StateManager.clearHistory();
+        updateSubscriberLog('History cleared');
+      }
+    }
+
+    function openDevTools() {
+      // Open state-devtools.html in a new window or embed it
+      window.open('components/StateDevtools/state-devtools.html', 'StateDevTools', 'width=600,height=700');
+    }
+
+    // Initial display
+    updateDisplay();
+  </script>
+</body>
+</html>

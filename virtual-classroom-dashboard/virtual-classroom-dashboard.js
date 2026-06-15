@@ -171,3 +171,162 @@ cards.forEach(card => {
   });
 
 });
+
+// virtual-classroom-dashboard.js
+
+/* ================= COURSE BUTTON INTERACTION ================= */
+
+const courseButtons = document.querySelectorAll(".card-btn");
+
+courseButtons.forEach((btn) => {
+
+  btn.addEventListener("click", () => {
+
+    btn.innerHTML = "✅ Joined Successfully";
+
+    btn.style.background =
+      "linear-gradient(135deg,#22c55e,#16a34a)";
+
+    btn.disabled = true;
+
+  });
+
+});
+
+/* ================= HERO BUTTONS ================= */
+
+const liveBtn = document.querySelector(".live-btn");
+
+liveBtn.addEventListener("click", () => {
+
+  liveBtn.innerHTML = "🔴 Live Class Started";
+
+  liveBtn.style.background =
+    "linear-gradient(135deg,#ef4444,#dc2626)";
+
+});
+
+/* ================= SEARCH ================= */
+
+const searchInput =
+  document.querySelector(".search-box input");
+
+const courseCards =
+  document.querySelectorAll(".course-card");
+
+searchInput.addEventListener("keyup", () => {
+
+  const value =
+    searchInput.value.toLowerCase();
+
+  courseCards.forEach((card) => {
+
+    const title =
+      card.querySelector("h3")
+      .innerText
+      .toLowerCase();
+
+    if(title.includes(value)){
+
+      card.style.display = "block";
+
+    }else{
+
+      card.style.display = "none";
+
+    }
+
+  });
+
+});
+
+/* ================= STATS COUNTER ================= */
+
+const counters =
+  document.querySelectorAll(".stat-card h2");
+
+counters.forEach((counter) => {
+
+  const updateCounter = () => {
+
+    const target =
+      +counter.innerText
+        .replace(/\D/g,"");
+
+    let current =
+      +counter.getAttribute("data-count") || 0;
+
+    const increment =
+      target / 50;
+
+    if(current < target){
+
+      current += increment;
+
+      counter.setAttribute(
+        "data-count",
+        current
+      );
+
+      counter.innerText =
+        Math.ceil(current) + "+";
+
+      setTimeout(updateCounter,40);
+
+    }else{
+
+      counter.innerText =
+        target + "+";
+
+    }
+
+  };
+
+  updateCounter();
+
+});
+
+/* ================= ACTIVE SIDEBAR ================= */
+
+const navLinks =
+  document.querySelectorAll(".sidebar-nav a");
+
+navLinks.forEach((link) => {
+
+  link.addEventListener("click", () => {
+
+    navLinks.forEach((item) =>
+      item.classList.remove("active")
+    );
+
+    link.classList.add("active");
+
+  });
+
+});
+
+/* ================= SMOOTH CARD ANIMATION ================= */
+
+const cards =
+  document.querySelectorAll(
+    ".course-card,.stat-card,.activity-item"
+  );
+
+cards.forEach((card,index) => {
+
+  card.style.opacity = "0";
+  card.style.transform =
+    "translateY(30px)";
+
+  setTimeout(() => {
+
+    card.style.transition =
+      "all .6s ease";
+
+    card.style.opacity = "1";
+    card.style.transform =
+      "translateY(0)";
+
+  },index * 120);
+
+});

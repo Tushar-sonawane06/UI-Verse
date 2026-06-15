@@ -160,3 +160,19 @@ jobCards.forEach(card => {
   });
 
 });
+
+document.querySelectorAll(".apply-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    alert("Opening job management dashboard...");
+  });
+});
+
+document.querySelectorAll(".join-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    alert("Joining interview meeting...");
+  });
+});
+
+document.querySelector(".add-btn").addEventListener("click", () => {
+  alert("Create a new job posting");
+});

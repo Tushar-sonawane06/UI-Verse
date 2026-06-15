@@ -1,0 +1,398 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  font-family: 'Segoe UI', sans-serif;
+  padding: 40px 20px;
+  color: #fff;
+  transition: background 0.5s ease;
+}
+
+body.light-mode {
+  background: linear-gradient(135deg, #e0e7ff, #c7d2fe, #ddd6fe);
+  color: #1e1b4b;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.page-subtitle {
+  text-align: center;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 40px;
+}
+
+body.light-mode .page-subtitle {
+  color: rgba(0,0,0,0.5);
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Toggle Card */
+.toggle-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 30px 25px;
+  width: 250px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.toggle-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.toggle-card h3 {
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.toggle-card p {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 20px;
+}
+
+body.light-mode .toggle-card p {
+  color: rgba(0,0,0,0.5);
+}
+
+.preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50px;
+}
+
+/* ===== TOGGLE 1: Sun Moon ===== */
+.sun-moon-toggle {
+  cursor: pointer;
+  position: relative;
+}
+
+.sun-moon-toggle .toggle-input {
+  display: none;
+}
+
+.sun-moon-slider {
+  display: flex;
+  align-items: center;
+  width: 80px;
+  height: 40px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  border-radius: 40px;
+  position: relative;
+  transition: background 0.4s ease;
+  padding: 5px;
+}
+
+.sun-moon-toggle .toggle-input:checked + .sun-moon-slider {
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+}
+
+.icon {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+  font-size: 0.9rem;
+}
+
+.icon.sun {
+  left: 5px;
+  background: #fff;
+  color: #f59e0b;
+}
+
+.icon.moon {
+  right: 5px;
+  background: transparent;
+  color: rgba(255,255,255,0.3);
+}
+
+.sun-moon-toggle .toggle-input:checked + .sun-moon-slider .icon.sun {
+  left: 45px;
+  background: #312e81;
+  color: rgba(255,255,255,0.3);
+}
+
+.sun-moon-toggle .toggle-input:checked + .sun-moon-slider .icon.moon {
+  color: #fff;
+  background: rgba(255,255,255,0.2);
+}
+
+/* ===== TOGGLE 2: Sliding ===== */
+.slide-toggle {
+  cursor: pointer;
+}
+
+.slide-toggle .toggle-input { display: none; }
+
+.slide-track {
+  display: flex;
+  align-items: center;
+  width: 120px;
+  height: 40px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.slide-thumb {
+  position: absolute;
+  left: 4px;
+  width: 55px;
+  height: 32px;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  border-radius: 30px;
+  transition: left 0.4s ease;
+  z-index: 1;
+}
+
+.slide-toggle .toggle-input:checked ~ .slide-track .slide-thumb {
+  left: 61px;
+}
+
+.slide-label {
+  position: absolute;
+  font-size: 0.75rem;
+  font-weight: bold;
+  z-index: 2;
+  transition: color 0.3s ease;
+}
+
+.slide-label.on { left: 15px; color: #fff; }
+.slide-label.off { right: 10px; color: rgba(255,255,255,0.5); }
+
+/* ===== TOGGLE 3: Glass ===== */
+.glass-toggle { cursor: pointer; }
+.glass-toggle .toggle-input { display: none; }
+
+.glass-track {
+  width: 70px;
+  height: 35px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 35px;
+  position: relative;
+  transition: background 0.4s ease;
+}
+
+.glass-toggle .toggle-input:checked + .glass-track {
+  background: rgba(124,58,237,0.3);
+}
+
+.glass-thumb {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: left 0.4s ease;
+  font-size: 0.8rem;
+}
+
+.glass-toggle .toggle-input:checked + .glass-track .glass-thumb {
+  left: 39px;
+}
+
+.moon-i { color: #7c3aed; }
+.sun-i { display: none; color: #f59e0b; }
+
+.glass-toggle .toggle-input:checked + .glass-track .glass-thumb .moon-i {
+  display: none;
+}
+
+.glass-toggle .toggle-input:checked + .glass-track .glass-thumb .sun-i {
+  display: block;
+}
+
+/* ===== TOGGLE 4: Neon ===== */
+.neon-toggle {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.neon-toggle .toggle-input { display: none; }
+
+.neon-track {
+  width: 60px;
+  height: 30px;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(124,58,237,0.5);
+  border-radius: 30px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.neon-toggle .toggle-input:checked + .neon-track {
+  border-color: #a78bfa;
+  box-shadow: 0 0 15px rgba(124,58,237,0.8), inset 0 0 10px rgba(124,58,237,0.3);
+}
+
+.neon-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(124,58,237,0.5);
+  transition: all 0.3s ease;
+}
+
+.neon-toggle .toggle-input:checked + .neon-track .neon-thumb {
+  left: 33px;
+  background: #a78bfa;
+  box-shadow: 0 0 10px #a78bfa;
+}
+
+.neon-label {
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: rgba(167,139,250,0.7);
+}
+
+.neon-toggle .toggle-input:checked ~ .neon-label {
+  color: #a78bfa;
+  text-shadow: 0 0 8px #a78bfa;
+}
+
+/* ===== TOGGLE 5: Minimal ===== */
+.minimal-toggle {
+  cursor: pointer;
+}
+
+.minimal-track {
+  display: flex;
+  gap: 5px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 30px;
+  padding: 6px 10px;
+}
+
+.minimal-icon {
+  font-size: 1rem;
+  padding: 6px 10px;
+  border-radius: 20px;
+  color: rgba(255,255,255,0.4);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.minimal-icon.active-icon {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: #fff;
+}
+
+/* ===== TOGGLE 6: Star Night ===== */
+.star-toggle { cursor: pointer; }
+.star-toggle .toggle-input { display: none; }
+
+.star-track {
+  width: 80px;
+  height: 40px;
+  background: linear-gradient(135deg, #fbbf24, #f97316);
+  border-radius: 40px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.5s ease;
+}
+
+.star-toggle .toggle-input:checked + .star-track {
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+}
+
+.star-thumb {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #fff;
+  transition: left 0.4s ease;
+  z-index: 2;
+}
+
+.star-toggle .toggle-input:checked + .star-track .star-thumb {
+  left: 45px;
+  background: #e0e7ff;
+}
+
+.stars {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.star-toggle .toggle-input:checked + .star-track .stars {
+  opacity: 1;
+}
+
+.star {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.sun-circle {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transition: opacity 0.4s ease;
+}
+
+.star-toggle .toggle-input:checked + .star-track .sun-circle {
+  opacity: 0;
+}
+
+@media (max-width: 600px) {
+  .toggle-card { width: 100%; }
+}

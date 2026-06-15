@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../../dist/shared.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>I18n Demo</title>
+  <link rel="stylesheet" href="/design-tokens.css">
+  <style>
+    body {
+      font-family: var(--font-body, Arial);
+      margin: 2rem;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    .demo-shell {
+      display: grid;
+      gap: 1rem;
+      max-width: 640px;
+    }
+
+    p {
+      color: var(--text-secondary);
+    }
+  </style>
+  <script type="module">
+    import '/js/core/register-web-components.js';
+    import '/js/features/i18n.js';
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      const I18n = (await import('/js/features/i18n.js')).default;
+      await I18n.init('en');
+    });
+  </script>
+</head>
+<body>
+  <main class="demo-shell">
+    <uv-language-switcher></uv-language-switcher>
+
+    <h1 data-i18n="greeting">Welcome</h1>
+    <p data-i18n="description">A collection of reusable UI components.</p>
+
+    <uv-button id="demoBtn" data-i18n="button_click_me">Click me</uv-button>
+    <uv-modal id="demoModal"><div slot="">Modal content</div></uv-modal>
+  </main>
+
+  <script>
+    document.addEventListener('uv-click', (e) => {
+      const modal = document.getElementById('demoModal');
+      if (modal && typeof modal.open === 'function') modal.open();
+    });
+  </script>
+    <script src="../../dist/shared.js"></script>
+</body>
+</html>

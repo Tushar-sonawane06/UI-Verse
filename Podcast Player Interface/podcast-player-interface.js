@@ -148,3 +148,24 @@ cards.forEach(card => {
   });
 
 });
+
+const playBtn = document.querySelector(".main-play");
+let isPlaying = false;
+
+playBtn.addEventListener("click", () => {
+  isPlaying = !isPlaying;
+
+  playBtn.innerHTML = isPlaying
+    ? '<i class="fa-solid fa-pause"></i>'
+    : '<i class="fa-solid fa-play"></i>';
+});
+
+// Progress animation demo
+const progress = document.querySelector(".progress");
+
+setInterval(() => {
+  let width = parseFloat(progress.style.width) || 30;
+  if (isPlaying && width < 100) {
+    progress.style.width = (width + 0.5) + "%";
+  }
+}, 500);

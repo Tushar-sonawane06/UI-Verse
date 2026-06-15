@@ -3,26 +3,26 @@
 Component ID: pricing
 
 - Path: pricing.html
-- Version: 0.1.0
-- Documentation score: 90/100
-- Tags: pages, pricing
-- Description: Pricing layouts and plans
+- Version: 0.1.1
+- Documentation score: 100/100
+- Tags: pricing, plans, billing, subscription
+- Description: Pricing layouts and plan cards
 
 ## Assets
 
-- CSS: css/main.css, home.css, https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css, pricing.css
-- JS: -
+- CSS: dist/shared.css, https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css, pricing.css
+- JS: dist/shared.js
 
 ## Headings
 
 - H1: Pricing Card Components
-- H2: Interactive Pricing Table
-- H3: Starter
-- H3: Pro
-- H3: Business
-- H2: UIverse
-- H3: Explore
-- H3: Resources
+- H2: $9
+- H2: $29
+- H2: $79
+- H3: Silver
+- H3: Gold
+- H3: Platinum
+- H2: $5
 
 ## Usage Snippet
 
@@ -70,6 +70,241 @@ Component ID: pricing
 
 </div>
 
+
+<!-- ================= GLASSMORPHISM PRICING ================= -->
+
+<div class="component-card">
+
+  <div class="glass-pricing-grid">
+
+    <!-- BASIC -->
+    <div class="glass-card">
+
+      <div class="glass-top">
+        <span class="glass-plan">Basic</span>
+        <h2>$9</h2>
+        <p>/ month</p>
+      </div>
+
+      <ul class="glass-features">
+        <li><i class="fa-solid fa-check"></i> 5 Projects</li>
+        <li><i class="fa-solid fa-check"></i> Email Support</li>
+        <li><i class="fa-solid fa-check"></i> Analytics</li>
+      </ul>
+
+      <button class="glass-btn">
+        Start Free
+      </button>
+
+    </div>
+
+    <!-- TEAM -->
+    <div class="glass-card featured-glass">
+
+      <div class="popular-pill">
+        Recommended
+      </div>
+
+      <div class="glass-top">
+        <span class="glass-plan">Team</span>
+        <h2>$29</h2>
+        <p>/ month</p>
+      </div>
+
+      <ul class="glass-features">
+        <li><i class="fa-solid fa-check"></i> Unlimited Projects</li>
+        <li><i class="fa-solid fa-check"></i> Team Access</li>
+        <li><i class="fa-solid fa-check"></i> Priority Support</li>
+        <li><i class="fa-solid fa-check"></i> API Access</li>
+      </ul>
+
+      <button class="glass-btn active-btn">
+        Get Team Plan
+      </button>
+
+    </div>
+
+    <!-- AGENCY -->
+    <div class="glass-card">
+
+      <div class="glass-top">
+        <span class="glass-plan">Agency</span>
+        <h2>$79</h2>
+        <p>/ month</p>
+      </div>
+
+      <ul class="glass-features">
+        <li><i class="fa-solid fa-check"></i> White Label</li>
+        <li><i class="fa-solid fa-check"></i> Unlimited Users</li>
+        <li><i class="fa-solid fa-check"></i> Dedicated Manager</li>
+      </ul>
+
+      <button class="glass-btn">
+        Contact Us
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= NEON PRICING ================= -->
+
+<div class="component-card">
+
+  <div class="neon-pricing-grid">
+
+    <!-- SILVER -->
+    <div class="neon-card silver">
+
+      <h3>Silver</h3>
+
+      <div class="neon-price">
+        $15
+      </div>
+
+      <p class="neon-desc">
+        Great for freelancers
+      </p>
+
+      <ul>
+        <li>5 GB Storage</li>
+        <li>Custom Domain</li>
+        <li>Email Support</li>
+      </ul>
+
+      <button class="neon-btn">
+        Select Plan
+      </button>
+
+    </div>
+
+    <!-- GOLD -->
+    <div class="neon-card gold">
+
+      <div class="neon-badge">
+        <i class="fa-solid fa-crown"></i>
+        BEST VALUE
+      </div>
+
+      <h3>Gold</h3>
+
+      <div class="neon-price">
+        $49
+      </div>
+
+      <p class="neon-desc">
+        Ideal for startups
+      </p>
+
+      <ul>
+        <li>Unlimited Storage</li>
+        <li>AI Analytics</li>
+        <li>24/7 Support</li>
+      </ul>
+
+      <button class="neon-btn active-neon">
+        Choose Gold
+      </button>
+
+    </div>
+
+    <!-- PLATINUM -->
+    <div class="neon-card platinum">
+
+      <h3>Platinum</h3>
+
+      <div class="neon-price">
+        $99
+      </div>
+
+      <p class="neon-desc">
+        Enterprise solution
+      </p>
+
+      <ul>
+        <li>Unlimited Everything</li>
+        <li>Dedicated Manager</li>
+        <li>Custom Integrations</li>
+      </ul>
+
+      <button class="neon-btn">
+        Contact Sales
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= MINIMAL PRICING ================= -->
+
+<div class="component-card">
+
+  <div class="minimal-pricing-grid">
+
+    <!-- LITE -->
+    <div class="minimal-card">
+
+      <span class="mini-label">
+        Lite
+      </span>
+
+      <h2>$5</h2>
+
+      <p>
+        Small personal websites
+      </p>
+
+      <button class="minimal-btn">
+        Buy Now
+      </button>
+
+    </div>
+
+    <!-- PLUS -->
+    <div class="minimal-card dark-mini">
+
+      <span class="mini-label">
+        Plus
+      </span>
+
+      <h2>$19</h2>
+
+      <p>
+        Best for professionals
+      </p>
+
+      <button class="minimal-btn light-btn">
+        Choose Plus
+      </button>
+
+    </div>
+
+    <!-- ULTRA -->
+    <div class="minimal-card">
+
+      <span class="mini-label">
+        Ultra
+      </span>
+
+      <h2>$59</h2>
+
+      <p>
+        Built for agencies
+      </p>
+
+      <button class="minimal-btn">
+        Upgrade
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 <!-- ================= COMPONENT CARD ================= -->
 
 <div class="component-card">
@@ -593,7 +828,20 @@ Component ID: pricing
  <!-- /pricing-grid-preview -->
 
     
-  
+ <button id="cta-get-started" class="cta-secondary">Get Started</button>
+<button id="cta-choose-pro" class="cta-primary">Choose Pro</button>
+<button id="cta-contact-sales" class="cta-secondary">Contact Sales</button>
+
+<button id="billing-monthly">Monthly</button>
+<button id="billing-quarterly">Quarterly</button>
+<button id="billing-yearly">Yearly</button>
+
+  <div class="billing-toggle" role="group" aria-label="Billing options">
+  <button class="toggle-btn" aria-pressed="true" aria-label="Monthly billing">Monthly</button>
+  <button class="toggle-btn" aria-pressed="false" aria-label="Quarterly billing">Quarterly</button>
+  <button class="toggle-btn" aria-pressed="false" aria-label="Yearly billing">Yearly</button>
+</div>
+
 
 </main>
 ```

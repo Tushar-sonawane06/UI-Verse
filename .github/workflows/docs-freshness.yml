@@ -1,0 +1,41 @@
+name: CI - Documentation Freshness Gate
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'components/**'
+      - 'data/meta/**'
+      - 'Docs/**'
+      - 'README.md'
+  push:
+    branches: [ main ]
+    paths:
+      - 'components/**'
+      - 'data/meta/**'
+      - 'Docs/**'
+      - 'README.md'
+  workflow_dispatch:
+
+jobs:
+  check-freshness:
+    name: Verify Docs & Changelog Freshness
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check Component Changelog Freshness
+        run: npm run components:changelog:check
+
+      - name: Check Component Docs Freshness
+        run: npm run docs:generate:check

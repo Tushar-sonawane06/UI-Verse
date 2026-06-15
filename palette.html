@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Color Palette Generator</title>
+    <link rel="stylesheet" href="palette.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <h1 class="title">🎨 Color Palette Generator</h1>
+        <p class="subtitle">Enter a base color and generate 5 complementary shades ✨</p>
+
+        <div class="input-section">
+            <input type="text" id="baseColor" placeholder="#ff6600" maxlength="7">
+            <button id="generateBtn">Generate Palette</button>
+        </div>
+
+        <div id="paletteContainer" class="palette-container"></div>
+
+        <div id="toast" class="toast">Copied!</div>
+    </div>
+
+    <script>
+        // Utility: convert hex to RGB
+        function hexToRgb(hex) {
+            hex = hex.replace(/^#/, "");
+            if (hex.length === 3) {
+                hex = hex.split("").map(c => c + c).join("");
+            }
+            const bigint = parseInt(hex, 16);
+            return {
+                r: (bigint >> 16) & 255,
+                g: (bigint >> 8) & 255,
+                b: bigint & 255
+            };
+        }
+
+        // Utility: convert RGB to hex
+        function rgbToHex(r, g, b) {
+            return "#" + [r, g, b].map(x => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? "0" + hex : hex;
+            }).join("");
+        }
+
+        // Generate complementary shades
+        function generateShades(baseHex) {
+            const rgb = hexToRgb(baseHex);
+            const shades = [];
+            for (let i = 0; i < 5; i++) {
+                const factor = 0.2 * i;
+                const r = Math.min(255, Math.floor(rgb.r + (255 - rgb.r) * factor));
+                const g = Math.min(255, Math.floor(rgb.g + (255 - rgb.g) * factor));
+                const b = Math.min(255, Math.floor(rgb.b + (255 - rgb.b) * factor));
+                shades.push(rgbToHex(r, g, b));
+            }
+            return shades;
+        }
+
+        // Render palette
+        function renderPalette(shades) {
+            const container = document.getElementById("paletteContainer");
+            container.innerHTML = "";
+            shades.forEach(color => {
+                const swatch = document.createElement("div");
+                swatch.className = "swatch";
+                swatch.style.background = color;
+                swatch.innerHTML = `<span>${color}</span>`;
+                swatch.addEventListener("click", () => copyToClipboard(color));
+                container.appendChild(swatch);
+            });
+        }
+
+        // Copy to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Copied " + text);
+            });
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 2000);
+        }
+
+        // Event listeners
+        document.getElementById("generateBtn").addEventListener("click", () => {
+            const baseColor = document.getElementById("baseColor").value.trim();
+            if (/^#([0-9A-F]{3}){1,2}$/i.test(baseColor)) {
+                const shades = generateShades(baseColor);
+                renderPalette(shades);
+            } else {
+                showToast("❌ Please enter a valid hex color");
+            }
+        });
+
+    </script>
+</body>
+
+</html>

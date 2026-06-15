@@ -479,9 +479,8 @@ export default function button(){
               </button>
               <button onclick="addToCollection('3D Button')">Add to My Collection</button>
             </div>
-            <pre id="c14" className="code-block"><code>&lt;button className="btn-3d"&gt;3D Effect&lt;/button&gt;
-      
-          </section>
+            <pre id="c14" className="code-block"><code>&lt;button className="btn-3d"&gt;3D Effect&lt;/button&gt;</code></pre>
+          </div>
       
           {/* ================= EXTRA PROFESSIONAL BUTTONS ================= */}
       
@@ -939,6 +938,60 @@ export default function button(){
             <i className="fa-solid fa-copy"></i> Copy
           </button>
         </div>
+        
+        <div className="container">
+      
+          {/* Gradient Button */}
+          <button className="btn gradient-btn">
+            Gradient Button
+          </button>
+      
+          {/* Neon Button */}
+          <button className="btn neon-btn">
+            Neon Glow
+          </button>
+      
+          {/* Outline Hover Fill */}
+          <button className="btn outline-btn">
+            Hover Fill
+          </button>
+      
+          {/* 3D Button */}
+          <button className="btn three-d-btn">
+            3D Button
+          </button>
+      
+          {/* Glass Button */}
+          <button className="btn glass-btn">
+            Glass Effect
+          </button>
+      
+          {/* Slide Arrow Button */}
+          <button className="btn arrow-btn">
+            <span>Explore</span>
+          </button>
+      
+          {/* Pulse Button */}
+          <button className="btn pulse-btn">
+            Pulse Button
+          </button>
+      
+          {/* Dark Mode Toggle */}
+          <button className="btn toggle-btn" id="themeBtn">
+            🌙 Dark Mode
+          </button>
+      
+          {/* Shine Effect */}
+          <button className="btn shine-btn">
+            Shine Button
+          </button>
+      
+          {/* Floating Button */}
+          <button className="btn floating-btn">
+            +
+          </button>
+      
+        </div>
       
         <pre id="c27" className="code-block"><code>&lt;button className="underline-btn"&gt;Learn More&lt;/button&gt;
       
@@ -1177,6 +1230,117 @@ export default function button(){
         &lt;span className="spinner-icon"&gt;&lt;/span&gt;
         &lt;span className="btn-text"&gt;Submit Order&lt;/span&gt;
       &lt;/button&gt;</code></pre>
+      </div>
+      
+      {/* Aurora Button */}
+      <div className="component-card" data-name="aurora gradient button animated" data-cat="effect">
+        <div className="card-top">
+          <span className="card-label">Aurora</span>
+          <span className="card-tag tag-trending">Animated</span>
+        </div>
+        <div className="card-preview dark-preview">
+          <button className="aurora-btn">Explore</button>
+        </div>
+        <p className="card-desc">A flowing multicolor gradient button with a luminous hover lift.</p>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('c34', this)">
+            <i className="fa-solid fa-code"></i> View Code
+          </button>
+          <button className="action-btn copy-btn" onclick="copyCode('c34', this)">
+            <i className="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+        <pre id="c34" className="code-block"><code>&lt;button className="aurora-btn"&gt;Explore&lt;/button&gt;</code></pre>
+      </div>
+      
+      {/* Jelly Button */}
+      <div className="component-card" data-name="jelly bounce playful button" data-cat="effect">
+        <div className="card-top">
+          <span className="card-label">Jelly</span>
+          <span className="card-tag tag-new">Playful</span>
+        </div>
+        <div className="card-preview">
+          <button className="jelly-btn">Bounce</button>
+        </div>
+        <p className="card-desc">A soft playful button that squashes and springs on hover.</p>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('c35', this)">
+            <i className="fa-solid fa-code"></i> View Code
+          </button>
+          <button className="action-btn copy-btn" onclick="copyCode('c35', this)">
+            <i className="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+        <pre id="c35" className="code-block"><code>&lt;button className="jelly-btn"&gt;Bounce&lt;/button&gt;</code></pre>
+      </div>
+      
+      {/* Outline Fill Button */}
+      <div className="component-card" data-name="outline fill button reveal" data-cat="style">
+        <div className="card-top">
+          <span className="card-label">Outline Fill</span>
+          <span className="card-tag tag-essential">Clean</span>
+        </div>
+        <div className="card-preview">
+          <button className="outline-fill-btn">Discover</button>
+        </div>
+        <p className="card-desc">A crisp outlined button that fills from left to right on hover.</p>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('c36', this)">
+            <i className="fa-solid fa-code"></i> View Code
+          </button>
+          <button className="action-btn copy-btn" onclick="copyCode('c36', this)">
+            <i className="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+        <pre id="c36" className="code-block"><code>&lt;button className="outline-fill-btn"&gt;Discover&lt;/button&gt;</code></pre>
+      </div>
+      
+      {/* Split Icon Button */}
+      <div className="component-card" data-name="split icon button action" data-cat="style">
+        <div className="card-top">
+          <span className="card-label">Split Icon</span>
+          <span className="card-tag tag-popular">Utility</span>
+        </div>
+        <div className="card-preview">
+          <button className="split-icon-btn">
+            <span>Download</span>
+            <i className="fa-solid fa-download"></i>
+          </button>
+        </div>
+        <p className="card-desc">A practical action button with a separated icon segment.</p>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('c37', this)">
+            <i className="fa-solid fa-code"></i> View Code
+          </button>
+          <button className="action-btn copy-btn" onclick="copyCode('c37', this)">
+            <i className="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+        <pre id="c37" className="code-block"><code>&lt;button className="split-icon-btn"&gt;
+        &lt;span&gt;Download&lt;/span&gt;
+        &lt;i className="fa-solid fa-download"&gt;&lt;/i&gt;
+      &lt;/button&gt;</code></pre>
+      </div>
+      
+      {/* Border Draw Button */}
+      <div className="component-card" data-name="border draw button animated line" data-cat="effect">
+        <div className="card-top">
+          <span className="card-label">Border Draw</span>
+          <span className="card-tag tag-trending">Elegant</span>
+        </div>
+        <div className="card-preview">
+          <button className="border-draw-btn">Contact Us</button>
+        </div>
+        <p className="card-desc">A refined button whose border traces itself into view on hover.</p>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('c38', this)">
+            <i className="fa-solid fa-code"></i> View Code
+          </button>
+          <button className="action-btn copy-btn" onclick="copyCode('c38', this)">
+            <i className="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+        <pre id="c38" className="code-block"><code>&lt;button className="border-draw-btn"&gt;Contact Us&lt;/button&gt;</code></pre>
       </div>
       
         </div>{/* /button-grid */}

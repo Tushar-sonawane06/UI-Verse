@@ -348,6 +348,38 @@
 .session-swatch:hover .swatch-check,
 .session-swatch.just-copied .swatch-check { opacity: 1; }
 
+.session-swatch .remove-swatch {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  border: 2px solid #fff;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+  line-height: 1;
+  padding: 0;
+  z-index: 2;
+}
+
+.session-swatch:hover .remove-swatch {
+  opacity: 1;
+}
+
+.dark-mode .session-swatch .remove-swatch {
+  background: #eee;
+  color: #111;
+  border-color: #333;
+}
+
 /* Dark mode */
 .dark-mode .creator-card,
 .dark-mode .palette-panel { background: #1a1a2e; border-color: #2d2d44; }
@@ -369,6 +401,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .color-section-title {
@@ -387,6 +421,7 @@
   border: 1px solid var(--card-border);
   padding: 3px 12px;
   border-radius: 20px;
+  white-space: nowrap;
 }
 
 /* ============================================================
@@ -417,6 +452,47 @@
   transform: translateY(-6px);
   box-shadow: 0 16px 36px rgba(0,0,0,0.1);
   border-color: rgba(235,104,53,0.3);
+}
+
+
+.token-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:1rem;
+}
+
+.token-card{
+  background:var(--card-bg);
+  border:1px solid var(--border-color);
+  border-radius:20px;
+  padding:1.2rem;
+  text-align:center;
+  transition:.3s;
+}
+
+.token-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 15px 40px rgba(0,0,0,.12);
+}
+
+.token-color{
+  width:100%;
+  height:100px;
+  border-radius:16px;
+  margin-bottom:1rem;
+}
+
+.scale-row{
+  display:grid;
+  grid-template-columns:repeat(10,1fr);
+  overflow:hidden;
+  border-radius:18px;
+}
+
+.scale-row div{
+  padding:1rem;
+  text-align:center;
+  font-weight:700;
 }
 
 .color-swatch {
@@ -462,6 +538,7 @@
   border-radius: 8px;
   border: none;
   background: rgba(255,255,255,0.25);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   color: #fff;
   font-size: 13px;
@@ -474,6 +551,74 @@
 
 .swatch-actions button:hover {
   background: rgba(255,255,255,0.45);
+}
+
+.swatch-actions button {
+  position: relative;
+}
+
+.swatch-actions button::after {
+  content: attr(aria-label);
+  position: absolute;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: #111111a8;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.swatch-actions button::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 3px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  border: 5px solid transparent;
+  border-top-color: transparent;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.swatch-actions button:hover::after,
+.swatch-actions button:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+body.dark-mode .swatch-actions button::after {
+  background: #f0f0f0a8;
+  color: #111;
+}
+
+body.dark-mode .swatch-actions button::before {
+  border-top-color: transparent;
+}
+
+.swatch-actions button:last-child::after {
+  left: auto;
+  right: 0;
+  transform: translateY(4px);
+}
+
+.swatch-actions button:last-child::before {
+  left: auto;
+  right: 12px;
+  transform: translateY(4px);
+}
+
+.swatch-actions button:last-child:hover::after,
+.swatch-actions button:last-child:hover::before {
+  transform: translateY(0);
 }
 
 .color-info {
@@ -807,6 +952,96 @@ body.dark-mode .copy-toast {
 }
 
 /* ============================================================
+   GLASSMORPHISM
+   ============================================================ */
+.glass-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all var(--transition);
+  opacity: 0;
+  transform: translateY(14px);
+  position: relative;
+  height: 180px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.glass-card.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.glass-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.1);
+}
+
+.glass-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.glass-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dark-mode .glass-content {
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-info h3 {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 4px 0;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.glass-info span {
+  font-size: 12px;
+  color: rgba(255,255,255,0.9);
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.glass-copy-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.glass-copy-btn:hover {
+  background: rgba(255,255,255,0.4);
+}
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 768px) {
@@ -817,6 +1052,7 @@ body.dark-mode .copy-toast {
   .color-grid { grid-template-columns: repeat(2, 1fr); }
   .gradient-grid { grid-template-columns: 1fr; }
   .themed-grid { grid-template-columns: repeat(2, 1fr); }
+  .glass-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
@@ -824,4 +1060,5 @@ body.dark-mode .copy-toast {
   .filter-btn { text-align: center; }
   .color-grid { grid-template-columns: 1fr; }
   .themed-grid { grid-template-columns: 1fr; }
+  .glass-grid { grid-template-columns: 1fr; }
 }

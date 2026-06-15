@@ -1,7 +1,9 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="../../dist/shared.css">
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-vcSyFMSan4acRu9X0tW7/2Ik6+po3WI6kKnE0EAlPlU='; script-src-attr 'unsafe-hashes' 'sha256-vcSyFMSan4acRu9X0tW7/2Ik6+po3WI6kKnE0EAlPlU='; style-src 'self' https: 'unsafe-hashes' 'sha256-gw6OJkXMaH8RbEP3L02plvPlqrd7d6jUIuJvItOa2tg=' 'sha256-h07ys1GJou52H3U9404UOFkCJv6cYkAIQC0JhCY4NGY='; style-src-attr 'unsafe-hashes' 'sha256-gw6OJkXMaH8RbEP3L02plvPlqrd7d6jUIuJvItOa2tg=' 'sha256-h07ys1GJou52H3U9404UOFkCJv6cYkAIQC0JhCY4NGY='">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UI-Verse Package Demo</title>
   <link rel="stylesheet" href="/design-tokens.css">
@@ -38,6 +40,61 @@
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .interactive-demos {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      border-top: 1px solid var(--border-primary);
+      padding-top: 24px;
+    }
+
+    .dropdown-trigger {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-primary);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    .dropdown-content {
+      padding: 12px;
+      border: 1px solid var(--border-primary);
+      border-radius: 8px;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-md);
+      margin-top: 8px;
+    }
+
+    .dropdown-option {
+      padding: 4px 8px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .tabs-container {
+      border: 1px solid var(--border-primary);
+      border-radius: 8px;
+      padding: 16px;
+      background: var(--bg-secondary);
+    }
+
+    .tab-button {
+      padding: 8px 16px;
+      font-weight: 500;
+      cursor: pointer;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-secondary);
+    }
+
+    .tab-panel {
+      padding: 16px 0;
     }
   </style>
   <script type="module">
@@ -48,6 +105,8 @@
   </script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
   <main class="panel">
     <div class="row">
       <div>
@@ -65,6 +124,31 @@
       <uv-language-switcher></uv-language-switcher>
       <uv-modal>Modal shell</uv-modal>
     </div>
+
+    <div class="interactive-demos">
+      <div>
+        <h3>uv-dropdown</h3>
+        <uv-dropdown>
+          <button slot="trigger" class="dropdown-trigger">Click to Open Dropdown</button>
+          <div slot="content" class="dropdown-content">
+            <div class="dropdown-option">Option A</div>
+            <div class="dropdown-option">Option B</div>
+          </div>
+        </uv-dropdown>
+      </div>
+
+      <div>
+        <h3>uv-tabs</h3>
+        <uv-tabs class="tabs-container">
+          <button slot="tab" class="tab-button">Tab 1</button>
+          <button slot="tab" class="tab-button">Tab 2</button>
+          <div slot="panel" class="tab-panel">Content panel for Tab 1</div>
+          <div slot="panel" class="tab-panel">Content panel for Tab 2</div>
+        </uv-tabs>
+      </div>
+    </div>
   </main>
+  <script src="../../dist/shared.js"></script>
 </body>
 </html>
+

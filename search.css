@@ -234,6 +234,161 @@ body{
   border-color: rgba(34, 197, 94, 0.2);
 }
 
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+}
+
+.toolbar-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 200px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+  padding: 0 16px;
+  height: 40px;
+}
+
+.toolbar-search i { color: var(--muted); font-size: 14px; }
+
+.toolbar-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+  width: 100%;
+}
+
+/* Sort dropdown */
+.sort-dropdown-wrapper {
+  position: relative;
+}
+
+.sort-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 999px;
+  color: #ccc;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.sort-trigger:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+.sort-trigger.open {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+.sort-chevron {
+  font-size: 10px;
+  transition: transform 0.2s;
+}
+
+.sort-trigger.open .sort-chevron {
+  transform: rotate(180deg);
+}
+
+.sort-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #1a2236;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 6px;
+  min-width: 160px;
+  z-index: 100;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+}
+
+.sort-menu.open {
+  display: block;
+}
+
+.sort-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #aab4cc;
+  transition: background 0.15s;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.sort-option:hover {
+  background: rgba(255,255,255,0.07);
+  color: #fff;
+}
+
+.sort-option input[type="radio"] {
+  display: none;
+}
+
+.radio-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: border-color 0.2s;
+}
+
+.sort-option input[type="radio"]:checked ~ .radio-dot {
+  border-color: var(--accent);
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255,122,61,0.2);
+}
+
+.sort-option input[type="radio"]:checked ~ .radio-dot::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.sort-option:has(input[type="radio"]:checked) {
+  color: #fff;
+  background: #ff7a3d14;
+}
+
+.results-count {
+  font-size: 13px;
+  color: #ffffff6a;
+  margin-left: auto;
+}
+
 /* =========================================================
    1. EXPANDING SEARCH BAR
 ========================================================= */
@@ -1064,11 +1219,9 @@ body{
    FOOTER
    ============================================================ */
 .footer {
-  margin-left: var(--sidebar-w);
-  background: #111;
-  color: #aaa;
-  padding: 0;
-  margin-top: 60px;
+  background: var(--bg2);
+  padding: 20px 0;
+  margin-left: 250px; /* offset for sidebar */
 }
 
 .footer-container {
@@ -1113,19 +1266,40 @@ body{
 }
 
 .footer-col ul li a {
-  color: #888;
+  position: relative;
+  color: #a1a1aa;
   text-decoration: none;
-  font-size: 14px;
-  transition: color var(--transition);
+  font-size: 15px;
+  transition: all 0.3s ease;
+  display: inline-block;
 }
 
 .footer-col ul li a:hover {
-  color: var(--accent);
+  color: var(--accent);  
+  transform: translateX(6px);
 }
 
+.footer-col ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+  border-radius: 10px;
+}
+
+.footer-col ul li a:hover::after {
+  width: 100%;
+}
+
+/* Social icons fix */
 .socials {
   display: flex;
   gap: 12px;
+  margin-top: 12px;
 }
 
 .socials a {
@@ -1136,9 +1310,9 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #888;
+  color: #aaa;
+  font-size: 16px;
   text-decoration: none;
-  font-size: 14px;
   transition: all var(--transition);
 }
 
@@ -1193,8 +1367,25 @@ body{
   padding: 20px 48px;
   text-align: center;
   font-size: 13px;
-  color: #555;
+  color: #aaa;
 }
+
+/* Responsive fix */
+@media (max-width: 768px) {
+  .footer {
+    margin-left: 0; /* remove sidebar offset */
+  }
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .socials {
+    justify-content: center;
+  }
+}
+
 
 /* =========================================================
    16. LIQUID BORDER SEARCH
@@ -1603,4 +1794,889 @@ body{
 @keyframes arcade-bounce {
   0% { transform: translateY(0); }
   100% { transform: translateY(-2px); }
+}
+
+/* =========================
+   SEARCH PAGE — UIverse V2
+   search.css
+========================= */
+
+:root{
+  --bg:#070b14;
+  --bg2:#0f1729;
+  --card:#101827;
+  --card2:#121d31;
+  --line:rgba(255,255,255,.08);
+
+  --text:#f5f7ff;
+  --muted:#9ca8c7;
+
+  --primary:#7b61ff;
+  --secondary:#eb6835;
+  --cyan:#31d0ff;
+
+  --radius:24px;
+  --radius-sm:16px;
+
+  --shadow:
+    0 10px 30px rgba(0,0,0,.35);
+
+  --gradient:
+    linear-gradient(135deg,#7b61ff 0%,#eb6835 100%);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:"DM Sans",sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(123,97,255,.16), transparent 25%),
+    radial-gradient(circle at bottom right, rgba(235,104,53,.14), transparent 20%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* =========================
+   MAIN LAYOUT
+========================= */
+
+.main-home{
+  margin-left:290px;
+  padding:40px;
+  min-height:100vh;
+}
+
+.page-header{
+  margin-bottom:42px;
+}
+
+.page-header h1{
+  font-family:"Syne",sans-serif;
+  font-size:3rem;
+  font-weight:800;
+  letter-spacing:-1px;
+  margin-bottom:14px;
+  background:var(--gradient);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.page-header p{
+  max-width:780px;
+  line-height:1.7;
+  color:var(--muted);
+  font-size:1.04rem;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.search-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+  gap:28px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.search-card{
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.03), transparent),
+    var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:24px;
+  transition:.4s ease;
+  box-shadow:var(--shadow);
+}
+
+.search-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(135deg,
+      rgba(123,97,255,.14),
+      rgba(235,104,53,.08));
+  opacity:0;
+  transition:.4s ease;
+  pointer-events:none;
+}
+
+.search-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(123,97,255,.35);
+}
+
+.search-card:hover::before{
+  opacity:1;
+}
+
+.search-info{
+  margin-bottom:22px;
+}
+
+.search-info h2{
+  font-size:1.25rem;
+  margin-bottom:10px;
+  font-family:"Syne",sans-serif;
+}
+
+.search-info p{
+  color:var(--muted);
+  line-height:1.6;
+  font-size:.96rem;
+}
+
+/* =========================
+   PREVIEW AREA
+========================= */
+
+.component-preview{
+  min-height:170px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:20px;
+  background:
+    linear-gradient(135deg,
+      rgba(255,255,255,.02),
+      rgba(255,255,255,.01));
+  border:1px solid rgba(255,255,255,.05);
+  padding:24px;
+  overflow:hidden;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.card-actions{
+  margin-top:22px;
+}
+
+.copy-btn{
+  border:none;
+  outline:none;
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  background:var(--gradient);
+  color:white;
+
+  padding:14px 18px;
+  border-radius:14px;
+
+  font-weight:700;
+  transition:.3s ease;
+}
+
+.copy-btn:hover{
+  transform:translateY(-2px) scale(1.02);
+}
+
+.copy-btn.copied{
+  background:linear-gradient(135deg,#00c853,#00e676);
+}
+
+/* =========================
+   COMMON INPUTS
+========================= */
+
+input{
+  font-family:inherit;
+}
+
+input::placeholder{
+  color:#9ba7c9;
+}
+
+button{
+  font-family:inherit;
+}
+
+/* =========================
+   1. EXPANDING SEARCH
+========================= */
+
+.expanding-search{
+  position:relative;
+  width:70px;
+  transition:.4s ease;
+}
+
+.expanding-search input{
+  width:100%;
+  height:60px;
+  border:none;
+  outline:none;
+  border-radius:60px;
+  padding:0 60px 0 24px;
+  background:#121d31;
+  color:white;
+  transition:.4s ease;
+}
+
+.expanding-search button{
+  position:absolute;
+  right:6px;
+  top:6px;
+  width:48px;
+  height:48px;
+  border:none;
+  border-radius:50%;
+  background:var(--gradient);
+  color:white;
+  cursor:pointer;
+}
+
+.expanding-search:focus-within{
+  width:100%;
+}
+
+/* =========================
+   2. GLASS SEARCH
+========================= */
+
+.glass-search-wrapper{
+  position:relative;
+  width:100%;
+}
+
+.glass-search{
+  width:100%;
+  height:62px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(14px);
+  outline:none;
+  padding:0 58px 0 20px;
+  color:white;
+}
+
+.glass-icon{
+  position:absolute;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+  color:white;
+}
+
+/* =========================
+   3. COMMAND SEARCH
+========================= */
+
+.command-search{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:#0f1729;
+  border:1px solid rgba(255,255,255,.08);
+  padding:0 18px;
+  border-radius:18px;
+  height:62px;
+}
+
+.command-search input{
+  flex:1;
+  background:none;
+  border:none;
+  outline:none;
+  color:white;
+}
+
+.command-search kbd{
+  padding:7px 12px;
+  border-radius:10px;
+  background:#1a2740;
+  color:#d6dcf7;
+  font-size:.82rem;
+}
+
+/* =========================
+   4. ANIMATED SEARCH
+========================= */
+
+.animated-search{
+  width:100%;
+  position:relative;
+}
+
+.animated-search input{
+  width:100%;
+  height:62px;
+  border:none;
+  outline:none;
+  border-radius:18px;
+  background:#121d31;
+  color:white;
+  padding:0 60px 0 20px;
+  transition:.3s ease;
+}
+
+.animated-icon{
+  position:absolute;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+  transition:.4s ease;
+}
+
+.animated-search:focus-within .animated-icon{
+  color:var(--secondary);
+  transform:translateY(-50%) rotate(10deg) scale(1.2);
+}
+
+/* =========================
+   5. MINIMAL SEARCH
+========================= */
+
+.minimal-search{
+  width:100%;
+  display:flex;
+  overflow:hidden;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.minimal-search input{
+  flex:1;
+  height:60px;
+  border:none;
+  outline:none;
+  background:#121d31;
+  color:white;
+  padding:0 18px;
+}
+
+.minimal-search button{
+  border:none;
+  background:var(--gradient);
+  color:white;
+  padding:0 22px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* =========================
+   6. FLOATING SEARCH
+========================= */
+
+.floating-search{
+  width:100%;
+  position:relative;
+}
+
+.floating-search input{
+  width:100%;
+  height:64px;
+  border:none;
+  outline:none;
+  border-radius:18px;
+  background:#121d31;
+  color:white;
+  padding:24px 60px 10px 18px;
+}
+
+.floating-search label{
+  position:absolute;
+  left:18px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#94a3c5;
+  transition:.3s ease;
+  pointer-events:none;
+}
+
+.floating-search input:focus + label,
+.floating-search input:not(:placeholder-shown) + label{
+  top:18px;
+  font-size:.74rem;
+}
+
+.floating-search button{
+  position:absolute;
+  right:8px;
+  top:8px;
+  width:48px;
+  height:48px;
+  border:none;
+  border-radius:14px;
+  background:var(--gradient);
+  color:white;
+}
+
+/* =========================
+   7. VOICE SEARCH
+========================= */
+
+.voice-search{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:#121d31;
+  padding:0 12px 0 18px;
+  border-radius:18px;
+  height:64px;
+}
+
+.voice-search input{
+  flex:1;
+  background:none;
+  border:none;
+  outline:none;
+  color:white;
+}
+
+.mic-btn{
+  width:44px;
+  height:44px;
+  border:none;
+  border-radius:50%;
+  background:var(--gradient);
+  color:white;
+  cursor:pointer;
+  animation:pulseMic 2s infinite;
+}
+
+@keyframes pulseMic{
+  0%,100%{
+    box-shadow:0 0 0 0 rgba(123,97,255,.45);
+  }
+  50%{
+    box-shadow:0 0 0 12px rgba(123,97,255,0);
+  }
+}
+
+/* =========================
+   8. SUGGESTION SEARCH
+========================= */
+
+.suggestions-search{
+  width:100%;
+  position:relative;
+}
+
+.input-wrap{
+  position:relative;
+}
+
+.input-wrap input{
+  width:100%;
+  height:62px;
+  border:none;
+  outline:none;
+  border-radius:18px;
+  background:#121d31;
+  color:white;
+  padding:0 55px 0 18px;
+}
+
+.input-wrap i{
+  position:absolute;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+}
+
+.dropdown-list{
+  margin-top:12px;
+  list-style:none;
+  background:#121d31;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+.dropdown-list li{
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  transition:.3s ease;
+  color:#d8def3;
+}
+
+.dropdown-list li:hover{
+  background:rgba(255,255,255,.04);
+}
+
+/* =========================
+   9. FULLSCREEN SEARCH
+========================= */
+
+.trigger-btn{
+  background:var(--gradient);
+  padding:15px 22px;
+  border-radius:16px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.overlay-search{
+  position:fixed;
+  inset:0;
+  background:rgba(5,8,16,.92);
+  backdrop-filter:blur(12px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.4s ease;
+  z-index:9999;
+}
+
+.overlay-checkbox:checked ~ .overlay-search{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.search-box{
+  width:min(700px,90%);
+}
+
+.search-box input{
+  width:100%;
+  height:80px;
+  border:none;
+  outline:none;
+  border-radius:24px;
+  background:#121d31;
+  color:white;
+  padding:0 28px;
+  font-size:1.1rem;
+}
+
+.close-btn{
+  position:absolute;
+  top:30px;
+  right:40px;
+  font-size:2rem;
+  cursor:pointer;
+}
+
+.hint{
+  display:block;
+  margin-top:16px;
+  color:var(--muted);
+}
+
+/* =========================
+   EXTRA COMPONENTS
+========================= */
+
+.neumorphic-search,
+.cyberpunk-search,
+.category-search,
+.glow-ring-search,
+.terminal-search,
+.liquid-search-box,
+.laser-search-input-wrap,
+.tag-search-container,
+.arcade-search-box,
+.minimal-animated-search{
+  width:100%;
+}
+
+/* =========================
+   GENERIC PREMIUM INPUT
+========================= */
+
+.neumorphic-search,
+.cyberpunk-search,
+.category-search,
+.glow-ring-search,
+.liquid-search-box,
+.laser-search-input-wrap,
+.tag-search-container,
+.arcade-search-box,
+.minimal-animated-search{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 18px;
+  min-height:64px;
+  border-radius:18px;
+  background:#121d31;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+.neumorphic-search input,
+.cyberpunk-search input,
+.category-search input,
+.glow-ring-search input,
+.liquid-search-box input,
+.laser-search-input-wrap input,
+.tag-search-container input,
+.arcade-search-box input,
+.minimal-animated-search input{
+  flex:1;
+  background:none;
+  border:none;
+  outline:none;
+  color:white;
+}
+
+/* =========================
+   TAGS
+========================= */
+
+.tag-search-container{
+  flex-wrap:wrap;
+  padding:12px;
+}
+
+.tag-pills{
+  display:flex;
+  gap:10px;
+}
+
+.tag-pill{
+  background:rgba(123,97,255,.2);
+  color:white;
+  padding:8px 14px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:.85rem;
+}
+
+/* =========================
+   TERMINAL
+========================= */
+
+.terminal-search{
+  background:#05070d;
+  border:1px solid #1aff95;
+  font-family:monospace;
+  padding:18px;
+  border-radius:16px;
+}
+
+.terminal-prompt{
+  color:#1aff95;
+}
+
+.terminal-search input{
+  background:none;
+  border:none;
+  outline:none;
+  color:#1aff95;
+  flex:1;
+}
+
+.terminal-cursor{
+  width:10px;
+  height:20px;
+  background:#1aff95;
+  animation:blink 1s infinite;
+}
+
+@keyframes blink{
+  50%{
+    opacity:0;
+  }
+}
+
+/* =========================
+   ARCADE
+========================= */
+
+.arcade-search-box{
+  position:relative;
+  overflow:hidden;
+  background:#08110d;
+  border:2px solid #00ff95;
+}
+
+.arcade-search-box input{
+  color:#00ff95;
+  font-family:monospace;
+}
+
+.arcade-prefix,
+.arcade-icon{
+  color:#00ff95;
+}
+
+.arcade-scanlines{
+  position:absolute;
+  inset:0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,.03),
+      rgba(255,255,255,.03) 2px,
+      transparent 2px,
+      transparent 4px
+    );
+  pointer-events:none;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+  margin-left:290px;
+  padding:60px 40px 30px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+.footer-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:40px;
+}
+
+.footer-col h3{
+  margin-bottom:18px;
+  font-family:"Syne",sans-serif;
+}
+
+.footer-col ul{
+  list-style:none;
+}
+
+.footer-col li{
+  margin-bottom:12px;
+}
+
+.footer-col a{
+  color:var(--muted);
+  text-decoration:none;
+  transition:.3s ease;
+}
+
+.footer-col a:hover{
+  color:white;
+}
+
+.socials{
+  display:flex;
+  gap:16px;
+}
+
+.socials a{
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#121d31;
+  color:white;
+  text-decoration:none;
+  transition:.3s ease;
+}
+
+.socials a:hover{
+  transform:translateY(-4px);
+  background:var(--gradient);
+}
+
+.newsletter-form{
+  display:flex;
+  gap:10px;
+  margin-top:14px;
+}
+
+.newsletter-form input{
+  flex:1;
+  height:52px;
+  border:none;
+  outline:none;
+  border-radius:14px;
+  background:#121d31;
+  color:white;
+  padding:0 16px;
+}
+
+.newsletter-form button{
+  border:none;
+  padding:0 18px;
+  border-radius:14px;
+  background:var(--gradient);
+  color:white;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.footer-bottom{
+  margin-top:50px;
+  padding-top:24px;
+  border-top:1px solid rgba(255,255,255,.06);
+  text-align:center;
+  color:var(--muted);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width:1100px){
+
+  .main-home,
+  .footer{
+    margin-left:0;
+  }
+
+}
+
+@media (max-width:768px){
+
+  .main-home{
+    padding:24px;
+  }
+
+  .footer{
+    padding:40px 24px;
+  }
+
+  .page-header h1{
+    font-size:2.3rem;
+  }
+
+  .search-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media (max-width:480px){
+
+  .component-preview{
+    padding:18px;
+  }
+
+  .search-card{
+    padding:18px;
+  }
+
+  .page-header h1{
+    font-size:2rem;
+  }
+
 }

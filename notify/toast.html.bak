@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Advanced Notification Toast System</title>
+
+  <!-- GOOGLE FONTS -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'DM Sans',sans-serif;
+      background:
+        radial-gradient(circle at top left,#16213e 0%,transparent 35%),
+        radial-gradient(circle at bottom right,#5b21b6 0%,transparent 35%),
+        #09090f;
+      color:white;
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    .container{
+      width:min(1200px,92%);
+      margin:auto;
+      padding:80px 0 120px;
+    }
+
+    /* HERO */
+
+    .hero{
+      text-align:center;
+      margin-bottom:90px;
+    }
+
+    .hero-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 22px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.1);
+      backdrop-filter:blur(12px);
+      margin-bottom:28px;
+      font-weight:600;
+    }
+
+    .hero-title{
+      font-family:'Syne',sans-serif;
+      font-size:clamp(2.8rem,6vw,5rem);
+      line-height:1.05;
+      margin-bottom:24px;
+      font-weight:800;
+    }
+
+    .hero-accent{
+      background:linear-gradient(135deg,#00ffcc,#7c4dff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    .hero-desc{
+      max-width:760px;
+      margin:auto;
+      line-height:1.8;
+      opacity:0.75;
+      font-size:1.1rem;
+    }
+
+    /* SECTION */
+
+    .section-header{
+      text-align:center;
+      margin-bottom:55px;
+    }
+
+    .section-tag{
+      display:inline-block;
+      padding:10px 18px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.08);
+      margin-bottom:18px;
+      font-size:0.9rem;
+      font-weight:700;
+      letter-spacing:0.4px;
+    }
+
+    .section-title{
+      font-family:'Syne',sans-serif;
+      font-size:clamp(2rem,5vw,3.4rem);
+      margin-bottom:18px;
+    }
+
+    .section-subtitle{
+      opacity:0.72;
+      max-width:720px;
+      margin:auto;
+      line-height:1.7;
+    }
+
+    /* TOAST GRID */
+
+    .toast-demo-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:28px;
+    }
+
+    .toast-demo-card{
+      position:relative;
+      overflow:hidden;
+      padding:34px;
+      border-radius:30px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.08);
+      backdrop-filter:blur(18px);
+      transition:0.4s ease;
+      box-shadow:0 10px 40px rgba(0,0,0,0.25);
+    }
+
+    .toast-demo-card:hover{
+      transform:translateY(-8px);
+    }
+
+    .toast-demo-icon{
+      width:72px;
+      height:72px;
+      border-radius:24px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.8rem;
+      margin-bottom:24px;
+      font-weight:700;
+    }
+
+    .success{
+      background:linear-gradient(135deg,#00c853,#00ff9d);
+    }
+
+    .error{
+      background:linear-gradient(135deg,#ff1744,#ff5252);
+    }
+
+    .warning{
+      background:linear-gradient(135deg,#ff9100,#ffb347);
+    }
+
+    .info{
+      background:linear-gradient(135deg,#2979ff,#00b8ff);
+    }
+
+    .toast-demo-card h3{
+      font-size:1.5rem;
+      margin-bottom:14px;
+    }
+
+    .toast-demo-card p{
+      opacity:0.72;
+      line-height:1.7;
+      margin-bottom:28px;
+    }
+
+    .toast-btn{
+      border:none;
+      outline:none;
+      cursor:pointer;
+      width:100%;
+      padding:16px;
+      border-radius:18px;
+      color:white;
+      font-size:1rem;
+      font-weight:700;
+      transition:0.3s ease;
+    }
+
+    .toast-btn:hover{
+      transform:translateY(-4px);
+    }
+
+    .success-btn{
+      background:linear-gradient(135deg,#00c853,#00ff9d);
+    }
+
+    .error-btn{
+      background:linear-gradient(135deg,#ff1744,#ff5252);
+    }
+
+    .warning-btn{
+      background:linear-gradient(135deg,#ff9100,#ffb347);
+    }
+
+    .info-btn{
+      background:linear-gradient(135deg,#2979ff,#00b8ff);
+    }
+
+    /* ADVANCED SECTION */
+
+    .advanced-section{
+      margin-top:120px;
+    }
+
+    .advanced-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+      gap:28px;
+    }
+
+    .advanced-card{
+      position:relative;
+      overflow:hidden;
+      padding:30px;
+      border-radius:28px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.08);
+      backdrop-filter:blur(18px);
+      box-shadow:0 10px 40px rgba(0,0,0,0.2);
+      transition:0.4s ease;
+    }
+
+    .advanced-card:hover{
+      transform:translateY(-8px);
+    }
+
+    /* STATUS */
+
+    .live-header{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-size:1.1rem;
+      font-weight:700;
+      margin-bottom:24px;
+    }
+
+    .pulse-dot{
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      background:#00ff9d;
+      animation:pulse 1.5s infinite;
+    }
+
+    @keyframes pulse{
+      0%{
+        box-shadow:0 0 0 0 rgba(0,255,157,0.6);
+      }
+
+      70%{
+        box-shadow:0 0 0 14px rgba(0,255,157,0);
+      }
+
+      100%{
+        box-shadow:0 0 0 0 rgba(0,255,157,0);
+      }
+    }
+
+    .status-list{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .status-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding-bottom:14px;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+    }
+
+    .online{
+      color:#00ff9d;
+      font-weight:700;
+    }
+
+    .warning-text{
+      color:#ffb347;
+      font-weight:700;
+    }
+
+    /* ALERT BANNER */
+
+    .alert-banner{
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+
+    .alert-icon{
+      width:68px;
+      height:68px;
+      border-radius:22px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.8rem;
+      background:rgba(255,80,80,0.18);
+    }
+
+    .alert-banner h4{
+      margin-bottom:6px;
+      font-size:1.1rem;
+    }
+
+    .alert-banner p{
+      opacity:0.7;
+      font-size:0.92rem;
+      line-height:1.6;
+    }
+
+    .mini-btn{
+      margin-left:auto;
+      border:none;
+      padding:12px 18px;
+      border-radius:16px;
+      cursor:pointer;
+      font-weight:700;
+      color:white;
+      background:linear-gradient(135deg,#7c4dff,#5b8cff);
+    }
+
+    /* PROGRESS */
+
+    .upload-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:24px;
+    }
+
+    .upload-top h4{
+      margin-bottom:6px;
+      font-size:1.2rem;
+    }
+
+    .upload-top p{
+      opacity:0.7;
+      font-size:0.9rem;
+    }
+
+    .upload-percent{
+      font-size:1.6rem;
+      font-weight:800;
+    }
+
+    .progress-bar{
+      width:100%;
+      height:16px;
+      border-radius:999px;
+      overflow:hidden;
+      background:rgba(255,255,255,0.08);
+    }
+
+    .progress-fill{
+      width:78%;
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg,#00ff9d,#00b8ff);
+      animation:gradientShift 3s linear infinite;
+    }
+
+    @keyframes gradientShift{
+      0%{
+        filter:hue-rotate(0deg);
+      }
+
+      100%{
+        filter:hue-rotate(360deg);
+      }
+    }
+
+    /* FEED */
+
+    .feed-title{
+      margin-bottom:26px;
+      font-size:1.2rem;
+    }
+
+    .feed-list{
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+
+    .feed-item{
+      display:flex;
+      align-items:center;
+      gap:16px;
+    }
+
+    .feed-avatar{
+      width:52px;
+      height:52px;
+      border-radius:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      background:linear-gradient(135deg,#00ff9d,#00b8ff);
+    }
+
+    .feed-avatar.blue{
+      background:linear-gradient(135deg,#5b8cff,#7c4dff);
+    }
+
+    .feed-avatar.pink{
+      background:linear-gradient(135deg,#ff4d9d,#ff8a65);
+    }
+
+    .feed-item p{
+      opacity:0.7;
+      font-size:0.92rem;
+      margin-top:4px;
+    }
+
+    /* QUICK ACTIONS */
+
+    .action-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:16px;
+    }
+
+    .action-btn{
+      border:none;
+      padding:18px;
+      border-radius:18px;
+      cursor:pointer;
+      font-weight:700;
+      color:white;
+      transition:0.3s ease;
+    }
+
+    .action-btn:hover{
+      transform:translateY(-5px);
+    }
+
+    .success-action{
+      background:linear-gradient(135deg,#00c853,#00ff9d);
+    }
+
+    .error-action{
+      background:linear-gradient(135deg,#ff1744,#ff5252);
+    }
+
+    .warning-action{
+      background:linear-gradient(135deg,#ff9100,#ffb347);
+    }
+
+    .info-action{
+      background:linear-gradient(135deg,#2979ff,#00b8ff);
+    }
+
+    /* STATS */
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+
+    .stat-box{
+      padding:24px 16px;
+      border-radius:22px;
+      text-align:center;
+      background:rgba(255,255,255,0.06);
+    }
+
+    .stat-box h3{
+      font-size:2rem;
+      margin-bottom:10px;
+    }
+
+    .stat-box p{
+      opacity:0.72;
+      font-size:0.92rem;
+    }
+
+    /* TOAST */
+
+    .toast-container{
+      position:fixed;
+      top:30px;
+      right:30px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      z-index:9999;
+    }
+
+    .toast{
+      position:relative;
+      overflow:hidden;
+      min-width:320px;
+      padding:22px 22px 26px;
+      border-radius:24px;
+      color:white;
+      backdrop-filter:blur(18px);
+      box-shadow:0 12px 40px rgba(0,0,0,0.35);
+      animation:slideIn 0.5s ease;
+    }
+
+    .toast.success-toast{
+      background:rgba(0,200,83,0.18);
+      border:1px solid rgba(0,255,157,0.25);
+    }
+
+    .toast.error-toast{
+      background:rgba(255,23,68,0.18);
+      border:1px solid rgba(255,82,82,0.25);
+    }
+
+    .toast.warning-toast{
+      background:rgba(255,145,0,0.18);
+      border:1px solid rgba(255,179,71,0.25);
+    }
+
+    .toast.info-toast{
+      background:rgba(41,121,255,0.18);
+      border:1px solid rgba(0,184,255,0.25);
+    }
+
+    .toast-header{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:12px;
+    }
+
+    .toast-icon{
+      width:48px;
+      height:48px;
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.2rem;
+      font-weight:700;
+    }
+
+    .toast-body h4{
+      font-size:1rem;
+      margin-bottom:4px;
+    }
+
+    .toast-body p{
+      opacity:0.82;
+      font-size:0.92rem;
+      line-height:1.6;
+    }
+
+    .toast-progress{
+      position:absolute;
+      bottom:0;
+      left:0;
+      height:4px;
+      width:100%;
+      transform-origin:left;
+      animation:progress 4s linear forwards;
+    }
+
+    .success-progress{
+      background:#00ff9d;
+    }
+
+    .error-progress{
+      background:#ff5252;
+    }
+
+    .warning-progress{
+      background:#ffb347;
+    }
+
+    .info-progress{
+      background:#00b8ff;
+    }
+
+    @keyframes progress{
+      from{
+        transform:scaleX(1);
+      }
+
+      to{
+        transform:scaleX(0);
+      }
+    }
+
+    @keyframes slideIn{
+      from{
+        opacity:0;
+        transform:translateX(60px);
+      }
+
+      to{
+        opacity:1;
+        transform:translateX(0);
+      }
+    }
+
+    @keyframes fadeOut{
+      to{
+        opacity:0;
+        transform:translateX(80px);
+      }
+    }
+
+    /* MOBILE */
+
+    @media(max-width:768px){
+
+      .hero-title{
+        font-size:3rem;
+      }
+
+      .toast-demo-grid,
+      .advanced-grid{
+        grid-template-columns:1fr;
+      }
+
+      .stats-grid{
+        grid-template-columns:1fr;
+      }
+
+      .action-grid{
+        grid-template-columns:1fr;
+      }
+
+      .alert-banner{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .mini-btn{
+        margin-left:0;
+        margin-top:12px;
+      }
+
+      .toast-container{
+        right:16px;
+        left:16px;
+      }
+
+      .toast{
+        min-width:unset;
+        width:100%;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <div class="hero-badge">
+        🔔 Interactive Notification UI
+      </div>
+
+      <h1 class="hero-title">
+        Beautiful
+        <span class="hero-accent">
+          Toast Notifications
+        </span>
+        for modern websites.
+      </h1>
+
+      <p class="hero-desc">
+        Responsive glassmorphism notification system with smooth animations,
+        progress indicators, auto dismiss & modern UI components.
+      </p>
+
+    </section>
+
+    <!-- TOAST SECTION -->
+
+    <section class="toast-section">
+
+      <div class="section-header">
+
+        <span class="section-tag">
+          UI Components
+        </span>
+
+        <h2 class="section-title">
+          🚀 Notification Toast System
+        </h2>
+
+        <p class="section-subtitle">
+          Elegant notification alerts for success, errors,
+          warnings and informational updates.
+        </p>
+
+      </div>
+
+      <div class="toast-demo-grid">
+
+        <!-- SUCCESS -->
+
+        <div class="toast-demo-card">
+
+          <div class="toast-demo-icon success">
+            ✔
+          </div>
+
+          <h3>Success Toast</h3>
+
+          <p>
+            Use for completed actions,
+            successful forms and confirmations.
+          </p>
+
+          <button
+            class="toast-btn success-btn"
+            onclick="showToast('success')"
+          >
+            Show Success
+          </button>
+
+        </div>
+
+        <!-- ERROR -->
+
+        <div class="toast-demo-card">
+
+          <div class="toast-demo-icon error">
+            ✖
+          </div>
+
+          <h3>Error Toast</h3>
+
+          <p>
+            Display modern error notifications
+            with strong visual feedback.
+          </p>
+
+          <button
+            class="toast-btn error-btn"
+            onclick="showToast('error')"
+          >
+            Show Error
+          </button>
+
+        </div>
+
+        <!-- WARNING -->
+
+        <div class="toast-demo-card">
+
+          <div class="toast-demo-icon warning">
+            ⚠
+          </div>
+
+          <h3>Warning Toast</h3>
+
+          <p>
+            Alert users before important
+            actions or risky operations.
+          </p>
+
+          <button
+            class="toast-btn warning-btn"
+            onclick="showToast('warning')"
+          >
+            Show Warning
+          </button>
+
+        </div>
+
+        <!-- INFO -->
+
+        <div class="toast-demo-card">
+
+          <div class="toast-demo-icon info">
+            ℹ
+          </div>
+
+          <h3>Info Toast</h3>
+
+          <p>
+            Great for announcements,
+            updates and informational alerts.
+          </p>
+
+          <button
+            class="toast-btn info-btn"
+            onclick="showToast('info')"
+          >
+            Show Info
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ADVANCED COMPONENTS -->
+
+    <section class="advanced-section">
+
+      <div class="section-header">
+
+        <span class="section-tag">
+          Advanced UI
+        </span>
+
+        <h2 class="section-title">
+          ✨ More Notification Components
+        </h2>
+
+        <p class="section-subtitle">
+          Interactive alert systems, banners,
+          loaders, activity feeds and modern widgets.
+        </p>
+
+      </div>
+
+      <div class="advanced-grid">
+
+        <!-- STATUS -->
+
+        <div class="advanced-card">
+
+          <div class="live-header">
+            <span class="pulse-dot"></span>
+            System Status
+          </div>
+
+          <div class="status-list">
+
+            <div class="status-item">
+              <span>Server Connection</span>
+              <span class="online">Online</span>
+            </div>
+
+            <div class="status-item">
+              <span>Database</span>
+              <span class="online">Stable</span>
+            </div>
+
+            <div class="status-item">
+              <span>API Requests</span>
+              <span class="warning-text">High Load</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ALERT -->
+
+        <div class="advanced-card">
+
+          <div class="alert-banner">
+
+            <div class="alert-icon">
+              🚨
+            </div>
+
+            <div>
+              <h4>Security Update Available</h4>
+
+              <p>
+                Your application security patch
+                is ready to install.
+              </p>
+            </div>
+
+            <button class="mini-btn">
+              Update
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PROGRESS -->
+
+        <div class="advanced-card">
+
+          <div class="upload-top">
+
+            <div>
+
+              <h4>Uploading Files</h4>
+
+              <p>
+                dashboard-assets.zip
+              </p>
+
+            </div>
+
+            <span class="upload-percent">
+              78%
+            </span>
+
+          </div>
+
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+
+        </div>
+
+        <!-- FEED -->
+
+        <div class="advanced-card">
+
+          <h4 class="feed-title">
+            🔔 Recent Notifications
+          </h4>
+
+          <div class="feed-list">
+
+            <div class="feed-item">
+
+              <div class="feed-avatar">
+                A
+              </div>
+
+              <div>
+
+                <h5>Admin Message</h5>
+
+                <p>
+                  New UI assets uploaded.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="feed-item">
+
+              <div class="feed-avatar blue">
+                S
+              </div>
+
+              <div>
+
+                <h5>System Alert</h5>
+
+                <p>
+                  Backup completed successfully.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="feed-item">
+
+              <div class="feed-avatar pink">
+                U
+              </div>
+
+              <div>
+
+                <h5>User Activity</h5>
+
+                <p>
+                  3 new users registered.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="advanced-card">
+
+          <h4 class="feed-title">
+            ⚡ Quick Actions
+          </h4>
+
+          <div class="action-grid">
+
+            <button
+              class="action-btn success-action"
+              onclick="showToast('success')"
+            >
+              ✔ Success
+            </button>
+
+            <button
+              class="action-btn error-action"
+              onclick="showToast('error')"
+            >
+              ✖ Error
+            </button>
+
+            <button
+              class="action-btn warning-action"
+              onclick="showToast('warning')"
+            >
+              ⚠ Warning
+            </button>
+
+            <button
+              class="action-btn info-action"
+              onclick="showToast('info')"
+            >
+              ℹ Info
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- STATS -->
+
+        <div class="advanced-card">
+
+          <div class="stats-grid">
+
+            <div class="stat-box">
+
+              <h3>128</h3>
+
+              <p>Total Alerts</p>
+
+            </div>
+
+            <div class="stat-box">
+
+              <h3>98%</h3>
+
+              <p>Success Rate</p>
+
+            </div>
+
+            <div class="stat-box">
+
+              <h3>24</h3>
+
+              <p>Warnings</p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- TOAST CONTAINER -->
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+
+    function showToast(type){
+
+      const container =
+        document.getElementById("toastContainer");
+
+      const toast =
+        document.createElement("div");
+
+      let icon = "";
+      let title = "";
+      let message = "";
+
+      if(type === "success"){
+        icon = "✔";
+        title = "Success";
+        message =
+          "Your action has been completed successfully.";
+      }
+
+      if(type === "error"){
+        icon = "✖";
+        title = "Error";
+        message =
+          "Something went wrong. Please try again.";
+      }
+
+      if(type === "warning"){
+        icon = "⚠";
+        title = "Warning";
+        message =
+          "Be careful before continuing this action.";
+      }
+
+      if(type === "info"){
+        icon = "ℹ";
+        title = "Information";
+        message =
+          "New updates and announcements are available.";
+      }
+
+      toast.className =
+        `toast ${type}-toast`;
+
+      toast.innerHTML = `
+        <div class="toast-header">
+
+          <div class="toast-icon ${type}">
+            ${icon}
+          </div>
+
+          <div class="toast-body">
+            <h4>${title}</h4>
+
+            <p>${message}</p>
+          </div>
+
+        </div>
+
+        <div class="toast-progress ${type}-progress"></div>
+      `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+
+        toast.style.animation =
+          "fadeOut 0.5s forwards";
+
+        setTimeout(() => {
+          toast.remove();
+        },500);
+
+      },4000);
+
+    }
+
+  </script>
+
+    <script src="../dist/shared.js"></script>
+</body>
+</html>

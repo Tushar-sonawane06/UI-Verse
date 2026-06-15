@@ -1,0 +1,878 @@
+/* ==========================================================================
+   UIVERSE DIVIDER COMPONENTS LIBRARY - CORE ARCHITECTURE STYLESHEET
+   ========================================================================== */
+
+/* --- Design System Tokens & Variable Declarations --- */
+:root {
+  --uiv-bg-main: #0f0f11;
+  --uiv-bg-surface: #18181c;
+  --uiv-bg-card: #1e1e24;
+  --uiv-bg-code: #131316;
+  --uiv-text-primary: #f5f5f7;
+  --uiv-text-secondary: #afafb6;
+  --uiv-text-muted: #6e6e73;
+  --uiv-primary: #007bff;
+  --uiv-primary-glow: rgba(0, 123, 255, 0.35);
+  --uiv-accent: #00f3ff;
+  --uiv-border-color: rgba(255, 255, 255, 0.08);
+  --uiv-border-hover: rgba(255, 255, 255, 0.16);
+  --uiv-success: #34c759;
+  --uiv-premium-gold: #d4af37;
+  --uiv-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --uiv-radius-lg: 12px;
+  --uiv-radius-md: 8px;
+  --uiv-radius-sm: 4px;
+  --uiv-transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --uiv-transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --uiv-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --uiv-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Light Theme Token Overrides --- */
+body.uiverse-theme-light {
+  --uiv-bg-main: #f4f4f7;
+  --uiv-bg-surface: #ffffff;
+  --uiv-bg-card: #fdfdfd;
+  --uiv-bg-code: #1e1e24;
+  --uiv-text-primary: #1d1d1f;
+  --uiv-text-secondary: #515154;
+  --uiv-text-muted: #86868b;
+  --uiv-border-color: rgba(0, 0, 0, 0.08);
+  --uiv-border-hover: rgba(0, 0, 0, 0.15);
+  --uiv-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --uiv-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* --- Core Base Resets --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--uiv-bg-main);
+  color: var(--uiv-text-primary);
+  font-family: var(--uiv-font-sans);
+  overflow-x: hidden;
+  line-height: 1.5;
+  transition: background-color var(--uiv-transition-smooth), color var(--uiv-transition-smooth);
+}
+
+/* --- Layout Module & Navbar Component --- */
+.uiverse-navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 64px;
+  background-color: var(--uiv-bg-surface);
+  border-bottom: 1px solid var(--uiv-border-color);
+  z-index: 1000;
+}
+
+.nav-container {
+  display: block;
+  width: 100%;
+  max-width: 1600px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Fallback table design architecture to fully circumvent WeasyPrint flex boxes */
+.nav-container::after, .uiv-divider-icon::after, .uiv-divider-text::after, .uiv-divider-premium::after, .uiv-divider-social::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.nav-brand {
+  float: left;
+  margin-top: 18px;
+}
+
+.brand-logo {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.logo-u { color: var(--uiv-primary); }
+.logo-verse { color: var(--uiv-text-primary); }
+
+.brand-badge {
+  display: inline-block;
+  font-size: 11px;
+  background-color: var(--uiv-border-color);
+  color: var(--uiv-text-secondary);
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.nav-search-container {
+  float: left;
+  margin-left: 64px;
+  margin-top: 12px;
+  position: relative;
+  width: 320px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px; top: 12px;
+  color: var(--uiv-text-muted);
+  font-size: 14px;
+}
+
+#global-search {
+  width: 100%;
+  height: 40px;
+  background-color: var(--uiv-bg-main);
+  border: 1px solid var(--uiv-border-color);
+  border-radius: var(--uiv-radius-md);
+  padding: 0 40px 0 38px;
+  color: var(--uiv-text-primary);
+  font-size: 13px;
+  transition: all var(--uiv-transition-fast);
+}
+
+#global-search:focus {
+  outline: none;
+  border-color: var(--uiv-primary);
+  box-shadow: 0 0 0 3px var(--uiv-primary-glow);
+}
+
+.search-shortcut {
+  position: absolute;
+  right: 12px; top: 11px;
+  background-color: var(--uiv-bg-surface);
+  border: 1px solid var(--uiv-border-color);
+  color: var(--uiv-text-muted);
+  padding: 1px 6px;
+  font-size: 11px;
+  border-radius: 4px;
+}
+
+.nav-actions {
+  float: right;
+  margin-top: 12px;
+}
+
+.nav-btn {
+  display: inline-block;
+  height: 40px; width: 40px;
+  background-color: transparent;
+  border: 1px solid var(--uiv-border-color);
+  color: var(--uiv-text-secondary);
+  border-radius: var(--uiv-radius-md);
+  cursor: pointer;
+  text-align: center;
+  line-height: 38px;
+  margin-left: 8px;
+  transition: all var(--uiv-transition-fast);
+}
+
+.nav-btn:hover {
+  background-color: var(--uiv-border-color);
+  color: var(--uiv-text-primary);
+}
+
+.btn-primary {
+  width: auto;
+  padding: 0 16px;
+  background-color: var(--uiv-primary);
+  color: #ffffff !important;
+  border: none;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.btn-primary:hover {
+  background-color: #0062cc;
+  box-shadow: 0 4px 12px var(--uiv-primary-glow);
+}
+
+/* --- Layout Workspace & Sidebar Alignment --- */
+.uiverse-layout {
+  display: block;
+  max-width: 1600px;
+  margin: 64px auto 0 auto;
+  position: relative;
+}
+
+.uiverse-sidebar {
+  position: fixed;
+  top: 64px; left: calc((100vw - 1600px) / 2);
+  width: 260px;
+  height: calc(100vh - 64px);
+  background-color: var(--uiv-bg-surface);
+  border-right: 1px solid var(--uiv-border-color);
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* Window size safety adjustment for sidebar */
+@media (max-width: 1600px) {
+  .uiverse-sidebar { left: 0; }
+}
+
+.sidebar-section {
+  margin-bottom: 32px;
+}
+
+.sidebar-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--uiv-text-muted);
+  margin-bottom: 12px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0; margin: 0;
+}
+
+.menu-item {
+  display: block;
+  padding: 10px 12px;
+  border-radius: var(--uiv-radius-md);
+  color: var(--uiv-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 4px;
+  position: relative;
+  transition: all var(--uiv-transition-fast);
+}
+
+.menu-item i {
+  margin-right: 10px;
+  width: 16px;
+  text-align: center;
+}
+
+.menu-item:hover {
+  background-color: var(--uiv-border-color);
+  color: var(--uiv-text-primary);
+}
+
+.menu-item.active {
+  background-color: var(--uiv-primary-glow);
+  color: var(--uiv-primary);
+}
+
+.component-count {
+  position: absolute;
+  right: 12px; top: 10px;
+  font-size: 11px;
+  background-color: var(--uiv-bg-main);
+  padding: 1px 6px;
+  border-radius: 10px;
+  color: var(--uiv-text-muted);
+}
+
+.stats-card {
+  background-color: var(--uiv-bg-main);
+  border: 1px solid var(--uiv-border-color);
+  border-radius: var(--uiv-radius-md);
+  padding: 14px;
+}
+
+.stat-row {
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.stat-row:last-child { margin-bottom: 0; }
+.stat-row span { color: var(--uiv-text-muted); }
+.stat-row strong { float: right; color: var(--uiv-text-primary); }
+
+.sidebar-footer {
+  font-size: 11px;
+  color: var(--uiv-text-muted);
+  text-align: center;
+  margin-top: 64px;
+}
+
+/* --- Main Layout Workspace Window Content --- */
+.uiverse-main-content {
+  margin-left: 260px;
+  padding: 40px;
+  min-height: calc(100vh - 64px);
+}
+
+/* --- Hero Section & Custom Glow Features --- */
+.uiverse-hero {
+  position: relative;
+  background-color: var(--uiv-bg-surface);
+  border: 1px solid var(--uiv-border-color);
+  border-radius: var(--uiv-radius-lg);
+  padding: 48px;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.hero-bg-glow {
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(0,243,255,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-content { position: relative; z-index: 2; max-width: 800px; }
+
+.hero-title {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--uiv-primary), var(--uiv-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 15px;
+  color: var(--uiv-text-secondary);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.hero-cta-group .hero-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: var(--uiv-radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  margin-right: 12px;
+  transition: all var(--uiv-transition-fast);
+}
+
+.hero-btn.primary {
+  background-color: var(--uiv-text-primary);
+  color: var(--uiv-bg-main);
+}
+.hero-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--uiv-shadow-md);
+}
+.hero-btn.secondary {
+  background-color: transparent;
+  border: 1px solid var(--uiv-border-color);
+  color: var(--uiv-text-primary);
+}
+.hero-btn.secondary:hover {
+  background-color: var(--uiv-border-color);
+}
+
+/* --- Toolbar Controls Layout --- */
+.uiverse-toolbar {
+  background-color: var(--uiv-bg-surface);
+  border: 1px solid var(--uiv-border-color);
+  border-radius: var(--uiv-radius-md);
+  padding: 16px 24px;
+  margin-bottom: 32px;
+}
+.toolbar-left { float: left; margin-top: 6px; }
+.toolbar-right { float: right; }
+
+.results-text { font-size: 13px; color: var(--uiv-text-secondary); font-weight: 500; }
+
+.view-mode-toggle {
+  display: inline-block;
+  border: 1px solid var(--uiv-border-color);
+  border-radius: var(--uiv-radius-md);
+  overflow: hidden;
+  background-color: var(--uiv-bg-main);
+}
+
+.view-btn {
+  background: transparent;
+  border: none;
+  color: var(--uiv-text-muted);
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all var(--uiv-transition-fast);
+}
+.view-btn.active {
+  background-color: var(--uiv-bg-card);
+  color: var(--uiv-primary);
+}
+
+/* --- Component Card Grid Systems & Layout Configurations --- */
+.components-grid {
+  display: block;
+  clear: both;
+}
+
+/* Column layout logic via standard blocks */
+.component-card {
+  display: block;
+  width: 100%;
+  background-color: var(--uiv-bg-surface);
+  border: 1px solid var(--uiv-border-color);
+  border-radius: var(--uiv-radius-lg);
+  margin-bottom: 24px;
+  overflow: hidden;
+  position: relative;
+  transition: border-color var(--uiv-transition-fast), box-shadow var(--uiv-transition-fast);
+}
+
+.component-card:hover {
+  border-color: var(--uiv-border-hover);
+  box-shadow: var(--uiv-shadow-md);
+}
+
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--uiv-border-color);
+  background-color: rgba(0,0,0,0.02);
+}
+.card-header::after { content: ""; display: table; clear: both; }
+
+.card-title-group { float: left; }
+.card-title {
+  margin: 0; font-size: 14px; font-weight: 600; display: inline-block;
+  color: var(--uiv-text-primary);
+}
+
+.card-badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.card-badge.minimal { background-color: rgba(255,255,255,0.05); color: var(--uiv-text-secondary); }
+.card-badge.gradient { background-image: linear-gradient(90deg, #ff007f, #7f00ff); color: #fff; }
+.card-badge.interactive { background-color: rgba(0,123,255,0.15); color: var(--uiv-primary); }
+.card-badge.decorative { background-color: rgba(0,243,255,0.15); color: var(--uiv-accent); }
+.card-badge.layout { background-color: rgba(52,199,89,0.15); color: var(--uiv-success); }
+
+.card-actions { float: right; }
+.card-action-btn {
+  background: transparent;
+  border: 1px solid var(--uiv-border-color);
+  color: var(--uiv-text-secondary);
+  width: 32px; height: 32px;
+  border-radius: var(--uiv-radius-md);
+  cursor: pointer;
+  margin-left: 6px;
+  font-size: 12px;
+  transition: all var(--uiv-transition-fast);
+}
+.card-action-btn:hover {
+  background-color: var(--uiv-border-color);
+  color: var(--uiv-text-primary);
+  border-color: var(--uiv-border-hover);
+}
+
+/* --- Card Visual Rendering Spaces --- */
+.card-preview {
+  background-color: var(--uiv-bg-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.preview-container {
+  width: 100%;
+  position: relative;
+}
+
+.preview-container.padding-large { padding: 48px; }
+.preview-container.pattern-bg {
+  background-image: radial-gradient(var(--uiv-border-color) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.preview-container.vertical-box {
+  padding: 32px;
+  text-align: center;
+}
+.preview-container.vertical-box span {
+  font-size: 13px; color: var(--uiv-text-secondary); vertical-align: middle;
+}
+
+.timeline-preview { padding: 24px 48px; }
+
+/* --- Code Implementation Panel Component --- */
+.card-code-panel {
+  background-color: var(--uiv-bg-code);
+  border-top: 1px solid var(--uiv-border-color);
+  display: none;
+}
+.card-code-panel.visible { display: block; }
+
+.code-tabs {
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  background-color: rgba(0,0,0,0.1);
+}
+.code-tab-btn {
+  background: transparent; border: none;
+  color: var(--uiv-text-muted);
+  font-size: 11px; font-weight: 600;
+  padding: 6px 12px; cursor: pointer;
+  border-radius: 4px; margin-right: 4px;
+}
+.code-tab-btn.active {
+  background-color: rgba(255,255,255,0.06);
+  color: #ffffff;
+}
+
+.code-block {
+  margin: 0; padding: 16px 20px;
+  overflow-x: auto;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 12px; color: #e1e1e6;
+  display: none;
+  line-height: 1.6;
+}
+.code-block.active { display: block; }
+
+/* --- THE 25 DIVIDER CORE ELEMENT STYLINGS --- */
+
+/* 01. Basic Divider */
+.uiv-divider-basic {
+  width: 100%; height: 1px;
+  background-color: var(--uiv-border-color);
+}
+
+/* 02. Gradient Divider */
+.uiv-divider-gradient {
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, transparent, #007bff, #00ff88, #007bff, transparent);
+  background-size: 200% 100%;
+}
+
+/* 03. Dashed Divider */
+.uiv-divider-dashed {
+  width: 100%; height: 0;
+  border-top: 2px dashed var(--uiv-border-hover);
+}
+
+/* 04. Dotted Divider */
+.uiv-divider-dotted {
+  width: 100%; height: 0;
+  border-top: 4px dotted var(--uiv-border-hover);
+  letter-spacing: 6px;
+}
+
+/* 05. Double Line Divider */
+.uiv-divider-double {
+  width: 100%; height: 6px;
+  border-top: 2px solid var(--uiv-border-color);
+  border-bottom: 2px solid var(--uiv-border-color);
+}
+
+/* 06. Icon Divider */
+.uiv-divider-icon { text-align: center; width: 100%; }
+.uiv-divider-icon::before, .uiv-divider-icon::after {
+  content: ''; float: left; width: 45%; margin-top: 10px;
+  border-bottom: 1px solid var(--uiv-border-color);
+}
+.uiv-divider-icon::after { float: right; }
+.uiv-divider-icon i { color: var(--uiv-accent); font-size: 14px; vertical-align: middle; }
+
+/* 07. Text Divider */
+.uiv-divider-text { text-align: center; width: 100%; }
+.uiv-divider-text::before, .uiv-divider-text::after {
+  content: ''; float: left; width: 40%; margin-top: 10px;
+  border-bottom: 1px solid var(--uiv-border-color);
+}
+.uiv-divider-text::after { float: right; }
+.uiv-divider-text span {
+  color: var(--uiv-text-muted); font-size: 11px;
+  font-weight: 700; letter-spacing: 2px; vertical-align: middle;
+}
+
+/* 08. Animated Divider */
+.uiv-divider-animated {
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, #ff007f, transparent);
+  position: relative; overflow: hidden;
+}
+.uiv-divider-animated::after {
+  content: ''; position: absolute; top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+  animation: uiv-laser-slide 2.5s infinite linear;
+}
+@keyframes uiv-laser-slide {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* 09. Neon Divider */
+.uiv-divider-neon {
+  width: 100%; height: 2px;
+  background-color: var(--uiv-accent);
+  box-shadow: 0 0 10px var(--uiv-accent), 0 0 20px var(--uiv-accent);
+}
+
+/* 10. Glassmorphism Divider */
+.uiv-divider-glass {
+  width: 100%; height: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 20px;
+}
+
+/* 11. Dark Theme Divider */
+.uiv-divider-dark {
+  width: 100%; height: 2px;
+  background: #0a0a0c;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.9);
+}
+
+/* 12. Vertical Divider */
+.uiv-divider-vertical {
+  display: inline-block;
+  width: 2px; height: 32px;
+  background-color: var(--uiv-border-color);
+  margin: 0 20px;
+  vertical-align: middle;
+}
+
+/* 13. Zigzag Divider */
+.uiv-divider-zigzag {
+  width: 100%; height: 12px;
+  background-image: linear-gradient(135deg, var(--uiv-border-color) 25%, transparent 25%), 
+                    linear-gradient(225deg, var(--uiv-border-color) 25%, transparent 25%);
+  background-size: 16px 16px;
+}
+
+/* 14. Wave Divider */
+.uiv-divider-wave { width: 100%; overflow: hidden; line-height: 0; }
+.uiv-divider-wave svg { display: block; width: 100%; height: 24px; }
+.uiv-divider-wave .shape-fill { fill: var(--uiv-border-color); }
+
+/* 15. Shadow Divider */
+.uiv-divider-shadow {
+  width: 100%; height: 12px;
+  box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.7);
+  border-radius: 100%;
+}
+
+/* 16. Rainbow Divider */
+.uiv-divider-rainbow {
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, #ff0055, #ff9900, #ccff00, #00ff66, #00ffff, #7f00ff, #ff00aa);
+  border-radius: 4px;
+}
+
+/* 17. Premium Divider */
+.uiv-divider-premium { text-align: center; width: 100%; }
+.uiv-divider-premium::before, .uiv-divider-premium::after {
+  content: ''; float: left; width: 44%; margin-top: 6px;
+  height: 1px; background: linear-gradient(90deg, transparent, var(--uiv-premium-gold));
+}
+.uiv-divider-premium::after { float: right; background: linear-gradient(270deg, transparent, var(--uiv-premium-gold)); }
+.uiv-divider-premium .premium-diamond {
+  display: inline-block; width: 8px; height: 8px;
+  background-color: var(--uiv-premium-gold);
+  transform: rotate(45deg); vertical-align: middle;
+  box-shadow: 0 0 6px var(--uiv-premium-gold);
+}
+
+/* 18. Social Divider */
+.uiv-divider-social { width: 100%; text-align: center; }
+.social-line { display: inline-block; width: 35%; height: 1px; background: var(--uiv-border-color); vertical-align: middle; }
+.social-icons-group { display: inline-block; padding: 0 16px; vertical-align: middle; }
+.social-icon-item { color: var(--uiv-text-muted); margin: 0 6px; font-size: 13px; text-decoration: none; }
+.social-icon-item:hover { color: var(--uiv-text-primary); }
+
+/* 19. Timeline Divider */
+.uiv-timeline-item { display: block; position: relative; text-align: left; }
+.uiv-timeline-divider { float: left; width: 24px; text-align: center; }
+.timeline-dot { display: inline-block; width: 10px; height: 10px; background: var(--uiv-primary); border-radius: 50%; }
+.timeline-dot.adaptive-active { box-shadow: 0 0 0 4px var(--uiv-primary-glow); }
+.timeline-line { display: block; width: 2px; height: 45px; background: var(--uiv-border-color); margin: 4px auto 0 auto; }
+.timeline-content { margin-left: 40px; }
+.timeline-content h5 { margin: 0 0 4px 0; font-size: 13px; font-weight: 600; color: var(--uiv-text-primary); }
+.timeline-content p { margin: 0; font-size: 12px; color: var(--uiv-text-secondary); }
+
+/* 20. Pricing Divider */
+.uiv-divider-pricing { text-align: center; width: 100%; position: relative; }
+.uiv-divider-pricing::before {
+  content: ''; position: absolute; left: 0; top: 12px; width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--uiv-primary), transparent);
+  z-index: 1;
+}
+.pricing-badge-text {
+  position: relative; z-index: 2; padding: 4px 14px;
+  background: var(--uiv-primary); color: #ffffff;
+  font-size: 9px; font-weight: 800; border-radius: 30px; letter-spacing: 1px;
+}
+
+/* 21. Section Divider */
+.uiv-divider-section { text-align: center; width: 100%; }
+.section-block-core { display: inline-block; width: 48px; height: 4px; background-color: var(--uiv-success); border-radius: 10px; }
+
+/* 22. Curved Divider */
+.uiv-divider-curved { width: 100%; overflow: hidden; line-height: 0; }
+.uiv-divider-curved svg { display: block; width: 100%; height: 28px; }
+.uiv-divider-curved .shape-fill { fill: var(--uiv-border-color); }
+
+/* 23. Arrow Divider */
+.uiv-divider-arrow { text-align: center; width: 100%; position: relative; }
+.uiv-divider-arrow::before {
+  content: ''; position: absolute; left: 0; top: 11px; width: 100%; height: 1px;
+  background: var(--uiv-border-color); z-index: 1;
+}
+.arrow-chevron-down {
+  position: relative; z-index: 2; display: inline-block;
+  background: var(--uiv-bg-surface); padding: 4px 12px;
+  border: 1px solid var(--uiv-border-color); border-radius: 30px;
+  font-size: 10px; color: var(--uiv-text-secondary);
+}
+
+/* 24. Progress Divider */
+.uiv-divider-progress { width: 100%; height: 4px; background: rgba(255,255,255,0.04); border-radius: 10px; overflow: hidden; }
+body.uiverse-theme-light .uiv-divider-progress { background: rgba(0,0,0,0.05); }
+.progress-bar-fill-node { height: 100%; background: linear-gradient(90deg, #ff5e3a, #ff2a68); border-radius: 10px; }
+
+/* 25. Decorative Divider */
+.uiv-divider-decorative { text-align: center; width: 100%; }
+.dec-node { display: inline-block; background: var(--uiv-text-muted); vertical-align: middle; }
+.dec-node.ring { width: 10px; height: 10px; border: 2px solid var(--uiv-text-secondary); background: transparent; border-radius: 50%; margin-right: 8px; }
+.dec-node.line-long { width: 64px; height: 1px; margin-right: 8px; }
+.dec-node.solid-circle { width: 6px; height: 6px; border-radius: 50%; background: var(--uiv-text-primary); margin-right: 8px; }
+.dec-node.line-short { width: 24px; height: 1px; }
+
+/* --- Interactive Code Sandbox Modal Panel Layout --- */
+.uiv-modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: none;
+  padding: 40px;
+}
+.uiv-modal-backdrop.visible { display: block; }
+
+.uiv-modal-window {
+  width: 100%; max-width: 960px;
+  background-color: var(--uiv-bg-surface);
+  border: 1px solid var(--uiv-border-hover);
+  border-radius: var(--uiv-radius-lg);
+  margin: 60px auto 0 auto;
+  overflow: hidden;
+  box-shadow: var(--uiv-shadow-md);
+}
+
+.modal-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--uiv-border-color);
+  background-color: rgba(0,0,0,0.02);
+}
+.modal-header h4 { margin: 0; font-size: 15px; font-weight: 600; float: left; }
+.modal-close-btn { float: right; background: transparent; border: none; color: var(--uiv-text-muted); font-size: 22px; cursor: pointer; line-height: 1; }
+.modal-close-btn:hover { color: var(--uiv-text-primary); }
+
+.modal-body { padding: 24px; }
+.modal-split-container::after { content: ""; display: table; clear: both; }
+
+.modal-pane-preview { float: left; width: 45%; }
+.modal-pane-code { float: right; width: 50%; }
+
+.pane-heading { margin: 0 0 12px 0; font-size: 12px; font-weight: 700; color: var(--uiv-text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.pane-heading-group::after { content: ""; display: table; clear: both; }
+.pane-heading-group .pane-heading { float: left; margin-top: 6px; }
+
+.sandbox-render-zone {
+  background-color: var(--uiv-bg-card);
+  border: 1px solid var(--uiv-border-color);
+  border-radius: var(--uiv-radius-md);
+  padding: 40px 24px;
+  min-height: 120px;
+}
+
+.sandbox-copy-action {
+  float: right; background-color: var(--uiv-primary-glow); border: none;
+  color: var(--uiv-primary); font-size: 11px; font-weight: 600;
+  padding: 6px 12px; border-radius: var(--uiv-radius-sm); cursor: pointer;
+}
+.sandbox-copy-action:hover { background-color: var(--uiv-primary); color: #ffffff; }
+
+.sandbox-textarea-source {
+  width: 100%; height: 180px;
+  background-color: var(--uiv-bg-code);
+  border: 1px solid var(--uiv-border-color);
+  border-radius: var(--uiv-radius-md);
+  color: #e1e1e6; font-family: monospace;
+  font-size: 12px; padding: 12px; resize: none; margin-top: 8px;
+}
+
+/* --- Floating System Toast Infrastructure Styles --- */
+.uiv-toast-container {
+  position: fixed; bottom: 24px; right: 24px; z-index: 3000;
+}
+.uiv-toast {
+  background-color: #1c1c1e; color: #ffffff;
+  padding: 12px 20px; border-radius: var(--uiv-radius-md);
+  font-size: 13px; font-weight: 500; margin-top: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  border-left: 4px solid var(--uiv-primary);
+  animation: uiv-toast-fade-in 0.25s ease-out;
+}
+@keyframes uiv-toast-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Standard Structural Footer Modules --- */
+.uiverse-footer {
+  background-color: var(--uiv-bg-surface);
+  border-top: 1px solid var(--uiv-border-color);
+  padding: 40px 24px; margin-top: 64px; clear: both;
+}
+.footer-container { max-width: 1600px; margin: 0 auto; }
+.footer-container::after { content: ""; display: table; clear: both; }
+.footer-brand-meta { float: left; width: 40%; }
+.footer-brand-meta h5 { margin: 0 0 8px 0; font-size: 15px; font-weight: 700; }
+.footer-brand-meta p { margin: 0; font-size: 12px; color: var(--uiv-text-muted); max-width: 320px; }
+.footer-link-columns { float: right; width: 40%; }
+.footer-col { float: left; width: 50%; }
+.footer-col h6 { margin: 0 0 12px 0; font-size: 11px; text-transform: uppercase; color: var(--uiv-text-muted); }
+.footer-col a { display: block; color: var(--uiv-text-secondary); font-size: 12px; text-decoration: none; margin-bottom: 6px; }
+.footer-col a:hover { color: var(--uiv-text-primary); }
+.footer-legal { text-align: center; border-top: 1px solid var(--uiv-border-color); margin-top: 32px; padding-top: 20px; font-size: 11px; color: var(--uiv-text-muted); }
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT BREAKPOINTS & MEDIA INTERPOLATION
+   ========================================================================== */
+@media (max-width: 992px) {
+  .uiverse-sidebar { display: none; }
+  .uiverse-main-content { margin-left: 0; padding: 24px; }
+  .nav-search-container { width: 200px; margin-left: 24px; }
+  .modal-pane-preview, .modal-pane-code { float: none; width: 100%; }
+  .modal-pane-code { margin-top: 24px; }
+}
+
+@media (max-width: 768px) {
+  .nav-search-container { display: none; }
+  .footer-brand-meta, .footer-link-columns { float: none; width: 100%; }
+  .footer-link-columns { margin-top: 32px; }
+  .uiverse-hero { padding: 32px; }
+  .hero-title { font-size: 28px; }
+}
+divider-components.css
+Displaying divider-components.css.

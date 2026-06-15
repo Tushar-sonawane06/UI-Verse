@@ -127,7 +127,7 @@
   function registerComponentType(name, config) {
     COMPONENT_REGISTRY[name] = config;
     defaultsByType[name] = config.defaults;
-    console.log(`[Playground] Registered component type: ${name}`);
+    console.debug(`[Playground] Registered component type: ${name}`);
   }
 
   function isSupported(type) {
@@ -690,7 +690,7 @@
       subtree: true
     });
     
-    console.log('[Playground] MutationObserver active for dynamic components');
+    console.debug('[Playground] MutationObserver active for dynamic components');
   }
 
   function injectButtonToCard(card) {

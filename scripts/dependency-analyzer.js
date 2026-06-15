@@ -1,222 +1,381 @@
 #!/usr/bin/env node
-// Component Dependency & Import Analysis Tool
-// Analyzes component dependencies, detects circular imports, and generates reports
+// UI-Verse Component Dependency & Import Analysis Tool
+// Scans root-level HTML/CSS component files, extracts <link>, <script src>, @import
+// and generates a typed dependency graph (CSS, JS, shared-utility).
 
 const fs = require('fs');
 const path = require('path');
 
+const SHARED_CSS = new Set([
+  'style.css','home.css','shared-page.css','shared-sidebar.css',
+  'design-tokens.css','css/url-state.css','accessibility.css',
+  'footer.css','navbar.css','sidebar.css'
+]);
+const SHARED_JS = new Set([
+  'script.js','playground.js','js/loader.js','js/bootstrap.js',
+  'js/registry.js','js/theme-api.js'
+]);
+const CDN_PATTERNS = [
+  /^https?:\/\//,
+  /^\/\//,
+  /cdnjs\.cloudflare\.com/,
+  /fonts\.googleapis\.com/,
+  /unpkg\.com/,
+  /jsdelivr\.net/
+];
+
 class DependencyAnalyzer {
-  constructor(rootDir = './') {
-    this.rootDir = rootDir;
-    this.graph = {}; // dependency graph
-    this.imports = {}; // file -> imports mapping
+  constructor(rootDir = '.') {
+    this.rootDir = path.resolve(rootDir);
+    this.nodes = new Map();      // id -> {id, type, category, path}
+    this.edges = [];             // {source, target, type}
+    this.orphans = new Set();    // component ids with no shared deps
     this.circularDeps = [];
-    this.unusedImports = {};
+    this.componentIndex = null;  // loaded from components-index-data.js
   }
 
-  // Get all component files (JS, HTML, CSS)
-  getComponentFiles(dir = './components', maxDepth = 10, currentDepth = 0) {
-    if (currentDepth > maxDepth) return [];
-    const files = [];
+  /* ---------- Discovery ---------- */
+
+  loadComponentIndex() {
+    const indexPath = path.join(this.rootDir, 'components', 'components-index-data.js');
+    if (!fs.existsSync(indexPath)) return;
+    const raw = fs.readFileSync(indexPath, 'utf8');
+    // Strip the window.UIVerseComponentsIndexData = prefix and trailing semicolon
+    const jsonStart = raw.indexOf('{');
+    const jsonEnd = raw.lastIndexOf('}');
+    if (jsonStart === -1 || jsonEnd === -1) return;
     try {
-      const entries = fs.readdirSync(dir, { withFileTypes: true });
-      for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name);
-        const relPath = path.relative(this.rootDir, fullPath);
-        if (entry.isDirectory()) {
-          files.push(...this.getComponentFiles(fullPath, maxDepth, currentDepth + 1));
-        } else if (/\.(js|html|css)$/.test(entry.name)) {
-          files.push(relPath);
-        }
-      }
+      this.componentIndex = JSON.parse(raw.slice(jsonStart, jsonEnd + 1));
     } catch (e) {
-      console.warn(`Could not read ${dir}:`, e.message);
+      console.warn('Could not parse component index:', e.message);
+    }
+  }
+
+  getCategoryForPath(filePath) {
+    if (!this.componentIndex) return 'other';
+    const rel = filePath.replace(/\\/g, '/');
+    for (const cat of this.componentIndex.categories || []) {
+      for (const item of cat.items || []) {
+        if (item.path === rel) return cat.id;
+      }
+    }
+    return 'other';
+  }
+
+  getComponentTitle(filePath) {
+    if (!this.componentIndex) return path.basename(filePath, path.extname(filePath));
+    const rel = filePath.replace(/\\/g, '/');
+    for (const cat of this.componentIndex.categories || []) {
+      for (const item of cat.items || []) {
+        if (item.path === rel) return item.title || item.id;
+      }
+    }
+    return path.basename(filePath, path.extname(filePath));
+  }
+
+  isRootComponentFile(name) {
+    // Root-level .html files that are component pages (not index.html, docs, etc.)
+    const exclude = new Set([
+      'index.html','documentation.html','guidelines.html','about.html',
+      'faq.html','contact.html','terms.html','privacypolicy.html',
+      'license.html','dependency-dashboard.html','performance-dashboard.html',
+      'admin-panel.html','test-command-palette.html','test-security-csp.html',
+      'test-url-state.html','url-state.html','verify-produce.html',
+      'smart-search-demo.html','web-components-demo.html','welcome.html'
+    ]);
+    return name.endsWith('.html') && !exclude.has(name);
+  }
+
+  scanFiles() {
+    const entries = fs.readdirSync(this.rootDir, { withFileTypes: true });
+    const files = [];
+    for (const ent of entries) {
+      if (!ent.isFile()) continue;
+      const name = ent.name;
+      if (this.isRootComponentFile(name) || name.endsWith('.css')) {
+        files.push(path.join(this.rootDir, name));
+      }
+    }
+    // Also scan subfolder .html files that are component pages
+    const subDirs = fs.readdirSync(this.rootDir, { withFileTypes: true })
+      .filter(d => d.isDirectory() && !d.name.startsWith('.') && !['node_modules','reports','dist','tests','bench','scripts','.github','.storybook'].includes(d.name))
+      .map(d => d.name);
+    for (const dir of subDirs) {
+      const dirPath = path.join(this.rootDir, dir);
+      try {
+        const subEntries = fs.readdirSync(dirPath, { withFileTypes: true });
+        for (const ent of subEntries) {
+          if (ent.isFile() && ent.name.endsWith('.html')) {
+            files.push(path.join(dirPath, ent.name));
+          }
+        }
+      } catch (e) { /* ignore unreadable */ }
     }
     return files;
   }
 
-  // Extract imports from a file
-  extractImports(filePath) {
-    const imports = [];
-    try {
-      const content = fs.readFileSync(filePath, 'utf8');
-      // Match ES6 imports
-      const importRegex = /import\s+(?:{[^}]*}|[\w*]+|[\w*]+\s+from)?\s*['"]([^'"]+)['"]/g;
-      let match;
-      while ((match = importRegex.exec(content)) !== null) {
-        imports.push(match[1]);
-      }
-      // Match require statements
-      const requireRegex = /require\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
-      while ((match = requireRegex.exec(content)) !== null) {
-        imports.push(match[1]);
-      }
-    } catch (e) {
-      console.warn(`Could not read ${filePath}:`, e.message);
+  /* ---------- Extraction ---------- */
+
+  extractHtmlDeps(filePath) {
+    const deps = [];
+    let content;
+    try { content = fs.readFileSync(filePath, 'utf8'); } catch (e) { return deps; }
+
+    // <link rel="stylesheet" href="...">
+    const linkRe = /<link[^>]+rel=["']stylesheet["'][^>]+href=["']([^"']+)["'][^>]*>/gi;
+    let m;
+    while ((m = linkRe.exec(content)) !== null) {
+      deps.push({ type: 'css', raw: m[1] });
     }
-    return imports;
+
+    // <script src="..." defer?>
+    const scriptRe = /<script[^>]+src=["']([^"']+)["'][^>]*>/gi;
+    while ((m = scriptRe.exec(content)) !== null) {
+      deps.push({ type: 'js', raw: m[1] });
+    }
+
+    // @import url("...") or @import '...';
+    const importRe = /@import\s+(?:url\()?["']([^"']+)["']\)?;/gi;
+    while ((m = importRe.exec(content)) !== null) {
+      deps.push({ type: 'css', raw: m[1] });
+    }
+
+    return deps;
   }
 
-  // Resolve import path to actual file
-  resolveImport(importPath, fromFile) {
-    if (importPath.startsWith('.')) {
-      const dir = path.dirname(fromFile);
-      const resolved = path.resolve(path.join(dir, importPath));
-      // Try variations
-      for (const ext of ['', '.js', '.mjs', '/index.js']) {
-        const candidate = resolved + ext;
-        if (fs.existsSync(candidate)) return path.relative(this.rootDir, candidate);
-      }
-      return null;
+  resolveDep(rawDep, fromFile) {
+    if (CDN_PATTERNS.some(p => p.test(rawDep))) return null; // skip CDN
+    const dir = path.dirname(fromFile);
+    let resolved = path.resolve(dir, rawDep);
+    if (fs.existsSync(resolved)) return path.relative(this.rootDir, resolved).replace(/\\/g, '/');
+    // Try with extensions
+    for (const ext of ['.css', '.js', '.html']) {
+      const withExt = resolved + ext;
+      if (fs.existsSync(withExt)) return path.relative(this.rootDir, withExt).replace(/\\/g, '/');
     }
-    // External imports (node_modules, CDN)
     return null;
   }
 
-  // Build dependency graph
+  classifyEdge(targetPath) {
+    const base = path.basename(targetPath);
+    if (SHARED_CSS.has(base) || targetPath.startsWith('css/')) return 'shared-css';
+    if (SHARED_JS.has(base) || targetPath.startsWith('js/')) return 'shared-js';
+    if (base.endsWith('.css')) return 'css';
+    if (base.endsWith('.js')) return 'js';
+    return 'other';
+  }
+
+  /* ---------- Graph Building ---------- */
+
   buildGraph() {
-    const files = this.getComponentFiles();
+    this.loadComponentIndex();
+    const files = this.scanFiles();
+
+    // Create nodes
     for (const file of files) {
-      this.graph[file] = [];
-      this.imports[file] = this.extractImports(file);
-      for (const imp of this.imports[file]) {
-        const resolved = this.resolveImport(imp, file);
-        if (resolved) {
-          this.graph[file].push(resolved);
+      const rel = path.relative(this.rootDir, file).replace(/\\/g, '/');
+      const isComponent = rel.endsWith('.html');
+      const type = isComponent ? 'component' : 'stylesheet';
+      const category = isComponent ? this.getCategoryForPath(rel) : 'resource';
+      this.nodes.set(rel, {
+        id: rel,
+        type,
+        category,
+        title: this.getComponentTitle(rel),
+        path: rel
+      });
+    }
+
+    // Create edges
+    for (const file of files) {
+      const rel = path.relative(this.rootDir, file).replace(/\\/g, '/');
+      const deps = this.extractHtmlDeps(file);
+      for (const dep of deps) {
+        const resolved = this.resolveDep(dep.raw, file);
+        if (!resolved) continue;
+
+        // Ensure target node exists
+        if (!this.nodes.has(resolved)) {
+          const isComp = resolved.endsWith('.html');
+          this.nodes.set(resolved, {
+            id: resolved,
+            type: isComp ? 'component' : 'resource',
+            category: isComp ? this.getCategoryForPath(resolved) : 'resource',
+            title: path.basename(resolved, path.extname(resolved)),
+            path: resolved
+          });
         }
+
+        const edgeType = dep.type === 'css' ? this.classifyEdge(resolved) : 'js';
+        this.edges.push({ source: rel, target: resolved, type: edgeType });
       }
+    }
+
+    // Detect orphans: components with no edges to shared resources
+    for (const [id, node] of this.nodes) {
+      if (node.type !== 'component') continue;
+      const hasShared = this.edges.some(e =>
+        e.source === id && (e.type === 'shared-css' || e.type === 'shared-js')
+      );
+      if (!hasShared) this.orphans.add(id);
     }
   }
 
-  // Detect circular dependencies using DFS
-  detectCircularDeps() {
+  /* ---------- Circular Detection ---------- */
+
+  detectCircular() {
+    const adj = new Map();
+    for (const [id] of this.nodes) adj.set(id, []);
+    for (const e of this.edges) {
+      if (!adj.has(e.source)) adj.set(e.source, []);
+      adj.get(e.source).push(e.target);
+    }
+
     const visited = new Set();
     const recStack = new Set();
 
-    const dfs = (node, path = []) => {
+    const dfs = (node, stack = []) => {
       visited.add(node);
       recStack.add(node);
-      path.push(node);
+      stack.push(node);
 
-      for (const neighbor of this.graph[node] || []) {
+      for (const neighbor of adj.get(node) || []) {
         if (!visited.has(neighbor)) {
-          dfs(neighbor, [...path]);
+          dfs(neighbor, [...stack]);
         } else if (recStack.has(neighbor)) {
-          const cycle = path.slice(path.indexOf(neighbor));
-          if (!this.circularDeps.some(c => JSON.stringify(c.sort()) === JSON.stringify(cycle.sort()))) {
-            this.circularDeps.push(cycle);
+          const cycle = stack.slice(stack.indexOf(neighbor));
+          const key = cycle.slice().sort().join('|');
+          if (!this.circularDeps.some(c => c.key === key)) {
+            this.circularDeps.push({ key, cycle });
           }
         }
       }
-
       recStack.delete(node);
     };
 
-    for (const node of Object.keys(this.graph)) {
-      if (!visited.has(node)) {
-        dfs(node);
-      }
+    for (const node of adj.keys()) {
+      if (!visited.has(node)) dfs(node);
     }
   }
 
-  // Analyze unused imports
-  analyzeUnusedImports() {
-    for (const [file, imports] of Object.entries(this.imports)) {
-      try {
-        const content = fs.readFileSync(file, 'utf8');
-        const unused = [];
-        for (const imp of imports) {
-          // Extract name from import
-          const nameMatch = imp.match(/\/([^/]+)(?:\.js)?$/);
-          if (!nameMatch) continue;
-          const name = nameMatch[1].replace(/-/g, '');
-          // Simple heuristic: check if name appears in content (rough check)
-          if (!content.includes(name) && !imp.includes('node_modules')) {
-            unused.push(imp);
-          }
-        }
-        if (unused.length > 0) {
-          this.unusedImports[file] = unused;
-        }
-      } catch (e) {
-        // ignore
-      }
-    }
-  }
+  /* ---------- Report ---------- */
 
-  // Generate report
   generateReport() {
     this.buildGraph();
-    this.detectCircularDeps();
-    this.analyzeUnusedImports();
+    this.detectCircular();
+
+    const components = [...this.nodes.values()].filter(n => n.type === 'component');
+    const resources = [...this.nodes.values()].filter(n => n.type !== 'component');
+    const sharedCssEdges = this.edges.filter(e => e.type === 'shared-css');
+    const sharedJsEdges = this.edges.filter(e => e.type === 'shared-js');
+    const cssEdges = this.edges.filter(e => e.type === 'css' && e.type !== 'shared-css');
+    const jsEdges = this.edges.filter(e => e.type === 'js' && e.type !== 'shared-js');
+
+    // Compute dependents
+    const dependents = new Map();
+    for (const e of this.edges) {
+      if (!dependents.has(e.target)) dependents.set(e.target, new Set());
+      dependents.get(e.target).add(e.source);
+    }
+
+    // Compute transitive deps per component
+    const transitive = new Map();
+    for (const comp of components) {
+      const visited = new Set();
+      const queue = [comp.id];
+      while (queue.length) {
+        const curr = queue.shift();
+        for (const e of this.edges) {
+          if (e.source === curr && !visited.has(e.target)) {
+            visited.add(e.target);
+            queue.push(e.target);
+          }
+        }
+      }
+      visited.delete(comp.id);
+      transitive.set(comp.id, [...visited]);
+    }
 
     const report = {
       timestamp: new Date().toISOString(),
-      components: Object.keys(this.graph).length,
-      totalImports: Object.values(this.imports).reduce((sum, arr) => sum + arr.length, 0),
-      circularDependencies: this.circularDeps.map((cycle, idx) => ({
-        id: idx + 1,
-        files: cycle,
-        count: cycle.length
-      })),
-      unusedImports: Object.entries(this.unusedImports).map(([file, imports]) => ({
-        file,
-        imports,
-        count: imports.length
-      })),
-      graph: this.graph,
       summary: {
-        hasCircularDeps: this.circularDeps.length > 0,
-        circularDepCount: this.circularDeps.length,
-        filesWithUnusedImports: Object.keys(this.unusedImports).length,
-        totalUnusedImports: Object.values(this.unusedImports).reduce((sum, arr) => sum + arr.length, 0)
-      }
+        totalNodes: this.nodes.size,
+        componentCount: components.length,
+        resourceCount: resources.length,
+        totalEdges: this.edges.length,
+        sharedCssEdges: sharedCssEdges.length,
+        sharedJsEdges: sharedJsEdges.length,
+        cssEdges: cssEdges.length,
+        jsEdges: jsEdges.length,
+        circularCount: this.circularDeps.length,
+        orphanCount: this.orphans.size
+      },
+      nodes: [...this.nodes.values()],
+      edges: this.edges,
+      orphans: [...this.orphans],
+      circularDependencies: this.circularDeps.map((c, i) => ({
+        id: i + 1,
+        files: c.cycle,
+        count: c.cycle.length
+      })),
+      componentDetails: components.map(c => ({
+        id: c.id,
+        title: c.title,
+        category: c.category,
+        directDeps: this.edges.filter(e => e.source === c.id).map(e => e.target),
+        dependents: [...(dependents.get(c.id) || new Set())],
+        transitiveDeps: transitive.get(c.id) || [],
+        isOrphan: this.orphans.has(c.id)
+      })),
+      resourceDetails: resources.map(r => ({
+        id: r.id,
+        title: r.title,
+        type: r.type,
+        dependents: [...(dependents.get(r.id) || new Set())],
+        dependentCount: (dependents.get(r.id) || new Set()).size
+      }))
     };
 
     return report;
   }
 
-  // Run analysis and save report
   run(outputDir = './reports/dependencies') {
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
+    if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 
-    console.log('🔍 Analyzing component dependencies...');
+    console.log('🔍 Scanning UI-Verse component dependencies...');
     const report = this.generateReport();
 
     const reportPath = path.join(outputDir, 'analysis-report.json');
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
     console.log(`✅ Report saved to ${reportPath}`);
 
-    // Print summary
     console.log('\n📊 Dependency Analysis Summary:');
-    console.log(`  Components scanned: ${report.components}`);
-    console.log(`  Total imports: ${report.totalImports}`);
-    console.log(`  Circular dependencies: ${report.summary.circularDepCount}`);
-    console.log(`  Files with unused imports: ${report.summary.filesWithUnusedImports}`);
+    console.log(`  Components: ${report.summary.componentCount}`);
+    console.log(`  Resources:  ${report.summary.resourceCount}`);
+    console.log(`  Edges:      ${report.summary.totalEdges}`);
+    console.log(`  Shared CSS: ${report.summary.sharedCssEdges}`);
+    console.log(`  Shared JS:  ${report.summary.sharedJsEdges}`);
+    console.log(`  Circular:   ${report.summary.circularCount}`);
+    console.log(`  Orphans:    ${report.summary.orphanCount}`);
 
-    if (report.circularDependencies.length > 0) {
+    if (report.circularDependencies.length) {
       console.log('\n⚠️  Circular Dependencies:');
       report.circularDependencies.forEach(dep => {
         console.log(`  ${dep.id}. ${dep.files.join(' → ')}`);
       });
     }
 
-    if (report.unusedImports.length > 0) {
-      console.log('\n⚠️  Unused Imports (sample):');
-      report.unusedImports.slice(0, 5).forEach(item => {
-        console.log(`  ${item.file}: ${item.count} unused`);
-      });
+    if (report.orphans.length) {
+      console.log('\n⚠️  Orphaned Components (no shared deps):');
+      report.orphans.slice(0, 10).forEach(o => console.log(`  - ${o}`));
     }
 
     return report;
   }
 }
 
-// CLI
 if (require.main === module) {
-  const analyzer = new DependencyAnalyzer('./');
+  const analyzer = new DependencyAnalyzer('.');
   analyzer.run();
 }
 

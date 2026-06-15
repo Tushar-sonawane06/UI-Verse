@@ -160,6 +160,21 @@ const Download = {
     return codeNode.innerText || codeNode.textContent || '';
   },
 
+  extractComponentCode(card) {
+    if (!card) return { html: '', css: '', js: '', label: '', description: '' };
+
+    const label = card.querySelector('.card-label, h3, h2, h4')?.textContent?.trim() || '';
+    const description = card.querySelector('.card-desc, p')?.textContent?.trim() || '';
+    const rawCode = this._resolveCodeTextFromCard(card);
+
+    return {
+      ...this._extractHtmlCssJs(rawCode),
+      label,
+      description,
+      rawCode
+    };
+  },
+
   _extractHtmlCssJs(rawCode) {
     const text = String(rawCode || '').trim();
     if (!text) {

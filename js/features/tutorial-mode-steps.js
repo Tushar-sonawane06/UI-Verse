@@ -158,5 +158,9 @@
   };
 
   window.TutorialModeSteps = Steps;
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Steps;
+  }
 })();
 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tooltip Component Demo</title>
+  <link rel="stylesheet" href="Tooltip Component Demo.css">
+</head>
+<body>
+  <div class="demo-container">
+  <h1 class="demo-title">🔧 Tooltip Component Demo</h1>
+  <p class="demo-subtitle">Hover over the buttons below to see tooltips in action ✨</p>
+
+  <div class="tooltip-grid">
+    <button class="tooltip-btn" data-tooltip="I am a top tooltip!" data-position="top">Hover Me (Top)</button>
+    <button class="tooltip-btn" data-tooltip="I am a bottom tooltip!" data-position="bottom">Hover Me (Bottom)</button>
+    <button class="tooltip-btn" data-tooltip="I am a left tooltip!" data-position="left">Hover Me (Left)</button>
+    <button class="tooltip-btn" data-tooltip="I am a right tooltip!" data-position="right">Hover Me (Right)</button>
+  </div>
+</div>
+
+  <script> 
+    document.querySelectorAll("[data-tooltip]").forEach(el => {
+  el.addEventListener("mouseenter", () => {
+    const tooltipText = el.getAttribute("data-tooltip");
+    const position = el.getAttribute("data-position") || "top";
+
+    const tooltip = document.createElement("div");
+    tooltip.className = "tooltip show";
+    tooltip.innerText = tooltipText;
+    tooltip.setAttribute("data-position", position);
+
+    el.appendChild(tooltip);
+  });
+
+  el.addEventListener("mouseleave", () => {
+    const tooltip = el.querySelector(".tooltip");
+    if (tooltip) tooltip.remove();
+  });
+});
+
+  </script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Buttons — UIverse</title>
@@ -11,31 +12,33 @@
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="home.css">
-  <link rel="stylesheet" href="shared-page.css">
   <link rel="stylesheet" href="buttons.css">
-  <link rel="stylesheet" href="command-palette.css">
-  <link rel="stylesheet" href="css/url-state.css">
-<!-- UIverse Runtime Loader -->
+  <!-- UIverse Runtime Loader -->
   <script src="js/loader.js" defer></script>
-  </head>
+    <link rel="stylesheet" href="shared-sidebar.css">
+</head>
 
 <body>
 
 <!-- ================= SIDEBAR ================= -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
-    <span class="brand-icon">⬡</span>
-    <span class="brand-text">UIverse <span style="font-size: 9px; background: linear-gradient(135deg, #eb6835, #7b61ff); color: white; padding: 1px 6px; border-radius: 10px; font-weight: 800; margin-left: 4px; letter-spacing: 0.5px; vertical-align: middle; box-shadow: 0 0 8px rgba(235,104,53,0.3);">V2</span></span>
+    <span class="brand-icon" aria-hidden="true">⬡</span>
+    <span class="brand-text">Ulverse <span class="brand-version">V2</span></span>
   </div>
 
-          <nav class="sidebar-nav">
+  <nav class="sidebar-nav" aria-label="Component categories">
     <ul>
       <li>
         <a href="index.html">
           <i class="fa-solid fa-house"></i>
           <span>Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="leaderboard-components.html">
+          <i class="fa-solid fa-ranking-star"></i>
+          <span>Leaderboards</span>
         </a>
       </li>
       <li class="active">
@@ -44,7 +47,7 @@
           <span>Buttons</span>
         </a>
       </li>
-            <li>
+      <li>
         <a href="dropdown-components.html">
           <i class="fa-solid fa-caret-down"></i>
           <span>Dropdowns</span>
@@ -342,9 +345,9 @@
   </nav>
 
   <div class="sidebar-footer">
-    <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
-    <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-    <a href="#" title="Twitter"><i class="fab fa-x-twitter"></i></a>
+    <a href="#" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
+    <a href="#" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+    <a href="#" aria-label="Twitter" title="Twitter"><i class="fab fa-x-twitter"></i></a>
   </div>
 </aside>
 
@@ -352,30 +355,69 @@
 <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
 <!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
 <header class="navbar" id="navbar">
-  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+  <button type="button" class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar menu">
     <i class="fa-solid fa-bars"></i>
   </button>
-
-  <div class="logo">UIverse</div>
-
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Ulverse</span>
+  </div>
+  <div class="navbar-divider"></div>
   <div class="search-bar">
     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    <input type="text" id="searchInput" placeholder="Search components..." onkeydown="handleSearch(event)" />
-    <kbd class="search-kbd">⌘K</kbd>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
   </div>
-
   <div class="nav-right">
-    <button class="nav-btn outline-nav-btn">
-      <i class="fa-solid fa-plus"></i> Add Component
-    </button>
-    <button class="nav-btn primary-nav-btn">
-      <i class="fa-solid fa-bookmark"></i> My Collection
-    </button>
-    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme">
-      <i class="fa-solid fa-moon"></i>
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button type="button" id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()" aria-label="Toggle dark mode" aria-pressed="false">
+      <i class="fa-solid fa-gear"></i>
     </button>
   </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-gear' : 'fa-solid fa-sun';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-gear';
+        }
+      }
+    })();
+  </script>
 </header>
 
 <!-- ================= MAIN ================= -->
@@ -399,19 +441,19 @@
     </div>
     <div class="page-hero-right">
       <div class="hero-btn-preview">
-        <button class="gradient-btn preview-float">Gradient</button>
-        <button class="neon-btn preview-float" style="animation-delay:0.2s">Neon</button>
-        <button class="btn-3d preview-float" style="animation-delay:0.4s">3D</button>
+        <button type="button"  class="gradient-btn preview-float">Gradient</button>
+        <button type="button"  class="neon-btn preview-float" style="animation-delay:0.2s">Neon</button>
+        <button type="button"  class="btn-3d preview-float" style="animation-delay:0.4s">3D</button>
       </div>
     </div>
   </div>
 
   <!-- Filter Bar -->
   <div class="filter-bar">
-    <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
-    <button class="filter-btn" onclick="filterCards('style', this)">Style</button>
-    <button class="filter-btn" onclick="filterCards('status', this)">Status</button>
-    <button class="filter-btn" onclick="filterCards('effect', this)">Effects</button>
+    <button type="button"  class="filter-btn active" onclick="filterCards('all', this)">All</button>
+    <button type="button"  class="filter-btn" onclick="filterCards('style', this)">Style</button>
+    <button type="button"  class="filter-btn" onclick="filterCards('status', this)">Status</button>
+    <button type="button"  class="filter-btn" onclick="filterCards('effect', this)">Effects</button>
     <div class="filter-search">
       <i class="fa-solid fa-magnifying-glass"></i>
       <input type="text" placeholder="Filter buttons..." oninput="liveFilter(this.value)" />
@@ -428,48 +470,19 @@
         <span class="card-tag tag-popular">Popular</span>
       </div>
       <div class="card-preview">
-        <button class="gradient-btn">Click Me</button>
+        <button type="button"  class="gradient-btn">Click Me</button>
       </div>
       <p class="card-desc">A vibrant multi-color gradient button with smooth hover transition.</p>
       <div class="actions">
-        <button class="action-btn view-btn" onclick="toggleCode('c1', this)">
+        <button type="button"  class="action-btn view-btn" onclick="toggleCode('c1', this)">
           <i class="fa-solid fa-code"></i> View Code
         </button>
-        <button class="action-btn copy-btn" onclick="copyCode('c1', this)">
+        <button type="button"  class="action-btn copy-btn" onclick="copyCode('c1', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
       </div>
       <pre id="c1" class="code-block"><code>&lt;button class="gradient-btn"&gt;Click Me&lt;/button&gt;
 
-      <h1>
-        Beautiful <span>Button Components</span>
-      </h1>
-
-      <p>
-        Explore reusable, modern, and interactive button styles designed for real-world UI development.
-      </p>
-
-    </section>
-
-    
-
-    <!-- BUTTON GRID -->
-    <section class="features">
-
-      <!-- Gradient -->
-      <div class="feature-card">
-        <div class="icon">🌈</div>
-        <h3>Gradient Button</h3>
-        <button class="gradient-btn">Click Me</button>
-
-        <div class="actions">
-          <button onclick="toggleCode('c1', this)">View Code</button>
-          <button onclick="copyCode('c1', this)">Copy</button>
-        </div>
-
-        <pre id="c1" class="code-block">
-&lt;button class="gradient-btn"&gt;Click Me&lt;/button&gt;
-        </pre>
 .gradient-btn {
   padding: 10px 24px;
   border: none;
@@ -490,14 +503,14 @@
         <span class="card-tag tag-essential">Essential</span>
       </div>
       <div class="card-preview">
-        <button class="outline-btn">Click Me</button>
+        <button type="button"  class="outline-btn">Click Me</button>
       </div>
       <p class="card-desc">A clean border-only button — great for secondary actions.</p>
       <div class="actions">
-        <button class="action-btn view-btn" onclick="toggleCode('c2', this)">
+        <button type="button"  class="action-btn view-btn" onclick="toggleCode('c2', this)">
           <i class="fa-solid fa-code"></i> View Code
         </button>
-        <button class="action-btn copy-btn" onclick="copyCode('c2', this)">
+        <button type="button"  class="action-btn copy-btn" onclick="copyCode('c2', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
       </div>
@@ -523,14 +536,14 @@
         <span class="card-tag tag-trending">Trending</span>
       </div>
       <div class="card-preview dark-preview">
-        <button class="neon-btn">Glow</button>
+        <button type="button"  class="neon-btn">Glow</button>
       </div>
       <p class="card-desc">A glowing neon-style button perfect for dark themed UIs.</p>
       <div class="actions">
-        <button class="action-btn view-btn" onclick="toggleCode('c3', this)">
+        <button type="button"  class="action-btn view-btn" onclick="toggleCode('c3', this)">
           <i class="fa-solid fa-code"></i> View Code
         </button>
-        <button class="action-btn copy-btn" onclick="copyCode('c3', this)">
+        <button type="button"  class="action-btn copy-btn" onclick="copyCode('c3', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
       </div>
@@ -556,14 +569,14 @@
         <span class="card-tag tag-trending">Trending</span>
       </div>
       <div class="card-preview glass-preview">
-        <button class="glass-btn">Glass</button>
+        <button type="button"  class="glass-btn">Glass</button>
       </div>
       <p class="card-desc">A frosted-glass effect button with backdrop blur.</p>
       <div class="actions">
-        <button class="action-btn view-btn" onclick="toggleCode('c4', this)">
+        <button type="button"  class="action-btn view-btn" onclick="toggleCode('c4', this)">
           <i class="fa-solid fa-code"></i> View Code
         </button>
-        <button class="action-btn copy-btn" onclick="copyCode('c4', this)">
+        <button type="button"  class="action-btn copy-btn" onclick="copyCode('c4', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
       </div>
@@ -590,14 +603,14 @@
         <span class="card-tag tag-popular">Popular</span>
       </div>
       <div class="card-preview">
-        <button class="shadow-btn">Lift</button>
+        <button type="button"  class="shadow-btn">Lift</button>
       </div>
       <p class="card-desc">A soft shadow button with a satisfying lift on hover.</p>
       <div class="actions">
-        <button class="action-btn view-btn" onclick="toggleCode('c5', this)">
+        <button type="button"  class="action-btn view-btn" onclick="toggleCode('c5', this)">
           <i class="fa-solid fa-code"></i> View Code
         </button>
-        <button class="action-btn copy-btn" onclick="copyCode('c5', this)">
+        <button type="button"  class="action-btn copy-btn" onclick="copyCode('c5', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
       </div>
@@ -624,14 +637,14 @@
         <span class="card-tag tag-essential">Essential</span>
       </div>
       <div class="card-preview">
-        <button class="rounded-btn">Rounded</button>
+        <button type="button"  class="rounded-btn">Rounded</button>
       </div>
       <p class="card-desc">A fully pill-shaped button — modern and approachable.</p>
       <div class="actions">
-        <button class="action-btn view-btn" onclick="toggleCode('c6', this)">
+        <button type="button"  class="action-btn view-btn" onclick="toggleCode('c6', this)">
           <i class="fa-solid fa-code"></i> View Code
         </button>
-        <button class="action-btn copy-btn" onclick="copyCode('c6', this)">
+        <button type="button"  class="action-btn copy-btn" onclick="copyCode('c6', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
       </div>
@@ -657,14 +670,14 @@
         <span class="card-tag tag-essential">Essential</span>
       </div>
       <div class="card-preview">
-        <button class="icon-btn"><i class="fa-solid fa-star"></i></button>
+        <button type="button" class="icon-btn" aria-label="Add to favorites"><i class="fa-solid fa-star"></i></button>
       </div>
       <p class="card-desc">A compact circular icon button for toolbars and action menus.</p>
       <div class="actions">
-        <button class="action-btn view-btn" onclick="toggleCode('c7', this)">
+        <button type="button"  class="action-btn view-btn" onclick="toggleCode('c7', this)">
           <i class="fa-solid fa-code"></i> View Code
         </button>
-        <button class="action-btn copy-btn" onclick="copyCode('c7', this)">
+        <button type="button"  class="action-btn copy-btn" onclick="copyCode('c7', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
       </div>
@@ -694,14 +707,14 @@
         <span class="card-tag tag-new">Status</span>
       </div>
       <div class="card-preview">
-        <button class="success-btn"><i class="fa-solid fa-check"></i> Success</button>
+        <button type="button"  class="success-btn"><i class="fa-solid fa-check"></i> Success</button>
       </div>
       <p class="card-desc">A green success button — ideal for confirmations and completed actions.</p>
       <div class="actions">
-        <button class="action-btn view-btn" onclick="toggleCode('c8', this)">
+        <button type="button"  class="action-btn view-btn" onclick="toggleCode('c8', this)">
           <i class="fa-solid fa-code"></i> View Code
         </button>
-        <button class="action-btn copy-btn" onclick="copyCode('c8', this)">
+        <button type="button"  class="action-btn copy-btn" onclick="copyCode('c8', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
       </div>
@@ -727,14 +740,14 @@
         <span class="card-tag tag-danger">Status</span>
       </div>
       <div class="card-preview">
-        <button class="danger-btn"><i class="fa-solid fa-triangle-exclamation"></i> Danger</button>
+        <button type="button"  class="danger-btn"><i class="fa-solid fa-triangle-exclamation"></i> Danger</button>
       </div>
       <p class="card-desc">A red danger/error button for destructive actions.</p>
       <div class="actions">
-        <button class="action-btn view-btn" onclick="toggleCode('c9', this)">
+        <button type="button"  class="action-btn view-btn" onclick="toggleCode('c9', this)">
           <i class="fa-solid fa-code"></i> View Code
         </button>
-        <button class="action-btn copy-btn" onclick="copyCode('c9', this)">
+        <button type="button"  class="action-btn copy-btn" onclick="copyCode('c9', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
       </div>
@@ -760,14 +773,14 @@
         <span class="card-tag tag-warning">Status</span>
       </div>
       <div class="card-preview">
-        <button class="warning-btn"><i class="fa-solid fa-circle-exclamation"></i> Warning</button>
+        <button type="button"  class="warning-btn"><i class="fa-solid fa-circle-exclamation"></i> Warning</button>
       </div>
       <p class="card-desc">An amber warning button for caution states.</p>
       <div class="actions">
-        <button class="action-btn view-btn" onclick="toggleCode('c10', this)">
+        <button type="button"  class="action-btn view-btn" onclick="toggleCode('c10', this)">
           <i class="fa-solid fa-code"></i> View Code
         </button>
-        <button class="action-btn copy-btn" onclick="copyCode('c10', this)">
+        <button type="button"  class="action-btn copy-btn" onclick="copyCode('c10', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
       </div>
@@ -793,16 +806,16 @@
         <span class="card-tag tag-popular">Popular</span>
       </div>
       <div class="card-preview">
-        <button class="loading-btn" disabled>
+        <button type="button"  class="loading-btn" disabled>
           <span class="spinner"></span> Loading...
         </button>
       </div>
       <p class="card-desc">A disabled loading state button with an animated spinner.</p>
       <div class="actions">
-        <button class="action-btn view-btn" onclick="toggleCode('c11', this)">
+        <button type="button"  class="action-btn view-btn" onclick="toggleCode('c11', this)">
           <i class="fa-solid fa-code"></i> View Code
         </button>
-        <button class="action-btn copy-btn" onclick="copyCode('c11', this)">
+        <button type="button"  class="action-btn copy-btn" onclick="copyCode('c11', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
       </div>
@@ -843,17 +856,17 @@
         <span class="card-tag tag-trending">Trending</span>
       </div>
       <div class="card-preview">
-        <button class="btn-3d">3D Effect</button>
+        <button type="button"  class="btn-3d">3D Effect</button>
       </div>
       <p class="card-desc">A tactile 3D push-down button with a solid shadow base.</p>
       <div class="actions">
-        <button class="action-btn view-btn" onclick="toggleCode('c14', this)">
+        <button type="button"  class="action-btn view-btn" onclick="toggleCode('c14', this)">
           <i class="fa-solid fa-code"></i> View Code
         </button>
-        <button class="action-btn copy-btn" onclick="copyCode('c14', this)">
+        <button type="button"  class="action-btn copy-btn" onclick="copyCode('c14', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
-        <button onclick="addToCollection('3D Button')">Add to My Collection</button>
+        <button type="button"  onclick="addToCollection('3D Button')">Add to My Collection</button>
       </div>
       <pre id="c14" class="code-block"><code>&lt;button class="btn-3d"&gt;3D Effect&lt;/button&gt;</code></pre>
     </div>
@@ -868,17 +881,17 @@
   </div>
 
   <div class="card-preview">
-    <button class="gradient-border-btn">Explore</button>
+    <button type="button"  class="gradient-border-btn">Explore</button>
   </div>
 
   <p class="card-desc">A sleek transparent button with animated gradient border.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c15', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c15', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c15', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c15', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -895,17 +908,17 @@
   </div>
 
   <div class="card-preview">
-    <button class="shine-btn">Get Started</button>
+    <button type="button"  class="shine-btn">Get Started</button>
   </div>
 
   <p class="card-desc">Elegant shine animation passing across the button on hover.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c16', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c16', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c16', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c16', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -922,17 +935,17 @@
   </div>
 
   <div class="card-preview">
-    <button class="soft-btn">Soft UI</button>
+    <button type="button"  class="soft-btn">Soft UI</button>
   </div>
 
   <p class="card-desc">Modern neumorphism button with soft inner shadows.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c17', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c17', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c17', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c17', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -949,7 +962,7 @@
   </div>
 
   <div class="card-preview">
-    <button class="slide-btn">
+    <button type="button"  class="slide-btn">
       Continue
       <span><i class="fa-solid fa-arrow-right"></i></span>
     </button>
@@ -958,11 +971,11 @@
   <p class="card-desc">Animated arrow movement for modern CTA interactions.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c18', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c18', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c18', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c18', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -979,17 +992,17 @@
   </div>
 
   <div class="card-preview dark-preview">
-    <button class="premium-btn">Premium</button>
+    <button type="button"  class="premium-btn">Premium</button>
   </div>
 
   <p class="card-desc">Luxury dark UI button with premium glossy finish.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c19', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c19', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c19', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c19', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1007,17 +1020,17 @@
   </div>
 
   <div class="card-preview dark-preview">
-    <button class="cyber-btn">Launch</button>
+    <button type="button"  class="cyber-btn">Launch</button>
   </div>
 
   <p class="card-desc">Futuristic neon cyberpunk-inspired glowing button.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c21', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c21', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c21', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c21', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1053,17 +1066,17 @@
   </div>
 
   <div class="card-preview">
-    <button class="liquid-btn">Liquid</button>
+    <button type="button"  class="liquid-btn">Liquid</button>
   </div>
 
   <p class="card-desc">Smooth liquid hover animation with modern UI feel.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c22', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c22', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c22', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c22', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1106,17 +1119,17 @@
   </div>
 
   <div class="card-preview">
-    <button class="metal-btn">Metal</button>
+    <button type="button"  class="metal-btn">Metal</button>
   </div>
 
   <p class="card-desc">Elegant chrome metallic button with glossy highlights.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c23', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c23', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c23', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c23', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1154,7 +1167,7 @@
   </div>
 
   <div class="card-preview">
-    <button class="expand-btn">
+    <button type="button"  class="expand-btn">
       Hover Me
     </button>
   </div>
@@ -1162,11 +1175,11 @@
   <p class="card-desc">Button smoothly expands width on hover interaction.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c24', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c24', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c24', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c24', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1199,17 +1212,17 @@
   </div>
 
   <div class="card-preview dark-preview">
-    <button class="glass-neon-btn">Future</button>
+    <button type="button"  class="glass-neon-btn">Future</button>
   </div>
 
   <p class="card-desc">Combines glassmorphism and neon glow beautifully.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c25', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c25', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c25', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c25', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1243,7 +1256,7 @@
   </div>
 
   <div class="card-preview">
-    <button class="gradient-glow-btn">
+    <button type="button"  class="gradient-glow-btn">
       Start Now
     </button>
   </div>
@@ -1251,11 +1264,11 @@
   <p class="card-desc">Animated glowing gradient CTA button.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c26', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c26', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c26', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c26', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1298,7 +1311,7 @@
   </div>
 
   <div class="card-preview">
-    <button class="underline-btn">
+    <button type="button"  class="underline-btn">
       Learn More
     </button>
   </div>
@@ -1306,11 +1319,11 @@
   <p class="card-desc">Elegant text button with animated underline effect.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c27', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c27', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c27', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c27', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1350,7 +1363,7 @@
   </div>
 
   <div class="card-preview">
-    <button class="floating-btn">
+    <button type="button"  class="floating-btn">
       Floating
     </button>
   </div>
@@ -1358,11 +1371,11 @@
   <p class="card-desc">Soft floating animation with subtle movement.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c28', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c28', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c28', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c28', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1398,17 +1411,17 @@
   </div>
 
   <div class="card-preview">
-    <button class="ripple-btn">Ripple</button>
+    <button type="button"  class="ripple-btn">Ripple</button>
   </div>
 
   <p class="card-desc">Material-inspired ripple hover interaction.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c20', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c20', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c20', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c20', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1426,17 +1439,17 @@
   </div>
 
   <div class="card-preview dark-preview">
-    <button class="neon-glow-btn">Glow Flow</button>
+    <button type="button"  class="neon-glow-btn">Glow Flow</button>
   </div>
 
   <p class="card-desc">RGB neon glow animation with floating back-shadow on hover.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c29', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c29', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c29', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c29', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1452,17 +1465,17 @@
   </div>
 
   <div class="card-preview">
-    <button class="magnetic-hover-btn">Pull Me</button>
+    <button type="button"  class="magnetic-hover-btn">Pull Me</button>
   </div>
 
   <p class="card-desc">Sleek tactile button that responds dynamically to cursor proximity.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c30', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c30', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c30', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c30', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1478,17 +1491,17 @@
   </div>
 
   <div class="card-preview glass-preview">
-    <button class="glassmorphism-btn">Frosted Glass</button>
+    <button type="button"  class="glassmorphism-btn">Frosted Glass</button>
   </div>
 
   <p class="card-desc">Stunning glassmorphic frosted button with custom borders and hover shine sweep.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c31', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c31', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c31', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c31', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1504,17 +1517,17 @@
   </div>
 
   <div class="card-preview">
-    <button class="ripple-effect-btn">Click Me</button>
+    <button type="button"  class="ripple-effect-btn">Click Me</button>
   </div>
 
   <p class="card-desc">Material-style dynamic ripple circle originating from the click coordinate.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c32', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c32', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c32', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c32', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1530,7 +1543,7 @@
   </div>
 
   <div class="card-preview">
-    <button class="loading-state-btn" onclick="triggerLoadingState(this)">
+    <button type="button"  class="loading-state-btn" onclick="triggerLoadingState(this)">
       <span class="spinner-icon"></span>
       <span class="btn-text">Submit Order</span>
     </button>
@@ -1539,11 +1552,11 @@
   <p class="card-desc">Beautiful button with interactive spinner loading state and complete success feedback.</p>
 
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c33', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c33', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
 
-    <button class="action-btn copy-btn" onclick="copyCode('c33', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c33', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1561,14 +1574,14 @@
     <span class="card-tag tag-trending">Animated</span>
   </div>
   <div class="card-preview dark-preview">
-    <button class="aurora-btn">Explore</button>
+    <button type="button"  class="aurora-btn">Explore</button>
   </div>
   <p class="card-desc">A flowing multicolor gradient button with a luminous hover lift.</p>
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c34', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c34', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
-    <button class="action-btn copy-btn" onclick="copyCode('c34', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c34', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1582,14 +1595,14 @@
     <span class="card-tag tag-new">Playful</span>
   </div>
   <div class="card-preview">
-    <button class="jelly-btn">Bounce</button>
+    <button type="button"  class="jelly-btn">Bounce</button>
   </div>
   <p class="card-desc">A soft playful button that squashes and springs on hover.</p>
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c35', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c35', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
-    <button class="action-btn copy-btn" onclick="copyCode('c35', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c35', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1603,14 +1616,14 @@
     <span class="card-tag tag-essential">Clean</span>
   </div>
   <div class="card-preview">
-    <button class="outline-fill-btn">Discover</button>
+    <button type="button"  class="outline-fill-btn">Discover</button>
   </div>
   <p class="card-desc">A crisp outlined button that fills from left to right on hover.</p>
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c36', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c36', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
-    <button class="action-btn copy-btn" onclick="copyCode('c36', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c36', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1624,17 +1637,17 @@
     <span class="card-tag tag-popular">Utility</span>
   </div>
   <div class="card-preview">
-    <button class="split-icon-btn">
+    <button type="button"  class="split-icon-btn">
       <span>Download</span>
       <i class="fa-solid fa-download"></i>
     </button>
   </div>
   <p class="card-desc">A practical action button with a separated icon segment.</p>
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c37', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c37', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
-    <button class="action-btn copy-btn" onclick="copyCode('c37', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c37', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1651,14 +1664,14 @@
     <span class="card-tag tag-trending">Elegant</span>
   </div>
   <div class="card-preview">
-    <button class="border-draw-btn">Contact Us</button>
+    <button type="button"  class="border-draw-btn">Contact Us</button>
   </div>
   <p class="card-desc">A refined button whose border traces itself into view on hover.</p>
   <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c38', this)">
+    <button type="button"  class="action-btn view-btn" onclick="toggleCode('c38', this)">
       <i class="fa-solid fa-code"></i> View Code
     </button>
-    <button class="action-btn copy-btn" onclick="copyCode('c38', this)">
+    <button type="button"  class="action-btn copy-btn" onclick="copyCode('c38', this)">
       <i class="fa-solid fa-copy"></i> Copy
     </button>
   </div>
@@ -1670,21 +1683,26 @@
 </main>
 
 <!-- ===== SCROLL TO TOP ===== -->
-<button id="scrollTopBtn" onclick="scrollToTop()" title="Back to top">
+<button type="button"  id="scrollTopBtn" onclick="scrollToTop()" title="Back to top">
   <i class="fa-solid fa-chevron-up"></i>
 </button>
 
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
-
     <div class="footer-col brand">
       <h2 class="footer-logo">⬡ UIverse</h2>
       <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
       <div class="socials">
-        <a href="https://github.com" title="GitHub"><i class="fab fa-github"></i></a>
-        <a href="https://linkedin.com" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <a href="https://twitter.com" title="Twitter"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
 
@@ -1702,10 +1720,10 @@
     <div class="footer-col">
       <h3>Resources</h3>
       <ul>
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">Contribute</a></li>
-        <li><a href="#">GitHub Repo</a></li>
-        <li><a href="#">Community</a></li>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
     </div>
 
@@ -1714,7 +1732,7 @@
       <ul>
         <li><a href="privacypolicy.html">Privacy Policy</a></li>
         <li><a href="terms.html">Terms of Service</a></li>
-        <li><a href="license.css">License</a></li>
+        <li><a href="license.html">License</a></li>
       </ul>
     </div>
 
@@ -1722,36 +1740,77 @@
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
-        <button type="button">Subscribe</button>
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
-
   </div>
+
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
 
-<script src="script.js"></script>
 <script>
-  /* ---------- Dark Mode ---------- */
-  const toggle = document.getElementById('darkModeToggle');
-  if (toggle) {
-    const icon = toggle.querySelector('i');
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-      if (icon) {
-        icon.className = 'fa-solid fa-sun';
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
       }
     }
-    toggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      const isDark = document.body.classList.contains('dark-mode');
+  }
+</script>
+
+<script>
+  /* ---------- Dark Mode ---------- */
+  const darkModeToggleBtn = document.getElementById('darkModeToggle');
+
+  function applyStoredTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+
+    document.body.classList.toggle('dark-mode', isDark);
+    document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+
+    if (darkModeToggleBtn) {
+      const icon = darkModeToggleBtn.querySelector('i');
       if (icon) {
-        icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        icon.className = isDark ? 'fa-solid fa-gear' : 'fa-solid fa-sun';
       }
+      darkModeToggleBtn.setAttribute('aria-pressed', String(isDark));
+      darkModeToggleBtn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+    }
+  }
+
+  if (darkModeToggleBtn) {
+    applyStoredTheme();
+    window.toggleDarkMode = function() {
+      darkModeToggleBtn.click();
+    };
+    darkModeToggleBtn.addEventListener('click', () => {
+      const isDark = !document.body.classList.contains('dark-mode');
+      document.body.classList.toggle('dark-mode', isDark);
+      document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+      const icon = darkModeToggleBtn.querySelector('i');
+      if (icon) {
+        icon.className = isDark ? 'fa-solid fa-gear' : 'fa-solid fa-sun';
+      }
+      darkModeToggleBtn.setAttribute('aria-pressed', String(isDark));
+      darkModeToggleBtn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
     });
   }
 
@@ -1767,6 +1826,8 @@
     document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 400);
     document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
   });
+
+
 
   /* ---------- Code Toggle ---------- */
   function getCodeBlock(id, btn) {
@@ -1836,15 +1897,11 @@
     });
   }
 
-  function handleSearch(e) {
-    if (e.key === 'Enter') liveFilter(e.target.value);
-  }
-
   /* ---------- Scroll Animations ---------- */
-  const observer = new IntersectionObserver(entries => {
+  const buttonPageObserver = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
   }, { threshold: 0.08 });
-  document.querySelectorAll('.component-card').forEach(el => observer.observe(el));
+  document.querySelectorAll('.component-card').forEach(el => buttonPageObserver.observe(el));
 
   /* ---------- Magnetic Hover Proximity pull ---------- */
   document.addEventListener('mousemove', (e) => {
@@ -1940,6 +1997,12 @@
 </script>
 <script src="playground.js"></script>
 <script>
+window.addEventListener('load', () => {
+  if (window.Search && typeof Search.init === 'function') {
+    Search.init();
+  }
+});
+
 window.addToCollectionFromCard = function(button, name) {
   const card = button.closest('.component-card');
   const previewBox = card.querySelector('.preview-box');
@@ -1998,20 +2061,13 @@ function showToast(message) {
 
 </script>
 <style>
-  button{
-  background:  #a29bfe;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  }
-
-
   .preview-box{
     background: #f0f0f0;
     padding: 20px;
     border-radius: 8px;
     margin-top: 10px;
   }
+</style>
 <div id="commandPaletteOverlay" class="command-palette-overlay">
   <div class="command-palette-container">
     <div class="command-palette-input-wrapper">
@@ -2042,5 +2098,6 @@ function showToast(message) {
   </div>
 </div>
 
+  <script src="dist/shared.js"></script>
 </body>
 </html>

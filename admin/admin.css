@@ -1,346 +1,1148 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UIverse Admin Dashboard</title>
+/* =========================
+   GOOGLE FONTS
+========================= */
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap");
+
+/* =========================
+   RESET
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #0b1020;
+  --card: rgba(17, 25, 40, 0.75);
+  --card-border: rgba(255, 255, 255, 0.08);
+
+  --text: #ffffff;
+  --text-light: #aeb8d0;
+
+  --purple: #8b5cf6;
+  --blue: #3b82f6;
+  --green: #10b981;
+  --orange: #f59e0b;
+
+  --shadow:
+    0 10px 30px rgba(0, 0, 0, 0.35);
+
+  --radius: 24px;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+  background:
+    radial-gradient(circle at top left, #1e1b4b 0%, transparent 25%),
+    radial-gradient(circle at bottom right, #0f766e 0%, transparent 25%),
+    var(--bg);
+
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  overflow-x: hidden;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+.sidebar {
+  width: 280px;
+  min-height: 100vh;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(18px);
+
+  border-right: 1px solid rgba(255,255,255,0.06);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 28px 20px;
+
+  position: sticky;
+  top: 0;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 40px;
+}
+
+.sidebar-logo span {
+  width: 52px;
+  height: 52px;
+
+  border-radius: 16px;
+
+  background: linear-gradient(
+    135deg,
+    var(--purple),
+    var(--blue)
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.5rem;
+  font-weight: bold;
+
+  box-shadow: 0 10px 20px rgba(139,92,246,.35);
+}
+
+.sidebar-logo h2 {
+  font-family: "Syne", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-nav a {
+  text-decoration: none;
+  color: var(--text-light);
+
+  padding: 14px 18px;
+  border-radius: 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  transition: 0.3s ease;
+  font-weight: 500;
+}
+
+.sidebar-nav a i {
+  font-size: 1rem;
+  width: 20px;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+  background: linear-gradient(
+    135deg,
+    rgba(139,92,246,.18),
+    rgba(59,130,246,.16)
+  );
+
+  color: white;
+
+  transform: translateX(4px);
+
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.sidebar-bottom {
+  margin-top: 40px;
+}
+
+.admin-profile {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.05);
+
+  border-radius: 20px;
+
+  padding: 14px;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.admin-profile img {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.admin-profile h4 {
+  font-size: 0.98rem;
+}
+
+.admin-profile span {
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+
+/* =========================
+   MAIN
+========================= */
+.main {
+  flex: 1;
+  padding: 32px;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  gap: 20px;
+  flex-wrap: wrap;
+
+  margin-bottom: 30px;
+}
 
-  <!-- Icons -->
-  <link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+.topbar-left h1 {
+  font-family: "Syne", sans-serif;
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="admin.css">
-</head>
+.topbar-left p {
+  color: var(--text-light);
+}
 
-<body>
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
 
-  <!-- ================= SIDEBAR ================= -->
+.search-box {
+  width: 260px;
+  height: 50px;
 
-  <aside class="sidebar">
+  border-radius: 18px;
 
-    <div class="sidebar-logo">
-      <span>⬡</span>
-      <h2>UIverse</h2>
-    </div>
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.06);
 
-    <nav class="sidebar-nav">
+  display: flex;
+  align-items: center;
 
-      <a href="#" class="active">
-        <i class="fa-solid fa-chart-line"></i>
-        Dashboard
-      </a>
+  padding: 0 18px;
+  gap: 12px;
+}
 
-      <a href="#">
-        <i class="fa-solid fa-layer-group"></i>
-        Components
-      </a>
+.search-box i {
+  color: var(--text-light);
+}
 
-      <a href="#">
-        <i class="fa-solid fa-users"></i>
-        Users
-      </a>
+.search-box input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+
+  font-size: 0.95rem;
+}
 
-      <a href="#">
-        <i class="fa-solid fa-comments"></i>
-        Discussions
-      </a>
+.search-box input::placeholder {
+  color: #9ca3af;
+}
 
-      <a href="#">
-        <i class="fa-solid fa-chart-pie"></i>
-        Analytics
-      </a>
+.top-btn {
+  width: 50px;
+  height: 50px;
+
+  border-radius: 16px;
+  border: none;
+
+  background: rgba(255,255,255,0.05);
+  color: white;
+
+  cursor: pointer;
+  transition: 0.3s ease;
+
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.top-btn:hover {
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.09);
+}
+
+/* =========================
+   STATS
+========================= */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+
+  margin-bottom: 30px;
+}
 
-      <a href="#">
-        <i class="fa-solid fa-bell"></i>
-        Notifications
-      </a>
+.stat-card {
+  background: var(--card);
 
-      <a href="#">
-        <i class="fa-solid fa-gear"></i>
-        Settings
-      </a>
+  border: 1px solid var(--card-border);
+
+  backdrop-filter: blur(18px);
 
-    </nav>
+  border-radius: var(--radius);
+
+  padding: 24px;
 
-    <div class="sidebar-bottom">
+  display: flex;
+  align-items: center;
+  gap: 18px;
 
-      <div class="admin-profile">
+  box-shadow: var(--shadow);
+
+  transition: 0.3s ease;
+}
 
-        <img
-          src="https://i.pravatar.cc/100?img=12"
-          alt=""
-        >
+.stat-card:hover {
+  transform: translateY(-5px);
+}
 
-        <div>
-          <h4>Dipanita</h4>
-          <span>Administrator</span>
-        </div>
+.stat-icon {
+  width: 64px;
+  height: 64px;
 
-      </div>
+  border-radius: 20px;
 
-    </div>
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.4rem;
+}
+
+.purple {
+  background: rgba(139,92,246,.15);
+  color: var(--purple);
+}
+
+.blue {
+  background: rgba(59,130,246,.15);
+  color: var(--blue);
+}
+
+.green {
+  background: rgba(16,185,129,.15);
+  color: var(--green);
+}
+
+.orange {
+  background: rgba(245,158,11,.15);
+  color: var(--orange);
+}
+
+.stat-card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 4px;
+}
+
+.stat-card p {
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
 
-  </aside>
-
-  <!-- ================= MAIN ================= -->
-
-  <main class="main">
-
-    <!-- TOPBAR -->
-
-    <header class="topbar">
-
-      <div class="topbar-left">
-
-        <h1>Admin Dashboard</h1>
-
-        <p>
-          Welcome back 👋 Here's your platform overview.
-        </p>
-
-      </div>
-
-      <div class="topbar-right">
-
-        <div class="search-box">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Search...">
-        </div>
-
-        <button class="top-btn">
-          <i class="fa-solid fa-bell"></i>
-        </button>
-
-        <button class="top-btn">
-          <i class="fa-solid fa-moon"></i>
-        </button>
-
-      </div>
-
-    </header>
-
-    <!-- ================= STATS ================= -->
-
-    <section class="stats-grid">
-
-      <div class="stat-card">
-
-        <div class="stat-icon purple">
-          <i class="fa-solid fa-layer-group"></i>
-        </div>
-
-        <div>
-          <h2>128</h2>
-          <p>Total Components</p>
-        </div>
-
-      </div>
-
-      <div class="stat-card">
-
-        <div class="stat-icon blue">
-          <i class="fa-solid fa-users"></i>
-        </div>
-
-        <div>
-          <h2>14.2K</h2>
-          <p>Community Users</p>
-        </div>
-
-      </div>
-
-      <div class="stat-card">
-
-        <div class="stat-icon green">
-          <i class="fa-solid fa-chart-line"></i>
-        </div>
-
-        <div>
-          <h2>87%</h2>
-          <p>Engagement Rate</p>
-        </div>
-
-      </div>
-
-      <div class="stat-card">
-
-        <div class="stat-icon orange">
-          <i class="fa-solid fa-comments"></i>
-        </div>
-
-        <div>
-          <h2>3.8K</h2>
-          <p>Discussions</p>
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- ================= CHARTS ================= -->
-
-    <section class="dashboard-grid">
-
-      <!-- ANALYTICS -->
-
-      <div class="analytics-card">
-
-        <div class="card-header">
-          <h3>Traffic Analytics</h3>
-
-          <button>
-            Monthly
-          </button>
-        </div>
-
-        <div class="chart-area">
-
-          <div class="chart-bars">
-
-            <div class="bar" style="height: 60%;"></div>
-            <div class="bar" style="height: 90%;"></div>
-            <div class="bar" style="height: 45%;"></div>
-            <div class="bar" style="height: 70%;"></div>
-            <div class="bar" style="height: 95%;"></div>
-            <div class="bar" style="height: 75%;"></div>
-            <div class="bar" style="height: 88%;"></div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- ACTIVITY -->
-
-      <div class="activity-card">
-
-        <div class="card-header">
-          <h3>Recent Activity</h3>
-        </div>
-
-        <div class="activity-list">
-
-          <div class="activity-item">
-            <span class="dot purple"></span>
-            <p>
-              New button component added.
-            </p>
-          </div>
-
-          <div class="activity-item">
-            <span class="dot blue"></span>
-            <p>
-              120 new users joined community.
-            </p>
-          </div>
-
-          <div class="activity-item">
-            <span class="dot green"></span>
-            <p>
-              Glassmorphism navbar trending.
-            </p>
-          </div>
-
-          <div class="activity-item">
-            <span class="dot orange"></span>
-            <p>
-              Server performance improved.
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- ================= TABLE ================= -->
-
-    <section class="table-section">
-
-      <div class="card-header">
-        <h3>Latest Components</h3>
-
-        <button>
-          View All
-        </button>
-      </div>
-
-      <div class="table-wrapper">
-
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>Component</th>
-              <th>Category</th>
-              <th>Status</th>
-              <th>Downloads</th>
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            <tr>
-              <td>Glass Navbar</td>
-              <td>Navigation</td>
-              <td>
-                <span class="status active">
-                  Active
-                </span>
-              </td>
-              <td>12.4K</td>
-            </tr>
-
-            <tr>
-              <td>Pricing Cards</td>
-              <td>Cards</td>
-              <td>
-                <span class="status pending">
-                  Pending
-                </span>
-              </td>
-              <td>8.9K</td>
-            </tr>
-
-            <tr>
-              <td>Gradient Buttons</td>
-              <td>Buttons</td>
-              <td>
-                <span class="status active">
-                  Active
-                </span>
-              </td>
-              <td>16.7K</td>
-            </tr>
-
-            <tr>
-              <td>Animated Loader</td>
-              <td>Loaders</td>
-              <td>
-                <span class="status review">
-                  Review
-                </span>
-              </td>
-              <td>5.4K</td>
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
-  </main>
-
-</body>
-</html>
+/* =========================
+   GRID
+========================= */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+
+  margin-bottom: 30px;
+}
+
+/* =========================
+   CARDS
+========================= */
+.analytics-card,
+.activity-card,
+.table-section {
+  background: var(--card);
+
+  border: 1px solid var(--card-border);
+
+  border-radius: var(--radius);
+
+  backdrop-filter: blur(18px);
+
+  padding: 24px;
+
+  box-shadow: var(--shadow);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 24px;
+}
+
+.card-header h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.card-header button {
+  border: none;
+  outline: none;
+
+  background: rgba(255,255,255,0.06);
+  color: white;
+
+  padding: 10px 16px;
+  border-radius: 12px;
+
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.card-header button:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+/* =========================
+   CHART
+========================= */
+.chart-area {
+  height: 320px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.chart-bars {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.bar {
+  flex: 1;
+
+  border-radius: 20px 20px 0 0;
+
+  background: linear-gradient(
+    to top,
+    var(--purple),
+    var(--blue)
+  );
+
+  transition: 0.3s ease;
+
+  position: relative;
+}
+
+.bar:hover {
+  filter: brightness(1.2);
+  transform: scaleY(1.03);
+}
+
+/* =========================
+   ACTIVITY
+========================= */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  background: rgba(255,255,255,0.04);
+
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.activity-item p {
+  color: #dbe3f3;
+  font-size: 0.95rem;
+}
+
+/* =========================
+   TABLE
+========================= */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: rgba(255,255,255,0.05);
+}
+
+th,
+td {
+  padding: 18px;
+  text-align: left;
+}
+
+th {
+  color: #dbe3f3;
+  font-weight: 600;
+}
+
+tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  transition: 0.3s ease;
+}
+
+tbody tr:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+td {
+  color: var(--text-light);
+}
+
+.status {
+  padding: 8px 14px;
+  border-radius: 999px;
+
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.status.active {
+  background: rgba(16,185,129,.16);
+  color: #34d399;
+}
+
+.status.pending {
+  background: rgba(245,158,11,.16);
+  color: #fbbf24;
+}
+
+.status.review {
+  background: rgba(59,130,246,.16);
+  color: #60a5fa;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 1200px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    position: relative;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .sidebar-nav a {
+    white-space: nowrap;
+  }
+
+  .main {
+    padding: 22px;
+  }
+}
+
+@media (max-width: 700px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .topbar-right {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .topbar-left h1 {
+    font-size: 1.6rem;
+  }
+
+  .chart-area {
+    height: 240px;
+  }
+
+  th,
+  td {
+    padding: 14px;
+    font-size: 0.9rem;
+  }
+}
+
+/* =========================
+   GOOGLE FONTS
+========================= */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap');
+
+/* =========================
+   RESET
+========================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:#0f1117;
+  color:#fff;
+  min-height:100vh;
+  display:flex;
+  overflow-x:hidden;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+.sidebar{
+  width:280px;
+  height:100vh;
+  position:fixed;
+  left:0;
+  top:0;
+  background:#171923;
+  border-right:1px solid rgba(255,255,255,0.06);
+  padding:28px 20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  z-index:100;
+}
+
+.sidebar-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:40px;
+}
+
+.sidebar-logo span{
+  width:45px;
+  height:45px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#7c3aed,#06b6d4);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+}
+
+.sidebar-logo h2{
+  font-family:'Syne',sans-serif;
+  font-size:1.5rem;
+  font-weight:700;
+}
+
+.sidebar-nav{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.sidebar-nav a{
+  text-decoration:none;
+  color:#cbd5e1;
+  padding:14px 16px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-size:15px;
+  transition:0.3s ease;
+}
+
+.sidebar-nav a i{
+  width:20px;
+}
+
+.sidebar-nav a:hover{
+  background:#232738;
+  color:#fff;
+  transform:translateX(4px);
+}
+
+.sidebar-nav a.active{
+  background:linear-gradient(135deg,#7c3aed,#5b21b6);
+  color:#fff;
+  box-shadow:0 10px 30px rgba(124,58,237,0.35);
+}
+
+.sidebar-bottom{
+  margin-top:30px;
+}
+
+.admin-profile{
+  background:#1d2130;
+  border-radius:18px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.admin-profile img{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.admin-profile h4{
+  font-size:15px;
+  margin-bottom:4px;
+}
+
+.admin-profile span{
+  color:#94a3b8;
+  font-size:13px;
+}
+
+/* =========================
+   MAIN AREA
+========================= */
+.main{
+  margin-left:280px;
+  width:calc(100% - 280px);
+  min-height:100vh;
+  padding:30px;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:30px;
+  flex-wrap:wrap;
+}
+
+.topbar-left h1{
+  font-family:'Syne',sans-serif;
+  font-size:2rem;
+  margin-bottom:8px;
+}
+
+.topbar-left p{
+  color:#94a3b8;
+}
+
+.topbar-right{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.search-box{
+  width:280px;
+  background:#171923;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px;
+  padding:12px 16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.search-box i{
+  color:#94a3b8;
+}
+
+.search-box input{
+  width:100%;
+  border:none;
+  outline:none;
+  background:transparent;
+  color:#fff;
+  font-size:14px;
+}
+
+.top-btn{
+  width:48px;
+  height:48px;
+  border:none;
+  border-radius:14px;
+  background:#171923;
+  color:#fff;
+  cursor:pointer;
+  font-size:16px;
+  transition:0.3s ease;
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.top-btn:hover{
+  background:#232738;
+  transform:translateY(-2px);
+}
+
+/* =========================
+   STATS
+========================= */
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  margin-bottom:30px;
+}
+
+.stat-card{
+  background:#171923;
+  border-radius:22px;
+  padding:24px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  border:1px solid rgba(255,255,255,0.06);
+  transition:0.3s ease;
+}
+
+.stat-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(124,58,237,0.4);
+}
+
+.stat-icon{
+  width:65px;
+  height:65px;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  color:#fff;
+}
+
+.purple{
+  background:linear-gradient(135deg,#7c3aed,#6d28d9);
+}
+
+.blue{
+  background:linear-gradient(135deg,#2563eb,#06b6d4);
+}
+
+.green{
+  background:linear-gradient(135deg,#16a34a,#22c55e);
+}
+
+.orange{
+  background:linear-gradient(135deg,#ea580c,#f97316);
+}
+
+.stat-card h2{
+  font-size:1.8rem;
+  margin-bottom:6px;
+}
+
+.stat-card p{
+  color:#94a3b8;
+}
+
+/* =========================
+   DASHBOARD GRID
+========================= */
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:24px;
+  margin-bottom:30px;
+}
+
+.analytics-card,
+.activity-card,
+.table-section{
+  background:#171923;
+  border-radius:24px;
+  padding:24px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+
+/* =========================
+   CARD HEADER
+========================= */
+.card-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:24px;
+  gap:15px;
+}
+
+.card-header h3{
+  font-size:1.2rem;
+  font-family:'Syne',sans-serif;
+}
+
+.card-header button{
+  border:none;
+  background:#7c3aed;
+  color:#fff;
+  padding:10px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  transition:0.3s ease;
+}
+
+.card-header button:hover{
+  background:#6d28d9;
+}
+
+/* =========================
+   CHART
+========================= */
+.chart-area{
+  height:300px;
+  display:flex;
+  align-items:flex-end;
+}
+
+.chart-bars{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+}
+
+.bar{
+  width:100%;
+  border-radius:16px 16px 6px 6px;
+  background:linear-gradient(to top,#7c3aed,#06b6d4);
+  transition:0.3s ease;
+}
+
+.bar:hover{
+  opacity:0.8;
+  transform:scaleY(1.05);
+}
+
+/* =========================
+   ACTIVITY
+========================= */
+.activity-list{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.activity-item{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px;
+  border-radius:16px;
+  background:#1d2130;
+}
+
+.dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+
+.activity-item p{
+  color:#e2e8f0;
+  line-height:1.4;
+}
+
+/* =========================
+   TABLE
+========================= */
+.table-wrapper{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+thead{
+  background:#1d2130;
+}
+
+th{
+  padding:16px;
+  text-align:left;
+  color:#cbd5e1;
+  font-size:14px;
+  font-weight:600;
+}
+
+td{
+  padding:18px 16px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  color:#e2e8f0;
+}
+
+tr:hover{
+  background:#1d2130;
+}
+
+.status{
+  padding:8px 14px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.status.active{
+  background:rgba(34,197,94,0.15);
+  color:#22c55e;
+}
+
+.status.pending{
+  background:rgba(249,115,22,0.15);
+  color:#f97316;
+}
+
+.status.review{
+  background:rgba(59,130,246,0.15);
+  color:#3b82f6;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-track{
+  background:#111827;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#7c3aed;
+  border-radius:20px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media(max-width:1100px){
+
+  .dashboard-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:900px){
+
+  body{
+    flex-direction:column;
+  }
+
+  .sidebar{
+    width:100%;
+    height:auto;
+    position:relative;
+  }
+
+  .main{
+    margin-left:0;
+    width:100%;
+  }
+
+}
+
+@media(max-width:600px){
+
+  .main{
+    padding:18px;
+  }
+
+  .topbar-left h1{
+    font-size:1.6rem;
+  }
+
+  .search-box{
+    width:100%;
+  }
+
+  .topbar-right{
+    width:100%;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stat-card{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+}

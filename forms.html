@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Forms — UIverse</title>
@@ -8,14 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="home.css">
   <link rel="stylesheet" href="forms.css">
-  <link rel="stylesheet" href="command-palette.css">
-  <link rel="stylesheet" href="css/url-state.css">
   <!-- UIverse Runtime Loader -->
   <script src="js/loader.js" defer></script>
-</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
 
@@ -345,21 +342,69 @@
 <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
 <!-- NAVBAR -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
 <header class="navbar" id="navbar">
-  <button class="menu-toggle" onclick="toggleSidebar()">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
     <i class="fa-solid fa-bars"></i>
   </button>
-  <div class="logo">UIverse</div>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
   <div class="search-bar">
-    <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
-    <input type="text" placeholder="Search components..." aria-label="Search components" />
-    <kbd class="search-kbd">⌘K</kbd>
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
   </div>
   <div class="nav-right">
-    <button class="nav-btn outline-nav-btn" aria-label="Add new component"><i class="fa-solid fa-plus"></i> Add Component</button>
-    <button class="nav-btn primary-nav-btn" aria-label="View my collection"><i class="fa-solid fa-bookmark"></i> My Collection</button>
-    <button id="darkModeToggle" class="theme-toggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
   </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
 </header>
 
 <!-- MAIN -->
@@ -378,17 +423,6 @@
       <span class="meta-badge"><i class="fa-solid fa-layer-group"></i> 14 Forms</span>
       <span class="meta-badge"><i class="fa-solid fa-code"></i> Pure HTML &amp; CSS</span>
     </div>
-  </div>
-
-
-
-  
-  
-  <div>
-    <form class="scearch">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" placeholder="Filter forms..." id="formSearch">
-    </form>
   </div>
 
 
@@ -642,12 +676,12 @@
           <p class="form-sub">Sign in with floating inputs</p>
           
           <div class="floating-group">
-            <input type="email" class="floating-input" placeholder=" " required />
+            <input aria-required="true"  type="email" class="floating-input" placeholder=" " required />
             <label class="floating-label">Email Address</label>
           </div>
           
           <div class="floating-group">
-            <input type="password" class="floating-input" placeholder=" " required />
+            <input aria-required="true"  type="password" class="floating-input" placeholder=" " required />
             <label class="floating-label">Password</label>
           </div>
           
@@ -932,7 +966,7 @@
           <p class="form-sub">Get direct premium updates to your inbox</p>
           <form class="inline-pill-form" onsubmit="event.preventDefault();">
             <i class="fa-regular fa-envelope pill-icon" aria-hidden="true"></i>
-            <input type="email" class="pill-input" aria-label="Email Address" placeholder="Enter your email address" required>
+            <input aria-required="true"  type="email" class="pill-input" aria-label="Email Address" placeholder="Enter your email address" required>
             <button type="submit" class="pill-btn">Subscribe</button>
           </form>
           <p class="pill-terms">Zero spam. Unsubscribe at any time.</p>
@@ -1346,6 +1380,137 @@
 &lt;/div&gt;</code></pre>
     </div>
 
+
+
+    <!-- New Form Components: Multi-file Upload, Searchable Select, Coupon Input, Rating Slider, Human Check -->
+    <!-- Multi-file Upload -->
+    <div class="form-component-card" data-name="file upload dropzone multiple preview">
+      <div class="card-top">
+        <span class="card-label">Multi-file Upload</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="form-preview">
+        <div class="form-card dropzone-card">
+          <h3>Upload Files</h3>
+          <p class="form-sub">Drag & drop files or click to select</p>
+          <label class="dropzone" for="multiUpload">
+            <input id="multiUpload" type="file" multiple hidden onchange="previewFiles(this.files)">
+            <div class="dz-inner">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <p>Drop files here or click to browse</p>
+            </div>
+          </label>
+          <div class="dz-previews" id="dzPreviews"></div>
+          <button class="form-btn">Upload</button>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('fc20', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('fc20', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="fc20" class="code-block"><code>&lt;label class="dropzone"&gt;&lt;input type="file" multiple hidden&gt;Drop files here&lt;/label&gt;</code></pre>
+    </div>
+
+    <!-- Searchable Select -->
+    <div class="form-component-card" data-name="searchable select dropdown filter">
+      <div class="card-top">
+        <span class="card-label">Searchable Select</span>
+        <span class="card-tag tag-new">New</span>
+      </div>
+      <div class="form-preview">
+        <div class="form-card searchable-select-card">
+          <h3>Choose Option</h3>
+          <p class="form-sub">Type to filter options</p>
+          <div class="searchable-select">
+            <input type="text" placeholder="Search countries..." oninput="filterOptions(this)" aria-label="Search select">
+            <select size="5">
+              <option>United States</option>
+              <option>United Kingdom</option>
+              <option>Canada</option>
+              <option>Germany</option>
+              <option>India</option>
+              <option>Australia</option>
+            </select>
+          </div>
+          <button class="form-btn">Choose</button>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('fc21', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('fc21', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="fc21" class="code-block"><code>&lt;div class="searchable-select"&gt;&lt;input&gt;&lt;select&gt;&lt;option&gt;...&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- Coupon Code Input -->
+    <div class="form-component-card" data-name="coupon code promo input inline apply">
+      <div class="card-top">
+        <span class="card-label">Coupon Code</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="form-preview">
+        <div class="form-card coupon-card">
+          <h3>Apply Coupon</h3>
+          <p class="form-sub">Enter promo code to redeem</p>
+          <div class="coupon-row">
+            <input type="text" placeholder="Enter coupon code" id="couponInput">
+            <button class="form-btn outline-btn" onclick="applyCoupon()">Apply</button>
+          </div>
+          <p class="coupon-msg" id="couponMsg"></p>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('fc22', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('fc22', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="fc22" class="code-block"><code>&lt;div class="coupon-row"&gt;&lt;input type="text"&gt;&lt;button&gt;Apply&lt;/button&gt;&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- Rating Slider -->
+    <div class="form-component-card" data-name="rating slider range feedback score">
+      <div class="card-top">
+        <span class="card-label">Rating Slider</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="form-preview">
+        <div class="form-card rating-slider-card">
+          <h3>Rate Experience</h3>
+          <p class="form-sub">Drag to set a rating</p>
+          <div class="slider-row">
+            <input type="range" min="0" max="10" value="7" id="ratingRange" oninput="document.getElementById('ratingValue').textContent=this.value">
+            <span id="ratingValue">7</span>
+          </div>
+          <button class="form-btn">Submit Rating</button>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('fc23', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('fc23', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="fc23" class="code-block"><code>&lt;input type="range" min="0" max="10" oninput="..."&gt;</code></pre>
+    </div>
+
+    <!-- Human Check (Simple CAPTCHA) -->
+    <div class="form-component-card" data-name="human check captcha simple checkbox spam protection">
+      <div class="card-top">
+        <span class="card-label">Human Check</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="form-preview">
+        <div class="form-card captcha-card">
+          <h3>Are you human?</h3>
+          <p class="form-sub">Simple anti-bot checkbox</p>
+          <label class="captcha-check"><input type="checkbox" id="humanCheck"> I'm not a robot</label>
+          <button class="form-btn" onclick="if(!document.getElementById('humanCheck').checked){alert('Please confirm you are human.');}else{alert('Thanks!');}">Confirm</button>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('fc24', this)"><i class="fa-solid fa-code"></i> View Code</button>
+        <button class="action-btn copy-btn" onclick="copyCode('fc24', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <pre id="fc24" class="code-block"><code>&lt;label&gt;&lt;input type="checkbox"&gt; I'm not a robot&lt;/label&gt;</code></pre>
+    </div>
+
   </div>
 
 </main>
@@ -1355,47 +1520,90 @@
   <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
 </button>
 
-<!-- FOOTER -->
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
     <div class="footer-col brand">
       <h2 class="footer-logo">⬡ UIverse</h2>
       <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
       <div class="socials">
-        <a href="https://github.com" title="GitHub"><i class="fab fa-github"></i></a>
-        <a href="https://linkedin.com" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <a href="https://twitter.com" title="Twitter"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
+
     <div class="footer-col">
       <h3>Explore</h3>
       <ul>
         <li><a href="button.html">Buttons</a></li>
         <li><a href="navbar.html">Navbars</a></li>
         <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
         <li><a href="forms.html">Forms</a></li>
       </ul>
     </div>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
     <div class="footer-col">
       <h3>Legal</h3>
       <ul>
         <li><a href="privacypolicy.html">Privacy Policy</a></li>
         <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
       </ul>
     </div>
+
     <div class="footer-col newsletter">
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
-        <button type="button">Subscribe</button>
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
   </div>
+
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
 
 <script>
   /* Dark Mode */
@@ -1466,9 +1674,47 @@ formSearchInput.addEventListener("input", function (){
   });
 });
 
+  /* ---------- Helpers for new components ---------- */
+  function previewFiles(files){
+    const container = document.getElementById('dzPreviews');
+    container.innerHTML = '';
+    Array.from(files).forEach(f => {
+      const el = document.createElement('div');
+      el.className = 'dz-preview';
+      el.textContent = f.name.split('.').pop().toUpperCase();
+      container.appendChild(el);
+    });
+  }
+
+  function filterOptions(input){
+    const q = input.value.toLowerCase();
+    const sel = input.nextElementSibling; // the select
+    Array.from(sel.options).forEach(opt => {
+      opt.style.display = opt.text.toLowerCase().includes(q) ? '' : 'none';
+    });
+  }
+
+  function applyCoupon(){
+    const input = document.getElementById('couponInput');
+    const msg = document.getElementById('couponMsg');
+    const code = input.value.trim();
+    if(!code){ msg.textContent = 'Please enter a coupon code.'; return; }
+    // simple demo behavior
+    if(code.toUpperCase() === 'UIVERSE10'){
+      msg.textContent = 'Coupon applied: 10% off';
+      msg.style.color = '#00b894';
+    } else {
+      msg.textContent = 'Invalid coupon code.';
+      msg.style.color = '#ff6b6b';
+    }
+  }
+
 
 </script>
 
 
+  <script src="dist/shared.js"></script>
 </body>
 </html>
+
+<!-- improved by script -->

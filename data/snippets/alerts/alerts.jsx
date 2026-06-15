@@ -5,7 +5,7 @@ export default function alerts(){
     <>
       <main className="main-home">
       
-        {/* Page Header */}
+        
         <div className="page-hero">
           <div className="page-hero-left">
             <div className="breadcrumb">
@@ -38,7 +38,7 @@ export default function alerts(){
           </div>
         </div>
       
-        {/* Filter Bar */}
+        
         <div className="filter-bar">
           <button className="filter-btn active" onclick="filterCards('all', this)">All</button>
           <button className="filter-btn" onclick="filterCards('basic', this)">Basic</button>
@@ -52,7 +52,7 @@ export default function alerts(){
           </div>
         </div>
       
-        {/* Alerts Grid */}
+        
         <div className="alerts-grid" id="alertsGrid">
       
       <div className="component-card" data-name="glass blur modern transparent alert" data-cat="filled">
@@ -74,19 +74,40 @@ export default function alerts(){
             </div>
           </div>
         </div>
+      </div>
       
-        <p className="card-desc">Modern frosted-glass alerts with blur, transparency, and vibrant borders.</p>
-      
-        <div className="actions">
-                <button className="action-btn view-btn" onclick="toggleCode('al15', this)">
-                  <i className="fa-solid fa-code"></i> View Code
-                </button>
-                <button className="action-btn copy-btn" onclick="copyCode('al15', this)">
-                  <i className="fa-solid fa-copy"></i> Copy
-                </button>
+          
+          <div className="component-card" data-name="dismissible closeable close button alert" data-cat="basic">
+            <div className="card-top">
+              <span className="card-label">Dismissible Alerts</span>
+              <span className="card-tag tag-popular">Popular</span>
+            </div>
+            <div className="card-preview">
+              <div className="demo-alert-stack" id="dismissStack">
+                <div className="al al-success al-dismissible" id="dis1">
+                  <i className="fa-solid fa-circle-check al-icon"></i>
+                  <div className="al-body">Payment completed successfully!</div>
+                  <button className="al-close" onclick="dismissAlert('dis1')" aria-label="Dismiss alert"><i className="fa-solid fa-xmark"></i></button>
+                </div>
+                <div className="al al-warning al-dismissible" id="dis2">
+                  <i className="fa-solid fa-triangle-exclamation al-icon"></i>
+                  <div className="al-body">Your session will expire in 5 minutes.</div>
+                  <button className="al-close" onclick="dismissAlert('dis2')" aria-label="Dismiss alert"><i className="fa-solid fa-xmark"></i></button>
+                </div>
+                <div className="al al-info al-dismissible" id="dis3">
+                  <i className="fa-solid fa-circle-info al-icon"></i>
+                  <div className="al-body">Version 2.0 is now available. <a className="al-link" href="#">Update now →</a></div>
+                  <button className="al-close" onclick="dismissAlert('dis3')" aria-label="Dismiss alert"><i className="fa-solid fa-xmark"></i></button>
+                </div>
               </div>
-      
-        <pre id="al15" className="code-block"><code>&lt;div className="alert glass success"&gt;
+              <button className="reset-btn" onclick="resetDismiss()" aria-label="Reset alerts"><i className="fa-solid fa-rotate-left"></i> Reset</button>
+            </div>
+            <p className="card-desc">Alerts with an × dismiss button — click to slide them away. Works with a tiny JS snippet.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('al2', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('al2', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="al2" className="code-block"><code>&lt;div className="alert success dismissible" id="myAlert"&gt;
         &lt;i className="fa-solid fa-circle-check"&gt;&lt;/i&gt;
         &lt;span&gt;Payment processed successfully.&lt;/span&gt;
       &lt;/div&gt;
@@ -197,16 +218,40 @@ export default function alerts(){
       
           </div>
         </div>
+      </div>
       
-        <p className="card-desc">Modern progress alerts for uploads, deployments, syncing, and loading states.</p>
-      
-        <div className="actions">
-                <button className="action-btn view-btn" onclick="toggleCode('al17', this)">
-                  <i className="fa-solid fa-code"></i> View Code
-                </button>
-                <button className="action-btn copy-btn" onclick="copyCode('al17', this)">
-                  <i className="fa-solid fa-copy"></i> Copy
-                </button>
+          
+          <div className="component-card" data-name="toast notification popup bottom corner" data-cat="toast">
+            <div className="card-top">
+              <span className="card-label">Toast Notifications</span>
+              <span className="card-tag tag-trending">Trending</span>
+            </div>
+            <div className="card-preview">
+              <div className="demo-toast-grid">
+                <div className="toast toast-success" role="status" aria-live="polite">
+                  <div className="toast-icon-wrap"><i className="fa-solid fa-circle-check"></i></div>
+                  <div className="toast-body">
+                    <div className="toast-title">Saved!</div>
+                    <div className="toast-msg">Your draft was saved.</div>
+                  </div>
+                  <button className="toast-close" aria-label="Dismiss notification"><i className="fa-solid fa-xmark"></i></button>
+                </div>
+                <div className="toast toast-error" role="status" aria-live="polite">
+                  <div className="toast-icon-wrap"><i className="fa-solid fa-circle-xmark"></i></div>
+                  <div className="toast-body">
+                    <div className="toast-title">Upload Failed</div>
+                    <div className="toast-msg">File size exceeds 10MB limit.</div>
+                  </div>
+                  <button className="toast-close" aria-label="Dismiss notification"><i className="fa-solid fa-xmark"></i></button>
+                </div>
+                <div className="toast toast-info" role="status" aria-live="polite">
+                  <div className="toast-icon-wrap"><i className="fa-solid fa-circle-info"></i></div>
+                  <div className="toast-body">
+                    <div className="toast-title">New Message</div>
+                    <div className="toast-msg">Alex sent you a message.</div>
+                  </div>
+                  <button className="toast-close" aria-label="Dismiss notification"><i className="fa-solid fa-xmark"></i></button>
+                </div>
               </div>
       
         <pre id="al17" className="code-block"><code>&lt;div className="progress-alert"&gt;
@@ -244,24 +289,28 @@ export default function alerts(){
       }</code></pre>
       </div>
       
-      <div className="component-card" data-name="ai assistant smart alert chatbot modern" data-cat="toast">
-        <div className="card-top">
-          <span className="card-label">AI Assistant Alerts</span>
-          <span className="card-tag tag-trending">AI</span>
-        </div>
-      
-        <div className="card-preview">
-          <div className="demo-alert-stack">
-      
-            <div className="ai-alert">
-              <div className="ai-alert-icon">
-                <i className="fa-solid fa-sparkles"></i>
-              </div>
-      
-              <div className="ai-alert-body">
-                <div className="ai-alert-title">AI Suggestion</div>
-                <div className="ai-alert-msg">
-                  Your layout could be improved with more spacing between cards.
+          
+          <div className="component-card" data-name="top banner strip alert announcement" data-cat="banner">
+            <div className="card-top">
+              <span className="card-label">Top Banner</span>
+              <span className="card-tag tag-popular">Popular</span>
+            </div>
+            <div className="card-preview" style="padding:0;overflow:hidden;border-radius:var(--radius-sm);">
+              <div className="demo-banners">
+                <div className="banner banner-accent">
+                  <i className="fa-solid fa-rocket"></i>
+                  <span>UIverse v2.0 is live! <a className="banner-link" href="#">See what's new →</a></span>
+                  <button className="banner-close" aria-label="Dismiss banner"><i className="fa-solid fa-xmark"></i></button>
+                </div>
+                <div className="banner banner-warning">
+                  <i className="fa-solid fa-triangle-exclamation"></i>
+                  <span>Scheduled maintenance on Sunday 2 AM UTC.</span>
+                  <button className="banner-close" aria-label="Dismiss banner"><i className="fa-solid fa-xmark"></i></button>
+                </div>
+                <div className="banner banner-error">
+                  <i className="fa-solid fa-circle-xmark"></i>
+                  <span>Service disruption detected. Our team is working on a fix.</span>
+                  <button className="banner-close" aria-label="Dismiss banner"><i className="fa-solid fa-xmark"></i></button>
                 </div>
               </div>
             </div>
@@ -280,7 +329,6 @@ export default function alerts(){
             </div>
       
           </div>
-        </div>
       
         <p className="card-desc">AI-inspired smart assistant notifications with futuristic gradients and soft glow.</p>
       
@@ -954,7 +1002,317 @@ export default function alerts(){
               </pre>
             </div>
       
-        </div>{/* /alertsGrid */}
+      
+      <div className="component-card" data-cat="filled" data-name="glassmorphism success alert green">
+        <h3>Glass Success Alert</h3>
+        <div className="alert-box alert-glass-success" role="alert">
+          <div className="ag-icon"><i className="fa-solid fa-check"></i></div>
+          <div className="ag-content">
+            <strong>Action Completed</strong>
+            <p>Your profile has been updated successfully.</p>
+          </div>
+        </div>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('new1', this)"><i className="fa-solid fa-code"></i> View Code</button>
+          <button className="action-btn copy-btn" onclick="copyCode('new1', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre id="new1" className="code-block"><code>&lt;div className="alert-box alert-glass-success" role="alert"&gt;
+        &lt;div className="ag-icon"&gt;&lt;i className="fa-solid fa-check"&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;div className="ag-content"&gt;
+          &lt;strong&gt;Action Completed&lt;/strong&gt;
+          &lt;p&gt;Your profile has been updated successfully.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;</code></pre>
+      </div>
+      
+      
+      <div className="component-card" data-cat="outlined" data-name="gradient border warning alert pulse">
+        <h3>Gradient Warning Alert</h3>
+        <div className="alert-box alert-gradient-warning" role="alert">
+          <div className="ag-icon"><i className="fa-solid fa-bolt"></i></div>
+          <div className="ag-content">
+            <strong>Low Battery</strong>
+            <p>Your device is at 10%. Please plug in charger.</p>
+          </div>
+        </div>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('new2', this)"><i className="fa-solid fa-code"></i> View Code</button>
+          <button className="action-btn copy-btn" onclick="copyCode('new2', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre id="new2" className="code-block"><code>&lt;div className="alert-box alert-gradient-warning" role="alert"&gt;
+        &lt;div className="ag-icon"&gt;&lt;i className="fa-solid fa-bolt"&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;div className="ag-content"&gt;
+          &lt;strong&gt;Low Battery&lt;/strong&gt;
+          &lt;p&gt;Your device is at 10%. Please plug in charger.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;</code></pre>
+      </div>
+      
+      
+      <div className="component-card" data-cat="filled" data-name="cyber dark mode info alert">
+        <h3>Cyber Info Alert</h3>
+        <div className="alert-box alert-cyber-info" role="alert">
+          <div className="ag-icon"><i className="fa-solid fa-satellite-dish"></i></div>
+          <div className="ag-content">
+            <strong>Signal Acquired</strong>
+            <p>Connection established with orbital satellite.</p>
+          </div>
+        </div>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('new3', this)"><i className="fa-solid fa-code"></i> View Code</button>
+          <button className="action-btn copy-btn" onclick="copyCode('new3', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre id="new3" className="code-block"><code>&lt;div className="alert-box alert-cyber-info" role="alert"&gt;
+        &lt;div className="ag-icon"&gt;&lt;i className="fa-solid fa-satellite-dish"&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;div className="ag-content"&gt;
+          &lt;strong&gt;Signal Acquired&lt;/strong&gt;
+          &lt;p&gt;Connection established with orbital satellite.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;</code></pre>
+      </div>
+      
+      
+      <div className="component-card" data-cat="toast" data-name="notification badge alert message">
+        <h3>Notification Alert</h3>
+        <div className="alert-box alert-badge-notify" role="alert">
+          <div className="abn-avatar">
+            <img src="https://i.pravatar.cc/150?img=68" alt="User" />
+            <span className="abn-badge">3</span>
+          </div>
+          <div className="ag-content">
+            <strong>New Messages</strong>
+            <p>You have 3 unread messages from Sarah.</p>
+          </div>
+          <button className="abn-close">✕</button>
+        </div>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('new4', this)"><i className="fa-solid fa-code"></i> View Code</button>
+          <button className="action-btn copy-btn" onclick="copyCode('new4', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre id="new4" className="code-block"><code>&lt;div className="alert-box alert-badge-notify" role="alert"&gt;
+        &lt;div className="abn-avatar"&gt;
+          &lt;img src="https://i.pravatar.cc/150?img=68" alt="User"&gt;
+          &lt;span className="abn-badge"&gt;3&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div className="ag-content"&gt;
+          &lt;strong&gt;New Messages&lt;/strong&gt;
+          &lt;p&gt;You have 3 unread messages from Sarah.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;button className="abn-close"&gt;✕&lt;/button&gt;
+      &lt;/div&gt;</code></pre>
+      </div>
+      
+      
+      <div className="component-card" data-cat="basic" data-name="simple stripe error alert red">
+        <h3>Stripe Error Alert</h3>
+        <div className="alert-box alert-stripe-error" role="alert">
+          <div className="ag-content">
+            <strong>Authentication Failed</strong>
+            <p>The password you entered is incorrect.</p>
+          </div>
+        </div>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('new5', this)"><i className="fa-solid fa-code"></i> View Code</button>
+          <button className="action-btn copy-btn" onclick="copyCode('new5', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre id="new5" className="code-block"><code>&lt;div className="alert-box alert-stripe-error" role="alert"&gt;
+        &lt;div className="ag-content"&gt;
+          &lt;strong&gt;Authentication Failed&lt;/strong&gt;
+          &lt;p&gt;The password you entered is incorrect.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;</code></pre>
+      </div>
+      
+      
+      <div className="component-card" data-cat="basic" data-name="neumorphic interactive action confirm alert box">
+        <h3>Neumorphic Confirm Alert</h3>
+        <div className="alert-box alert-neumorphic-confirm">
+          <div className="nc-icon"><i className="fa-solid fa-trash-can"></i></div>
+          <div className="nc-body">
+            <strong>Delete Project?</strong>
+            <p>This action is irreversible and will purge all repository assets.</p>
+            <div className="nc-actions">
+              <button className="nc-btn-cancel">Cancel</button>
+              <button className="nc-btn-confirm">Delete</button>
+            </div>
+          </div>
+        </div>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('new6', this)"><i className="fa-solid fa-code"></i> View Code</button>
+          <button className="action-btn copy-btn" onclick="copyCode('new6', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre id="new6" className="code-block"><code>&lt;div className="alert-box alert-neumorphic-confirm"&gt;
+        &lt;div className="nc-icon"&gt;&lt;i className="fa-solid fa-trash-can"&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;div className="nc-body"&gt;
+          &lt;strong&gt;Delete Project?&lt;/strong&gt;
+          &lt;p&gt;This action is irreversible and will purge all repository assets.&lt;/p&gt;
+          &lt;div className="nc-actions"&gt;
+            &lt;button className="nc-btn-cancel"&gt;Cancel&lt;/button&gt;
+            &lt;button className="nc-btn-confirm"&gt;Delete&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;</code></pre>
+      </div>
+      
+      <div className="component-card" data-cat="filled" data-name="mac console terminal alert system developer logs">
+        <h3>Console Terminal Alert</h3>
+        <div className="alert-box alert-terminal-log">
+          <div className="tl-header">
+            <span className="tl-dot red"></span>
+            <span className="tl-dot yellow"></span>
+            <span className="tl-dot green"></span>
+            <span className="tl-title">bash - system_monitor.sh</span>
+          </div>
+          <div className="tl-console">
+            <div className="tl-line"><span className="tl-prompt">guest@uiverse:~$</span> ./check_db.sh</div>
+            <div className="tl-line error"><span className="tl-status">[FATAL]</span> Database pool overflowed! 152 active connections.</div>
+            <div className="tl-line warning"><span className="tl-status">[WARN]</span> Re-routing traffic to secondary cluster... <span className="tl-cursor"></span></div>
+          </div>
+        </div>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('new7', this)"><i className="fa-solid fa-code"></i> View Code</button>
+          <button className="action-btn copy-btn" onclick="copyCode('new7', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre id="new7" className="code-block"><code>&lt;div className="alert-box alert-terminal-log"&gt;
+        &lt;div className="tl-header"&gt;
+          &lt;span className="tl-dot red"&gt;&lt;/span&gt;
+          &lt;span className="tl-dot yellow"&gt;&lt;/span&gt;
+          &lt;span className="tl-dot green"&gt;&lt;/span&gt;
+          &lt;span className="tl-title"&gt;bash - system_monitor.sh&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div className="tl-console"&gt;
+          &lt;div className="tl-line"&gt;&lt;span className="tl-prompt"&gt;guest@uiverse:~$&lt;/span&gt; ./check_db.sh&lt;/div&gt;
+          &lt;div className="tl-line error"&gt;&lt;span className="tl-status"&gt;[FATAL]&lt;/span&gt; Database pool overflowed! 152 active connections.&lt;/div&gt;
+          &lt;div className="tl-line warning"&gt;&lt;span className="tl-status"&gt;[WARN]&lt;/span&gt; Re-routing traffic to secondary cluster... &lt;span className="tl-cursor"&gt;&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;</code></pre>
+      </div>
+      
+      <div className="component-card" data-cat="filled" data-name="pulsing radar threat intrusion hack alert crimson glowing animate">
+        <h3>Radar Intrusion Alert</h3>
+        <div className="alert-box alert-radar-threat">
+          <div className="rt-radar-wrap">
+            <div className="rt-radar-circle circle1"></div>
+            <div className="rt-radar-circle circle2"></div>
+            <div className="rt-radar-circle circle3"></div>
+            <i className="fa-solid fa-circle-exclamation rt-threat-icon"></i>
+          </div>
+          <div className="rt-body">
+            <strong>Intrusion Detected</strong>
+            <p>Node 0x4F-A9 bypassed firewall port 8080. Immediate isolation sequence initiated.</p>
+          </div>
+        </div>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('new8', this)"><i className="fa-solid fa-code"></i> View Code</button>
+          <button className="action-btn copy-btn" onclick="copyCode('new8', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre id="new8" className="code-block"><code>&lt;div className="alert-box alert-radar-threat"&gt;
+        &lt;div className="rt-radar-wrap"&gt;
+          &lt;div className="rt-radar-circle circle1"&gt;&lt;/div&gt;
+          &lt;div className="rt-radar-circle circle2"&gt;&lt;/div&gt;
+          &lt;div className="rt-radar-circle circle3"&gt;&lt;/div&gt;
+          &lt;i className="fa-solid fa-circle-exclamation rt-threat-icon"&gt;&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div className="rt-body"&gt;
+          &lt;strong&gt;Intrusion Detected&lt;/strong&gt;
+          &lt;p&gt;Node 0x4F-A9 bypassed firewall port 8080. Immediate isolation sequence initiated.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;</code></pre>
+      </div>
+      
+      <div className="component-card" data-cat="basic" data-name="retro 8bit pixel game alert box arcade yellow magenta font">
+        <h3>Retro Pixel Alert</h3>
+        <div className="alert-box alert-retro-pixel">
+          <div className="rp-icon">👾</div>
+          <div className="rp-body">
+            <strong>STAGE 4 LOCKED</strong>
+            <p>Defeat the giant alien boss to acquire additional credits!</p>
+          </div>
+        </div>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('new9', this)"><i className="fa-solid fa-code"></i> View Code</button>
+          <button className="action-btn copy-btn" onclick="copyCode('new9', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre id="new9" className="code-block"><code>&lt;div className="alert-box alert-retro-pixel"&gt;
+        &lt;div className="rp-icon"&gt;👾&lt;/div&gt;
+        &lt;div className="rp-body"&gt;
+          &lt;strong&gt;STAGE 4 LOCKED&lt;/strong&gt;
+          &lt;p&gt;Defeat the giant alien boss to acquire additional credits!&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;</code></pre>
+      </div>
+      
+      <div className="component-card" data-cat="toast" data-name="glassmorphic timer toast notification countdown progress bar automatic dismiss">
+        <h3>Glassmorphic Timer Toast</h3>
+        <div className="alert-box alert-glass-timer-toast">
+          <div className="gt-icon-wrap"><i className="fa-solid fa-hourglass-half"></i></div>
+          <div className="gt-body">
+            <strong>Session Expiring</strong>
+            <p>Automatic logout in 30 seconds due to inactivity. <a href="#" className="gt-link">Extend</a></p>
+          </div>
+          <button className="gt-close">✕</button>
+          <div className="gt-progress-track">
+            <div className="gt-progress-bar"></div>
+          </div>
+        </div>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('new10', this)"><i className="fa-solid fa-code"></i> View Code</button>
+          <button className="action-btn copy-btn" onclick="copyCode('new10', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre id="new10" className="code-block"><code>&lt;div className="alert-box alert-glass-timer-toast"&gt;
+        &lt;div className="gt-icon-wrap"&gt;&lt;i className="fa-solid fa-hourglass-half"&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;div className="gt-body"&gt;
+          &lt;strong&gt;Session Expiring&lt;/strong&gt;
+          &lt;p&gt;Automatic logout in 30 seconds due to inactivity.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;button className="gt-close"&gt;✕&lt;/button&gt;
+        &lt;div className="gt-progress-track"&gt;
+          &lt;div className="gt-progress-bar"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;</code></pre>
+      </div>
+      
+      <div className="component-card" data-cat="banner" data-name="multi action expandable accordion system alert debugger details error">
+        <h3>Expandable Details Alert</h3>
+        <div className="alert-box alert-expandable-details" id="expAlertBox">
+          <div className="ed-main">
+            <i className="fa-solid fa-bug ed-bug-icon"></i>
+            <div className="ed-body">
+              <strong>Runtime Exception</strong>
+              <p>Unhandled dynamic linker lookup error in libc.so.6.</p>
+            </div>
+            <button className="ed-toggle-btn" onclick="document.getElementById('expAlertBox').classList.toggle('expanded')">Details</button>
+          </div>
+          <div className="ed-details">
+            <div className="ed-details-inner">
+              <div className="ed-log-line">Fatal: load_library: could not locate symbol "__pthread_cleanup_push"</div>
+              <div className="ed-log-line">Stack trace: at ld-linux.so.2 (line 1208)</div>
+              <div className="ed-log-line">Stack trace: at libc.so.6 (line 442)</div>
+            </div>
+          </div>
+        </div>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('new11', this)"><i className="fa-solid fa-code"></i> View Code</button>
+          <button className="action-btn copy-btn" onclick="copyCode('new11', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre id="new11" className="code-block"><code>&lt;div className="alert-box alert-expandable-details" id="myExpandableAlert"&gt;
+        &lt;div className="ed-main"&gt;
+          &lt;i className="fa-solid fa-bug ed-bug-icon"&gt;&lt;/i&gt;
+          &lt;div className="ed-body"&gt;
+            &lt;strong&gt;Runtime Exception&lt;/strong&gt;
+            &lt;p&gt;Unhandled dynamic linker lookup error in libc.so.6.&lt;/p&gt;
+          &lt;/div&gt;
+          &lt;button className="ed-toggle-btn" onclick="document.getElementById('myExpandableAlert').classList.toggle('expanded')"&gt;Details&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div className="ed-details"&gt;
+          &lt;div className="ed-details-inner"&gt;
+            &lt;div className="ed-log-line"&gt;Fatal: load_library: could not locate symbol "__pthread_cleanup_push"&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;</code></pre>
+      </div>
+      
+        </div>
       
       </main>
     </>

@@ -118,7 +118,13 @@ function initTheme() {
   if (!themeToggle) return;
   
   // Check user preference
-  const savedTheme = localStorage.getItem('theme');
+  let savedTheme = null;
+  try {
+    savedTheme = localStorage.getItem('theme');
+  } catch (e) {
+    console.warn('localStorage access denied. Falling back to non-persistent state.', e);
+  }
+
   const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   
   if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
@@ -131,11 +137,19 @@ function initTheme() {
   
   themeToggle.addEventListener('click', () => {
     const isDark = document.body.classList.toggle('dark-mode');
+    try {
+      if (isDark) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
+    } catch (e) {
+      console.warn('localStorage access denied. Falling back to non-persistent state.', e);
+    }
+
     if (isDark) {
-      localStorage.setItem('theme', 'dark');
       themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
     } else {
-      localStorage.setItem('theme', 'light');
       themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
     }
   });
@@ -213,3 +227,33 @@ window.handleSearch = function(event) {
     }
   }
 };
+
+/* ========================================= */
+/* Interactive Timeline Hover Effects */
+/* ========================================= */
+
+document.querySelectorAll(
+  '.career-content, .release-card, .zigzag-card, .funding-item, .roadmap-content'
+).forEach(card => {
+
+  card.addEventListener('mousemove', e => {
+
+    const rect = card.getBoundingClientRect();
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    card.style.background = `
+      radial-gradient(
+        circle at ${x}px ${y}px,
+        rgba(123,97,255,0.18),
+        rgba(17,24,39,1) 60%
+      )
+    `;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.background = '#111827';
+  });
+
+});

@@ -85,14 +85,15 @@ const AccessibilityChecker = {
     badge.setAttribute('aria-label', `Accessibility: ${this._levels[level].name} (${percentage}%)`);
 
     const levelInfo = this._levels[level];
+    const isPerfect = percentage === 100;
     
     const innerHTML = `
       <div class="a11y-badge-icon" style="background-color: ${levelInfo.color}">
-        ${levelInfo.icon}
+        ${isPerfect ? '🏅' : levelInfo.icon}
       </div>
       <div class="a11y-badge-content">
-        <div class="a11y-badge-score">${percentage}%</div>
-        <div class="a11y-badge-label">${levelInfo.name}</div>
+        <div class="a11y-badge-score">${percentage}%${isPerfect ? ' <span style="font-size:9px">Accessible</span>' : ''}</div>
+        <div class="a11y-badge-label">${isPerfect ? 'WCAG Compliant' : levelInfo.name}</div>
       </div>
       <button class="a11y-badge-details" title="View accessibility details" aria-label="View accessibility details">
         <i class="fa-solid fa-info"></i>

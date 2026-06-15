@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hover Effects — UIverse</title>
@@ -13,8 +14,7 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="hover.css">
-  <link rel="stylesheet" href="shared-sidebar.css">
-</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 <body>
 
 <!-- ================= SIDEBAR ================= -->
@@ -344,6 +344,71 @@
 
 <!-- ================= SIDEBAR BACKDROP ================= -->
 <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
 <!-- ================= MAIN CONTENT ================= -->
 <main class="main-home">
 
@@ -817,68 +882,202 @@
       </div>
     </div>
 
+    <!-- 15. NEON SWEEP CARD -->
+    <div class="hover-card">
+      <div class="hover-info">
+        <h2>Neon Sweep Card</h2>
+        <p>A moving highlight beam glides across the surface on hover.</p>
+      </div>
+      <div class="component-preview" id="preview-15">
+        <div class="neon-sweep-card">
+          <span class="sweep-tag">Premium</span>
+          <h3>Neon Sweep</h3>
+          <p>Hover to send a light streak across the card.</p>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-15">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 16. SLIDE REVEAL CARD -->
+    <div class="hover-card">
+      <div class="hover-info">
+        <h2>Slide Reveal Card</h2>
+        <p>The front layer slides away to reveal a deeper panel underneath.</p>
+      </div>
+      <div class="component-preview" id="preview-16">
+        <div class="slide-reveal-card">
+          <div class="slide-face slide-front">
+            <i class="fa-solid fa-layer-group"></i>
+            <h3>Workspace Sync</h3>
+            <p>Lift the cover to reveal the payload.</p>
+          </div>
+          <div class="slide-face slide-back">
+            <span class="slide-stat">24%</span>
+            <p>Hover state unlocked</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-16">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 17. PRISM GLOW BUTTON -->
+    <div class="hover-card">
+      <div class="hover-info">
+        <h2>Prism Glow Button</h2>
+        <p>A layered button that blooms with color and depth on hover.</p>
+      </div>
+      <div class="component-preview" id="preview-17">
+        <button class="prism-btn">
+          <span class="prism-btn-text">Activate Prism</span>
+          <span class="prism-btn-ripple"></span>
+        </button>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-17">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 18. ORBIT HOVER TILE -->
+    <div class="hover-card">
+      <div class="hover-info">
+        <h2>Orbit Hover Tile</h2>
+        <p>Concentric rings spin and glow around the center icon.</p>
+      </div>
+      <div class="component-preview" id="preview-18">
+        <div class="orbit-tile">
+          <div class="orbit-ring orbit-ring-one"></div>
+          <div class="orbit-ring orbit-ring-two"></div>
+          <div class="orbit-core">
+            <i class="fa-solid fa-satellite-dish"></i>
+            <span>Signal</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-18">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 19. CORNER RIBBON CARD -->
+    <div class="hover-card">
+      <div class="hover-info">
+        <h2>Corner Ribbon Card</h2>
+        <p>A crisp ribbon tag swings into view with a soft shadow lift.</p>
+      </div>
+      <div class="component-preview" id="preview-19">
+        <div class="ribbon-card">
+          <span class="ribbon-tag">New</span>
+          <div class="ribbon-copy">
+            <h3>Launch Ready</h3>
+            <p>Hover to reveal the corner accent.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-19">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
   </section>
 
   <!-- ================= FOOTER ================= -->
-  <footer class="site-footer">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="footer-logo">
-          <i class="fa-solid fa-hexagon-nodes"></i>
-          <span>UIverse</span>
-        </div>
-        <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
-        <div class="footer-socials">
-          <a href="#"><i class="fa-brands fa-github"></i></a>
-          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-        </div>
-      </div>
-      
-      <div class="footer-links">
-        <h4>Explore</h4>
-        <ul>
-          <li><a href="button.html">Buttons</a></li>
-          <li><a href="navbar.html">Navbars</a></li>
-          <li><a href="cards.html">Cards</a></li>
-          <li><a href="inputs.html">Inputs</a></li>
-          <li><a href="forms.html">Forms</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-links">
-        <h4>Resources</h4>
-        <ul>
-          <li><a href="#">Documentation</a></li>
-          <li><a href="#">Contribute</a></li>
-          <li><a href="#">GitHub Repo</a></li>
-          <li><a href="#">Community</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-links">
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
-          <li><a href="#">License</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-newsletter">
-        <h4>Stay Updated</h4>
-        <p>Get notified when new components drop.</p>
-        <div class="newsletter-form">
-          <input type="email" placeholder="your@email.com" />
-          <button type="button">Subscribe</button>
-        </div>
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
-    
-    <div class="footer-bottom">
-      <p>© 2026 UIverse. Made with <i class="fa-solid fa-heart heart"></i> for developers worldwide.</p>
+
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
     </div>
-  </footer>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
 
 </main>
 
@@ -915,5 +1114,6 @@
   });
 </script>
 
+  <script src="hover.js"></script>
 </body>
 </html>

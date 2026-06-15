@@ -11,6 +11,17 @@ const TrendingComponents = {
     this.render();
   },
 
+  _resolveTitle(id) {
+    if (window.ComponentIndex) {
+      const item = window.ComponentIndex.getById(id);
+      if (item && item.title) return { title: item.title, path: item.path || '#' };
+    }
+    return {
+      title: id.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+      path: id + '.html'
+    };
+  },
+
   render() {
     const trending = ComponentAnalytics.getTrending(10);
     

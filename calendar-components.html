@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="dist/shared.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendar Components — UIverse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="calendar-components.css" />
+  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+<body>
+  <!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
+
+  <aside class="site-sidebar" aria-label="Site navigation">
+    <div class="sidebar-brand">
+      <span class="brand-mark">⬡</span>
+      <strong>UIverse</strong>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html">Home</a>
+      <a href="cards.html">Cards</a>
+      <a href="breadcrumbs.html">Breadcrumbs</a>
+      <a href="calendar-components.html" class="active">Calendar</a>
+      <a href="buttons.html">Buttons</a>
+      <a href="forms.html">Forms</a>
+      <a href="alerts.html">Alerts</a>
+      <a href="dropdown-components.html">Dropdowns</a>
+      <a href="chatui.html">Chat</a>
+      <a href="activity-feed.html">Activity</a>
+      <a href="docs.html">Documentation</a>
+    </nav>
+    <div class="sidebar-footer">
+      <small>Made with ♥ — UIverse</small>
+    </div>
+  </aside>
+
+  <main class="page-shell">
+    <section class="hero">
+      <div class="hero-badge">📅 Dedicated Calendar Components</div>
+      <h1>Reusable calendar UI for planning, booking, and scheduling.</h1>
+      <p>Three polished calendar patterns built with pure HTML and CSS.</p>
+    </section>
+
+    <section class="components-grid">
+      <article class="component-card" data-name="monthly planner">
+        <div class="card-preview monthly-preview">
+          <div class="calendar-head">
+            <div>
+              <span class="calendar-kicker">Monthly Planner</span>
+              <h2>May 2026</h2>
+            </div>
+            <div class="calendar-nav">
+              <button aria-label="Previous month"><i class="fa-solid fa-chevron-left"></i></button>
+              <button aria-label="Next month"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+          <div class="weekday-row">
+            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+          </div>
+          <div class="day-grid">
+            <span class="muted">27</span><span class="muted">28</span><span class="muted">29</span><span class="muted">30</span><span class="muted">1</span><span class="muted">2</span><span class="muted">3</span>
+            <span>4</span><span>5</span><span class="event">6</span><span>7</span><span class="selected">8</span><span>9</span><span>10</span>
+            <span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span class="event">16</span><span>17</span>
+            <span>18</span><span>19</span><span>20</span><span>21</span><span class="event">22</span><span>23</span><span>24</span>
+            <span>25</span><span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span class="muted">31</span>
+          </div>
+          <div class="preview-note">
+            <span>Today • 3 events</span>
+            <span class="pill">Sprint review</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div>
+            <h3>Monthly Planner</h3>
+            <p>Great for dashboards, team planning, and project timelines.</p>
+          </div>
+          <div class="card-actions">
+            <button onclick="toggleCode('cal1', this)">View code</button>
+            <button onclick="copyCode('cal1', this)">Copy code</button>
+          </div>
+          <pre id="cal1" class="code-block"><code>&lt;div class="calendar-head"&gt;
+  &lt;h2&gt;May 2026&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class="day-grid"&gt;
+  &lt;span class="selected"&gt;8&lt;/span&gt;
+  &lt;span class="event"&gt;16&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="component-card" data-name="date range picker">
+        <div class="card-preview range-preview">
+          <div class="range-header">
+            <span class="calendar-kicker">Date Range Picker</span>
+            <div class="range-inputs">
+              <div>
+                <label>Start</label>
+                <strong>12 May</strong>
+              </div>
+              <div>
+                <label>End</label>
+                <strong>19 May</strong>
+              </div>
+            </div>
+          </div>
+          <div class="range-months">
+            <div class="mini-month">
+              <h3>May</h3>
+              <div class="mini-days">
+                <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+                <span class="muted">27</span><span class="muted">28</span><span class="muted">29</span><span class="muted">30</span><span class="muted">1</span><span class="muted">2</span><span class="muted">3</span>
+                <span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+                <span>11</span><span class="start">12</span><span class="range">13</span><span class="range">14</span><span class="range">15</span><span class="range">16</span><span class="range">17</span>
+                <span class="range">18</span><span class="end">19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span>
+              </div>
+            </div>
+            <div class="mini-summary">
+              <div class="summary-card active">
+                <span>Trip</span>
+                <strong>5 nights</strong>
+              </div>
+              <div class="summary-card">
+                <span>Timezone</span>
+                <strong>UTC+5:30</strong>
+              </div>
+              <div class="summary-card">
+                <span>Status</span>
+                <strong>Confirmed</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div>
+            <h3>Date Range Picker</h3>
+            <p>Useful for bookings, travel flows, and appointment selection.</p>
+          </div>
+          <div class="card-actions">
+            <button onclick="toggleCode('cal2', this)">View code</button>
+            <button onclick="copyCode('cal2', this)">Copy code</button>
+          </div>
+          <pre id="cal2" class="code-block"><code>&lt;div class="mini-days"&gt;
+  &lt;span class="start"&gt;12&lt;/span&gt;
+  &lt;span class="range"&gt;13&lt;/span&gt;
+  &lt;span class="end"&gt;19&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="component-card" data-name="agenda scheduler">
+        <div class="card-preview agenda-preview">
+          <div class="agenda-top">
+            <div>
+              <span class="calendar-kicker">Agenda Scheduler</span>
+              <h2>Thursday, 23 May</h2>
+            </div>
+            <span class="status-dot">Live</span>
+          </div>
+          <div class="agenda-layout">
+            <div class="agenda-calendar">
+              <div class="agenda-mini-head">
+                <span>23</span>
+                <strong>Thu</strong>
+              </div>
+              <div class="agenda-mini-grid">
+                <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span>
+                <span>19</span><span>20</span><span>21</span><span class="today">22</span><span class="today">23</span>
+              </div>
+            </div>
+            <div class="agenda-list">
+              <div class="agenda-item">
+                <span class="agenda-time">09:00</span>
+                <strong>Standup</strong>
+              </div>
+              <div class="agenda-item accent">
+                <span class="agenda-time">12:30</span>
+                <strong>Design review</strong>
+              </div>
+              <div class="agenda-item">
+                <span class="agenda-time">04:15</span>
+                <strong>Client call</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div>
+            <h3>Agenda Scheduler</h3>
+            <p>Compact view for meetings, task lists, and daily productivity.</p>
+          </div>
+          <div class="card-actions">
+            <button onclick="toggleCode('cal3', this)">View code</button>
+            <button onclick="copyCode('cal3', this)">Copy code</button>
+          </div>
+          <pre id="cal3" class="code-block"><code>&lt;div class="agenda-item accent"&gt;
+  &lt;span class="agenda-time"&gt;12:30&lt;/span&gt;
+  &lt;strong&gt;Design review&lt;/strong&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </article>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
+
+  </main>
+
+  <script>
+    function toggleCode(id, button) {
+      const block = document.getElementById(id);
+      const isOpen = block.classList.toggle('open');
+      button.textContent = isOpen ? 'Hide code' : 'View code';
+    }
+
+    async function copyCode(id, button) {
+      const block = document.getElementById(id);
+      const text = block.innerText.trim();
+      await navigator.clipboard.writeText(text);
+      const original = button.textContent;
+      button.textContent = 'Copied!';
+      setTimeout(() => {
+        button.textContent = original;
+      }, 1200);
+    }
+  </script>
+  <script src="dist/shared.js"></script>
+</body>
+</html>

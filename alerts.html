@@ -2,14 +2,13 @@
 <html lang="en">
 
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alerts - UIverse</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="shared-sidebar.css">
   <link rel="stylesheet" href="alerts.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
 
@@ -18,9 +17,16 @@
     <span class="brand-icon">⬡</span>
     <span class="brand-text">UIverse <span style="font-size: 9px; background: linear-gradient(135deg, #eb6835, #7b61ff); color: white; padding: 1px 6px; border-radius: 10px; font-weight: 800; margin-left: 4px; letter-spacing: 0.5px; vertical-align: middle; box-shadow: 0 0 8px rgba(235,104,53,0.3);">V2</span></span>
   </div>
-
-          <nav class="sidebar-nav">
+<li>
+          <nav class="sidebar-nav"><li class="theme-toggle-item">
+        <button id="darkModeToggle" class="theme-toggle-sidebar" title="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+          <span>Theme</span>
+        </button>
+      </li>
+</ul>
     <ul>
+
       <li class="active">
         <a href="index.html">
           <i class="fa-solid fa-house"></i>
@@ -355,30 +361,69 @@
 <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
 
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
 <header class="navbar" id="navbar">
   <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
     <i class="fa-solid fa-bars"></i>
   </button>
-
-  <div class="logo">UIverse</div>
-
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
   <div class="search-bar">
     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    <input type="text" id="searchInput" placeholder="Search components..." onkeydown="handleSearch(event)" />
-    <kbd class="search-kbd">⌘K</kbd>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
   </div>
-
   <div class="nav-right">
-    <button class="nav-btn outline-nav-btn">
-      <i class="fa-solid fa-plus"></i> Add Component
-    </button>
-    <button class="nav-btn primary-nav-btn">
-      <i class="fa-solid fa-bookmark"></i> My Collection
-    </button>
-    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
       <i class="fa-solid fa-moon"></i>
     </button>
   </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
 </header>
 
 
@@ -463,7 +508,7 @@
       </div>
       <div class="card-preview">
         <div class="demo-alert-stack" id="dismissStack">
-          <div class="al al-success al-dismissible" id="dis1">
+          <div class="al al-success al-dismissible" id="dis1" role="alert">
             <i class="fa-solid fa-circle-check al-icon"></i>
             <div class="al-body">Payment completed successfully!</div>
             <button class="al-close" onclick="dismissAlert('dis1')" aria-label="Dismiss alert"><i class="fa-solid fa-xmark"></i></button>
@@ -839,7 +884,7 @@
 
 <div class="component-card">
         <h3>Info Alert</h3>
-        <div class="alert-box alert-info">
+        <div class="alert-box alert-info" role="status" aria-live="polite">
           <div>
             <strong>Info</strong>
             <p>This is an informational message. Learn more about our new features.</p>
@@ -865,7 +910,7 @@
 
 <div class="component-card">
         <h3>Critical Alert</h3>
-        <div class="alert-box alert-critical">
+        <div class="alert-box alert-critical" role="alert" aria-live="assertive">
           <div>
             <strong>Critical</strong>
             <p>Immediate action required! Your account has been locked due to suspicious activity.</p>
@@ -891,7 +936,7 @@
 
 <div class="component-card">
         <h3>Pending Alert</h3>
-        <div class="alert-box alert-pending">
+        <div class="alert-box alert-pending" role="status" aria-live="polite">
           <div>
             <strong>Pending</strong>
             <p>Your request is being processed. You'll be notified once it's complete.</p>
@@ -948,7 +993,7 @@
 <div class="component-card">
         <h3>Alert with Icon</h3>
         <div class="alert-box alert-warning alert-with-icon">
-          <span class="alert-icon">⚠️</span>
+          <span class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
           <div>
             <strong>Warning</strong>
             <p>Please review your input before proceeding.</p>
@@ -1706,75 +1751,139 @@
 
 <div id="copyToast" class="copy-toast"><i class="fa-solid fa-check"></i> Copied to clipboard!</div>
 
-
+ <!-- ================= FOOTER ================= -->
 <footer class="footer">
-    <div class="footer-container">
-
-      <div class="footer-col brand">
-        <h2 class="footer-logo">⬡ UIverse</h2>
-        <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
-
-        <div class="socials">
-          <a href="#" title="GitHub">
-            <i class="fab fa-github"></i>
-          </a>
-          <a href="#" title="LinkedIn">
-            <i class="fab fa-linkedin"></i>
-          </a>
-          <a href="#" title="Twitter">
-            <i class="fab fa-x-twitter"></i>
-          </a>
-        </div>
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
-
-
-      <div class="footer-col">
-        <h3>Explore</h3>
-        <ul>
-          <li><a href="button.html">Buttons</a></li>
-          <li><a href="navbar.html">Navbars</a></li>
-          <li><a href="cards.html">Cards</a></li>
-          <li><a href="inputs.html">Inputs</a></li>
-          <li><a href="forms.html">Forms</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Resources</h3>
-        <ul>
-          <li><a href="#">Documentation</a></li>
-          <li><a href="#">Contribute</a></li>
-          <li><a href="#">GitHub Repo</a></li>
-          <li><a href="#">Community</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Legal</h3>
-        <ul>
-          <li><a href="privacypolicy.html">Privacy Policy</a></li>
-          <li><a href="terms.html">Terms of Service</a></li>
-          <li><a href="#">License</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col newsletter">
-        <h3>Stay Updated</h3>
-        <p>Get notified when new components drop.</p>
-        <div class="newsletter-form">
-          <input type="email" placeholder="your@email.com" />
-          <button type="button" onclick="subscribe()">Subscribe</button>
-        </div>
-      </div>
-
     </div>
 
-    <div class="footer-bottom">
-      <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
     </div>
-  </footer>
 
-<script src="script.js"></script>
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">GitHub Repo</a></li>
+        <li><a href="#">Community</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com">
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+  </div>
+</footer>
+
 <script>
   
   const alertToggle = document.getElementById('darkModeToggle');
@@ -1812,6 +1921,8 @@
   
   function dismissAlert(id) {
     const el = document.getElementById(id);
+    if (!el) return;
+    el.setAttribute('aria-hidden', 'true');
     el.style.opacity = '0';
     el.style.transform = 'translateX(10px)';
     el.style.maxHeight = el.offsetHeight + 'px';
@@ -1819,13 +1930,17 @@
       el.style.maxHeight = '0';
       el.style.padding = '0';
       el.style.margin = '0';
+      el.style.border = '0';
     }, 200);
   }
 
   function resetDismiss() {
     ['dis1','dis2','dis3'].forEach(id => {
       const el = document.getElementById(id);
-      el.style.cssText = '';
+      if (el) {
+        el.removeAttribute('aria-hidden');
+        el.style.cssText = '';
+      }
     });
   }
 
@@ -1917,5 +2032,6 @@
   }, { threshold: 0.08 });
   document.querySelectorAll('.component-card').forEach(el => observer.observe(el));
 </script>
+  <script src="alerts.js"></script>
 </body>
 </html>

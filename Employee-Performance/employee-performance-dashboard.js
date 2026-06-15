@@ -140,3 +140,112 @@ buttons.forEach(btn => {
   });
 
 });
+
+/* =========================
+   COUNTER ANIMATION
+========================= */
+
+const statNumbers = document.querySelectorAll(".stat-card h2");
+
+statNumbers.forEach((stat)=>{
+
+  const target =
+  parseInt(stat.innerText);
+
+  let count = 0;
+
+  const update = ()=>{
+
+    count += Math.ceil(target / 35);
+
+    if(count >= target){
+      stat.innerText =
+      stat.innerText.includes("%")
+      ? target + "%"
+      : target;
+    }
+
+    else{
+
+      stat.innerText =
+      stat.innerText.includes("%")
+      ? count + "%"
+      : count;
+
+      requestAnimationFrame(update);
+
+    }
+
+  };
+
+  update();
+
+});
+
+/* =========================
+   ACTIVE SIDEBAR
+========================= */
+
+const navLinks =
+document.querySelectorAll(".sidebar-nav a");
+
+navLinks.forEach((link)=>{
+
+  link.addEventListener("click",()=>{
+
+    navLinks.forEach((item)=>
+      item.classList.remove("active")
+    );
+
+    link.classList.add("active");
+
+  });
+
+});
+
+/* =========================
+   SEARCH FILTER
+========================= */
+
+const searchInput =
+document.querySelector(".search-box input");
+
+const employees =
+document.querySelectorAll(".employee");
+
+searchInput.addEventListener("keyup",()=>{
+
+  const value =
+  searchInput.value.toLowerCase();
+
+  employees.forEach((employee)=>{
+
+    const text =
+    employee.innerText.toLowerCase();
+
+    employee.style.display =
+    text.includes(value)
+    ? "flex"
+    : "none";
+
+  });
+
+});
+
+/* =========================
+   NOTIFICATION
+========================= */
+
+const notifyBtn =
+document.querySelector(".notification-btn");
+
+notifyBtn.addEventListener("click",()=>{
+
+  notifyBtn.classList.toggle("active");
+
+  notifyBtn.innerHTML =
+  notifyBtn.classList.contains("active")
+  ? '<i class="fa-solid fa-bell-ring"></i>'
+  : '<i class="fa-solid fa-bell"></i>';
+
+});

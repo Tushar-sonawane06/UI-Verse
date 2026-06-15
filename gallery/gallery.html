@@ -1,19 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="../dist/shared.css">
   <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Infinite Scroll Gallery</title>
   <link rel="stylesheet" href="gallery.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-<h1>Infinite Scroll Gallery</h1>
+  <main id="main-content">
 
-<div class="gallery" id="gallery"></div>
+    <!-- HERO -->
+    <section class="hero">
+      <h1>Infinite Scroll Gallery</h1>
+      <p>
+        Discover beautiful photography, modern design inspiration,
+        technology visuals and creative artwork.
+      </p>
+    </section>
 
-<div class="loader" id="loader">Loading...</div>
+    <!-- TOOLBAR -->
+    <section class="toolbar">
 
-<script src="gallery.js"></script>
+      <div class="search-box">
+        <label for="searchInput" class="sr-only">
+          Search images
+        </label>
+
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search images..."
+        >
+      </div>
+
+      <div class="filters">
+
+        <select id="categoryFilter">
+          <option value="all">All Categories</option>
+          <option value="nature">Nature</option>
+          <option value="city">City</option>
+          <option value="tech">Technology</option>
+        </select>
+
+        <button id="darkModeBtn" class="action-btn">
+          🌙 Dark Mode
+        </button>
+
+      </div>
+    </section>
+
+    <section
+  class="gallery masonry"
+  id="gallery"
+  aria-label="Image Gallery"
+>
+
+  <article class="gallery-card">
+
+    <img
+      src="image.jpg"
+      alt="Nature landscape"
+      loading="lazy"
+    >
+
+    <div class="overlay">
+
+      <div class="card-top">
+        <span class="badge">Nature</span>
+      </div>
+
+      <div class="card-bottom">
+
+        <h3>Mountain View</h3>
+
+        <div class="stats">
+          <span>👁 2.4k</span>
+          <span>❤ 320</span>
+        </div>
+
+        <div class="actions">
+          <button type="button" aria-label="Like image">
+            ❤
+          </button>
+
+          <button type="button" aria-label="Download image">
+            ⬇
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </article>
+
+</section>
+
+    <!-- CATEGORY CHIPS -->
+    <section class="category-chips">
+
+      <button class="chip active">All</button>
+      <button class="chip">Nature</button>
+      <button class="chip">City</button>
+      <button class="chip">Technology</button>
+
+    </section>
+
+    <!-- GALLERY -->
+    <section
+      class="gallery masonry"
+      id="gallery"
+      aria-label="Image Gallery">
+    </section>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state hidden" id="emptyState">
+      <h2>No Images Found</h2>
+      <p>Try another keyword or category.</p>
+    </div>
+
+    <!-- SKELETON LOADER -->
+    <div
+      class="skeleton-container"
+      id="skeleton"
+      aria-hidden="true">
+
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+
+    </div>
+
+    <!-- LOADER -->
+    <div
+      class="loader"
+      id="loader"
+      aria-live="polite">
+      Loading more images...
+    </div>
+
+    <!-- BACK TO TOP -->
+    <button
+      class="back-to-top"
+      id="backToTop"
+      aria-label="Back to top">
+      ↑
+    </button>
+
+    <!-- MODAL -->
+    <div
+      class="modal"
+      id="modal"
+      role="dialog"
+      aria-modal="true">
+
+      <button
+        class="close"
+        id="closeModal"
+        aria-label="Close image">
+        ×
+      </button>
+
+      <div class="modal-content">
+
+        <img
+          id="modalImg"
+          alt="Gallery image preview">
+
+        <div class="modal-info">
+          <h3>Image Details</h3>
+          <p>High-quality visual content.</p>
+
+          <div class="modal-actions">
+            <button>❤ Like</button>
+            <button>⬇ Download</button>
+            <button>🔗 Share</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="gallery-card">
+
+  <img src="image.jpg" alt="Nature landscape">
+
+  <div class="overlay">
+
+    <div class="card-top">
+      <span class="badge">Nature</span>
+    </div>
+
+    <div class="card-bottom">
+
+      <h3>Mountain View</h3>
+
+      <div class="stats">
+        <span>👁 2.4k</span>
+        <span>❤ 320</span>
+      </div>
+
+      <div class="actions">
+        <button>❤</button>
+        <button>⬇</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+  </main>
+
+  <script src="gallery.js"></script>
+  <script src="../dist/shared.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,468 @@
+{
+  "apiVersion": "1.0.0",
+  "title": "Component Registry Dependency Resolution API",
+  "description": "Backend API contract for component dependency resolution and analysis",
+  "baseUrl": "/api/v1/components",
+  "endpoints": [
+    {
+      "path": "/resolve/{componentName}",
+      "method": "GET",
+      "operationId": "resolveDependencies",
+      "summary": "Resolve all dependencies for a component",
+      "description": "Resolves transitive dependencies, detects conflicts, and returns installation order",
+      "parameters": [
+        {
+          "name": "componentName",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" },
+          "description": "Name of the component to resolve"
+        },
+        {
+          "name": "includeOptional",
+          "in": "query",
+          "required": false,
+          "schema": { "type": "boolean", "default": false },
+          "description": "Include optional dependencies in resolution"
+        },
+        {
+          "name": "includeTransitive",
+          "in": "query",
+          "required": false,
+          "schema": { "type": "boolean", "default": true },
+          "description": "Include transitive dependencies"
+        },
+        {
+          "name": "includeConflicts",
+          "in": "query",
+          "required": false,
+          "schema": { "type": "boolean", "default": true },
+          "description": "Include conflict analysis"
+        },
+        {
+          "name": "maxDepth",
+          "in": "query",
+          "required": false,
+          "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 50 },
+          "description": "Maximum dependency depth to resolve"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Dependency resolution successful",
+          "schema": {
+            "$ref": "#/components/schemas/DependencyResolutionResult"
+          }
+        },
+        "400": {
+          "description": "Invalid parameters",
+          "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+        },
+        "404": {
+          "description": "Component not found",
+          "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+        },
+        "422": {
+          "description": "Circular dependency detected",
+          "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+        },
+        "500": {
+          "description": "Server error",
+          "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    {
+      "path": "/resolve/batch",
+      "method": "POST",
+      "operationId": "resolveBatch",
+      "summary": "Resolve dependencies for multiple components",
+      "description": "Batch resolve dependencies for multiple components with single request",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "components": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "minItems": 1,
+                  "maxItems": 100,
+                  "description": "List of component names to resolve"
+                },
+                "options": {
+                  "type": "object",
+                  "properties": {
+                    "includeOptional": { "type": "boolean", "default": false },
+                    "includeTransitive": { "type": "boolean", "default": true },
+                    "includeConflicts": { "type": "boolean", "default": true },
+                    "maxDepth": { "type": "integer", "default": 50 }
+                  }
+                }
+              },
+              "required": ["components"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Batch resolution successful",
+          "schema": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/DependencyResolutionResult" }
+          }
+        },
+        "400": {
+          "description": "Invalid request body",
+          "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    {
+      "path": "/graph/{componentName}",
+      "method": "GET",
+      "operationId": "getDependencyGraph",
+      "summary": "Get dependency graph for visualization",
+      "description": "Returns nodes and edges for dependency tree visualization",
+      "parameters": [
+        {
+          "name": "componentName",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Dependency graph retrieved",
+          "schema": { "$ref": "#/components/schemas/DependencyGraph" }
+        }
+      }
+    },
+    {
+      "path": "/circular-check/{componentName}",
+      "method": "GET",
+      "operationId": "detectCircularDependencies",
+      "summary": "Detect circular dependencies",
+      "description": "Analyzes component for circular dependency cycles",
+      "parameters": [
+        {
+          "name": "componentName",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Circular dependency analysis complete",
+          "schema": { "$ref": "#/components/schemas/CircularDependencyReport" }
+        }
+      }
+    },
+    {
+      "path": "/analyze/{componentName}",
+      "method": "GET",
+      "operationId": "analyzeDependencyTree",
+      "summary": "Analyze dependency tree statistics",
+      "description": "Returns comprehensive statistics about dependency tree",
+      "parameters": [
+        {
+          "name": "componentName",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Analysis complete",
+          "schema": { "$ref": "#/components/schemas/DependencyTreeAnalysis" }
+        }
+      }
+    },
+    {
+      "path": "/common-dependencies",
+      "method": "POST",
+      "operationId": "findCommonDependencies",
+      "summary": "Find common dependencies between components",
+      "description": "Identifies shared and unique dependencies across multiple components",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "components": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "minItems": 2,
+                  "maxItems": 50
+                }
+              },
+              "required": ["components"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Common dependency analysis complete",
+          "schema": { "$ref": "#/components/schemas/CommonDependenciesAnalysis" }
+        }
+      }
+    }
+  ],
+  "components": {
+    "schemas": {
+      "DependencyResolutionResult": {
+        "type": "object",
+        "properties": {
+          "component": { "type": "string" },
+          "success": { "type": "boolean" },
+          "dependencies": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ResolvedDependency" }
+          },
+          "installationOrder": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Topological sort order for installation"
+          },
+          "dependencyCount": { "type": "integer" },
+          "transitiveDependencyCount": { "type": "integer" },
+          "conflicts": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/DependencyConflict" }
+          },
+          "hasConflicts": { "type": "boolean" },
+          "resolutionMetadata": { "$ref": "#/components/schemas/ResolutionMetadata" }
+        },
+        "required": ["component", "success", "dependencies", "installationOrder"]
+      },
+      "ResolvedDependency": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "version": { "type": "string" },
+          "depth": { "type": "integer" },
+          "type": {
+            "type": "string",
+            "enum": ["direct", "transitive"]
+          }
+        },
+        "required": ["name", "version", "depth", "type"]
+      },
+      "DependencyConflict": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["circular", "version-mismatch", "missing"]
+          },
+          "component": { "type": "string" },
+          "chain": { "type": "string" },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "warning", "info"]
+          },
+          "message": { "type": "string" }
+        }
+      },
+      "DependencyGraph": {
+        "type": "object",
+        "properties": {
+          "nodes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "label": { "type": "string" },
+                "depth": { "type": "integer" },
+                "type": { "type": "string" }
+              }
+            }
+          },
+          "edges": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "from": { "type": "string" },
+                "to": { "type": "string" },
+                "type": { "type": "string" }
+              }
+            }
+          },
+          "nodeCount": { "type": "integer" },
+          "edgeCount": { "type": "integer" },
+          "depth": { "type": "integer" }
+        }
+      },
+      "CircularDependencyReport": {
+        "type": "object",
+        "properties": {
+          "hasCycles": { "type": "boolean" },
+          "cycles": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "cycleCount": { "type": "integer" }
+        }
+      },
+      "DependencyTreeAnalysis": {
+        "type": "object",
+        "properties": {
+          "component": { "type": "string" },
+          "totalDependencies": { "type": "integer" },
+          "directDependencies": { "type": "integer" },
+          "transitiveDependencies": { "type": "integer" },
+          "maxDepth": { "type": "integer" },
+          "averageDepth": { "type": "string" },
+          "conflicts": { "type": "integer" },
+          "hasCircularDependencies": { "type": "boolean" },
+          "depthDistribution": {
+            "type": "object",
+            "additionalProperties": { "type": "integer" }
+          }
+        }
+      },
+      "CommonDependenciesAnalysis": {
+        "type": "object",
+        "properties": {
+          "common": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "unique": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "componentCount": { "type": "integer" },
+          "commonDependencyCount": { "type": "integer" }
+        }
+      },
+      "ResolutionMetadata": {
+        "type": "object",
+        "properties": {
+          "timestamp": { "type": "integer" },
+          "strategy": { "type": "string" },
+          "depth": { "type": "integer" },
+          "cacheHit": { "type": "boolean" }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string" },
+          "errorCode": { "type": "string" },
+          "message": { "type": "string" },
+          "timestamp": { "type": "integer" }
+        }
+      }
+    }
+  },
+  "errorCodes": {
+    "COMP_NOT_FOUND": {
+      "status": 404,
+      "message": "Component not found in registry"
+    },
+    "CIRCULAR_DEPENDENCY": {
+      "status": 422,
+      "message": "Circular dependency detected"
+    },
+    "MAX_DEPTH_EXCEEDED": {
+      "status": 422,
+      "message": "Maximum dependency depth exceeded"
+    },
+    "INVALID_PARAMETERS": {
+      "status": 400,
+      "message": "Invalid request parameters"
+    },
+    "MISSING_DEPENDENCY": {
+      "status": 404,
+      "message": "Required dependency not found in registry"
+    },
+    "VERSION_CONFLICT": {
+      "status": 409,
+      "message": "Version conflict detected"
+    },
+    "RESOLUTION_FAILED": {
+      "status": 500,
+      "message": "Dependency resolution failed"
+    },
+    "INVALID_REQUEST_BODY": {
+      "status": 400,
+      "message": "Invalid request body"
+    }
+  },
+  "httpHeaders": {
+    "request": [
+      {
+        "name": "Content-Type",
+        "value": "application/json",
+        "required": true
+      },
+      {
+        "name": "Accept",
+        "value": "application/json",
+        "required": false
+      },
+      {
+        "name": "X-Request-ID",
+        "value": "uuid",
+        "required": false,
+        "description": "Request tracking ID"
+      }
+    ],
+    "response": [
+      {
+        "name": "Content-Type",
+        "value": "application/json"
+      },
+      {
+        "name": "X-Response-Time",
+        "value": "milliseconds",
+        "description": "Response time in ms"
+      },
+      {
+        "name": "X-Cache-Status",
+        "value": "HIT|MISS",
+        "description": "Cache status"
+      }
+    ]
+  },
+  "rateLimiting": {
+    "enabled": true,
+    "requestsPerMinute": 300,
+    "requestsPerHour": 10000,
+    "burstLimit": 50,
+    "retryAfterHeader": "Retry-After"
+  },
+  "caching": {
+    "enabled": true,
+    "defaultTTL": 3600,
+    "maxCacheSize": 1000,
+    "cacheStrategy": "LRU",
+    "bypassCache": {
+      "queryParam": "nocache",
+      "header": "Cache-Control: no-cache"
+    }
+  },
+  "authentication": {
+    "type": "optional",
+    "schemes": ["API-Key", "Bearer"],
+    "description": "Optional authentication for rate limit exemption"
+  }
+}

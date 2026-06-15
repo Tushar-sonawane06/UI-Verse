@@ -74,3 +74,31 @@ steps.forEach((step,index)=>{
   });
 
 });
+
+const observer =
+new IntersectionObserver(entries => {
+
+  entries.forEach(entry => {
+
+    if(entry.isIntersecting){
+      entry.target.classList.add("show");
+    }
+
+  });
+
+});
+
+document
+.querySelectorAll(".component-card")
+.forEach(card => observer.observe(card));
+document
+.getElementById("copyAll")
+.addEventListener("click",()=>{
+
+  const code = [...document.querySelectorAll("pre")]
+  .map(pre=>pre.innerText)
+  .join("\n\n");
+
+  navigator.clipboard.writeText(code);
+
+});

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tag / Chip Input Demo</title>
+  <link rel="stylesheet" href="taginput.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">🏷️ Tag / Chip Input Component</h1>
+    <p class="subtitle">Type a skill or topic and press <strong>Enter</strong> to add a tag. Max 5 tags allowed.</p>
+
+    <!-- Component -->
+    <div class="tag-input" id="tagInput">
+      <div class="tags"></div>
+      <input type="text" id="tagField" placeholder="Type and press Enter...">
+    </div>
+
+    <!-- Error message -->
+    <p id="errorMsg" class="error-msg"></p>
+  </div>
+
+  <script>
+    const tagInput = document.getElementById("tagInput");
+const tagField = document.getElementById("tagField");
+const tagsContainer = tagInput.querySelector(".tags");
+const errorMsg = document.getElementById("errorMsg");
+
+let tags = [];
+const maxTags = 5;
+
+function renderTags() {
+  tagsContainer.innerHTML = "";
+  tags.forEach((tag, index) => {
+    const chip = document.createElement("div");
+    chip.className = "tag";
+    chip.innerHTML = `
+      <span>${tag}</span>
+      <span class="remove" data-index="${index}">×</span>
+    `;
+    tagsContainer.appendChild(chip);
+  });
+}
+
+function showError(message) {
+  errorMsg.textContent = message;
+  setTimeout(() => {
+    errorMsg.textContent = "";
+  }, 2000);
+}
+
+function addTag(tag) {
+  tag = tag.trim();
+  if (!tag) return;
+  if (tags.includes(tag)) {
+    showError("Duplicate tag not allowed!");
+    return;
+  }
+  if (tags.length >= maxTags) {
+    showError("Max tag limit reached!");
+    return;
+  }
+  tags.push(tag);
+  renderTags();
+}
+
+tagField.addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    addTag(tagField.value);
+    tagField.value = "";
+  }
+});
+
+tagsContainer.addEventListener("click", e => {
+  if (e.target.classList.contains("remove")) {
+    const index = e.target.dataset.index;
+    tags.splice(index, 1);
+    renderTags();
+  }
+});
+
+  </script>
+</body>
+</html>

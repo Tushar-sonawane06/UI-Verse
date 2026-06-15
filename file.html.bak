@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="dist/shared.css">
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Modern File Manager UI</title>
+
+  <link
+    rel="stylesheet"
+    href="file.css"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+</head>
+
+
+<script>
+  const uploadBtn = document.getElementById("uploadBtn");
+  const fileInput = document.getElementById("fileInput");
+  const filesGrid = document.querySelector(".files-grid");
+
+  // Open file picker
+  uploadBtn.addEventListener("click", () => {
+    fileInput.click();
+  });
+
+  // Handle uploaded file
+  fileInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    // File size formatter
+    const formatSize = (bytes) => {
+      if (bytes < 1024) return bytes + " B";
+      if (bytes < 1024 * 1024)
+        return (bytes / 1024).toFixed(1) + " KB";
+      if (bytes < 1024 * 1024 * 1024)
+        return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+
+      return (bytes / (1024 * 1024 * 1024)).toFixed(1) + " GB";
+    };
+
+    // Detect icon
+    const getIcon = (type) => {
+      if (type.startsWith("image/")) return "📸";
+      if (type.startsWith("video/")) return "🎬";
+      if (type.includes("pdf")) return "📄";
+      if (type.includes("zip")) return "🗜";
+      return "📁";
+    };
+
+    // Create new file card
+    const card = document.createElement("div");
+    card.className = "file-card";
+
+    card.innerHTML = `
+      <div class="file-top">
+        <div class="file-icon purple">
+          ${getIcon(file.type)}
+        </div>
+
+        <div class="file-menu">
+          ⋮
+        </div>
+      </div>
+
+      <h3>${file.name}</h3>
+
+      <p>
+        Newly uploaded file added to your cloud workspace.
+      </p>
+
+      <div class="file-footer">
+        <span>${formatSize(file.size)}</span>
+        <span>Just now</span>
+      </div>
+    `;
+
+    // Add card to grid
+    filesGrid.prepend(card);
+
+    // Reset input
+    fileInput.value = "";
+
+    // Optional success message
+    alert(`${file.name} uploaded successfully!`);
+  });
+</script>
+<body>
+<!-- ================= SIDEBAR ================= -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-icon">⬡</span>
+    <span class="brand-text">UIverse</span>
+  </div>
+
+          <nav class="sidebar-nav">
+    <ul>
+      <li class="active">
+        <a href="index.html">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="button.html">
+          <i class="fa-solid fa-hand-pointer"></i>
+          <span>Buttons</span>
+        </a>
+      </li>
+            <li>
+        <a href="dropdown-components.html">
+          <i class="fa-solid fa-caret-down"></i>
+          <span>Dropdowns</span>
+        </a>
+      </li>
+<li>
+        <a href="navbar.html">
+          <i class="fa-solid fa-bars"></i>
+          <span>Navbar</span>
+        </a>
+      </li>
+      <li>
+        <a href="cards.html">
+          <i class="fa-solid fa-table-cells-large"></i>
+          <span>Cards</span>
+        </a>
+      </li>
+      <li>
+        <a href="flipcards.html">
+          <i class="fa-solid fa-clone"></i>
+          <span>3D Cards</span>
+        </a>
+      </li>
+      <li>
+        <a href="inputs.html">
+          <i class="fa-solid fa-keyboard"></i>
+          <span>Inputs</span>
+        </a>
+      </li>
+      <li>
+        <a href="forms.html">
+          <i class="fa-brands fa-wpforms"></i>
+          <span>Forms</span>
+        </a>
+      </li>
+      <li>
+        <a href="badges.html">
+          <i class="fa-solid fa-award"></i>
+          <span>Badges</span>
+        </a>
+      </li>
+      <li>
+        <a href="blog.html">
+          <i class="fa-solid fa-blog"></i>
+          <span>Blog</span>
+        </a>
+      </li>
+      <li>
+        <a href="article.html">
+          <i class="fa-solid fa-newspaper"></i>
+          <span>Articles</span>
+        </a>
+      </li>
+      <li>
+        <a href="alerts.html">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>Alerts</span>
+        </a>
+      </li>
+      <li>
+        <a href="color.html">
+          <i class="fa-solid fa-palette"></i>
+          <span>Colors</span>
+        </a>
+      </li>
+      <li>
+        <a href="charts.html">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Charts</span>
+        </a>
+      </li>
+      <li>
+        <a href="dashboard.html">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="div.html">
+          <i class="fa-solid fa-square"></i>
+          <span>DIV</span>
+        </a>
+      </li>
+      <li>
+        <a href="widgets.html">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Widgets</span>
+        </a>
+      </li>
+      <li>
+        <a href="search.html">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Search Bars</span>
+        </a>
+      </li>
+      <li>
+        <a href="hover.html">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>Hover Effects</span>
+        </a>
+      </li>
+      <li>
+        <a href="error.html">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span>Error Pages</span>
+        </a>
+      </li>
+      <li>
+        <a href="ecommerce.html">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span>E-commerce</span>
+        </a>
+      </li>
+      <li>
+        <a href="files.html">
+          <i class="fa-solid fa-file-arrow-up"></i>
+          <span>Drag & Drop</span>
+        </a>
+      </li>
+      <li>
+        <a href="hero.html">
+          <i class="fa-solid fa-star"></i>
+          <span>Hero Sections</span>
+        </a>
+      </li>
+      <li>
+        <a href="loaders.html">
+          <i class="fa-solid fa-spinner"></i>
+          <span>Loaders</span>
+        </a>
+      </li>
+      <li>
+        <a href="timeline.html">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Timeline</span>
+        </a>
+      </li>
+      <li>
+        <a href="map.html">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Maps</span>
+        </a>
+      </li>
+      <li>
+        <a href="menu.html">
+          <i class="fa-solid fa-bars-staggered"></i>
+          <span>Menu</span>
+        </a>
+      </li>
+      <li>
+        <a href="pricing.html">
+          <i class="fa-solid fa-tags"></i>
+          <span>Pricing</span>
+        </a>
+      </li>
+      <li>
+        <a href="subscription.html">
+          <i class="fa-solid fa-credit-card"></i>
+          <span>Subscription</span>
+        </a>
+      </li>
+      <li>
+        <a href="auth.html">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Authentication</span>
+        </a>
+      </li>
+        <li>
+          <a href="recovery.html">
+            <i class="fa-solid fa-key" aria-hidden="true"></i>
+            <span>Password Recovery</span>
+          </a>
+        </li>
+      <li>
+        <a href="section.html">
+          <i class="fa-solid fa-rectangle-list"></i>
+          <span>Section</span>
+        </a>
+      </li>
+      <li>
+        <a href="span.html">
+          <i class="fa-solid fa-code"></i>
+          <span>Span</span>
+        </a>
+      </li>
+      <li>
+        <a href="table.html">
+          <i class="fa-solid fa-table"></i>
+          <span>Table</span>
+        </a>
+      </li>
+      <li>
+        <a href="tabs.html">
+          <i class="fa-solid fa-table-columns"></i>
+          <span>Tabs</span>
+        </a>
+      </li>
+      <li>
+        <a href="terms.html">
+          <i class="fa-solid fa-file-contract"></i>
+          <span>Terms</span>
+        </a>
+      </li>
+      <li>
+        <a href="testimonials.html">
+          <i class="fa-solid fa-comments"></i>
+          <span>Testimonials</span>
+        </a>
+      </li>
+      <li>
+        <a href="toggles.html">
+          <i class="fa-solid fa-toggle-on"></i>
+          <span>Toggle</span>
+        </a>
+      </li>
+      <li>
+        <a href="radiobutton.html">
+          <i class="fa-solid fa-circle-dot"></i>
+          <span>Radio Buttons</span>
+        </a>
+      </li>
+      <li>
+        <a href="checkbox.html">
+          <i class="fa-solid fa-square-check"></i>
+          <span>Checkboxes</span>
+        </a>
+      </li>
+      <li>
+        <a href="notifications-premium.html">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="step-indicators.html">
+          <i class="fa-solid fa-list-check"></i>
+          <span>Steppers</span>
+        </a>
+      </li>
+      <li>
+        <a href="progress-premium.html">
+          <i class="fa-solid fa-bars-progress"></i>
+          <span>Progress V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="ratings-premium.html">
+          <i class="fa-solid fa-star"></i>
+          <span>Ratings V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="filters-premium.html">
+          <i class="fa-solid fa-sliders"></i>
+          <span>Filters V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="admin-panel.html">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Admin Panel V2</span>
+        </a>
+      </li>
+<li>
+        <a href="about.html">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>About</span>
+        </a>
+      </li>
+      <li>
+        <a href="documentation.html">
+          <i class="fa-solid fa-book"></i>
+          <span>Documentation</span>
+        </a>
+      </li>
+      <li>
+        <a href="faq.html">
+          <i class="fa-solid fa-circle-question"></i>
+          <span>Faq</span>
+        </a>
+      </li>
+      <li>
+        <a href="contact.html">
+          <i class="fa-regular fa-envelope"></i>
+          <span>Contact Us</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+ <div class="socials">
+  <a href="https://github.com/yourusername" target="_blank" title="GitHub">
+    <i class="fab fa-github"></i>
+  </a>
+
+  <a href="https://linkedin.com/in/yourusername" target="_blank" title="LinkedIn">
+    <i class="fab fa-linkedin"></i>
+  </a>
+
+  <a href="https://twitter.com/yourusername" target="_blank" title="Twitter">
+    <i class="fab fa-x-twitter"></i>
+  </a>
+</div>
+</aside>
+
+<!-- ================= SIDEBAR BACKDROP ================= -->
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+  <!-- MAIN -->
+
+  <main class="main">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+      <div class="search-box">
+
+        <span>🔍</span>
+
+        <input
+          type="text"
+          placeholder="Search files, folders, images..."
+        />
+
+      </div>
+
+      <div class="actions">
+
+        <button class="btn-upload">
+  <span>⬆</span>
+  Upload File
+</button>
+
+<input
+  type="file"
+  id="fileInput"
+  hidden
+/>
+
+        <div class="profile">
+          DM
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <div class="hero-card">
+
+        <div class="hero-icon purple">
+          📁
+        </div>
+
+        <h2>245</h2>
+
+        <p>
+          Total folders stored securely in your workspace.
+        </p>
+
+      </div>
+
+      <div class="hero-card">
+
+        <div class="hero-icon green">
+          📄
+        </div>
+
+        <h2>1.4K</h2>
+
+        <p>
+          Files uploaded and synced instantly across devices.
+        </p>
+
+      </div>
+
+      <div class="hero-card">
+
+        <div class="hero-icon orange">
+          ⚡
+        </div>
+
+        <h2>92%</h2>
+
+        <p>
+          Fast cloud sync performance and optimized delivery.
+        </p>
+
+      </div>
+
+      <div class="hero-card">
+
+        <div class="hero-icon pink">
+          ☁
+        </div>
+
+        <h2>72GB</h2>
+
+        <p>
+          Secure encrypted cloud storage backups enabled.
+        </p>
+
+      </div>
+
+    </section>
+
+    <!-- TITLE -->
+
+    <div class="section-title">
+
+      <h2>Recent Files</h2>
+
+      <button class="btn-upload">
+        View All
+      </button>
+
+    </div>
+
+    <!-- FILES -->
+
+    <div class="files-grid">
+
+      <div class="file-card">
+
+        <div class="file-top">
+
+          <div class="file-icon purple">
+            🎨
+          </div>
+
+          <div class="file-menu">
+            ⋮
+          </div>
+
+        </div>
+
+        <h3>UI Design.fig</h3>
+
+        <p>
+          Premium dashboard design assets and components.
+        </p>
+
+        <div class="file-footer">
+          <span>12.4 MB</span>
+          <span>2 mins ago</span>
+        </div>
+
+      </div>
+
+      <div class="file-card">
+
+        <div class="file-top">
+
+          <div class="file-icon green">
+            📄
+          </div>
+
+          <div class="file-menu">
+            ⋮
+          </div>
+
+        </div>
+
+        <h3>Project Docs.pdf</h3>
+
+        <p>
+          Documentation and technical architecture reports.
+        </p>
+
+        <div class="file-footer">
+          <span>4.1 MB</span>
+          <span>10 mins ago</span>
+        </div>
+
+      </div>
+
+      <div class="file-card">
+
+        <div class="file-top">
+
+          <div class="file-icon orange">
+            📸
+          </div>
+
+          <div class="file-menu">
+            ⋮
+          </div>
+
+        </div>
+
+        <h3>Gallery.zip</h3>
+
+        <p>
+          High-resolution image collection for client delivery.
+        </p>
+
+        <div class="file-footer">
+          <span>28 MB</span>
+          <span>25 mins ago</span>
+        </div>
+
+      </div>
+
+      <div class="file-card">
+
+        <div class="file-top">
+
+          <div class="file-icon pink">
+            🎬
+          </div>
+
+          <div class="file-menu">
+            ⋮
+          </div>
+
+        </div>
+
+        <h3>Motion Reel.mp4</h3>
+
+        <p>
+          Creative motion graphics reel exported in 4K format.
+        </p>
+
+        <div class="file-footer">
+          <span>180 MB</span>
+          <span>1 hour ago</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="recent-table">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>File Name</th>
+            <th>Type</th>
+            <th>Size</th>
+            <th>Status</th>
+            <th>Modified</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>LandingPage.fig</td>
+            <td>Design</td>
+            <td>18 MB</td>
+            <td>
+              <span class="status completed">
+                ● Completed
+              </span>
+            </td>
+            <td>Today</td>
+          </tr>
+
+          <tr>
+            <td>Analytics.xlsx</td>
+            <td>Spreadsheet</td>
+            <td>3.5 MB</td>
+            <td>
+              <span class="status pending">
+                ● Syncing
+              </span>
+            </td>
+            <td>Yesterday</td>
+          </tr>
+
+          <tr>
+            <td>PromoVideo.mp4</td>
+            <td>Video</td>
+            <td>320 MB</td>
+            <td>
+              <span class="status completed">
+                ● Uploaded
+              </span>
+            </td>
+            <td>2 days ago</td>
+          </tr>
+
+          <tr>
+            <td>ServerBackup.zip</td>
+            <td>Archive</td>
+            <td>1.2 GB</td>
+            <td>
+              <span class="status failed">
+                ● Failed
+              </span>
+            </td>
+            <td>3 days ago</td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </main>
+
+  <script src="dist/shared.js"></script>
+</body>
+</html>

@@ -172,6 +172,174 @@ body.dark-mode .main{
 }
 
 /* =========================================================
+   TOOLBAR — Loaders
+========================================================= */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+  padding: 12px 18px;
+  background: rgba(108, 92, 231, 0.05);
+  border: 1px solid rgba(108, 92, 231, 0.12);
+  border-radius: 20px;
+}
+
+.toolbar-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 200px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 0 16px;
+  height: 40px;
+}
+
+.toolbar-search i {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.toolbar-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #111827;
+  font-size: 14px;
+  width: 100%;
+}
+
+body.dark-mode .toolbar-search input {
+  color: #fff;
+}
+
+.toolbar-search input::placeholder {
+  color: #94a3b8;
+}
+
+.sort-dropdown-wrapper {
+  position: relative;
+}
+
+.sort-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  background: rgba(108, 92, 231, 0.1);
+  border: 1px solid rgba(108, 92, 231, 0.2);
+  border-radius: 999px;
+  color: #6c5ce7;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.sort-trigger:hover {
+  background: rgba(108, 92, 231, 0.16);
+  color: #7c6cf7;
+}
+
+.sort-trigger.open {
+  background: rgba(108, 92, 231, 0.2);
+  border-color: rgba(108, 92, 231, 0.4);
+}
+
+.sort-chevron {
+  font-size: 10px;
+  transition: transform 0.2s;
+}
+
+.sort-trigger.open .sort-chevron {
+  transform: rotate(180deg);
+}
+
+.sort-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #1e293b;
+  border: 1px solid rgba(108, 92, 231, 0.2);
+  border-radius: 14px;
+  padding: 6px;
+  min-width: 160px;
+  z-index: 100;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.sort-menu.open {
+  display: block;
+}
+
+.sort-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #94a3b8;
+  transition: background 0.15s;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.sort-option:hover {
+  background: rgba(108, 92, 231, 0.1);
+  color: #fff;
+}
+
+.sort-option input[type="radio"] {
+  display: none;
+}
+
+.radio-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: border-color 0.2s;
+}
+
+.sort-option input[type="radio"]:checked ~ .radio-dot {
+  border-color: #6c5ce7;
+  background: #6c5ce7;
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+}
+
+.sort-option input[type="radio"]:checked ~ .radio-dot::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.sort-option:has(input[type="radio"]:checked) {
+  color: #fff;
+  background: rgba(108, 92, 231, 0.12);
+}
+
+.results-count {
+  font-size: 13px;
+  color: #64748b;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* =========================================================
    GRID
 ========================================================= */
 
@@ -499,9 +667,11 @@ body.dark-mode .loader-demo-box{
 
 .wave-loader span{
   width:8px;
-  height:15px;
+  height:50px;
   border-radius:20px;
   background:#7c5cff;
+  transform-origin: bottom center;
+  transform: scaleY(0.3);
   animation:wave 1s infinite ease-in-out;
 }
 
@@ -523,10 +693,10 @@ body.dark-mode .loader-demo-box{
 
 @keyframes wave{
   0%,100%{
-    height:15px;
+    transform: scaleY(0.3);
   }
   50%{
-    height:50px;
+    transform: scaleY(1);
   }
 }
 
@@ -845,8 +1015,13 @@ body.dark-mode .skeleton-card{
 
 .ripple-loader div {
   position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 60px;
+  height: 60px;
   border: 4px solid #7c5cff;
   border-radius: 50%;
+  transform: scale(0);
   animation: ripple 1.2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 
@@ -856,24 +1031,15 @@ body.dark-mode .skeleton-card{
 
 @keyframes ripple {
   0% {
-    top: 30px;
-    left: 30px;
-    width: 0;
-    height: 0;
+    transform: scale(0);
     opacity: 0;
   }
   5% {
-    top: 30px;
-    left: 30px;
-    width: 0;
-    height: 0;
+    transform: scale(0);
     opacity: 1;
   }
   100% {
-    top: 0px;
-    left: 0px;
-    width: 60px;
-    height: 60px;
+    transform: scale(1);
     opacity: 0;
   }
 }
@@ -1097,6 +1263,153 @@ body.dark-mode .skeleton-card{
 
 }
 
+/* ===============================
+   SPINNING GEARS LOADER (#18)
+================================= */
+
+.icon-spin-loader {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-spin-loader i:first-child {
+  font-size: 42px;
+  color: #7c5cff;
+  animation: spin 2s linear infinite;
+  filter: drop-shadow(0 0 8px rgba(124,92,255,0.5));
+}
+
+.icon-spin-loader i:last-child {
+  font-size: 20px;
+  color: #fd79a8;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  animation: spin 1.2s linear infinite reverse;
+  filter: drop-shadow(0 0 5px rgba(253,121,168,0.5));
+}
+
+/* ===============================
+   ICON PULSE RING (#19)
+================================= */
+
+.icon-pulse-ring {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-pulse-ring i {
+  font-size: 26px;
+  color: #ffd32a;
+  z-index: 2;
+  filter: drop-shadow(0 0 6px rgba(255,211,42,0.7));
+  animation: icon-pulse-icon 1.4s ease-in-out infinite;
+}
+
+.icon-pulse-ring span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid rgba(255,211,42,0.6);
+  animation: icon-pulse-ring-anim 1.4s ease-out infinite;
+}
+
+.icon-pulse-ring span:nth-child(3) {
+  animation-delay: 0.55s;
+  border-color: rgba(124,92,255,0.45);
+}
+
+@keyframes icon-pulse-ring-anim {
+  0%   { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+@keyframes icon-pulse-icon {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.18); }
+}
+
+/* ===============================
+   CIRCULAR TEXT ORBIT (#20)
+================================= */
+
+.text-orbit-loader {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-orbit-loader svg {
+  position: absolute;
+  top: 0; left: 0;
+  animation: spin 7s linear infinite;
+}
+
+.text-orbit-icon {
+  font-size: 26px;
+  color: #7c5cff;
+  z-index: 2;
+  animation: spin 2s linear infinite;
+  filter: drop-shadow(0 0 7px rgba(124,92,255,0.55));
+}
+
+/* ===============================
+   STACKED SQUARES (#21)
+================================= */
+
+.stacked-squares {
+  position: relative;
+  width: 54px;
+  height: 54px;
+}
+
+.stacked-squares span {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  border: 3px solid transparent;
+  animation: stack-spin 2.4s cubic-bezier(.4,0,.2,1) infinite;
+}
+
+.stacked-squares span:nth-child(1) {
+  border-color: #7c5cff;
+  animation-delay: 0s;
+  box-shadow: inset 0 0 0 1.5px rgba(124,92,255,0.12);
+}
+
+.stacked-squares span:nth-child(2) {
+  inset: 9px;
+  border-color: #fd79a8;
+  animation-delay: -0.8s;
+  border-radius: 7px;
+}
+
+.stacked-squares span:nth-child(3) {
+  inset: 18px;
+  border-color: #00f7ff;
+  animation-delay: -1.6s;
+  border-radius: 4px;
+}
+
+@keyframes stack-spin {
+  0%   { transform: rotate(0deg) scale(1); }
+  25%  { transform: rotate(90deg) scale(1.08); }
+  50%  { transform: rotate(180deg) scale(1); }
+  75%  { transform: rotate(270deg) scale(0.92); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
 /* ============================================================
    FOOTER
    ============================================================ */
@@ -1134,7 +1447,7 @@ body.dark-mode .skeleton-card{
   font-family: var(--font-heading);
   font-size: 13px;
   font-weight: 700;
-  color: #fff;
+  color: black;
   letter-spacing: 0.8px;
   text-transform: uppercase;
   margin-bottom: 16px;
@@ -1151,14 +1464,31 @@ body.dark-mode .skeleton-card{
 
 .footer-col ul li a {
   color: #888;
-  text-decoration: none;
+  text-decoration: none;   /* no underline by default */
   font-size: 14px;
+  position: relative;      /* needed for custom underline */
   transition: color var(--transition);
+}
+
+.footer-col ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;            /* adjust underline position */
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width var(--transition);
 }
 
 .footer-col ul li a:hover {
   color: var(--accent);
 }
+
+.footer-col ul li a:hover::after {
+  width: 100%;             /* underline expands smoothly */
+}
+
 
 .socials {
   display: flex;
@@ -1214,7 +1544,7 @@ body.dark-mode .skeleton-card{
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: var(--radius-sm);
+  border-rùadius: var(--radius-sm);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -1231,4 +1561,924 @@ body.dark-mode .skeleton-card{
   text-align: center;
   font-size: 13px;
   color: #555;
+}
+
+/* Tablet (≤ 992px) */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 240px;
+  }
+  .loader-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+
+/* Mobile (≤ 600px) */
+@media (max-width: 600px) {
+  /* Sidebar collapses into hamburger */
+  .sidebar {
+    position: fixed;
+    left: -100%;
+    top: 0;
+    height: 100%;
+    transition: left 0.3s ease;
+  }
+  .sidebar.open {
+    left: 0;
+  }
+
+  /* Loader cards stack vertically */
+  .loader-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Cards full width */
+  .loader-card {
+    width: 100%;
+    max-width: 100%;
+    min-height: 200px;
+    box-sizing: border-box;
+  }
+
+  /* Buttons touch-friendly */
+  .loader-card button {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+  /* Scroll-to-top button */
+  .scroll-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: none;
+  }
+}
+/* ================= HEXAGON LOADER ================= */
+
+.hex-loader {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  animation: rotateHex 2s linear infinite;
+}
+
+.hex-loader::before,
+.hex-loader::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 4px solid #2563eb;
+  clip-path: polygon(
+    25% 5%,75% 5%,100% 50%,
+    75% 95%,25% 95%,0 50%
+  );
+}
+
+.hex-loader::after {
+  transform: scale(.7);
+  border-color: #7c3aed;
+}
+
+@keyframes rotateHex {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ================= DNA LOADER ================= */
+
+.dna-loader {
+  display: flex;
+  gap: 6px;
+}
+
+.dna-loader span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2563eb;
+  animation: dna 1s infinite ease-in-out;
+}
+
+.dna-loader span:nth-child(even){
+  background:#8b5cf6;
+}
+
+.dna-loader span:nth-child(2){animation-delay:.1s}
+.dna-loader span:nth-child(3){animation-delay:.2s}
+.dna-loader span:nth-child(4){animation-delay:.3s}
+.dna-loader span:nth-child(5){animation-delay:.4s}
+.dna-loader span:nth-child(6){animation-delay:.5s}
+
+@keyframes dna{
+  50%{
+    transform: translateY(-25px);
+  }
+}
+
+/* ================= GLASS SPINNER ================= */
+
+.glass-loader{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  border:6px solid rgba(255,255,255,.2);
+  border-top-color:#38bdf8;
+  backdrop-filter: blur(10px);
+  animation:spin 1s linear infinite;
+}
+
+/* ================= AI THINKING LOADER ================= */
+
+.ai-loader{
+  display:flex;
+  gap:12px;
+}
+
+.ai-loader span{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:#06b6d4;
+  animation:aiPulse 1.2s infinite;
+}
+
+.ai-loader span:nth-child(2){
+  animation-delay:.2s;
+}
+
+.ai-loader span:nth-child(3){
+  animation-delay:.4s;
+}
+
+@keyframes aiPulse{
+  50%{
+    transform:scale(1.8);
+    box-shadow:0 0 20px #06b6d4;
+  }
+}
+
+/* ================= CUBE LOADER ================= */
+
+.cube-loader{
+  width:50px;
+  height:50px;
+  background:#2563eb;
+  animation:cubeRotate 1.2s infinite ease;
+}
+
+@keyframes cubeRotate{
+  50%{
+    transform:rotate(180deg) scale(.5);
+  }
+  100%{
+    transform:rotate(360deg);
+  }
+}
+
+.loader-filters{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:30px;
+}
+
+.filter-btn{
+  border:none;
+  padding:12px 20px;
+  border-radius:999px;
+  cursor:pointer;
+  background:#fff;
+  box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.filter-btn.active{
+  background:#2563eb;
+  color:white;
+}
+
+.loader-search{
+  margin-bottom:25px;
+}
+
+.loader-search input{
+  width:100%;
+  max-width:500px;
+  padding:16px 20px;
+  border-radius:14px;
+  border:1px solid #dbeafe;
+}
+
+.favorite-btn{
+  position:absolute;
+  top:18px;
+  right:18px;
+  border:none;
+  background:none;
+  cursor:pointer;
+  font-size:20px;
+}
+
+.favorite-btn.active{
+  color:#ef4444;
+}
+
+/* ===============================
+   GRADIENT RING CASCADE (#27)
+
+.cascade-loader {
+  position: relative;
+  width: 70px;
+  height: 70px;
+}
+
+.cascade-loader span {
+  position: absolute;
+  inset: 0;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  animation: cascade-spin 1.8s linear infinite;
+}
+
+.cascade-loader span:nth-child(1) {
+  border-top-color: #7c5cff;
+  border-right-color: #7c5cff;
+}
+
+.cascade-loader span:nth-child(2) {
+  inset: 8px;
+  border-bottom-color: #fd79a8;
+  border-left-color: #fd79a8;
+  animation-duration: 1.4s;
+  animation-direction: reverse;
+}
+
+.cascade-loader span:nth-child(3) {
+  inset: 16px;
+  border-top-color: #00f7ff;
+  border-right-color: #00f7ff;
+  animation-duration: 1s;
+}
+
+@keyframes cascade-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===============================
+   BOUNCING SQUARES (#28)
+
+.bouncing-squares {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 60px;
+}
+
+.bouncing-squares span {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  animation: sq-bounce 0.6s infinite alternate ease-in-out;
+}
+
+.bouncing-squares span:nth-child(1) {
+  background: #7c5cff;
+  animation-delay: 0s;
+}
+
+.bouncing-squares span:nth-child(2) {
+  background: #fd79a8;
+  animation-delay: 0.15s;
+}
+
+.bouncing-squares span:nth-child(3) {
+  background: #00f7ff;
+  animation-delay: 0.3s;
+}
+
+@keyframes sq-bounce {
+  0%   { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-30px) scale(0.85); }
+}
+
+/* ===============================
+   CIRCULAR DASH (#29)
+
+.circular-dash {
+  width: 60px;
+  height: 60px;
+  animation: circular-dash-rotate 2s linear infinite;
+}
+
+.circular-dash svg {
+  width: 100%;
+  height: 100%;
+}
+
+.circular-dash circle {
+  fill: none;
+  stroke: #7c5cff;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 90, 150;
+  stroke-dashoffset: 0;
+  animation: circular-dash-stroke 1.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(124,92,255,0.5));
+}
+
+@keyframes circular-dash-rotate {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes circular-dash-stroke {
+  0%   { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
+  50%  { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
+  100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+}
+/* ============================================================
+   THEME STYLING OVERRIDES
+   Navbar, Sidebar, and Footer theme colors:
+   - Light Mode: White background, dark text/icons
+   - Dark Mode: Black background, light/white text/icons
+   ============================================================ */
+
+/* ==========================================
+   1. LIGHT MODE SPECIFIC (body:not(.dark-mode))
+   ========================================== */
+body:not(.dark-mode) .navbar,
+body:not(.dark-mode) header.navbar,
+body:not(.dark-mode) nav.navbar,
+body:not(.dark-mode) .sidebar,
+body:not(.dark-mode) aside.sidebar,
+body:not(.dark-mode) .footer,
+body:not(.dark-mode) footer.footer {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Ensure text, icons, links inside these components are dark */
+body:not(.dark-mode) .navbar *,
+body:not(.dark-mode) header.navbar *,
+body:not(.dark-mode) nav.navbar *,
+body:not(.dark-mode) .sidebar *,
+body:not(.dark-mode) aside.sidebar *,
+body:not(.dark-mode) .footer *,
+body:not(.dark-mode) footer.footer * {
+  color: #334155 !important;
+}
+
+/* Titles and major headings */
+body:not(.dark-mode) .navbar .logo,
+body:not(.dark-mode) .sidebar .sidebar-brand,
+body:not(.dark-mode) .sidebar h2,
+body:not(.dark-mode) .sidebar .brand-text,
+body:not(.dark-mode) .footer h2,
+body:not(.dark-mode) .footer h3,
+body:not(.dark-mode) .footer-logo {
+  color: #0f172a !important;
+}
+
+/* Sidebar navigation links */
+body:not(.dark-mode) .sidebar-nav li a,
+body:not(.dark-mode) .sidebar ul li a,
+body:not(.dark-mode) .sidebar a {
+  background: transparent !important;
+  color: #475569 !important;
+}
+
+/* Sidebar active link and hover states */
+body:not(.dark-mode) .sidebar-nav li.active a,
+body:not(.dark-mode) .sidebar-nav li a:hover,
+body:not(.dark-mode) .sidebar ul li.active a,
+body:not(.dark-mode) .sidebar ul li a:hover,
+body:not(.dark-mode) .sidebar a:hover,
+body:not(.dark-mode) .sidebar .active a {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+body:not(.dark-mode) .sidebar-nav li.active a *,
+body:not(.dark-mode) .sidebar-nav li a:hover *,
+body:not(.dark-mode) .sidebar ul li.active a *,
+body:not(.dark-mode) .sidebar ul li a:hover *,
+body:not(.dark-mode) .sidebar a:hover *,
+body:not(.dark-mode) .sidebar .active a * {
+  color: #0f172a !important;
+}
+
+/* Footer links hover */
+body:not(.dark-mode) .footer a:hover,
+body:not(.dark-mode) footer.footer a:hover {
+  color: #4f46e5 !important; /* Premium brand indigo */
+}
+
+/* Search bar inside navbar */
+body:not(.dark-mode) .search-bar input {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+body:not(.dark-mode) .search-bar input::placeholder {
+  color: #64748b !important;
+}
+
+/* Outline and secondary buttons inside light navbar/sidebar */
+body:not(.dark-mode) .navbar .nav-btn.outline-nav-btn,
+body:not(.dark-mode) .navbar .outline-btn {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+body:not(.dark-mode) .navbar .nav-btn.outline-nav-btn:hover,
+body:not(.dark-mode) .navbar .outline-btn:hover {
+  background-color: #f1f5f9 !important;
+}
+
+
+/* ==========================================
+   2. DARK MODE SPECIFIC (body.dark-mode)
+   ========================================== */
+body.dark-mode .navbar,
+body.dark-mode header.navbar,
+body.dark-mode nav.navbar,
+body.dark-mode .sidebar,
+body.dark-mode aside.sidebar,
+body.dark-mode .footer,
+body.dark-mode footer.footer {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #f8fafc !important;
+  border-color: #1e293b !important;
+  box-shadow: none !important;
+}
+
+/* Ensure text, icons, links inside these components are light */
+body.dark-mode .navbar *,
+body.dark-mode header.navbar *,
+body.dark-mode nav.navbar *,
+body.dark-mode .sidebar *,
+body.dark-mode aside.sidebar *,
+body.dark-mode .footer *,
+body.dark-mode footer.footer * {
+  color: #cbd5e1 !important; /* slate-300 */
+}
+
+/* Titles and major headings */
+body.dark-mode .navbar .logo,
+body.dark-mode .sidebar .sidebar-brand,
+body.dark-mode .sidebar h2,
+body.dark-mode .sidebar .brand-text,
+body.dark-mode .footer h2,
+body.dark-mode .footer h3,
+body.dark-mode .footer-logo {
+  color: #ffffff !important;
+}
+
+/* Sidebar navigation links */
+body.dark-mode .sidebar-nav li a,
+body.dark-mode .sidebar ul li a,
+body.dark-mode .sidebar a {
+  background: transparent !important;
+  color: #94a3b8 !important;
+}
+
+/* Sidebar active link and hover states */
+body.dark-mode .sidebar-nav li.active a,
+body.dark-mode .sidebar-nav li a:hover,
+body.dark-mode .sidebar ul li.active a,
+body.dark-mode .sidebar ul li a:hover,
+body.dark-mode .sidebar a:hover,
+body.dark-mode .sidebar .active a {
+  background-color: #1e293b !important; /* slate-800 */
+  color: #ffffff !important;
+}
+
+body.dark-mode .sidebar-nav li.active a *,
+body.dark-mode .sidebar-nav li a:hover *,
+body.dark-mode .sidebar ul li.active a *,
+body.dark-mode .sidebar ul li a:hover *,
+body.dark-mode .sidebar a:hover *,
+body.dark-mode .sidebar .active a * {
+  color: #ffffff !important;
+}
+
+/* Footer links hover */
+body.dark-mode .footer a:hover,
+body.dark-mode footer.footer a:hover {
+  color: #818cf8 !important; /* Indigo-400 */
+}
+
+/* Search bar inside navbar */
+body.dark-mode .search-bar input {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+  border: 1px solid #1e293b !important;
+}
+body.dark-mode .search-bar input::placeholder {
+  color: #475569 !important;
+}
+
+/* Secondary/outline buttons in dark navbar */
+body.dark-mode .navbar .nav-btn.outline-nav-btn,
+body.dark-mode .navbar .outline-btn {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #334155 !important;
+}
+body.dark-mode .navbar .nav-btn.outline-nav-btn:hover,
+body.dark-mode .navbar .outline-btn:hover {
+  background-color: #0f172a !important;
+}
+
+
+/* ==========================================
+   3. THEME TOGGLE BUTTON STYLING (GLOBAL)
+   ========================================== */
+.theme-toggle,
+#darkModeToggle,
+#theme-toggle {
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-size: 1.15rem !important;
+  padding: 8px 12px !important;
+  border-radius: 9999px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+
+body:not(.dark-mode) .theme-toggle,
+body:not(.dark-mode) #darkModeToggle,
+body:not(.dark-mode) #theme-toggle {
+  color: #475569 !important;
+  background-color: #f1f5f9 !important;
+}
+body:not(.dark-mode) .theme-toggle:hover,
+body:not(.dark-mode) #darkModeToggle:hover,
+body:not(.dark-mode) #theme-toggle:hover {
+  color: #0f172a !important;
+  background-color: #e2e8f0 !important;
+  transform: scale(1.05);
+}
+
+body.dark-mode .theme-toggle,
+body.dark-mode #darkModeToggle,
+body.dark-mode #theme-toggle {
+  color: #e2e8f0 !important;
+  background-color: #1e293b !important;
+}
+body.dark-mode .theme-toggle:hover,
+body.dark-mode #darkModeToggle:hover,
+body.dark-mode #theme-toggle:hover {
+  color: #ffffff !important;
+  background-color: #334155 !important;
+  transform: scale(1.05);
+}
+
+/* Floating theme toggle button (for pages without navbar/sidebar) */
+.theme-toggle-floating {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  z-index: 9999 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+body.dark-mode .theme-toggle-floating {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+}
+
+/* Sidebar list item toggle button */
+.sidebar .theme-toggle-sidebar {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 10px 16px !important;
+  width: calc(100% - 32px) !important;
+  margin: 10px 16px !important;
+  border-radius: 8px !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+body:not(.dark-mode) .sidebar .theme-toggle-sidebar {
+  color: #475569 !important;
+  background-color: #f1f5f9 !important;
+}
+body:not(.dark-mode) .sidebar .theme-toggle-sidebar:hover {
+  color: #0f172a !important;
+  background-color: #e2e8f0 !important;
+}
+body.dark-mode .sidebar .theme-toggle-sidebar {
+  color: #cbd5e1 !important;
+  background-color: #1e293b !important;
+}
+body.dark-mode .sidebar .theme-toggle-sidebar:hover {
+  color: #ffffff !important;
+  background-color: #334155 !important;
+}
+/* ============================================================
+   THEME STYLING OVERRIDES
+   Navbar, Sidebar, and Footer theme colors:
+   - Light Mode: White background, dark text/icons
+   - Dark Mode: Black background, light/white text/icons
+   ============================================================ */
+
+/* ==========================================
+   1. LIGHT MODE SPECIFIC (body:not(.dark-mode))
+   ========================================== */
+body:not(.dark-mode) .navbar,
+body:not(.dark-mode) header.navbar,
+body:not(.dark-mode) nav.navbar,
+body:not(.dark-mode) .sidebar,
+body:not(.dark-mode) aside.sidebar,
+body:not(.dark-mode) .footer,
+body:not(.dark-mode) footer.footer {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Ensure text, icons, links inside these components are dark */
+body:not(.dark-mode) .navbar *,
+body:not(.dark-mode) header.navbar *,
+body:not(.dark-mode) nav.navbar *,
+body:not(.dark-mode) .sidebar *,
+body:not(.dark-mode) aside.sidebar *,
+body:not(.dark-mode) .footer *,
+body:not(.dark-mode) footer.footer * {
+  color: #334155 !important;
+}
+
+/* Titles and major headings */
+body:not(.dark-mode) .navbar .logo,
+body:not(.dark-mode) .sidebar .sidebar-brand,
+body:not(.dark-mode) .sidebar h2,
+body:not(.dark-mode) .sidebar .brand-text,
+body:not(.dark-mode) .footer h2,
+body:not(.dark-mode) .footer h3,
+body:not(.dark-mode) .footer-logo {
+  color: #0f172a !important;
+}
+
+/* Sidebar navigation links */
+body:not(.dark-mode) .sidebar-nav li a,
+body:not(.dark-mode) .sidebar ul li a,
+body:not(.dark-mode) .sidebar a {
+  background: transparent !important;
+  color: #475569 !important;
+}
+
+/* Sidebar active link and hover states */
+body:not(.dark-mode) .sidebar-nav li.active a,
+body:not(.dark-mode) .sidebar-nav li a:hover,
+body:not(.dark-mode) .sidebar ul li.active a,
+body:not(.dark-mode) .sidebar ul li a:hover,
+body:not(.dark-mode) .sidebar a:hover,
+body:not(.dark-mode) .sidebar .active a {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+body:not(.dark-mode) .sidebar-nav li.active a *,
+body:not(.dark-mode) .sidebar-nav li a:hover *,
+body:not(.dark-mode) .sidebar ul li.active a *,
+body:not(.dark-mode) .sidebar ul li a:hover *,
+body:not(.dark-mode) .sidebar a:hover *,
+body:not(.dark-mode) .sidebar .active a * {
+  color: #0f172a !important;
+}
+
+/* Footer links hover */
+body:not(.dark-mode) .footer a:hover,
+body:not(.dark-mode) footer.footer a:hover {
+  color: #4f46e5 !important; /* Premium brand indigo */
+}
+
+/* Search bar inside navbar */
+body:not(.dark-mode) .search-bar input {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+body:not(.dark-mode) .search-bar input::placeholder {
+  color: #64748b !important;
+}
+
+/* Outline and secondary buttons inside light navbar/sidebar */
+body:not(.dark-mode) .navbar .nav-btn.outline-nav-btn,
+body:not(.dark-mode) .navbar .outline-btn {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+body:not(.dark-mode) .navbar .nav-btn.outline-nav-btn:hover,
+body:not(.dark-mode) .navbar .outline-btn:hover {
+  background-color: #f1f5f9 !important;
+}
+
+
+/* ==========================================
+   2. DARK MODE SPECIFIC (body.dark-mode)
+   ========================================== */
+body.dark-mode .navbar,
+body.dark-mode header.navbar,
+body.dark-mode nav.navbar,
+body.dark-mode .sidebar,
+body.dark-mode aside.sidebar,
+body.dark-mode .footer,
+body.dark-mode footer.footer {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #f8fafc !important;
+  border-color: #1e293b !important;
+  box-shadow: none !important;
+}
+
+/* Ensure text, icons, links inside these components are light */
+body.dark-mode .navbar *,
+body.dark-mode header.navbar *,
+body.dark-mode nav.navbar *,
+body.dark-mode .sidebar *,
+body.dark-mode aside.sidebar *,
+body.dark-mode .footer *,
+body.dark-mode footer.footer * {
+  color: #cbd5e1 !important; /* slate-300 */
+}
+
+/* Titles and major headings */
+body.dark-mode .navbar .logo,
+body.dark-mode .sidebar .sidebar-brand,
+body.dark-mode .sidebar h2,
+body.dark-mode .sidebar .brand-text,
+body.dark-mode .footer h2,
+body.dark-mode .footer h3,
+body.dark-mode .footer-logo {
+  color: #ffffff !important;
+}
+
+/* Sidebar navigation links */
+body.dark-mode .sidebar-nav li a,
+body.dark-mode .sidebar ul li a,
+body.dark-mode .sidebar a {
+  background: transparent !important;
+  color: #94a3b8 !important;
+}
+
+/* Sidebar active link and hover states */
+body.dark-mode .sidebar-nav li.active a,
+body.dark-mode .sidebar-nav li a:hover,
+body.dark-mode .sidebar ul li.active a,
+body.dark-mode .sidebar ul li a:hover,
+body.dark-mode .sidebar a:hover,
+body.dark-mode .sidebar .active a {
+  background-color: #1e293b !important; /* slate-800 */
+  color: #ffffff !important;
+}
+
+body.dark-mode .sidebar-nav li.active a *,
+body.dark-mode .sidebar-nav li a:hover *,
+body.dark-mode .sidebar ul li.active a *,
+body.dark-mode .sidebar ul li a:hover *,
+body.dark-mode .sidebar a:hover *,
+body.dark-mode .sidebar .active a * {
+  color: #ffffff !important;
+}
+
+/* Footer links hover */
+body.dark-mode .footer a:hover,
+body.dark-mode footer.footer a:hover {
+  color: #818cf8 !important; /* Indigo-400 */
+}
+
+/* Search bar inside navbar */
+body.dark-mode .search-bar input {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+  border: 1px solid #1e293b !important;
+}
+body.dark-mode .search-bar input::placeholder {
+  color: #475569 !important;
+}
+
+/* Secondary/outline buttons in dark navbar */
+body.dark-mode .navbar .nav-btn.outline-nav-btn,
+body.dark-mode .navbar .outline-btn {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #334155 !important;
+}
+body.dark-mode .navbar .nav-btn.outline-nav-btn:hover,
+body.dark-mode .navbar .outline-btn:hover {
+  background-color: #0f172a !important;
+}
+
+
+/* ==========================================
+   3. THEME TOGGLE BUTTON STYLING (GLOBAL)
+   ========================================== */
+.theme-toggle,
+#darkModeToggle,
+#theme-toggle {
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-size: 1.15rem !important;
+  padding: 8px 12px !important;
+  border-radius: 9999px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+
+body:not(.dark-mode) .theme-toggle,
+body:not(.dark-mode) #darkModeToggle,
+body:not(.dark-mode) #theme-toggle {
+  color: #475569 !important;
+  background-color: #f1f5f9 !important;
+}
+body:not(.dark-mode) .theme-toggle:hover,
+body:not(.dark-mode) #darkModeToggle:hover,
+body:not(.dark-mode) #theme-toggle:hover {
+  color: #0f172a !important;
+  background-color: #e2e8f0 !important;
+  transform: scale(1.05);
+}
+
+body.dark-mode .theme-toggle,
+body.dark-mode #darkModeToggle,
+body.dark-mode #theme-toggle {
+  color: #e2e8f0 !important;
+  background-color: #1e293b !important;
+}
+body.dark-mode .theme-toggle:hover,
+body.dark-mode #darkModeToggle:hover,
+body.dark-mode #theme-toggle:hover {
+  color: #ffffff !important;
+  background-color: #334155 !important;
+  transform: scale(1.05);
+}
+
+/* Floating theme toggle button (for pages without navbar/sidebar) */
+.theme-toggle-floating {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  z-index: 9999 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+body.dark-mode .theme-toggle-floating {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+}
+
+/* Sidebar list item toggle button */
+.sidebar .theme-toggle-sidebar {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 10px 16px !important;
+  width: calc(100% - 32px) !important;
+  margin: 10px 16px !important;
+  border-radius: 8px !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+body:not(.dark-mode) .sidebar .theme-toggle-sidebar {
+  color: #475569 !important;
+  background-color: #f1f5f9 !important;
+}
+body:not(.dark-mode) .sidebar .theme-toggle-sidebar:hover {
+  color: #0f172a !important;
+  background-color: #e2e8f0 !important;
+}
+body.dark-mode .sidebar .theme-toggle-sidebar {
+  color: #cbd5e1 !important;
+  background-color: #1e293b !important;
+}
+body.dark-mode .sidebar .theme-toggle-sidebar:hover {
+  color: #ffffff !important;
+  background-color: #334155 !important;
 }

@@ -1,777 +1,731 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-inline'; style-src-attr 'unsafe-inline'">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-f8k7yy+ca3xPyPzU8wu4beeLy/5eM5qRgIk+Y0cyn0w='; script-src-attr 'unsafe-hashes' 'sha256-f8k7yy+ca3xPyPzU8wu4beeLy/5eM5qRgIk+Y0cyn0w='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Clock UI</title>
 
-  <title>UIverse Clock Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Icons -->
-  <link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-
-  <style>
-
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
-
-    :root{
-      --bg:#060816;
-      --card:rgba(255,255,255,0.08);
-      --border:rgba(255,255,255,0.12);
-      --text:#ffffff;
-      --muted:#a9b0c7;
-      --accent:#7c5cff;
-      --accent2:#00d4ff;
-      --shadow:0 10px 40px rgba(0,0,0,.45);
-    }
-
-    body{
-      font-family:"DM Sans",sans-serif;
-      background:
-      radial-gradient(circle at top left,#6d3cff22,transparent 30%),
-      radial-gradient(circle at bottom right,#00d4ff1e,transparent 30%),
-      linear-gradient(135deg,#050816,#0d1024);
-      min-height:100vh;
-      color:var(--text);
-      display:flex;
-      overflow-x:hidden;
-    }
-
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      background-image:
-      linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
-      background-size:40px 40px;
-      z-index:-1;
-    }
-
-    /* ================= SIDEBAR ================= */
-
-    .sidebar{
-      width:260px;
-      background:rgba(255,255,255,0.04);
-      backdrop-filter:blur(18px);
-      border-right:1px solid rgba(255,255,255,.08);
-      padding:32px 22px;
-      display:flex;
-      flex-direction:column;
-      gap:40px;
-      position:sticky;
-      top:0;
-      height:100vh;
-    }
-
-    .logo{
-      font-family:"Syne",sans-serif;
-      font-size:2rem;
-      font-weight:800;
-      background:linear-gradient(90deg,#fff,#9ca9ff,#00d4ff);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      letter-spacing:.5px;
-    }
-
-    nav{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
-
-    nav a{
-      text-decoration:none;
-      color:#cfd6ff;
-      display:flex;
-      align-items:center;
-      gap:14px;
-      padding:16px 18px;
-      border-radius:18px;
-      transition:.3s;
-      background:transparent;
-      border:1px solid transparent;
-      font-weight:500;
-    }
-
-    nav a:hover,
-    nav a.active{
-      background:linear-gradient(135deg,#7c5cff22,#00d4ff1f);
-      border:1px solid rgba(255,255,255,.08);
-      transform:translateX(5px);
-      color:#fff;
-      box-shadow:0 10px 25px rgba(0,0,0,.25);
-    }
-
-    nav i{
-      font-size:1.1rem;
-    }
-
-    /* ================= MAIN ================= */
-
-    .main{
-      flex:1;
-      padding:40px;
-    }
-
-    /* HERO */
-
-    .hero{
-      margin-bottom:40px;
-    }
-
-    .hero-badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 18px;
-      border-radius:999px;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.08);
-      color:#dbe4ff;
-      margin-bottom:22px;
-      font-size:.9rem;
-      backdrop-filter:blur(10px);
-    }
-
-    .hero h1{
-      font-family:"Syne",sans-serif;
-      font-size:4rem;
-      line-height:1;
-      margin-bottom:20px;
-      background:linear-gradient(90deg,#fff,#b6c3ff,#00d4ff);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-
-    .hero p{
-      color:var(--muted);
-      max-width:700px;
-      line-height:1.7;
-      font-size:1.1rem;
-    }
-
-    /* CLOCK GRID */
-
-    .clock-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
-      gap:30px;
-      margin-bottom:40px;
-    }
-
-    .clock-card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:32px;
-      padding:30px;
-      backdrop-filter:blur(20px);
-      box-shadow:var(--shadow);
-      position:relative;
-      overflow:hidden;
-    }
-
-    .clock-card::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:linear-gradient(135deg,#7c5cff44,#00d4ff44,transparent);
-      opacity:.4;
-      z-index:-1;
-    }
-
-    .card-header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:30px;
-    }
-
-    .card-header h2{
-      font-size:1.3rem;
-      font-family:"Syne",sans-serif;
-    }
-
-    .theme-btn{
-      width:48px;
-      height:48px;
-      border:none;
-      border-radius:16px;
-      background:linear-gradient(135deg,#7c5cff,#00d4ff);
-      color:#fff;
-      cursor:pointer;
-      transition:.3s;
-      box-shadow:0 10px 20px rgba(124,92,255,.4);
-    }
-
-    .theme-btn:hover{
-      transform:rotate(10deg) scale(1.08);
-    }
-
-    /* ANALOG CLOCK */
-
-    .analog-clock{
-      width:280px;
-      height:280px;
-      margin:auto;
-      border-radius:50%;
-      position:relative;
-      background:
-      radial-gradient(circle,#11192d 60%,#0a0f1f);
-      border:10px solid rgba(255,255,255,.08);
-      box-shadow:
-      inset 0 0 20px rgba(255,255,255,.06),
-      0 25px 50px rgba(0,0,0,.45);
-    }
-
-    .analog-clock::before{
-      content:"";
-      position:absolute;
-      inset:14px;
-      border-radius:50%;
-      border:1px dashed rgba(255,255,255,.08);
-    }
-
-    .center-dot{
-      width:18px;
-      height:18px;
-      background:#fff;
-      border-radius:50%;
-      position:absolute;
-      top:50%;
-      left:50%;
-      transform:translate(-50%,-50%);
-      z-index:10;
-      box-shadow:0 0 20px #fff;
-    }
-
-    .hand{
-      position:absolute;
-      left:50%;
-      bottom:50%;
-      transform-origin:bottom;
-      transform:translateX(-50%) rotate(0deg);
-      border-radius:20px;
-    }
-
-    .hour{
-      width:8px;
-      height:70px;
-      background:#fff;
-      z-index:3;
-    }
-
-    .minute{
-      width:6px;
-      height:100px;
-      background:#8ea2ff;
-      z-index:2;
-    }
-
-    .second{
-      width:3px;
-      height:115px;
-      background:#00d4ff;
-      z-index:1;
-      box-shadow:0 0 12px #00d4ff;
-    }
-
-    .num{
-      position:absolute;
-      font-weight:700;
-      color:#fff;
-      font-size:1.2rem;
-    }
-
-    .n12{
-      top:16px;
-      left:50%;
-      transform:translateX(-50%);
-    }
-
-    .n3{
-      right:20px;
-      top:50%;
-      transform:translateY(-50%);
-    }
-
-    .n6{
-      bottom:16px;
-      left:50%;
-      transform:translateX(-50%);
-    }
-
-    .n9{
-      left:20px;
-      top:50%;
-      transform:translateY(-50%);
-    }
-
-    /* DIGITAL */
-
-    .digital-wrapper{
-      text-align:center;
-      padding:20px 0;
-    }
-
-    .digital-time{
-      font-size:4rem;
-      font-weight:700;
-      font-family:"Syne",sans-serif;
-      letter-spacing:4px;
-      margin-bottom:15px;
-      background:linear-gradient(90deg,#fff,#8ea2ff,#00d4ff);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-
-    .date{
-      color:var(--muted);
-      font-size:1rem;
-      letter-spacing:.5px;
-    }
-
-    /* WORLD CLOCKS */
-
-    .world-section{
-      margin-top:20px;
-    }
-
-    .section-header{
-      margin-bottom:25px;
-    }
-
-    .section-header h2{
-      font-size:2rem;
-      font-family:"Syne",sans-serif;
-      margin-bottom:10px;
-    }
-
-    .section-header p{
-      color:var(--muted);
-    }
-
-    .world-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:24px;
-    }
-
-    .world-card{
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:28px;
-      padding:24px;
-      backdrop-filter:blur(18px);
-      transition:.35s;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .world-card:hover{
-      transform:translateY(-8px);
-      box-shadow:0 20px 35px rgba(0,0,0,.3);
-    }
-
-    .world-card::after{
-      content:"";
-      position:absolute;
-      width:120px;
-      height:120px;
-      border-radius:50%;
-      background:#7c5cff22;
-      top:-50px;
-      right:-50px;
-    }
-
-    .world-card h3{
-      margin-bottom:8px;
-      font-size:1.3rem;
-    }
-
-    .timezone{
-      color:#9fb1ff;
-      font-size:.9rem;
-      display:inline-block;
-      margin-bottom:18px;
-    }
-
-    .world-time{
-      font-size:2rem;
-      font-family:"Syne",sans-serif;
-      font-weight:700;
-    }
-
-    /* RESPONSIVE */
-
-    @media(max-width:950px){
-
-      body{
-        flex-direction:column;
-      }
-
-      .sidebar{
-        width:100%;
-        height:auto;
-        position:relative;
-      }
-
-      nav{
-        flex-direction:row;
-        flex-wrap:wrap;
-      }
-
-      nav a{
-        flex:1;
-        justify-content:center;
-      }
-
-      .main{
-        padding:24px;
-      }
-
-      .hero h1{
-        font-size:3rem;
-      }
-
-    }
-
-    @media(max-width:600px){
-
-      .hero h1{
-        font-size:2.4rem;
-      }
-
-      .digital-time{
-        font-size:2.5rem;
-      }
-
-      .analog-clock{
-        width:240px;
-        height:240px;
-      }
-
-    }
-
-  </style>
 </head>
 
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <!-- ================= SIDEBAR ================= -->
 
-  <aside class="sidebar">
+<div>
 
-    <div class="logo">
-      ⬡ UIverse
-    </div>
+<h1>
+⏰ Advanced Clock Studio
+</h1>
 
-    <nav>
+<p>
+Modern Analog Clock, Digital Clock, Stopwatch, Timer and World Clock
+</p>
 
-      <a href="#" class="active">
-        <i class="fa-solid fa-clock"></i>
-        Clock
-      </a>
+<hr>
 
-      <a href="#">
-        <i class="fa-solid fa-stopwatch"></i>
-        Stopwatch
-      </a>
+<!-- ANALOG CLOCK -->
 
-      <a href="#">
-        <i class="fa-solid fa-hourglass-half"></i>
-        Timer
-      </a>
+<div>
 
-      <a href="#">
-        <i class="fa-solid fa-globe"></i>
-        World Time
-      </a>
+<h2>
+🕒 Analog Clock
+</h2>
 
-    </nav>
+<div id="analogClock">
 
-  </aside>
+<div id="hourHand">Hour Hand</div>
 
-  <!-- ================= MAIN ================= -->
+<div id="minuteHand">Minute Hand</div>
 
-  <main class="main">
+<div id="secondHand">Second Hand</div>
 
-    <!-- HERO -->
+</div>
 
-    <section class="hero">
+</div>
 
-      <span class="hero-badge">
-        ⏰ Time Experience
-      </span>
+<hr>
 
-      <h1>
-        Modern Clock Studio
-      </h1>
+<!-- DIGITAL CLOCK -->
 
-      <p>
-        Beautiful real-time analog & digital clocks with
-        neon gradients, glassmorphism cards and smooth UI animations.
-      </p>
+<div>
 
-    </section>
+<h2>
+💻 Digital Clock
+</h2>
 
-    <!-- CLOCK GRID -->
+<h1 id="digitalClock">
+00:00:00
+</h1>
 
-    <section class="clock-grid">
+<p id="dateText">
+Monday, January 1
+</p>
 
-      <!-- ANALOG CLOCK -->
+<p id="greeting">
+Good Evening
+</p>
 
-      <div class="clock-card">
+</div>
 
-        <div class="card-header">
+<hr>
 
-          <h2>
-            Analog Clock
-          </h2>
+<!-- STOPWATCH -->
 
-          <button class="theme-btn">
-            <i class="fa-solid fa-palette"></i>
-          </button>
+<div>
 
-        </div>
+<h2>
+⏱ Stopwatch
+</h2>
 
-        <div class="analog-clock">
+<h1 id="stopwatch">
+00:00:00
+</h1>
 
-          <div class="center-dot"></div>
+<button id="startBtn" data-a11y-remediation="button-label-needed">
+Start
+</button>
 
-          <div class="hand hour" id="hourHand"></div>
-          <div class="hand minute" id="minuteHand"></div>
-          <div class="hand second" id="secondHand"></div>
+<button id="pauseBtn">
+Pause
+</button>
 
-          <span class="num n12">12</span>
-          <span class="num n3">3</span>
-          <span class="num n6">6</span>
-          <span class="num n9">9</span>
+<button id="resetBtn">
+Reset
+</button>
 
-        </div>
+</div>
 
-      </div>
+<hr>
 
-      <!-- DIGITAL CLOCK -->
+<!-- TIMER -->
 
-      <div class="clock-card">
+<div>
 
-        <div class="card-header">
+<h2>
+⏳ Countdown Timer
+</h2>
 
-          <h2>
-            Digital Clock
-          </h2>
+<input type="number"
+id="minutesInput"
+placeholder="Minutes" data-a11y-remediation="label-needed">
 
-          <button class="theme-btn">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-          </button>
+<input type="number"
+id="secondsInput"
+placeholder="Seconds">
 
-        </div>
+<h1 id="timerDisplay">
+00:00
+</h1>
 
-        <div class="digital-wrapper">
+<button id="timerStart">
+Start
+</button>
 
-          <div class="digital-time"
-          id="digitalClock">
+<button id="timerPause">
+Pause
+</button>
 
-            00:00:00
+<button id="timerReset">
+Reset
+</button>
 
-          </div>
+</div>
 
-          <div class="date"
-          id="dateText">
+<hr>
 
-            Monday, Jan 1
+<!-- WORLD CLOCKS -->
 
-          </div>
+<div>
 
-        </div>
+<h2>
+🌍 World Clocks
+</h2>
 
-      </div>
+<h3>
+New York
+</h3>
 
-    </section>
+<p class="world-time"
+data-offset="-4">
+--:--:--
+</p>
 
-    <!-- WORLD CLOCKS -->
+<h3>
+London
+</h3>
 
-    <section class="world-section">
+<p class="world-time"
+data-offset="1">
+--:--:--
+</p>
 
-      <div class="section-header">
+<h3>
+Tokyo
+</h3>
 
-        <h2>
-          🌍 World Clocks
-        </h2>
+<p class="world-time"
+data-offset="9">
+--:--:--
+</p>
 
-        <p>
-          Multiple timezone tracking with futuristic UI cards.
-        </p>
+<h3>
+Kolkata
+</h3>
 
-      </div>
+<p class="world-time"
+data-offset="5.5">
+--:--:--
+</p>
 
-      <div class="world-grid">
+</div>
 
-        <div class="world-card">
+<hr>
 
-          <h3>
-            New York
-          </h3>
+<!-- LIVE INFO -->
 
-          <span class="timezone">
-            UTC -4
-          </span>
+<div>
 
-          <div class="world-time"
-          data-offset="-4">
-            --:--:--
-          </div>
+<h2>
+📊 Live Stats
+</h2>
 
-        </div>
+<p>
+Timezone:
+<span id="timezone">
+UTC
+</span>
+</p>
 
-        <div class="world-card">
+<p>
+Milliseconds:
+<span id="milliseconds">
+000
+</span>
+</p>
 
-          <h3>
-            London
-          </h3>
+<p>
+Day Progress:
+<span id="dayProgress">
+0%
+</span>
+</p>
 
-          <span class="timezone">
-            UTC +1
-          </span>
+<p>
+Week Day:
+<span id="weekday">
+Mon
+</span>
+</p>
 
-          <div class="world-time"
-          data-offset="1">
-            --:--:--
-          </div>
+</div>
 
-        </div>
+</div>
 
-        <div class="world-card">
+<!-- ALARM CLOCK -->
 
-          <h3>
-            Tokyo
-          </h3>
+<div class="card">
 
-          <span class="timezone">
-            UTC +9
-          </span>
+<div class="header">
 
-          <div class="world-time"
-          data-offset="9">
-            --:--:--
-          </div>
+<h2>
+⏰ Alarm Clock
+</h2>
 
-        </div>
+<button class="icon-btn">
+<i class="fa-solid fa-bell"></i>
+</button>
 
-        <div class="world-card">
+</div>
 
-          <h3>
-            Kolkata
-          </h3>
+<div class="alarm">
 
-          <span class="timezone">
-            UTC +5:30
-          </span>
+<input type="time" id="alarmTime">
 
-          <div class="world-time"
-          data-offset="5.5">
-            --:--:--
-          </div>
+<button class="control-btn"
+id="setAlarmBtn">
 
-        </div>
+Set Alarm
 
-      </div>
+</button>
 
-    </section>
+<h3 id="alarmStatus">
+No Alarm Set
+</h3>
 
-  </main>
+</div>
 
-  <!-- JS -->
+</div>
 
-  <script>
+<!-- POMODORO CLOCK -->
 
-    const hourHand = document.getElementById("hourHand");
-    const minuteHand = document.getElementById("minuteHand");
-    const secondHand = document.getElementById("secondHand");
+<div class="card">
 
-    const digitalClock = document.getElementById("digitalClock");
-    const dateText = document.getElementById("dateText");
+<div class="header">
 
-    function updateClock(){
+<h2>
+🍅 Pomodoro Timer
+</h2>
 
-      const now = new Date();
+<button class="icon-btn">
+<i class="fa-solid fa-fire"></i>
+</button>
 
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      const seconds = now.getSeconds();
+</div>
 
-      // Analog
+<div class="pomodoro">
 
-      const hourDeg =
-      (hours % 12) * 30 +
-      minutes * 0.5;
+<h1 id="pomodoroDisplay">
+25:00
+</h1>
 
-      const minuteDeg =
-      minutes * 6;
+<div class="controls">
 
-      const secondDeg =
-      seconds * 6;
+<button class="control-btn"
+id="pomodoroStart">
 
-      hourHand.style.transform =
-      `translateX(-50%) rotate(${hourDeg}deg)`;
+Start
 
-      minuteHand.style.transform =
-      `translateX(-50%) rotate(${minuteDeg}deg)`;
+</button>
 
-      secondHand.style.transform =
-      `translateX(-50%) rotate(${secondDeg}deg)`;
+<button class="control-btn"
+id="pomodoroPause">
 
-      // Digital
+Pause
 
-      digitalClock.innerHTML =
-      now.toLocaleTimeString();
+</button>
 
-      dateText.innerHTML =
-      now.toLocaleDateString(undefined,{
-        weekday:"long",
-        month:"long",
-        day:"numeric",
-        year:"numeric"
-      });
+<button class="control-btn"
+id="pomodoroReset">
 
-      // World Clocks
+Reset
 
-      document.querySelectorAll(".world-time")
-      .forEach(clock=>{
+</button>
 
-        const offset =
-        parseFloat(clock.dataset.offset);
+</div>
 
-        const utc =
-        now.getTime() +
-        now.getTimezoneOffset() * 60000;
+</div>
 
-        const cityTime =
-        new Date(
-          utc + (3600000 * offset)
-        );
+</div>
 
-        clock.innerHTML =
-        cityTime.toLocaleTimeString();
+<!-- MILLISECOND CLOCK -->
 
-      });
+<div class="card">
 
-    }
+<div class="header">
 
-    setInterval(updateClock,1000);
+<h2>
+⚡ Millisecond Clock
+</h2>
 
-    updateClock();
+<button class="icon-btn">
+<i class="fa-solid fa-gauge-high"></i>
+</button>
 
-  </script>
+</div>
 
+<div class="digital">
+
+<h1 id="msClock">
+00:00:00:000
+</h1>
+
+<p>
+Ultra Precision Real-Time Clock
+</p>
+
+</div>
+
+</div>
+
+<!-- FUTURE COUNTDOWN -->
+
+<div class="card">
+
+<div class="header">
+
+<h2>
+🚀 Event Countdown
+</h2>
+
+<button class="icon-btn">
+<i class="fa-solid fa-rocket"></i>
+</button>
+
+</div>
+
+<div class="timer">
+
+<input type="date"
+id="futureDate">
+
+<h1 id="futureCountdown">
+0 Days
+</h1>
+
+<button class="control-btn"
+id="startCountdown">
+
+Start Countdown
+
+</button>
+
+</div>
+
+</div>
+
+<!-- SUN / MOON CLOCK -->
+
+<div class="card">
+
+<div class="header">
+
+<h2>
+🌞 Day & Night
+</h2>
+
+<button class="icon-btn">
+<i class="fa-solid fa-cloud-sun"></i>
+</button>
+
+</div>
+
+<div class="digital">
+
+<h1 id="dayNight">
+Day
+</h1>
+
+<p id="sunMessage">
+Sunlight Time
+</p>
+
+</div>
+
+</div>
+
+<!-- BINARY CLOCK -->
+
+<div class="card">
+
+<div class="header">
+
+<h2>
+💻 Binary Clock
+</h2>
+
+<button class="icon-btn">
+<i class="fa-solid fa-code"></i>
+</button>
+
+</div>
+
+<div class="digital">
+
+<h1 id="binaryClock">
+000000 : 000000 : 000000
+</h1>
+
+<p>
+Hours : Minutes : Seconds
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+/* DIGITAL CLOCK */
+
+const digitalClock =
+document.getElementById("digitalClock");
+
+const dateText =
+document.getElementById("dateText");
+
+const greeting =
+document.getElementById("greeting");
+
+function updateClock(){
+
+const now = new Date();
+
+const hours =
+now.getHours();
+
+const minutes =
+now.getMinutes();
+
+const seconds =
+now.getSeconds();
+
+const milliseconds =
+now.getMilliseconds();
+
+digitalClock.innerHTML =
+now.toLocaleTimeString();
+
+dateText.innerHTML =
+now.toLocaleDateString(undefined,{
+weekday:"long",
+month:"long",
+day:"numeric",
+year:"numeric"
+});
+
+if(hours < 12){
+
+greeting.innerHTML =
+"Good Morning ☀";
+
+}
+else if(hours < 18){
+
+greeting.innerHTML =
+"Good Afternoon ⚡";
+
+}
+else{
+
+greeting.innerHTML =
+"Good Evening 🌙";
+
+}
+
+/* LIVE INFO */
+
+document.getElementById("timezone")
+.innerHTML =
+Intl.DateTimeFormat()
+.resolvedOptions()
+.timeZone;
+
+document.getElementById("milliseconds")
+.innerHTML =
+milliseconds;
+
+const totalSeconds =
+hours * 3600 +
+minutes * 60 +
+seconds;
+
+const progress =
+((totalSeconds / 86400) * 100)
+.toFixed(1);
+
+document.getElementById("dayProgress")
+.innerHTML =
+progress + "%";
+
+document.getElementById("weekday")
+.innerHTML =
+now.toLocaleDateString(undefined,{
+weekday:"short"
+});
+
+/* WORLD CLOCKS */
+
+document.querySelectorAll(".world-time")
+.forEach(clock=>{
+
+const offset =
+parseFloat(clock.dataset.offset);
+
+const utc =
+now.getTime() +
+now.getTimezoneOffset() * 60000;
+
+const cityTime =
+new Date(
+utc + (3600000 * offset)
+);
+
+clock.innerHTML =
+cityTime.toLocaleTimeString();
+
+});
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+/* STOPWATCH */
+
+let stopwatchInterval;
+
+let elapsed = 0;
+
+let running = false;
+
+const stopwatch =
+document.getElementById("stopwatch");
+
+document.getElementById("startBtn")
+.addEventListener("click",()=>{
+
+if(running) return;
+
+running = true;
+
+const start =
+Date.now() - elapsed;
+
+stopwatchInterval =
+setInterval(()=>{
+
+elapsed =
+Date.now() - start;
+
+let totalSeconds =
+Math.floor(elapsed / 1000);
+
+let hrs =
+String(
+Math.floor(totalSeconds / 3600)
+).padStart(2,"0");
+
+let mins =
+String(
+Math.floor((totalSeconds % 3600)/60)
+).padStart(2,"0");
+
+let secs =
+String(
+totalSeconds % 60
+).padStart(2,"0");
+
+stopwatch.innerHTML =
+`${hrs}:${mins}:${secs}`;
+
+},1000);
+
+});
+
+document.getElementById("pauseBtn")
+.addEventListener("click",()=>{
+
+running = false;
+
+clearInterval(stopwatchInterval);
+
+});
+
+document.getElementById("resetBtn")
+.addEventListener("click",()=>{
+
+running = false;
+
+clearInterval(stopwatchInterval);
+
+elapsed = 0;
+
+stopwatch.innerHTML =
+"00:00:00";
+
+});
+
+/* TIMER */
+
+let timer;
+
+let timerSeconds = 0;
+
+const timerDisplay =
+document.getElementById("timerDisplay");
+
+function updateTimerDisplay(){
+
+const mins =
+String(
+Math.floor(timerSeconds / 60)
+).padStart(2,"0");
+
+const secs =
+String(
+timerSeconds % 60
+).padStart(2,"0");
+
+timerDisplay.innerHTML =
+`${mins}:${secs}`;
+
+}
+
+document.getElementById("timerStart")
+.addEventListener("click",()=>{
+
+const mins =
+parseInt(
+document.getElementById("minutesInput").value
+) || 0;
+
+const secs =
+parseInt(
+document.getElementById("secondsInput").value
+) || 0;
+
+if(timerSeconds <= 0){
+
+timerSeconds =
+mins * 60 + secs;
+
+}
+
+clearInterval(timer);
+
+timer =
+setInterval(()=>{
+
+if(timerSeconds > 0){
+
+timerSeconds--;
+
+updateTimerDisplay();
+
+}
+else{
+
+clearInterval(timer);
+
+alert("⏰ Timer Finished!");
+
+}
+
+},1000);
+
+});
+
+document.getElementById("timerPause")
+.addEventListener("click",()=>{
+
+clearInterval(timer);
+
+});
+
+document.getElementById("timerReset")
+.addEventListener("click",()=>{
+
+clearInterval(timer);
+
+timerSeconds = 0;
+
+updateTimerDisplay();
+
+
+});
+
+updateTimerDisplay();
+
+</script>
+
+      <script src="../dist/shared.js"></script>
 </body>
 </html>

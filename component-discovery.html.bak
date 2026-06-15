@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes' 'sha256-pzF9FlGdfU7aQcGHUawMFfo6z1aYlRPgeyybwvXqZwY='; style-src-attr 'unsafe-hashes' 'sha256-pzF9FlGdfU7aQcGHUawMFfo6z1aYlRPgeyybwvXqZwY='">
+  <meta http-equiv="refresh" content="0; url=components/discovery/component-discovery.html">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>UIverse — Component Discovery</title>
+
+  <meta name="description"
+    content="Discover modern UI components, templates, layouts, animations, and design systems.">
+
+  <link rel="stylesheet" href="dist/shared.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #6d5dfc;
+      --secondary: #8f6bff;
+      --dark: #0f172a;
+      --card: #ffffff;
+      --border: rgba(15,23,42,.08);
+      --text: #1e293b;
+      --muted: #64748b;
+      --bg: #f8fafc;
+      --radius: 24px;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    .container{
+      width:min(1280px,92%);
+      margin:auto;
+    }
+
+    /* Hero */
+    .hero{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      position:relative;
+      overflow:hidden;
+      padding:80px 0;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at top left,
+          rgba(109,93,252,.2),
+          transparent 40%),
+        radial-gradient(circle at bottom right,
+          rgba(143,107,255,.15),
+          transparent 45%);
+      pointer-events:none;
+    }
+
+    .hero-content{
+      text-align:center;
+      position:relative;
+      z-index:2;
+    }
+
+    .badge{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 18px;
+      border-radius:999px;
+      background:white;
+      border:1px solid var(--border);
+      margin-bottom:24px;
+      font-size:.9rem;
+      font-weight:600;
+    }
+
+    h1{
+      font-family:'Syne',sans-serif;
+      font-size:clamp(3rem,8vw,6rem);
+      line-height:1;
+      margin-bottom:24px;
+    }
+
+    .gradient{
+      background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+      );
+      -webkit-background-clip:text;
+      color:transparent;
+    }
+
+    .hero p{
+      max-width:700px;
+      margin:auto;
+      color:var(--muted);
+      font-size:1.1rem;
+    }
+
+    /* Search */
+
+    .search-box{
+      margin-top:40px;
+      max-width:700px;
+      margin-inline:auto;
+      position:relative;
+    }
+
+    .search-box input{
+      width:100%;
+      padding:20px 24px;
+      border:none;
+      border-radius:18px;
+      background:white;
+      box-shadow:0 15px 40px rgba(0,0,0,.08);
+      font-size:1rem;
+    }
+
+    /* Stats */
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:20px;
+      margin-top:60px;
+    }
+
+    .stat{
+      background:white;
+      border-radius:20px;
+      padding:28px;
+      text-align:center;
+      border:1px solid var(--border);
+    }
+
+    .stat h3{
+      font-size:2rem;
+      color:var(--primary);
+    }
+
+    /* Categories */
+
+    section{
+      padding:100px 0;
+    }
+
+    .section-title{
+      text-align:center;
+      margin-bottom:60px;
+    }
+
+    .section-title h2{
+      font-family:'Syne',sans-serif;
+      font-size:3rem;
+    }
+
+    .categories{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:24px;
+    }
+
+    .category{
+      background:white;
+      border-radius:24px;
+      padding:32px;
+      border:1px solid var(--border);
+      transition:.35s ease;
+      cursor:pointer;
+    }
+
+    .category:hover{
+      transform:translateY(-8px);
+      box-shadow:0 20px 50px rgba(0,0,0,.08);
+    }
+
+    .icon{
+      width:70px;
+      height:70px;
+      display:grid;
+      place-items:center;
+      border-radius:18px;
+      background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+      );
+      color:white;
+      font-size:1.5rem;
+      margin-bottom:20px;
+    }
+
+    /* Trending */
+
+    .trending-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+      gap:24px;
+    }
+
+    .component-card{
+      background:white;
+      border-radius:24px;
+      overflow:hidden;
+      border:1px solid var(--border);
+    }
+
+    .preview{
+      height:220px;
+      background:
+      linear-gradient(
+      135deg,
+      rgba(109,93,252,.15),
+      rgba(143,107,255,.15)
+      );
+    }
+
+    .card-content{
+      padding:24px;
+    }
+
+    .tag{
+      display:inline-block;
+      padding:6px 12px;
+      background:#eef2ff;
+      color:var(--primary);
+      border-radius:999px;
+      font-size:.85rem;
+      font-weight:600;
+    }
+
+    /* CTA */
+
+    .cta{
+      text-align:center;
+      background:white;
+      border-radius:32px;
+      padding:80px 40px;
+      border:1px solid var(--border);
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px 32px;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:600;
+      margin-top:24px;
+      color:white;
+      background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+      );
+    }
+  </style>
+  <link rel="stylesheet" href="shared-sidebar.css">
+  <script src="js/loader.js" defer></script>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+<aside class="sidebar" id="sidebar" aria-label="Site navigation">
+  <div class="sidebar-brand">
+    <a href="index.html" style="text-decoration:none;display:flex;align-items:center;gap:8px;">
+      <span class="brand-icon" aria-hidden="true">&#x2B21;</span>
+      <span class="brand-text">UIverse <span style="font-size:9px;background:linear-gradient(135deg,#eb6835,#7b61ff);color:#fff;padding:1px 6px;border-radius:10px;font-weight:800;margin-left:4px;letter-spacing:.5px;vertical-align:middle;box-shadow:0 0 8px rgba(235,104,53,.3)">V2</span></span>
+    </a>
+  </div>
+  <nav class="sidebar-nav" aria-label="Component categories">
+    <ul>
+      <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
+      <li><a href="Welcome.html"><i class="fa-solid fa-door-open"></i><span>Welcome</span></a></li>
+      <li><a href="component-discovery.html"><i class="fa-solid fa-compass"></i><span>Explore All</span></a></li>
+      <li><a href="leaderboard-components.html"><i class="fa-solid fa-ranking-star"></i><span>Leaderboards</span></a></li>
+      <li><a href="button.html"><i class="fa-solid fa-hand-pointer"></i><span>Buttons</span></a></li>
+      <li><a href="buttons.html"><i class="fa-solid fa-computer-mouse"></i><span>Buttons V2</span></a></li>
+      <li><a href="cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Cards</span></a></li>
+      <li><a href="flipcards.html"><i class="fa-solid fa-clone"></i><span>3D Cards</span></a></li>
+      <li><a href="navbar.html"><i class="fa-solid fa-bars"></i><span>Navbar</span></a></li>
+      <li><a href="dropdown-components.html"><i class="fa-solid fa-caret-down"></i><span>Dropdowns</span></a></li>
+      <li><a href="inputs.html"><i class="fa-solid fa-keyboard"></i><span>Inputs</span></a></li>
+      <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><span>Forms</span></a></li>
+      <li><a href="profile-components.html"><i class="fa-solid fa-user"></i><span>Profiles</span></a></li>
+      <li><a href="badges.html"><i class="fa-solid fa-award"></i><span>Badges</span></a></li>
+      <li><a href="alerts.html"><i class="fa-solid fa-triangle-exclamation"></i><span>Alerts</span></a></li>
+      <li><a href="loaders.html"><i class="fa-solid fa-spinner"></i><span>Loaders</span></a></li>
+      <li><a href="tabs.html"><i class="fa-solid fa-table-columns"></i><span>Tabs</span></a></li>
+      <li><a href="tabs-components.html"><i class="fa-solid fa-layer-group"></i><span>Tabs V2</span></a></li>
+      <li><a href="toggles.html"><i class="fa-solid fa-toggle-on"></i><span>Toggles</span></a></li>
+      <li><a href="switches.html"><i class="fa-solid fa-toggle-on"></i><span>Switches</span></a></li>
+      <li><a href="checkbox.html"><i class="fa-solid fa-square-check"></i><span>Checkboxes</span></a></li>
+      <li><a href="radiobutton.html"><i class="fa-solid fa-circle-dot"></i><span>Radio Buttons</span></a></li>
+      <li><a href="range-slider.html"><i class="fa-solid fa-sliders"></i><span>Range Slider</span></a></li>
+      <li><a href="tooltip.html"><i class="fa-solid fa-comment-dots"></i><span>Tooltips</span></a></li>
+      <li><a href="Popovers.html"><i class="fa-solid fa-message"></i><span>Popovers</span></a></li>
+      <li><a href="menu.html"><i class="fa-solid fa-bars-staggered"></i><span>Menu</span></a></li>
+      <li><a href="breadcrumbs.html"><i class="fa-solid fa-chevron-right"></i><span>Breadcrumbs</span></a></li>
+      <li><a href="docks.html"><i class="fa-solid fa-grip"></i><span>Docks</span></a></li>
+      <li><a href="floating-nav.html"><i class="fa-solid fa-satellite"></i><span>Floating Nav</span></a></li>
+      <li><a href="Spotlightui.html"><i class="fa-solid fa-crosshairs"></i><span>Spotlight</span></a></li>
+      <li><a href="Kanbanui.html"><i class="fa-solid fa-columns-3"></i><span>Kanban</span></a></li>
+      <li><a href="Accordionsui.html"><i class="fa-solid fa-angles-down"></i><span>Accordions</span></a></li>
+      <li><a href="command-palette.html"><i class="fa-solid fa-terminal"></i><span>Command Palette</span></a></li>
+      <li><a href="step-indicators.html"><i class="fa-solid fa-list-check"></i><span>Steppers</span></a></li>
+      <li><a href="table.html"><i class="fa-solid fa-table"></i><span>Tables</span></a></li>
+      <li><a href="charts.html"><i class="fa-solid fa-chart-pie"></i><span>Charts</span></a></li>
+      <li><a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a></li>
+      <li><a href="admin-panel.html"><i class="fa-solid fa-gauge-high"></i><span>Admin Panel</span></a></li>
+      <li><a href="Statistics.html"><i class="fa-solid fa-chart-bar"></i><span>Statistics</span></a></li>
+      <li><a href="stats-cards.html"><i class="fa-solid fa-chart-line"></i><span>Stats Cards</span></a></li>
+      <li><a href="analysis-card.html"><i class="fa-solid fa-magnifying-glass-chart"></i><span>Analysis Cards</span></a></li>
+      <li><a href="comparison-tables.html"><i class="fa-solid fa-table-list"></i><span>Comparison Tables</span></a></li>
+      <li><a href="timeline.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Timeline</span></a></li>
+      <li><a href="progresspage.html"><i class="fa-solid fa-bars-progress"></i><span>Progress</span></a></li>
+      <li><a href="progress-premium.html"><i class="fa-solid fa-bars-progress"></i><span>Progress V2</span></a></li>
+      <li><a href="ratingpage.html"><i class="fa-solid fa-star"></i><span>Ratings</span></a></li>
+      <li><a href="ratings-premium.html"><i class="fa-solid fa-star"></i><span>Ratings V2</span></a></li>
+      <li><a href="toasts.html"><i class="fa-solid fa-bell"></i><span>Toasts</span></a></li>
+      <li><a href="notification.html"><i class="fa-solid fa-bell"></i><span>Notifications</span></a></li>
+      <li><a href="notifications-premium.html"><i class="fa-solid fa-bell"></i><span>Notifications V2</span></a></li>
+      <li><a href="snackbar.html"><i class="fa-solid fa-comment"></i><span>Snackbars</span></a></li>
+      <li><a href="skeletons.html"><i class="fa-solid fa-rectangle-xmark"></i><span>Skeletons</span></a></li>
+      <li><a href="empty-state.html"><i class="fa-solid fa-box-open"></i><span>Empty States</span></a></li>
+      <li><a href="animate-loaders.html"><i class="fa-solid fa-circle-notch"></i><span>Animated Loaders</span></a></li>
+      <li><a href="gallery.html"><i class="fa-solid fa-images"></i><span>Gallery</span></a></li>
+      <li><a href="carousel.html"><i class="fa-solid fa-film"></i><span>Carousel</span></a></li>
+      <li><a href="image-carousel.html"><i class="fa-solid fa-photo-film"></i><span>Image Carousel</span></a></li>
+      <li><a href="image-slider.html"><i class="fa-solid fa-images"></i><span>Image Slider</span></a></li>
+      <li><a href="blog.html"><i class="fa-solid fa-blog"></i><span>Blog</span></a></li>
+      <li><a href="article.html"><i class="fa-solid fa-newspaper"></i><span>Articles</span></a></li>
+      <li><a href="notes-components.html"><i class="fa-solid fa-sticky-note"></i><span>Notes</span></a></li>
+      <li><a href="story.html"><i class="fa-solid fa-book-open"></i><span>Story</span></a></li>
+      <li><a href="activity-feed.html"><i class="fa-solid fa-rss"></i><span>Activity Feed</span></a></li>
+      <li><a href="testimonials.html"><i class="fa-solid fa-comments"></i><span>Testimonials</span></a></li>
+      <li><a href="chatui.html"><i class="fa-solid fa-comment-dots"></i><span>Chat UI</span></a></li>
+      <li><a href="musicicon.html"><i class="fa-solid fa-music"></i><span>Music</span></a></li>
+      <li><a href="hero.html"><i class="fa-solid fa-star"></i><span>Hero Sections</span></a></li>
+      <li><a href="section.html"><i class="fa-solid fa-rectangle-list"></i><span>Sections</span></a></li>
+      <li><a href="div.html"><i class="fa-solid fa-square"></i><span>DIV</span></a></li>
+      <li><a href="span.html"><i class="fa-solid fa-code"></i><span>Span</span></a></li>
+      <li><a href="bent-grid.html"><i class="fa-solid fa-border-all"></i><span>Bent Grid</span></a></li>
+      <li><a href="footer.html"><i class="fa-solid fa-shoe-prints"></i><span>Footer</span></a></li>
+      <li><a href="patterns.html"><i class="fa-solid fa-border-style"></i><span>Patterns</span></a></li>
+      <li><a href="icon.html"><i class="fa-solid fa-icons"></i><span>Icons</span></a></li>
+      <li><a href="hover.html"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Hover Effects</span></a></li>
+      <li><a href="color.html"><i class="fa-solid fa-palette"></i><span>Colors</span></a></li>
+      <li><a href="retroui.html"><i class="fa-solid fa-gamepad"></i><span>RetroUI</span></a></li>
+      <li><a href="ai-components.html"><i class="fa-solid fa-robot"></i><span>AI Components</span></a></li>
+      <li><a href="divider-component.html"><i class="fa-solid fa-minus"></i><span>Dividers</span></a></li>
+      <li><a href="chip-components.html"><i class="fa-solid fa-tag"></i><span>Chips</span></a></li>
+      <li><a href="slider-components.html"><i class="fa-solid fa-sliders"></i><span>Sliders</span></a></li>
+      <li><a href="widgets.html"><i class="fa-solid fa-layer-group"></i><span>Widgets</span></a></li>
+      <li><a href="search.html"><i class="fa-solid fa-magnifying-glass"></i><span>Search Bars</span></a></li>
+      <li><a href="filters-premium.html"><i class="fa-solid fa-filter"></i><span>Filters</span></a></li>
+      <li><a href="map.html"><i class="fa-solid fa-map-location-dot"></i><span>Maps</span></a></li>
+      <li><a href="calendar.html"><i class="fa-solid fa-calendar"></i><span>Calendar</span></a></li>
+      <li><a href="calendarcomponent.html"><i class="fa-solid fa-calendar-days"></i><span>Calendar V2</span></a></li>
+      <li><a href="otp.html"><i class="fa-solid fa-lock"></i><span>OTP Input</span></a></li>
+      <li><a href="fileuploadui.html"><i class="fa-solid fa-upload"></i><span>File Upload</span></a></li>
+      <li><a href="files.html"><i class="fa-solid fa-file-arrow-up"></i><span>Drag &amp; Drop</span></a></li>
+      <li><a href="multi-step-form.html"><i class="fa-solid fa-stairs"></i><span>Multi-step Form</span></a></li>
+      <li><a href="cookies.html"><i class="fa-solid fa-cookie-bite"></i><span>Cookies</span></a></li>
+      <li><a href="water-reminder.html"><i class="fa-solid fa-droplet"></i><span>Water Reminder</span></a></li>
+      <li><a href="ecommerce.html"><i class="fa-solid fa-cart-shopping"></i><span>E-commerce</span></a></li>
+      <li><a href="pricing.html"><i class="fa-solid fa-tags"></i><span>Pricing</span></a></li>
+      <li><a href="subscription.html"><i class="fa-solid fa-credit-card"></i><span>Subscription</span></a></li>
+      <li><a href="product.html"><i class="fa-solid fa-box"></i><span>Product Page</span></a></li>
+      <li><a href="product-slider.html"><i class="fa-solid fa-box-open"></i><span>Product Slider</span></a></li>
+      <li><a href="newsletter-components.html"><i class="fa-solid fa-envelope"></i><span>Newsletter</span></a></li>
+      <li><a href="call-to-action.html"><i class="fa-solid fa-bullhorn"></i><span>Call to Action</span></a></li>
+      <li><a href="team-collaboration.html"><i class="fa-solid fa-users"></i><span>Team Collab</span></a></li>
+      <li><a href="auth.html"><i class="fa-solid fa-user-shield"></i><span>Authentication</span></a></li>
+      <li><a href="recovery.html"><i class="fa-solid fa-key"></i><span>Password Recovery</span></a></li>
+      <li><a href="settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a></li>
+      <li><a href="profile.html"><i class="fa-solid fa-id-card"></i><span>Profile</span></a></li>
+      <li><a href="about.html"><i class="fa-solid fa-circle-info"></i><span>About</span></a></li>
+      <li><a href="documentation.html"><i class="fa-solid fa-book"></i><span>Documentation</span></a></li>
+      <li><a href="guidelines.html"><i class="fa-solid fa-scale-balanced"></i><span>Guidelines</span></a></li>
+      <li><a href="howtocontribute.html"><i class="fa-solid fa-code-branch"></i><span>How to Contribute</span></a></li>
+      <li><a href="contributors.html"><i class="fa-solid fa-users"></i><span>Contributors</span></a></li>
+      <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i><span>FAQ</span></a></li>
+      <li><a href="contact.html"><i class="fa-regular fa-envelope"></i><span>Contact Us</span></a></li>
+      <li><a href="privacypolicy.html"><i class="fa-solid fa-shield-halved"></i><span>Privacy Policy</span></a></li>
+      <li><a href="terms.html"><i class="fa-solid fa-file-contract"></i><span>Terms</span></a></li>
+      <li><a href="license.html"><i class="fa-solid fa-certificate"></i><span>License</span></a></li>
+      <li><a href="MyCollection.html"><i class="fa-solid fa-bookmark"></i><span>My Collection</span></a></li>
+      <li><a href="error.html"><i class="fa-solid fa-circle-exclamation"></i><span>Error Pages</span></a></li>
+      <li><a href="maintenance.html"><i class="fa-solid fa-wrench"></i><span>Maintenance</span></a></li>
+      <li><a href="offline.html"><i class="fa-solid fa-wifi"></i><span>Offline</span></a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+    <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+  </div>
+</aside>
+<!-- ================= SIDEBAR BACKDROP ================= -->
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()" aria-hidden="true"></div>
+
+  <main>
+
+    <section class="hero">
+
+      <div class="container hero-content">
+
+        <div class="badge">
+          ✨ 500+ Modern Components
+        </div>
+
+        <h1>
+          Discover Beautiful
+          <span class="gradient">UI Components</span>
+        </h1>
+
+        <p>
+          Browse professionally designed components,
+          layouts, animations, dashboards, forms,
+          navigation systems, and production-ready UI kits.
+        </p>
+
+        <div class="search-box">
+          <input
+            type="text"
+            placeholder="Search buttons, cards, forms, dashboards..."
+          >
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <h3>500+</h3>
+            <p>Components</p>
+          </div>
+
+          <div class="stat">
+            <h3>40+</h3>
+            <p>Categories</p>
+          </div>
+
+          <div class="stat">
+            <h3>100%</h3>
+            <p>Responsive</p>
+          </div>
+
+          <div class="stat">
+            <h3>Free</h3>
+            <p>To Explore</p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section>
+
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Popular Categories</h2>
+        </div>
+
+        <div class="categories">
+
+          <div class="category">
+            <div class="icon">🎨</div>
+            <h3>Cards</h3>
+            <p>Profile, pricing, feature and product cards.</p>
+          </div>
+
+          <div class="category">
+            <div class="icon">🚀</div>
+            <h3>Hero Sections</h3>
+            <p>High-converting landing page designs.</p>
+          </div>
+
+          <div class="category">
+            <div class="icon">📊</div>
+            <h3>Dashboards</h3>
+            <p>Analytics and admin interfaces.</p>
+          </div>
+
+          <div class="category">
+            <div class="icon">🧩</div>
+            <h3>Forms</h3>
+            <p>Authentication and advanced inputs.</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section>
+
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Trending Components</h2>
+        </div>
+
+        <div class="trending-grid">
+
+          <article class="component-card">
+            <div class="preview"></div>
+            <div class="card-content">
+              <span class="tag">Dashboard</span>
+              <h3>Analytics Widget</h3>
+              <p>Interactive metrics and performance charts.</p>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <div class="preview"></div>
+            <div class="card-content">
+              <span class="tag">Navigation</span>
+              <h3>Mega Menu</h3>
+              <p>Enterprise-level navigation system.</p>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <div class="preview"></div>
+            <div class="card-content">
+              <span class="tag">Authentication</span>
+              <h3>Modern Login</h3>
+              <p>Elegant sign-in and registration forms.</p>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section>
+
+      <div class="container">
+
+        <div class="cta">
+
+          <h2>Start Exploring Components</h2>
+
+          <p>
+            Access a growing collection of production-ready,
+            modern UI building blocks.
+          </p>
+
+          <a
+            href="components/discovery/component-discovery.html"
+            class="btn"
+          >
+            Open Component Library →
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</body>
+</html>

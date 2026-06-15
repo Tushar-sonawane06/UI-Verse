@@ -66,3 +66,28 @@ filters.forEach((btn)=>{
   });
 
 });
+
+// Emoji Rating
+document.querySelectorAll('.emoji-rating button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    alert(`You selected: ${btn.textContent}`);
+  });
+});
+
+// Numeric Rating
+const numericInput = document.querySelector('.numeric-rating input');
+numericInput.addEventListener('change', () => {
+  if (numericInput.value < 1 || numericInput.value > 10) {
+    alert("Please enter a number between 1 and 10");
+    numericInput.value = 5;
+  }
+});
+
+// Bar Graph Rating Example
+const bars = document.querySelectorAll('.bar-rating div');
+function setBarRating(value) {
+  bars.forEach((bar, index) => {
+    bar.classList.toggle('active', index < value);
+  });
+}
+setBarRating(3); // Example default

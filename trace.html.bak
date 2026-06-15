@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="dist/shared.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' http://127.0.0.1:5000 http://localhost:5000 https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-inline'; style-src 'self' https: 'unsafe-inline'">
+  <title>Produce Traceability — UI-Verse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="traceability.css">
+</head>
+<body>
+  <main class="trace-shell">
+    <section class="trace-hero">
+      <div>
+        <span class="eyebrow">Blockchain-verified produce traceability</span>
+        <h1>Create a QR code for a crop batch.</h1>
+        <p>
+          Select a batch and generate a QR code that points buyers to the full verification timeline.
+          Each milestone is recorded on an append-only ledger.
+        </p>
+      </div>
+      <a class="back-link" href="index.html">← Back to UIverse</a>
+    </section>
+
+    <section class="trace-grid">
+      <section class="panel form-panel">
+        <div class="panel-heading">
+          <h2>Batch selector</h2>
+          <p>Use a seeded batch or paste a batch ID from the ledger.</p>
+        </div>
+
+        <label>
+          Batch
+          <select id="batch-select"></select>
+        </label>
+
+        <label>
+          Or batch ID
+          <input id="batch-id-input" type="number" min="1" step="1" placeholder="123">
+        </label>
+
+        <button id="generate-btn" type="button" class="primary-btn">Generate QR code</button>
+
+        <div class="batch-summary" id="batch-summary" aria-live="polite"></div>
+      </section>
+
+      <section class="panel qr-panel">
+        <div class="panel-heading">
+          <h2>QR code</h2>
+          <p>Scans open the buyer verification page.</p>
+        </div>
+
+        <div class="qr-wrap" id="qr-code"></div>
+        <div class="link-pill" id="trace-url"></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="js/features/traceability.js"></script>
+  <script src="dist/shared.js"></script>
+</body>
+</html>

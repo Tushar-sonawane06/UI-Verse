@@ -710,3 +710,304 @@ body{
     height:500px;
   }
 }
+
+:root{
+  --bg:#080808;
+  --card:#111111;
+  --card-2:#171717;
+  --text:#ffffff;
+  --muted:#a5a5a5;
+
+  --gold:#e8c87f;
+  --gold-light:#ffd98a;
+
+  --border:rgba(255,255,255,.08);
+
+  --gradient:
+  linear-gradient(
+  135deg,
+  #ffd98a,
+  #e8c87f,
+  #f3b648
+  );
+
+  --shadow:
+  0 25px 80px rgba(0,0,0,.5);
+
+  --radius:28px;
+}
+
+body{
+  background:
+  radial-gradient(circle at 10% 20%,rgba(255,217,138,.15),transparent 35%),
+  radial-gradient(circle at 90% 10%,rgba(232,200,127,.12),transparent 35%),
+  radial-gradient(circle at 50% 80%,rgba(255,255,255,.03),transparent 50%),
+  var(--bg);
+
+  color:var(--text);
+  font-family:"DM Sans",sans-serif;
+  overflow-x:hidden;
+}
+
+.navbar{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(1400px,95%);
+  z-index:1000;
+
+  backdrop-filter:blur(25px);
+  background:rgba(15,15,15,.7);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:20px;
+
+  padding:18px 35px;
+
+  box-shadow:
+  0 10px 40px rgba(0,0,0,.4);
+}
+
+.logo{
+  font-family:"Syne",sans-serif;
+  font-size:1.8rem;
+  font-weight:800;
+
+  background:var(--gradient);
+
+  -webkit-background-clip:text;
+  color:transparent;
+
+  letter-spacing:2px;
+}
+.hero{
+  min-height:100vh;
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  align-items:center;
+
+  gap:100px;
+
+  padding:140px 8%;
+}
+
+.hero h1{
+  font-size:clamp(4rem,8vw,7rem);
+
+  line-height:.95;
+
+  font-family:"Syne";
+
+  font-weight:800;
+}
+
+.hero h1 span{
+  background:var(--gradient);
+
+  background-size:300%;
+
+  animation:gradientMove 5s linear infinite;
+
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+@keyframes gradientMove{
+  from{
+    background-position:0%;
+  }
+  to{
+    background-position:300%;
+  }
+}
+
+.hero-image{
+  position:relative;
+}
+
+.hero-image img{
+  width:100%;
+  height:750px;
+
+  object-fit:cover;
+
+  border-radius:40px;
+
+  box-shadow:var(--shadow);
+
+  transition:.7s;
+}
+
+.hero-image:hover img{
+  transform:scale(1.03);
+}
+
+.floating-card{
+  position:absolute;
+
+  backdrop-filter:blur(20px);
+
+  background:
+  rgba(255,255,255,.08);
+
+  border:
+  1px solid rgba(255,255,255,.1);
+
+  padding:16px 22px;
+
+  border-radius:16px;
+
+  animation:
+  float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%,100%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(-15px);
+  }
+}
+
+.marquee{
+  overflow:hidden;
+}
+
+.track{
+  white-space:nowrap;
+
+  animation:scroll 20s linear infinite;
+
+  font-size:2rem;
+
+  font-weight:700;
+
+  color:rgba(255,255,255,.2);
+}
+
+@keyframes scroll{
+  from{
+    transform:translateX(0);
+  }
+  to{
+    transform:translateX(-50%);
+  }
+}
+
+.product-card{
+  background:var(--card);
+
+  border:
+  1px solid var(--border);
+
+  border-radius:30px;
+
+  overflow:hidden;
+
+  transition:.5s;
+
+  position:relative;
+}
+
+.product-image{
+  overflow:hidden;
+}
+
+.product-image img{
+  transition:.8s;
+}
+
+.product-card:hover img{
+  transform:scale(1.1);
+}
+
+.quick-view{
+  position:absolute;
+
+  left:50%;
+  bottom:-60px;
+
+  transform:translateX(-50%);
+
+  transition:.4s;
+}
+
+.product-card:hover .quick-view{
+  bottom:20px;
+}
+
+.collection-banner{
+  background:
+  linear-gradient(
+  135deg,
+  #1d1d1d,
+  #101010
+  );
+
+  border:
+  1px solid rgba(255,255,255,.08);
+
+  border-radius:40px;
+
+  padding:100px;
+
+  overflow:hidden;
+
+  position:relative;
+}
+
+.collection-banner::before{
+  content:"";
+
+  position:absolute;
+
+  width:500px;
+  height:500px;
+
+  background:
+  rgba(255,217,138,.12);
+
+  filter:blur(120px);
+
+  right:-200px;
+  top:-100px;
+}
+.primary-btn{
+  background:var(--gradient);
+
+  color:#111;
+
+  border:none;
+
+  font-weight:700;
+
+  padding:16px 34px;
+
+  border-radius:999px;
+
+  transition:.4s;
+}
+
+.primary-btn:hover{
+  transform:translateY(-4px);
+
+  box-shadow:
+  0 15px 35px rgba(255,217,138,.3);
+}
+
+.reveal{
+  opacity:0;
+  transform:translateY(40px);
+  transition:1s;
+}
+
+.reveal.active{
+  opacity:1;
+  transform:translateY(0);
+}
