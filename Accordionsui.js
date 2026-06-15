@@ -96,170 +96,159 @@ document
 
 });
 
+/* ============================================================
+   THEME STYLING LOGIC (theme.js)
+   - Checks and applies dark/light mode immediately (pre-render)
+   - Binds event listeners to theme toggles on DOM ready
+   - Ensures visual synchronization of all toggles on the page
+   ============================================================ */
 
-/* =====================================================
-  NAVBAR SCROLL
-  – Throttled via requestAnimationFrame instead of
-    firing on every scroll event (performance)
-  – Uses CSS custom properties so dark-mode stays
-    consistent; never overwrites inline style directly
-  – Single passive listener reduces jank
-===================================================== */
-
-(function initNavbarScroll() {
-  const navbar = document.querySelector(".navbar");
-  if (!navbar) return;
-
-  let ticking = false;
-
-  function updateNavbar() {
-    // Drive appearance through a data-attribute; let CSS
-    // handle the actual colours so dark-mode overrides work.
-    navbar.dataset.scrolled = window.scrollY > 20 ? "true" : "false";
-    ticking = false;
-  }
-
-  window.addEventListener("scroll", () => {
-    if (!ticking) {
-      requestAnimationFrame(updateNavbar);
-      ticking = true;
+// 1. Immediate execution to prevent theme flashing
+(function () {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+  } else if (savedTheme === 'light') {
+    document.body.classList.remove('dark-mode');
+  } else {
+    // Default to system preference
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
     }
-  }, { passive: true });
-
-  // Run once on load so the state matches if the page
-  // is refreshed mid-scroll.
-  updateNavbar();
+  }
 })();
 
-/*
-  Required CSS to pair with the navbar scroll logic above.
-  Add this to your stylesheet so dark-mode colours stay
-  token-driven and are never clobbered by inline styles:
+// 2. Binding events when DOM is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtnIds = ['darkModeToggle', 'theme-toggle', 'themeToggle'];
+  const toggleClasses = ['theme-toggle', 'theme-toggle-sidebar', 'theme-toggle-floating'];
 
-    .navbar {
-      background: rgba(5, 8, 22, 0.82);
-      backdrop-filter: blur(10px);
-      transition: background 250ms ease, box-shadow 250ms ease;
-    }
-    .navbar[data-scrolled="true"] {
-      background: rgba(5, 8, 22, 0.95);
-      box-shadow: 0 1px 0 rgba(255,255,255,.07);
-    }
-*/
-
-
-/* =====================================================
-  THEME TOGGLE
-  – Guards against missing DOM nodes before touching them
-  – Applies theme before first paint (FOUC prevention)
-  – Announces theme change to screen readers via live region
-  – Icon, aria-label, and aria-pressed all stay in sync
-  – Falls back gracefully if localStorage is unavailable
-    (private browsing, storage quota exceeded, etc.)
-===================================================== */
-
-(function initTheme() {
-
-  // ── Safe localStorage wrapper ──────────────────────────
-  const storage = {
-    get(key) {
-      try { return localStorage.getItem(key); }
-      catch { return null; }
-    },
-    set(key, value) {
-      try { localStorage.setItem(key, value); }
-      catch { /* storage unavailable — fail silently */ }
-    },
-  };
-
-  // ── Resolve initial theme ──────────────────────────────
-  // Honour saved preference; fall back to OS preference;
-  // then default to "light".
-  function getInitialTheme() {
-    const saved = storage.get("theme");
-    if (saved === "light" || saved === "dark") return saved;
-    if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) return "dark";
-    return "light";
-  }
-
-  // ── Apply theme to <html> (not body) ──────────────────
-  // Using <html> allows CSS [data-theme] selectors to work
-  // before <body> is parsed, preventing a flash of the
-  // wrong theme.
-  function applyTheme(theme) {
-    document.documentElement.setAttribute("data-theme", theme);
-    storage.set("theme", theme);
-    syncToggleUI(theme);
-    announceTheme(theme);
-  }
-
-  // ── Keep button UI in sync ─────────────────────────────
-  function syncToggleUI(theme) {
-    const toggle    = document.getElementById("themeToggle");
-    const themeIcon = document.getElementById("themeIcon");
-    if (!toggle || !themeIcon) return;
-
-    const isDark = theme === "dark";
-
-    themeIcon.className = isDark ? "fa-solid fa-moon" : "fa-solid fa-sun";
-
-    // aria-label describes the *action* (what clicking will do),
-    // aria-pressed reflects the *current* state.
-    toggle.setAttribute("aria-label",   isDark ? "Switch to light mode" : "Switch to dark mode");
-    toggle.setAttribute("aria-pressed", String(isDark));
-  }
-
-  // ── Announce theme change to screen readers ────────────
-  let liveRegion;
-  function announceTheme(theme) {
-    if (!liveRegion) {
-      liveRegion = document.createElement("span");
-      liveRegion.setAttribute("role",       "status");
-      liveRegion.setAttribute("aria-live",  "polite");
-      liveRegion.setAttribute("aria-atomic","true");
-      Object.assign(liveRegion.style, {
-        position: "absolute", width: "1px", height: "1px",
-        padding: "0", overflow: "hidden", clip: "rect(0,0,0,0)",
-        whiteSpace: "nowrap", border: "0",
-      });
-      document.body.appendChild(liveRegion);
-    }
-    // Brief delay ensures the DOM mutation is picked up
-    // by assistive tech that debounces live-region updates.
-    setTimeout(() => {
-      liveRegion.textContent =
-        theme === "dark" ? "Dark mode enabled." : "Light mode enabled.";
-    }, 100);
-  }
-
-  // ── Bootstrap ──────────────────────────────────────────
-  // Apply before DOMContentLoaded fires so there's no flash.
-  applyTheme(getInitialTheme());
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const toggle = document.getElementById("themeToggle");
-    if (!toggle) {
-      console.warn("Theme toggle: #themeToggle not found in the DOM.");
-      return;
-    }
-
-    // Ensure the button has a role screen readers understand
-    toggle.setAttribute("role",  "switch");
-    toggle.setAttribute("type",  "button");
-
-    toggle.addEventListener("click", () => {
-      const current = document.documentElement.getAttribute("data-theme");
-      applyTheme(current === "dark" ? "light" : "dark");
+  // Helper to collect all toggle buttons on the page
+  function getAllToggles() {
+    const toggles = new Set();
+    
+    // Add by IDs
+    toggleBtnIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) toggles.add(el);
     });
 
-    // Also respect OS-level changes made while the page is open
-    window.matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", (e) => {
-        // Only follow OS if the user hasn't made an explicit choice
-        if (!storage.get("theme")) {
-          applyTheme(e.matches ? "dark" : "light");
-        }
-      });
-  });
+    // Add by classes
+    toggleClasses.forEach(className => {
+      document.querySelectorAll('.' + className).forEach(el => toggles.add(el));
+    });
 
-})();
+    return Array.from(toggles);
+  }
+
+  // Helper to update a button's visual state (text and icon)
+  function updateToggleVisual(btn) {
+    if (!btn) return;
+    const isDark = document.body.classList.contains('dark-mode');
+    
+    // Check if it's a sidebar toggle or text-based toggle
+    if (btn.classList.contains('theme-toggle-sidebar') || btn.innerText.includes('Theme')) {
+      btn.innerHTML = isDark 
+        ? '<i class="fa-solid fa-sun"></i> Light Theme' 
+        : '<i class="fa-solid fa-moon"></i> Dark Theme';
+    } else {
+      // Icon-only toggle (like in navbar or floating)
+      const icon = btn.querySelector('i');
+      if (icon) {
+        icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+      } else {
+        btn.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+      }
+    }
+  }
+
+  // Sync visual state of all toggles on page load
+  function syncAllToggles() {
+    getAllToggles().forEach(btn => updateToggleVisual(btn));
+  }
+
+  // Handle theme toggle action
+  function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    
+    // Sync all toggles on the page
+    syncAllToggles();
+
+    // Fire custom event so page components can adapt if needed
+    const event = new CustomEvent('themeChanged', { detail: { theme: isDark ? 'dark' : 'light' } });
+    document.dispatchEvent(event);
+  }
+
+  // Dynamic self-healing: if no toggle exists on the page, create one
+  let pageToggles = getAllToggles();
+  if (pageToggles.length === 0) {
+    const navRight = document.querySelector('.nav-right');
+    const navbar = document.querySelector('.navbar') || document.querySelector('header.navbar') || document.querySelector('nav.navbar');
+    const sidebarList = document.querySelector('.sidebar ul') || document.querySelector('.sidebar-nav ul');
+    const sidebar = document.querySelector('.sidebar') || document.querySelector('aside.sidebar');
+
+    if (navRight) {
+      // Insert in navbar right section
+      const btn = document.createElement('button');
+      btn.id = 'darkModeToggle';
+      btn.className = 'theme-toggle';
+      btn.title = 'Toggle Theme';
+      btn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+      navRight.appendChild(btn);
+    } else if (navbar) {
+      // Append to navbar
+      const btn = document.createElement('button');
+      btn.id = 'darkModeToggle';
+      btn.className = 'theme-toggle';
+      btn.style.marginLeft = 'auto';
+      btn.title = 'Toggle Theme';
+      btn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+      navbar.appendChild(btn);
+    } else if (sidebarList) {
+      // Append as sidebar link item
+      const li = document.createElement('li');
+      li.className = 'theme-toggle-item';
+      const btn = document.createElement('button');
+      btn.id = 'darkModeToggle';
+      btn.className = 'theme-toggle-sidebar';
+      btn.title = 'Toggle Theme';
+      btn.innerHTML = '<i class="fa-solid fa-moon"></i> Dark Theme';
+      li.appendChild(btn);
+      sidebarList.appendChild(li);
+    } else if (sidebar) {
+      // Append directly to sidebar
+      const btn = document.createElement('button');
+      btn.id = 'darkModeToggle';
+      btn.className = 'theme-toggle-sidebar';
+      btn.title = 'Toggle Theme';
+      btn.innerHTML = '<i class="fa-solid fa-moon"></i> Dark Theme';
+      sidebar.appendChild(btn);
+    } else {
+      // Floating button in corner
+      const btn = document.createElement('button');
+      btn.id = 'darkModeToggle';
+      btn.className = 'theme-toggle theme-toggle-floating';
+      btn.title = 'Toggle Theme';
+      btn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+      document.body.appendChild(btn);
+    }
+    
+    // Refresh toggle list
+    pageToggles = getAllToggles();
+  }
+
+  // Attach click listener to all buttons
+  pageToggles.forEach(btn => {
+    btn.addEventListener('click', toggleTheme);
+    updateToggleVisual(btn);
+  });
+});
+
+
+
+

@@ -1,214 +1,359 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <link rel="stylesheet" href="dist/shared.css">
+  <link rel="stylesheet" href="trace.css">
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' http://127.0.0.1:5000 http://localhost:5000 https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-inline'; style-src 'self' https: 'unsafe-inline'">
-  <title>Produce Traceability — UI-Verse</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'unsafe-inline'; style-src 'self' https: 'unsafe-hashes' 'unsafe-inline'; font-src 'self' data: https: https://fonts.gstatic.com;">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Global Produce Traceability Mainframe | UIverse Architecture</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="traceability.css">
-  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
-<body>
+</head>
+<body class="uiv-trace-body uiv-dark-mainframe">
+  <a class="skip-link" href="#main-content">Skip straight to tracking data</a>
 
-<!-- ================= NAVBAR ================= -->
-<!-- ================= NAVBAR ================= -->
-<!-- ================= NAVBAR ================= -->
-<!-- ================= NAVBAR ================= -->
-<header class="navbar" id="navbar">
-  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
-    <i class="fa-solid fa-bars"></i>
-  </button>
-  <div class="navbar-brand">
-    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
-    </svg>
-    <span class="brand-text">Uiverse</span>
-  </div>
-  <div class="navbar-divider"></div>
-  <div class="search-bar">
-    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
-  </div>
-  <div class="nav-right">
-    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
-    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
-    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
-      <i class="fa-solid fa-moon"></i>
-    </button>
-  </div>
-  <script>
-    (function() {
-      // Search input enter key redirect
-      const navSearch = document.getElementById('searchInput');
-      if (navSearch) {
-        navSearch.addEventListener('keydown', function(e) {
-          if (e.key === 'Enter' && this.value.trim()) {
-            const q = encodeURIComponent(this.value.trim());
-            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
-          }
-        });
-      }
+  <aside class="sidebar" id="sidebar" aria-label="Logistics Core Matrix Navigation">
+    <div class="sidebar-brand-wrapper">
+      <div class="brand-matrix-glyph">⬡</div>
+      <span class="brand-matrix-text">UIverse <span class="layer-tag-badge">Logistics</span></span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-segment">
+        <span class="nav-section-heading">Operational Frameworks</span>
+        <ul>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home Registry</span></a></li>
+          <li><a href="workplace.html"><i class="fa-solid fa-gauge-high"></i><span>Console Dashboard</span></a></li>
+          <li class="active"><a href="trace.html"><i class="fa-solid fa-route"></i><span>Provenance Trace</span></a></li>
+          <li><a href="button.html"><i class="fa-solid fa-hand-pointer"></i><span>Action Toggles</span></a></li>
+          <li><a href="dropdown-components.html"><i class="fa-solid fa-caret-down"></i><span>Dropdown Systems</span></a></li>
+          <li><a href="navbar.html"><i class="fa-solid fa-bars"></i><span>Navigation Shells</span></a></li>
+          <li><a href="cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Component Cards</span></a></li>
+        </ul>
+      </div>
+
+      <div class="nav-group-wrapper">
+        <span class="nav-group-title">Data Intake Pipelines</span>
+        <ul>
+          <li><a href="inputs.html"><i class="fa-solid fa-keyboard"></i><span>Form Inputs</span></a></li>
+          <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><span>Schema Forms</span></a></li>
+          <li><a href="badges.html"><i class="fa-solid fa-award"></i><span>Status Badges</span></a></li>
+          <li><a href="alerts.html"><i class="fa-solid fa-triangle-exclamation"></i><span>Alert Frameworks</span></a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div class="sidebar-status-node">
+      <div class="status-pulse-indicator"></div>
+      <p class="status-string-label">LEDGER ENGINE: SYNCED</p>
+    </div>
+  </aside>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="runtimeToggleSidebar()"></div>
+
+  <div class="main-content-wrapper">
+    <header class="navbar" id="navbar">
+      <button class="menu-toggle-btn" type="button" onclick="runtimeToggleSidebar()" aria-label="Toggle system navigation menu">
+        <i class="fa-solid fa-bars-staggered"></i>
+      </button>
+      <div class="logo">UIverse <span class="badge-pro">TRACK ENGINE</span></div>
       
-      // Fallback toggleDarkMode function if not defined globally by the page script
-      const toggleBtn = document.getElementById('darkModeToggle');
-      if (toggleBtn) {
-        if (typeof window.toggleDarkMode !== 'function') {
-          window.toggleDarkMode = function() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            const icon = toggleBtn.querySelector('i');
-            if (icon) {
-              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-            }
-          };
-        }
+      <div class="search-terminal-shell">
+        <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+        <input type="text" id="traceSearchInput" placeholder="Query batch manifests, blockchain ledger coordinates, sorting hashes (⌘K)..." aria-label="Search ledger registries" />
+        <kbd class="terminal-kbd">⌘K</kbd>
+      </div>
+
+      <div class="nav-right-actions">
+        <button class="nav-btn outline-mode" type="button"><i class="fa-solid fa-barcode"></i> Scan Batch</button>
+        <button class="nav-btn primary-mode" type="button" onclick="alert('Initializing continuous tracking token handshake sequence...');"><i class="fa-solid fa-fingerprint"></i> Audit Pipeline</button>
+        <button id="themeToggle" class="theme-skin-toggle-btn" title="Toggle Surface Lighting State" type="button"><i class="fa-solid fa-moon"></i></button>
+      </div>
+    </header>
+
+    <section class="page-hero">
+      <div class="page-hero-left">
+        <div class="breadcrumb">
+          <a href="index.html">Platform Foundations</a>
+          <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          <span class="current-target">Produce Traceability Engine</span>
+        </div>
+        <h1 class="page-title">Provenance Trace</h1>
+        <p class="page-desc">High-fidelity responsive audit trails mapping product origin variables, cryptographic verification markers, and automated environmental threshold compliance histories downstream.</p>
+        <div class="page-meta">
+          <span class="meta-badge"><i class="fa-solid fa-timeline"></i> Immutable History Logs</span>
+          <span class="meta-badge"><i class="fa-solid fa-server"></i> Multi-Tenant Shard Sync</span>
+          <span class="meta-badge"><i class="fa-solid fa-microchip"></i> Real-Time Telemetry Checkpoints</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="trace-intake-console card">
+      <div class="card-header-block">
+        <h2 class="card-header-title"><i class="fa-solid fa-magnifying-glass-chart text-cyan"></i> Manifest Validation Matrix</h2>
+        <span class="live-indicator-pill pulse-cyan">Awaiting Payload</span>
+      </div>
+      <form class="intake-form-grid" onsubmit="event.preventDefault(); alert('Querying distributed ledger matrix for matching tracking tokens...');">
+        <div class="form-group-cell">
+          <label for="batchId">Consignment Tracking Token / Batch Hash</label>
+          <div class="input-with-glyph">
+            <i class="fa-solid fa-fingerprint"></i>
+            <input type="text" id="batchId" placeholder="e.g., BATCH-2026-X942-A7" required />
+          </div>
+        </div>
+        <div class="form-group-cell">
+          <label for="facilitySelect">Origin Shard Facility Node</label>
+          <select id="facilitySelect" aria-label="Select facility validation origin node">
+            <option value="all">All Registered Processing Centers</option>
+            <option value="node-north">North Latitudinal Distribution Base</option>
+            <option value="node-south">Southern Agricultural Procurement Matrix</option>
+            <option value="node-intl">International Maritime Transfer Dock</option>
+          </select>
+        </div>
+        <div class="form-group-cell action-cell">
+          <button type="submit" class="submit-query-btn"><i class="fa-solid fa-route"></i> Interpolate Trace Path</button>
+        </div>
+      </form>
+    </div>
+
+    <section class="trace-workspace-grid">
+
+      <div class="glass-dashboard-card layout-timeline-column">
+        <div class="card-header-block">
+          <h2 class="card-header-title"><i class="fa-solid fa-network-wired text-purple"></i> Symmetrical Provenance Trail</h2>
+          <span class="status-tag success">Verified Safe</span>
+        </div>
+        <p class="panel-functional-desc">Chronological validation tracking sequence mapping physical checkpoint changes through isolated smart contract states.</p>
         
-        // Match initial theme icon class
-        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
-        const icon = toggleBtn.querySelector('i');
-        if (icon && isDark) {
-          icon.className = 'fa-solid fa-sun';
-        }
+        <div class="provenance-timeline-tree">
+          
+          <div class="timeline-node-item active-node">
+            <div class="timeline-axis-connector verified-path"></div>
+            <div class="node-marker-glyph"><i class="fa-solid fa-check"></i></div>
+            <div class="node-content-block">
+              <span class="node-time-tag">June 15, 2026 — 08:32 UTC</span>
+              <h3>Checkpoint Delta: Central Distribution Shell</h3>
+              <p>Handshake confirmed at international maritime gate 4A. Environmental threshold sensors reading nominal thermal parameters continuously.</p>
+              <div class="node-meta-grid">
+                <span><strong>Loc:</strong> Rotterdam Port Terminal</span>
+                <span><strong>Sensor H:</strong> 62% RH Nominal</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-node-item active-node">
+            <div class="timeline-axis-connector verified-path"></div>
+            <div class="node-marker-glyph"><i class="fa-solid fa-check"></i></div>
+            <div class="node-content-block">
+              <span class="node-time-tag">June 12, 2026 — 14:15 UTC</span>
+              <h3>Checkpoint Gamma: Processing &amp; Packaging Facility</h3>
+              <p>Atomic selection packing matrices assigned global shipping label identifiers securely. Batches compressed and loaded inside insulated cold vaults.</p>
+              <div class="node-meta-grid">
+                <span><strong>Operator ID:</strong> #OP-8842</span>
+                <span><strong>Temp Index:</strong> 3.4°C Stable</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-node-item processing-node">
+            <div class="timeline-axis-connector warning-path"></div>
+            <div class="node-marker-glyph pulse-orange"><i class="fa-solid fa-circle-dot"></i></div>
+            <div class="node-content-block">
+              <span class="node-time-tag">June 09, 2026 — 05:22 UTC</span>
+              <h3>Checkpoint Beta: Sorting Matrix Procurement</h3>
+              <p>Raw batch payloads harvested and assigned verification ledger tokens under protocol guidelines rule 4.12.</p>
+              <div class="node-meta-grid">
+                <span><strong>Origin Node:</strong> Southern Agritech Farm 12</span>
+                <span><strong>Batch Mass:</strong> 14,240 kg Net</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="grid-column-compartment">
+        
+        <div class="glass-dashboard-card">
+          <div class="card-header-block">
+            <h2 class="card-header-title"><i class="fa-solid fa-chart-bar text-orange"></i> Environmental Tolerance Gauges</h2>
+          </div>
+          <p class="panel-functional-desc">Multi-channel performance trackers evaluating localized telemetry metrics against target safety threshold barriers.</p>
+          
+          <div class="telemetry-gauges-stack">
+            <div class="gauge-row-item">
+              <div class="gauge-meta-strip">
+                <span>Continuous Thermal Preservation Index</span>
+                <strong class="text-green">98.4% Compliant</strong>
+              </div>
+              <div class="gauge-progress-track">
+                <div class="gauge-fill-inner gradient-emerald" style="width: 98.4%;"></div>
+              </div>
+            </div>
+
+            <div class="gauge-row-item">
+              <div class="gauge-meta-strip">
+                <span>Relative Humidity Tolerance Index</span>
+                <strong class="text-cyan">84.2% Compliant</strong>
+              </div>
+              <div class="gauge-progress-track">
+                <div class="gauge-fill-inner gradient-cyan" style="width: 84.2%;"></div>
+              </div>
+            </div>
+
+            <div class="gauge-row-item">
+              <div class="gauge-meta-strip">
+                <span>Asynchronous Transit Velocity Ratio</span>
+                <strong class="text-orange">72.1% Optimal</strong>
+              </div>
+              <div class="gauge-progress-track">
+                <div class="gauge-fill-inner gradient-orange" style="width: 72.1%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-dashboard-card">
+          <div class="card-header-block">
+            <h2 class="card-header-title"><i class="fa-solid fa-shield-halved text-green"></i> Cryptographic Audit Verification Ledgers</h2>
+          </div>
+          <p class="panel-functional-desc">Pristine blockchain validation signatures logging atomic security handshakes downstream internally.</p>
+          
+          <ul class="cryptographic-ledger-logs-list">
+            <li class="ledger-log-row">
+              <i class="fa-solid fa-key log-glyph success-state"></i>
+              <div class="ledger-log-body">
+                <strong>Block Hash Committed Successfully</strong>
+                <p class="jetbrains-mono-string">0x7f4b2e8c91a0D15f2c410842bbA7b32E9042c112</p>
+                <span class="log-meta-timestamp">Verified 4 minutes ago • Shard: Block #88412</span>
+              </div>
+            </li>
+
+            <li class="ledger-log-row">
+              <i class="fa-solid fa-signature log-glyph success-state"></i>
+              <div class="ledger-log-body">
+                <strong>Operator Digital Handshake Authenticated</strong>
+                <p class="jetbrains-mono-string">SIG_RSA_SHA256_Fxtd+O5teAkgYnJviOhctgjNoRPJfDEkRDwc=</p>
+                <span class="log-meta-timestamp">Verified 2 hours ago • Agent Node: OP-8842</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-container-shell">
+      <div class="footer-brand-column">
+        <h2 class="footer-logo-string">⬡ UIverse</h2>
+        <p class="footer-paragraph-desc">Architecting low-latency, modular component canvases with structural HTML5 configurations, high-end variable custom properties stylesheets, and secure logic interfaces.</p>
+        <div class="footer-social-row">
+          <a href="https://github.com" target="_blank" aria-label="Access platform code pipeline source repositories"><i class="fab fa-github"></i></a>
+          <a href="https://linkedin.com" target="_blank" aria-label="Access corporate directory operations network channels"><i class="fab fa-linkedin"></i></a>
+          <a href="https://twitter.com" target="_blank" aria-label="Continuous logging platform updates broadcast stream"><i class="fab fa-x-twitter"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-links-column">
+        <h3>Explore Repositories</h3>
+        <ul>
+          <li><a href="button.html">Action Toggles</a></li>
+          <li><a href="navbar.html">Navigation Shells</a></li>
+          <li><a href="cards.html">Content Card Tiles</a></li>
+          <li><a href="inputs.html">Form Input Channels</a></li>
+          <li><a href="forms.html">Schema Layout Forms</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-column">
+        <h3>Technical Vaults</h3>
+        <ul>
+          <li><a href="documentation.html">Platform Technical Manuals</a></li>
+          <li><a href="about.html">Platform Foundations Blueprint</a></li>
+          <li><a href="faq.html">Centralized FAQ Base</a></li>
+          <li><a href="contact.html">Support Dispatch Protocols</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-column">
+        <h3>Regulatory Compliance</h3>
+        <ul>
+          <li><a href="privacypolicy.html">Data Isolation Policy Sheets</a></li>
+          <li><a href="terms.html">Terms of System Operations Matrix</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-column newsletter-column">
+        <h3>Continuous Integration Streams</h3>
+        <p>Register your workspace hub node destination destination payload line to capture release logging data sequences instantly downstream.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="operator@engine.domain" aria-label="Operator email updates sign-up register input" id="newsletterEmailInput" required>
+          <button type="button" onclick="handleNewsletterSubscription()">Register Node</button>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom-bar">
+      <p>© 2026 UIverse Architecture Matrix Core Ecosystems. Compiled and engineered with total mechanical mathematical precision for professional front-end teams globally.</p>
+    </div>
+  </footer>
+
+  <script>
+    // System visual interface theme synchronization routines on frame mount
+    document.addEventListener("DOMContentLoaded", () => {
+      const storedSkinStateToken = localStorage.getItem("uiv-trace-skin-state") || "uiv-dark-mainframe";
+      document.body.className = `uiv-trace-body ${storedSkinStateToken}`;
+      
+      const themeToggleIconButton = document.querySelector("#themeToggle i");
+      if (themeToggleIconButton) {
+        themeToggleIconButton.className = storedSkinStateToken === "uiv-dark-mainframe" ? "fa-solid fa-moon" : "fa-solid fa-sun";
       }
-    })();
-  </script>
-</header>
-  <main class="trace-shell">
-    <section class="trace-hero">
-      <div>
-        <span class="eyebrow">Blockchain-verified produce traceability</span>
-        <h1>Create a QR code for a crop batch.</h1>
-        <p>
-          Select a batch and generate a QR code that points buyers to the full verification timeline.
-          Each milestone is recorded on an append-only ledger.
-        </p>
-      </div>
-      <a class="back-link" href="index.html">← Back to UIverse</a>
-    </section>
+    });
 
-    <section class="trace-grid">
-      <section class="panel form-panel">
-        <div class="panel-heading">
-          <h2>Batch selector</h2>
-          <p>Use a seeded batch or paste a batch ID from the ledger.</p>
-        </div>
-
-        <label>
-          Batch
-          <select id="batch-select"></select>
-        </label>
-
-        <label>
-          Or batch ID
-          <input id="batch-id-input" type="number" min="1" step="1" placeholder="123">
-        </label>
-
-        <button id="generate-btn" type="button" class="primary-btn">Generate QR code</button>
-
-        <div class="batch-summary" id="batch-summary" aria-live="polite"></div>
-      </section>
-
-      <section class="panel qr-panel">
-        <div class="panel-heading">
-          <h2>QR code</h2>
-          <p>Scans open the buyer verification page.</p>
-        </div>
-
-        <div class="qr-wrap" id="qr-code"></div>
-        <div class="link-pill" id="trace-url"></div>
-      </section>
-    </section>
-  </main>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="js/features/traceability.js"></script>
-  <script src="dist/shared.js"></script>
-<!-- ================= FOOTER ================= -->
-<footer class="footer">
-  <div class="footer-container">
-    <div class="footer-col brand">
-      <h2 class="footer-logo">⬡ UIverse</h2>
-      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
-      <div class="socials">
-        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
-          <i class="fab fa-github" aria-hidden="true"></i>
-        </a>
-        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
-          <i class="fab fa-linkedin" aria-hidden="true"></i>
-        </a>
-        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
-          <i class="fab fa-x-twitter" aria-hidden="true"></i>
-        </a>
-      </div>
-    </div>
-
-    <div class="footer-col">
-      <h3>Explore</h3>
-      <ul>
-        <li><a href="button.html">Buttons</a></li>
-        <li><a href="navbar.html">Navbars</a></li>
-        <li><a href="cards.html">Cards</a></li>
-        <li><a href="inputs.html">Inputs</a></li>
-        <li><a href="forms.html">Forms</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h3>Resources</h3>
-      <ul>
-        <li><a href="documentation.html">Documentation</a></li>
-        <li><a href="howtocontribute.html">Contribute</a></li>
-        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
-        <li><a href="MyCollection.html">My Collection</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h3>Legal</h3>
-      <ul>
-        <li><a href="privacypolicy.html">Privacy Policy</a></li>
-        <li><a href="terms.html">Terms of Service</a></li>
-        <li><a href="license.html">License</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col newsletter">
-      <h3>Stay Updated</h3>
-      <p>Get notified when new components drop.</p>
-      <div class="newsletter-form">
-        <label for="newsletterEmail" class="sr-only">Email address</label>
-        <input
-          id="newsletterEmail"
-          type="email"
-          placeholder="your@email.com"
-          autocomplete="email"
-          aria-label="Email address for newsletter"
-        />
-        <button type="button" onclick="subscribe()">Subscribe</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
-  </div>
-</footer>
-
-<script>
-  if (typeof subscribe !== 'function') {
-    function subscribe() {
-      const emailInput = document.getElementById("newsletterEmail");
-      if (emailInput && emailInput.value.trim()) {
-        alert("Thanks for subscribing with: " + emailInput.value.trim());
-        emailInput.value = "";
+    // Theme state transformation control sequence
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      const themeToggleIconButton = document.querySelector("#themeToggle i");
+      if (document.body.classList.contains("uiv-dark-mainframe")) {
+        document.body.classList.replace("uiv-dark-mainframe", "uiv-light-mainframe");
+        localStorage.setItem("uiv-trace-skin-state", "uiv-light-mainframe");
+        themeToggleIconButton.className = "fa-solid fa-sun";
       } else {
-        alert("Please enter a valid email address.");
+        document.body.classList.replace("uiv-light-mainframe", "uiv-dark-mainframe");
+        localStorage.setItem("uiv-trace-skin-state", "uiv-dark-mainframe");
+        themeToggleIconButton.className = "fa-solid fa-moon";
+      }
+    });
+
+    // Sidebar position mobility driver layouts routines
+    function runtimeToggleSidebar() {
+      const sidebarNodeElement = document.querySelector('.sidebar');
+      const backgroundBackdropShield = document.getElementById('sidebarBackdrop');
+      if (sidebarNodeElement && backgroundBackdropShield) {
+        sidebarNodeElement.classList.toggle('visible');
+        backgroundBackdropShield.classList.toggle('visible');
       }
     }
-  }
-</script>\n\n</body>
+    window.runtimeToggleSidebar = runtimeToggleSidebar;
+
+    // Newsletter mock registration pipeline trigger
+    function handleNewsletterSubscription() {
+      const emailInputLine = document.getElementById('newsletterEmailInput');
+      if (emailInputLine && emailInputLine.value.trim()) {
+        alert(`[METRICS] Telemetry destination pipeline successfully registered for: ${emailInputLine.value.trim()}`);
+        emailInputLine.value = '';
+      } else {
+        alert('[ERROR] Invalidation parsed. Provide valid target address payload.');
+      }
+    }
+  </script>
+</body>
 </html>

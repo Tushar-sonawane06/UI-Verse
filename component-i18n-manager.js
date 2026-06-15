@@ -437,10 +437,14 @@ class ComponentI18nManager {
    * @returns {string} - Exported translations with directionality
    */
   exportTranslations(format = 'json') {
-    const data = {};
+    const data = {
+      components: {},
+      globalSettings: this.buildGlobalSettings(),
+      directionalityMap: this.buildDirectionalityMap()
+    };
     
     for (const [componentName, component] of this.components) {
-      data[componentName] = {
+      data.components[componentName] = {
         languages: component.supportedLanguages,
         languageMetadata: component.languageMetadata,
         translations: component.translations
@@ -459,6 +463,44 @@ class ComponentI18nManager {
   }
 
   /**
+   * Build global settings with RTL configuration
+   * @private
+   */
+  buildGlobalSettings() {
+    return {
+      defaultLanguage: this.defaultLanguage,
+      fallbackLanguage: this.fallbackLanguage,
+      supportedLanguages: this.supportedLanguages,
+      rtlLanguages: Array.from(this.rtlLanguages),
+      enableAutoTranslation: false,
+      translationMemoryURL: '',
+      contributionGuidelines: ''
+    };
+  }
+
+  /**
+   * Build directionality map with RTL and LTR language groupings
+   * @private
+   */
+  buildDirectionalityMap() {
+    const rtlLanguages = [];
+    const ltrLanguages = [];
+
+    for (const lang of this.supportedLanguages) {
+      if (this.rtlLanguages.has(lang)) {
+        rtlLanguages.push(lang);
+      } else {
+        ltrLanguages.push(lang);
+      }
+    }
+
+    return {
+      rtl: rtlLanguages,
+      ltr: ltrLanguages
+    };
+  }
+
+  /**
    * Export as CSV with directionality column
    * 
    * @private
@@ -466,7 +508,7 @@ class ComponentI18nManager {
   exportAsCSV(data) {
     let csv = 'Component,Language,TextDirection,ScriptCode,Key,Value\n';
     
-    for (const [componentName, component] of Object.entries(data)) {
+    for (const [componentName, component] of Object.entries(data.components)) {
       for (const [lang, translations] of Object.entries(component.translations)) {
         const metadata = component.languageMetadata[lang] || {};
         const textDirection = metadata.textDirection || 'ltr';
@@ -492,7 +534,7 @@ class ComponentI18nManager {
     let xliff = '<?xml version="1.0" encoding="UTF-8"?>\n';
     xliff += '<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">\n';
 
-    for (const [componentName, component] of Object.entries(data)) {
+    for (const [componentName, component] of Object.entries(data.components)) {
       for (const [lang, translations] of Object.entries(component.translations)) {
         const metadata = component.languageMetadata[lang] || {};
         const textDirection = metadata.textDirection || 'ltr';

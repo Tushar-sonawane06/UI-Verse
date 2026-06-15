@@ -130,12 +130,7 @@ const Bootstrap = {
     PreviewZoom
   );
 }
-if (typeof RelatedComponents !== 'undefined') {
-  UIverse.register(
-    'RelatedComponents',
-    RelatedComponents
-  );
-}
+
 
     if (typeof URLStateManager !== 'undefined') {
       UIverse.register('URLStateManager', URLStateManager);
