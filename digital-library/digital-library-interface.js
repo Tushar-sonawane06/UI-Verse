@@ -156,3 +156,34 @@ links.forEach(link => {
   });
 
 });
+
+// Favorite Buttons
+
+document.querySelectorAll(".favorite-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.classList.toggle("active");
+
+    if(btn.classList.contains("active")){
+      btn.innerHTML = `<i class="fa-solid fa-heart"></i>`;
+    }else{
+      btn.innerHTML = `<i class="fa-regular fa-heart"></i>`;
+    }
+  });
+});
+
+// Newsletter Subscribe
+
+const subscribeBtn = document.querySelector(".newsletter-form button");
+
+subscribeBtn.addEventListener("click", () => {
+
+  const emailInput = document.querySelector(".newsletter-form input");
+
+  if(emailInput.value.trim() === ""){
+    alert("Please enter your email!");
+  }else{
+    alert("Successfully subscribed!");
+    emailInput.value = "";
+  }
+
+});

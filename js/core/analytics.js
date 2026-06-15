@@ -58,6 +58,14 @@ const ComponentAnalytics = {
     this.sendEvent('component_like', { componentId });
   },
 
+  getUnderused(allIds = [], limit = 5) {
+    const data = this.getData();
+    return allIds
+      .filter(id => !data[id] || (data[id].views || 0) < 3)
+      .slice(0, limit)
+      .map(id => ({ id, ...(data[id] || { views: 0, copies: 0, likes: 0 }) }));
+  },
+
   getMetrics(componentId) {
     const data = this.getData();
     return data[componentId] || { views: 0, copies: 0, likes: 0 };

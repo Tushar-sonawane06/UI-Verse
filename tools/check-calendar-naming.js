@@ -31,8 +31,8 @@ walk(repoRoot, (file) => {
 });
 
 if (hits.length === 0) {
-  console.log('No Calender/calerder mismatches found.');
+  console.debug('No Calender/calerder mismatches found.');
 } else {
-  console.log('Found files referencing Calender/calerder:');
-  hits.forEach(f => console.log(' -', path.relative(repoRoot, f)));
+  console.debug('Found files referencing Calender/calerder:');
+  hits.forEach(f => console.debug(' -', path.relative(repoRoot, f)));
 }

@@ -39,37 +39,39 @@ body{
   color:var(--text);
 
   font-family:'DM Sans',sans-serif;
+  overflow-x:hidden;
 }
 
 
 
-/*Filter Scearch*/
-
-.scearch{
-  display: flex;
-  align-items: center;
-  max-width: 250px;
-  gap: 8px;
-  background: var(--card-bg);
-  border: 1.5px solid white;
-  border-radius: 40px;
-  padding: 7px 16px;
-  transition: all var(--transition);
+/* Filter Search */
+.search{
+  display:flex;
+  align-items:center;
+  max-width:320px;
+  width:100%;
+  gap:8px;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
+  border-radius:40px;
+  padding:10px 16px;
+  transition:all var(--transition);
 }
 
-.scearch i{
-  font-size: 12px;
-  color: #aaa;
+.search i{
+  font-size:12px;
+  color:#9ca9c5;
 }
 
 #badgesSearch{
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: var(--font-body);
-  font-size: 13px;
-  color: var(--text-primary);
-  width: 160px;
+  border:none;
+  outline:none;
+  background:transparent;
+  font-family:inherit;
+  font-size:13px;
+  color:var(--text);
+  width:100%;
+  min-width:0;
 }
 
 /* SIDEBAR */
@@ -330,6 +332,9 @@ MAIN
   margin-left:240px;
 
   padding:120px 40px 60px;
+  width:calc(100vw - 240px);
+  max-width:none;
+  min-width:0;
 }
 
 /* HERO */
@@ -404,6 +409,90 @@ MAIN
   flex-wrap:wrap;
 }
 
+.security-level-badge,
+.soc-badge,
+.cloud-ready-badge,
+.agent-badge,
+.enterprise-plan-badge,
+.trending-now-badge,
+.growth-badge,
+.verified-org-badge,
+.nft-verified-badge,
+.achievement-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 18px;
+  border-radius:999px;
+  font-size:.8rem;
+  font-weight:700;
+  letter-spacing:.5px;
+}
+
+.security-level-badge{
+  background:#12212f;
+  color:#4dd4ff;
+  border:1px solid #2c4f6a;
+}
+
+.soc-badge{
+  background:#eefaf4;
+  color:#0d8b57;
+}
+
+.cloud-ready-badge{
+  background:#16243a;
+  color:#8ecbff;
+}
+
+.agent-badge{
+  background:#12151f;
+  color:#73ffbe;
+}
+
+.agent-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#00ff88;
+  animation:pulse 1.5s infinite;
+}
+
+.enterprise-plan-badge{
+  background:linear-gradient(135deg,#2f2f3d,#1d1d29);
+  color:#fff;
+}
+
+.trending-now-badge{
+  background:linear-gradient(135deg,#ff6b35,#ff3b3b);
+  color:#fff;
+}
+
+.growth-badge{
+  background:#e8fff2;
+  color:#00a44a;
+}
+
+.verified-org-badge{
+  background:#0f172a;
+  color:#60a5fa;
+}
+
+.nft-verified-badge{
+  background:linear-gradient(135deg,#7b61ff,#00d4ff);
+  color:#fff;
+}
+
+.achievement-badge{
+  background:linear-gradient(135deg,#ffb347,#ffcc33);
+  color:#111;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);opacity:1;}
+  50%{transform:scale(1.4);opacity:.6;}
+  100%{transform:scale(1);opacity:1;}
+}
 .hero-stat{
 
   padding:22px 28px;
@@ -476,9 +565,10 @@ MAIN
   display:grid;
 
   grid-template-columns:
-    repeat(auto-fit,minmax(340px,1fr));
+    repeat(auto-fit,minmax(300px,1fr));
 
   gap:28px;
+  width:100%;
 }
 
 /* CARD */
@@ -1173,24 +1263,143 @@ MAIN
   100% { background-position: 0% 50%; }
 }
 
+/* 17. AI STATUS BADGE */
+.ai-status-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: 999px;
+  background: rgba(123,97,255,0.12);
+  border: 1px solid rgba(123,97,255,0.3);
+  color: #a78bfa; font-size: 13px; font-weight: 700; letter-spacing: 0.5px;
+}
+.ai-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: #7c3aed;
+  animation: ai-blink 1.4s ease-in-out infinite;
+}
+@keyframes ai-blink {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%      { opacity:0.4; transform:scale(0.7); }
+}
+
+/* 18. BETA TAG */
+.beta-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: 6px;
+  background: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.3);
+  color: #fbbf24; font-size: 11px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase;
+}
+
+/* 19. VERSION CHIP */
+.version-chip {
+  display: inline-flex; align-items: center;
+  font-size: 12px; font-weight: 700;
+  border-radius: 8px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.version-chip .vc-label { background: #3b82f6; color: #fff; padding: 6px 10px; }
+.version-chip .vc-num   { background: rgba(255,255,255,0.06); color: #cbd5e1; padding: 6px 12px; }
+
+/* 20. STREAK BADGE */
+.streak-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: 12px;
+  background: linear-gradient(135deg, #1c0a00, #2d1200);
+  border: 1px solid rgba(251,113,0,0.4);
+  color: #fb923c; font-weight: 800; font-size: 14px;
+  box-shadow: 0 0 18px rgba(251,113,0,0.12);
+}
+.streak-flame {
+  font-size: 18px; display: inline-block;
+  animation: flicker 1s ease-in-out infinite alternate;
+}
+@keyframes flicker {
+  0%   { transform: scaleY(1) rotate(-2deg); }
+  100% { transform: scaleY(1.12) rotate(2deg); }
+}
+
+/* 21. TRUST SCORE BADGE */
+.trust-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 18px; border-radius: 14px;
+  background: rgba(16,185,129,0.08);
+  border: 1px solid rgba(16,185,129,0.25);
+}
+.trust-num   { font-size: 22px; font-weight: 800; color: #34d399; line-height: 1; }
+.trust-meta  { display: flex; flex-direction: column; gap: 2px; }
+.trust-label { font-size: 10px; font-weight: 700; color: #6ee7b7; letter-spacing: 1px; text-transform: uppercase; }
+.trust-sub   { font-size: 10px; color: rgba(110,231,183,0.6); }
+
+/* 22. NEW ARRIVAL BADGE */
+.new-arrival-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 999px;
+  font-size: 12px; font-weight: 800; letter-spacing: 1px; color: #fff;
+  position: relative;
+  background: linear-gradient(135deg, #179eff, #375fff);
+}
+.new-arrival-badge::before {
+  content: ""; position: absolute; inset: -2px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ec4899, #f97316);
+  z-index: -1; filter: blur(6px); opacity: 0.5;
+  animation: new-glow 2s ease-in-out infinite alternate;
+}
+@keyframes new-glow { from{opacity:0.3} to{opacity:0.7} }
+
+/* 23. PERMISSION CHIPS */
+.perm-set  { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.perm-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 11px; border-radius: 999px;
+  font-size: 11px; font-weight: 700;
+}
+.perm-chip.read  { background: rgba(59,130,246,0.1); color: #93c5fd; border: 1px solid rgba(59,130,246,0.2); }
+.perm-chip.write { background: rgba(234,179,8,0.1);  color: #fde047; border: 1px solid rgba(234,179,8,0.2); }
+.perm-chip.admin { background: rgba(239,68,68,0.1);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.2); }
+
+/* 24. TYPING INDICATOR BADGE */
+.typing-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 18px; border-radius: 999px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #94a3b8; font-size: 13px; font-weight: 600;
+}
+.dots { display: flex; gap: 4px; align-items: center; }
+.dot  { width: 6px; height: 6px; border-radius: 50%; background: #64748b; animation: bounce 1.2s ease-in-out infinite; }
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce {
+  0%,60%,100% { transform: translateY(0); opacity: 0.5; }
+  30%          { transform: translateY(-5px); opacity: 1; }
+}
+
 /* ============================================================
    FOOTER
    ============================================================ */
 .footer {
-  margin-left: var(--sidebar-w);
+  position: relative;
+  width: 100%;              /* span full width */
+  margin: 0;                /* remove sidebar offset */
   background: #111;
   color: #aaa;
-  padding: 0;
   margin-top: 60px;
+  padding: 0;
+  clear: both;              /* ensures it sits below floated elements */
+  z-index: 5;               /* keeps it layered correctly */
 }
+
 
 .footer-container {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
   gap: 40px;
   padding: 56px 48px 40px;
-  max-width: 100%;
+  max-width: 1300px;         /* limit width */
+  margin: auto;              /* center it */
 }
+
 
 .footer-logo {
   font-family: var(--font-heading);
@@ -1229,6 +1438,7 @@ MAIN
   color: #888;
   text-decoration: none;
   font-size: 14px;
+  transition: color var(--transition), transform var(--transition);
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
@@ -1236,9 +1446,37 @@ MAIN
 
 .footer-col ul li a:hover {
   color: var(--accent);
+  text-decoration: underline;
+  transform: translateY(-2px);
   transform: translateX(3px);
   text-shadow: 0 0 8px rgba(235, 104, 53, 0.4);
 }
+
+.footer-col ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0%;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.footer-col ul li a:hover::after {
+  width: 100%;
+}
+
+.footer-socials {
+.socials a {
+  transition: all 0.3s ease;
+}
+
+.socials a:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 12px rgba(235, 104, 53, 0.35);
+}
+
 
 .footer-col ul li a::after {
   content: "";
@@ -1264,29 +1502,45 @@ MAIN
   box-shadow: 0 0 12px rgba(235, 104, 53, 0.35);
 }
 
-.socials {
-  display: flex;
-  gap: 12px;
+.footer-col ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0%;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.3s ease;
 }
 
-.socials a {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #1e1e1e;
+.footer-col ul li a:hover::after {
+  width: 100%;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 1rem;
+  flex-wrap: wrap; 
+}
+
+.footer-socials a {
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #888;
-  text-decoration: none;
-  font-size: 14px;
-  transition: all var(--transition);
+
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  color: white;
+
+  transition: 0.3s ease;
 }
 
-.socials a:hover {
-  background: var(--accent);
-  color: #fff;
-  transform: translateY(-2px);
+.footer-socials a:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #7c3aed, #3b82f6);
 }
 
 .newsletter-form {
@@ -1380,4 +1634,386 @@ MAIN
     flex-direction:column;
   }
 
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.badge-solid {
+  background: #333;
+  color: #fff;
+}
+
+.badge-outline {
+  border: 1px solid #333;
+  color: #333;
+  background: transparent;
+}
+
+.badge-gradient {
+  background: linear-gradient(135deg, #06b6d4, #9333ea);
+  color: #fff;
+}
+
+.badge-gradient {
+  background: linear-gradient(135deg, #06b6d4, #9333ea);
+  color: #fff;
+}
+
+.badge-sm { font-size: 10px; padding: 2px 6px; }
+.badge-md { font-size: 12px; padding: 4px 10px; }
+.badge-lg { font-size: 14px; padding: 6px 14px; }
+
+.badge-success { background: #22c55e; color: #fff; }
+.badge-danger { background: #ef4444; color: #fff; }
+.badge-warning { background: #f59e0b; color: #fff; }
+
+.badge-pulse {
+  position: relative;
+}
+
+.badge-pulse::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  border: 2px solid currentColor;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+body {
+  padding-bottom: 120px; /* give space equal to footer height */
+}
+/* =========================================
+VERIFIED BADGE
+
+.verified-badge{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#e8fff2;
+  color:#00b86b;
+  padding:10px 18px;
+  border-radius:30px;
+  font-weight:700;
+  font-size:13px;
+  box-shadow:0 8px 20px rgba(0,184,107,0.15);
+}
+
+/* =========================================
+GRADIENT BADGE
+
+.gradient-badge{
+  padding:12px 22px;
+  border-radius:30px;
+  font-size:13px;
+  font-weight:700;
+  color:white;
+  background:linear-gradient(
+    135deg,
+    #7b61ff,
+    #eb6835,
+    #00c6ff
+  );
+  background-size:300% 300%;
+  animation:gradientMove 5s ease infinite;
+  box-shadow:0 0 25px rgba(123,97,255,0.4);
+}
+
+@keyframes gradientMove{
+  0%{
+    background-position:0% 50%;
+  }
+
+  50%{
+    background-position:100% 50%;
+  }
+
+  100%{
+    background-position:0% 50%;
+  }
+}
+
+/* =========================================
+SALE BADGE
+
+.sale-badge{
+  background:#ff3d57;
+  color:white;
+  padding:12px 24px;
+  border-radius:14px;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:1px;
+  transform:rotate(-6deg);
+  box-shadow:0 12px 25px rgba(255,61,87,0.3);
+}
+
+/* =========================================
+AI BADGE
+
+.ai-badge{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 22px;
+  border-radius:30px;
+  background:rgba(0,255,255,0.08);
+  border:1px solid rgba(0,255,255,0.3);
+  color:#6ff;
+  font-weight:700;
+  backdrop-filter:blur(12px);
+  box-shadow:0 0 25px rgba(0,255,255,0.15);
+}
+
+/* =========================================
+BETA BADGE
+
+.beta-badge{
+  background:#eef2ff;
+  color:#5b5ff8;
+  padding:10px 20px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:1px;
+  border:1px solid rgba(91,95,248,0.2);
+}
+
+/* =========================================
+VIP BADGE
+
+.vip-badge{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 22px;
+  border-radius:30px;
+  background:linear-gradient(
+    135deg,
+    #ffcf40,
+    #ff9d00
+  );
+  color:#111;
+  font-weight:800;
+  letter-spacing:0.5px;
+  box-shadow:
+    0 0 20px rgba(255,193,7,0.4),
+    0 10px 30px rgba(255,157,0,0.25);
+}
+
+/* =========================================
+NEW PROFESSIONAL BADGES
+
+.security-badge{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:#38bdf8;
+  font-weight:700;
+  letter-spacing:.5px;
+  box-shadow:0 0 20px rgba(56,189,248,.25);
+}
+
+.trending-badge{
+  padding:12px 20px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#ff6b00,#ff3d00);
+  color:#fff;
+  font-weight:800;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  box-shadow:0 10px 30px rgba(255,98,0,.3);
+}
+
+.pro-badge{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 22px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#7b61ff,#9f7aea);
+  color:#fff;
+  font-weight:700;
+  box-shadow:0 0 20px rgba(123,97,255,.35);
+}
+
+.featured-badge{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:11px 20px;
+  border-radius:999px;
+  background:#fff7ed;
+  color:#ea580c;
+  border:1px solid #fdba74;
+  font-weight:700;
+}
+
+.nft-badge{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 20px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#111827,#4f46e5);
+  color:#fff;
+  font-weight:700;
+  box-shadow:0 0 25px rgba(99,102,241,.4);
+}
+
+.cloud-badge{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#e0f2fe,#bae6fd);
+  color:#0369a1;
+  font-weight:700;
+}
+
+.elite-badge{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 24px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#facc15,#ca8a04);
+  color:#111827;
+  font-weight:800;
+  box-shadow:0 0 25px rgba(250,204,21,.35);
+}
+
+.dev-badge{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 18px;
+  border-radius:10px;
+  background:#111827;
+  color:#22c55e;
+  font-weight:700;
+  font-family:monospace;
+  border:1px solid rgba(34,197,94,.3);
+}
+
+
+/* =========================================
+NEW PROFESSIONAL BADGES
+
+.enterprise-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 22px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#1f2937,#111827);
+  color:#fff;
+  font-weight:700;
+  letter-spacing:1px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.35);
+}
+
+.verified-pro-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 22px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#2563eb,#60a5fa);
+  color:#fff;
+  font-weight:700;
+  box-shadow:0 8px 25px rgba(37,99,235,0.35);
+}
+
+.startup-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 22px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#ff6b2c,#ffb347);
+  color:#fff;
+  font-weight:800;
+  letter-spacing:1px;
+  box-shadow:0 10px 28px rgba(255,107,44,0.35);
+}
+
+.api-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 20px;
+  border-radius:12px;
+  border:2px solid #06b6d4;
+  background:#ecfeff;
+  color:#0f172a;
+  font-weight:700;
+}
+
+.gold-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 24px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#f59e0b,#fde68a);
+  color:#111827;
+  font-weight:800;
+  box-shadow:0 10px 30px rgba(245,158,11,0.35);
+}
+
+.payment-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 20px;
+  border-radius:999px;
+  background:#dcfce7;
+  color:#166534;
+  font-weight:700;
+  border:1px solid #86efac;
+}
+
+.analytics-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 22px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  color:#fff;
+  font-weight:700;
+  box-shadow:0 10px 30px rgba(124,58,237,0.35);
+}
+
+.delivery-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 20px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#10b981,#34d399);
+  color:#fff;
+  font-weight:700;
+  box-shadow:0 10px 25px rgba(16,185,129,0.35);
 }

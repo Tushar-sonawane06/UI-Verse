@@ -39,6 +39,13 @@ export default function cards(){
           </div>
         </div>
       
+        {/* Tutorial Mode entry */}
+        <div className="tutorial-mode-entry" style="margin: 14px 0; display:flex; justify-content:flex-end;">
+          <button id="startTutorialMode" type="button" className="nav-btn outline-nav-btn" style="padding: 10px 14px; cursor:pointer;">
+            <i className="fa-solid fa-graduation-cap"></i> Start tutorial
+          </button>
+        </div>
+      
         {/* Filter Bar */}
         <div className="filter-bar">
           <button className="filter-btn active" onclick="filterCards('all', this)">All</button>
@@ -984,7 +991,7 @@ export default function cards(){
                     <p>You have received a new message from Alex.</p>
                     <span className="notif-time">2 min ago</span>
                   </div>
-                  <button className="notif-close"><i className="fa-solid fa-xmark"></i></button>
+                  <button className="notif-close" aria-label="Dismiss notification" type="button"><i className="fa-solid fa-xmark"></i></button>
                 </div>
                 <div className="notif-card notif-green">
                   <div className="notif-icon notif-icon-green"><i className="fa-solid fa-check"></i></div>
@@ -993,7 +1000,7 @@ export default function cards(){
                     <p>Your file has been successfully uploaded.</p>
                     <span className="notif-time">Just now</span>
                   </div>
-                  <button className="notif-close"><i className="fa-solid fa-xmark"></i></button>
+                  <button className="notif-close" aria-label="Dismiss notification" type="button"><i className="fa-solid fa-xmark"></i></button>
                 </div>
               </div>
             </div>

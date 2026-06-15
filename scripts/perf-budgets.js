@@ -26,19 +26,26 @@ if (fs.existsSync(budgetsPath)) {
 
 function collectHtmlPages(rootDir) {
   const results = [];
-  const ignored = new Set(['node_modules', 'tests', 'playwright-report', '.git']);
-  function walk(dir) {
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-      const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) {
-        if (!ignored.has(entry.name)) walk(full);
-        continue;
-      }
-      if (entry.isFile() && entry.name.endsWith('.html')) results.push(full);
+  const componentsPath = path.join(rootDir, 'data', 'components.json');
+  if (fs.existsSync(componentsPath)) {
+    try {
+      const comps = JSON.parse(fs.readFileSync(componentsPath, 'utf8'));
+      comps.forEach(c => {
+        const relPath = c.path.replace(/\\/g, '/');
+        const fullPath = path.join(rootDir, relPath);
+        if (fs.existsSync(fullPath)) {
+          results.push(fullPath);
+        }
+      });
+    } catch (e) {
+      console.error('Failed to read data/components.json', e.message);
     }
   }
-  walk(rootDir);
-  return results.sort();
+  const indexPath = path.join(rootDir, 'index.html');
+  if (fs.existsSync(indexPath) && !results.includes(indexPath)) {
+    results.push(indexPath);
+  }
+  return Array.from(new Set(results)).sort();
 }
 
 async function inspectPage(browser, route) {

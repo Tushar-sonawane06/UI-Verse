@@ -1,0 +1,1054 @@
+<template>
+<!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon">⬡</span>
+      <span class="brand-text">UIverse <span class="brand-badge">V2</span></span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul>
+        <li>
+          <a href="index.html">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="button.html">
+            <i class="fa-solid fa-hand-pointer"></i>
+            <span>Buttons</span>
+          </a>
+        </li>
+        <li>
+          <a href="dropdown-components.html">
+            <i class="fa-solid fa-caret-down"></i>
+            <span>Dropdowns</span>
+          </a>
+        </li>
+        <li>
+          <a href="profile-components.html">
+            <i class="fa-solid fa-user"></i>
+            <span>Profiles</span>
+          </a>
+        </li>
+        <li>
+          <a href="navbar.html">
+            <i class="fa-solid fa-bars"></i>
+            <span>Navbar</span>
+          </a>
+        </li>
+        <li>
+          <a href="cards.html">
+            <i class="fa-solid fa-table-cells-large"></i>
+            <span>Cards</span>
+          </a>
+        </li>
+        <li>
+          <a href="flipcards.html">
+            <i class="fa-solid fa-clone"></i>
+            <span>3D Cards</span>
+          </a>
+        </li>
+        <li>
+          <a href="inputs.html">
+            <i class="fa-solid fa-keyboard"></i>
+            <span>Inputs</span>
+          </a>
+        </li>
+        <li>
+          <a href="forms.html">
+            <i class="fa-brands fa-wpforms"></i>
+            <span>Forms</span>
+          </a>
+        </li>
+        <li>
+          <a href="badges.html">
+            <i class="fa-solid fa-award"></i>
+            <span>Badges</span>
+          </a>
+        </li>
+        <li>
+          <a href="blog.html">
+            <i class="fa-solid fa-blog"></i>
+            <span>Blog</span>
+          </a>
+        </li>
+        <li>
+          <a href="article.html">
+            <i class="fa-solid fa-newspaper"></i>
+            <span>Articles</span>
+          </a>
+        </li>
+        <li>
+          <a href="alerts.html">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Alerts</span>
+          </a>
+        </li>
+        <li>
+          <a href="color.html">
+            <i class="fa-solid fa-palette"></i>
+            <span>Colors</span>
+          </a>
+        </li>
+        <li>
+          <a href="charts.html">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Charts</span>
+          </a>
+        </li>
+        <li>
+          <a href="dashboard.html">
+            <i class="fa-solid fa-gauge-high"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="div.html">
+            <i class="fa-solid fa-square"></i>
+            <span>DIV</span>
+          </a>
+        </li>
+        <li class="active">
+          <a href="widgets.html">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Widgets</span>
+          </a>
+        </li>
+        <li>
+          <a href="search.html">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Search Bars</span>
+          </a>
+        </li>
+        <li>
+          <a href="hover.html">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Hover Effects</span>
+          </a>
+        </li>
+        <li>
+          <a href="error.html">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>Error Pages</span>
+          </a>
+        </li>
+        <li>
+          <a href="ecommerce.html">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>E-commerce</span>
+          </a>
+        </li>
+        <li>
+          <a href="files.html">
+            <i class="fa-solid fa-file-arrow-up"></i>
+            <span>Drag &amp; Drop</span>
+          </a>
+        </li>
+        <li>
+          <a href="hero.html">
+            <i class="fa-solid fa-star"></i>
+            <span>Hero Sections</span>
+          </a>
+        </li>
+        <li>
+          <a href="loaders.html">
+            <i class="fa-solid fa-spinner"></i>
+            <span>Loaders</span>
+          </a>
+        </li>
+        <li>
+          <a href="timeline.html">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>Timeline</span>
+          </a>
+        </li>
+        <li>
+          <a href="map.html">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <span>Maps</span>
+          </a>
+        </li>
+        <li>
+          <a href="menu.html">
+            <i class="fa-solid fa-bars-staggered"></i>
+            <span>Menu</span>
+          </a>
+        </li>
+        <li>
+          <a href="pricing.html">
+            <i class="fa-solid fa-tags"></i>
+            <span>Pricing</span>
+          </a>
+        </li>
+        <li>
+          <a href="subscription.html">
+            <i class="fa-solid fa-credit-card"></i>
+            <span>Subscription</span>
+          </a>
+        </li>
+        <li>
+          <a href="auth.html">
+            <i class="fa-solid fa-user-shield"></i>
+            <span>Authentication</span>
+          </a>
+        </li>
+        <li>
+          <a href="recovery.html">
+            <i class="fa-solid fa-key" aria-hidden="true"></i>
+            <span>Password Recovery</span>
+          </a>
+        </li>
+        <li>
+          <a href="section.html">
+            <i class="fa-solid fa-rectangle-list"></i>
+            <span>Section</span>
+          </a>
+        </li>
+        <li>
+          <a href="span.html">
+            <i class="fa-solid fa-code"></i>
+            <span>Span</span>
+          </a>
+        </li>
+        <li>
+          <a href="table.html">
+            <i class="fa-solid fa-table"></i>
+            <span>Table</span>
+          </a>
+        </li>
+        <li>
+          <a href="tabs.html">
+            <i class="fa-solid fa-table-columns"></i>
+            <span>Tabs</span>
+          </a>
+        </li>
+        <li>
+          <a href="terms.html">
+            <i class="fa-solid fa-file-contract"></i>
+            <span>Terms</span>
+          </a>
+        </li>
+        <li>
+          <a href="testimonials.html">
+            <i class="fa-solid fa-comments"></i>
+            <span>Testimonials</span>
+          </a>
+        </li>
+        <li>
+          <a href="toggles.html">
+            <i class="fa-solid fa-toggle-on"></i>
+            <span>Toggle</span>
+          </a>
+        </li>
+        <li>
+          <a href="radiobutton.html">
+            <i class="fa-solid fa-circle-dot"></i>
+            <span>Radio Buttons</span>
+          </a>
+        </li>
+        <li>
+          <a href="checkbox.html">
+            <i class="fa-solid fa-square-check"></i>
+            <span>Checkboxes</span>
+          </a>
+        </li>
+        <li>
+          <a href="notifications-premium.html">
+            <i class="fa-solid fa-bell"></i>
+            <span>Notifications V2</span>
+          </a>
+        </li>
+        <li>
+          <a href="step-indicators.html">
+            <i class="fa-solid fa-list-check"></i>
+            <span>Steppers</span>
+          </a>
+        </li>
+        <li>
+          <a href="progress-premium.html">
+            <i class="fa-solid fa-bars-progress"></i>
+            <span>Progress V2</span>
+          </a>
+        </li>
+        <li>
+          <a href="ratings-premium.html">
+            <i class="fa-solid fa-star"></i>
+            <span>Ratings V2</span>
+          </a>
+        </li>
+        <li>
+          <a href="filters-premium.html">
+            <i class="fa-solid fa-sliders"></i>
+            <span>Filters V2</span>
+          </a>
+        </li>
+        <li>
+          <a href="admin-panel.html">
+            <i class="fa-solid fa-gauge-high"></i>
+            <span>Admin Panel V2</span>
+          </a>
+        </li>
+        <li>
+          <a href="about.html">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>About</span>
+          </a>
+        </li>
+        <li>
+          <a href="documentation.html">
+            <i class="fa-solid fa-book"></i>
+            <span>Documentation</span>
+          </a>
+        </li>
+        <li>
+          <a href="faq.html">
+            <i class="fa-solid fa-circle-question"></i>
+            <span>Faq</span>
+          </a>
+        </li>
+        <li>
+          <a href="contact.html">
+            <i class="fa-regular fa-envelope"></i>
+            <span>Contact Us</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="#" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="#" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="#" aria-label="Twitter" title="Twitter"><i class="fab fa-x-twitter"></i></a>
+    </div>
+  </aside>
+
+  <!-- ================= SIDEBAR BACKDROP ================= -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar" id="navbar">
+    <button type="button" class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="logo">UIverse</div>
+
+    <div class="search-bar">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" id="searchInput" placeholder="Search components...">
+      <kbd class="search-kbd">⌘K</kbd>
+    </div>
+
+    <div class="nav-right">
+      <button type="button" class="nav-btn outline-nav-btn">
+        <i class="fa-solid fa-plus"></i> Add Component
+      </button>
+      <a href="contributorss.html" class="nav-btn primary-nav-btn">
+        Contributors
+      </a>
+      <button type="button" id="darkModeToggle" class="theme-toggle" title="Toggle Theme" aria-label="Toggle Theme">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <div class="main-content">
+
+    <div class="page-hero">
+      <div class="page-hero-left">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <i class="fa-solid fa-chevron-right"></i>
+          <span>Widgets</span>
+        </div>
+        <h1 class="page-title">Developer Widgets</h1>
+        <p class="page-desc">Modern reusable developer-focused UI widgets with interactive styling and clean structures.
+        </p>
+        <div class="page-meta">
+          <span class="meta-badge"><i class="fa-solid fa-tags"></i> 15 Components</span>
+          <span class="meta-badge"><i class="fa-solid fa-bolt"></i> Pure HTML/CSS/JS</span>
+          <span class="meta-badge"><i class="fa-solid fa-mobile-screen-button"></i> Responsive</span>
+        </div>
+      </div>
+    </div>
+
+    <section class="widgets-grid">
+
+      <!-- 1. GITHUB STATS WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+          <h2>GitHub Stats</h2>
+          <p>A compact view of developer contributions.</p>
+        </div>
+        <div class="github-stats-widget">
+          <div class="gh-header">
+            <i class="fab fa-github"></i>
+            <h3>saitejx / UI-Verse</h3>
+          </div>
+          <div class="gh-stats-grid">
+            <div class="gh-stat-box">
+              <span class="value">15.2k</span>
+              <span class="label">Stars</span>
+            </div>
+            <div class="gh-stat-box">
+              <span class="value">482</span>
+              <span class="label">Commits</span>
+            </div>
+            <div class="gh-stat-box">
+              <span class="value">89</span>
+              <span class="label">PRs</span>
+            </div>
+            <div class="gh-stat-box">
+              <span class="value">1.2k</span>
+              <span class="label">Forks</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. TERMINAL WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+          <h2>Terminal Widget</h2>
+          <p>Dashboard terminal mockup for logs and commands.</p>
+        </div>
+        <div class="terminal-widget">
+          <div class="term-header">
+            <div class="term-dot red"></div>
+            <div class="term-dot yellow"></div>
+            <div class="term-dot green"></div>
+          </div>
+          <div class="term-body">
+            <div class="term-line"><span class="term-prompt">user@dev:~$</span> <span class="term-cmd">npm run
+                build</span></div>
+            <div class="term-line">&gt; UI-Verse@1.0.0 build</div>
+            <div class="term-line">&gt; vite build</div>
+            <div class="term-line term-success">✓ 24 modules transformed.</div>
+            <div class="term-line">dist/index.html 1.2 kB</div>
+            <div class="term-line">dist/assets/index.js 240.5 kB</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. CODE SNIPPET WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+          <h2>Code Snippet</h2>
+          <p>Syntax-highlighted snippet with copy functionality.</p>
+        </div>
+        <div class="code-snippet-widget">
+          <div class="snippet-header">
+            <span class="snippet-lang">JavaScript</span>
+            <button type="button" class="copy-btn" id="copyBtn">
+              <i class="fa-regular fa-copy"></i> <span>Copy</span>
+            </button>
+          </div>
+          <div class="snippet-body">
+            <pre><code><span class="token keyword">const</span> <span class="token function">initWidget</span> <span class="token keyword">=</span> <span class="token punctuation">()</span> <span class="token keyword">=&gt;</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Widget loaded successfully!"</span><span class="token punctuation">);</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token function">initWidget</span><span class="token punctuation">();</span></code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. ACTIVITY TRACKER WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+          <h2>Activity Tracker</h2>
+          <p>Contribution heatmap inspired by dev platforms.</p>
+        </div>
+        <div class="activity-widget">
+          <div class="activity-header">Contributions in the last 30 days</div>
+          <div class="activity-grid">
+            <!-- Generate random activity boxes via JS for demonstration -->
+            <script>
+              document.write(Array.from({ length: 48 }).map(() => {
+                const level = Math.floor(Math.random() * 5); // 0 to 4
+                return `<div class="activity-box ${level > 0 ? 'level-' + level : ''}"></div>`;
+              }).join(''));
+            </script>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. DEVELOPER PROFILE WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+          <h2>Developer Profile</h2>
+          <p>Compact card for portfolios and author sections.</p>
+        </div>
+        <div class="dev-profile-widget">
+          <div class="dev-avatar">👨‍💻</div>
+          <div class="dev-info">
+            <h3>Saitej X</h3>
+            <p>Frontend Engineer &amp; UI Designer</p>
+            <div class="dev-socials">
+              <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+              <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. SYSTEM HEALTH MONITOR WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+        <div class="widget-info-text">
+          <h2>System Health</h2>
+          <p>Live health statistics and resource monitoring.</p>
+        </div>
+        <button class="widget-copy-btn" onclick="copyWidgetHTML(this)"><i class="fa-solid fa-copy"></i> Copy Code</button>
+      </div>
+        <div class="system-monitor-widget">
+          <div class="monitor-header">
+            <div class="status-indicator">
+              <span class="status-dot pulsing"></span>
+              <span class="status-text">System Healthy</span>
+            </div>
+            <span class="uptime">Uptime: 14d 6h</span>
+          </div>
+          <div class="monitor-content">
+            <div class="metric-circle-wrap">
+              <svg class="metric-svg" viewBox="0 0 100 100">
+                <circle class="metric-bg-circle" cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.06)" stroke-width="8"
+                  fill="transparent"></circle>
+                <circle class="metric-progress-circle cpu" cx="50" cy="50" r="40" stroke="#06b6d4" stroke-width="8"
+                  fill="transparent" stroke-linecap="round"></circle>
+              </svg>
+              <div class="metric-center">
+                <span class="metric-val">68%</span>
+                <span class="metric-lbl">CPU</span>
+              </div>
+            </div>
+            <div class="metric-stats">
+              <div class="metric-bar-group">
+                <div class="metric-bar-label">
+                  <span>Memory (RAM)</span>
+                  <span>4.8 GB / 8.0 GB</span>
+                </div>
+                <div class="metric-bar-bg">
+                  <div class="metric-bar-fill ram"></div>
+                </div>
+              </div>
+              <div class="metric-bar-group">
+                <div class="metric-bar-label">
+                  <span>Disk Storage</span>
+                  <span>142 GB / 256 GB</span>
+                </div>
+                <div class="metric-bar-bg">
+                  <div class="metric-bar-fill disk"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. SPRINT KANBAN TICKET WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+        <div class="widget-info-text">
+          <h2>Sprint Ticket</h2>
+          <p>Active task tracking board card.</p>
+        </div>
+        <button class="widget-copy-btn" onclick="copyWidgetHTML(this)"><i class="fa-solid fa-copy"></i> Copy Code</button>
+      </div>
+        <div class="kanban-ticket-widget">
+          <div class="ticket-header">
+            <span class="ticket-tag priority-high">High Priority</span>
+            <span class="ticket-id">UI-482</span>
+          </div>
+          <h3 class="ticket-title">Refactor Auth Middleware</h3>
+          <p class="ticket-desc">Implement token rotation, cookie security rules, and rate limits on endpoints.</p>
+          <div class="ticket-meta">
+            <div class="ticket-checklist">
+              <i class="fa-solid fa-list-check"></i>
+              <span>4 / 5 Tasks</span>
+            </div>
+            <div class="ticket-progress-bar">
+              <div class="ticket-progress-fill"></div>
+            </div>
+          </div>
+          <div class="ticket-footer">
+            <div class="ticket-assignees">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=32&h=32"
+                alt="Assignee 1" class="avatar">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=32&h=32"
+                alt="Assignee 2" class="avatar">
+              <div class="avatar-count">+2</div>
+            </div>
+            <span class="ticket-status-badge in-progress">In Progress</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. INTERACTIVE SQL CONSOLE WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+        <div class="widget-info-text">
+          <h2>SQL Console</h2>
+          <p>Interactive playground to run mock database queries.</p>
+        </div>
+        <button class="widget-copy-btn" onclick="copyWidgetHTML(this)"><i class="fa-solid fa-copy"></i> Copy Code</button>
+      </div>
+        <div class="sql-console-widget">
+          <div class="console-header">
+            <div class="console-tab active"><i class="fa-solid fa-database"></i> query.sql</div>
+            <button type="button" class="run-query-btn" onclick="runMockQuery(this)">
+              <i class="fa-solid fa-play"></i> Run
+            </button>
+          </div>
+          <div class="console-editor">
+            <pre><code><span class="sql-keyword">SELECT</span> name, role, commits
+<span class="sql-keyword">FROM</span> contributors
+<span class="sql-keyword">WHERE</span> commits &gt; <span class="sql-number">100</span>
+<span class="sql-keyword">ORDER BY</span> commits <span class="sql-keyword">DESC</span>;</code></pre>
+          </div>
+          <div class="console-result">
+            <table class="result-table">
+              <thead>
+                <tr>
+                  <th scope="col">name</th>
+                  <th scope="col">role</th>
+                  <th scope="col">commits</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Saitej X</td>
+                  <td>Lead Designer</td>
+                  <td>482</td>
+                </tr>
+                <tr>
+                  <td>Lena Moore</td>
+                  <td>Developer</td>
+                  <td>324</td>
+                </tr>
+                <tr>
+                  <td>Elijah Stone</td>
+                  <td>Architect</td>
+                  <td>190</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. TECH STACK GRID WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+        <div class="widget-info-text">
+          <h2>Tech Stack</h2>
+          <p>Developer technologies and library project counts.</p>
+        </div>
+        <button class="widget-copy-btn" onclick="copyWidgetHTML(this)"><i class="fa-solid fa-copy"></i> Copy Code</button>
+      </div>
+        <div class="tech-stack-widget">
+          <div class="tech-grid">
+            <div class="tech-item" style="--glow-color: rgba(97, 218, 251, 0.35);">
+              <div class="tech-icon"><i class="fab fa-react" style="color: #61dafb;"></i></div>
+              <div class="tech-details">
+                <h4>React</h4>
+                <span class="project-badge">12 Projects</span>
+              </div>
+            </div>
+            <div class="tech-item" style="--glow-color: rgba(49, 120, 198, 0.35);">
+              <div class="tech-icon"><i class="fa-solid fa-code" style="color: #3178c6;"></i></div>
+              <div class="tech-details">
+                <h4>TypeScript</h4>
+                <span class="project-badge">18 Projects</span>
+              </div>
+            </div>
+            <div class="tech-item" style="--glow-color: rgba(104, 160, 99, 0.35);">
+              <div class="tech-icon"><i class="fab fa-node-js" style="color: #68a063;"></i></div>
+              <div class="tech-details">
+                <h4>NodeJS</h4>
+                <span class="project-badge">8 Projects</span>
+              </div>
+            </div>
+            <div class="tech-item" style="--glow-color: rgba(51, 103, 145, 0.35);">
+              <div class="tech-icon"><i class="fa-solid fa-database" style="color: #336791;"></i></div>
+              <div class="tech-details">
+                <h4>PostgreSQL</h4>
+                <span class="project-badge">6 Projects</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. API TRAFFIC LOG STREAM WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+        <div class="widget-info-text">
+          <h2>API Log Stream</h2>
+          <p>Real-time mock HTTP network activity feed.</p>
+        </div>
+        <button class="widget-copy-btn" onclick="copyWidgetHTML(this)"><i class="fa-solid fa-copy"></i> Copy Code</button>
+      </div>
+        <div class="api-log-widget">
+          <div class="api-log-header">
+            <span class="log-title">Traffic Feed</span>
+            <span class="log-pulse"></span>
+          </div>
+          <div class="log-rows">
+            <div class="log-row">
+              <span class="method get">GET</span>
+              <span class="path">/api/v2/widgets</span>
+              <span class="status status-200">200</span>
+              <span class="time">12ms</span>
+            </div>
+            <div class="log-row">
+              <span class="method post">POST</span>
+              <span class="path">/api/v2/components</span>
+              <span class="status status-201">201</span>
+              <span class="time">48ms</span>
+            </div>
+            <div class="log-row">
+              <span class="method get">GET</span>
+              <span class="path">/api/v1/auth/session</span>
+              <span class="status status-500">500</span>
+              <span class="time">104ms</span>
+            </div>
+            <div class="log-row">
+              <span class="method put">PUT</span>
+              <span class="path">/api/v2/profile/edit</span>
+              <span class="status status-200">200</span>
+              <span class="time">26ms</span>
+            </div>
+            <div class="log-row">
+              <span class="method delete">DELETE</span>
+              <span class="path">/api/v2/items/12</span>
+              <span class="status status-204">204</span>
+              <span class="time">18ms</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11. WEATHER WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+          <div class="widget-info-text">
+            <h2>Weather Widget</h2>
+            <p>Compact weather forecast for dashboard integration.</p>
+          </div>
+          <button class="widget-copy-btn" onclick="copyWidgetHTML(this)"><i class="fa-solid fa-copy"></i> Copy
+            Code</button>
+        </div>
+        <div class="weather-widget">
+          <div class="weather-current">
+            <i class="fa-solid fa-cloud-sun weather-icon"></i>
+            <div class="weather-temp">72°<span>F</span></div>
+            <div class="weather-desc">Partly Cloudy<br>San Francisco, CA</div>
+          </div>
+          <div class="weather-forecast">
+            <div class="forecast-day"><span>Tue</span><i class="fa-solid fa-sun"></i><span>75°</span></div>
+            <div class="forecast-day"><span>Wed</span><i class="fa-solid fa-cloud"></i><span>68°</span></div>
+            <div class="forecast-day"><span>Thu</span><i class="fa-solid fa-cloud-rain"></i><span>62°</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12. MUSIC PLAYER WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+          <div class="widget-info-text">
+            <h2>Music Player</h2>
+            <p>Miniature media player with glassmorphism controls.</p>
+          </div>
+          <button class="widget-copy-btn" onclick="copyWidgetHTML(this)"><i class="fa-solid fa-copy"></i> Copy
+            Code</button>
+        </div>
+        <div class="music-player-widget">
+          <div class="music-cover">
+            <img
+              src="https://images.unsplash.com/photo-1614680376593-902f74cf0d41?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+              alt="Album Art">
+          </div>
+          <div class="music-info">
+            <h4>Neon Nights</h4>
+            <p>Synthwave Sessions</p>
+          </div>
+          <div class="music-controls">
+            <button><i class="fa-solid fa-backward-step"></i></button>
+            <button class="play-btn"><i class="fa-solid fa-play"></i></button>
+            <button><i class="fa-solid fa-forward-step"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 13. CRYPTO TICKER WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+          <div class="widget-info-text">
+            <h2>Crypto Ticker</h2>
+            <p>Real-time cryptocurrency price tracker.</p>
+          </div>
+          <button class="widget-copy-btn" onclick="copyWidgetHTML(this)"><i class="fa-solid fa-copy"></i> Copy
+            Code</button>
+        </div>
+        <div class="crypto-widget">
+          <div class="crypto-header">
+            <div class="crypto-coin">
+              <i class="fa-brands fa-bitcoin crypto-icon btc"></i>
+              <div>
+                <span class="coin-name">Bitcoin</span>
+                <span class="coin-sym">BTC</span>
+              </div>
+            </div>
+            <div class="crypto-price">
+              <span class="price-val">$42,850.20</span>
+              <span class="price-change positive">+2.45%</span>
+            </div>
+          </div>
+          <div class="crypto-chart">
+            <!-- Mock sparkline using CSS -->
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none" style="width:100%; height:30px; margin-top:10px;">
+              <polyline points="0,15 20,10 40,18 60,5 80,12 100,2" fill="none" stroke="#10b981" stroke-width="2" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 14. SMART HOME WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+          <div class="widget-info-text">
+            <h2>Smart Home</h2>
+            <p>IoT device control toggle grid.</p>
+          </div>
+          <button class="widget-copy-btn" onclick="copyWidgetHTML(this)"><i class="fa-solid fa-copy"></i> Copy
+            Code</button>
+        </div>
+        <div class="smart-home-widget">
+          <div class="sh-grid">
+            <div class="sh-item active">
+              <i class="fa-solid fa-lightbulb"></i>
+              <span>Living Room</span>
+            </div>
+            <div class="sh-item">
+              <i class="fa-solid fa-snowflake"></i>
+              <span>AC Unit</span>
+            </div>
+            <div class="sh-item active">
+              <i class="fa-solid fa-tv"></i>
+              <span>Smart TV</span>
+            </div>
+            <div class="sh-item">
+              <i class="fa-solid fa-lock"></i>
+              <span>Front Door</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 15. CALENDAR WIDGET -->
+      <div class="widget-wrapper">
+        <div class="widget-info">
+          <div class="widget-info-text">
+            <h2>Mini Calendar</h2>
+            <p>Compact date picker and event indicator.</p>
+          </div>
+          <button class="widget-copy-btn" onclick="copyWidgetHTML(this)"><i class="fa-solid fa-copy"></i> Copy
+            Code</button>
+        </div>
+        <div class="calendar-widget">
+          <div class="cal-header">
+            <i class="fa-solid fa-chevron-left"></i>
+            <span>October 2026</span>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+          <div class="cal-grid">
+            <span class="day-name">Su</span><span class="day-name">Mo</span><span class="day-name">Tu</span><span
+              class="day-name">We</span><span class="day-name">Th</span><span class="day-name">Fr</span><span
+              class="day-name">Sa</span>
+            <span class="day muted">27</span><span class="day muted">28</span><span class="day muted">29</span><span
+              class="day muted">30</span>
+            <span class="day">1</span><span class="day">2</span><span class="day has-event">3</span>
+            <span class="day">4</span><span class="day">5</span><span class="day active">6</span><span
+              class="day">7</span><span class="day">8</span><span class="day">9</span><span class="day">10</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="footer-container">
+
+      <div class="footer-col brand">
+        <h2 class="footer-logo">⬡ UIverse</h2>
+        <p>A curated library of premium UI components crafted with pure HTML, CSS, and JS — no frameworks, no
+          dependencies, just clean code.</p>
+        <div class="socials">
+          <a href="https://github.com" target="_blank" aria-label="GitHub" title="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn" title="LinkedIn">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="https://twitter.com" target="_blank" aria-label="Twitter" title="Twitter">
+            <i class="fab fa-x-twitter"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="button.html">Buttons</a></li>
+          <li><a href="navbar.html">Navbars</a></li>
+          <li><a href="cards.html">Cards</a></li>
+          <li><a href="inputs.html">Inputs</a></li>
+          <li><a href="forms.html">Forms</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="documentation.html">Documentation</a></li>
+          <li><a href="contribute.html">Contribute</a></li>
+          <li><a href="https://github.com/uiverse/uiverse" target="_blank">GitHub Repo</a></li>
+          <li><a href="community.html">Community</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="privacypolicy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+          <li><a href="license.html">License</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col newsletter">
+        <h3>Stay Updated</h3>
+        <p>Get notified when new components drop.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="your@email.com">
+          <button type="button" onclick="subscribe()">Subscribe</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Dark mode toggle
+    const toggle = document.getElementById('darkModeToggle');
+    const icon = toggle.querySelector('i');
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      icon.className = 'fa-solid fa-sun';
+    }
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // Sidebar toggle
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('sidebarBackdrop');
+      sidebar.classList.toggle('open');
+      backdrop.classList.toggle('visible');
+    }
+
+    // Copy Code Interaction
+    document.getElementById('copyBtn').addEventListener('click', function () {
+      const codeText = `const initWidget = () => {
+  console.log("Widget loaded successfully!");
+};
+
+initWidget();`;
+
+      navigator.clipboard.writeText(codeText).then(() => {
+        const btn = this;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> <span>Copied!</span>';
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    });
+
+    function subscribe() {
+      const input = document.querySelector('.newsletter-form input');
+      if (input.value) {
+        alert('Thanks for subscribing with ' + input.value);
+        input.value = '';
+      }
+    }
+
+    // Interactive SQL Query Runner
+    function runMockQuery(btn) {
+      const tableBody = document.querySelector('.result-table tbody');
+      if (!tableBody) return;
+
+      const originalHTML = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Running...';
+      btn.disabled = true;
+
+      tableBody.style.opacity = '0.3';
+
+      setTimeout(() => {
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+        tableBody.style.opacity = '1';
+      }, 850);
+    }
+
+    // Generic Copy Widget HTML functionality
+    function copyWidgetHTML(btn) {
+      const widgetWrapper = btn.closest('.widget-wrapper');
+      if (!widgetWrapper) return;
+
+      // The actual widget component is the second child inside the wrapper (after widget-info)
+      const widgetComponent = widgetWrapper.children[1];
+      if (!widgetComponent) return;
+
+      const htmlCode = widgetComponent.outerHTML;
+
+      navigator.clipboard.writeText(htmlCode).then(() => {
+        // Create and show toast
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = '<i class="fa-solid fa-circle-check"></i> Code copied successfully!';
+        document.body.appendChild(toast);
+
+        // Remove toast after animation ends
+        setTimeout(() => {
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 3000);
+      }).catch(err => {
+        console.error('Failed to copy widget HTML: ', err);
+      });
+    }
+  </script>
+</template>
+
+<script>
+export default { name: 'Widgets' }
+</script>

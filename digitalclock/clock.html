@@ -1,24 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="../dist/shared.css">
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-+sqoe17JODjlJxYacf8TMVj2h7ajK8BTxojdnmC8v2k=' 'sha256-EGEwe8PgG1C/mSR7A5mvgWNhRAovg31YyjQj24H6Vu8=' 'sha256-rxMzrFO5m1SpSRHxBZM318udwFeqly2cL2LN3kdcTfg='; script-src-attr 'unsafe-hashes' 'sha256-+sqoe17JODjlJxYacf8TMVj2h7ajK8BTxojdnmC8v2k=' 'sha256-EGEwe8PgG1C/mSR7A5mvgWNhRAovg31YyjQj24H6Vu8=' 'sha256-rxMzrFO5m1SpSRHxBZM318udwFeqly2cL2LN3kdcTfg='; style-src 'self' https: 'unsafe-hashes' 'sha256-37M3rsAlT58fxE5lEGpfX5kyOf3wfe26qyqWeQNqxpg='; style-src-attr 'unsafe-hashes' 'sha256-37M3rsAlT58fxE5lEGpfX5kyOf3wfe26qyqWeQNqxpg='">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Clock UI</title>
-  <link rel="stylesheet" href="clock.css">
+<link rel="stylesheet" href="clock.css">
+  <title>Digital Clock & Calendar UI</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .clock-container, .calendar-container, .events-container {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .clock {
+      font-size: 48px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .date {
+      margin-top: 5px;
+      opacity: 0.8;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .calendar-header button {
+      background: #334155;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .weekdays, .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .calendar-days div {
+      padding: 10px;
+      margin: 2px;
+      background: #334155;
+      border-radius: 6px;
+    }
+
+    .event-card {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      padding: 10px;
+      background: #334155;
+      border-radius: 8px;
+    }
+
+    .event-date {
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
 </head>
+
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
+
+<div class="dashboard">
+
+  <!-- CLOCK -->
   <div class="clock-container">
-
     <h1>Digital Clock</h1>
-
-    <div class="clock" id="clock">
-      00:00:00
-    </div>
-
+    <div class="clock" id="clock">00:00:00</div>
+    <div class="date" id="date">Loading...</div>
   </div>
 
-  <script src="clock.js"></script>
+  <!-- CALENDAR -->
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <button onclick="prevMonth()">&#10094;</button>
+      <h2 id="monthYear"></h2>
+      <button onclick="nextMonth()">&#10095;</button>
+    </div>
+
+    <div class="weekdays">
+      <div>Sun</div><div>Mon</div><div>Tue</div>
+      <div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+    </div>
+
+    <div class="calendar-days" id="calendarDays"></div>
+  </div>
+
+  <!-- EVENTS -->
+  <div class="events-container">
+    <h2>Upcoming Events</h2>
+
+    <div class="event-card">
+      <span class="event-date">12</span>
+      <div>
+        <h4>Project Meeting</h4>
+        <p>10:00 AM</p>
+      </div>
+    </div>
+
+    <div class="event-card">
+      <span class="event-date">18</span>
+      <div>
+        <h4>UI Workshop</h4>
+        <p>02:30 PM</p>
+      </div>
+    </div>
+
+    <div class="event-card">
+      <span class="event-date">25</span>
+      <div>
+        <h4>Hackathon</h4>
+        <p>09:00 AM</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // CLOCK
+  function updateClock() {
+    const now = new Date();
+
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+
+    document.getElementById("clock").textContent = `${h}:${m}:${s}`;
+
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById("date").textContent = now.toLocaleDateString('en-US', options);
+  }
+
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // CALENDAR
+  let currentDate = new Date();
+
+  function renderCalendar() {
+    const monthYear = document.getElementById("monthYear");
+    const calendarDays = document.getElementById("calendarDays");
+
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    const monthNames = [
+      "January","February","March","April","May","June",
+      "July","August","September","October","November","December"
+    ];
+
+    monthYear.textContent = `${monthNames[month]} ${year}`;
+
+    calendarDays.innerHTML = "";
+
+    // empty boxes
+    for (let i = 0; i < firstDay; i++) {
+      calendarDays.innerHTML += `<div></div>`;
+    }
+
+    // days
+    for (let d = 1; d <= daysInMonth; d++) {
+      calendarDays.innerHTML += `<div>${d}</div>`;
+    }
+  }
+
+  function prevMonth() {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    renderCalendar();
+  }
+
+  function nextMonth() {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    renderCalendar();
+  }
+
+  renderCalendar();
+</script>
+
+<script src="clock.js" defer></script>
+
+      <script src="../dist/shared.js"></script>
 </body>
 </html>

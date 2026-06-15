@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Premium Progress Components — UIverse</title>
@@ -13,25 +14,77 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
   <link rel="stylesheet" href="progress-premium.css">
-  <link rel="stylesheet" href="shared-sidebar.css">
-</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
 
 <div class="main-content">
 
   <!-- TOPBAR -->
-  <header class="topbar">
-    <div class="search-box">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" placeholder="Search progress components..." id="searchInput">
-    </div>
-    <div class="topbar-actions">
-      <button class="add-btn" onclick="fillAllProgress()"><i class="fa-solid fa-play"></i> Fill All</button>
-      <button class="collection-btn" onclick="resetAllProgress()"><i class="fa-solid fa-rotate-left"></i> Reset All</button>
-      <button class="theme-btn"><i class="fa-solid fa-moon"></i></button>
-    </div>
-  </header>
+  <!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
 
   <!-- HERO -->
   <section class="hero">
@@ -629,6 +682,150 @@
 &lt;/div&gt;</code></pre>
     </div>
 
+    <!-- ============ 11-15: ADDITIONAL PROGRESS COMPONENTS ============ -->
+
+    <!-- 11. DOWNLOAD MANAGER -->
+    <div class="component-card" data-category="progress">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="download-manager" id="downloadManagerPreview">
+            <div class="d-item">
+              <div class="d-thumb"><i class="fa-solid fa-file-arrow-down"></i></div>
+              <div class="d-meta">
+                <div class="d-title">assets_bundle.zip</div>
+                <div class="d-sub">Downloading • 12.4 MB / 32.1 MB</div>
+                <div class="d-progress"><div class="d-fill dwn-fill" style="width:38%"></div></div>
+              </div>
+              <div class="d-actions"><button onclick="simulateDownloadManager()"><i class="fa-solid fa-play"></i></button></div>
+            </div>
+            <div class="d-item">
+              <div class="d-thumb"><i class="fa-solid fa-file-zipper"></i></div>
+              <div class="d-meta">
+                <div class="d-title">icons_pack.zip</div>
+                <div class="d-sub">Queued • 0 MB</div>
+                <div class="d-progress"><div class="d-fill dwn-fill" style="width:0%"></div></div>
+              </div>
+              <div class="d-actions"><button onclick="simulateDownloadManager()"><i class="fa-solid fa-rotate"></i></button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Download Manager</h3><span>Progress</span></div>
+        <p>Multiple concurrent downloads with per-file progress fills and small inline controls.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('code11', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('code11', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="code11" style="display:none;"><code>&lt;div class="d-item"&gt;...&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 12. INDETERMINATE SKELETON STRIP -->
+    <div class="component-card" data-category="loaders">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="indeterminate-strip" id="indStripPreview"></div>
+          <div style="margin-top:18px;"><button class="trigger-live-btn purple" onclick="toggleIndeterminateStrip()">Toggle</button></div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Indeterminate Strip</h3><span>Loaders</span></div>
+        <p>A subtle skeleton loader strip used to indicate indeterminate loading states in place of numeric progress.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('code12', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('code12', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="code12" style="display:none;"><code>&lt;div class="indeterminate-strip"&gt;...&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 13. DONUT METER -->
+    <div class="component-card" data-category="circular">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="donut-meter" id="donutPreview">
+            <svg class="donut-svg" width="140" height="140" viewBox="0 0 140 140">
+              <defs>
+                <linearGradient id="donutGradient" x1="0%" x2="100%">
+                  <stop offset="0%" stop-color="#7b61ff" />
+                  <stop offset="100%" stop-color="#ff7a3d" />
+                </linearGradient>
+              </defs>
+              <circle class="donut-track" cx="70" cy="70" r="52"></circle>
+              <circle class="donut-fill" id="donutFill" cx="70" cy="70" r="52" stroke-dasharray="326.73" stroke-dashoffset="130"></circle>
+            </svg>
+            <div class="donut-center"><div class="num" id="donutNum">60%</div><div class="muted" style="font-size:12px;color:var(--text-muted);">Overall</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Donut Meter</h3><span>Circular</span></div>
+        <p>A decorative donut meter with gradient stroke and center label for compact KPI displays.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('code13', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('code13', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="code13" style="display:none;"><code>&lt;svg class="donut-svg"&gt;...&lt;/svg&gt;</code></pre>
+    </div>
+
+    <!-- 14. TRANSFER QUEUE -->
+    <div class="component-card" data-category="cards">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="transfer-queue" id="transferQueuePreview">
+            <div class="t-item">
+              <div style="width:36px;text-align:center;color:#a394ff;"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+              <div class="t-meta">
+                <div style="display:flex;justify-content:space-between"><strong>backup.tar</strong><span class="muted">28%</span></div>
+                <div class="t-progress"><div class="t-fill" style="width:28%"></div></div>
+              </div>
+              <div class="t-actions"><button onclick="simulateTransferQueue()"><i class="fa-solid fa-arrow-up-right-from-square"></i></button></div>
+            </div>
+            <div class="t-item">
+              <div style="width:36px;text-align:center;color:#10b981;"><i class="fa-solid fa-cloud-arrow-down"></i></div>
+              <div class="t-meta">
+                <div style="display:flex;justify-content:space-between"><strong>db_snapshot.sql</strong><span class="muted">4%</span></div>
+                <div class="t-progress"><div class="t-fill" style="width:4%"></div></div>
+              </div>
+              <div class="t-actions"><button onclick="simulateTransferQueue()"><i class="fa-solid fa-rotate"></i></button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Transfer Queue</h3><span>Cards</span></div>
+        <p>Queue view for file transfers with per-item progress and quick cancel or retry actions.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('code14', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('code14', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="code14" style="display:none;"><code>&lt;div class="t-item"&gt;...&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 15. MARATHON LINEAR -->
+    <div class="component-card" data-category="linear">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="marathon-track" id="marathonPreview">
+            <div class="marathon-fill"></div>
+          </div>
+          <div style="margin-top:18px;"><button class="trigger-live-btn orange" onclick="startMarathon(this)">Start</button></div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top"><h3>Marathon Progress</h3><span>Linear</span></div>
+        <p>A long-running marquee-style progress bar ideal for background syncs and live gradients.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('code15', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('code15', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="code15" style="display:none;"><code>&lt;div class="marathon-track"&gt;&lt;div class="marathon-fill"&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+    </div>
+
   </div>
 
 </div>
@@ -1155,7 +1352,138 @@
   updateBatteryUI();
   updateActivityRings();
   updateChartsUI();
+
+  /* --------------------
+     New helpers for added components
+     -------------------- */
+  function simulateDownloadManager(){
+    const fills = document.querySelectorAll('.dwn-fill');
+    fills.forEach((f) => {
+      const cur = parseInt(f.style.width) || 0;
+      const next = Math.min(100, cur + Math.floor(Math.random()*22)+8);
+      f.style.width = next + '%';
+    });
+  }
+
+  function toggleIndeterminateStrip(){
+    const el = document.getElementById('indStripPreview');
+    if (!el) return;
+    el.classList.toggle('active');
+    triggerToastDemo('info', el.classList.contains('active') ? 'Indeterminate started' : 'Indeterminate stopped');
+  }
+
+  function animateDonutMeter(){
+    const fill = document.getElementById('donutFill');
+    const num = document.getElementById('donutNum');
+    if (!fill) return;
+    const target = Math.floor(Math.random()*80) + 10;
+    const circumference = 2 * Math.PI * 52; // ~326.73
+    const offset = circumference - (target/100 * circumference);
+    fill.style.strokeDashoffset = offset;
+    num.innerText = target + '%';
+  }
+
+  function simulateTransferQueue(){
+    const fills = document.querySelectorAll('.t-fill');
+    fills.forEach((f) => {
+      const cur = parseInt(f.style.width) || 0;
+      const next = Math.min(100, cur + Math.floor(Math.random()*30)+4);
+      f.style.width = next + '%';
+    });
+    triggerToastDemo('info', 'Queue progressed');
+  }
+
+  function startMarathon(btn){
+    const track = document.getElementById('marathonPreview');
+    if (!track) return;
+    track.classList.toggle('running');
+    btn.innerText = track.classList.contains('running') ? 'Stop' : 'Start';
+  }
 </script>
 
-</body>
+  <script src="dist/shared.js"></script>
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>\n\n</body>
 </html>

@@ -1,82 +1,187 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Focus Mode Dashboard UI</title>
-  <link rel="stylesheet" href="app.css">
-</head>
-<body>
+  <head>
+    <link rel="stylesheet" href="../dist/shared.css" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-7EMmgDM6SMTQd3PzbEaA3Nm6x4cuzYcln/hLl8LuObY=' 'sha256-cNNvnfnULv5fhPPWnRQt8CgfK5Wkdzln2q7lLwgvTwI=' 'sha256-f07jqCOm8ckpTmjym6nvLlfIUAfAdJ/l6PcmxwDv75Y=' 'sha256-yeKdKggJkOliIbgU6FBwLvIK/9r8HnUyfSHUaftnQYI='; script-src-attr 'unsafe-hashes' 'sha256-7EMmgDM6SMTQd3PzbEaA3Nm6x4cuzYcln/hLl8LuObY=' 'sha256-cNNvnfnULv5fhPPWnRQt8CgfK5Wkdzln2q7lLwgvTwI=' 'sha256-f07jqCOm8ckpTmjym6nvLlfIUAfAdJ/l6PcmxwDv75Y=' 'sha256-yeKdKggJkOliIbgU6FBwLvIK/9r8HnUyfSHUaftnQYI='; style-src 'self' https: 'unsafe-hashes' 'sha256-IOWYPccv4+GIAWz50PQ4hgBzwty+G8ckj9XrN5jdx6g=' 'sha256-Mk5KkRuVPi9K3uMOLQoVd0bUGb1YSxvvF7Fw64KlNTM=' 'sha256-NjYDAvf3Yswi9GqXn8q5mE3okYa3Q4PuzJ0DkAhe4yQ=' 'sha256-U/+s20iJ2NkhRHGyyWHtSUo91q/9SH7tpdm3kSPrbO0=' 'sha256-ZHU04vkSNtmDMPQGbZHB3hkvx/YubQ0x8y9gWYLDbeQ='; style-src-attr 'unsafe-hashes' 'sha256-IOWYPccv4+GIAWz50PQ4hgBzwty+G8ckj9XrN5jdx6g=' 'sha256-Mk5KkRuVPi9K3uMOLQoVd0bUGb1YSxvvF7Fw64KlNTM=' 'sha256-NjYDAvf3Yswi9GqXn8q5mE3okYa3Q4PuzJ0DkAhe4yQ=' 'sha256-U/+s20iJ2NkhRHGyyWHtSUo91q/9SH7tpdm3kSPrbO0=' 'sha256-ZHU04vkSNtmDMPQGbZHB3hkvx/YubQ0x8y9gWYLDbeQ='">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Focus Mode Dashboard UI</title>
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
 
-  <div class="dashboard-container">
+  </head>
+  <body>
+    <h2 class="sr-only">
+      Focus Mode Dashboard — productivity timer, file explorer, and session
+      stats
+    </h2>
 
-    <h1>Focus Mode Dashboard</h1>
-
-    <div class="timer-card">
-
-      <h2>Focus Timer</h2>
-
-      <div class="timer" id="timer">
-        25:00
+    <div class="dash">
+      <div class="dash-header">
+        <div>
+          <h1>Focus Mode</h1>
+          <p>Monday, deep work session</p>
+        </div>
+        <div class="mode-badge"><span class="dot"></span> Active</div>
       </div>
 
-      <div class="timer-buttons">
+      <div class="grid-top">
+        <!-- Timer -->
+        <div class="card">
+          <div class="card-label">
+            <i class="ti ti-clock" aria-hidden="true"></i> Focus Timer
+          </div>
+          <div class="timer-display" id="timerEl">25:00</div>
+          <div class="timer-sub" id="timerSub">25 min session</div>
+          <div class="timer-arc">
+            <div class="timer-arc-fill" id="arcFill" style="width: 100%"></div>
+          </div>
+          <div class="btn-row">
+            <button class="btn primary" id="startBtn">
+              <i class="ti ti-player-play" aria-hidden="true"></i> Start
+            </button>
+            <button class="btn warning" id="pauseBtn">
+              <i class="ti ti-player-pause" aria-hidden="true"></i> Pause
+            </button>
+            <button class="btn danger" id="resetBtn">
+              <i class="ti ti-refresh" aria-hidden="true"></i> Reset
+            </button>
+          </div>
+        </div>
 
-        <button id="startBtn">
-          Start
-        </button>
+        <!-- Stats + Progress -->
+        <div class="card" style="display: flex; flex-direction: column">
+          <div class="card-label">
+            <i class="ti ti-chart-bar" aria-hidden="true"></i> Today's Stats
+          </div>
+          <div class="stat-row" style="margin-bottom: 1.25rem">
+            <div class="stat-mini">
+              <div class="val" id="sessionsEl">0</div>
+              <div class="lbl">Sessions</div>
+            </div>
+            <div class="stat-mini">
+              <div class="val" id="minutesEl">0</div>
+              <div class="lbl">Minutes</div>
+            </div>
+            <div class="stat-mini">
+              <div class="val" id="productivityEl">0%</div>
+              <div class="lbl">Goal</div>
+            </div>
+          </div>
 
-        <button id="resetBtn">
-          Reset
-        </button>
+          <div class="progress-wrap">
+            <div class="prog-head">
+              <span>Daily goal progress</span>
+              <strong id="progLabel">0 / 8 sessions</strong>
+            </div>
+            <div class="prog-track">
+              <div class="prog-fill" id="progFill" style="width: 0%"></div>
+            </div>
+            <div class="prog-labels">
+              <span>0%</span><span>50%</span><span>100%</span>
+            </div>
+          </div>
 
+          <div class="storage-bar-wrap">
+            <p>Storage — 76 GB of 100 GB used</p>
+            <div class="storage-track"><div class="storage-fill"></div></div>
+            <small>24 GB remaining</small>
+          </div>
+        </div>
       </div>
 
+      <!-- File Explorer -->
+      <div class="card files-section">
+        <div class="card-label">
+          <i class="ti ti-folder" aria-hidden="true"></i> File Explorer
+        </div>
+        <div class="files-topbar">
+          <div class="folder-pills">
+            <div class="pill active" onclick="filterFolder(this, 'all')">
+              All
+            </div>
+            <div class="pill" onclick="filterFolder(this, 'Documents')">
+              Documents
+            </div>
+            <div class="pill" onclick="filterFolder(this, 'Downloads')">
+              Downloads
+            </div>
+            <div class="pill" onclick="filterFolder(this, 'Projects')">
+              Projects
+            </div>
+          </div>
+          <div class="search-wrap">
+            <i class="ti ti-search" aria-hidden="true"></i>
+            <input
+              class="search-input"
+              type="search"
+              id="searchEl"
+              placeholder="Search files…"
+            />
+          </div>
+        </div>
+        <div class="files-grid" id="filesGrid">
+          <div class="file-card pdf" data-folder="Documents">
+            <div class="file-icon">
+              <i class="ti ti-file-text" aria-hidden="true"></i>
+            </div>
+            <h3>Resume.pdf</h3>
+            <p>2.1 MB</p>
+          </div>
+          <div class="file-card img" data-folder="Downloads">
+            <div class="file-icon">
+              <i class="ti ti-photo" aria-hidden="true"></i>
+            </div>
+            <h3>Design.png</h3>
+            <p>4.5 MB</p>
+          </div>
+          <div class="file-card aud" data-folder="Downloads">
+            <div class="file-icon">
+              <i class="ti ti-music" aria-hidden="true"></i>
+            </div>
+            <h3>Music.mp3</h3>
+            <p>6.8 MB</p>
+          </div>
+          <div class="file-card vid" data-folder="Downloads">
+            <div class="file-icon">
+              <i class="ti ti-video" aria-hidden="true"></i>
+            </div>
+            <h3>Video.mp4</h3>
+            <p>18 MB</p>
+          </div>
+          <div class="file-card fld" data-folder="Projects">
+            <div class="file-icon">
+              <i class="ti ti-folder" aria-hidden="true"></i>
+            </div>
+            <h3>Frontend Project</h3>
+            <p>Folder</p>
+          </div>
+          <div class="file-card txt" data-folder="Documents">
+            <div class="file-icon">
+              <i class="ti ti-notes" aria-hidden="true"></i>
+            </div>
+            <h3>Notes.txt</h3>
+            <p>500 KB</p>
+          </div>
+          <div class="file-card pdf" data-folder="Documents">
+            <div class="file-icon">
+              <i class="ti ti-file-text" aria-hidden="true"></i>
+            </div>
+            <h3>Report_Q4.pdf</h3>
+            <p>1.3 MB</p>
+          </div>
+          <div class="file-card img" data-folder="Projects">
+            <div class="file-icon">
+              <i class="ti ti-photo" aria-hidden="true"></i>
+            </div>
+            <h3>Mockup_v2.png</h3>
+            <p>8.2 MB</p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="stats-grid">
-
-      <div class="stat-card">
-
-        <h3>Tasks Completed</h3>
-
-        <p>12</p>
-
-      </div>
-
-      <div class="stat-card">
-
-        <h3>Focus Hours</h3>
-
-        <p>18h</p>
-
-      </div>
-
-      <div class="stat-card">
-
-        <h3>Productivity</h3>
-
-        <p>92%</p>
-
-      </div>
-
-    </div>
-
-    <div class="progress-section">
-
-      <h2>Task Progress</h2>
-
-      <div class="progress-bar">
-
-        <div class="progress-fill"></div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+    <script src="../dist/shared.js"></script>
+  </body>
 </html>

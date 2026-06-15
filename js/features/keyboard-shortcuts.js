@@ -16,12 +16,25 @@ const KeyboardShortcuts = {
     styles: 'uiv-shortcuts-style'
   },
 
-  _shortcuts: [
-    { key: '/', description: 'Focus search input' },
-    { key: 'Ctrl+K / Cmd+K', description: 'Open command palette or focus search' },
-    { key: '?', description: 'Show keyboard shortcuts help' },
-    { key: 'Esc', description: 'Close open modals/overlays' }
-  ],
+  _shortcuts: null,
+
+  _getContract() {
+    return window.KeyboardContract || globalThis.KeyboardContract || null;
+  },
+
+  _getShortcuts() {
+    const contract = this._getContract();
+    if (contract && typeof contract.getShortcutEntries === 'function') {
+      return contract.getShortcutEntries();
+    }
+
+    return [
+      { key: '/', description: 'Focus search input' },
+      { key: 'Ctrl+K / Cmd+K', description: 'Open command palette or focus search' },
+      { key: '?', description: 'Show keyboard shortcuts help' },
+      { key: 'Esc', description: 'Close open modals/overlays' }
+    ];
+  },
 
   init() {
     if (this._state.initialized) return;
@@ -179,7 +192,7 @@ const KeyboardShortcuts = {
     overlay.id = this._ids.helpOverlay;
     overlay.setAttribute('aria-hidden', 'true');
 
-    const itemsHtml = this._shortcuts.map((entry) => {
+    const itemsHtml = this._getShortcuts().map((entry) => {
       const keyParts = entry.key.split('/').map((part) => part.trim());
       const keyHtml = keyParts
         .map((part) => {
@@ -257,6 +270,11 @@ const KeyboardShortcuts = {
   },
 
   _isTypingContext(target) {
+    const contract = this._getContract();
+    if (contract && typeof contract.isTypingContext === 'function') {
+      return contract.isTypingContext(target);
+    }
+
     if (!target) return false;
     if (target.isContentEditable) return true;
     const tag = target.tagName ? target.tagName.toLowerCase() : '';
@@ -348,11 +366,13 @@ const KeyboardShortcuts = {
   },
 
   _bindShortcuts() {
+    const contract = this._getContract();
+
     const onKeyDown = (event) => {
       const key = event.key;
       const target = event.target;
 
-      if ((event.ctrlKey || event.metaKey) && key.toLowerCase() === 'k') {
+      if (contract && typeof contract.matchesCombo === 'function' && contract.matchesCombo(event, contract.shortcuts.commandPalette)) {
         const commandPaletteReady =
           Boolean(window.CommandPalette) &&
           Boolean(document.getElementById('commandPaletteOverlay'));
@@ -366,14 +386,28 @@ const KeyboardShortcuts = {
         return;
       }
 
-      if (key === 'Escape') {
+      if (!contract && (event.ctrlKey || event.metaKey) && key.toLowerCase() === 'k') {
+        const commandPaletteReady =
+          Boolean(window.CommandPalette) &&
+          Boolean(document.getElementById('commandPaletteOverlay'));
+
+        if (commandPaletteReady) {
+          return;
+        }
+
+        event.preventDefault();
+        this._handleCtrlK();
+        return;
+      }
+
+      if ((contract && typeof contract.isEscapeKey === 'function' && contract.isEscapeKey(event)) || (!contract && key === 'Escape')) {
         if (this._closeOpenUI()) {
           event.preventDefault();
         }
         return;
       }
 
-      if (!event.ctrlKey && !event.metaKey && !event.altKey && key === '/') {
+      if ((contract && typeof contract.matchesCombo === 'function' && contract.matchesCombo(event, contract.shortcuts.focusSearch)) || (!contract && !event.ctrlKey && !event.metaKey && !event.altKey && key === '/')) {
         if (!this._isTypingContext(target)) {
           event.preventDefault();
           this._focusSearch();
@@ -381,7 +415,7 @@ const KeyboardShortcuts = {
         return;
       }
 
-      if (!event.ctrlKey && !event.metaKey && !event.altKey && key === '?') {
+      if ((contract && typeof contract.matchesCombo === 'function' && contract.matchesCombo(event, contract.shortcuts.shortcutsHelp)) || (!contract && !event.ctrlKey && !event.metaKey && !event.altKey && key === '?')) {
         if (!this._isTypingContext(target)) {
           event.preventDefault();
           this.showHelp();

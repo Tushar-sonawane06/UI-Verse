@@ -1,51 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz Application UI</title>
-  <link rel="stylesheet" href="quiz.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frontend Quiz</title>
+
+<link rel="stylesheet" href="quiz.css">
 </head>
 <body>
+<header class="header">
 
-  <div class="quiz-container">
+    <div class="logo">
+        ⚡ QuizMaster
+    </div>
 
-    <h1>Quiz Application</h1>
+    <nav>
 
-    <div class="quiz-card">
+        <a href="#">Home</a>
+        <a href="#">Categories</a>
+        <a href="#">Leaderboard</a>
+        <a href="#">About</a>
 
-      <h2 id="question">
-        What does HTML stand for?
-      </h2>
+    </nav>
 
-      <div class="options">
+    <button class="login-btn">
+        Sign In
+    </button>
 
-        <button class="option-btn">Hyper Text Markup Language</button>
+</header>
+<section class="hero">
+    <div class="container">
+    <div class="hero-content">
 
-        <button class="option-btn">High Transfer Machine Language</button>
+        <span class="hero-badge">
+            🚀 New Interactive Quizzes
+        </span>
 
-        <button class="option-btn">Hyper Transfer Markup Level</button>
+        <h1>
+            Test Your Skills.<br>
+            Learn Faster.
+        </h1>
 
-        <button class="option-btn">Home Tool Markup Language</button>
+        <p>
+            Play engaging quizzes with timers,
+            achievements, rewards and leaderboards.
+        </p>
 
-      </div>
+        <div class="hero-buttons">
 
-      <button id="nextBtn">
-        Next Question
-      </button>
+            <button class="primary-btn">
+                Start Quiz
+            </button>
 
-      <div class="score-section">
+            <button class="secondary-btn">
+                View Leaderboard
+            </button>
 
-        Score:
-        <span id="score">0</span>
+        </div>
 
-      </div>
+    </div>
+    <div class="hero-stats">
+
+    <div>
+        <h2>10K+</h2>
+        <p>Players</p>
+    </div>
+
+    <div>
+        <h2>500+</h2>
+        <p>Quizzes</p>
+    </div>
+
+    <div>
+        <h2>50+</h2>
+        <p>Categories</p>
+    </div>
+
+</div>
+</div>
+
+</section>
+
+
+<div class="dashboard">
+
+    <div class="card streak-card">
+        <div class="icon">🔥</div>
+        <h3>Current Streak</h3>
+        <h1 id="streak">12</h1>
+        <p>Questions in a row</p>
+    </div>
+
+    <div class="card xp-card">
+        <div class="icon">⭐</div>
+        <h3>Level 8</h3>
+
+        <div class="xp-bar">
+            <div class="xp-fill" id="xpFill"></div>
+        </div>
+
+        <span id="xpText">
+            720 / 1000 XP
+        </span>
+    </div>
+
+    <div class="card badge-card">
+        <div class="icon">🏆</div>
+        <h3>Achievements</h3>
+
+        <div class="badges">
+
+            <span class="badge">🚀 Fast Learner</span>
+            <span class="badge">🔥 Streak Master</span>
+            <span class="badge">⭐ Expert</span>
+
+        </div>
+    </div>
+
+    <div class="card progress-card">
+
+        <h3>Quiz Progress</h3>
+
+        <div class="progress-circle">
+
+            <svg width="160" height="160">
+
+                <circle
+                class="bg"
+                cx="80"
+                cy="80"
+                r="70">
+                </circle>
+
+                <circle
+                class="progress"
+                id="progressCircle"
+                cx="80"
+                cy="80"
+                r="70">
+                </circle>
+
+            </svg>
+
+            <div class="progress-text">
+                <span id="percentage">
+                    75%
+                </span>
+            </div>
+
+        </div>
 
     </div>
 
+</div>
+
+<section class="kahoot-section">
+
+    <h2>Choose Your Answer</h2>
+
+    <div class="kahoot-grid">
+
+        <button class="answer red">
+            ▲ HTML
+        </button>
+
+        <button class="answer blue">
+            ◆ CSS
+        </button>
+
+        <button class="answer yellow">
+            ● Java
+        </button>
+
+        <button class="answer green">
+            ■ JavaScript
+        </button>
+
+    </div>
+
+</section>
+<section class="quiz-section">
+   
+    <div class="quiz-card">
+
+    <div class="category">
+        🚀 Frontend Quiz
+    </div>
+
+    <h2 id="question">
+        Loading Question...
+    </h2>
+
+    <div id="answers" class="answers"></div>
+
+
+      <div class="stats-panel">
+
+  <div class="stat">
+    <h3 id="correctCount">0</h3>
+    <span>Correct</span>
   </div>
 
-  <script src="quiz.js"></script>
+  <div class="stat">
+    <h3 id="wrongCount">0</h3>
+    <span>Wrong</span>
+  </div>
+
+  <div class="stat">
+    <h3 id="accuracy">0%</h3>
+    <span>Accuracy</span>
+  </div>
+
+</div>
+
+<div id="resultScreen" class="result-screen hidden">
+
+  <h2>🎉 Quiz Complete!</h2>
+
+  <h1 id="finalScore">8/10</h1>
+
+  <p>Excellent work! Keep learning.</p>
+
+  <button id="restartBtn">
+    Restart Quiz
+  </button>
+
+</div>
+
+      <!-- Bottom Controls -->
+      <div class="bottom-controls">
+    <div id="feedback"></div>
+
+    <div class="bottom">
+
+        <div class="score">
+            Score:
+            <span id="score">0</span>
+        </div>
+
+        <button id="nextBtn">
+            Next Question →
+        </button>
+
+    </div>
+
+</div>
+
+<div class="timer-container">
+
+    <div class="timer-header">
+
+        <span>⏳ Time Remaining</span>
+
+        <span id="timerText">
+            30s
+        </span>
+
+    </div>
+
+    <div class="timer-bar">
+        <div id="timerFill"></div>
+    </div>
+
+</div>
+
+<audio id="correctSound">
+    <source src="correct.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="wrongSound">
+    <source src="wrong.mp3" type="audio/mpeg">
+</audio>
+
+<canvas id="confetti"></canvas>
+
+   
+</section>
+
+
+
+<script src="quiz.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
 </body>
 </html>

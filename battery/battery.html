@@ -1,15 +1,370 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="../dist/shared.css">
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes' 'sha256-CUn7mujaYO8Du+9K4FiVwVZCH41cyR7zN7+uF1k0d6I='; style-src-attr 'unsafe-hashes' 'sha256-CUn7mujaYO8Du+9K4FiVwVZCH41cyR7zN7+uF1k0d6I='">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Battery Status Widget UI</title>
+  <!-- Fonts -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+  <!-- Icons -->
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  >
   <link rel="stylesheet" href="battery.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+<header class="power-header">
 
-  <div class="battery-widget">
+  <div class="logo">
+    ⚡ PowerCore
+  </div>
+
+  <nav>
+
+    <a href="#">Dashboard</a>
+    <a href="#">Battery</a>
+    <a href="#">Performance</a>
+    <a href="#">Energy</a>
+    <a href="#">Settings</a>
+
+  </nav>
+
+  <button class="header-btn">
+    Optimize System
+  </button>
+
+</header>
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="badge">
+            ⚡ POWER MANAGEMENT SYSTEM
+        </span>
+
+        <h1>
+            Smart Battery Dashboard
+        </h1>
+
+        <p>
+            Monitor battery health, charging speed,
+            power consumption and system efficiency
+            in real time.
+        </p>
+
+    </div>
+
+</section>
+<section class="power-grid">
+  
+  <!-- Charging Speed -->
+
+  <div class="power-card">
+
+    <h3>⚡ Charging Speed</h3>
+
+    <p>
+      Real-time charging wattage flowing into device.
+    </p>
+
+    <div class="charging-speed" id="speedValue">
+      65W
+    </div>
+
+  </div>
+
+  <!-- Temperature -->
+
+  <div class="power-card">
+
+    <h3>🌡 Battery Temperature</h3>
+
+    <p>
+      Monitor thermal performance during charging.
+    </p>
+
+    <div id="tempValue">
+      34°C
+    </div>
+
+  </div>
+  
+
+  <!-- Battery Health -->
+
+  <div class="power-card">
+
+    <h3>❤️ Battery Health</h3>
+
+    <p>
+      Long-term battery capacity retention.
+    </p>
+
+    <div class="health-circle">
+
+      <span id="healthValue">
+        95%
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- Charging Animation -->
+
+  <div class="power-card">
+
+    <h3>🔋 Live Charging Flow</h3>
+
+    <p>
+      Visualizing energy transfer in real time.
+    </p>
+
+    <div class="energy-flow">
+
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+
+    </div>
+
+  </div>
+
+  <!-- Power Consumption -->
+
+  <div class="power-card">
+
+    <h3>📊 Power Usage</h3>
+
+    <p>
+      Current system power consumption.
+    </p>
+
+    <div id="usageValue">
+      25%
+    </div>
+
+  </div>
+
+  <!-- Charging Cycles -->
+
+  <div class="power-card">
+
+    <h3>🔄 Charge Cycles</h3>
+
+    <p>
+      Number of completed charging cycles.
+    </p>
+
+    <div id="cycleValue">
+      120
+    </div>
+
+  </div>
+  
+  <div class="power-card fast-charge-card">
+    <h3>🔥 Fast Charging Detector</h3>
+    <p>Detects current charging mode.</p>
+
+    <div id="chargeMode" class="charge-mode">
+        Fast Charging
+    </div>
+</div>
+<div class="power-card solar-card">
+    <h3>☀ Solar Charging</h3>
+    <p>Solar panel energy harvesting.</p>
+
+    <div class="sun"></div>
+
+    <div id="solarPower">
+        180W
+    </div>
+</div>
+<div class="power-card surge-card">
+    <h3>⚡ Power Surge Monitor</h3>
+    <p>Live voltage fluctuation tracking.</p>
+
+    <div id="voltageValue">
+        220V
+    </div>
+</div>
+<div class="power-card score-card">
+    <h3>🎯 Optimization Score</h3>
+
+    <div class="score-circle">
+        <span id="optimizationScore">
+            92
+        </span>
+    </div>
+</div>
+<div class="power-card carbon-card">
+    <h3>🌍 Carbon Footprint Saved</h3>
+
+    <p>Eco-friendly energy impact.</p>
+
+    <div id="carbonSaved">
+        12.5 kg
+    </div>
+</div>
+<div class="power-card ev-card">
+    <h3>🚗 EV Battery Simulator</h3>
+
+    <div class="car-track">
+
+        <div id="evCar">
+            🚗
+        </div>
+
+    </div>
+
+    <div id="evCharge">
+        72%
+    </div>
+</div>
+<div class="power-card efficiency-card">
+
+    <h3>💎 Energy Efficiency</h3>
+
+    <div class="efficiency-ring">
+        <span id="efficiencyValue">
+            88%
+        </span>
+    </div>
+
+</div>
+<div class="power-card wireless-card">
+
+    <h3>🛰 Wireless Charging</h3>
+
+    <div class="wireless-ripple">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div id="wirelessPower">
+        Connected
+    </div>
+
+</div>
+<div class="power-card performance-card">
+
+    <h3>⚙ Device Performance</h3>
+
+    <div class="perf-item">
+        CPU
+        <div class="perf-bar">
+            <div id="cpuBar"></div>
+        </div>
+    </div>
+
+    <div class="perf-item">
+        RAM
+        <div class="perf-bar">
+            <div id="ramBar"></div>
+        </div>
+    </div>
+
+    <div class="perf-item">
+        GPU
+        <div class="perf-bar">
+            <div id="gpuBar"></div>
+        </div>
+    </div>
+
+</div>
+<div class="power-card prediction-card">
+
+    <h3>🚀 Battery Life Prediction</h3>
+
+    <p>Estimated remaining runtime.</p>
+
+    <div id="batteryPrediction">
+        4h 25m Remaining
+    </div>
+
+</div>
+<div class="power-card shield-card">
+
+    <h3>🛡 Battery Shield</h3>
+
+    <p>
+        AI-powered thermal protection monitoring.
+    </p>
+
+    <div class="shield-core">
+
+        <span id="shieldTemp">
+            34°C
+        </span>
+
+    </div>
+
+</div>
+<div class="power-card sleep-card">
+
+    <h3>🌙 Smart Charging</h3>
+
+    <p>
+        Optimizes charging overnight.
+    </p>
+
+    <div id="sleepStatus">
+        Paused at 80%
+    </div>
+
+</div>
+<div class="power-card recovery-card">
+
+    <h3>⚡ Energy Recovery</h3>
+
+    <p>
+        Energy reclaimed from smart optimization.
+    </p>
+
+    <div class="recovery-bar">
+
+        <div id="recoveryFill"></div>
+
+    </div>
+
+    <div id="recoveryValue">
+        48%
+    </div>
+
+</div>
+<div class="power-card safety-card">
+
+    <h3>🚨 Safety Monitor</h3>
+
+    <p>
+        Real-time battery risk detection.
+    </p>
+
+    <div id="safetyStatus">
+        SAFE
+    </div>
+
+</div>
+<div class="battery-widget">
 
     <h1>Battery Status</h1>
 
@@ -45,7 +400,60 @@
     </button>
 
   </div>
+</section>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">GitHub Repo</a></li>
+        <li><a href="#">Community</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com">
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+  </div>
+</footer>
+  
 
   <script src="battery.js"></script>
+      <script src="../dist/shared.js"></script>
 </body>
 </html>

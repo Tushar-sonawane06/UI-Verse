@@ -1,0 +1,723 @@
+import React from 'react';
+
+export default function span(){
+  return (
+    <>
+      <main className="main-home">
+      
+        {/* Page Hero */}
+        <div className="page-hero">
+          <div className="page-hero-left">
+            <div className="breadcrumb">
+              <a href="index.html">Home</a>
+              <i className="fa-solid fa-chevron-right"></i>
+              <span>Span</span>
+            </div>
+            <h1 className="page-title">Span Components</h1>
+            <p className="page-desc">Reusable inline UI elements built with <code className="inline-code">&lt;span&gt;</code> — badges, tags, tooltips, highlights, status indicators, keyboard shortcuts, and more. Click to copy instantly.</p>
+            <div className="page-meta">
+              <span className="meta-badge"><i className="fa-solid fa-layer-group"></i> 14 Components</span>
+              <span className="meta-badge"><i className="fa-solid fa-code"></i> Pure CSS</span>
+              <span className="meta-badge"><i className="fa-solid fa-bolt"></i> Inline Elements</span>
+            </div>
+          </div>
+          <div className="page-hero-right">
+            <div className="span-hero-preview">
+              <p className="preview-line">
+                Status: <span className="sp-status sp-online">● Online</span>
+              </p>
+              <p className="preview-line">
+                Plan: <span className="sp-pill sp-accent">Pro</span>
+                <span className="sp-pill sp-success">Active</span>
+              </p>
+              <p className="preview-line">
+                Score: <span className="sp-highlight">98 / 100</span>
+              </p>
+              <p className="preview-line">
+                Tags: <span className="sp-tag">CSS</span>
+                <span className="sp-tag">UI</span>
+                <span className="sp-tag">Design</span>
+              </p>
+              <p className="preview-line">
+                Shortcut: <kbd className="sp-kbd">⌘</kbd> + <kbd className="sp-kbd">K</kbd>
+              </p>
+            </div>
+          </div>
+        </div>
+      
+        {/* Filter Bar */}
+        <div className="filter-bar">
+          <button className="filter-btn active" onclick="filterCards('all', this)">All</button>
+          <button className="filter-btn" onclick="filterCards('label', this)">Labels</button>
+          <button className="filter-btn" onclick="filterCards('status', this)">Status</button>
+          <button className="filter-btn" onclick="filterCards('text', this)">Text</button>
+          <button className="filter-btn" onclick="filterCards('interactive', this)">Interactive</button>
+          <div className="filter-search">
+            <i className="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Filter spans..." oninput="liveFilter(this.value)" />
+          </div>
+        </div>
+      
+        {/* Components Grid */}
+        <div className="span-grid" id="spanGrid">
+      
+          {/* Highlight */}
+          <div className="component-card" data-name="highlight text mark" data-cat="text">
+            <div className="card-top">
+              <span className="card-label">Highlight Text</span>
+              <span className="card-tag tag-popular">Popular</span>
+            </div>
+            <div className="card-preview">
+              <p style="font-size:15px;color:var(--text-primary);">
+                This is a <span className="sp-highlight">highlighted</span> word inside text.
+              </p>
+              <p style="font-size:15px;color:var(--text-primary);margin-top:10px;">
+                Multiple <span className="sp-highlight sp-hl-yellow">yellow</span> and <span className="sp-highlight sp-hl-green">green</span> styles.
+              </p>
+            </div>
+            <p className="card-desc">Inline highlight spans for marking important text — available in multiple colour styles.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('s1', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('s1', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="s1" className="code-block"><code>&lt;span className="highlight"&gt;highlighted&lt;/span&gt;
+      &lt;span className="highlight yellow"&gt;yellow&lt;/span&gt;
+      &lt;span className="highlight green"&gt;green&lt;/span&gt;
+      
+      .highlight {
+        background: linear-gradient(135deg, #eb6835, #6c5ce7);
+        color: #fff;
+        padding: 2px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+      }
+      .highlight.yellow { background: #fef08a; color: #713f12; }
+      .highlight.green  { background: #bbf7d0; color: #14532d; }</code></pre>
+          </div>
+      
+          {/* Badge */}
+          <div className="component-card" data-name="badge notification count number" data-cat="label">
+            <div className="card-top">
+              <span className="card-label">Badge</span>
+              <span className="card-tag tag-popular">Popular</span>
+            </div>
+            <div className="card-preview">
+              <div className="preview-badges-row">
+                <span className="badge-demo">Notifications <span className="sp-badge">3</span></span>
+                <span className="badge-demo">Messages <span className="sp-badge sp-badge-green">12</span></span>
+                <span className="badge-demo">Alerts <span className="sp-badge sp-badge-orange">!</span></span>
+                <span className="badge-demo">New <span className="sp-badge sp-badge-purple">99+</span></span>
+              </div>
+            </div>
+            <p className="card-desc">Compact numeric or status badges — red, green, orange, and purple variants.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('s2', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('s2', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="s2" className="code-block"><code>&lt;span&gt;Notifications &lt;span className="badge"&gt;3&lt;/span&gt;&lt;/span&gt;
+      &lt;span&gt;Messages &lt;span className="badge green"&gt;12&lt;/span&gt;&lt;/span&gt;
+      
+      .badge {
+        background: #d63031;
+        color: #fff;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .badge.green  { background: #00b894; }
+      .badge.orange { background: #eb6835; }
+      .badge.purple { background: #6c5ce7; }</code></pre>
+          </div>
+      
+          {/* Tags */}
+          <div className="component-card" data-name="tag chip label category" data-cat="label">
+            <div className="card-top">
+              <span className="card-label">Tags / Chips</span>
+              <span className="card-tag tag-popular">Popular</span>
+            </div>
+            <div className="card-preview">
+              <div className="preview-wrap">
+                <span className="sp-tag">UI</span>
+                <span className="sp-tag">Design</span>
+                <span className="sp-tag">CSS</span>
+                <span className="sp-tag sp-tag-red">Bug</span>
+                <span className="sp-tag sp-tag-green">Feature</span>
+                <span className="sp-tag sp-tag-orange">Review</span>
+              </div>
+            </div>
+            <p className="card-desc">Pill-shaped tag chips with hover lift — great for categories, skills, or labels.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('s3', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('s3', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="s3" className="code-block"><code>&lt;span className="tag"&gt;UI&lt;/span&gt;
+      &lt;span className="tag red"&gt;Bug&lt;/span&gt;
+      &lt;span className="tag green"&gt;Feature&lt;/span&gt;
+      
+      .tag {
+        display: inline-block;
+        padding: 5px 14px;
+        background: rgba(108,92,231,0.12);
+        border: 1px solid rgba(108,92,231,0.3);
+        color: #6c5ce7;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: 0.2s;
+      }
+      .tag:hover { transform: translateY(-2px); }
+      .tag.red    { background: rgba(214,48,49,0.1); border-color: rgba(214,48,49,0.3); color: #d63031; }
+      .tag.green  { background: rgba(0,184,148,0.1); border-color: rgba(0,184,148,0.3); color: #00b894; }</code></pre>
+          </div>
+      
+          {/* Status Indicators */}
+          <div className="component-card" data-name="status online offline busy away indicator" data-cat="status">
+            <div className="card-top">
+              <span className="card-label">Status Indicator</span>
+              <span className="card-tag tag-popular">Popular</span>
+            </div>
+            <div className="card-preview">
+              <div className="preview-status-col">
+                <p>User: <span className="sp-status sp-online">● Online</span></p>
+                <p>User: <span className="sp-status sp-offline">● Offline</span></p>
+                <p>User: <span className="sp-status sp-busy">● Busy</span></p>
+                <p>User: <span className="sp-status sp-away">● Away</span></p>
+              </div>
+            </div>
+            <p className="card-desc">Inline status indicators with dot and label — Online, Offline, Busy, and Away variants.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('s4', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('s4', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="s4" className="code-block"><code>&lt;span className="status online"&gt;● Online&lt;/span&gt;
+      &lt;span className="status offline"&gt;● Offline&lt;/span&gt;
+      &lt;span className="status busy"&gt;● Busy&lt;/span&gt;
+      &lt;span className="status away"&gt;● Away&lt;/span&gt;
+      
+      .status {
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .status.online  { background: rgba(0,184,148,0.12); color: #00b894; }
+      .status.offline { background: rgba(99,110,114,0.12); color: #636e72; }
+      .status.busy    { background: rgba(214,48,49,0.12);  color: #d63031; }
+      .status.away    { background: rgba(253,203,110,0.15); color: #d98e00; }</code></pre>
+          </div>
+      
+          {/* Pills */}
+          <div className="component-card" data-name="pill label plan tier badge" data-cat="label">
+            <div className="card-top">
+              <span className="card-label">Pill Labels</span>
+              <span className="card-tag tag-trending">Trending</span>
+            </div>
+            <div className="card-preview">
+              <div className="preview-wrap">
+                <span className="sp-pill sp-accent">New</span>
+                <span className="sp-pill sp-success">Active</span>
+                <span className="sp-pill sp-danger">Expired</span>
+                <span className="sp-pill sp-warning">Pending</span>
+                <span className="sp-pill sp-purple">Pro</span>
+                <span className="sp-pill sp-dark">Beta</span>
+              </div>
+            </div>
+            <p className="card-desc">Gradient and solid pill labels — perfect for plan tiers, statuses, and feature flags.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('s5', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('s5', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="s5" className="code-block"><code>&lt;span className="pill"&gt;New&lt;/span&gt;
+      &lt;span className="pill success"&gt;Active&lt;/span&gt;
+      &lt;span className="pill danger"&gt;Expired&lt;/span&gt;
+      &lt;span className="pill warning"&gt;Pending&lt;/span&gt;
+      
+      .pill {
+        display: inline-block;
+        padding: 5px 14px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+      }
+      .pill         { background: var(--accent); color: #fff; }
+      .pill.success { background: #00b894; color: #fff; }
+      .pill.danger  { background: #d63031; color: #fff; }
+      .pill.warning { background: #fdcb6e; color: #333; }
+      .pill.purple  { background: #6c5ce7; color: #fff; }
+      .pill.dark    { background: #111;    color: #fff; }</code></pre>
+          </div>
+      
+          {/* Tooltip */}
+          <div className="component-card" data-name="tooltip hover popup hint" data-cat="interactive">
+            <div className="card-top">
+              <span className="card-label">Tooltip</span>
+              <span className="card-tag tag-popular">Popular</span>
+            </div>
+            <div className="card-preview">
+              <div className="preview-wrap" style="padding:20px 0;">
+                <span className="sp-tooltip">Hover over me
+                  <span className="sp-tooltip-text">This is a tooltip!</span>
+                </span>
+                &nbsp;&nbsp;
+                <span className="sp-tooltip sp-tooltip-bottom">Bottom tooltip
+                  <span className="sp-tooltip-text sp-tooltip-text-bottom">Appears below</span>
+                </span>
+              </div>
+            </div>
+            <p className="card-desc">CSS-only tooltips that appear on hover — top and bottom positions available.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('s6', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('s6', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="s6" className="code-block"><code>&lt;span className="tooltip"&gt;Hover me
+        &lt;span className="tooltip-text"&gt;Tooltip!&lt;/span&gt;
+      &lt;/span&gt;
+      
+      .tooltip { position: relative; cursor: pointer; color: var(--accent); font-weight: 600; }
+      .tooltip-text {
+        position: absolute;
+        bottom: 140%; left: 50%;
+        transform: translateX(-50%);
+        background: #111; color: #fff;
+        padding: 8px 14px; border-radius: 8px;
+        white-space: nowrap; font-size: 12px;
+        opacity: 0; visibility: hidden;
+        transition: 0.2s;
+      }
+      .tooltip:hover .tooltip-text { opacity: 1; visibility: visible; }</code></pre>
+          </div>
+      
+        </div>
+      
+        <div className="preview-box">
+      
+          <span className="avatar-status">
+      
+            <img
+              src="https://i.pravatar.cc/40"
+              alt=""
+            />
+      
+            <span className="dot"></span>
+      
+          </span>
+      
+        </div>
+      
+        <div className="actions">
+      
+          <button onclick="toggleCode('s12')">
+      
+            <i className="fa-solid fa-code"></i>
+      
+            View Code
+      
+          </button>
+      
+          <button onclick="copyCode('s12',this)">
+      
+            <i className="fa-regular fa-copy"></i>
+      
+            Copy
+      
+          </button>
+      
+        </div>
+      
+      <pre id="s12" className="code-block">
+      &lt;span className="avatar-status"&gt;
+      
+        &lt;img src="https://i.pravatar.cc/40?img=12" alt="" /&gt;
+      
+        &lt;span className="dot"&gt;&lt;/span&gt;
+      
+      &lt;/span&gt;
+      </pre>
+      
+      </div>
+      
+            {/* Tags */}
+      <div className="component-card" data-name="tags ui react css design" data-cat="text">
+        <div className="card-top">
+          <span className="card-label">Tag Elements</span>
+          <span className="card-tag tag-trending">Trending</span>
+        </div>
+        <div className="card-preview">
+          <span className="tag-span">UI</span>
+          <span className="tag-span">React</span>
+          <span className="tag-span">CSS</span>
+          <span className="tag-span">Design</span>
+        </div>
+        <p className="card-desc">Reusable <code className="inline-code">&lt;span&gt;</code> styles for tags and labels.</p>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('s3', this)">
+            <i className="fa-solid fa-code"></i> View Code
+          </button>
+          <button className="action-btn copy-btn" onclick="copyCode('s3', this)">
+            <i className="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+        <pre id="s3" className="code-block"><code>&lt;span className="tag-span"&gt;UI&lt;/span&gt;</code></pre>
+      </div>
+      
+      {/* Status Indicators */}
+      <div className="component-card" data-name="status online offline busy away" data-cat="status">
+        <div className="card-top">
+          <span className="card-label">Status Indicator</span>
+          <span className="card-tag tag-popular">Popular</span>
+        </div>
+        <div className="card-preview">
+          <p>User: <span className="status online">● Online</span></p>
+          <p>User: <span className="status offline">● Offline</span></p>
+          <p>User: <span className="status busy">● Busy</span></p>
+          <p>User: <span className="status away">● Away</span></p>
+        </div>
+        <p className="card-desc">Inline status indicators with dot and label — Online, Offline, Busy, and Away variants.</p>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('s4', this)">
+            <i className="fa-solid fa-code"></i> View Code
+          </button>
+          <button className="action-btn copy-btn" onclick="copyCode('s4', this)">
+            <i className="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+        <pre id="s4" className="code-block"><code>&lt;span className="status online"&gt;● Online&lt;/span&gt;</code></pre>
+      </div>
+      
+      {/* Pills */}
+      <div className="component-card" data-name="pill labels new success" data-cat="labels">
+        <div className="card-top">
+          <span className="card-label">Pill Labels</span>
+          <span className="card-tag tag-new">New</span>
+        </div>
+        <div className="card-preview">
+          <span className="pill">New</span>
+          <span className="pill success">Success</span>
+        </div>
+        <p className="card-desc">Rounded modern pill-style labels for highlighting status or categories.</p>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('s5', this)">
+            <i className="fa-solid fa-code"></i> View Code
+          </button>
+          <button className="action-btn copy-btn" onclick="copyCode('s5', this)">
+            <i className="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+        <pre id="s5" className="code-block"><code>&lt;span className="pill success"&gt;Success&lt;/span&gt;</code></pre>
+      </div>
+      
+      {/* Tooltip */}
+      <div className="component-card" data-name="tooltip hover text" data-cat="interaction">
+        <div className="card-top">
+          <span className="card-label">Tooltip</span>
+          <span className="card-tag tag-trending">Trending</span>
+        </div>
+        <div className="card-preview">
+          <span className="tooltip">
+            Hover Me
+            <span className="tooltip-text">Beautiful tooltip text</span>
+          </span>
+        </div>
+        <p className="card-desc">Interactive hover tooltip component with styled text bubble.</p>
+        <div className="actions">
+          <button className="action-btn view-btn" onclick="toggleCode('s6', this)">
+            <i className="fa-solid fa-code"></i> View Code
+          </button>
+          <button className="action-btn copy-btn" onclick="copyCode('s6', this)">
+            <i className="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+        <pre id="s6" className="code-block"><code>&lt;span className="tooltip"&gt;Hover Me&lt;/span&gt;</code></pre>
+      </div>
+      
+          {/* Keyboard Shortcut */}
+          <div className="component-card" data-name="keyboard shortcut kbd key hotkey" data-cat="text">
+            <div className="card-top">
+              <span className="card-label">Keyboard Shortcut</span>
+              <span className="card-tag tag-trending">Trending</span>
+            </div>
+            <div className="card-preview">
+              <div className="preview-status-col">
+                <p style="font-size:14px;color:var(--text-primary);">Save file: <kbd className="sp-kbd">⌘</kbd> + <kbd className="sp-kbd">S</kbd></p>
+                <p style="font-size:14px;color:var(--text-primary);">Search: <kbd className="sp-kbd">⌘</kbd> + <kbd className="sp-kbd">K</kbd></p>
+                <p style="font-size:14px;color:var(--text-primary);">Copy: <kbd className="sp-kbd">Ctrl</kbd> + <kbd className="sp-kbd">C</kbd></p>
+              </div>
+            </div>
+            <p className="card-desc">Styled <code className="inline-code">&lt;kbd&gt;</code> elements that look like real physical keyboard keys.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('s7', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('s7', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="s7" className="code-block"><code>&lt;kbd className="key"&gt;⌘&lt;/kbd&gt; + &lt;kbd className="key"&gt;K&lt;/kbd&gt;
+      
+      kbd.key {
+        display: inline-block;
+        padding: 3px 8px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-bottom: 3px solid var(--card-border);
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        font-family: monospace;
+        color: var(--text-primary);
+        box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+      }</code></pre>
+          </div>
+      
+          {/* Code Inline */}
+          <div className="component-card" data-name="inline code snippet monospace" data-cat="text">
+            <div className="card-top">
+              <span className="card-label">Inline Code</span>
+              <span className="card-tag tag-essential">Essential</span>
+            </div>
+            <div className="card-preview">
+              <p style="font-size:14px;color:var(--text-primary);line-height:1.8;">
+                Use the <code className="sp-code">display: flex</code> property to align items.<br />
+                Set <code className="sp-code">border-radius: 999px</code> for pills.<br />
+                Import with <code className="sp-code">@import url(...)</code>.
+              </p>
+            </div>
+            <p className="card-desc">Inline code spans styled with a monospace font and subtle background — ideal for documentation.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('s8', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('s8', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="s8" className="code-block"><code>&lt;code className="inline-code"&gt;display: flex&lt;/code&gt;
+      
+      code.inline-code {
+        background: rgba(235,104,53,0.1);
+        color: #eb6835;
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        font-weight: 600;
+      }</code></pre>
+          </div>
+      
+          {/* Gradient Text */}
+          <div className="component-card" data-name="gradient text colorful heading" data-cat="text">
+            <div className="card-top">
+              <span className="card-label">Gradient Text</span>
+              <span className="card-tag tag-trending">Trending</span>
+            </div>
+            <div className="card-preview">
+              <p style="font-size:22px;font-weight:800;font-family:var(--font-heading);">
+                <span className="sp-grad-text sp-grad-orange">UIverse</span>
+              </p>
+              <p style="font-size:22px;font-weight:800;font-family:var(--font-heading);">
+                <span className="sp-grad-text sp-grad-purple">Components</span>
+              </p>
+              <p style="font-size:22px;font-weight:800;font-family:var(--font-heading);">
+                <span className="sp-grad-text sp-grad-teal">Open Source</span>
+              </p>
+            </div>
+            <p className="card-desc">Text with a gradient fill using <code className="inline-code">background-clip: text</code> — eye-catching headings.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('s9', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('s9', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="s9" className="code-block"><code>&lt;span className="gradient-text"&gt;UIverse&lt;/span&gt;
+      
+      .gradient-text {
+        background: linear-gradient(90deg, #eb6835, #6c5ce7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 800;
+      }</code></pre>
+          </div>
+      
+          {/* Animated Badge */}
+          <div className="component-card" data-name="animated badge pulse live new" data-cat="interactive">
+            <div className="card-top">
+              <span className="card-label">Animated Badge</span>
+              <span className="card-tag tag-trending">Trending</span>
+            </div>
+            <div className="card-preview">
+              <div className="preview-wrap" style="gap:16px;">
+                <span className="sp-anim-badge sp-anim-red">● Live</span>
+                <span className="sp-anim-badge sp-anim-green">● Recording</span>
+                <span className="sp-anim-badge sp-anim-orange">● Streaming</span>
+              </div>
+            </div>
+            <p className="card-desc">Pulsing animated badges to indicate live, recording, or streaming states.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('s10', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('s10', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="s10" className="code-block"><code>&lt;span className="badge-live"&gt;● Live&lt;/span&gt;
+      
+      .badge-live {
+        padding: 5px 14px;
+        border-radius: 999px;
+        background: rgba(214,48,49,0.12);
+        color: #d63031;
+        font-size: 13px;
+        font-weight: 700;
+        animation: pulse-live 1.6s ease-in-out infinite;
+      }
+      @keyframes pulse-live {
+        0%,100% { box-shadow: 0 0 0 0 rgba(214,48,49,0.4); }
+        50%      { box-shadow: 0 0 0 8px rgba(214,48,49,0); }
+      }</code></pre>
+          </div>
+      
+          {/* Version Label */}
+          <div className="component-card" data-name="version label release tag semver" data-cat="label">
+            <div className="card-top">
+              <span className="card-label">Version Label</span>
+              <span className="card-tag tag-essential">Essential</span>
+            </div>
+            <div className="card-preview">
+              <div className="preview-wrap">
+                <span className="sp-version">v1.0.0</span>
+                <span className="sp-version sp-version-beta">beta</span>
+                <span className="sp-version sp-version-alpha">alpha</span>
+                <span className="sp-version sp-version-stable">stable</span>
+              </div>
+            </div>
+            <p className="card-desc">Version and release-stage labels — stable, beta, and alpha variants included.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('s11', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('s11', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="s11" className="code-block"><code>&lt;span className="version"&gt;v1.0.0&lt;/span&gt;
+      &lt;span className="version beta"&gt;beta&lt;/span&gt;
+      &lt;span className="version stable"&gt;stable&lt;/span&gt;
+      
+      .version {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        font-family: monospace;
+        background: rgba(108,92,231,0.1);
+        color: #6c5ce7;
+        border: 1px solid rgba(108,92,231,0.25);
+      }
+      .version.beta   { background: rgba(253,203,110,0.12); color: #d98e00; border-color: rgba(253,203,110,0.3); }
+      .version.stable { background: rgba(0,184,148,0.1);   color: #00b894; border-color: rgba(0,184,148,0.3); }</code></pre>
+          </div>
+      
+          {/* Strikethrough / Mark */}
+          <div className="component-card" data-name="strikethrough mark deleted old price" data-cat="text">
+            <div className="card-top">
+              <span className="card-label">Text Decorations</span>
+              <span className="card-tag tag-essential">Essential</span>
+            </div>
+            <div className="card-preview">
+              <div className="preview-status-col">
+                <p style="color:var(--text-primary);font-size:15px;">Price: <span className="sp-strike">$49</span> <span className="sp-pill sp-accent" style="font-size:12px;">$29</span></p>
+                <p style="color:var(--text-primary);font-size:15px;">Status: <span className="sp-underline-accent">Verified ✓</span></p>
+                <p style="color:var(--text-primary);font-size:15px;">Score: <span className="sp-bold-accent">98%</span> this week</p>
+              </div>
+            </div>
+            <p className="card-desc">Strikethrough for old prices, underline accents, and bold highlight spans.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('s12', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('s12', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="s12" className="code-block"><code>&lt;span className="strike"&gt;$49&lt;/span&gt;
+      &lt;span className="underline-accent"&gt;Verified ✓&lt;/span&gt;
+      &lt;span className="bold-accent"&gt;98%&lt;/span&gt;
+      
+      .strike { text-decoration: line-through; color: #aaa; }
+      .underline-accent {
+        text-decoration: underline;
+        text-decoration-color: #eb6835;
+        text-underline-offset: 3px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      .bold-accent { font-weight: 800; color: #eb6835; }</code></pre>
+          </div>
+      
+          {/* Clickable Tag (copy on click) */}
+          <div className="component-card" data-name="click copy tag interactive" data-cat="interactive">
+            <div className="card-top">
+              <span className="card-label">Click-to-Copy Tag</span>
+              <span className="card-tag tag-trending">Trending</span>
+            </div>
+            <div className="card-preview">
+              <div className="preview-wrap">
+                <span className="sp-copy-tag" onclick="copyTagText(this, '#eb6835')">#eb6835 <i className="fa-solid fa-copy"></i></span>
+                <span className="sp-copy-tag" onclick="copyTagText(this, '#6c5ce7')">#6c5ce7 <i className="fa-solid fa-copy"></i></span>
+                <span className="sp-copy-tag" onclick="copyTagText(this, 'display: flex')" style="font-family:monospace;">display: flex <i className="fa-solid fa-copy"></i></span>
+              </div>
+              <p className="preview-hint">👆 Click any tag above to copy its value</p>
+            </div>
+            <p className="card-desc">Interactive spans that copy their value to clipboard on click — with a visual confirmation.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('s13', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('s13', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="s13" className="code-block"><code>&lt;span className="copy-tag" onclick="copyTag(this, '#eb6835')"&gt;
+        #eb6835 &lt;i className="fa-solid fa-copy"&gt;&lt;/i&gt;
+      &lt;/span&gt;
+      
+      .copy-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        background: var(--body-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .copy-tag:hover { border-color: #eb6835; color: #eb6835; }
+      
+      function copyTag(el, text) {
+        navigator.clipboard.writeText(text);
+        el.innerHTML = '✓ Copied!';
+        setTimeout(() => el.innerHTML = text + ' copy-icon', 1500);
+      }</code></pre>
+          </div>
+      
+          {/* Typing cursor */}
+          <div className="component-card" data-name="typing cursor blink caret text animation" data-cat="interactive">
+            <div className="card-top">
+              <span className="card-label">Typing Cursor</span>
+              <span className="card-tag tag-trending">Trending</span>
+            </div>
+            <div className="card-preview" style="min-height:80px;">
+              <p style="font-size:18px;font-weight:700;font-family:var(--font-heading);color:var(--text-primary);">
+                Building with UIverse<span className="sp-cursor">|</span>
+              </p>
+              <p style="font-size:15px;color:var(--text-secondary);margin-top:10px;">
+                Type something<span className="sp-cursor sp-cursor-accent">_</span>
+              </p>
+            </div>
+            <p className="card-desc">A blinking cursor span — pair it with a typewriter JS effect or use standalone as a caret.</p>
+            <div className="actions">
+              <button className="action-btn view-btn" onclick="toggleCode('s14', this)"><i className="fa-solid fa-code"></i> View Code</button>
+              <button className="action-btn copy-btn" onclick="copyCode('s14', this)"><i className="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <pre id="s14" className="code-block"><code>&lt;span&gt;Building with UIverse&lt;span className="cursor"&gt;|&lt;/span&gt;&lt;/span&gt;
+      
+      .cursor {
+        display: inline-block;
+        font-weight: 100;
+        color: var(--accent);
+        animation: blink 1s step-end infinite;
+      }
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: 0; }
+      }</code></pre>
+          </div>
+      
+        </div>{/* /span-grid */}
+      
+      </main>
+    </>
+  );
+}

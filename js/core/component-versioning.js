@@ -148,7 +148,8 @@
         version: entry.latestVersion || entry.version,
         status: entry.isLatest ? 'exact' : 'latest-stable',
         matched: true,
-        fallbackUsed: false
+        fallbackUsed: false,
+        priorityScore: 0  // Highest priority for explicit latest
       };
     }
 
@@ -157,18 +158,21 @@
         version: normalizedRequest,
         status: normalizedRequest === entry.latestVersion ? 'exact' : 'compatible',
         matched: true,
-        fallbackUsed: false
+        fallbackUsed: false,
+        priorityScore: 1  // Direct match
       };
     }
 
     const parsedRequest = parseVersion(normalizedRequest);
-    const sameMajor = versions.find((version) => parseVersion(version).major === parsedRequest.major);
-    if (sameMajor) {
+    // Deterministic ordering: sort compatible versions for consistent fallback
+    const sameMajorVersions = versions.filter((version) => parseVersion(version).major === parsedRequest.major).sort((a, b) => compareVersions(b, a));
+    if (sameMajorVersions.length > 0) {
       return {
-        version: sameMajor,
+        version: sameMajorVersions[0],  // Use highest compatible version deterministically
         status: 'compatible-fallback',
         matched: true,
-        fallbackUsed: true
+        fallbackUsed: true,
+        priorityScore: 2  // Fallback to compatible major version
       };
     }
 
@@ -176,7 +180,8 @@
       version: entry.latestVersion || entry.version,
       status: 'latest-stable',
       matched: false,
-      fallbackUsed: true
+      fallbackUsed: true,
+      priorityScore: 3  // Fallback to latest as last resort
     };
   }
 

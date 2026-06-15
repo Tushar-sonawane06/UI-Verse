@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="dist/shared.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' http://127.0.0.1:5000 http://localhost:5000 https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-inline'; style-src 'self' https: 'unsafe-inline'">
+  <title>IoT Sensor Integration Hub — UI-Verse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="farm-dashboard.css">
+</head>
+<body>
+  <main class="dashboard-shell">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">IoT Sensor Integration Hub</span>
+        <h1>See moisture, temperature, humidity, and nutrient levels in one place.</h1>
+        <p>Farmer sensors stream telemetry into the platform. The dashboard polls every 60 seconds and highlights irrigation or fertilizer needs in real time.</p>
+      </div>
+      <div class="hero-actions">
+        <a href="notifications.html" class="hero-link">Open alerts</a>
+        <a href="index.html" class="hero-link secondary">Back to UIverse</a>
+      </div>
+    </section>
+
+    <section class="controls-card">
+      <div class="controls-row">
+        <div>
+          <label for="deviceSelect">Device</label>
+          <select id="deviceSelect"></select>
+        </div>
+        <div>
+          <label for="thresholdInput">Moisture threshold</label>
+          <input id="thresholdInput" type="number" min="1" max="100" step="0.1" value="32">
+        </div>
+        <div class="controls-buttons">
+          <button id="refreshBtn" type="button">Refresh now</button>
+          <span id="syncState">Waiting for first poll…</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="metrics-grid">
+      <article class="metric-card state-card">
+        <span class="metric-label">Irrigation status</span>
+        <strong id="irrigationStatus">No device selected</strong>
+        <p id="recommendationText">Choose a device to load its latest readings.</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-label">Current farmer</span>
+        <strong id="farmerValue">—</strong>
+        <p id="farmValue">—</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-label">Last reading</span>
+        <strong id="readingValue">—</strong>
+        <p id="readingTime">—</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-label">Alerts</span>
+        <strong id="alertCount">0</strong>
+        <p>Recent sensor events routed into the notification center.</p>
+      </article>
+    </section>
+
+    <section class="gauges-grid">
+      <article class="panel gauge-panel">
+        <div class="panel-heading">
+          <h2>Soil moisture</h2>
+          <p>Relative to the configured threshold.</p>
+        </div>
+        <div class="gauge-wrap"><canvas id="moistureGauge"></canvas></div>
+      </article>
+      <article class="panel gauge-panel">
+        <div class="panel-heading">
+          <h2>Temperature</h2>
+          <p>Field temperature trend.</p>
+        </div>
+        <div class="gauge-wrap"><canvas id="temperatureGauge"></canvas></div>
+      </article>
+      <article class="panel gauge-panel">
+        <div class="panel-heading">
+          <h2>Humidity</h2>
+          <p>Ambient moisture in the air.</p>
+        </div>
+        <div class="gauge-wrap"><canvas id="humidityGauge"></canvas></div>
+      </article>
+    </section>
+
+    <section class="panel chart-panel">
+      <div class="panel-heading">
+        <h2>Sensor history</h2>
+        <p>Recent moisture, temperature, and humidity samples.</p>
+      </div>
+      <div class="chart-wrap"><canvas id="historyChart"></canvas></div>
+    </section>
+
+    <section class="panel alerts-panel">
+      <div class="panel-heading">
+        <h2>Live alerts</h2>
+        <p>Low-moisture events also surface in the notifications center.</p>
+      </div>
+      <div id="alertsList" class="alerts-list"></div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="js/features/farm-dashboard.js"></script>
+  <script src="dist/shared.js"></script>
+</body>
+</html>

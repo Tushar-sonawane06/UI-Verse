@@ -14,9 +14,10 @@ const UIverse = {
    * Register a module
    * @param {string} name - Module identifier
    * @param {Object} module - Module object with init() and optional destroy()
-   * @param {Array<string>} dependencies - Optional array of module names this module depends on
+   * @param {Array<string>|Object} dependenciesOrOptions - Optional dependency list or metadata object
+   * @param {Object} options - Optional metadata when dependencies are passed separately
    */
-  register(name, module, dependencies = []) {
+  register(name, module, dependenciesOrOptions = [], options = {}) {
     if (this.modules[name]) {
       if (window.UIVERSE_DEBUG) {
         console.warn(`[UIverse Registry] Module '${name}' is already registered, skipping duplicate`);
@@ -24,10 +25,21 @@ const UIverse = {
       return;
     }
 
+    const dependencies = Array.isArray(dependenciesOrOptions)
+      ? dependenciesOrOptions
+      : Array.isArray(dependenciesOrOptions && dependenciesOrOptions.dependencies)
+        ? dependenciesOrOptions.dependencies
+        : [];
+
+    const metadata = Array.isArray(dependenciesOrOptions)
+      ? (options || {})
+      : (dependenciesOrOptions || {});
+
     this.modules[name] = {
       name,
       module,
       dependencies,
+      metadata,
       initialized: false,
       error: null
     };
@@ -35,6 +47,22 @@ const UIverse = {
     if (window.UIVERSE_DEBUG) {
       console.info(`[UIverse Registry] Registered module: ${name}`, { dependencies });
     }
+  },
+
+  /**
+   * Check whether a module is allowed to initialize in the current DOM state
+   * @param {Object} entry - Registered module entry
+   * @returns {boolean}
+   */
+  canInitialize(entry) {
+    if (!entry || !entry.metadata) return true;
+
+    const { domSelector } = entry.metadata;
+    if (!domSelector) return true;
+
+    if (typeof document === 'undefined') return false;
+
+    return !!document.querySelector(domSelector);
   },
 
   /**
@@ -64,6 +92,13 @@ const UIverse = {
         }
         return false;
       }
+    }
+
+    if (!this.canInitialize(entry)) {
+      if (window.UIVERSE_DEBUG) {
+        console.info(`[UIverse Registry] Skipping '${name}' because DOM selector is missing`, entry.metadata);
+      }
+      return false;
     }
 
     try {
@@ -99,10 +134,17 @@ const UIverse = {
     };
 
     for (const name in this.modules) {
+      const entry = this.modules[name];
+
+      if (!this.canInitialize(entry)) {
+        report.skipped.push({ name, reason: 'domSelector', selector: entry.metadata && entry.metadata.domSelector ? entry.metadata.domSelector : null });
+        continue;
+      }
+
       if (this.initModule(name)) {
         report.initialized.push(name);
       } else {
-        report.failed.push({ name, error: this.modules[name].error });
+        report.failed.push({ name, error: entry.error });
       }
     }
 

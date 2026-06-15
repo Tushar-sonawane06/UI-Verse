@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function pricing(){
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const layoutMatches = (layout, keywords) => {
+    if (activeFilter !== 'all' && activeFilter !== layout) return false;
+    if (searchTerm.trim() === '') return true;
+    return keywords.toLowerCase().includes(searchTerm.trim().toLowerCase());
+  };
+
+  const isVisible = (layout, keywords) => layoutMatches(layout, keywords);
   return (
     <>
       <main className="main-home">
@@ -45,9 +55,304 @@ export default function pricing(){
         </div>
       
       </div>
+
+      {/* ================= PRICING FILTER BAR ================= */}
+
+      <div className="pricing-filter-bar">
+
+        <div className="pricing-search-wrap">
+          <i className="fa-solid fa-search"></i>
+          <input
+            type="text"
+            className="pricing-search-input"
+            placeholder="Search pricing components..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
+        <div className="pricing-filter-pills">
+
+          <button
+            className={`filter-pill ${activeFilter === 'all' ? 'active' : ''}`}
+            onClick={() => setActiveFilter('all')}>
+            All
+          </button>
+
+          <button
+            className={`filter-pill ${activeFilter === 'glass' ? 'active' : ''}`}
+            onClick={() => setActiveFilter('glass')}>
+            Glassmorphism
+          </button>
+
+          <button
+            className={`filter-pill ${activeFilter === 'neon' ? 'active' : ''}`}
+            onClick={() => setActiveFilter('neon')}>
+            Neon
+          </button>
+
+          <button
+            className={`filter-pill ${activeFilter === 'minimal' ? 'active' : ''}`}
+            onClick={() => setActiveFilter('minimal')}>
+            Minimal
+          </button>
+
+          <button
+            className={`filter-pill ${activeFilter === 'toggle' ? 'active' : ''}`}
+            onClick={() => setActiveFilter('toggle')}>
+            Billing Toggle
+          </button>
+
+          <button
+            className={`filter-pill ${activeFilter === 'gradient' ? 'active' : ''}`}
+            onClick={() => setActiveFilter('gradient')}>
+            Gradient Cards
+          </button>
+
+        </div>
+
+      </div>      
       
+      {/* ================= GLASSMORPHISM PRICING ================= */}
+      {isVisible('glass', 'glassmorphism basic team agency') && (
+      <div className="component-card">
+      
+        <div className="glass-pricing-grid">
+      
+          {/* BASIC */}
+          <div className="glass-card">
+      
+            <div className="glass-top">
+              <span className="glass-plan">Basic</span>
+              <h2>$9</h2>
+              <p>/ month</p>
+            </div>
+      
+            <ul className="glass-features">
+              <li><i className="fa-solid fa-check"></i> 5 Projects</li>
+              <li><i className="fa-solid fa-check"></i> Email Support</li>
+              <li><i className="fa-solid fa-check"></i> Analytics</li>
+            </ul>
+      
+            <button className="glass-btn">
+              Start Free
+            </button>
+      
+          </div>
+      
+          {/* TEAM */}
+          <div className="glass-card featured-glass">
+      
+            <div className="popular-pill">
+              Recommended
+            </div>
+      
+            <div className="glass-top">
+              <span className="glass-plan">Team</span>
+              <h2>$29</h2>
+              <p>/ month</p>
+            </div>
+      
+            <ul className="glass-features">
+              <li><i className="fa-solid fa-check"></i> Unlimited Projects</li>
+              <li><i className="fa-solid fa-check"></i> Team Access</li>
+              <li><i className="fa-solid fa-check"></i> Priority Support</li>
+              <li><i className="fa-solid fa-check"></i> API Access</li>
+            </ul>
+      
+            <button className="glass-btn active-btn">
+              Get Team Plan
+            </button>
+      
+          </div>
+      
+          {/* AGENCY */}
+          <div className="glass-card">
+      
+            <div className="glass-top">
+              <span className="glass-plan">Agency</span>
+              <h2>$79</h2>
+              <p>/ month</p>
+            </div>
+      
+            <ul className="glass-features">
+              <li><i className="fa-solid fa-check"></i> White Label</li>
+              <li><i className="fa-solid fa-check"></i> Unlimited Users</li>
+              <li><i className="fa-solid fa-check"></i> Dedicated Manager</li>
+            </ul>
+      
+            <button className="glass-btn">
+              Contact Us
+            </button>
+      
+          </div>
+      
+        </div>
+      
+      </div>
+      )}
+      {/* ================= NEON PRICING ================= */}
+      {isVisible('neon', 'neon basic team agency') && (
+
+      <div className="component-card">
+      
+        <div className="neon-pricing-grid">
+      
+          {/* SILVER */}
+          <div className="neon-card silver">
+      
+            <h3>Silver</h3>
+      
+            <div className="neon-price">
+              $15
+            </div>
+      
+            <p className="neon-desc">
+              Great for freelancers
+            </p>
+      
+            <ul>
+              <li>5 GB Storage</li>
+              <li>Custom Domain</li>
+              <li>Email Support</li>
+            </ul>
+      
+            <button className="neon-btn">
+              Select Plan
+            </button>
+      
+          </div>
+      
+          {/* GOLD */}
+          <div className="neon-card gold">
+      
+            <div className="neon-badge">
+              <i className="fa-solid fa-crown"></i>
+              BEST VALUE
+            </div>
+      
+            <h3>Gold</h3>
+      
+            <div className="neon-price">
+              $49
+            </div>
+      
+            <p className="neon-desc">
+              Ideal for startups
+            </p>
+      
+            <ul>
+              <li>Unlimited Storage</li>
+              <li>AI Analytics</li>
+              <li>24/7 Support</li>
+            </ul>
+      
+            <button className="neon-btn active-neon">
+              Choose Gold
+            </button>
+      
+          </div>
+      
+          {/* PLATINUM */}
+          <div className="neon-card platinum">
+      
+            <h3>Platinum</h3>
+      
+            <div className="neon-price">
+              $99
+            </div>
+      
+            <p className="neon-desc">
+              Enterprise solution
+            </p>
+      
+            <ul>
+              <li>Unlimited Everything</li>
+              <li>Dedicated Manager</li>
+              <li>Custom Integrations</li>
+            </ul>
+      
+            <button className="neon-btn">
+              Contact Sales
+            </button>
+      
+          </div>
+      
+        </div>
+      
+      </div>
+      )}
+      {/* ================= MINIMAL PRICING ================= */}
+      {isVisible('minimal', 'minimal basic team agency') && (
+
+      <div className="component-card">
+      
+        <div className="minimal-pricing-grid">
+      
+          {/* LITE */}
+          <div className="minimal-card">
+      
+            <span className="mini-label">
+              Lite
+            </span>
+      
+            <h2>$5</h2>
+      
+            <p>
+              Small personal websites
+            </p>
+      
+            <button className="minimal-btn">
+              Buy Now
+            </button>
+      
+          </div>
+      
+          {/* PLUS */}
+          <div className="minimal-card dark-mini">
+      
+            <span className="mini-label">
+              Plus
+            </span>
+      
+            <h2>$19</h2>
+      
+            <p>
+              Best for professionals
+            </p>
+      
+            <button className="minimal-btn light-btn">
+              Choose Plus
+            </button>
+      
+          </div>
+      
+          {/* ULTRA */}
+          <div className="minimal-card">
+      
+            <span className="mini-label">
+              Ultra
+            </span>
+      
+            <h2>$59</h2>
+      
+            <p>
+              Built for agencies
+            </p>
+      
+            <button className="minimal-btn">
+              Upgrade
+            </button>
+      
+          </div>
+      
+        </div>
+      
+      </div>
+      )}
       {/* ================= COMPONENT CARD ================= */}
-      
+      {isVisible('toggle', 'interactive pricing table billing toggle monthly quarterly yearly free pro enterprise') && (
+
       <div className="component-card">
       
         {/* TOP */}
@@ -109,7 +414,6 @@ export default function pricing(){
         </div>
       
         {/* ================= PRICING GRID ================= */}
-      
         <div className="pricing-grid-preview">
       
           {/* FREE */}
@@ -331,9 +635,9 @@ export default function pricing(){
           </div>
       
         </div>
-      
+
         {/* ================= ACTION BUTTONS ================= */}
-      
+        
         <div className="actions">
       
           <button className="action-btn view-btn"
@@ -353,7 +657,7 @@ export default function pricing(){
           </button>
       
         </div>
-      
+        
         {/* ================= CODE BLOCK ================= */}
       
         <pre id="pc1" className="code-block"><code>
@@ -371,56 +675,11 @@ export default function pricing(){
         </code></pre>
       
       </div>
-        
-      
-        {/* ================= ACTION BUTTONS ================= */}
-      
-        <div className="actions">
-      
-          <button className="action-btn view-btn"
-            onclick="toggleCode('pc1', this)">
-      
-            <i className="fa-solid fa-code"></i>
-            View Code
-      
-          </button>
-      
-          <button className="action-btn copy-btn"
-            onclick="copyCode('pc1', this)">
-      
-            <i className="fa-solid fa-copy"></i>
-            Copy
-      
-          </button>
-      
-        </div>
-      
-        {/* ================= CODE BLOCK ================= */}
-      
-        <pre id="pc1" className="code-block"><code>
-      
-      &lt;div className="pricing-grid-preview"&gt;
-      
-        &lt;div className="plan-card free-card"&gt;
-          ...
-        &lt;/div&gt;
-      
-        &lt;div className="plan-card pro-card"&gt;
-          ...
-        &lt;/div&gt;
-      
-        &lt;div className="plan-card enterprise-card"&gt;
-          ...
-        &lt;/div&gt;
-      
-      &lt;/div&gt;
-      
-        </code></pre>
-      
-      </div>
+      )}
       
       {/* ================= SECOND COMPONENT ================= */}
-      
+      {isVisible('gradient', 'starter pro business gradient pricing card') && (
+
       <div className="component-card">
       
         <div className="pricing-grid">
@@ -500,7 +759,7 @@ export default function pricing(){
               <div className="plan-header">
                 <h3>Business</h3>
                 <p>For growing startups & teams</p>
-          
+                </div>
       
               <div className="plan-price">
                 <span className="old-price">$99</span>
@@ -566,11 +825,9 @@ export default function pricing(){
         </code></pre>
       
       </div>
-       {/* /pricing-grid-preview */}
-      
-          
-        
-      
+         
+      )}
+        {/* /pricing-grid-preview */}
       </main>
     </>
   );

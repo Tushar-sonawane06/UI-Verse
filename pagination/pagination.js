@@ -24,6 +24,28 @@
     return out;
   }
 
+  function updateSummary(
+  element,
+  page,
+  pageSize,
+  totalItems
+) {
+  const start = (page - 1) * pageSize + 1;
+  const end = Math.min(
+    page * pageSize,
+    totalItems
+  );
+
+  element.textContent =
+    `Showing ${start}-${end} of ${totalItems} results`;
+}
+
+function setLoading(state) {
+  document
+    .getElementById('loading-indicator')
+    .hidden = !state;
+}
+
   function computePageItems({ totalPages, currentPage, maxVisiblePages }) {
     // Always show: first + last.
     // Show an interior window around currentPage.

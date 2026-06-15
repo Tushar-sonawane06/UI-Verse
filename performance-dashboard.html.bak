@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="dist/shared.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Performance Dashboard — UIverse</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="PERFORMANCE.CSS">
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-icon">⬡</span>
+    <span class="brand-text">UIverse</span>
+  </div>
+  <nav class="sidebar-nav">
+    <ul>
+      <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
+      <li><a href="button.html"><i class="fa-solid fa-hand-pointer"></i><span>Buttons</span></a></li>
+      <li><a href="cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Cards</span></a></li>
+      <li><a href="alerts.html"><i class="fa-solid fa-triangle-exclamation"></i><span>Alerts</span></a></li>
+      <li><a href="progress.html"><i class="fa-solid fa-bars-progress"></i><span>Progress</span></a></li>
+      <li><a href="blog.html"><i class="fa-solid fa-newspaper"></i><span>Blog</span></a></li>
+      <li><a href="guidelines.html"><i class="fa-solid fa-book-open"></i><span>Guidelines</span></a></li>
+      <li class="active"><a href="performance-dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Performance</span></a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="#"><i class="fab fa-github"></i></a>
+    <a href="#"><i class="fab fa-linkedin"></i></a>
+    <a href="#"><i class="fab fa-x-twitter"></i></a>
+  </div>
+</aside>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="logo">UIverse</div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" placeholder="Search components..." />
+    <kbd class="search-kbd">⌘K</kbd>
+  </div>
+  <div class="nav-right">
+    <button class="nav-btn outline-nav-btn"><i class="fa-solid fa-plus"></i> Add Component</button>
+    <button class="nav-btn primary-nav-btn"><i class="fa-solid fa-bookmark"></i> My Collection</button>
+    <button id="darkModeToggle" class="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main-home">
+
+  <!-- Page Header -->
+  <div class="perf-page-header">
+    <div class="perf-header-left">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Performance Dashboard</span>
+      </div>
+      <h1 class="page-title">Performance Dashboard</h1>
+      <p class="page-desc">Real-time component performance monitoring — load times, test results, budget violations, and trend analysis all in one place.</p>
+    </div>
+    <div class="perf-header-right">
+      <div class="perf-live-badge">
+        <span class="perf-live-dot"></span> Live Monitoring
+      </div>
+      <div class="perf-last-updated" id="lastUpdated">Last updated: just now</div>
+      <button class="perf-refresh-btn" onclick="refreshData()">
+        <i class="fa-solid fa-rotate-right" id="refreshIcon"></i> Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== STAT CARDS ===== -->
+  <div class="perf-stats-grid">
+
+    <div class="perf-stat-card perf-stat-total">
+      <div class="psc-icon"><i class="fa-solid fa-layer-group"></i></div>
+      <div class="psc-body">
+        <span class="psc-label">Total Components</span>
+        <span class="psc-value" id="statTotal">120</span>
+        <span class="psc-sub"><i class="fa-solid fa-arrow-up"></i> +8 this week</span>
+      </div>
+    </div>
+
+    <div class="perf-stat-card perf-stat-pass">
+      <div class="psc-icon"><i class="fa-solid fa-circle-check"></i></div>
+      <div class="psc-body">
+        <span class="psc-label">Tests Passed</span>
+        <span class="psc-value" id="statPass">112</span>
+        <span class="psc-sub psc-green"><i class="fa-solid fa-check"></i> 93.3% pass rate</span>
+      </div>
+    </div>
+
+    <div class="perf-stat-card perf-stat-fail">
+      <div class="psc-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+      <div class="psc-body">
+        <span class="psc-label">Tests Failed</span>
+        <span class="psc-value" id="statFail">8</span>
+        <span class="psc-sub psc-red"><i class="fa-solid fa-arrow-down"></i> -3 from last run</span>
+      </div>
+    </div>
+
+    <div class="perf-stat-card perf-stat-violations">
+      <div class="psc-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <div class="psc-body">
+        <span class="psc-label">Budget Violations</span>
+        <span class="psc-value" id="statViolations">5</span>
+        <span class="psc-sub psc-orange"><i class="fa-solid fa-exclamation"></i> Needs attention</span>
+      </div>
+    </div>
+
+    <div class="perf-stat-card perf-stat-avg">
+      <div class="psc-icon"><i class="fa-solid fa-stopwatch"></i></div>
+      <div class="psc-body">
+        <span class="psc-label">Avg Load Time</span>
+        <span class="psc-value" id="statAvg">48<span class="psc-unit">ms</span></span>
+        <span class="psc-sub psc-green"><i class="fa-solid fa-arrow-down"></i> 12ms faster</span>
+      </div>
+    </div>
+
+    <div class="perf-stat-card perf-stat-slow">
+      <div class="psc-icon"><i class="fa-solid fa-gauge"></i></div>
+      <div class="psc-body">
+        <span class="psc-label">Slowest Component</span>
+        <span class="psc-value" id="statSlow">312<span class="psc-unit">ms</span></span>
+        <span class="psc-sub psc-red">pricing.html</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== CHARTS ROW ===== -->
+  <div class="perf-charts-row">
+
+    <!-- Slowest Components Bar Chart -->
+    <div class="perf-card perf-bar-chart-card">
+      <div class="perf-card-header">
+        <div class="perf-card-title">
+          <i class="fa-solid fa-ranking-star"></i>
+          Top 10 Slowest Components
+        </div>
+        <div class="perf-card-actions">
+          <button class="perf-sort-btn active" onclick="sortBars('time', this)">By Time</button>
+          <button class="perf-sort-btn" onclick="sortBars('name', this)">By Name</button>
+        </div>
+      </div>
+      <div class="perf-bar-list" id="barChart"></div>
+    </div>
+
+    <!-- Donut chart -->
+    <div class="perf-card perf-donut-card">
+      <div class="perf-card-header">
+        <div class="perf-card-title">
+          <i class="fa-solid fa-chart-pie"></i>
+          Test Results Overview
+        </div>
+      </div>
+      <div class="perf-donut-wrap">
+        <svg class="perf-donut-svg" viewBox="0 0 120 120">
+          <circle class="donut-bg" cx="60" cy="60" r="46" />
+          <!-- Pass arc: 93.3% = 289.6 / 310.6 -->
+          <circle class="donut-pass" cx="60" cy="60" r="46"
+            stroke-dasharray="289.6 20.6"
+            stroke-dashoffset="77.5" />
+          <!-- Fail arc -->
+          <circle class="donut-fail" cx="60" cy="60" r="46"
+            stroke-dasharray="20.6 289.6"
+            stroke-dashoffset="-212.1" />
+        </svg>
+        <div class="perf-donut-center">
+          <span class="perf-donut-pct">93.3%</span>
+          <span class="perf-donut-lbl">Pass Rate</span>
+        </div>
+      </div>
+      <div class="perf-donut-legend">
+        <div class="pdl-item"><span class="pdl-dot pdl-pass"></span> Passed (112)</div>
+        <div class="pdl-item"><span class="pdl-dot pdl-fail"></span> Failed (8)</div>
+        <div class="pdl-item"><span class="pdl-dot pdl-viol"></span> Violations (5)</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== LOAD TIME TREND ===== -->
+  <div class="perf-card perf-trend-card">
+    <div class="perf-card-header">
+      <div class="perf-card-title">
+        <i class="fa-solid fa-chart-line"></i>
+        Average Load Time Trend (Last 7 Runs)
+      </div>
+      <span class="perf-trend-badge perf-trend-good">
+        <i class="fa-solid fa-arrow-trend-down"></i> Improving
+      </span>
+    </div>
+    <div class="perf-trend-chart">
+      <div class="ptc-bars" id="trendChart"></div>
+      <div class="ptc-labels" id="trendLabels"></div>
+    </div>
+  </div>
+
+  <!-- ===== VIOLATIONS + COMPONENT TABLE ROW ===== -->
+  <div class="perf-bottom-row">
+
+    <!-- Violations -->
+    <div class="perf-card perf-violations-card">
+      <div class="perf-card-header">
+        <div class="perf-card-title">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          Budget Violations
+        </div>
+        <span class="perf-violation-count">5 issues</span>
+      </div>
+      <div class="perf-violations-list" id="violationsList"></div>
+    </div>
+
+    <!-- Component Health Table -->
+    <div class="perf-card perf-table-card">
+      <div class="perf-card-header">
+        <div class="perf-card-title">
+          <i class="fa-solid fa-table-list"></i>
+          Component Health
+        </div>
+        <div class="perf-table-filter">
+          <select onchange="filterTable(this.value)">
+            <option value="all">All</option>
+            <option value="pass">Passing</option>
+            <option value="fail">Failing</option>
+            <option value="warn">Warning</option>
+          </select>
+        </div>
+      </div>
+      <div class="perf-table-wrap">
+        <table class="perf-table" id="componentTable">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Load Time</th>
+              <th>Size</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- Scroll to Top -->
+<button id="scrollTopBtn" onclick="scrollToTop()">
+  <i class="fa-solid fa-chevron-up"></i>
+</button>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="alerts.html">Alerts</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="guidelines.html">Guidelines</a></li>
+        <li><a href="#">GitHub Repo</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com" />
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const components = [
+  { name: 'pricing.html',       time: 312, size: '48KB', status: 'fail'  },
+  { name: 'cards.html',         time: 287, size: '36KB', status: 'warn'  },
+  { name: 'navbar.html',        time: 241, size: '29KB', status: 'warn'  },
+  { name: 'color.html',         time: 198, size: '22KB', status: 'warn'  },
+  { name: 'forms.html',         time: 173, size: '18KB', status: 'pass'  },
+  { name: 'progress.html',      time: 154, size: '24KB', status: 'pass'  },
+  { name: 'tabs.html',          time: 132, size: '16KB', status: 'pass'  },
+  { name: 'alerts.html',        time: 118, size: '20KB', status: 'pass'  },
+  { name: 'toggles.html',       time: 94,  size: '14KB', status: 'pass'  },
+  { name: 'span.html',          time: 81,  size: '12KB', status: 'pass'  },
+  { name: 'button.html',        time: 64,  size: '11KB', status: 'pass'  },
+  { name: 'inputs.html',        time: 57,  size: '9KB',  status: 'pass'  },
+  { name: 'badges.html',        time: 43,  size: '8KB',  status: 'pass'  },
+  { name: 'contact.html',       time: 38,  size: '7KB',  status: 'pass'  },
+  { name: 'guidelines.html',    time: 31,  size: '6KB',  status: 'pass'  },
+];
+
+const violations = [
+  { component: 'pricing.html',  metric: 'Load Time',  actual: 312, budget: 200, unit: 'ms',   level: 'critical' },
+  { component: 'cards.html',    metric: 'Load Time',  actual: 287, budget: 200, unit: 'ms',   level: 'high'     },
+  { component: 'navbar.html',   metric: 'Load Time',  actual: 241, budget: 200, unit: 'ms',   level: 'high'     },
+  { component: 'color.html',    metric: 'File Size',  actual: 22,  budget: 20,  unit: 'KB',   level: 'medium'   },
+  { component: 'progress.html', metric: 'File Size',  actual: 24,  budget: 20,  unit: 'KB',   level: 'medium'   },
+];
+
+const trendData = [
+  { label: 'Run 1', avg: 82 },
+  { label: 'Run 2', avg: 76 },
+  { label: 'Run 3', avg: 71 },
+  { label: 'Run 4', avg: 65 },
+  { label: 'Run 5', avg: 60 },
+  { label: 'Run 6', avg: 54 },
+  { label: 'Run 7', avg: 48 },
+];
+
+/* ============================================================
+   RENDER FUNCTIONS
+   ============================================================ */
+function renderBarChart(data) {
+  const max = Math.max(...data.map(c => c.time));
+  const chart = document.getElementById('barChart');
+  chart.innerHTML = data.slice(0, 10).map(c => {
+    const pct = (c.time / max) * 100;
+    const cls = c.status === 'fail' ? 'bar-fail' : c.status === 'warn' ? 'bar-warn' : 'bar-pass';
+    return `
+      <div class="perf-bar-item">
+        <span class="pbi-label" title="${c.name}">${c.name}</span>
+        <div class="pbi-track">
+          <div class="pbi-fill ${cls}" style="width:${pct}%;"></div>
+        </div>
+        <span class="pbi-val">${c.time}ms</span>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderViolations() {
+  const list = document.getElementById('violationsList');
+  list.innerHTML = violations.map(v => `
+    <div class="pv-item pv-${v.level}">
+      <div class="pv-left">
+        <div class="pv-icon">
+          ${v.level === 'critical' ? '<i class="fa-solid fa-circle-xmark"></i>' :
+            v.level === 'high'     ? '<i class="fa-solid fa-triangle-exclamation"></i>' :
+                                     '<i class="fa-solid fa-circle-exclamation"></i>'}
+        </div>
+        <div class="pv-info">
+          <span class="pv-component">${v.component}</span>
+          <span class="pv-detail">${v.metric}: <strong>${v.actual}${v.unit}</strong> / budget ${v.budget}${v.unit}</span>
+        </div>
+      </div>
+      <span class="pv-level-badge pv-badge-${v.level}">${v.level}</span>
+    </div>
+  `).join('');
+}
+
+function renderTable(filter = 'all') {
+  const tbody = document.getElementById('tableBody');
+  const filtered = filter === 'all' ? components : components.filter(c => c.status === filter);
+  tbody.innerHTML = filtered.map(c => {
+    const statusIcon = c.status === 'pass' ? '<i class="fa-solid fa-circle-check" style="color:#00b894;"></i>' :
+                       c.status === 'fail' ? '<i class="fa-solid fa-circle-xmark" style="color:#d63031;"></i>' :
+                                             '<i class="fa-solid fa-circle-exclamation" style="color:#d98e00;"></i>';
+    const timeClass = c.time > 200 ? 'pbt-red' : c.time > 150 ? 'pbt-orange' : 'pbt-green';
+    return `
+      <tr class="ptable-row">
+        <td><span class="pt-name">${c.name}</span></td>
+        <td><span class="pt-time ${timeClass}">${c.time}ms</span></td>
+        <td><span class="pt-size">${c.size}</span></td>
+        <td>${statusIcon} <span class="pt-status pt-status-${c.status}">${c.status}</span></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function renderTrend() {
+  const maxVal = Math.max(...trendData.map(d => d.avg));
+  const bars  = document.getElementById('trendChart');
+  const lbls  = document.getElementById('trendLabels');
+
+  bars.innerHTML = trendData.map((d, i) => {
+    const h = (d.avg / maxVal) * 100;
+    const isLast = i === trendData.length - 1;
+    return `
+      <div class="ptc-bar-wrap">
+        <span class="ptc-bar-val">${d.avg}ms</span>
+        <div class="ptc-bar ${isLast ? 'ptc-bar-accent' : ''}" style="height:${h}%;"></div>
+      </div>
+    `;
+  }).join('');
+
+  lbls.innerHTML = trendData.map(d => `<span class="ptc-lbl">${d.label}</span>`).join('');
+}
+
+/* ============================================================
+   INTERACTIONS
+   ============================================================ */
+function sortBars(by, btn) {
+  document.querySelectorAll('.perf-sort-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const sorted = [...components];
+  if (by === 'name') sorted.sort((a, b) => a.name.localeCompare(b.name));
+  else               sorted.sort((a, b) => b.time - a.time);
+  renderBarChart(sorted);
+}
+
+function filterTable(val) {
+  renderTable(val);
+}
+
+function refreshData() {
+  const icon = document.getElementById('refreshIcon');
+  icon.classList.add('spin');
+  setTimeout(() => {
+    icon.classList.remove('spin');
+    document.getElementById('lastUpdated').textContent = 'Last updated: just now';
+  }, 1200);
+}
+
+/* ============================================================
+   DARK MODE / SIDEBAR / SCROLL
+   ============================================================ */
+const toggle = document.getElementById('darkModeToggle');
+const tmIcon = toggle.querySelector('i');
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark-mode');
+  tmIcon.className = 'fa-solid fa-sun';
+}
+toggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  const isDark = document.body.classList.contains('dark-mode');
+  tmIcon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarBackdrop').classList.toggle('visible');
+}
+
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+window.addEventListener('scroll', () => {
+  document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 400);
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+window.addEventListener('DOMContentLoaded', () => {
+  renderBarChart(components);
+  renderViolations();
+  renderTable();
+  renderTrend();
+});
+
+/* Animate stat values counting up */
+function animateCount(id, target, suffix = '') {
+  const el = document.getElementById(id);
+  if (!el) return;
+  let start = 0;
+  const step = Math.ceil(target / 40);
+  const timer = setInterval(() => {
+    start = Math.min(start + step, target);
+    el.textContent = start + suffix;
+    if (start >= target) clearInterval(timer);
+  }, 20);
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in-view');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.perf-stat-card, .perf-card').forEach(el => observer.observe(el));
+</script>
+  <script src="dist/shared.js"></script>
+</body>
+</html>

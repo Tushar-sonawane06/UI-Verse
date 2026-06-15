@@ -3,20 +3,20 @@
 Component ID: index
 
 - Path: index.html
-- Version: 0.1.0
+- Version: 0.1.1
 - Documentation score: 100/100
 - Tags: home, showcase
 - Description: Project homepage and featured components overview
 
 ## Assets
 
-- CSS: command-palette.css, css/main.css, css/url-state.css, home.css, https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css
-- JS: js/bootstrap.js, js/core/utils.js, js/features/accessibility.js, js/features/alerts.js, js/features/code-tools.js, js/features/command-palette.js, js/features/popup.js, js/features/sandbox.js, js/features/scroll.js, js/features/search.js, js/features/sidebar.js, js/features/theme.js, js/features/toast.js, js/features/url-state-integration.js, js/features/url-state.js
+- CSS: home.css, https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css, layout.css, shared-page.css
+- JS: dist/shared.js, index.js, js/core/component-discovery.js, js/core/component-index.js
 
 ## Headings
 
 - H1: Build beautiful UIs in minutes, not hours.
-- H2: ⭐ Popular Components
+- H2: Popular Components
 - H3: Gradient Button
 - H3: Glass Navbar
 - H3: Card UI
@@ -28,13 +28,15 @@ Component ID: index
 
 ```html
 <section class="hero">
-    <div class="hero-badge">🚀 v2.0 — Now with 120+ components</div>
+    <!-- FIX #3: Corrected garbled â€" → — -->
+    <div class="hero-badge"><i class="fa-solid fa-rocket"></i> v2.0 — Now with 120+ components</div>
 
     <h1 class="hero-title">
       Build <span class="hero-accent">beautiful UIs</span><br>
       in minutes, not hours.
     </h1>
 
+    <!-- FIX #3: Corrected garbled â€" → — -->
     <p class="hero-desc">
       A curated library of reusable UI components crafted with pure HTML, CSS & JavaScript —
       no frameworks, no dependencies, just clean code.

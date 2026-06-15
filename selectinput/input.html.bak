@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Custom Form UI</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
+    }
+
+    body{
+      background:#f4f7fb;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+      padding:20px;
+    }
+
+    .form-container{
+      width:100%;
+      max-width:420px;
+      background:#fff;
+      padding:30px;
+      border-radius:18px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .form-container h2{
+      text-align:center;
+      margin-bottom:25px;
+      color:#222;
+    }
+
+    .input-group{
+      margin-bottom:18px;
+    }
+
+    .input-group label{
+      display:block;
+      margin-bottom:8px;
+      font-size:14px;
+      font-weight:600;
+      color:#444;
+    }
+
+    .input-group input,
+    .input-group textarea{
+      width:100%;
+      padding:14px;
+      border:1px solid #ccc;
+      border-radius:12px;
+      outline:none;
+      font-size:15px;
+      transition:0.3s;
+    }
+
+    .input-group input:focus,
+    .input-group textarea:focus{
+      border-color:#4f46e5;
+      box-shadow:0 0 0 4px rgba(79,70,229,0.15);
+    }
+
+    textarea{
+      resize:none;
+      height:100px;
+    }
+
+    /* Custom Select */
+
+    .select-container{
+      position:relative;
+    }
+
+    .select-box{
+      width:100%;
+      padding:14px;
+      background:#fff;
+      border:1px solid #ccc;
+      border-radius:12px;
+      cursor:pointer;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      transition:0.3s;
+    }
+
+    .select-box:hover{
+      border-color:#4f46e5;
+    }
+
+    .arrow{
+      font-size:14px;
+      transition:0.3s;
+    }
+
+    .options{
+      position:absolute;
+      width:100%;
+      background:#fff;
+      border-radius:12px;
+      margin-top:8px;
+      overflow:hidden;
+      box-shadow:0 10px 25px rgba(0,0,0,0.1);
+      display:none;
+      z-index:100;
+    }
+
+    .options.active{
+      display:block;
+    }
+
+    .option{
+      padding:14px;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .option:hover{
+      background:#4f46e5;
+      color:#fff;
+    }
+
+    .btn{
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:12px;
+      background:#4f46e5;
+      color:#fff;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .btn:hover{
+      background:#4338ca;
+      transform:translateY(-2px);
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="form-container">
+
+    <h2>Job Application Form</h2>
+
+    <!-- Name -->
+
+    <div class="input-group">
+      <label>Full Name</label>
+      <input type="text" placeholder="Enter your full name">
+    </div>
+
+    <!-- Email -->
+
+    <div class="input-group">
+      <label>Email Address</label>
+      <input type="email" placeholder="Enter your email">
+    </div>
+
+    <!-- Phone -->
+
+    <div class="input-group">
+      <label>Phone Number</label>
+      <input type="tel" placeholder="Enter phone number">
+    </div>
+
+    <!-- Password -->
+
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" placeholder="Enter password">
+    </div>
+
+    <!-- Custom Select -->
+
+    <div class="input-group">
+
+      <label>Select Position</label>
+
+      <div class="select-container">
+
+        <div class="select-box" id="selectBox">
+
+          <span id="selectedText">Select Option</span>
+
+          <span class="arrow">&#9662;</span>
+
+        </div>
+
+        <ul class="options" id="optionsList">
+
+          <li class="option">Frontend Developer</li>
+          <li class="option">Backend Developer</li>
+          <li class="option">UI/UX Designer</li>
+          <li class="option">Full Stack Developer</li>
+          <li class="option">React Developer</li>
+          <li class="option">Node.js Developer</li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+    <!-- Date -->
+
+    <div class="input-group">
+      <label>Date of Birth</label>
+      <input type="date">
+    </div>
+
+    <!-- File Upload -->
+
+    <div class="input-group">
+      <label>Upload Resume</label>
+      <input type="file">
+    </div>
+
+    <!-- Message -->
+
+    <div class="input-group">
+      <label>About You</label>
+      <textarea placeholder="Write something about yourself..."></textarea>
+    </div>
+
+    <!-- Submit -->
+
+    <button class="btn">Submit Application</button>
+
+  </div>
+
+  <script src="input.js"></script>
+    <script src="../dist/shared.js"></script>
+</body>
+</html>

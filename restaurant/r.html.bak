@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodHub — Restaurant Dashboard</title>
+
+  <title>FoodHub — Premium Restaurant Dashboard</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #ff6b35;
+      --secondary: #121826;
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1d1d1d;
+      --muted: #7b7b7b;
+      --shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      --radius: 24px;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(to right, #f6f8fc, #eef2ff);
+      min-height: 100vh;
+      color: var(--text);
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 260px 1fr 360px;
+      gap: 24px;
+      padding: 24px;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+      background: var(--secondary);
+      border-radius: var(--radius);
+      padding: 28px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 40px;
+      color: #fff;
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    .sidebar nav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .sidebar nav ul li {
+      padding: 16px 18px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #d6d6d6;
+    }
+
+    .sidebar nav ul li:hover,
+    .sidebar nav ul li.active {
+      background: linear-gradient(135deg, var(--primary), #ff8f66);
+      color: white;
+      transform: translateX(6px);
+    }
+
+    .offer-box {
+      background: linear-gradient(135deg, #ff6b35, #ff8f66);
+      border-radius: 20px;
+      padding: 22px;
+      margin-top: 40px;
+    }
+
+    .offer-box h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .offer-box p {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 18px;
+    }
+
+    .offer-box button {
+      background: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--primary);
+    }
+
+    /* MAIN CONTENT */
+
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .top-bar {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 22px 28px;
+      border-radius: var(--radius);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .top-left h1 {
+      font-size: 30px;
+      margin-bottom: 4px;
+    }
+
+    .top-left p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .search-box {
+      position: relative;
+      width: 320px;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: none;
+      outline: none;
+      padding: 16px 20px 16px 50px;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+      font-size: 15px;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 18px;
+      top: 17px;
+      color: var(--muted);
+    }
+
+    /* HERO */
+
+    .hero-banner {
+      background:
+        linear-gradient(to right,
+          rgba(18, 24, 38, 0.9),
+          rgba(18, 24, 38, 0.5)),
+        url("https://images.unsplash.com/photo-1504674900247-0877df9cc836");
+      background-size: cover;
+      background-position: center;
+      border-radius: var(--radius);
+      min-height: 260px;
+      padding: 40px;
+      color: white;
+      display: flex;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-content {
+      max-width: 480px;
+    }
+
+    .hero-content h2 {
+      font-size: 42px;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .hero-content p {
+      opacity: 0.9;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .hero-content button {
+      padding: 14px 24px;
+      border: none;
+      border-radius: 14px;
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .hero-content button:hover {
+      transform: scale(1.05);
+    }
+
+    /* MENU GRID */
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-title h2 {
+      font-size: 28px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .food-card {
+      background: var(--card);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: 0.35s ease;
+      position: relative;
+    }
+
+    .food-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .food-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .food-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: var(--primary);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .food-info {
+      padding: 22px;
+    }
+
+    .food-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .food-top h3 {
+      font-size: 20px;
+    }
+
+    .rating {
+      color: #ffb703;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .food-info p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 22px;
+      font-size: 14px;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .add-btn {
+      border: none;
+      background: var(--secondary);
+      color: white;
+      padding: 12px 18px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    .add-btn:hover {
+      background: var(--primary);
+    }
+
+    /* CART */
+
+    .cart-section {
+      background: white;
+      border-radius: var(--radius);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-header h2 {
+      font-size: 26px;
+    }
+
+    .cart-count {
+      background: var(--primary);
+      color: white;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      font-weight: 600;
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #ececec;
+    }
+
+    .cart-item img {
+      width: 75px;
+      height: 75px;
+      object-fit: cover;
+      border-radius: 18px;
+    }
+
+    .cart-info {
+      flex: 1;
+    }
+
+    .cart-info h4 {
+      margin-bottom: 6px;
+    }
+
+    .cart-info p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .cart-price {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .total-box {
+      background: #f8f9fd;
+      padding: 22px;
+      border-radius: 20px;
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      color: var(--muted);
+    }
+
+    .grand-total {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--secondary);
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--primary), #ff8f66);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .checkout-btn:hover {
+      transform: translateY(-3px);
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 1200px) {
+      .dashboard {
+        grid-template-columns: 220px 1fr;
+      }
+
+      .cart-section {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 850px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar,
+      .cart-section {
+        width: 100%;
+      }
+
+      .top-bar {
+        flex-direction: column;
+        gap: 18px;
+        align-items: flex-start;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      .hero-content h2 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="dashboard">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div>
+
+        <div class="logo">
+          Food<span>Hub</span>
+        </div>
+
+        <nav>
+          <ul>
+            <li class="active">
+              <i class="fa-solid fa-burger"></i>
+              Burgers
+            </li>
+
+            <li>
+              <i class="fa-solid fa-pizza-slice"></i>
+              Pizza
+            </li>
+
+            <li>
+              <i class="fa-solid fa-mug-hot"></i>
+              Drinks
+            </li>
+
+            <li>
+              <i class="fa-solid fa-cookie-bite"></i>
+              Snacks
+            </li>
+
+            <li>
+              <i class="fa-solid fa-ice-cream"></i>
+              Desserts
+            </li>
+          </ul>
+        </nav>
+
+      </div>
+
+      <div class="offer-box">
+        <h3>🔥 Today's Offer</h3>
+        <p>Get free delivery on orders above ₹499.</p>
+        <button>Order Now</button>
+      </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- TOP BAR -->
+      <header class="top-bar">
+
+        <div class="top-left">
+          <h1>Restaurant Dashboard</h1>
+          <p>Discover premium food & fast delivery</p>
+        </div>
+
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="search" placeholder="Search delicious food..." />
+        </div>
+
+      </header>
+
+      <!-- HERO -->
+      <section class="hero-banner">
+
+        <div class="hero-content">
+          <h2>Fresh Food Delivered To Your Door</h2>
+
+          <p>
+            Explore delicious meals, exclusive offers, and
+            premium restaurant experiences with FoodHub.
+          </p>
+
+          <button>Explore Menu</button>
+        </div>
+
+      </section>
+
+      <!-- MENU -->
+      <div class="section-title">
+        <h2>Popular Dishes</h2>
+      </div>
+
+      <section class="menu-grid">
+
+        <!-- CARD -->
+        <article class="food-card">
+
+          <span class="food-badge">Best Seller</span>
+
+          <img
+            src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd"
+            alt="Burger">
+
+          <div class="food-info">
+
+            <div class="food-top">
+              <h3>Classic Burger</h3>
+              <span class="rating">
+                ⭐ 4.8
+              </span>
+            </div>
+
+            <p>
+              Juicy cheese burger loaded with crispy veggies
+              and signature sauce.
+            </p>
+
+            <div class="card-footer">
+              <span class="price">₹199</span>
+
+              <button class="add-btn">
+                <i class="fa-solid fa-cart-plus"></i>
+                Add
+              </button>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- CARD -->
+        <article class="food-card">
+
+          <span class="food-badge">Hot</span>
+
+          <img
+            src="https://images.unsplash.com/photo-1513104890138-7c749659a591"
+            alt="Pizza">
+
+          <div class="food-info">
+
+            <div class="food-top">
+              <h3>Cheese Pizza</h3>
+              <span class="rating">
+                ⭐ 4.9
+              </span>
+            </div>
+
+            <p>
+              Crispy crust pizza topped with mozzarella
+              cheese and Italian herbs.
+            </p>
+
+            <div class="card-footer">
+              <span class="price">₹299</span>
+
+              <button class="add-btn">
+                <i class="fa-solid fa-cart-plus"></i>
+                Add
+              </button>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- CARD -->
+        <article class="food-card">
+
+          <span class="food-badge">Cold</span>
+
+          <img
+            src="https://images.unsplash.com/photo-1544145945-f90425340c7e"
+            alt="Coffee">
+
+          <div class="food-info">
+
+            <div class="food-top">
+              <h3>Cold Coffee</h3>
+              <span class="rating">
+                ⭐ 4.7
+              </span>
+            </div>
+
+            <p>
+              Creamy iced coffee blended perfectly for a rich
+              refreshing taste.
+            </p>
+
+            <div class="card-footer">
+              <span class="price">₹149</span>
+
+              <button class="add-btn">
+                <i class="fa-solid fa-cart-plus"></i>
+                Add
+              </button>
+            </div>
+
+          </div>
+        </article>
+
+      </section>
+
+    </main>
+
+    <!-- CART -->
+    <aside class="cart-section">
+
+      <div class="cart-header">
+        <h2>Your Cart</h2>
+        <div class="cart-count">2</div>
+      </div>
+
+      <!-- ITEM -->
+      <div class="cart-item">
+
+        <img
+          src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd"
+          alt="Burger">
+
+        <div class="cart-info">
+          <h4>Classic Burger</h4>
+          <p>Qty: 1</p>
+        </div>
+
+        <div class="cart-price">₹199</div>
+
+      </div>
+
+      <!-- ITEM -->
+      <div class="cart-item">
+
+        <img
+          src="https://images.unsplash.com/photo-1513104890138-7c749659a591"
+          alt="Pizza">
+
+        <div class="cart-info">
+          <h4>Cheese Pizza</h4>
+          <p>Qty: 1</p>
+        </div>
+
+        <div class="cart-price">₹299</div>
+
+      </div>
+
+      <!-- TOTAL -->
+      <div class="total-box">
+
+        <div class="total-row">
+          <span>Subtotal</span>
+          <span>₹498</span>
+        </div>
+
+        <div class="total-row">
+          <span>Delivery</span>
+          <span>₹49</span>
+        </div>
+
+        <div class="total-row grand-total">
+          <span>Total</span>
+          <span>₹547</span>
+        </div>
+
+      </div>
+
+      <button class="checkout-btn">
+        Proceed to Checkout
+      </button>
+
+    </aside>
+
+  </div>
+
+    <script src="../dist/shared.js"></script>
+</body>
+
+</html>

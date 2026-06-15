@@ -195,3 +195,32 @@ window.addEventListener(
 
   }
 );
+
+const cards = document.querySelectorAll(".task-card");
+const columns = document.querySelectorAll(".task-list");
+
+let draggedCard = null;
+
+cards.forEach(card => {
+  card.addEventListener("dragstart", () => {
+    draggedCard = card;
+    card.classList.add("dragging");
+  });
+
+  card.addEventListener("dragend", () => {
+    card.classList.remove("dragging");
+    draggedCard = null;
+  });
+});
+
+columns.forEach(column => {
+  column.addEventListener("dragover", e => {
+    e.preventDefault();
+  });
+
+  column.addEventListener("drop", () => {
+    if (draggedCard) {
+      column.appendChild(draggedCard);
+    }
+  });
+});

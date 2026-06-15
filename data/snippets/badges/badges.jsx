@@ -3,371 +3,1072 @@ import React from 'react';
 export default function badges(){
   return (
     <>
-      <main className="badges-page">
+      <main className="main-home">
       
-          <div className="page-header">
-            <h1>🏆 My Badges</h1>
-            <p>Track your achievements and contribution progress</p>
+        {/* HERO */}
+      
+        <section className="hero-section">
+      
+          <div className="hero-badge">
+            ✦ UIverse Badge Collection
           </div>
       
-          {/* ================= BADGES HERO ================= */}
-      <section className="badges-hero">
-        <div className="badges-hero-content">
+          <h1>
+            Premium <span>Badges</span>
+          </h1>
       
-          <div className="badges-hero-left">
-            <span className="hero-chip">
-              <i className="fa-solid fa-award"></i>
-              Achievement System
-            </span>
+          <p>
       
-            <h1>
-              Unlock <span>Badges</span><br />
-              Build Your Reputation
-            </h1>
+            Futuristic badge components
+            designed for dashboards,
+            notifications, AI interfaces,
+            admin panels and modern web apps.
+      
+          </p>
+      
+          {/* HERO STATS */}
+      
+          <div className="hero-stats">
+      
+            <div className="hero-stat">
+      
+              <h2>
+                120+
+              </h2>
+      
+              <span>
+                Components
+              </span>
+      
+            </div>
+      
+            <div className="hero-stat">
+      
+              <h2>
+                14K
+              </h2>
+      
+              <span>
+                Downloads
+              </span>
+      
+            </div>
+      
+            <div className="hero-stat">
+      
+              <h2>
+                4.9
+              </h2>
+      
+              <span>
+                Rating
+              </span>
+      
+            </div>
+      
+          </div>
+      
+        </section>
+      
+        {/* FILTERS */}
+      
+        <section className="filters-section">
+      
+          <button className="filter-btn active">
+            All
+          </button>
+      
+          <button className="filter-btn">
+            Status
+          </button>
+      
+          <button className="filter-btn">
+            Notifications
+          </button>
+      
+          <button className="filter-btn">
+            Premium
+          </button>
+      
+          <button className="filter-btn">
+            Animated
+          </button>
+      
+          <button className="filter-btn">
+            Glass UI
+          </button>
+      
+        </section>
+      
+      
+        <div>
+          <form className="search">
+            <i className="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Filter badges..." id="badgesSearch" />
+          </form>
+        </div>
+      
+        {/* GRID */}
+      
+        <section className="badges-grid">
+      
+        {/* =========================================
+      BADGE CARD — VERIFIED BADGE
+      ========================================= */}
+      
+      <div className="badge-card">
+      
+        <div className="card-top">
+      
+          <span className="card-tag">
+            Verified
+          </span>
+      
+          <button className="save-btn">
+            <i className="fa-regular fa-bookmark"></i>
+          </button>
+      
+        </div>
+      
+        <div className="badge-preview">
+      
+          <span className="verified-badge">
+            <i className="fa-solid fa-circle-check"></i>
+            VERIFIED
+          </span>
+      
+        </div>
+      
+        <h2>
+          Verified Badge
+        </h2>
+      
+        <p>
+      
+          Trusted verification badge
+          for creators, brands and
+          official profiles.
+      
+        </p>
+      
+        <div className="card-actions">
+      
+          <button>
+            Preview
+          </button>
+      
+          <button>
+            Copy
+          </button>
+      
+        </div>
+      
+      </div>
+      
+      {/* =========================================
+      BADGE CARD — GRADIENT BADGE
+      ========================================= */}
+      
+      <div className="badge-card">
+      
+        <div className="card-top">
+      
+          <span className="card-tag">
+            Gradient
+          </span>
+      
+          <button className="save-btn active-save">
+            <i className="fa-solid fa-bookmark"></i>
+          </button>
+      
+        </div>
+      
+        <div className="badge-preview dark-preview">
+      
+          <span className="gradient-badge">
+            NEW FEATURE
+          </span>
+      
+        </div>
+      
+        <h2>
+          Gradient Badge
+        </h2>
+      
+        <p>
+      
+          Smooth animated gradient
+          badge for futuristic
+          interfaces and apps.
+      
+        </p>
+      
+        <div className="card-actions">
+      
+          <button>
+            Preview
+          </button>
+      
+          <button>
+            Copy
+          </button>
+      
+        </div>
+      
+      </div>
+      
+      {/* =========================================
+      BADGE CARD — SALE BADGE
+      ========================================= */}
+      
+      <div className="badge-card">
+      
+        <div className="card-top">
+      
+          <span className="card-tag">
+            E-Commerce
+          </span>
+      
+          <button className="save-btn">
+            <i className="fa-regular fa-bookmark"></i>
+          </button>
+      
+        </div>
+      
+        <div className="badge-preview">
+      
+          <span className="sale-badge">
+            -50% OFF
+          </span>
+      
+        </div>
+      
+        <h2>
+          Sale Badge
+        </h2>
+      
+        <p>
+      
+          Modern discount badge
+          for shopping websites
+          and product cards.
+      
+        </p>
+      
+        <div className="card-actions">
+      
+          <button>
+            Preview
+          </button>
+      
+          <button>
+            Copy
+          </button>
+      
+        </div>
+      
+      </div>
+      
+      {/* =========================================
+      BADGE CARD — AI BADGE
+      ========================================= */}
+      
+      <div className="badge-card">
+      
+        <div className="card-top">
+      
+          <span className="card-tag">
+            AI
+          </span>
+      
+          <button className="save-btn active-save">
+            <i className="fa-solid fa-bookmark"></i>
+          </button>
+      
+        </div>
+      
+        <div className="badge-preview dark-preview">
+      
+          <span className="ai-badge">
+            <i className="fa-solid fa-robot"></i>
+            AI POWERED
+          </span>
+      
+        </div>
+      
+        <h2>
+          AI Badge
+        </h2>
+      
+        <p>
+      
+          Smart futuristic badge
+          for AI dashboards and
+          automation tools.
+      
+        </p>
+      
+        <div className="card-actions">
+      
+          <button>
+            Preview
+          </button>
+      
+          <button>
+            Copy
+          </button>
+      
+        </div>
+      
+      </div>
+      
+      {/* =========================================
+      BADGE CARD — BETA BADGE
+      ========================================= */}
+      
+      <div className="badge-card">
+      
+        <div className="card-top">
+      
+          <span className="card-tag">
+            Beta
+          </span>
+      
+          <button className="save-btn">
+            <i className="fa-regular fa-bookmark"></i>
+          </button>
+      
+        </div>
+      
+        <div className="badge-preview">
+      
+          <span className="beta-badge">
+            BETA
+          </span>
+      
+        </div>
+      
+        <h2>
+          Beta Badge
+        </h2>
+      
+        <p>
+      
+          Clean beta release badge
+          for upcoming products
+          and testing systems.
+      
+        </p>
+      
+        <div className="card-actions">
+      
+          <button>
+            Preview
+          </button>
+      
+          <button>
+            Copy
+          </button>
+      
+        </div>
+      
+      </div>
+      
+      {/* =========================================
+      BADGE CARD — VIP BADGE
+      ========================================= */}
+      
+      <div className="badge-card">
+      
+        <div className="card-top">
+      
+          <span className="card-tag">
+            VIP
+          </span>
+      
+          <button className="save-btn active-save">
+            <i className="fa-solid fa-bookmark"></i>
+          </button>
+      
+        </div>
+      
+        <div className="badge-preview dark-preview">
+      
+          <span className="vip-badge">
+            <i className="fa-solid fa-crown"></i>
+            VIP ACCESS
+          </span>
+      
+        </div>
+      
+        <h2>
+          VIP Badge
+        </h2>
+      
+        <p>
+      
+          Luxury premium badge
+          with elegant gold styling
+          and glow effects.
+      
+        </p>
+      
+        <div className="card-actions">
+      
+          <button>
+            Preview
+          </button>
+      
+          <button>
+            Copy
+          </button>
+      
+        </div>
+      
+      </div>
+      
+      
+      
+          {/* CARD */}
+      
+          <div className="badge-card">
+      
+            <div className="card-top">
+      
+              <span className="card-tag">
+                Status
+              </span>
+      
+              <button className="save-btn">
+                <i className="fa-regular fa-bookmark"></i>
+              </button>
+      
+            </div>
+      
+            <div className="badge-preview">
+      
+              <span className="badge success-badge">
+                Approved
+              </span>
+      
+              <span className="badge warning-badge">
+                Pending
+              </span>
+      
+              <span className="badge danger-badge">
+                Rejected
+              </span>
+      
+            </div>
+      
+            <h2>
+              Status Badges
+            </h2>
       
             <p>
-              Track contributions, maintain streaks, complete challenges,
-              and showcase your developer achievements with modern collectible badges.
+      
+              Minimal soft status
+              indicators for admin
+              panels and dashboards.
+      
             </p>
       
-            <div className="hero-actions">
-              <button className="hero-btn primary">
-                <i className="fa-solid fa-trophy"></i>
-                Explore Rewards
+            <div className="card-actions">
+      
+              <button>
+                Preview
               </button>
       
-              <button className="hero-btn secondary">
-                <i className="fa-solid fa-fire"></i>
-                View Streaks
+              <button>
+                Copy
               </button>
-            </div>
-      
-            <div className="hero-stats">
-              <div className="hero-stat">
-                <h3>28</h3>
-                <span>Badges Earned</span>
-              </div>
-      
-              <div className="hero-stat">
-                <h3>94%</h3>
-                <span>Completion Rate</span>
-              </div>
-      
-              <div className="hero-stat">
-                <h3>#12</h3>
-                <span>Global Rank</span>
-              </div>
-            </div>
-          </div>
-      
-          <div className="badges-hero-right">
-      
-            <div className="floating-badge fb-1">
-              <i className="fa-solid fa-fire"></i>
-            </div>
-      
-            <div className="floating-badge fb-2">
-              <i className="fa-solid fa-crown"></i>
-            </div>
-      
-            <div className="floating-badge fb-3">
-              <i className="fa-solid fa-shield-halved"></i>
-            </div>
-      
-            <div className="hero-card-glow"></div>
-      
-            <div className="hero-preview-card">
-      
-              <div className="hero-preview-top">
-                <div className="hero-user">
-                  <div className="hero-avatar">D</div>
-      
-                  <div>
-                    <h4>Dipanita</h4>
-                    <p>Frontend Developer</p>
-                  </div>
-                </div>
-      
-                <span className="xp-pill">
-                  <i className="fa-solid fa-bolt"></i>
-                  4,820 XP
-                </span>
-              </div>
-      
-              <div className="hero-badge-grid">
-      
-                <div className="mini-badge gold">
-                  <i className="fa-solid fa-code-pull-request"></i>
-                </div>
-      
-                <div className="mini-badge purple">
-                  <i className="fa-solid fa-fire"></i>
-                </div>
-      
-                <div className="mini-badge blue">
-                  <i className="fa-solid fa-users"></i>
-                </div>
-      
-                <div className="mini-badge green">
-                  <i className="fa-solid fa-bug-slash"></i>
-                </div>
-      
-                <div className="mini-badge orange">
-                  <i className="fa-solid fa-medal"></i>
-                </div>
-      
-                <div className="mini-badge cyan">
-                  <i className="fa-solid fa-shield-halved"></i>
-                </div>
-      
-              </div>
-      
-              <div className="hero-progress-wrap">
-                <div className="hero-progress-top">
-                  <span>Level Progress</span>
-                  <span>82%</span>
-                </div>
-      
-                <div className="hero-progress-bar">
-                  <div className="hero-progress-fill"></div>
-                </div>
-              </div>
       
             </div>
       
           </div>
       
-        </div>
-      </section>
+          {/* CARD */}
       
-          {/* Earned */}
-          <section className="badge-section">
-            <h2>Earned Badges</h2>
-      <section className="badges-page">
-        <h1><i className="fa-solid fa-trophy"></i> My Badges</h1>
+          <div className="badge-card">
       
-        <h2><i className="fa-solid fa-medal"></i> Earned Badges</h2>
-        <div className="badge-container">
-          
-          <div className="badge">
-            <picture><source type="image/avif" srcset="generated-images/badge1/badge1-320.avif 320w, generated-images/badge1/badge1-480.avif 480w, generated-images/badge1/badge1-768.avif 768w, generated-images/badge1/badge1-1024.avif 1024w, generated-images/badge1/badge1-1300.avif 1300w" sizes="(max-width: 768px) 96px, 160px"><source type="image/webp" srcset="generated-images/badge1/badge1-320.webp 320w, generated-images/badge1/badge1-480.webp 480w, generated-images/badge1/badge1-768.webp 768w, generated-images/badge1/badge1-1024.webp 1024w, generated-images/badge1/badge1-1300.webp 1300w" sizes="(max-width: 768px) 96px, 160px"><img src="generated-images/badge1/badge1-optimized-1300.jpg" alt="First PR badge icon" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async" width="1300" height="1390" /></picture>
-            <h3>First PR</h3>
-            <p>Completed your first pull request</p>
-          </div>
+            <div className="card-top">
       
-          <div className="badge">
-             <picture><source type="image/avif" srcset="generated-images/badge2/badge2-212.avif 212w" sizes="(max-width: 768px) 96px, 160px"><source type="image/webp" srcset="generated-images/badge2/badge2-212.webp 212w" sizes="(max-width: 768px) 96px, 160px"><img src="generated-images/badge2/badge2-optimized-212.jpg" alt="Contributor badge icon" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async" width="212" height="238" /></picture>
-            <h3>Contributor</h3>
-            <p>Contributed to 10 PRs</p>
-          </div>
+              <span className="card-tag">
+                Neon
+              </span>
       
-            <div className="badge-container">
-      
-              <div className="badge earned">
-                <div className="badge-img">
-                  <img src="badge1.jpg" alt="First PR Badge" />
-                </div>
-      
-                <h3>First PR</h3>
-                <p>Completed your first pull request</p>
-          <div className="badge progress">
-            <picture><source type="image/avif" srcset="generated-images/time/time-320.avif 320w, generated-images/time/time-480.avif 480w, generated-images/time/time-512.avif 512w" sizes="(max-width: 768px) 96px, 160px"><source type="image/webp" srcset="generated-images/time/time-320.webp 320w, generated-images/time/time-480.webp 480w, generated-images/time/time-512.webp 512w" sizes="(max-width: 768px) 96px, 160px"><img src="generated-images/time/time-optimized-512.png" alt="Top Contributor badge with progress indicator" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async" width="512" height="512" /></picture>
-            <h3>Top Contributor</h3>
-            <p>14/50 PRs completed</p>
-            <progress value="14" max="50"></progress>
-          </div>
-      
-                <span className="badge-status success">
-                  <i className="fa-solid fa-circle-check"></i>
-                  Unlocked
-                </span>
-              </div>
-      
-              <div className="badge earned">
-                <div className="badge-img">
-                  <img src="badge2.jpg" alt="Contributor Badge" />
-                </div>
-      
-                <h3>Contributor</h3>
-                <p>Contributed to 10 pull requests</p>
-      
-                <span className="badge-status success">
-                  <i className="fa-solid fa-circle-check"></i>
-                  Unlocked
-                </span>
-              </div>
+              <button className="save-btn active-save">
+                <i className="fa-solid fa-bookmark"></i>
+              </button>
       
             </div>
-          </section>
       
-          {/* Progress */}
-          <section className="badge-section">
-            <h2>In Progress</h2>
+            <div className="badge-preview dark-preview">
       
-            <div className="badge-container">
-      
-              <div className="badge progress-card">
-      
-                <div className="badge-img">
-                  <img src="time.png" alt="Progress Badge" />
-                </div>
-      
-                <h3>Top Contributor</h3>
-                <p>14 / 50 PRs completed</p>
-      
-                <div className="progress-wrapper">
-                  <progress value="14" max="50"></progress>
-                  <span>28%</span>
-                </div>
-      
-              </div>
+              <span className="badge-neon">
+                ONLINE
+              </span>
       
             </div>
-          </section>
       
-          {/* Locked */}
-          <section className="badge-section">
-            <h2>Locked Badges</h2>
+            <h2>
+              Cyber Neon Badge
+            </h2>
       
-            <div className="badge-container">
+            <p>
       
-              <div className="badge locked">
+              Futuristic cyberpunk
+              neon glowing badge
+              with terminal vibes.
       
-                <div className="badge-img">
-                  <img src="lock.jpg" alt="Locked Badge" />
-                </div>
+            </p>
       
-                <h3>Elite Hacker</h3>
-                <p>Complete 100 PRs to unlock</p>
+            <div className="card-actions">
       
-                <span className="badge-status locked-status">
-                  <i className="fa-solid fa-lock"></i>
-                  Locked
+              <button>
+                Preview
+              </button>
+      
+              <button>
+                Copy
+              </button>
+      
+            </div>
+      
+          </div>
+      
+          {/* CARD */}
+      
+          <div className="badge-card">
+      
+            <div className="card-top">
+      
+              <span className="card-tag">
+                Notification
+              </span>
+      
+              <button className="save-btn">
+                <i className="fa-regular fa-bookmark"></i>
+              </button>
+      
+            </div>
+      
+            <div className="badge-preview">
+      
+              <div className="notification-box">
+      
+                <i className="fa-solid fa-bell"></i>
+      
+                <span className="notify-count">
+                  9+
                 </span>
       
               </div>
       
             </div>
-          </section>
-        {/* Earned Badges */}
-      <h2>✨ Earned Badges</h2>
-      <div className="badge-container">
       
-        <div className="badge gold" data-collectible="badge-first-pr">
-          <div className="badge-icon">
-            <i className="fa-solid fa-code-pull-request"></i>
-          </div>
-          <h3>First PR</h3>
-          <p>Completed your first pull request</p>
-          <span className="badge-tag">Unlocked</span>
-          <button className="collect-btn" data-action="add" aria-label="Add to collection">👉 Save</button>
-        </div>
+            <h2>
+              Notification Badge
+            </h2>
       
-        <div className="badge blue">
-          <div className="badge-icon">
-            <i className="fa-solid fa-users"></i>
-          </div>
-          <h3>Contributor</h3>
-          <p>Contributed to 10 PRs</p>
-          <span className="badge-tag">Level 1</span>
-        </div>
+            <p>
       
-        <div className="badge purple">
-          <div className="badge-icon">
-            <i className="fa-solid fa-fire"></i>
-          </div>
-          <h3>Streak Master</h3>
-          <p>Maintained a 30-day coding streak</p>
-          <span className="badge-tag">Hot</span>
-        </div>
+              Floating alert counter
+              for inboxes and
+              notification systems.
       
-        <div className="badge green">
-          <div className="badge-icon">
-            <i className="fa-solid fa-bug-slash"></i>
-          </div>
-          <h3>Bug Hunter</h3>
-          <p>Resolved 25 reported issues</p>
-          <span className="badge-tag">Expert</span>
-        </div>
+            </p>
       
-        <div className="badge orange">
-          <div className="badge-icon">
-            <i className="fa-solid fa-medal"></i>
-          </div>
-          <h3>Open Source Hero</h3>
-          <p>Made impactful open-source contributions</p>
-          <span className="badge-tag">Popular</span>
-        </div>
+            <div className="card-actions">
       
-      </div>
+              <button>
+                Preview
+              </button>
       
+              <button>
+                Copy
+              </button>
       
-      {/* In Progress */}
-      <h2 className="prog-1">🚀 In Progress</h2>
-      <div className="badge-container">
+            </div>
       
-        <div className="badge progress">
-          <div className="badge-icon">
-            <i className="fa-solid fa-chart-line"></i>
-          </div>
-          <h3>Top Contributor</h3>
-          <p>14/50 PRs completed</p>
-          <progress value="14" max="50"></progress>
-        </div>
-      
-        <div className="badge progress">
-          <div className="badge-icon">
-            <i className="fa-solid fa-terminal"></i>
-          </div>
-          <h3>Code Wizard</h3>
-          <p>40/100 coding challenges solved</p>
-          <progress value="40" max="100"></progress>
-        </div>
-      
-      </div>
-      
-      
-      {/* Locked Badges */}
-      <h2 className="prog-2">🔒 Locked Badges</h2>
-      <div className="badge-container">
-      
-        <div className="badge locked">
-          <div className="badge-icon">
-            <i className="fa-solid fa-crown"></i>
-          </div>
-          <h3>Elite Hacker</h3>
-          <p>Complete 100 PRs</p>
-        </div>
-      
-        <div className="badge locked">
-          <div className="badge-icon">
-            <i className="fa-solid fa-rocket"></i>
-          </div>
-          <h3>Launch Legend</h3>
-          <p>Deploy 50 successful projects</p>
-        </div>
-      
-        <div className="badge locked">
-          <div className="badge-icon">
-            <i className="fa-solid fa-shield-halved"></i>
-          </div>
-          <h3>Security Master</h3>
-          <p>Fix 100 security vulnerabilities</p>
-        </div>
-      
-      </div>
-      
-        {/* Locked Badges */}
-        <h2 className="prog-2">Locked Badges</h2>
-        <div className="badge-container">
-      
-          <div className="badge locked">
-            <picture><source type="image/avif" srcset="generated-images/lock/lock-320.avif 320w, generated-images/lock/lock-480.avif 480w, generated-images/lock/lock-612.avif 612w" sizes="(max-width: 768px) 96px, 160px"><source type="image/webp" srcset="generated-images/lock/lock-320.webp 320w, generated-images/lock/lock-480.webp 480w, generated-images/lock/lock-612.webp 612w" sizes="(max-width: 768px) 96px, 160px"><img src="generated-images/lock/lock-optimized-612.jpg" alt="Elite Hacker locked badge icon" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async" width="612" height="612" /></picture>
-            <h3>Elite Hacker</h3>
-            <p>Complete 100 PRs</p>
           </div>
       
-        </main>
+          {/* CARD */}
+      
+          <div className="badge-card">
+      
+            <div className="card-top">
+      
+              <span className="card-tag">
+                Premium
+              </span>
+      
+              <button className="save-btn active-save">
+                <i className="fa-solid fa-bookmark"></i>
+              </button>
+      
+            </div>
+      
+            <div className="badge-preview dark-preview">
+      
+              <span className="badge-holo">
+                ULTRA PRO
+              </span>
+      
+            </div>
+      
+            <h2>
+              Holographic Badge
+            </h2>
+      
+            <p>
+      
+              Animated holographic
+              gradients with futuristic
+              premium visuals.
+      
+            </p>
+      
+            <div className="card-actions">
+      
+              <button>
+                Preview
+              </button>
+      
+              <button>
+                Copy
+              </button>
+      
+            </div>
+      
+          </div>
+      
+          {/* CARD */}
+      
+          <div className="badge-card">
+      
+            <div className="card-top">
+      
+              <span className="card-tag">
+                Live
+              </span>
+      
+              <button className="save-btn">
+                <i className="fa-regular fa-bookmark"></i>
+              </button>
+      
+            </div>
+      
+            <div className="badge-preview">
+      
+              <span className="live-badge">
+      
+                <span className="pulse"></span>
+      
+                LIVE STREAM
+      
+              </span>
+      
+            </div>
+      
+            <h2>
+              Live Indicator
+            </h2>
+      
+            <p>
+      
+              Animated live badge
+              with pulse effect for
+              streaming interfaces.
+      
+            </p>
+      
+            <div className="card-actions">
+      
+              <button>
+                Preview
+              </button>
+      
+              <button>
+                Copy
+              </button>
+      
+            </div>
+      
+          </div>
+      
+          {/* CARD */}
+      
+          <div className="badge-card">
+      
+            <div className="card-top">
+      
+              <span className="card-tag">
+                Glass
+              </span>
+      
+              <button className="save-btn active-save">
+                <i className="fa-solid fa-bookmark"></i>
+              </button>
+      
+            </div>
+      
+            <div className="badge-preview glass-preview">
+      
+              <span className="glass-badge">
+      
+                <i className="fa-solid fa-bolt"></i>
+      
+                PREMIUM UI
+      
+              </span>
+      
+            </div>
+      
+            <h2>
+              Glassmorphism Badge
+            </h2>
+      
+            <p>
+      
+              Frosted glass badge
+              with premium blur
+              effects and gradients.
+      
+            </p>
+      
+            <div className="card-actions">
+      
+              <button>
+                Preview
+              </button>
+      
+              <button>
+                Copy
+              </button>
+      
+            </div>
+      
+          </div>
+      
+          {/* CARD 7 */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">Gaming</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview">
+              <span className="rank-badge">
+                <i className="fa-solid fa-crown"></i> MVP
+              </span>
+            </div>
+            <h2>Rank Badge</h2>
+            <p>Gold themed prestige badge for leaderboards and gaming.</p>
+            <div className="card-actions">
+              <button>Preview</button><button>Copy</button>
+            </div>
+          </div>
+      
+          {/* CARD 8 */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">Animated</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview">
+              <span className="outline-pulse-badge">Recording</span>
+            </div>
+            <h2>Pulsing Outline Badge</h2>
+            <p>Minimalistic outline badge with a radiating animation effect.</p>
+            <div className="card-actions">
+              <button>Preview</button><button>Copy</button>
+            </div>
+          </div>
+      
+          {/* CARD 9 */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">Premium</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview">
+              <span className="gradient-border-badge">PRO PLAN</span>
+            </div>
+            <h2>Gradient Border Badge</h2>
+            <p>Sleek badge featuring a colorful gradient border and dark core.</p>
+            <div className="card-actions">
+              <button>Preview</button><button>Copy</button>
+            </div>
+          </div>
+      
+          {/* CARD 10 */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">UI</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview">
+              <span className="role-pill-badge moderator">
+                <span className="role-icon"><i className="fa-solid fa-shield-halved"></i></span>
+                <span className="role-text">Moderator</span>
+              </span>
+            </div>
+            <h2>Role Pill Badge</h2>
+            <p>Split pill design ideal for user roles and forum titles.</p>
+            <div className="card-actions">
+              <button>Preview</button><button>Copy</button>
+            </div>
+          </div>
+      
+          {/* CARD 11 */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">3D</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview">
+              <span className="chip-3d-badge">v2.0 Beta</span>
+            </div>
+            <h2>Floating 3D Badge</h2>
+            <p>Isometric 3D pill badge with soft floating shadow effects.</p>
+            <div className="card-actions">
+              <button>Preview</button><button>Copy</button>
+            </div>
+          </div>
+      
+      
+          {/* CARD 12 — Verified Tick Badge */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">Verified</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview dark-preview">
+              <span className="verified-badge">
+                <i className="fa-solid fa-circle-check"></i>
+                Verified Creator
+              </span>
+            </div>
+            <h2>Verified Tick Badge</h2>
+            <p>Sleek identity badge with a glowing checkmark for verified accounts and creators.</p>
+            <div className="card-actions">
+              <button>Preview</button><button>Copy</button>
+            </div>
+          </div>
+      
+          {/* CARD 13 — XP Progress Badge */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">Gaming</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview dark-preview">
+              <div className="xp-badge">
+                <div className="xp-top">
+                  <span className="xp-label">⚡ Level 24</span>
+                  <span className="xp-pct">72%</span>
+                </div>
+                <div className="xp-bar-track">
+                  <div className="xp-bar-fill"></div>
+                </div>
+              </div>
+            </div>
+            <h2>XP Progress Badge</h2>
+            <p>Animated XP bar badge for gaming dashboards and gamified apps.</p>
+            <div className="card-actions">
+              <button>Preview</button><button>Copy</button>
+            </div>
+          </div>
+      
+          {/* CARD 14 — Countdown Timer Badge */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">Event</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview">
+              <span className="countdown-badge">
+                <i className="fa-regular fa-clock"></i>
+                <span className="cd-sep">02</span>:
+                <span className="cd-sep">47</span>:
+                <span className="cd-sep">59</span>
+                <span className="cd-label">left</span>
+              </span>
+            </div>
+            <h2>Countdown Timer Badge</h2>
+            <p>Live-style countdown badge for sales, events, and limited offers.</p>
+            <div className="card-actions">
+              <button>Preview</button><button>Copy</button>
+            </div>
+          </div>
+      
+          {/* CARD 15 — Tag Stack Badge */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">Labels</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview">
+              <div className="tag-stack">
+                <span className="tag-chip blue">React</span>
+                <span className="tag-chip purple">TypeScript</span>
+                <span className="tag-chip green">Node.js</span>
+                <span className="tag-chip orange">+4</span>
+              </div>
+            </div>
+            <h2>Tag Stack Badge</h2>
+            <p>Compact stacked tag chips for skills, frameworks, and category labels.</p>
+            <div className="card-actions">
+              <button>Preview</button><button>Copy</button>
+            </div>
+          </div>
+      
+          {/* CARD 16 — Aurora Glow Badge */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">Premium</span>
+              <button className="save-btn active-save"><i className="fa-solid fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview dark-preview">
+              <span className="aurora-badge">✦ ELITE ACCESS</span>
+            </div>
+            <h2>Aurora Glow Badge</h2>
+            <p>Dreamy aurora-tinted badge with shifting colour glow for elite or VIP tiers.</p>
+            <div className="card-actions">
+              <button>Preview</button><button>Copy</button>
+            </div>
+          </div>
+      
+          {/* CARD 17 — AI Status Badge */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">AI / System</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview dark-preview">
+              <span className="ai-status-badge"><span className="ai-dot"></span> AI Processing</span>
+            </div>
+            <h2>AI Status Badge</h2>
+            <p>Pulsing dot badge for AI and async processing states in dashboards.</p>
+            <div className="card-actions"><button>Preview</button><button>Copy</button></div>
+          </div>
+      
+          {/* CARD 18 — Beta Tag */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">Label</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview dark-preview">
+              <span className="beta-tag"><i className="fa-solid fa-vial"></i></i> Beta</span>
+            </div>
+            <h2>Beta Tag</h2>
+            <p>Compact amber label for marking experimental or unreleased features.</p>
+            <div className="card-actions"><button>Preview</button><button>Copy</button></div>
+          </div>
+      
+          {/* CARD 19 — Version Chip */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">Dev</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview dark-preview">
+              <span className="version-chip"><span className="vc-label">v</span><span className="vc-num">3.2.1</span></span>
+            </div>
+            <h2>Version Chip</h2>
+            <p>Split-pill version label for changelogs, release notes, and package badges.</p>
+            <div className="card-actions"><button>Preview</button><button>Copy</button></div>
+          </div>
+      
+          {/* CARD 20 — Streak Badge */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">Gamification</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview dark-preview">
+              <span className="streak-badge"><span className="streak-flame"><i className="fa-solid fa-fire"></i></span> 14-Day Streak</span>
+            </div>
+            <h2>Streak Badge</h2>
+            <p>Animated flame badge for streaks, daily goals, and habit trackers.</p>
+            <div className="card-actions"><button>Preview</button><button>Copy</button></div>
+          </div>
+      
+          {/* CARD 21 — Trust Score */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">Reputation</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview dark-preview">
+              <span className="trust-badge">
+                <span className="trust-num">98</span>
+                <span className="trust-meta">
+                  <span className="trust-label">Trust Score</span>
+                  <span className="trust-sub">Top 1% seller</span>
+                </span>
+              </span>
+            </div>
+            <h2>Trust Score Badge</h2>
+            <p>Numeric reputation badge for marketplaces, profiles, and review systems.</p>
+            <div className="card-actions"><button>Preview</button><button>Copy</button></div>
+          </div>
+      
+          {/* CARD 22 — New Arrival */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">E-commerce</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview dark-preview">
+              <span className="new-arrival-badge"><i className="fa-solid fa-tag"></i> New Arrival</span>
+            </div>
+            <h2>New Arrival Badge</h2>
+            <p>Glowing gradient pill for highlighting new products and featured drops.</p>
+            <div className="card-actions"><button>Preview</button><button>Copy</button></div>
+          </div>
+      
+          {/* CARD 23 — Permission Chips */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">Permissions</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview dark-preview">
+              <div className="perm-set">
+                <span className="perm-chip read"><i className="fa-solid fa-eye"></i> Read</span>
+                <span className="perm-chip write"><i className="fa-solid fa-pencil"></i> Write</span>
+                <span className="perm-chip admin"><i className="fa-solid fa-shield-halved"></i> Admin</span>
+              </div>
+            </div>
+            <h2>Permission Chips</h2>
+            <p>Color-coded access level chips for admin panels and user management UIs.</p>
+            <div className="card-actions"><button>Preview</button><button>Copy</button></div>
+          </div>
+      
+          {/* CARD 24 — Typing Indicator */}
+          <div className="badge-card">
+            <div className="card-top">
+              <span className="card-tag">Chat / UI</span>
+              <button className="save-btn"><i className="fa-regular fa-bookmark"></i></button>
+            </div>
+            <div className="badge-preview dark-preview">
+              <span className="typing-badge">
+                <div className="dots">
+                  <div className="dot"></div><div className="dot"></div><div className="dot"></div>
+                </div>
+                AI is typing
+              </span>
+            </div>
+            <h2>Typing Indicator Badge</h2>
+            <p>Bouncing dots badge for chat apps and AI response loading states.</p>
+            <div className="card-actions"><button>Preview</button><button>Copy</button></div>
+          </div>
+      
+        </section>
+      
+      </main>
     </>
   );
 }

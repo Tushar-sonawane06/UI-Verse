@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const DEFAULT_ROOT = process.cwd();
-const IGNORE_DIRS = new Set(['.git', 'node_modules', 'Public', 'playwright-report', 'test-results', 'reports']);
+const IGNORE_DIRS = new Set(['.git', 'node_modules', 'Public', 'public', 'playwright-report', 'test-results', 'reports', 'snippets']);
 const EXCLUDED_FILES = new Set(['a11y-dashboard.html']);
 
 function walk(dir, files = [], options = {}) {
@@ -174,6 +174,22 @@ function analyzeFile(filePath, options = {}) {
     }));
   }
 
+  
+  // Check touch target click sizes (interactive controls should be large enough)
+  const buttons = content.match(/<button\b[^>]*>/gi) || [];
+  buttons.forEach(btn => {
+    if (!/style\s*=\s*['"][^'"]*min-width[^'"]*['"]/i.test(btn) && !/min-height/i.test(btn)) {
+      issues.push(buildIssue({
+        rule: 'touch-target-size',
+        severity: 'warning',
+        message: 'Interactive button might lack standard touch-target dimension defaults.',
+        detail: 'Ensure elements are at least 44x44px for touch interfaces.',
+        selector: 'button',
+        fixable: false
+      }));
+    }
+  });
+    
   const headingMatches = content.match(/<h[1-6][^>]*>[\s\S]*?<\/h[1-6]>/gi) || [];
   const emptyHeadings = headingMatches.filter((heading) => stripTags(heading).length === 0);
   if (emptyHeadings.length > 0) {
@@ -392,6 +408,8 @@ function renderDashboard(report) {
 
 function applyFixes(fixes, rootDir = DEFAULT_ROOT) {
   const grouped = new Map();
+  let filesChanged = 0;
+  let fixesApplied = 0;
 
   for (const fix of fixes) {
     if (!grouped.has(fix.path)) grouped.set(fix.path, []);
@@ -442,8 +460,16 @@ function applyFixes(fixes, rootDir = DEFAULT_ROOT) {
 
     if (changed) {
       fs.writeFileSync(absolutePath, content, 'utf8');
+      filesChanged += 1;
     }
+
+    fixesApplied += fileFixes.length;
   }
+
+  return {
+    filesChanged,
+    fixesApplied
+  };
 }
 
 function run(options = {}) {

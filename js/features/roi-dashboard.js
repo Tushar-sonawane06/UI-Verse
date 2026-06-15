@@ -143,3 +143,87 @@
     setStatus('Ready to forecast. Submit the form to generate the first projection.', 'neutral');
   }
 })();
+
+function updateForecastOutput(data, lastSeasonYield) {
+  // Existing updates
+  document.getElementById("yield-value").textContent = data.yield + " tons";
+  document.getElementById("revenue-value").textContent = "$" + data.revenue;
+  document.getElementById("profit-value").textContent = "$" + data.profit;
+  document.getElementById("roi-value").textContent = data.roi + "%";
+
+  // Break-even
+  const breakeven = data.revenue >= data.costs ? "Reached" : "Not yet";
+  document.getElementById("breakeven-value").textContent = breakeven;
+
+  // Risk Indicator
+  let risk = "Medium";
+  if (data.soil_type === "Loamy" && data.budget > 5000) risk = "Low";
+  if (data.soil_type === "Sandy" || data.budget < 2000) risk = "High";
+  document.getElementById("risk-value").textContent = risk;
+
+  // Seasonal Comparison
+  if (lastSeasonYield) {
+    const diff = data.yield - lastSeasonYield;
+    document.getElementById("seasonal-value").textContent =
+      diff >= 0 ? `+${diff} tons vs last season` : `${diff} tons vs last season`;
+  } else {
+    document.getElementById("seasonal-value").textContent = "No data";
+  }
+
+  // Chart.js update
+  forecastChart.data.datasets[0].data = [
+    data.yield,
+    data.revenue,
+    data.profit,
+    data.roi
+  ];
+  forecastChart.update();
+}
+
+// Chart initialization
+const ctx = document.getElementById("roiChart").getContext("2d");
+const forecastChart = new Chart(ctx, {
+  type: "bar",
+  data: {
+    labels: ["Yield", "Revenue", "Profit", "ROI"],
+    datasets: [{
+      label: "Forecast Metrics",
+      data: [0, 0, 0, 0],
+      backgroundColor: ["#00e0ff", "#ff6b6b", "#ffc107", "#4caf50"]
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } }
+  }
+});
+const status = document.getElementById("status");
+const submitBtn = document.querySelector(".submit-btn");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  submitBtn.disabled = true;
+  status.textContent = "Calculating forecast...";
+
+  try {
+    // API request
+
+    status.textContent = "Forecast generated successfully.";
+  } catch (err) {
+    console.error(err);
+    status.textContent = "Unable to generate forecast.";
+  } finally {
+    submitBtn.disabled = false;
+  }
+});
+
+const roiEl = document.getElementById("roi-value");
+
+if (roi > 30) {
+  roiEl.className = "positive";
+} else if (roi > 10) {
+  roiEl.className = "neutral";
+} else {
+  roiEl.className = "negative";
+}

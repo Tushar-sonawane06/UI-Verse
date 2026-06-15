@@ -5,7 +5,7 @@ document.querySelector(
 ".search-box input"
 );
 
-searchInput.addEventListener(
+if (searchInput) searchInput.addEventListener(
 "keydown",
 (e) => {
 
@@ -27,7 +27,7 @@ document.querySelector(
 ".notification-btn"
 );
 
-notificationBtn.addEventListener(
+if (notificationBtn) notificationBtn.addEventListener(
 "click",
 () => {
 
@@ -44,13 +44,16 @@ document.querySelector(
 ".primary-btn"
 );
 
-primaryBtn.addEventListener(
+if (primaryBtn) primaryBtn.addEventListener(
 "click",
 () => {
 
-  alert(
-    "🎙 AI Assistant is now listening..."
-  );
+  if (window.VoiceAssistant && typeof window.VoiceAssistant.startListening === 'function') {
+    window.VoiceAssistant.startListening();
+    return;
+  }
+
+  alert("🎙 AI Assistant is now listening...");
 
 });
 
@@ -61,13 +64,17 @@ document.querySelector(
 ".secondary-btn"
 );
 
-secondaryBtn.addEventListener(
+if (secondaryBtn) secondaryBtn.addEventListener(
 "click",
 () => {
 
-  alert(
-    "⚙ Opening voice assistant settings..."
-  );
+  const languageSelect = document.querySelector('[data-voice-language]');
+  if (languageSelect) {
+    languageSelect.focus();
+    return;
+  }
+
+  alert("⚙ Opening voice assistant settings...");
 
 });
 

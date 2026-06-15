@@ -59,6 +59,11 @@ function toBEMSelector(selector) {
   return result;
 }
 
+
+function checkClassBEMFormat(className) {
+  return /^[a-z0-9]+(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?$/.test(className);
+}
+    
 function convertToBEM(css) {
   let result = css;
   

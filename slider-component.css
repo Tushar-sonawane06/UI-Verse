@@ -1,0 +1,391 @@
+/* ==========================================================================
+   UIverse Premium Range Sliders Module Stylesheet
+   Architecture Paradigm: Hardware Accelerated Monochromatic SaaS Control HUD
+   ========================================================================== */
+
+/* --- CORE FRAMEWORK SPECIFICATION TOKENS --- */
+:root {
+  --uiv-bg-main: #09090d;
+  --uiv-bg-surface: #12121a;
+  --uiv-bg-card: #1b1b24;
+  --uiv-bg-code: #0a0a0e;
+  
+  /* Typography Dimensions Variables Matrix using explicit CSS Clamp Rules */
+  --uiv-font-title-hero: clamp(24px, 5vw, 38px);
+  --uiv-font-title-card: clamp(14px, 3.5vw, 16px);
+  --uiv-font-body: clamp(12px, 2.8vw, 14px);
+  
+  /* Proportional Symmetrical Layout Scale Spacing Tracks */
+  --uiv-touch-target-min: 44px;
+  --uiv-touch-target-padding: 12px 18px;
+  --uiv-mobile-card-gap: clamp(16px, 4vw, 28px);
+  
+  /* Chromatic Color Coordination Arrays */
+  --uiv-text-primary: #f5f5f7;
+  --text-muted-mid: #afafb6;
+  --uiv-text-muted: #6e6e73;
+  --uiv-primary: #007bff;
+  --uiv-primary-glow: rgba(0, 123, 255, 0.15);
+  --uiv-accent-cyan: #00f3ff;
+  --uiv-success: #30d158;
+  --uiv-danger: #ff453a;
+  --uiv-warning: #ff9f0a;
+  --uiv-premium-gold: #ffd700;
+  
+  /* Boundaries Outline Strokes Variables */
+  --uiv-track-bg: #2e2e38;
+  --uiv-border-color: rgba(255, 255, 255, 0.08);
+  --uiv-border-hover: rgba(255, 255, 255, 0.18);
+  --uiv-radius-lg: 14px;
+  --uiv-radius-md: 8px;
+  --uiv-radius-sm: 4px;
+  
+  /* Mechanical Animation Lifespans & Transforms Physics */
+  --transition-cubic-fluid: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-matrix-deep: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+  --transform-hardware-acceleration: translate3d(0, 0, 0);
+}
+
+/* --- LIGHT INTERFACE ENVIRONMENT STATE VARIABLES OVERRIDES --- */
+body.uiv-light-theme {
+  --uiv-bg-main: #f4f4f7;
+  --uiv-bg-surface: #ffffff;
+  --uiv-bg-card: #fafafa;
+  --uiv-bg-code: #1c1c24;
+  --uiv-text-primary: #1d1d1f;
+  --text-muted-mid: #515154;
+  --uiv-text-muted: #86868b;
+  --uiv-border-color: rgba(0, 0, 0, 0.08);
+  --uiv-border-hover: rgba(0, 0, 0, 0.16);
+  --uiv-track-bg: #e3e3e8;
+  --shadow-matrix-deep: 0 12px 32px rgba(0, 0, 0, 0.06);
+}
+
+/* --- AMBIENT RESET LAWS --- */
+* {
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--uiv-bg-main);
+  color: var(--uiv-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  line-height: 1.5;
+  transition: var(--transition-cubic-fluid);
+}
+
+/* ==========================================================================
+   TOP COHESIVE BAR DESIGN SHELL
+   ========================================================================== */
+.uiv-navbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 68px; background-color: var(--uiv-bg-surface);
+  border-bottom: 1px solid var(--uiv-border-color);
+  z-index: 1000; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+
+.uiv-nav-container {
+  width: 100%; max-width: 1600px;
+  height: 100%; margin: 0 auto; padding: 0 clamp(12px, 3vw, 24px);
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.uiv-nav-brand { display: flex; align-items: center; gap: 4px; }
+.uiv-logo { font-size: 22px; font-weight: 800; font-family: 'Syne', sans-serif; }
+.logo-accent-u { color: var(--uiv-primary); }
+.logo-main-text { color: var(--uiv-text-primary); }
+.uiv-brand-divider { width: 1px; height: 16px; background-color: var(--uiv-border-color); margin: 0 12px; }
+.uiv-library-badge { font-size: 11px; background-color: var(--uiv-border-color); color: var(--text-muted-mid); padding: 2px 10px; border-radius: 20px; font-weight: 600; }
+
+.uiv-nav-search-wrapper { position: relative; width: clamp(200px, 25vw, 360px); display: flex; align-items: center; }
+.search-lens-icon { position: absolute; left: 14px; color: var(--uiv-text-muted); font-size: 14px; pointer-events: none; }
+
+#uiv-global-search {
+  width: 100%; height: 40px; background-color: var(--uiv-bg-main);
+  border: 1px solid var(--uiv-border-color); border-radius: var(--uiv-radius-md);
+  padding: 0 40px 0 38px; color: var(--uiv-text-primary); font-size: 13px; outline: none; transition: var(--transition-fluid-cubic);
+}
+#uiv-global-search:focus { border-color: var(--uiv-primary); box-shadow: 0 0 0 3px var(--uiv-primary-glow); }
+.uiv-search-shortcut-key { position: absolute; right: 12px; background-color: var(--uiv-bg-surface); border: 1px solid var(--uiv-border-color); color: var(--uiv-text-muted); font-size: 11px; padding: 1px 6px; border-radius: 4px; font-family: monospace; }
+
+.uiv-nav-actions-group { display: flex; align-items: center; gap: 8px; }
+.uiv-action-icon-btn {
+  width: var(--uiv-touch-target-min); height: var(--uiv-touch-target-min);
+  background: transparent; border: 1px solid var(--uiv-border-color);
+  color: var(--text-muted-mid); border-radius: var(--uiv-radius-md);
+  cursor: pointer; display: grid; place-items: center; font-size: 15px; transition: var(--transition-fluid-cubic);
+}
+.uiv-action-icon-btn:hover { background-color: var(--uiv-border-color); color: var(--uiv-text-primary); }
+
+.uiv-btn-primary {
+  height: var(--uiv-touch-target-min); padding: 0 18px;
+  background-color: var(--uiv-primary); color: #ffffff; border: none; border-radius: var(--uiv-radius-md);
+  font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px var(--uiv-primary-glow); transition: var(--transition-fluid-cubic);
+}
+.uiv-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4); }
+
+/* ==========================================================================
+   LAYOUT SECTORS MONOLITHIC GRIDS
+   ========================================================================== */
+.uiv-application-layout {
+  display: flex; max-width: 1600px; margin: 68px auto 0 auto; min-height: calc(100vh - 68px);
+}
+
+.uiv-sidebar {
+  width: 280px; background-color: var(--uiv-bg-surface); border-right: 1px solid var(--uiv-border-color);
+  padding: 32px 24px; flex-shrink: 0; transition: var(--transition-fluid-cubic);
+}
+
+.uiv-sidebar-heading { font-family: 'Syne', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--uiv-text-muted); margin-bottom: 16px; font-weight: 700; }
+.uiv-sidebar-section { margin-bottom: 36px; }
+.uiv-sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+
+.uiv-menu-item {
+  display: flex; align-items: center; padding: var(--uiv-touch-target-padding);
+  border-radius: var(--uiv-radius-md); color: var(--text-muted-mid);
+  font-size: 13px; font-weight: 600; cursor: pointer; position: relative; transition: var(--transition-fluid-cubic);
+}
+.uiv-menu-item i { margin-right: 12px; width: 16px; text-align: center; font-size: 14px; }
+.uiv-menu-item:hover { background-color: rgba(255,255,255,0.02); color: var(--uiv-text-primary); }
+.uiv-menu-item.uiv-active { background-color: var(--uiv-primary-glow); color: var(--uiv-primary); border-left: 2px solid var(--uiv-primary); padding-left: 16px; }
+
+.uiv-stats-widget-box { background-color: var(--uiv-bg-main); border: 1px solid var(--uiv-border-color); border-radius: var(--uiv-radius-md); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.uiv-stat-entry { font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+.uiv-stat-label { color: var(--uiv-text-muted); font-weight: 500; }
+.uiv-stat-value { font-weight: 700; color: var(--uiv-text-primary); }
+.uiv-text-success { color: var(--uiv-success) !important; text-shadow: 0 0 8px rgba(48,209,88,0.2); }
+.uiv-sidebar-footer-note { font-size: 11px; color: var(--uiv-text-muted); text-align: center; margin-top: 48px; font-weight: 500; }
+
+/* --- CENTER CORE WORKSPACE --- */
+.uiv-main-workspace {
+  flex-grow: 1; padding: 40px; background-color: var(--uiv-bg-main); transition: var(--transition-fluid-cubic);
+}
+
+/* HERO PLATFORM HEADER PANEL */
+.uiv-hero-dashboard {
+  position: relative; background-color: var(--uiv-bg-surface);
+  border: 1px solid var(--uiv-border-color); border-radius: var(--uiv-radius-lg);
+  padding: 56px; overflow: hidden; margin-bottom: 32px; box-shadow: var(--shadow-matrix-deep);
+}
+.uiv-hero-glow-layer { position: absolute; top: -120px; right: -120px; width: 360px; height: 360px; background: radial-gradient(circle, rgba(0, 123, 255, 0.12) 0%, transparent 75%); pointer-events: none; }
+.uiv-hero-body { position: relative; z-index: 2; max-width: 860px; }
+.uiv-hero-main-title { font-family: 'Syne', sans-serif; font-size: var(--uiv-font-title-hero); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; line-height: 1.2; }
+.uiv-title-gradient { background: linear-gradient(90deg, var(--uiv-primary), var(--uiv-accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.uiv-hero-description { font-size: 15px; color: var(--text-muted-mid); line-height: 1.65; margin-bottom: 28px; }
+
+.uiv-hero-cta-bar { display: flex; gap: 12px; flex-wrap: wrap; }
+.uiv-hero-cta-bar .uiv-hero-btn {
+  padding: var(--uiv-touch-target-padding); border-radius: var(--uiv-radius-md);
+  font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: var(--transition-fluid-cubic);
+}
+.uiv-hero-btn.uiv-hero-primary { background-color: var(--uiv-text-primary); color: var(--uiv-bg-main); box-shadow: 0 4px 12px rgba(255,255,255,0.05); }
+.uiv-hero-btn.uiv-hero-primary:hover { transform: translateY(-1px); filter: brightness(0.9); }
+.uiv-hero-btn.uiv-hero-secondary { background: transparent; border: 1px solid var(--uiv-border-color); color: var(--uiv-text-primary); }
+.uiv-hero-btn.uiv-hero-secondary:hover { border-color: var(--uiv-border-hover); background-color: rgba(255,255,255,0.01); }
+
+/* TOOLBAR SYSTEM STRIP */
+.uiv-catalog-toolbar {
+  background-color: var(--uiv-bg-surface); border: 1px solid var(--uiv-border-color); border-radius: var(--uiv-radius-md);
+  padding: 16px 24px; margin-bottom: 32px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-matrix-deep);
+}
+.uiv-toolbar-title-summary { font-size: 14px; font-weight: 600; color: var(--text-muted-mid); }
+.uiv-layout-toggle-cluster { display: flex; border: 1px solid var(--uiv-border-color); border-radius: var(--uiv-radius-md); overflow: hidden; background-color: var(--uiv-bg-main); }
+.uiv-layout-btn { background: transparent; border: none; color: var(--uiv-text-muted); padding: 10px 16px; cursor: pointer; font-size: 14px; transition: var(--transition-fluid-cubic); }
+.uiv-layout-btn.uiv-active { background-color: var(--uiv-bg-card); color: var(--uiv-primary); }
+
+/* PREFERENCE CREATOR GENERATION WORKBENCH WELL */
+.uiv-workbench-panel {
+  background-color: var(--uiv-bg-surface); border: 1px solid var(--uiv-primary); border-radius: var(--radius-lg);
+  padding: 24px; margin-bottom: 32px; box-shadow: 0 10px 30px rgba(0, 123, 255, 0.15); animation: paneEntrance 0.4s ease;
+}
+@keyframes paneEntrance { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.uiv-workbench-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--uiv-border-color); padding-bottom: 14px; }
+.uiv-workbench-header h3 { margin: 0; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: #ffffff; }
+.uiv-workbench-close-btn { background: transparent; border: none; color: var(--uiv-text-muted); font-size: 22px; cursor: pointer; line-height: 1; }
+
+.uiv-form-row { display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 16px; margin-top: 20px; align-items: flex-end; }
+.uiv-form-group { display: flex; flex-direction: column; gap: 6px; }
+.uiv-form-group label { font-size: 11px; text-transform: uppercase; color: var(--uiv-text-muted); font-weight: 700; letter-spacing: 0.5px; }
+.uiv-form-group input, .uiv-form-group select {
+  width: 100%; height: var(--uiv-touch-target-min); background-color: var(--uiv-bg-main);
+  border: 1px solid var(--uiv-border-color); border-radius: var(--uiv-radius-md); color: var(--uiv-text-primary); padding: 0 14px; font-size: 13px; outline: none; transition: var(--transition-fluid-cubic);
+}
+.uiv-form-group input:focus, .uiv-form-group select:focus { border-color: var(--uiv-primary); }
+.uiv-btn-success { height: var(--uiv-touch-target-min); padding: 0 24px; background-color: var(--uiv-success); color: #ffffff; border: none; border-radius: var(--uiv-radius-md); font-size: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(48,209,88,0.25); transition: var(--transition-fluid-cubic); }
+.uiv-btn-success:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+.uiv-workbench-output-row { border-top: 1px solid var(--uiv-border-color); margin-top: 20px; padding-top: 16px; }
+.uiv-output-heading-label { font-size: 12px; font-weight: 700; color: var(--uiv-text-muted); display: block; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.uiv-sandbox-insertion-row { display: block; min-height: 44px; }
+.uiv-empty-sandbox-notice { font-size: 13px; color: var(--uiv-text-muted); font-style: italic; margin: 8px 0; }
+
+/* ==========================================================================
+   COMPACT WIREFRAMES HOUSING DISPLAY BOARDS (THE 30 NODES GRIDS)
+   ========================================================================== */
+.uiv-components-catalog-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 32px; clear: both;
+}
+
+.uiv-component-card-node {
+  background-color: var(--uiv-bg-surface); border: 1px solid var(--uiv-border-color);
+  border-radius: var(--uiv-radius-lg); overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow-matrix-deep); transition: var(--transition-fluid-cubic); transform: var(--transform-hardware-acceleration);
+}
+.uiv-component-card-node:hover { border-color: var(--uiv-border-hover); box-shadow: 0 25px 50px -15px rgba(0,0,0,0.8); transform: translateY(-4px); }
+
+.uiv-node-card-header { padding: 18px 24px; border-bottom: 1px solid var(--uiv-border-color); display: flex; justify-content: space-between; align-items: center; }
+.uiv-node-title-group { display: flex; flex-direction: column; gap: 2px; max-width: 70%; }
+.uiv-node-title { margin: 0; font-family: 'Syne', sans-serif; font-size: var(--uiv-font-title-card); font-weight: 700; color: var(--uiv-text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; letter-spacing: -0.5px; }
+
+.uiv-node-meta-badge { display: inline-block; width: max-content; font-size: 9px; padding: 2px 8px; border-radius: 4px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+.uiv-node-meta-badge.uiv-badge-minimal { background-color: rgba(255,255,255,0.04); color: var(--text-muted-mid); border: 1px solid var(--uiv-border-color); }
+.uiv-node-meta-badge.uiv-badge-vfx { background: linear-gradient(90deg, var(--accent-pink-core), var(--accent-purple-core)); color: #ffffff; }
+.uiv-node-meta-badge.uiv-badge-functional { background-color: rgba(0,123,255,0.08); color: var(--uiv-primary); border: 1px solid rgba(0,123,255,0.15); }
+.uiv-node-meta-badge.uiv-badge-multi { background-color: rgba(16,185,129,0.08); color: var(--uiv-green); border: 1px solid rgba(16,185,129,0.15); }
+
+.uiv-node-action-cluster { display: flex; gap: 6px; }
+.uiv-node-btn {
+  background: transparent; border: 1px solid var(--uiv-border-color);
+  color: var(--text-muted-mid); width: 36px; height: 36px; border-radius: var(--uiv-radius-md);
+  cursor: pointer; display: grid; place-items: center; font-size: 13px; transition: var(--transition-fluid-cubic);
+}
+.uiv-node-btn:hover { background-color: var(--uiv-border-color); color: var(--uiv-text-primary); border-color: var(--uiv-border-hover); }
+
+.uiv-node-description-text { font-size: 14px; color: var(--text-muted-mid); padding: 20px 24px 0 24px; margin: 0; line-height: 1.6; }
+.uiv-node-live-preview-box { background-color: var(--uiv-bg-card); padding: 40px 24px; text-align: center; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 120px; border-bottom: 1px solid var(--uiv-border-color); margin-top: 14px; }
+.uiv-pattern-mesh-bg { background-image: radial-gradient(var(--uiv-border-color) 1px, transparent 1px); background-size: 14px 14px; }
+
+/* --- DYNAMIC INTERACTION CODE EXPANSION DRAWERS --- */
+.uiv-node-code-drawer-panel { background-color: var(--uiv-bg-code); border-top: 1px solid var(--uiv-border-color); display: none; }
+.uiv-node-code-drawer-panel.uiv-visible { display: block; animation: panelSlideOpen 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes panelSlideOpen { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+.uiv-drawer-tab-row { padding: 8px 20px; border-bottom: 1px solid rgba(255,255,255,0.02); background-color: rgba(0,0,0,0.15); display: flex; gap: 4px; }
+.uiv-tab-selector {
+  background: transparent; border: none; color: var(--uiv-text-muted);
+  font-size: 10px; font-weight: 800; padding: 4px 10px; cursor: pointer; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; transition: var(--transition-mechanical);
+}
+.uiv-tab-selector.uiv-active { background-color: rgba(255,255,255,0.05); color: #ffffff; border: 1px solid rgba(255,255,255,0.02); }
+.uiv-markup-block { margin: 0; padding: 20px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #38bdf8; line-height: 1.55; text-align: left; display: none; }
+.uiv-markup-block.uiv-active { display: block; }
+
+/* ==========================================================================
+   TACTILE INPUT MECHANICS RANGE TRACK STYLES
+   ========================================================================== */
+.uiv-slider-wrapper-box { width: 100%; display: flex; flex-direction: column; position: relative; }
+.uiv-slider-live-value-output { display: block; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: var(--uiv-primary); margin-top: 12px; text-align: center; }
+
+/* Native Forms Elements Normalization */
+.uiv-input-range-native { -webkit-appearance: none; appearance: none; width: 100%; background: transparent; outline: none; transform: var(--hardware-acceleration-transform); }
+
+/* Symmetrical Webkit Core Track Parameters Variables */
+.uiv-input-range-native::-webkit-slider-runnable-track { width: 100%; height: 6px; border-radius: 99px; background: var(--uiv-track-bg); transition: var(--transition-fluid-cubic); }
+.uiv-input-range-native::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 20px; height: 20px; border-radius: 50%; background: var(--uiv-primary);
+  margin-top: -7px; cursor: pointer; box-shadow: 0 3px 10px rgba(0,0,0,0.3); transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.uiv-input-range-native::-webkit-slider-thumb:hover { transform: scale(1.1); }
+
+/* Firefox Equivalents System Tracks */
+.uiv-input-range-native::-moz-range-track { width: 100%; height: 6px; border-radius: 99px; background: var(--uiv-track-bg); }
+.uiv-input-range-native::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--uiv-primary); border: none; cursor: pointer; transition: transform 0.15s ease; }
+.uiv-input-range-native::-moz-range-thumb:hover { transform: scale(1.1); }
+
+/* Custom Specialized Range Skins Blueprints */
+.uiv-slider-outlined-ring::-webkit-slider-thumb { background: var(--uiv-bg-card); border: 3px solid var(--text-primary-vibrant); box-shadow: 0 0 0 2px #000; }
+.uiv-slider-gradient-magma::-webkit-slider-runnable-track { background: linear-gradient(90deg, var(--accent-red-core), var(--accent-orange-core), var(--accent-green-core)); }
+.uiv-slider-gradient-magma::-webkit-slider-thumb { background: #ffffff; }
+
+.uiv-slider-glassmorphism::-webkit-slider-runnable-track { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.uiv-slider-glassmorphism::-webkit-slider-thumb { background: rgba(255, 255, 255, 0.95); }
+
+.uiv-slider-neon-cyan::-webkit-slider-runnable-track { background: #070b13; border: 1px solid rgba(0, 243, 255, 0.15); }
+.uiv-slider-neon-cyan::-webkit-slider-thumb { background: var(--uiv-accent-cyan); box-shadow: 0 0 12px var(--uiv-accent-cyan), 0 0 25px rgba(0, 243, 255, 0.4); }
+
+.status-labels-row, .category-steps-row, .skill-labels-meta-row, .price-bound-labels { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; color: var(--uiv-text-muted); margin-top: 8px; }
+.status-labels-row .active-lbl { color: var(--uiv-warning); font-weight: 700; }
+
+.threshold-marker-line { position: absolute; left: 80%; top: 18px; width: 2px; height: 12px; background: var(--uiv-danger); z-index: 2; pointer-events: none; box-shadow: 0 0 6px var(--uiv-danger); }
+.uiv-flex-alignment-box { display: flex; align-items: center; gap: 14px; width: 100%; justify-content: center; }
+.avatar-micro-icon { font-size: 24px; color: var(--text-dark-subtle); }
+.uiv-track-close-trigger-btn { background: none; border: none; color: var(--uiv-danger); font-size: 22px; cursor: pointer; padding: 4px; display: grid; place-items: center; line-height: 1; }
+.uiv-track-remove-glyph-btn { color: var(--text-dark-subtle); cursor: pointer; transition: var(--transition-fluid-cubic); padding: 4px; }
+.uiv-track-remove-glyph-btn:hover { color: var(--uiv-danger); }
+
+.uiv-fine-tuning-numeric-field { width: 56px; height: 32px; background: var(--uiv-bg-main); border: 1px solid var(--uiv-border-color); color: var(--text-primary-vibrant); border-radius: var(--radius-sm); text-align: center; font-size: 12px; font-family: 'JetBrains Mono', monospace; outline: none; }
+.uiv-fine-tuning-numeric-field:focus { border-color: var(--uiv-primary); }
+.slider-anchored-tag-pill { display: inline-block; background: var(--uiv-primary); color: #ffffff; padding: 2px 8px; font-size: 11px; font-weight: 700; border-radius: 4px; margin-top: 10px; width: max-content; margin-left: auto; margin-right: auto; box-shadow: 0 4px 10px var(--uiv-primary-glow); }
+
+.uiv-slider-tech-electric::-webkit-slider-runnable-track { background: #05060b; border: 1px solid var(--uiv-danger); }
+.uiv-slider-tech-electric::-webkit-slider-thumb { background: var(--uiv-danger); box-shadow: 0 0 10px var(--uiv-danger); }
+.tech-output-label { font-size: 11px; font-weight: 600; color: var(--text-muted-mid); margin-top: 6px; }
+
+.uiv-slider-stealth-midnight::-webkit-slider-runnable-track { background: #05060a; border: 1px solid #141722; }
+.uiv-slider-stealth-midnight::-webkit-slider-thumb { background: #131724; border: 1px solid #28324b; }
+
+.uiv-slider-animated-pulse::-webkit-slider-runnable-track { background: linear-gradient(90deg, var(--uiv-primary), var(--uiv-accent-cyan), var(--uiv-primary)); background-size: 200% 100%; animation: linearShimmerSweep 2.5s infinite linear; }
+@keyframes linearShimmerSweep { 0% { background-position: 100% 0%; } 100% { background-position: -100% 0%; } }
+
+/* E-commerce Multi-Handle Overlays Spec */
+.uiv-dual-range-container-block { position: relative; height: 44px; padding-top: 10px; width: 100%; }
+.dual-range-slider-input-stack { position: relative; height: 6px; }
+.uiv-range-handle-node { position: absolute; left: 0; top: 0; pointer-events: none; background: none; appearance: none; -webkit-appearance: none; width: 100%; }
+.uiv-range-handle-node::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; pointer-events: auto; width: 22px; height: 22px; border-radius: 50%; background: var(--uiv-primary); cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
+
+.uiv-slider-premium-gold::-webkit-slider-runnable-track { background: linear-gradient(90deg, #78611d, var(--uiv-premium-gold)); }
+.uiv-slider-premium-gold::-webkit-slider-thumb { background: #ffffff; box-shadow: 0 0 10px var(--uiv-premium-gold); }
+
+.uiv-slider-thick-capsule::-webkit-slider-runnable-track { height: 14px; border-radius: 20px; background: var(--uiv-track-bg); }
+.uiv-slider-thick-capsule::-webkit-slider-thumb { width: 24px; height: 24px; margin-top: -5px; background: #ffffff; box-shadow: var(--shadow-matrix-deep); }
+
+/* --- REALTIME REPLICATION NOTIFICATION TOAST ALERTS OVERLAYS --- */
+.uiv-toast-pipeline-host { position: fixed; bottom: 24px; right: 24px; left: 24px; z-index: 3000; pointer-events: none; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+.uiv-system-toast-node { background-color: rgba(11,14,26,0.95); color: #ffffff; padding: 14px 24px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; border-left: 4px solid var(--uiv-primary); box-shadow: var(--shadow-matrix-deep); backdrop-filter: blur(10px); animation: toastEntrance 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; pointer-events: auto; }
+@keyframes toastEntrance { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ==========================================================================
+   PRODUCTION ENVIRONMENT INTEGRATED PLATFORM FOOTER LAYOUT
+   ========================================================================== */
+.uiv-footer-block { background-color: var(--uiv-bg-surface); border-top: 1px solid var(--uiv-border-color); padding: 60px 40px 30px 40px; transition: var(--transition-fluid-cubic); }
+.uiv-footer-container { max-width: 1600px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr; gap: 48px; }
+.uiv-footer-brand-summary h4 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; margin-bottom: 12px; }
+.uiv-footer-brand-summary p { margin: 0; font-size: 14px; color: var(--text-muted-mid); line-height: 1.6; }
+.uiv-footer-links-matrix { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+.uiv-footer-column h5 { font-family: 'Syne', sans-serif; font-size: 12px; text-transform: uppercase; color: var(--uiv-text-muted); letter-spacing: 0.5px; margin-bottom: 14px; }
+.uiv-footer-column a { display: block; color: var(--text-muted-mid); font-size: 14px; text-decoration: none; margin-bottom: 10px; transition: var(--transition-fluid-cubic); }
+.uiv-footer-column a:hover { color: var(--uiv-primary); padding-left: 4px; }
+.uiv-footer-bottom-copyright { text-align: center; border-top: 1px solid var(--uiv-border-color); margin-top: 48px; padding-top: 24px; font-size: 13px; color: var(--text-dark-subtle); }
+
+/* ==========================================================================
+   VIEWPORT BREAKPOINT SCALING AND MOBILITY OVERRIDES
+   ========================================================================== */
+@media (max-width: 1200px) {
+  .uiv-form-row { grid-template-columns: 1fr; gap: 14px; }
+}
+
+@media (max-width: 992px) {
+  .uiv-sidebar { display: none; }
+  .uiv-main-workspace { margin-left: 0; }
+  .uiv-nav-search-wrapper { display: none; }
+}
+
+@media (max-width: 768px) {
+  .uiv-navbar .uiv-nav-container { padding: 0 16px; }
+  .uiv-library-badge { display: none; }
+  
+  .uiv-components-catalog-grid { grid-template-columns: 1fr; gap: 20px; }
+  .uiv-main-workspace { padding: 24px 16px; }
+  
+  .uiv-catalog-toolbar { flex-direction: column; gap: 14px; align-items: stretch; padding: 14px; }
+  .uiv-layout-toggle-cluster { width: 100%; }
+  .uiv-layout-btn { flex: 1; text-align: center; }
+  
+  .uiv-footer-container { grid-template-columns: 1fr; gap: 32px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, .uiv-slider-animated-pulse::-webkit-slider-runnable-track { animation: none !important; transition: none !important; }
+}

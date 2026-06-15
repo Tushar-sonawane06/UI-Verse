@@ -1,107 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather Forecast Dashboard UI</title>
   <link rel="stylesheet" href="ui.css">
 </head>
+
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
 
   <div class="weather-dashboard">
 
-    <div class="current-weather">
+    <!-- Top Section -->
+    <div class="top-section">
 
-      <h1>Hyderabad</h1>
+      <!-- Main Weather -->
+      <div class="weather-card main-weather">
 
-      <div class="weather-icon">
-        ☀️
+        <div class="location">
+
+          <div class="location-text">
+            <h2>Hyderabad, India</h2>
+            <p>Monday, 27 May • 10:42 AM</p>
+          </div>
+
+          <div class="live-badge">
+            ● Live Weather
+          </div>
+
+        </div>
+
+        <div class="temp-area">
+
+          <div class="temp-content">
+            <h1>28°</h1>
+            <h2>Cloudy</h2>
+            <span>Feels like 31°C • AQI Moderate</span>
+          </div>
+
+          <div class="weather-icon">
+            ☁️
+          </div>
+
+        </div>
+
       </div>
+<!-- Search & Controls -->
+<div class="weather-toolbar">
 
-      <h2>32°C</h2>
+  <div class="search-box">
+    <input type="text" placeholder="Search city...">
+    <button>🔍</button>
+  </div>
 
-      <p>Sunny Weather</p>
+  <button class="theme-btn">
+    🌙
+  </button>
+
+</div>
+
+<section class="hourly-section">
+
+  <div class="section-header">
+    <h2>Hourly Forecast</h2>
+  </div>
+
+  <div class="hourly-scroll">
+
+    <div class="hour-card">
+      <span>11 AM</span>
+      <div>☀️</div>
+      <p>29°</p>
+    </div>
+
+    <div class="hour-card">
+      <span>12 PM</span>
+      <div>☁️</div>
+      <p>30°</p>
+    </div>
+
+    <div class="hour-card">
+      <span>1 PM</span>
+      <div>🌦️</div>
+      <p>28°</p>
+    </div>
+
+    <div class="hour-card">
+      <span>2 PM</span>
+      <div>🌧️</div>
+      <p>27°</p>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="highlights-section">
+
+  <h2>Today's Highlights</h2>
+
+  <div class="highlights-grid">
+
+    <div class="highlight-card">
+      <h4>🌡 Feels Like</h4>
+      <p>31°C</p>
+    </div>
+
+    <div class="highlight-card">
+      <h4>🌧 Rain Chance</h4>
+      <p>64%</p>
+    </div>
+
+    <div class="highlight-card">
+      <h4>⚡ UV Index</h4>
+      <p>5.2 Moderate</p>
+    </div>
+
+    <div class="highlight-card">
+      <h4>💨 Gusts</h4>
+      <p>24 km/h</p>
+    </div>
+
+  </div>
+
+</section>
+<section class="radar-section">
+
+  <div class="section-header">
+    <h2>Weather Radar</h2>
+  </div>
+
+  <div class="radar-map">
+    <img
+      src="https://images.unsplash.com/photo-1504608524841-42fe6f032b4b"
+      alt="Weather Radar">
+  </div>
+
+</section>
+
+<section class="chart-section">
+
+  <div class="section-header">
+    <h2>Temperature Trend</h2>
+  </div>
+
+  <canvas id="tempChart"></canvas>
+
+</section>
+
+      <!-- Stats -->
+      <div class="weather-card stats-card">
+
+        <div class="stat">
+          <h3>Humidity</h3>
+          <p>72%</p>
+        </div>
+
+        <div class="stat">
+          <h3>Wind Speed</h3>
+          <p>12 km/h</p>
+        </div>
+
+        <div class="stat">
+          <h3>Pressure</h3>
+          <p>1012 hPa</p>
+        </div>
+
+        <div class="stat">
+          <h3>Visibility</h3>
+          <p>8.4 km</p>
+        </div>
+
+      </div>
 
     </div>
 
-    <div class="weather-stats">
+    <!-- Forecast -->
+    <div class="forecast-section">
 
-      <div class="stat-card">
+      <div class="section-header">
 
-        <h3>Humidity</h3>
+        <h2>Weekly Forecast</h2>
 
-        <p>60%</p>
-
-      </div>
-
-      <div class="stat-card">
-
-        <h3>Wind Speed</h3>
-
-        <p>14 km/h</p>
+        <div class="forecast-tabs">
+          <button class="tab active">7 Days</button>
+          <button class="tab">15 Days</button>
+          <button class="tab">Monthly</button>
+        </div>
 
       </div>
 
-      <div class="stat-card">
+      <div class="forecast-grid">
 
-        <h3>Pressure</h3>
+        <div class="forecast-card">
+          <h3>Mon</h3>
+          <span>☀️</span>
+          <p>31°C</p>
+        </div>
 
-        <p>1012 hPa</p>
+        <div class="forecast-card">
+          <h3>Tue</h3>
+          <span>🌧️</span>
+          <p>25°C</p>
+        </div>
+
+        <div class="forecast-card">
+          <h3>Wed</h3>
+          <span>⛅</span>
+          <p>29°C</p>
+        </div>
+
+        <div class="forecast-card">
+          <h3>Thu</h3>
+          <span>☁️</span>
+          <p>27°C</p>
+        </div>
+
+        <div class="forecast-card">
+          <h3>Fri</h3>
+          <span>🌩️</span>
+          <p>24°C</p>
+        </div>
 
       </div>
 
     </div>
 
-    <div class="weekly-forecast">
+    <!-- Bottom Section -->
+    <div class="bottom-section">
 
-      <div class="forecast-card">
+      <!-- Sunrise Sunset -->
+      <div class="weather-card sun-card">
 
-        <h4>Mon</h4>
+        <h2 class="mini-title">
+          Sunrise & Sunset
+        </h2>
 
-        <span>☀️</span>
+        <div class="sun-times">
 
-        <p>31°C</p>
+          <div class="sun-box">
+            <h4>Sunrise</h4>
+            <p>5:42 AM</p>
+          </div>
 
-      </div>
+          <div class="sun-box">
+            <h4>Sunset</h4>
+            <p>6:48 PM</p>
+          </div>
 
-      <div class="forecast-card">
-
-        <h4>Tue</h4>
-
-        <span>🌧️</span>
-
-        <p>28°C</p>
-
-      </div>
-
-      <div class="forecast-card">
-
-        <h4>Wed</h4>
-
-        <span>⛅</span>
-
-        <p>30°C</p>
+        </div>
 
       </div>
 
-      <div class="forecast-card">
+      <!-- Air Quality -->
+      <div class="weather-card air-card">
 
-        <h4>Thu</h4>
+        <h2 class="mini-title">
+          Air Quality
+        </h2>
 
-        <span>🌩️</span>
+        <div class="air-grid">
 
-        <p>27°C</p>
+          <div class="air-item">
+            <h4>PM2.5</h4>
+            <p>42</p>
+          </div>
 
-      </div>
+          <div class="air-item">
+            <h4>CO₂</h4>
+            <p>381</p>
+          </div>
 
-      <div class="forecast-card">
+          <div class="air-item">
+            <h4>UV Index</h4>
+            <p>5.2</p>
+          </div>
 
-        <h4>Fri</h4>
+          <div class="air-item">
+            <h4>Ozone</h4>
+            <p>68</p>
+          </div>
 
-        <span>☀️</span>
-
-        <p>33°C</p>
+        </div>
 
       </div>
 
@@ -110,5 +294,6 @@
   </div>
 
   <script src="ui.js"></script>
+  <script src="dist/shared.js"></script>
 </body>
 </html>

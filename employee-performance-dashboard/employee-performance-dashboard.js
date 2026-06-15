@@ -107,6 +107,21 @@ employeeButtons.forEach(btn => {
 
 });
 
+
+const ctx = document
+  .getElementById('performanceChart');
+
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+    datasets: [{
+      label: 'Productivity',
+      data: [68,74,81,85,89,92],
+      tension: 0.4
+    }]
+  }
+});
 /* CARD GLOW EFFECT */
 
 const employeeCards =
@@ -166,5 +181,110 @@ taskStatus.forEach(status => {
     );
 
   });
+
+});
+
+/* =========================
+   SIDEBAR ACTIVE
+========================= */
+
+const navLinks =
+document.querySelectorAll(".sidebar-nav a");
+
+navLinks.forEach(link=>{
+
+  link.addEventListener("click",()=>{
+
+    navLinks.forEach(item=>
+      item.classList.remove("active")
+    );
+
+    link.classList.add("active");
+
+  });
+
+});
+
+/* =========================
+   SEARCH FILTER
+========================= */
+
+const searchInput =
+document.querySelector(".search-box input");
+
+const employeeCards =
+document.querySelectorAll(".employee-card");
+
+searchInput.addEventListener("keyup",()=>{
+
+  const value =
+  searchInput.value.toLowerCase();
+
+  employeeCards.forEach(card=>{
+
+    const text =
+    card.innerText.toLowerCase();
+
+    card.style.display =
+    text.includes(value)
+    ? "block"
+    : "none";
+
+  });
+
+});
+
+/* =========================
+   BUTTON RIPPLE
+========================= */
+
+const buttons =
+document.querySelectorAll("button");
+
+buttons.forEach(button=>{
+
+  button.addEventListener("click",(e)=>{
+
+    const ripple =
+    document.createElement("span");
+
+    ripple.classList.add("ripple");
+
+    const rect =
+    button.getBoundingClientRect();
+
+    ripple.style.left =
+    `${e.clientX - rect.left}px`;
+
+    ripple.style.top =
+    `${e.clientY - rect.top}px`;
+
+    button.appendChild(ripple);
+
+    setTimeout(()=>{
+
+      ripple.remove();
+
+    },600);
+
+  });
+
+});
+
+/* =========================
+   NOTIFICATION TOGGLE
+========================= */
+
+const notifyBtn =
+document.querySelector(".notification-btn");
+
+notifyBtn.addEventListener("click",()=>{
+
+  notifyBtn.classList.toggle("active");
+
+  notifyBtn.innerHTML =
+  notifyBtn.classList.contains("active")
+  ? '<i class="fa-solid fa-bell-ring"></i>'
+  : '<i class="fa-solid fa-bell"></i>';
 
 });

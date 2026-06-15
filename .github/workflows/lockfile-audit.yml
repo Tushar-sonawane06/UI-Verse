@@ -1,0 +1,26 @@
+name: Lockfile Audit
+
+on:
+  pull_request:
+    paths:
+      - 'package-lock.json'
+      - 'package.json'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install lockfile-lint
+        run: npm install -g lockfile-lint
+
+      - name: Audit Lockfile
+        run: lockfile-lint --path package-lock.json --allowed-hosts npm --validate-https

@@ -1,0 +1,208 @@
+:root {
+  --nn-bg: #0a0f1e;
+  --nn-card: #0f1629;
+  --nn-card-2: #111827;
+  --nn-border: rgba(255, 255, 255, 0.07);
+  --nn-accent: #7c6ff7;
+  --nn-accent2: #22d3ee;
+  --nn-green: #34d399;
+  --nn-red: #f87171;
+  --nn-muted: rgba(200, 205, 225, 0.5);
+  --nn-text: #e2e8f0;
+  --nn-radius-md: 8px;
+  --nn-radius-lg: 12px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--nn-bg);
+  color: var(--nn-text);
+  font-family: system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+}
+
+header {
+  text-align: center;
+  padding: 20px;
+  background: #0b1120;
+  border-bottom: 1px solid var(--nn-border);
+}
+
+header h1 {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--nn-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+header h1 .ti {
+  color: var(--nn-accent);
+  font-size: 22px;
+}
+
+/* Root layout */
+.nn-root {
+  width: min(960px, 94%);
+  margin: 24px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Metric cards */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.metric {
+  background: var(--nn-card);
+  border: 0.5px solid var(--nn-border);
+  border-radius: var(--nn-radius-md);
+  padding: 12px 14px;
+}
+
+.metric-label {
+  font-size: 11px;
+  color: var(--nn-muted);
+  margin-bottom: 5px;
+  letter-spacing: 0.03em;
+}
+
+.metric-value {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--nn-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-value.green  { color: var(--nn-green); }
+.metric-value.red    { color: var(--nn-red); }
+.metric-value.accent { color: var(--nn-accent); }
+
+/* Two-column grid */
+.nn-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Cards */
+.card {
+  background: var(--nn-card);
+  border: 0.5px solid var(--nn-border);
+  border-radius: var(--nn-radius-lg);
+  padding: 16px 18px;
+}
+
+/* Network canvas */
+.network-area { position: relative; }
+
+#networkCanvas {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+}
+
+/* Progress bars */
+.prog-track {
+  height: 5px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.prog-fill {
+  height: 100%;
+  background: var(--nn-accent);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+/* Chart */
+#chartCanvas {
+  width: 100%;
+  display: block;
+}
+
+/* Status badge */
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--nn-green);
+  animation: blink 1.4s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+
+.status-text {
+  font-size: 11px;
+  color: var(--nn-green);
+  font-weight: 500;
+}
+
+/* Typography helpers */
+.section-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--nn-text);
+  margin-bottom: 4px;
+}
+
+.sub { font-size: 11px; color: var(--nn-muted); }
+
+.green { color: var(--nn-green); }
+.red   { color: var(--nn-red); }
+
+.col-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+/* Architecture pills */
+.arch-pill {
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid var(--nn-border);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+  color: var(--nn-text);
+}
+
+.arch-sep { color: var(--nn-muted); }
+
+/* Divider inside card */
+.card-divider {
+  border: none;
+  border-top: 0.5px solid var(--nn-border);
+  margin: 14px 0;
+}
+
+@media (max-width: 640px) {
+  .nn-grid    { grid-template-columns: 1fr; }
+  .metrics    { grid-template-columns: repeat(2, 1fr); }
+}

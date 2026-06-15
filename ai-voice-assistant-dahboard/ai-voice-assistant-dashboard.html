@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+  <link rel="stylesheet" href="../dist/shared.css">
   <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
   <meta name="viewport"
   content="width=device-width, initial-scale=1.0"/>
 
@@ -24,6 +25,8 @@
 </head>
 
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
 
   <!-- ================= SIDEBAR ================= -->
 
@@ -128,11 +131,11 @@
           <i class="fa-solid fa-magnifying-glass"></i>
 
           <input type="text"
-          placeholder="Search commands or analytics..."/>
+          placeholder="Search commands or analytics..."/ data-a11y-remediation="label-needed">
 
         </div>
 
-        <button class="notification-btn">
+        <button class="notification-btn" type="button" aria-label="Open notifications">
           <i class="fa-solid fa-bell"></i>
         </button>
 
@@ -188,6 +191,68 @@
         <div class="wave wave2"></div>
         <div class="wave wave3"></div>
 
+      </div>
+
+    </section>
+
+    <!-- ================= VOICE CONSOLE ================= -->
+
+    <section class="voice-console">
+
+      <div class="voice-console__header">
+        <div>
+          <span class="section-kicker">Farm Voice Assistant</span>
+          <h2>Ask in your language and act hands-free</h2>
+          <p>Speak naturally in Hindi, Tamil, Spanish, or English. The assistant can route requests through a backend intent service or a local fallback.</p>
+        </div>
+
+        <div class="voice-console__controls">
+          <label class="language-picker">
+            <span>Language</span>
+            <select data-voice-language>
+              <option value="en">English</option>
+              <option value="hi">Hindi</option>
+              <option value="ta">Tamil</option>
+              <option value="es">Spanish</option>
+            </select>
+          </label>
+
+          <div class="voice-console__buttons">
+            <button class="primary-btn" type="button" data-voice-action="start">
+              Start Listening
+            </button>
+            <button class="secondary-btn" type="button" data-voice-action="stop">
+              Stop
+            </button>
+            <button class="secondary-btn" type="button" data-voice-action="sample">
+              Try Sample
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="voice-console__grid">
+        <article class="voice-panel voice-panel--live">
+          <div class="voice-panel__meta">
+            <span>Live status</span>
+            <strong data-voice-status>Tap the microphone and speak naturally.</strong>
+          </div>
+          <div class="voice-panel__body">
+            <p class="voice-label">Transcript</p>
+            <p class="voice-value" data-voice-transcript>—</p>
+          </div>
+        </article>
+
+        <article class="voice-panel">
+          <div class="voice-panel__meta">
+            <span>Intent detection</span>
+            <strong data-voice-intent>—</strong>
+          </div>
+          <div class="voice-panel__body">
+            <p class="voice-label">What the assistant understood</p>
+            <p class="voice-value" data-voice-response>Ask for crop prices, log an expense, or try a sample command.</p>
+          </div>
+        </article>
       </div>
 
     </section>
@@ -421,7 +486,9 @@
   </main>
 
   <!-- JS -->
+  <script src="voice-input.js"></script>
   <script src="ai-voice-assistant-dashboard.js"></script>
 
+      <script src="../dist/shared.js"></script>
 </body>
 </html>

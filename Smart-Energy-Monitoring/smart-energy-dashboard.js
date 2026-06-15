@@ -113,3 +113,42 @@ notificationBtn.addEventListener(
   );
 
 });
+
+const optimizeBtn = document.getElementById("optimizeBtn");
+const energyUsage = document.getElementById("energyUsage");
+const solarProduction = document.getElementById("solarProduction");
+const batteryLevel = document.getElementById("batteryLevel");
+const renewableEfficiency = document.getElementById("renewableEfficiency");
+
+optimizeBtn.addEventListener("click", () => {
+
+  optimizeBtn.innerText = "Optimizing...";
+  optimizeBtn.disabled = true;
+
+  setTimeout(() => {
+
+    energyUsage.innerText = "12.9 kWh";
+    solarProduction.innerText = "10.5 kWh";
+    batteryLevel.innerText = "81%";
+    renewableEfficiency.innerText = "92%";
+
+    optimizeBtn.innerText = "Optimization Complete";
+
+  }, 1800);
+
+});
+
+// Live Battery Animation
+
+setInterval(() => {
+
+  let current = parseInt(batteryLevel.innerText);
+
+  if(current < 100){
+
+    current += 1;
+    batteryLevel.innerText = current + "%";
+
+  }
+
+},5000);

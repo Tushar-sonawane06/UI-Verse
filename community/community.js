@@ -3,6 +3,7 @@ function postComment(){
   const input = document.getElementById("commentInput");
   const wrapper = document.getElementById("commentsWrapper");
 
+  
   if (!input || !wrapper) {
     return;
   }
@@ -96,3 +97,27 @@ function likeComment(button){
   span.innerText = count;
 
 }
+
+function like(btn){
+  let count = btn.querySelector("span");
+
+  if(btn.classList.contains("liked")){
+    count.textContent--;
+    btn.classList.remove("liked");
+  }else{
+    count.textContent++;
+    btn.classList.add("liked");
+  }
+}
+
+function saveComments(){
+  localStorage.setItem(
+    "communityComments",
+    commentsWrapper.innerHTML
+  );
+}
+
+window.onload=()=>{
+  commentsWrapper.innerHTML =
+  localStorage.getItem("communityComments") || "";
+};

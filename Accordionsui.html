@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
 
   <meta charset="UTF-8">
 
@@ -23,6 +24,8 @@
     href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap"
     rel="stylesheet"
   >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 
   <!-- Icons -->
 
@@ -30,27 +33,35 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
   >
-
+<link rel="stylesheet" href="Accordionsui.js"></head>
+  <body>
   <!-- CSS -->
 
   <link
     rel="stylesheet"
     href="Accordionsui.css"
   >
-
-</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
+  
+
 <!-- ================= SIDEBAR ================= -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
     <span class="brand-icon">⬡</span>
     <span class="brand-text">UIverse <span style="font-size: 9px; background: linear-gradient(135deg, #eb6835, #7b61ff); color: white; padding: 1px 6px; border-radius: 10px; font-weight: 800; margin-left: 4px; letter-spacing: 0.5px; vertical-align: middle; box-shadow: 0 0 8px rgba(235,104,53,0.3);">V2</span></span>
   </div>
+  <li class="theme-toggle-item">
+        <button id="darkModeToggle" class="theme-toggle-sidebar" title="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+          <span>Theme</span>
+        </button>
+      </li>
 
           <nav class="sidebar-nav">
     <ul>
-      <li class="active">
+      <li>
         <a href="index.html">
           <i class="fa-solid fa-house"></i>
           <span>Home</span>
@@ -111,6 +122,12 @@
         </a>
       </li>
       <li>
+        <li class="active">
+        <a href="Accordionsui.html">
+          <i class="fa-solid fa-arrow-right"></i>
+          <span>accordion</span>
+        </a>
+      </li>
         <a href="article.html">
           <i class="fa-solid fa-newspaper"></i>
           <span>Articles</span>
@@ -382,37 +399,74 @@
 
 <!-- ================= SIDEBAR BACKDROP ================= -->
 <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
-<!-- =====================================================
-NAVBAR
-===================================================== -->
+<!-- =========================================================
+   NAVBAR
+========================================================= -->
 
-<header class="navbar">
-
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
   <div class="search-bar">
-
-    <i class="fa-solid fa-magnifying-glass"></i>
-
-    <input
-      type="text"
-      placeholder="Search accordion components..."
-    >
-
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
   </div>
-
-  <div class="nav-actions">
-
-    <button class="outline-btn">
-      Documentation
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
     </button>
-
-    <button class="primary-btn">
-      Explore UI
-    </button>
-
   </div>
-
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
 </header>
-
 <!-- =====================================================
 MAIN
 ===================================================== -->
@@ -465,7 +519,7 @@ MAIN
 
       <div class="accordion-item active">
 
-        <button class="accordion-btn">
+        <button class="accordion-btn" aria-expanded="true" aria-controls="accordion-content-1" id="accordion-btn-1">
 
           <span>
             What is UIverse?
@@ -649,12 +703,317 @@ MAIN
       </div>
 
     </div>
+    <div class="accordion-card">
+  <div class="card-header">
+    <span class="card-label">PRICING</span>
+    <h2>Plans & Packages</h2>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Free Plan</span>
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="accordion-content">
+      <p>Basic components with limited features, free forever.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Pro Plan</span>
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="accordion-content">
+      <p>Access to premium UI elements, animations, and layouts.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Enterprise</span>
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="accordion-content">
+      <p>Custom solutions, dedicated support, and scalability options.</p>
+    </div>
+  </div>
+</div>
+<div class="accordion-card">
+  <div class="card-header">
+    <span class="card-label">TUTORIALS</span>
+    <h2>Getting Started</h2>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Installation</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <div class="accordion-content">
+      <p>Copy the CDN link or install via npm to start using UIverse.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Customization</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <div class="accordion-content">
+      <p>Modify CSS variables to adjust colors, spacing, and typography.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Deployment</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <div class="accordion-content">
+      <p>Integrate components into your project and deploy seamlessly.</p>
+    </div>
+  </div>
+</div>
+<div class="accordion-card">
+  <div class="card-header">
+    <span class="card-label">SUPPORT</span>
+    <h2>Help & Resources</h2>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Documentation</span>
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="accordion-content">
+      <p>Comprehensive guides and API references for all components.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Community Forum</span>
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="accordion-content">
+      <p>Join discussions, ask questions, and share your projects.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Contact Support</span>
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="accordion-content">
+      <p>Reach out to our team for technical assistance or feedback.</p>
+    </div>
+  </div>
+</div>
+<div class="accordion-card">
+  <div class="card-header">
+    <span class="card-label">TEAM</span>
+    <h2>Meet Our Crew</h2>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Design Team</span>
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="accordion-content">
+      <p>Creative designers crafting modern UI layouts and visuals.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Development Team</span>
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="accordion-content">
+      <p>Frontend and backend engineers building scalable systems.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Support Team</span>
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="accordion-content">
+      <p>Dedicated experts helping users with queries and feedback.</p>
+    </div>
+  </div>
+</div>
+<div class="accordion-card">
+  <div class="card-header">
+    <span class="card-label">ROADMAP</span>
+    <h2>Upcoming Features</h2>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Q2 2026</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <div class="accordion-content">
+      <p>New dashboard layouts and performance improvements.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Q3 2026</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <div class="accordion-content">
+      <p>Expanded component library with charts and tables.</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Q4 2026</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <div class="accordion-content">
+      <p>AI-powered UI suggestions and smart templates.</p>
+    </div>
+  </div>
+</div>
+<div class="accordion-card">
+  <div class="card-header">
+    <span class="card-label">REVIEWS</span>
+    <h2>User Testimonials</h2>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Developer Feedback</span>
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="accordion-content">
+      <p>"UIverse saved me weeks of design work!"</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Designer Feedback</span>
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="accordion-content">
+      <p>"The components are sleek and easy to customize."</p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-btn">
+      <span>Startup Feedback</span>
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="accordion-content">
+      <p>"Helped us launch faster with polished UI sections."</p>
+    </div>
+  </div>
+</div>
+
+
 
   </section>
 
 </main>
 
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
+
 <script src="Accordionsui.js"></script>
 
+  <script src="dist/shared.js"></script>
 </body>
 </html>

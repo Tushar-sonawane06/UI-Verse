@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="dist/shared.css">
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Advanced Flip Card UI</title>
+
+  <!-- Remix Icons -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="flip-card.css" />
+  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
+
+  <section class="cards-wrapper">
+
+    <!-- CARD 1 -->
+    <div class="flip-card">
+
+      <div class="flip-card-inner">
+
+        <!-- FRONT -->
+        <div class="flip-card-front">
+
+          <div class="badge">
+            <i class="ri-star-fill"></i>
+            Featured
+          </div>
+
+          <img
+            src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop"
+            alt="Frontend"
+          />
+
+          <div class="overlay"></div>
+
+          <div class="front-content">
+
+            <div class="profile">
+              <img
+                src="https://randomuser.me/api/portraits/women/44.jpg"
+                alt=""
+              />
+
+              <div>
+                <h4>Dipanita</h4>
+                <span>Frontend Developer</span>
+              </div>
+            </div>
+
+            <h2>Modern UI Designer</h2>
+
+            <p>
+              Build beautiful and responsive web interfaces using modern
+              technologies.
+            </p>
+
+            <div class="tags">
+              <span>HTML</span>
+              <span>CSS</span>
+              <span>React</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- BACK -->
+        <div class="flip-card-back">
+
+          <h2>Skills Overview</h2>
+
+          <div class="skill">
+
+            <div class="skill-info">
+              <span>HTML</span>
+              <span>95%</span>
+            </div>
+
+            <div class="progress">
+              <div class="progress-bar html"></div>
+            </div>
+
+          </div>
+
+          <div class="skill">
+
+            <div class="skill-info">
+              <span>CSS</span>
+              <span>90%</span>
+            </div>
+
+            <div class="progress">
+              <div class="progress-bar css"></div>
+            </div>
+
+          </div>
+
+          <div class="skill">
+
+            <div class="skill-info">
+              <span>JavaScript</span>
+              <span>85%</span>
+            </div>
+
+            <div class="progress">
+              <div class="progress-bar js"></div>
+            </div>
+
+          </div>
+
+          <div class="skill">
+
+            <div class="skill-info">
+              <span>React</span>
+              <span>80%</span>
+            </div>
+
+            <div class="progress">
+              <div class="progress-bar react"></div>
+            </div>
+
+          </div>
+
+          <div class="social-icons">
+            <a href="#"><i class="ri-github-fill"></i></a>
+            <a href="#"><i class="ri-linkedin-box-fill"></i></a>
+            <a href="#"><i class="ri-twitter-x-fill"></i></a>
+          </div>
+
+          <button class="btn">
+            View Portfolio
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="flip-card">
+
+      <div class="flip-card-inner">
+
+        <!-- FRONT -->
+        <div class="flip-card-front second">
+
+          <div class="badge green">
+            <i class="ri-fire-fill"></i>
+            Trending
+          </div>
+
+          <img
+            src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
+            alt=""
+          />
+
+          <div class="overlay"></div>
+
+          <div class="front-content">
+
+            <div class="profile">
+              <img
+                src="https://randomuser.me/api/portraits/men/32.jpg"
+                alt=""
+              />
+
+              <div>
+                <h4>Alex Smith</h4>
+                <span>UI Engineer</span>
+              </div>
+            </div>
+
+            <h2>Creative Dashboard</h2>
+
+            <p>
+              Interactive components with smooth animations and modern layouts.
+            </p>
+
+            <div class="tags">
+              <span>UI/UX</span>
+              <span>Animation</span>
+              <span>Design</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- BACK -->
+        <div class="flip-card-back second-back">
+
+          <h2>Project Stats</h2>
+
+          <div class="stats-grid">
+
+            <div class="stat-box">
+              <i class="ri-code-s-slash-line"></i>
+              <h3>120+</h3>
+              <p>Projects</p>
+            </div>
+
+            <div class="stat-box">
+              <i class="ri-user-smile-line"></i>
+              <h3>80+</h3>
+              <p>Clients</p>
+            </div>
+
+            <div class="stat-box">
+              <i class="ri-award-line"></i>
+              <h3>12</h3>
+              <p>Awards</p>
+            </div>
+
+            <div class="stat-box">
+              <i class="ri-time-line"></i>
+              <h3>5Y</h3>
+              <p>Experience</p>
+            </div>
+
+          </div>
+
+          <button class="btn">
+            Explore More
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <script src="flip-card.js"></script>
+
+  <script src="dist/shared.js"></script>
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>\n\n</body>
+</html>

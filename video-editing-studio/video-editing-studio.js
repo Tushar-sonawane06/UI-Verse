@@ -156,3 +156,31 @@ cards.forEach(card => {
   });
 
 });
+
+const notificationBtn = document.querySelector('.notification-btn');
+
+notificationBtn.addEventListener('click', () => {
+  alert('You have 3 new notifications 🎬');
+});
+
+const editButtons = document.querySelectorAll('.edit-btn');
+
+editButtons.forEach((btn) => {
+
+  btn.addEventListener('click', () => {
+
+    btn.innerText = 'Opening...';
+
+    setTimeout(() => {
+      btn.innerText = 'Edit';
+    }, 1500);
+
+  });
+
+});
+
+const searchInput = document.querySelector('.search-box input');
+
+searchInput.addEventListener('input', (e) => {
+  console.debug('Searching for:', e.target.value);
+});

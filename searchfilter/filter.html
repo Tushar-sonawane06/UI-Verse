@@ -1,42 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="../dist/shared.css">
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Search Filter UI</title>
-  <link rel="stylesheet" href="filet.css">
+
+  <title>Smart Search Filter</title>
+
+  <link rel="stylesheet" href="filter.css">
 </head>
+
 <body>
 
-  <div class="container">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <h1>Search Filter UI</h1>
+  <main id="main-content" class="container">
 
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="Search items..."
-    >
+    <header class="hero">
+      <h1>🔍 Search Filter UI</h1>
+      <p>Find topics instantly with real-time filtering</p>
+    </header>
 
-    <div class="card-container" id="cardContainer">
+    <div class="search-wrapper">
 
-      <div class="card">Frontend Development</div>
+      <label for="searchInput" class="sr-only">
+        Search topics
+      </label>
 
-      <div class="card">Backend Development</div>
+      <span class="search-icon">🔎</span>
 
-      <div class="card">UI UX Design</div>
-
-      <div class="card">JavaScript Projects</div>
-
-      <div class="card">React Components</div>
-
-      <div class="card">CSS Animations</div>
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search topics..."
+        aria-describedby="searchHelp">
 
     </div>
 
-  </div>
+    <p id="searchHelp" class="helper-text">
+      Type to filter available topics.
+    </p>
+
+    <div class="result-bar">
+      <span id="resultCount">6 Results</span>
+    </div>
+
+    <section
+      class="card-container"
+      id="cardContainer"
+      aria-label="Search Results">
+
+      <article class="card">
+        <span class="tag">Frontend</span>
+        <h3>Frontend Development</h3>
+      </article>
+
+      <article class="card">
+        <span class="tag">Backend</span>
+        <h3>Backend Development</h3>
+      </article>
+
+      <article class="card">
+        <span class="tag">Design</span>
+        <h3>UI UX Design</h3>
+      </article>
+
+      <article class="card">
+        <span class="tag">JavaScript</span>
+        <h3>JavaScript Projects</h3>
+      </article>
+
+      <article class="card">
+        <span class="tag">React</span>
+        <h3>React Components</h3>
+      </article>
+
+      <article class="card">
+        <span class="tag">CSS</span>
+        <h3>CSS Animations</h3>
+      </article>
+
+    </section>
+
+    <div
+      id="emptyState"
+      class="empty-state"
+      hidden>
+      No matching results found.
+    </div>
+
+  </main>
 
   <script src="filter.js"></script>
+  <script src="../dist/shared.js"></script>
+
 </body>
 </html>

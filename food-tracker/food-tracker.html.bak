@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriTrack — Improved Dashboard</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    :root{
+      --bg:#0f172a;
+      --panel:#111c33;
+      --card:#162447;
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --primary:#22c55e;
+      --accent:#38bdf8;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --radius:18px;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"DM Sans",sans-serif;}
+
+    body{
+      background:linear-gradient(120deg,#0f172a,#0b1220);
+      color:var(--text);
+      display:flex;
+      min-height:100vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar{
+      width:260px;
+      background:rgba(17,28,51,0.9);
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+      border-right:1px solid rgba(255,255,255,0.05);
+    }
+
+    .logo{
+      font-size:20px;
+      font-weight:700;
+      color:var(--primary);
+    }
+
+    .sidebar a{
+      text-decoration:none;
+      color:var(--muted);
+      padding:10px;
+      border-radius:10px;
+      display:flex;
+      gap:10px;
+      transition:.3s;
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active{
+      background:rgba(34,197,94,0.15);
+      color:var(--primary);
+    }
+
+    /* MAIN */
+    .main{
+      flex:1;
+      padding:20px;
+      overflow-y:auto;
+    }
+
+    /* TOPBAR */
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
+    }
+
+    .search{
+      background:var(--panel);
+      padding:10px 15px;
+      border-radius:12px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    .search input{
+      background:transparent;
+      border:none;
+      outline:none;
+      color:var(--text);
+    }
+
+    /* HERO */
+    .hero{
+      display:grid;
+      grid-template-columns:1.2fr 1fr;
+      gap:20px;
+      background:var(--panel);
+      padding:20px;
+      border-radius:var(--radius);
+      margin-bottom:20px;
+    }
+
+    .hero h1{font-size:32px;}
+    .hero p{color:var(--muted);margin:10px 0;}
+
+    .btn{
+      padding:10px 15px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      transition:.3s;
+    }
+
+    .primary{background:var(--primary);color:#000;}
+    .primary:hover{transform:scale(1.05);}
+
+    .secondary{background:transparent;border:1px solid var(--primary);color:var(--primary);}
+
+    /* STATS */
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:15px;
+      margin-bottom:20px;
+    }
+
+    .card{
+      background:var(--card);
+      padding:15px;
+      border-radius:var(--radius);
+      transition:.3s;
+    }
+
+    .card:hover{transform:translateY(-5px);}
+
+    .card h2{margin-top:10px;}
+
+    .muted{color:var(--muted);font-size:13px;}
+
+    /* MEALS */
+    .meals{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:15px;
+    }
+
+    .meal{
+      background:var(--card);
+      border-radius:var(--radius);
+      overflow:hidden;
+      transition:.3s;
+    }
+
+    .meal:hover{transform:translateY(-6px);}
+
+    .meal img{
+      width:100%;
+      height:150px;
+      object-fit:cover;
+    }
+
+    .meal-content{
+      padding:12px;
+    }
+
+    .tags span{
+      font-size:12px;
+      background:rgba(34,197,94,0.15);
+      padding:3px 8px;
+      border-radius:8px;
+      margin-right:5px;
+    }
+
+    /* DARK MODE */
+    body.light{
+      --bg:#f1f5f9;
+      --panel:#ffffff;
+      --card:#e2e8f0;
+      --text:#0f172a;
+      --muted:#475569;
+    }
+  </style>
+</head>
+
+<body>
+
+  <aside class="sidebar">
+    <div class="logo">🥗 NutriTrack</div>
+    <a class="active"><i class="fa fa-chart-line"></i> Dashboard</a>
+    <a><i class="fa fa-utensils"></i> Meals</a>
+    <a><i class="fa fa-fire"></i> Calories</a>
+    <a><i class="fa fa-heart"></i> Nutrition</a>
+    <a><i class="fa fa-dumbbell"></i> Fitness</a>
+
+    <button class="btn secondary" onclick="toggleTheme()">Toggle Theme</button>
+  </aside>
+
+  <main class="main">
+
+    <div class="topbar">
+      <h2>Dashboard</h2>
+
+      <div class="search">
+        <i class="fa fa-search"></i>
+        <input placeholder="Search food..." />
+      </div>
+    </div>
+
+    <section class="hero">
+      <div>
+        <h1>Eat Better, Live Healthier 🥑</h1>
+        <p>Track calories, macros, hydration and progress in real time.</p>
+        <button class="btn primary">+ Add Meal</button>
+        <button class="btn secondary">Analytics</button>
+      </div>
+
+      <div>
+        <h3>Today Summary</h3>
+        <p class="muted">Calories</p>
+        <h2>1850 kcal</h2>
+        <p class="muted">Goal: 2200 kcal</p>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="card">
+        <p class="muted">Protein</p>
+        <h2>82g</h2>
+      </div>
+      <div class="card">
+        <p class="muted">Carbs</p>
+        <h2>210g</h2>
+      </div>
+      <div class="card">
+        <p class="muted">Fat</p>
+        <h2>56g</h2>
+      </div>
+      <div class="card">
+        <p class="muted">Water</p>
+        <h2>6/8</h2>
+      </div>
+    </section>
+
+    <section class="meals">
+      <div class="meal">
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" />
+        <div class="meal-content">
+          <h3>Avocado Salad</h3>
+          <p class="muted">420 kcal</p>
+          <div class="tags"><span>Healthy</span><span>Vegan</span></div>
+        </div>
+      </div>
+
+      <div class="meal">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd" />
+        <div class="meal-content">
+          <h3>Protein Bowl</h3>
+          <p class="muted">560 kcal</p>
+          <div class="tags"><span>Gym</span><span>Protein</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    function toggleTheme(){
+      document.body.classList.toggle("light");
+    }
+  </script>
+
+    <script src="../dist/shared.js"></script>
+</body>
+</html>

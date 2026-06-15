@@ -33,6 +33,14 @@
 
   </section>
 
+  <div>
+    <form>
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" name="" placeholder="Filter footers..." id="Scearch" onkeyup="SCEARCH()">
+    </form>
+  </div>
+
+
   <!-- GRID -->
   <div class="footer-grid">
     <!-- =========================================================

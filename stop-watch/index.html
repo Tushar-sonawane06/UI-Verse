@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-+cxkFLprM1p+UYdsltwfzLJhu4c0AWgWWM2wCE77y2Q=' 'sha256-1JPXm0IIviZQc3YklJTnJ77/PyMl8vzsDXrFWhL+JBM=' 'sha256-99pFDe5fEByOKDpjXSkU1opXIdMiCwXMgn8qig/4xRY=' 'sha256-DIm7WJS6ZKDYe5qFLPy+h4JFI9Bol5QmYC57mt3Fb00=' 'sha256-GRjq7RoyfsZgzl7velSausHHw/h2VJzxDKkWbEQYOk4=' 'sha256-n89DE+juLCe4x49WnBSmtB7uDkyRBWQSE2JEOnxYHHw=' 'sha256-sw1++X6TGLLCvqemHDc6dMKSM/Tcrk7bOJ44Wp2up8I='; script-src-attr 'unsafe-hashes' 'sha256-+cxkFLprM1p+UYdsltwfzLJhu4c0AWgWWM2wCE77y2Q=' 'sha256-1JPXm0IIviZQc3YklJTnJ77/PyMl8vzsDXrFWhL+JBM=' 'sha256-99pFDe5fEByOKDpjXSkU1opXIdMiCwXMgn8qig/4xRY=' 'sha256-DIm7WJS6ZKDYe5qFLPy+h4JFI9Bol5QmYC57mt3Fb00=' 'sha256-GRjq7RoyfsZgzl7velSausHHw/h2VJzxDKkWbEQYOk4=' 'sha256-n89DE+juLCe4x49WnBSmtB7uDkyRBWQSE2JEOnxYHHw=' 'sha256-sw1++X6TGLLCvqemHDc6dMKSM/Tcrk7bOJ44Wp2up8I='; style-src 'self' https: 'unsafe-hashes' 'sha256-ct0VctZeN2NHCY4B6U7le9yxQbLipadwEZd3NWfJrcY='; style-src-attr 'unsafe-hashes' 'sha256-ct0VctZeN2NHCY4B6U7le9yxQbLipadwEZd3NWfJrcY='">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stop-Watch</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <!-- Fonts -->
 
-    <h1 id="myh1">StopWatch</h1>
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+  <!-- Icons -->
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  >
+
+    <link rel="stylesheet" href="style.css">
+    </head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+<header class="stopwatch-header">
+  <h1>⏱️ Super Stopwatch</h1>
+</header>
+
 
     <div id="container">
         <div id="display">
@@ -21,8 +49,130 @@
             <button id="resetBtn" onclick="reset()">Reset</button>
         </div>
     </div>
+  <div id="extraControls">
+  <button id="lapBtn" onclick="recordLap()">Lap</button>
+  <button id="splitBtn" onclick="recordSplit()">Split</button>
+</div>
 
+<ul id="lapList"></ul>
+<div class="pomodoro-card">
+  <h2>Pomodoro Timer</h2>
+  <div id="pomodoroDisplay">25:00</div>
+  <div class="pomodoro-controls">
+    <button id="startPomodoro">Start</button>
+    <button id="pausePomodoro">Pause</button>
+    <button id="resetPomodoro">Reset</button>
+  </div>
+  <div class="progress-bar">
+    <div id="progress"></div>
+  </div>
+</div>
+<div class="stopwatch-card neon">
+  <h2>Neon Stopwatch</h2>
+  <div id="neonDisplay">00:00:00</div>
+  <div class="controls">
+    <button id="neonStart">Start</button>
+    <button id="neonStop">Stop</button>
+    <button id="neonReset">Reset</button>
+  </div>
+</div>
+<div class="stopwatch-card glass">
+  <h2>Glass Stopwatch</h2>
+  <div id="glassDisplay">00:00:00</div>
+  <div class="controls">
+    <button id="glassStart">Start</button>
+    <button id="glassStop">Stop</button>
+    <button id="glassReset">Reset</button>
+  </div>
+</div>
+<div class="stopwatch-card dark">
+  <h2>Futuristic Stopwatch</h2>
+  <div id="darkDisplay">00:00:00</div>
+  <div class="controls">
+    <button id="darkStart">Start</button>
+    <button id="darkStop">Stop</button>
+    <button id="darkReset">Reset</button>
+  </div>
+</div>
+<div class="stopwatch-card digital">
+  <h3>Digital Stopwatch</h3>
+  <div id="digitalDisplay">00:00</div>
+  <div class="controls">
+    <button id="digitalStart">Start</button>
+    <button id="digitalStop">Stop</button>
+    <button id="digitalReset">Reset</button>
+  </div>
+</div>
+<div class="stopwatch-card circle">
+  <h3>Circular Timer</h3>
+  <svg id="circleTimer" width="120" height="120">
+    <circle cx="60" cy="60" r="54" stroke="#ddd" stroke-width="8" fill="none"/>
+    <circle id="progressCircle" cx="60" cy="60" r="54" stroke="#00f" stroke-width="8" fill="none" stroke-dasharray="339" stroke-dashoffset="339"/>
+  </svg>
+  <div id="circleDisplay">01:00</div>
+  <button onclick="startCircleTimer()">Start</button>
+</div>
+<div class="stopwatch-card hourglass">
+  <h3>Hourglass Timer</h3>
+  <div class="hourglass">
+    <div class="sand top"></div>
+    <div class="sand bottom"></div>
+  </div>
+  <button onclick="startHourglass()">Start</button>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">GitHub Repo</a></li>
+        <li><a href="#">Community</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com">
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+  </div>
+</footer>
 
     <script src="app.js"></script>
+      <script src="../dist/shared.js"></script>
 </body>
 </html>

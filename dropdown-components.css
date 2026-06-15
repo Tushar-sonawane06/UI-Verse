@@ -1,5 +1,7 @@
 :root{
 
+  --sidebar-w:240px;
+
   --bg:#060816;
   --bg2:#0b1022;
 
@@ -17,6 +19,7 @@
   --orange:#ff7a3d;
 
   --transition:0.25s cubic-bezier(0.4,0,0.2,1);
+  --sidebar-w: 260px;
 }
 
 *{
@@ -917,6 +920,10 @@ body{
     left:0;
   }
 
+  .footer {
+    margin-left: 0;
+  }
+
 }
 
 @media(max-width:768px){
@@ -988,12 +995,19 @@ body{
    FOOTER
    ============================================================ */
 .footer {
-  margin-left: var(--sidebar-w);
   background: #111;
   color: #aaa;
-  padding: 0;
   margin-top: 60px;
+  clear: both;
+  width: calc(100% - var(--sidebar-w)); /* stay beside sidebar */
+  margin-left: var(--sidebar-w);        /* push beside sidebar */
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
 }
+
+
+
 
 .footer-container {
   display: grid;
@@ -1002,6 +1016,7 @@ body{
   padding: 56px 48px 40px;
   max-width: 100%;
 }
+
 
 .footer-logo {
   font-family: var(--font-heading);
@@ -1040,12 +1055,31 @@ body{
   color: #888;
   text-decoration: none;
   font-size: 14px;
-  transition: color var(--transition);
+  position: relative;  
+  transition: color var(--transition), transform 0.3s ease;
+}
+ 
+.footer-col ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease;
 }
 
 .footer-col ul li a:hover {
-  color: var(--accent);
+  color: var(--accent);        
+  transform: scale(1.05);      
 }
+
+.footer-col ul li a:hover::after {
+  width: 100%;                
+}
+
+
 
 .socials {
   display: flex;
@@ -1117,7 +1151,7 @@ body{
   padding: 20px 48px;
   text-align: center;
   font-size: 13px;
-  color: #555;
+  color: #aaa;
 }
 
 /* =========================================================
@@ -1227,8 +1261,314 @@ body{
   opacity: 1;
 }
 
+#scrollTopBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #FFA500; /* light orange */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  display: none; /* hidden by default */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: background 0.3s ease;
+  z-index: 1000;
+}
+
+#scrollTopBtn:hover {
+  background: #FFB84D; /* softer orange on hover */
+}
 
 
 
 
+/* ============================================================
+   THEME STYLING OVERRIDES
+   Navbar, Sidebar, and Footer theme colors:
+   - Light Mode: White background, dark text/icons
+   - Dark Mode: Black background, light/white text/icons
+   ============================================================ */
+
+/* ==========================================
+   1. LIGHT MODE SPECIFIC (body:not(.dark-mode))
+   ========================================== */
+body:not(.dark-mode) .navbar,
+body:not(.dark-mode) header.navbar,
+body:not(.dark-mode) nav.navbar,
+body:not(.dark-mode) .sidebar,
+body:not(.dark-mode) aside.sidebar,
+body:not(.dark-mode) .footer,
+body:not(.dark-mode) footer.footer {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Ensure text, icons, links inside these components are dark */
+body:not(.dark-mode) .navbar *,
+body:not(.dark-mode) header.navbar *,
+body:not(.dark-mode) nav.navbar *,
+body:not(.dark-mode) .sidebar *,
+body:not(.dark-mode) aside.sidebar *,
+body:not(.dark-mode) .footer *,
+body:not(.dark-mode) footer.footer * {
+  color: #334155 !important;
+}
+
+/* Titles and major headings */
+body:not(.dark-mode) .navbar .logo,
+body:not(.dark-mode) .sidebar .sidebar-brand,
+body:not(.dark-mode) .sidebar h2,
+body:not(.dark-mode) .sidebar .brand-text,
+body:not(.dark-mode) .footer h2,
+body:not(.dark-mode) .footer h3,
+body:not(.dark-mode) .footer-logo {
+  color: #0f172a !important;
+}
+
+/* Sidebar navigation links */
+body:not(.dark-mode) .sidebar-nav li a,
+body:not(.dark-mode) .sidebar ul li a,
+body:not(.dark-mode) .sidebar a {
+  background: transparent !important;
+  color: #475569 !important;
+}
+
+/* Sidebar active link and hover states */
+body:not(.dark-mode) .sidebar-nav li.active a,
+body:not(.dark-mode) .sidebar-nav li a:hover,
+body:not(.dark-mode) .sidebar ul li.active a,
+body:not(.dark-mode) .sidebar ul li a:hover,
+body:not(.dark-mode) .sidebar a:hover,
+body:not(.dark-mode) .sidebar .active a {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+body:not(.dark-mode) .sidebar-nav li.active a *,
+body:not(.dark-mode) .sidebar-nav li a:hover *,
+body:not(.dark-mode) .sidebar ul li.active a *,
+body:not(.dark-mode) .sidebar ul li a:hover *,
+body:not(.dark-mode) .sidebar a:hover *,
+body:not(.dark-mode) .sidebar .active a * {
+  color: #0f172a !important;
+}
+
+/* Footer links hover */
+body:not(.dark-mode) .footer a:hover,
+body:not(.dark-mode) footer.footer a:hover {
+  color: #4f46e5 !important; /* Premium brand indigo */
+}
+
+/* Search bar inside navbar */
+body:not(.dark-mode) .search-bar input {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+body:not(.dark-mode) .search-bar input::placeholder {
+  color: #64748b !important;
+}
+
+/* Outline and secondary buttons inside light navbar/sidebar */
+body:not(.dark-mode) .navbar .nav-btn.outline-nav-btn,
+body:not(.dark-mode) .navbar .outline-btn {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+body:not(.dark-mode) .navbar .nav-btn.outline-nav-btn:hover,
+body:not(.dark-mode) .navbar .outline-btn:hover {
+  background-color: #f1f5f9 !important;
+}
+
+
+/* ==========================================
+   2. DARK MODE SPECIFIC (body.dark-mode)
+   ========================================== */
+body.dark-mode .navbar,
+body.dark-mode header.navbar,
+body.dark-mode nav.navbar,
+body.dark-mode .sidebar,
+body.dark-mode aside.sidebar,
+body.dark-mode .footer,
+body.dark-mode footer.footer {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #f8fafc !important;
+  border-color: #1e293b !important;
+  box-shadow: none !important;
+}
+
+/* Ensure text, icons, links inside these components are light */
+body.dark-mode .navbar *,
+body.dark-mode header.navbar *,
+body.dark-mode nav.navbar *,
+body.dark-mode .sidebar *,
+body.dark-mode aside.sidebar *,
+body.dark-mode .footer *,
+body.dark-mode footer.footer * {
+  color: #cbd5e1 !important; /* slate-300 */
+}
+
+/* Titles and major headings */
+body.dark-mode .navbar .logo,
+body.dark-mode .sidebar .sidebar-brand,
+body.dark-mode .sidebar h2,
+body.dark-mode .sidebar .brand-text,
+body.dark-mode .footer h2,
+body.dark-mode .footer h3,
+body.dark-mode .footer-logo {
+  color: #ffffff !important;
+}
+
+/* Sidebar navigation links */
+body.dark-mode .sidebar-nav li a,
+body.dark-mode .sidebar ul li a,
+body.dark-mode .sidebar a {
+  background: transparent !important;
+  color: #94a3b8 !important;
+}
+
+/* Sidebar active link and hover states */
+body.dark-mode .sidebar-nav li.active a,
+body.dark-mode .sidebar-nav li a:hover,
+body.dark-mode .sidebar ul li.active a,
+body.dark-mode .sidebar ul li a:hover,
+body.dark-mode .sidebar a:hover,
+body.dark-mode .sidebar .active a {
+  background-color: #1e293b !important; /* slate-800 */
+  color: #ffffff !important;
+}
+
+body.dark-mode .sidebar-nav li.active a *,
+body.dark-mode .sidebar-nav li a:hover *,
+body.dark-mode .sidebar ul li.active a *,
+body.dark-mode .sidebar ul li a:hover *,
+body.dark-mode .sidebar a:hover *,
+body.dark-mode .sidebar .active a * {
+  color: #ffffff !important;
+}
+
+/* Footer links hover */
+body.dark-mode .footer a:hover,
+body.dark-mode footer.footer a:hover {
+  color: #818cf8 !important; /* Indigo-400 */
+}
+
+/* Search bar inside navbar */
+body.dark-mode .search-bar input {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+  border: 1px solid #1e293b !important;
+}
+body.dark-mode .search-bar input::placeholder {
+  color: #475569 !important;
+}
+
+/* Secondary/outline buttons in dark navbar */
+body.dark-mode .navbar .nav-btn.outline-nav-btn,
+body.dark-mode .navbar .outline-btn {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #334155 !important;
+}
+body.dark-mode .navbar .nav-btn.outline-nav-btn:hover,
+body.dark-mode .navbar .outline-btn:hover {
+  background-color: #0f172a !important;
+}
+
+
+/* ==========================================
+   3. THEME TOGGLE BUTTON STYLING (GLOBAL)
+   ========================================== */
+.theme-toggle,
+#darkModeToggle,
+#theme-toggle {
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-size: 1.15rem !important;
+  padding: 8px 12px !important;
+  border-radius: 9999px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+
+body:not(.dark-mode) .theme-toggle,
+body:not(.dark-mode) #darkModeToggle,
+body:not(.dark-mode) #theme-toggle {
+  color: #475569 !important;
+  background-color: #f1f5f9 !important;
+}
+body:not(.dark-mode) .theme-toggle:hover,
+body:not(.dark-mode) #darkModeToggle:hover,
+body:not(.dark-mode) #theme-toggle:hover {
+  color: #0f172a !important;
+  background-color: #e2e8f0 !important;
+  transform: scale(1.05);
+}
+
+body.dark-mode .theme-toggle,
+body.dark-mode #darkModeToggle,
+body.dark-mode #theme-toggle {
+  color: #e2e8f0 !important;
+  background-color: #1e293b !important;
+}
+body.dark-mode .theme-toggle:hover,
+body.dark-mode #darkModeToggle:hover,
+body.dark-mode #theme-toggle:hover {
+  color: #ffffff !important;
+  background-color: #334155 !important;
+  transform: scale(1.05);
+}
+
+/* Floating theme toggle button (for pages without navbar/sidebar) */
+.theme-toggle-floating {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  z-index: 9999 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+body.dark-mode .theme-toggle-floating {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+}
+
+/* Sidebar list item toggle button */
+.sidebar .theme-toggle-sidebar {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 10px 16px !important;
+  width: calc(100% - 32px) !important;
+  margin: 10px 16px !important;
+  border-radius: 8px !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+body:not(.dark-mode) .sidebar .theme-toggle-sidebar {
+  color: #475569 !important;
+  background-color: #f1f5f9 !important;
+}
+body:not(.dark-mode) .sidebar .theme-toggle-sidebar:hover {
+  color: #0f172a !important;
+  background-color: #e2e8f0 !important;
+}
+body.dark-mode .sidebar .theme-toggle-sidebar {
+  color: #cbd5e1 !important;
+  background-color: #1e293b !important;
+}
+body.dark-mode .sidebar .theme-toggle-sidebar:hover {
+  color: #ffffff !important;
+  background-color: #334155 !important;
+}
 

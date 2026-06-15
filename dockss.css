@@ -737,6 +737,678 @@ body{
   }
 
 }
+/* =====================================================
+EXTRA CARD ICON COLORS
+===================================================== */
+
+.card-icon.pink {
+  background: rgba(255, 0, 128, 0.12);
+  color: #ff4da6;
+}
+
+.card-icon.cyan {
+  background: rgba(0, 217, 255, 0.12);
+  color: #00d9ff;
+}
+
+.card-icon.green {
+  background: rgba(0, 255, 136, 0.12);
+  color: #00d084;
+}
+
+.card-icon.orange {
+  background: rgba(255, 153, 0, 0.12);
+  color: #ff9800;
+}
+
+.card-icon.violet {
+  background: rgba(140, 82, 255, 0.12);
+  color: #8c52ff;
+}
+
+/* =====================================================
+DEMO BOX
+===================================================== */
+
+.demo-box {
+  position: relative;
+  overflow: hidden;
+}
+
+/* =====================================================
+ORBIT DOCK
+===================================================== */
+
+.orbit-dock {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: auto;
+}
+
+.orbit-ring {
+  position: absolute;
+  inset: 18px;
+  border: 1px dashed rgba(255,255,255,0.15);
+  border-radius: 50%;
+  animation: rotateOrbit 12s linear infinite;
+}
+
+.orbit-item {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  backdrop-filter: blur(14px);
+  transition: .35s ease;
+}
+
+.orbit-item:hover {
+  transform: scale(1.12);
+  background: rgba(255,255,255,0.1);
+}
+
+.orbit-item.center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg,#ff7a3d,#7b61ff);
+  box-shadow: 0 0 30px rgba(123,97,255,.35);
+}
+
+.orbit-item.top {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.orbit-item.right {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.orbit-item.bottom {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.orbit-item.left {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@keyframes rotateOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =====================================================
+LIQUID DOCK
+===================================================== */
+
+.liquid-dock {
+  gap: 14px;
+}
+
+.dock-item.liquid {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(16px);
+  transition: .35s cubic-bezier(.68,-0.6,.32,1.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.dock-item.liquid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0,217,255,.18),
+    rgba(123,97,255,.18)
+  );
+  opacity: 0;
+  transition: .35s;
+}
+
+.dock-item.liquid:hover::before {
+  opacity: 1;
+}
+
+.dock-item.liquid:hover {
+  transform: translateY(-10px) scale(1.1);
+  border-color: rgba(0,217,255,0.35);
+}
+
+.dock-item.liquid.active {
+  background: linear-gradient(
+    135deg,
+    rgba(0,217,255,.25),
+    rgba(123,97,255,.25)
+  );
+  box-shadow: 0 10px 25px rgba(0,217,255,.18);
+}
+
+/* =====================================================
+TERMINAL DOCK
+===================================================== */
+
+.terminal-dock {
+  background: #0f172a;
+  padding: 14px;
+  border-radius: 22px;
+  border: 1px solid rgba(0,255,136,0.08);
+  box-shadow: inset 0 0 20px rgba(0,255,136,.04);
+}
+
+.dock-item.terminal {
+  background: rgba(0,255,136,0.05);
+  border: 1px solid rgba(0,255,136,0.1);
+  color: #00ff99;
+  font-size: 18px;
+  transition: .3s ease;
+}
+
+.dock-item.terminal:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 18px rgba(0,255,136,.25);
+}
+
+.dock-item.terminal.active {
+  background: rgba(0,255,136,.14);
+  box-shadow: 0 0 24px rgba(0,255,136,.35);
+}
+
+/* =====================================================
+STACKED DOCK
+===================================================== */
+
+.stacked-dock {
+  position: relative;
+  width: fit-content;
+  margin: auto;
+}
+
+.stack-layer {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.03);
+  border-radius: 26px;
+  transform: translateY(10px) scale(.96);
+  z-index: 0;
+}
+
+.stack-layer.second {
+  transform: translateY(18px) scale(.92);
+  opacity: .6;
+}
+
+.stacked-dock .mini-dock {
+  position: relative;
+  z-index: 2;
+}
+
+.dock-item.stack {
+  background: rgba(255,255,255,0.06);
+  transition: .3s ease;
+}
+
+.dock-item.stack:hover {
+  transform: translateY(-10px) rotate(-4deg);
+}
+
+.dock-item.stack.active {
+  background: linear-gradient(135deg,#ff7a3d,#ffb347);
+  box-shadow: 0 10px 24px rgba(255,122,61,.35);
+}
+
+/* =====================================================
+NEURAL DOCK
+===================================================== */
+
+.neural-dock {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+}
+
+.neural-line {
+  position: absolute;
+  width: 78%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(140,82,255,.6),
+    transparent
+  );
+  animation: pulseLine 2.5s infinite;
+}
+
+.dock-item.neural {
+  position: relative;
+  z-index: 2;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(140,82,255,.15);
+  color: #d7cbff;
+  transition: .35s ease;
+}
+
+.dock-item.neural::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  border: 1px solid rgba(140,82,255,.15);
+  opacity: 0;
+  transition: .3s;
+}
+
+.dock-item.neural:hover::after {
+  opacity: 1;
+  inset: -10px;
+}
+
+.dock-item.neural:hover {
+  transform: translateY(-8px) scale(1.08);
+}
+
+.dock-item.neural.active {
+  background: linear-gradient(
+    135deg,
+    rgba(140,82,255,.35),
+    rgba(123,97,255,.2)
+  );
+  box-shadow: 0 0 25px rgba(140,82,255,.3);
+}
+
+@keyframes pulseLine {
+
+  0% {
+    opacity: .3;
+    transform: scaleX(.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  100% {
+    opacity: .3;
+    transform: scaleX(.9);
+  }
+
+}
+
+/* =====================================================
+RESPONSIVE
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .orbit-dock {
+    transform: scale(.9);
+  }
+
+  .mini-dock {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+}
+/* =====================================================
+EXTRA CARD ICON COLORS
+===================================================== */
+
+.card-icon.pink {
+  background: rgba(255, 0, 128, 0.12);
+  color: #ff4da6;
+}
+
+.card-icon.cyan {
+  background: rgba(0, 217, 255, 0.12);
+  color: #00d9ff;
+}
+
+.card-icon.green {
+  background: rgba(0, 255, 136, 0.12);
+  color: #00d084;
+}
+
+.card-icon.orange {
+  background: rgba(255, 153, 0, 0.12);
+  color: #ff9800;
+}
+
+.card-icon.violet {
+  background: rgba(140, 82, 255, 0.12);
+  color: #8c52ff;
+}
+
+/* =====================================================
+DEMO BOX
+===================================================== */
+
+.demo-box {
+  position: relative;
+  overflow: hidden;
+}
+
+/* =====================================================
+ORBIT DOCK
+===================================================== */
+
+.orbit-dock {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: auto;
+}
+
+.orbit-ring {
+  position: absolute;
+  inset: 18px;
+  border: 1px dashed rgba(255,255,255,0.15);
+  border-radius: 50%;
+  animation: rotateOrbit 12s linear infinite;
+}
+
+.orbit-item {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  backdrop-filter: blur(14px);
+  transition: .35s ease;
+}
+
+.orbit-item:hover {
+  transform: scale(1.12);
+  background: rgba(255,255,255,0.1);
+}
+
+.orbit-item.center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg,#ff7a3d,#7b61ff);
+  box-shadow: 0 0 30px rgba(123,97,255,.35);
+}
+
+.orbit-item.top {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.orbit-item.right {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.orbit-item.bottom {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.orbit-item.left {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@keyframes rotateOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =====================================================
+LIQUID DOCK
+===================================================== */
+
+.liquid-dock {
+  gap: 14px;
+}
+
+.dock-item.liquid {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(16px);
+  transition: .35s cubic-bezier(.68,-0.6,.32,1.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.dock-item.liquid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0,217,255,.18),
+    rgba(123,97,255,.18)
+  );
+  opacity: 0;
+  transition: .35s;
+}
+
+.dock-item.liquid:hover::before {
+  opacity: 1;
+}
+
+.dock-item.liquid:hover {
+  transform: translateY(-10px) scale(1.1);
+  border-color: rgba(0,217,255,0.35);
+}
+
+.dock-item.liquid.active {
+  background: linear-gradient(
+    135deg,
+    rgba(0,217,255,.25),
+    rgba(123,97,255,.25)
+  );
+  box-shadow: 0 10px 25px rgba(0,217,255,.18);
+}
+
+/* =====================================================
+TERMINAL DOCK
+===================================================== */
+
+.terminal-dock {
+  background: #0f172a;
+  padding: 14px;
+  border-radius: 22px;
+  border: 1px solid rgba(0,255,136,0.08);
+  box-shadow: inset 0 0 20px rgba(0,255,136,.04);
+}
+
+.dock-item.terminal {
+  background: rgba(0,255,136,0.05);
+  border: 1px solid rgba(0,255,136,0.1);
+  color: #00ff99;
+  font-size: 18px;
+  transition: .3s ease;
+}
+
+.dock-item.terminal:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 18px rgba(0,255,136,.25);
+}
+
+.dock-item.terminal.active {
+  background: rgba(0,255,136,.14);
+  box-shadow: 0 0 24px rgba(0,255,136,.35);
+}
+
+/* =====================================================
+STACKED DOCK
+===================================================== */
+
+.stacked-dock {
+  position: relative;
+  width: fit-content;
+  margin: auto;
+}
+
+.stack-layer {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.03);
+  border-radius: 26px;
+  transform: translateY(10px) scale(.96);
+  z-index: 0;
+}
+
+.stack-layer.second {
+  transform: translateY(18px) scale(.92);
+  opacity: .6;
+}
+
+.stacked-dock .mini-dock {
+  position: relative;
+  z-index: 2;
+}
+
+.dock-item.stack {
+  background: rgba(255,255,255,0.06);
+  transition: .3s ease;
+}
+
+.dock-item.stack:hover {
+  transform: translateY(-10px) rotate(-4deg);
+}
+
+.dock-item.stack.active {
+  background: linear-gradient(135deg,#ff7a3d,#ffb347);
+  box-shadow: 0 10px 24px rgba(255,122,61,.35);
+}
+
+/* =====================================================
+NEURAL DOCK
+===================================================== */
+
+.neural-dock {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+}
+
+.neural-line {
+  position: absolute;
+  width: 78%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(140,82,255,.6),
+    transparent
+  );
+  animation: pulseLine 2.5s infinite;
+}
+
+.dock-item.neural {
+  position: relative;
+  z-index: 2;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(140,82,255,.15);
+  color: #d7cbff;
+  transition: .35s ease;
+}
+
+.dock-item.neural::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  border: 1px solid rgba(140,82,255,.15);
+  opacity: 0;
+  transition: .3s;
+}
+
+.dock-item.neural:hover::after {
+  opacity: 1;
+  inset: -10px;
+}
+
+.dock-item.neural:hover {
+  transform: translateY(-8px) scale(1.08);
+}
+
+.dock-item.neural.active {
+  background: linear-gradient(
+    135deg,
+    rgba(140,82,255,.35),
+    rgba(123,97,255,.2)
+  );
+  box-shadow: 0 0 25px rgba(140,82,255,.3);
+}
+
+@keyframes pulseLine {
+
+  0% {
+    opacity: .3;
+    transform: scaleX(.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  100% {
+    opacity: .3;
+    transform: scaleX(.9);
+  }
+
+}
+
+/* =====================================================
+RESPONSIVE
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .orbit-dock {
+    transform: scale(.9);
+  }
+
+  .mini-dock {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+}
 /* ============================================================
    FOOTER
    ============================================================ */
@@ -871,4 +1543,289 @@ body{
   text-align: center;
   font-size: 13px;
   color: #555;
+}/* ============================================================
+   THEME STYLING OVERRIDES
+   Navbar, Sidebar, and Footer theme colors:
+   - Light Mode: White background, dark text/icons
+   - Dark Mode: Black background, light/white text/icons
+   ============================================================ */
+
+/* ==========================================
+   1. LIGHT MODE SPECIFIC (body:not(.dark-mode))
+   ========================================== */
+body:not(.dark-mode) .navbar,
+body:not(.dark-mode) header.navbar,
+body:not(.dark-mode) nav.navbar,
+body:not(.dark-mode) .sidebar,
+body:not(.dark-mode) aside.sidebar,
+body:not(.dark-mode) .footer,
+body:not(.dark-mode) footer.footer {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Ensure text, icons, links inside these components are dark */
+body:not(.dark-mode) .navbar *,
+body:not(.dark-mode) header.navbar *,
+body:not(.dark-mode) nav.navbar *,
+body:not(.dark-mode) .sidebar *,
+body:not(.dark-mode) aside.sidebar *,
+body:not(.dark-mode) .footer *,
+body:not(.dark-mode) footer.footer * {
+  color: #334155 !important;
+}
+
+/* Titles and major headings */
+body:not(.dark-mode) .navbar .logo,
+body:not(.dark-mode) .sidebar .sidebar-brand,
+body:not(.dark-mode) .sidebar h2,
+body:not(.dark-mode) .sidebar .brand-text,
+body:not(.dark-mode) .footer h2,
+body:not(.dark-mode) .footer h3,
+body:not(.dark-mode) .footer-logo {
+  color: #0f172a !important;
+}
+
+/* Sidebar navigation links */
+body:not(.dark-mode) .sidebar-nav li a,
+body:not(.dark-mode) .sidebar ul li a,
+body:not(.dark-mode) .sidebar a {
+  background: transparent !important;
+  color: #475569 !important;
+}
+
+/* Sidebar active link and hover states */
+body:not(.dark-mode) .sidebar-nav li.active a,
+body:not(.dark-mode) .sidebar-nav li a:hover,
+body:not(.dark-mode) .sidebar ul li.active a,
+body:not(.dark-mode) .sidebar ul li a:hover,
+body:not(.dark-mode) .sidebar a:hover,
+body:not(.dark-mode) .sidebar .active a {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+body:not(.dark-mode) .sidebar-nav li.active a *,
+body:not(.dark-mode) .sidebar-nav li a:hover *,
+body:not(.dark-mode) .sidebar ul li.active a *,
+body:not(.dark-mode) .sidebar ul li a:hover *,
+body:not(.dark-mode) .sidebar a:hover *,
+body:not(.dark-mode) .sidebar .active a * {
+  color: #0f172a !important;
+}
+
+/* Footer links hover */
+body:not(.dark-mode) .footer a:hover,
+body:not(.dark-mode) footer.footer a:hover {
+  color: #4f46e5 !important; /* Premium brand indigo */
+}
+
+/* Search bar inside navbar */
+body:not(.dark-mode) .search-bar input {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+body:not(.dark-mode) .search-bar input::placeholder {
+  color: #64748b !important;
+}
+
+/* Outline and secondary buttons inside light navbar/sidebar */
+body:not(.dark-mode) .navbar .nav-btn.outline-nav-btn,
+body:not(.dark-mode) .navbar .outline-btn {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+body:not(.dark-mode) .navbar .nav-btn.outline-nav-btn:hover,
+body:not(.dark-mode) .navbar .outline-btn:hover {
+  background-color: #f1f5f9 !important;
+}
+
+
+/* ==========================================
+   2. DARK MODE SPECIFIC (body.dark-mode)
+   ========================================== */
+body.dark-mode .navbar,
+body.dark-mode header.navbar,
+body.dark-mode nav.navbar,
+body.dark-mode .sidebar,
+body.dark-mode aside.sidebar,
+body.dark-mode .footer,
+body.dark-mode footer.footer {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #f8fafc !important;
+  border-color: #1e293b !important;
+  box-shadow: none !important;
+}
+
+/* Ensure text, icons, links inside these components are light */
+body.dark-mode .navbar *,
+body.dark-mode header.navbar *,
+body.dark-mode nav.navbar *,
+body.dark-mode .sidebar *,
+body.dark-mode aside.sidebar *,
+body.dark-mode .footer *,
+body.dark-mode footer.footer * {
+  color: #cbd5e1 !important; /* slate-300 */
+}
+
+/* Titles and major headings */
+body.dark-mode .navbar .logo,
+body.dark-mode .sidebar .sidebar-brand,
+body.dark-mode .sidebar h2,
+body.dark-mode .sidebar .brand-text,
+body.dark-mode .footer h2,
+body.dark-mode .footer h3,
+body.dark-mode .footer-logo {
+  color: #ffffff !important;
+}
+
+/* Sidebar navigation links */
+body.dark-mode .sidebar-nav li a,
+body.dark-mode .sidebar ul li a,
+body.dark-mode .sidebar a {
+  background: transparent !important;
+  color: #94a3b8 !important;
+}
+
+/* Sidebar active link and hover states */
+body.dark-mode .sidebar-nav li.active a,
+body.dark-mode .sidebar-nav li a:hover,
+body.dark-mode .sidebar ul li.active a,
+body.dark-mode .sidebar ul li a:hover,
+body.dark-mode .sidebar a:hover,
+body.dark-mode .sidebar .active a {
+  background-color: #1e293b !important; /* slate-800 */
+  color: #ffffff !important;
+}
+
+body.dark-mode .sidebar-nav li.active a *,
+body.dark-mode .sidebar-nav li a:hover *,
+body.dark-mode .sidebar ul li.active a *,
+body.dark-mode .sidebar ul li a:hover *,
+body.dark-mode .sidebar a:hover *,
+body.dark-mode .sidebar .active a * {
+  color: #ffffff !important;
+}
+
+/* Footer links hover */
+body.dark-mode .footer a:hover,
+body.dark-mode footer.footer a:hover {
+  color: #818cf8 !important; /* Indigo-400 */
+}
+
+/* Search bar inside navbar */
+body.dark-mode .search-bar input {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+  border: 1px solid #1e293b !important;
+}
+body.dark-mode .search-bar input::placeholder {
+  color: #475569 !important;
+}
+
+/* Secondary/outline buttons in dark navbar */
+body.dark-mode .navbar .nav-btn.outline-nav-btn,
+body.dark-mode .navbar .outline-btn {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #334155 !important;
+}
+body.dark-mode .navbar .nav-btn.outline-nav-btn:hover,
+body.dark-mode .navbar .outline-btn:hover {
+  background-color: #0f172a !important;
+}
+
+
+/* ==========================================
+   3. THEME TOGGLE BUTTON STYLING (GLOBAL)
+   ========================================== */
+.theme-toggle,
+#darkModeToggle,
+#theme-toggle {
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-size: 1.15rem !important;
+  padding: 8px 12px !important;
+  border-radius: 9999px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+
+body:not(.dark-mode) .theme-toggle,
+body:not(.dark-mode) #darkModeToggle,
+body:not(.dark-mode) #theme-toggle {
+  color: #475569 !important;
+  background-color: #f1f5f9 !important;
+}
+body:not(.dark-mode) .theme-toggle:hover,
+body:not(.dark-mode) #darkModeToggle:hover,
+body:not(.dark-mode) #theme-toggle:hover {
+  color: #0f172a !important;
+  background-color: #e2e8f0 !important;
+  transform: scale(1.05);
+}
+
+body.dark-mode .theme-toggle,
+body.dark-mode #darkModeToggle,
+body.dark-mode #theme-toggle {
+  color: #e2e8f0 !important;
+  background-color: #1e293b !important;
+}
+body.dark-mode .theme-toggle:hover,
+body.dark-mode #darkModeToggle:hover,
+body.dark-mode #theme-toggle:hover {
+  color: #ffffff !important;
+  background-color: #334155 !important;
+  transform: scale(1.05);
+}
+
+/* Floating theme toggle button (for pages without navbar/sidebar) */
+.theme-toggle-floating {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  z-index: 9999 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+body.dark-mode .theme-toggle-floating {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+}
+
+/* Sidebar list item toggle button */
+.sidebar .theme-toggle-sidebar {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 10px 16px !important;
+  width: calc(100% - 32px) !important;
+  margin: 10px 16px !important;
+  border-radius: 8px !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+body:not(.dark-mode) .sidebar .theme-toggle-sidebar {
+  color: #475569 !important;
+  background-color: #f1f5f9 !important;
+}
+body:not(.dark-mode) .sidebar .theme-toggle-sidebar:hover {
+  color: #0f172a !important;
+  background-color: #e2e8f0 !important;
+}
+body.dark-mode .sidebar .theme-toggle-sidebar {
+  color: #cbd5e1 !important;
+  background-color: #1e293b !important;
+}
+body.dark-mode .sidebar .theme-toggle-sidebar:hover {
+  color: #ffffff !important;
+  background-color: #334155 !important;
 }

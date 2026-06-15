@@ -1,54 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cab Booking App</title>
-  <link rel="stylesheet" href="cb.css">
+<meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-lj0lvsg6IRdseDHyy5TmNQZZwonGyPqtuvaDPaPw4iY=' 'sha256-tNinIGBwbNUEwSghceaZaZ9iaFKUTRYuN/u5g0CWaIM='; script-src-attr 'unsafe-hashes' 'sha256-lj0lvsg6IRdseDHyy5TmNQZZwonGyPqtuvaDPaPw4iY=' 'sha256-tNinIGBwbNUEwSghceaZaZ9iaFKUTRYuN/u5g0CWaIM='; style-src 'self' https: 'unsafe-hashes' 'sha256-elq1LR25JQn1QBnaBBA9PxZ2IJ+5l0Ty04TVt26VfWw=' 'sha256-l13IR1/T9e3HwuP0f0JdncJfcg+gJ2OH1vxNUz94W2U='; style-src-attr 'unsafe-hashes' 'sha256-elq1LR25JQn1QBnaBBA9PxZ2IJ+5l0Ty04TVt26VfWw=' 'sha256-l13IR1/T9e3HwuP0f0JdncJfcg+gJ2OH1vxNUz94W2U='">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cab Booking UI</title>
+
+<style>
+  body{
+    font-family: Arial, sans-serif;
+    background:#0f172a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+  }
+
+  .card{
+    width:360px;
+    background:#111827;
+    color:#fff;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+  }
+
+  .input-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:#1f2937;
+    padding:10px;
+    border-radius:10px;
+    margin-bottom:10px;
+  }
+
+  .input-box input{
+    width:100%;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:white;
+  }
+
+  .title{
+    margin:15px 0 10px;
+    font-size:16px;
+    color:#cbd5e1;
+  }
+
+  .ride{
+    background:#1f2937;
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:8px;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    transition:0.2s;
+  }
+
+  .ride:hover{
+    background:#374151;
+  }
+
+  .ride.active{
+    border:2px solid #22c55e;
+    background:#0b3d2e;
+  }
+
+  .fare-box{
+    margin-top:10px;
+    padding:10px;
+    background:#1f2937;
+    border-radius:10px;
+  }
+
+  .driver{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-top:12px;
+    background:#1f2937;
+    padding:10px;
+    border-radius:12px;
+  }
+
+  .avatar{
+    width:40px;
+    height:40px;
+    background:#374151;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+  }
+
+  button{
+    width:100%;
+    margin-top:15px;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#22c55e;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+  }
+
+  #toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#111827;
+    color:white;
+    padding:10px 15px;
+    border-radius:8px;
+    display:none;
+  }
+</style>
 </head>
+
 <body>
 
-<div class="container">
+<div class="card">
 
-  <h1>Cab Booking App</h1>
-
-  <div class="booking-form">
-
-    <input type="text" placeholder="Pickup Location">
-    <input type="text" placeholder="Destination">
-
-    <div class="ride-options">
-
-      <div class="ride-card active">
-        <h3>Mini</h3>
-        <p>₹120</p>
-      </div>
-
-      <div class="ride-card">
-        <h3>Sedan</h3>
-        <p>₹220</p>
-      </div>
-
-      <div class="ride-card">
-        <h3>SUV</h3>
-        <p>₹350</p>
-      </div>
-
-    </div>
-
-    <div class="driver-info">
-      <h3>Driver Details</h3>
-      <p>Name: Rahul Sharma</p>
-      <p>Vehicle: TS09 AB 1234</p>
-      <p>ETA: 5 mins</p>
-    </div>
-
-    <button onclick="bookRide()">Book Ride</button>
-
+  <div class="input-box">
+<<<<<<< HEAD
+    📍 <input id="pickup" placeholder="Pickup location">
+=======
+    <span>📍</span>
+    <input id="pickup" type="text" placeholder="Pickup location" data-a11y-remediation="label-needed">
+>>>>>>> origin/main
   </div>
+
+  <div class="input-box">
+    🏁 <input id="drop" placeholder="Destination">
+  </div>
+
+  <h3 class="title">Choose Ride</h3>
+
+  <div id="rides"></div>
+
+  <div class="fare-box">
+    Estimated Fare: ₹<span id="fare">0</span>
+  </div>
+
+  <div class="driver">
+    <div class="avatar">👨‍✈️</div>
+    <div>
+      <strong>Rahul Sharma</strong>
+      <p style="margin:0;font-size:12px;color:#9ca3af">
+        TS09 AB 1234 • ETA <span id="eta">5</span> min
+      </p>
+    </div>
+  </div>
+
+  <button onclick="bookRide()">Confirm Ride</button>
 
 </div>
 
-<script src="cb.js"></script>
+<div id="toast"></div>
+
+<script>
+const rides = [
+  { name:"Mini", price:120 },
+  { name:"Sedan", price:180 },
+  { name:"SUV", price:260 }
+];
+
+let selected = 0;
+
+const rideBox = document.getElementById("rides");
+const fare = document.getElementById("fare");
+
+function renderRides(){
+  rideBox.innerHTML = "";
+  rides.forEach((r,i)=>{
+    const div = document.createElement("div");
+    div.className = "ride" + (i===selected ? " active":"");
+    div.innerHTML = `<span>${r.name}</span><b>₹${r.price}</b>`;
+    div.onclick = () => {
+      selected = i;
+      fare.textContent = r.price;
+      renderRides();
+    };
+    rideBox.appendChild(div);
+  });
+
+  fare.textContent = rides[selected].price;
+}
+
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.innerText = msg;
+  t.style.display = "block";
+  setTimeout(()=> t.style.display="none",2000);
+}
+
+function bookRide(){
+  const p = document.getElementById("pickup").value;
+  const d = document.getElementById("drop").value;
+
+  if(!p || !d){
+    showToast("Enter pickup and destination");
+    return;
+  }
+
+  showToast(`Ride booked: ${rides[selected].name}`);
+}
+
+renderRides();
+</script>
+
 </body>
 </html>

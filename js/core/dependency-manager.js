@@ -65,11 +65,115 @@
     return graph;
   }
 
+  function getTransitiveDependencies(name, names = getRegisteredNames()) {
+    const graph = buildGraph(names);
+    const start = normalizeName(name);
+    const dependencies = new Set();
+    const visiting = new Set();
+
+    function walk(node) {
+      if (visiting.has(node)) return;
+      visiting.add(node);
+
+      (graph[node] || []).forEach((dependency) => {
+        if (!dependencies.has(dependency)) {
+          dependencies.add(dependency);
+          walk(dependency);
+        }
+      });
+
+      visiting.delete(node);
+    }
+
+    if (graph[start]) {
+      walk(start);
+    }
+
+    dependencies.delete(start);
+    // Deterministic ordering: sort result alphabetically
+    return Array.from(dependencies).sort();
+  }
+
+  function resolveDependencyConflict(conflicts = []) {
+    if (conflicts.length === 0) return null;
+    if (conflicts.length === 1) return conflicts[0];
+    
+    // Deterministic conflict resolution:
+    // 1. Sort by priority score (lower = higher priority)
+    // 2. Use alphabetical order as tiebreaker
+    return conflicts.slice().sort((a, b) => {
+      const scoreDiff = (a.priorityScore ?? 999) - (b.priorityScore ?? 999);
+      if (scoreDiff !== 0) return scoreDiff;
+      return String(a.name || '').localeCompare(String(b.name || ''));
+    })[0];
+  }
+
+  function detectCycles(names = getRegisteredNames()) {
+    const graph = buildGraph(names);
+    const visited = new Set();
+    const stack = new Set();
+    const cycles = [];
+
+    function visit(node, trail = []) {
+      if (stack.has(node)) {
+        const cycleStart = trail.indexOf(node);
+        if (cycleStart !== -1) {
+          cycles.push(trail.slice(cycleStart).concat(node));
+        }
+        return;
+      }
+
+      if (visited.has(node)) return;
+
+      visited.add(node);
+      stack.add(node);
+
+      // Deterministic ordering: sort dependencies before visiting
+      const sortedDeps = (graph[node] || []).slice().sort();
+      sortedDeps.forEach((dependency) => {
+        visit(dependency, trail.concat(node));
+      });
+
+      stack.delete(node);
+    }
+
+    // Deterministic ordering: sort names for consistent cycle detection
+    const sortedNames = Array.from(names).sort();
+    sortedNames.forEach((name) => visit(name));
+
+    const unique = [];
+    const seen = new Set();
+    // Sort cycles for deterministic output
+    cycles.sort((a, b) => a.join('>').localeCompare(b.join('>')));
+    cycles.forEach((cycle) => {
+      const key = cycle.slice().sort().join('>');
+      if (!seen.has(key)) {
+        seen.add(key);
+        unique.push(cycle);
+      }
+    });
+
+    return unique;
+  }
+
+  function getGraphVisualization(names = getRegisteredNames()) {
+    const graph = buildGraph(names);
+    return names.map((name) => ({
+      name,
+      dependencies: graph[name] || [],
+      transitiveDependencies: getTransitiveDependencies(name, names),
+      dependents: getDependents(name).filter((dependent) => names.includes(dependent))
+    }));
+  }
+
   function topologicalSort(names = getRegisteredNames()) {
     const graph = buildGraph(names);
     const visited = new Set();
     const visiting = new Set();
     const order = [];
+    
+    // Deterministic ordering: sort names alphabetically for consistent conflict resolution
+    const sortedNames = Array.from(names).sort();
 
     function visit(name) {
       if (visiting.has(name)) {
@@ -78,13 +182,15 @@
       if (visited.has(name)) return;
 
       visiting.add(name);
-      (graph[name] || []).forEach(visit);
+      // Sort dependencies deterministically before visiting to ensure consistent ordering
+      const sortedDeps = (graph[name] || []).slice().sort();
+      sortedDeps.forEach(visit);
       visiting.delete(name);
       visited.add(name);
       order.push(name);
     }
 
-    names.forEach(visit);
+    sortedNames.forEach(visit);
     return order;
   }
 
@@ -97,26 +203,35 @@
     const graph = buildGraph(names);
     const missing = [];
     const circular = [];
+    const transitive = [];
 
     names.forEach((name) => {
-      getDependencies(name).forEach((dependency) => {
+      const directDependencies = getDependencies(name);
+      directDependencies.forEach((dependency) => {
         if (!names.includes(dependency)) {
           missing.push({ module: name, dependency });
         }
       });
+
+      const transitiveDependencies = getTransitiveDependencies(name, names);
+      transitiveDependencies.forEach((dependency) => {
+        if (!directDependencies.includes(dependency) && names.includes(dependency)) {
+          transitive.push({ module: name, dependency });
+        }
+      });
     });
 
-    try {
-      topologicalSort(names);
-    } catch (error) {
-      circular.push(error.message);
-    }
+    detectCycles(names).forEach((cycle) => {
+      circular.push(`Circular dependency detected: ${cycle.join(' → ')}`);
+    });
 
     return {
       valid: missing.length === 0 && circular.length === 0,
       missing,
+      transitive,
       circular,
-      graph
+      graph,
+      visualization: getGraphVisualization(names)
     };
   }
 
@@ -137,10 +252,14 @@
     getDependencies,
     getRegisteredNames,
     buildGraph,
+    getTransitiveDependencies,
+    detectCycles,
+    getGraphVisualization,
     topologicalSort,
     getDependents,
     validateGraph,
     describe,
+    resolveDependencyConflict,
     reset
   };
 

@@ -7,11 +7,13 @@ const config = {
     options: {},
   },
   staticDirs: [
-    '../Animation-Library',
-    '../components',
-    '../css',
-    '../generated-images',
-    '../js',
+    { from: '../stories/public', to: '/' },
+    { from: '../Animation-Library', to: '/Animation-Library' },
+    { from: '../components', to: '/components' },
+    { from: '../css', to: '/css' },
+    { from: '../generated-images', to: '/generated-images' },
+    { from: '../js', to: '/js' },
+    { from: '../dist', to: '/dist' },
   ],
   docs: {
     autodocs: 'tag',

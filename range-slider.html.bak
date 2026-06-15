@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="dist/shared.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Range Slider Components — UIverse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="range-slider.css">
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar">
+  <div>
+    <div class="sidebar-brand">
+      <span class="brand-icon">⬡</span>
+      <span class="brand-text">UIverse</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
+        <li><a href="button.html"><i class="fa-solid fa-hand-pointer"></i><span>Buttons</span></a></li>
+        <li><a href="cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Cards</span></a></li>
+        <li class="active"><a href="range-slider.html"><i class="fa-solid fa-sliders"></i><span>Range Sliders</span></a></li>
+        <li><a href="filters-premium.html"><i class="fa-solid fa-filter"></i><span>Filters</span></a></li>
+        <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><span>Forms</span></a></li>
+        <li><a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a></li>
+        <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i><span>FAQ</span></a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="sidebar-footer">
+    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+    <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+  </div>
+</aside>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+<header class="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <div class="logo">UIverse</div>
+
+  <div class="nav-copy">
+    <span>Interactive controls</span>
+    <strong>Range Slider Showcase</strong>
+  </div>
+
+  <a class="nav-link" href="documentation.html">Documentation</a>
+</header>
+
+<main class="main-home">
+  <section class="hero-section">
+    <span class="hero-kicker">Modern input controls</span>
+    <h1>Five range slider components with live value feedback.</h1>
+    <p>Use these variants for filters, settings, budgets, and form controls. Each slider supports smooth dragging, responsive sizing, and clear visual states.</p>
+  </section>
+
+  <section class="slider-grid">
+    <article class="slider-card glass-card">
+      <div class="card-head">
+        <div>
+          <span class="card-tag">Single handle</span>
+          <h2>Neon Value Slider</h2>
+        </div>
+        <span class="value-pill" id="singleValue">68%</span>
+      </div>
+
+      <div class="slider-stage">
+        <input id="singleSlider" class="slider slider-single" type="range" min="0" max="100" value="68" aria-label="Single value slider">
+      </div>
+
+      <div class="card-footer">
+        <p>Great for brightness, volume, progress, and quick one-value adjustments.</p>
+        <button class="ghost-btn">Apply value</button>
+      </div>
+    </article>
+
+    <article class="slider-card dual-card">
+      <div class="card-head">
+        <div>
+          <span class="card-tag">Dual handle</span>
+          <h2>Price Range Slider</h2>
+        </div>
+        <span class="value-pill" id="rangeValue">$120 - $840</span>
+      </div>
+
+      <div class="slider-stage range-stage">
+        <div class="range-track">
+          <div class="range-fill" id="rangeFill"></div>
+        </div>
+        <input id="rangeMin" class="slider slider-range" type="range" min="0" max="1000" value="120" aria-label="Minimum range slider">
+        <input id="rangeMax" class="slider slider-range" type="range" min="0" max="1000" value="840" aria-label="Maximum range slider">
+      </div>
+
+      <div class="range-labels">
+        <span id="minLabel">$120</span>
+        <span id="maxLabel">$840</span>
+      </div>
+    </article>
+
+    <article class="slider-card vertical-card">
+      <div class="card-head">
+        <div>
+          <span class="card-tag">Vertical</span>
+          <h2>Audio Gain Slider</h2>
+        </div>
+        <span class="value-pill" id="verticalValue">45%</span>
+      </div>
+
+      <div class="vertical-layout">
+        <div class="vertical-track-shell">
+          <input id="verticalSlider" class="slider slider-vertical" type="range" min="0" max="100" value="45" aria-label="Vertical slider">
+        </div>
+        <div class="vertical-copy">
+          <h3>Studio mode</h3>
+          <p>Designed for mixers, brightness controls, and compact tool panels.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="slider-card stepped-card">
+      <div class="card-head">
+        <div>
+          <span class="card-tag">Stepped</span>
+          <h2>Plan Selector</h2>
+        </div>
+        <span class="value-pill" id="stepValue">Pro</span>
+      </div>
+
+      <div class="step-legend">
+        <span>Basic</span>
+        <span>Plus</span>
+        <span>Pro</span>
+        <span>Elite</span>
+      </div>
+
+      <div class="slider-stage stepped-stage">
+        <input id="stepSlider" class="slider slider-single stepped-slider" type="range" min="0" max="3" step="1" value="2" aria-label="Plan selector slider">
+      </div>
+
+      <div class="plan-grid">
+        <div class="plan-chip">Basic</div>
+        <div class="plan-chip">Plus</div>
+        <div class="plan-chip active">Pro</div>
+        <div class="plan-chip">Elite</div>
+      </div>
+    </article>
+
+    <article class="slider-card bubble-card">
+      <div class="card-head">
+        <div>
+          <span class="card-tag">Value bubble</span>
+          <h2>Opacity Slider</h2>
+        </div>
+        <span class="value-pill" id="bubbleValue">82%</span>
+      </div>
+
+      <div class="slider-stage bubble-stage">
+        <div class="bubble-value" id="bubbleTip">82</div>
+        <input id="bubbleSlider" class="slider slider-bubble" type="range" min="0" max="100" value="82" aria-label="Bubble slider">
+      </div>
+
+      <div class="card-footer">
+        <p>The floating bubble follows the thumb for precise feedback while dragging.</p>
+        <button class="ghost-btn">Preview changes</button>
+      </div>
+    </article>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-shell">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="forms.html">Forms</a></li>
+        <li><a href="filters-premium.html">Filters</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="about.html">About UIverse</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com" aria-label="Email address">
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+  const body = document.body;
+
+  function toggleSidebar() {
+    body.classList.toggle('sidebar-open');
+    sidebarBackdrop.classList.toggle('active');
+  }
+
+  const singleSlider = document.getElementById('singleSlider');
+  const singleValue = document.getElementById('singleValue');
+
+  const rangeMin = document.getElementById('rangeMin');
+  const rangeMax = document.getElementById('rangeMax');
+  const rangeFill = document.getElementById('rangeFill');
+  const rangeValue = document.getElementById('rangeValue');
+  const minLabel = document.getElementById('minLabel');
+  const maxLabel = document.getElementById('maxLabel');
+
+  const verticalSlider = document.getElementById('verticalSlider');
+  const verticalValue = document.getElementById('verticalValue');
+
+  const stepSlider = document.getElementById('stepSlider');
+  const stepValue = document.getElementById('stepValue');
+  const planChips = document.querySelectorAll('.plan-chip');
+
+  const bubbleSlider = document.getElementById('bubbleSlider');
+  const bubbleValue = document.getElementById('bubbleValue');
+  const bubbleTip = document.getElementById('bubbleTip');
+
+  function formatCurrency(value) {
+    return `$${Number(value).toLocaleString()}`;
+  }
+
+  function updateSingleSlider() {
+    const value = Number(singleSlider.value);
+    singleValue.textContent = `${value}%`;
+    const percent = (value - singleSlider.min) / (singleSlider.max - singleSlider.min) * 100;
+    singleSlider.style.background = `linear-gradient(90deg, var(--accent) 0%, var(--accent2) ${percent}%, rgba(255,255,255,0.08) ${percent}%, rgba(255,255,255,0.08) 100%)`;
+  }
+
+  function updateRangeSlider() {
+    let minValue = Number(rangeMin.value);
+    let maxValue = Number(rangeMax.value);
+
+    if (minValue > maxValue - 20) {
+      minValue = maxValue - 20;
+      rangeMin.value = minValue;
+    }
+
+    if (maxValue < minValue + 20) {
+      maxValue = minValue + 20;
+      rangeMax.value = maxValue;
+    }
+
+    const minPercent = (minValue / Number(rangeMin.max)) * 100;
+    const maxPercent = (maxValue / Number(rangeMax.max)) * 100;
+
+    rangeFill.style.left = `${minPercent}%`;
+    rangeFill.style.width = `${maxPercent - minPercent}%`;
+    rangeValue.textContent = `${formatCurrency(minValue)} - ${formatCurrency(maxValue)}`;
+    minLabel.textContent = formatCurrency(minValue);
+    maxLabel.textContent = formatCurrency(maxValue);
+  }
+
+  function updateVerticalSlider() {
+    const value = Number(verticalSlider.value);
+    verticalValue.textContent = `${value}%`;
+    const percent = (value - verticalSlider.min) / (verticalSlider.max - verticalSlider.min) * 100;
+    verticalSlider.style.background = `linear-gradient(180deg, var(--accent) 0%, var(--accent2) ${percent}%, rgba(255,255,255,0.08) ${percent}%, rgba(255,255,255,0.08) 100%)`;
+  }
+
+  function updateStepSlider() {
+    const value = Number(stepSlider.value);
+    const labels = ['Basic', 'Plus', 'Pro', 'Elite'];
+    stepValue.textContent = labels[value];
+
+    planChips.forEach((chip, index) => {
+      chip.classList.toggle('active', index === value);
+    });
+
+    const percent = (value / Number(stepSlider.max)) * 100;
+    stepSlider.style.background = `linear-gradient(90deg, var(--accent) 0%, var(--accent2) ${percent}%, rgba(255,255,255,0.08) ${percent}%, rgba(255,255,255,0.08) 100%)`;
+  }
+
+  function updateBubbleSlider() {
+    const value = Number(bubbleSlider.value);
+    const percent = (value - bubbleSlider.min) / (bubbleSlider.max - bubbleSlider.min) * 100;
+    bubbleValue.textContent = `${value}%`;
+    bubbleTip.textContent = value;
+    bubbleTip.style.left = `calc(${percent}% - 22px)`;
+    bubbleSlider.style.background = `linear-gradient(90deg, var(--accent) 0%, var(--accent2) ${percent}%, rgba(255,255,255,0.08) ${percent}%, rgba(255,255,255,0.08) 100%)`;
+  }
+
+  singleSlider.addEventListener('input', updateSingleSlider);
+  rangeMin.addEventListener('input', updateRangeSlider);
+  rangeMax.addEventListener('input', updateRangeSlider);
+  verticalSlider.addEventListener('input', updateVerticalSlider);
+  stepSlider.addEventListener('input', updateStepSlider);
+  bubbleSlider.addEventListener('input', updateBubbleSlider);
+
+  updateSingleSlider();
+  updateRangeSlider();
+  updateVerticalSlider();
+  updateStepSlider();
+  updateBubbleSlider();
+</script>
+
+  <script src="dist/shared.js"></script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+/* ==========================================
+   Reading Time Widget
+   ========================================== */
+
+.reading-time-widget {
+  width: 100%;
+  margin: 1.5rem 0;
+  font-family: inherit;
+}
+
+.rt-card {
+  background: var(--surface-color, #ffffff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.rt-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+}
+
+.rt-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.rt-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.rt-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: .35rem .8rem;
+
+  border-radius: 999px;
+
+  font-size: .8rem;
+  font-weight: 600;
+
+  background: #2563eb;
+  color: white;
+}
+
+.rt-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(120px, 1fr)
+    );
+
+  gap: 1rem;
+}
+
+.rt-stat {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+
+  padding: .9rem;
+
+  border-radius: 12px;
+
+  background:
+    rgba(37,99,235,.06);
+}
+
+.rt-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.rt-label {
+  font-size: .82rem;
+  opacity: .8;
+}
+
+/* ==========================================
+   Progress
+   ========================================== */
+
+.rt-progress-wrapper {
+  width: 100%;
+  height: 8px;
+
+  margin-top: 1.25rem;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background:
+    rgba(0,0,0,.08);
+}
+
+.rt-progress-bar {
+  width: 0%;
+  height: 100%;
+
+  border-radius: inherit;
+
+  transition:
+    width .2s ease;
+
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #3b82f6
+    );
+}
+
+/* ==========================================
+   Preferences
+   ========================================== */
+
+.rt-preferences {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+
+  margin-top: 1.25rem;
+}
+
+.rt-speed-label {
+  font-size: .875rem;
+  font-weight: 600;
+}
+
+.rt-speed-select {
+  min-width: 150px;
+
+  padding: .5rem .75rem;
+
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+
+  background: white;
+
+  cursor: pointer;
+}
+
+.rt-speed-select:focus {
+  outline: none;
+
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(37,99,235,.2);
+}
+
+/* ==========================================
+   Accessibility
+   ========================================== */
+
+.rt-sr-only {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  padding: 0;
+  margin: -1px;
+
+  overflow: hidden;
+
+  clip:
+    rect(0,0,0,0);
+
+  white-space: nowrap;
+
+  border: 0;
+}
+
+.rt-card:focus-within {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* ==========================================
+   Dark Theme
+   ========================================== */
+
+[data-theme="dark"]
+.rt-card {
+  background: #111827;
+  border-color: #374151;
+}
+
+[data-theme="dark"]
+.rt-stat {
+  background:
+    rgba(59,130,246,.12);
+}
+
+[data-theme="dark"]
+.rt-speed-select {
+  background: #1f2937;
+  color: #f9fafb;
+  border-color: #4b5563;
+}
+
+/* ==========================================
+   Compact Mode
+   ========================================== */
+
+.rt-card.compact {
+  padding: .8rem;
+}
+
+.rt-card.compact .rt-grid {
+  gap: .5rem;
+}
+
+.rt-card.compact .rt-value {
+  font-size: 1rem;
+}
+
+/* ==========================================
+   Large Mode
+   ========================================== */
+
+.rt-card.large {
+  padding: 2rem;
+}
+
+.rt-card.large .rt-value {
+  font-size: 2rem;
+}
+
+/* ==========================================
+   Animation States
+   ========================================== */
+
+.rt-fade-in {
+  animation:
+    rtFadeIn .35s ease;
+}
+
+@keyframes rtFadeIn {
+  from {
+    opacity: 0;
+    transform:
+      translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0);
+  }
+}
+
+.rt-pulse {
+  animation:
+    rtPulse 1.5s infinite;
+}
+
+@keyframes rtPulse {
+  0% {
+    transform:
+      scale(1);
+  }
+
+  50% {
+    transform:
+      scale(1.03);
+  }
+
+  100% {
+    transform:
+      scale(1);
+  }
+}
+
+/* ==========================================
+   Mobile
+   ========================================== */
+
+@media (max-width: 768px) {
+  .rt-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rt-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0,1fr)
+      );
+  }
+
+  .rt-preferences {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rt-speed-select {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .rt-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rt-card {
+    padding: 1rem;
+  }
+}

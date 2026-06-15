@@ -1,0 +1,88 @@
+name: PR Template Validator
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  validate:
+    name: Validate PR Description
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR Description Quality
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.pull_request.body;
+            const warnings = [];
+            const info = [];
+            
+            if (!body || body.trim().length === 0) {
+              warnings.push("PR description is empty. Consider adding context about your changes.");
+            } else {
+              // Check for recommended sections
+              const recommendedSections = [
+                { name: "Related Issue", pattern: "## Related Issue" },
+                { name: "Summary", pattern: "## Summary" },
+                { name: "Changes Made", pattern: "## Changes Made" },
+                { name: "Technical Details", pattern: "## Technical Details" },
+                { name: "Testing", pattern: "## Testing" }
+              ];
+              
+              const missingSections = recommendedSections.filter(
+                section => !body.includes(section.pattern)
+              );
+              
+              if (missingSections.length > 0) {
+                info.push(
+                  `Missing recommended sections: ${missingSections.map(s => s.name).join(", ")}`
+                );
+              }
+              
+              // Check for unchecked items
+              const uncheckedItems = (body.match(/- \[ \]/g) || []).length;
+              if (uncheckedItems > 0) {
+                info.push(
+                  `${uncheckedItems} checklist item(s) not marked as complete. Please review the checklist.`
+                );
+              }
+            }
+            
+            // Generate report
+            if (warnings.length > 0 || info.length > 0) {
+              let report = '## 📋 PR Description Quality Check\n\n';
+              
+              if (warnings.length > 0) {
+                report += '### ⚠️ Warnings\n';
+                warnings.forEach(w => report += `- ${w}\n`);
+                report += '\n';
+              }
+              
+              if (info.length > 0) {
+                report += '### ℹ️ Suggestions\n';
+                info.forEach(i => report += `- ${i}\n`);
+                report += '\n';
+              }
+              
+              report += '### 📖 PR Template Guidelines\n';
+              report += '- Add context about what problem this solves\n';
+              report += '- List related issue(s) if applicable\n';
+              report += '- Describe how you tested the changes\n';
+              report += '- Check off completed checklist items\n\n';
+              report += 'This is informational. PRs can be merged without perfect descriptions.\n';
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: report
+              });
+            } else {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: '✅ PR description looks good!'
+              });
+            }
+

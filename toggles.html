@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8" />
   <meta
     name="viewport"
@@ -958,6 +959,32 @@
       transform: rotate(15deg);
     }
 
+    /* NEW: Glass Toggle */
+    .toggle-glass label{
+      width:60px; height:30px; border-radius:999px; background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.06); backdrop-filter: blur(6px); position:relative; overflow:hidden;
+    }
+    .toggle-glass label::after{ content:""; position:absolute; top:3px; left:3px; width:24px; height:24px; border-radius:50%; background:#fff; opacity:.95; transition:.28s; box-shadow:0 4px 12px rgba(0,0,0,.18);}    
+    .toggle-glass input:checked + label{ background: linear-gradient(90deg,#6c5ce7,#eb6835); }
+    .toggle-glass input:checked + label::after{ transform: translateX(30px); background:#fff; }
+
+    /* NEW: Retro Slider */
+    .toggle-retro label{ width:58px; height:30px; border-radius:6px; background:#0b1220; border:2px solid #071126; position:relative; }
+    .toggle-retro label::after{ content:""; position:absolute; top:4px; left:6px; width:18px; height:22px; border-radius:4px; background:linear-gradient(90deg,#ef4444,#f97316); transition:.25s; box-shadow:0 2px 6px rgba(0,0,0,.5);}    
+    .toggle-retro input:checked + label{ border-color:#16a34a; }
+    .toggle-retro input:checked + label::after{ transform: translateX(30px); background:linear-gradient(90deg,#22c55e,#16a34a);}    
+
+    /* NEW: Minimal Dot */
+    .toggle-minimal label{ width:40px; height:24px; border-radius:999px; background:#e6edf3; position:relative; }
+    .toggle-minimal label::after{ content:""; position:absolute; top:3px; left:3px; width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.12); transition:.2s; }
+    .toggle-minimal input:checked + label{ background:#34d399; }
+    .toggle-minimal input:checked + label::after{ transform: translateX(16px); }
+
+    /* NEW: Swirl Toggle (animated) */
+    .toggle-swirl label{ width:64px; height:32px; border-radius:999px; background:#f1f5f9; position:relative; overflow:hidden; }
+    .toggle-swirl label::after{ content:""; position:absolute; top:3px; left:3px; width:26px; height:26px; border-radius:50%; background:linear-gradient(90deg,#6c5ce7,#eb6835); transition:.35s cubic-bezier(.2,.9,.3,1); box-shadow:0 6px 18px rgba(108,92,231,.16);}    
+    .toggle-swirl input:checked + label{ background:linear-gradient(90deg,#0f172a,#0b1220);}    
+    .toggle-swirl input:checked + label::after{ transform: translateX(34px) rotate(360deg); }
+
     /* ============================================================
        FOOTER
        ============================================================ */
@@ -1016,11 +1043,13 @@
       color: var(--muted);
       text-decoration: none;
       font-size: 14px;
-      transition: color 0.3s ease;
+      display: inline-block;
+      transition: color 0.3s ease, transform 0.3s ease;
     }
 
     .footer-col ul li a:hover {
       color: var(--orange, #eb6835);
+      transform: translateX(6px);
     }
 
     .socials {
@@ -1153,8 +1182,7 @@
       }
     }
   </style>
-  <link rel="stylesheet" href="shared-sidebar.css">
-</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
 
@@ -1482,6 +1510,71 @@
     <a href="#" title="Twitter"><i class="fab fa-x-twitter"></i></a>
   </div>
 </aside>
+
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
 
 <!-- ================= MAIN CONTENT ================= -->
 <main class="main-home">
@@ -2193,6 +2286,122 @@
 }</code></pre>
     </div>
 
+    <!-- NEW: Glass Toggle -->
+    <div class="component-card" data-cat="styled" data-name="glass toggle">
+      <div class="card-top">
+        <span class="card-label">Glass Toggle</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-glass">
+              <input type="checkbox" id="glass-t1" />
+              <label for="glass-t1"></label>
+            </div>
+            <span class="toggle-label-text">Frosted UI</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A modern frosted glass style toggle with subtle blur and bright active gradient.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code15', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code15', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code15" class="code-block"><code>.toggle-glass input:checked + label{ background:linear-gradient(90deg,#6c5ce7,#eb6835); }</code></pre>
+    </div>
+
+    <!-- NEW: Retro Slider -->
+    <div class="component-card" data-cat="themed" data-name="retro slider">
+      <div class="card-top">
+        <span class="card-label">Retro Slider</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview dark-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-retro">
+              <input type="checkbox" id="retro-t1" />
+              <label for="retro-t1"></label>
+            </div>
+            <span class="toggle-label-text" style="color:#e2e8f0;">Retro Mode</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Classic retro slider with bold knob and strong color transitions for status indication.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code16', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code16', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code16" class="code-block"><code>.toggle-retro input:checked + label::after{ transform:translateX(30px); }</code></pre>
+    </div>
+
+    <!-- NEW: Minimal Dot -->
+    <div class="component-card" data-cat="simple" data-name="minimal dot">
+      <div class="card-top">
+        <span class="card-label">Minimal Dot</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-minimal">
+              <input type="checkbox" id="min-t1" />
+              <label for="min-t1"></label>
+            </div>
+            <span class="toggle-label-text">Compact</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Tiny, unobtrusive toggle designed for space-constrained UIs.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code17', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code17', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code17" class="code-block"><code>.toggle-minimal input:checked + label{ background:#34d399; }</code></pre>
+    </div>
+
+    <!-- NEW: Swirl Toggle -->
+    <div class="component-card" data-cat="styled" data-name="swirl toggle">
+      <div class="card-top">
+        <span class="card-label">Swirl Toggle</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-swirl">
+              <input type="checkbox" id="swirl-t1" />
+              <label for="swirl-t1"></label>
+            </div>
+            <span class="toggle-label-text">Animated</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A playful animated knob that rotates while sliding, adding motion personality.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code18', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code18', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code18" class="code-block"><code>.toggle-swirl input:checked + label::after{ transform:translateX(34px) rotate(360deg); }</code></pre>
+    </div>
+
   </main>
 
   <!-- TOAST -->
@@ -2207,70 +2416,90 @@
 
 </main>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="footer">
-    <div class="footer-container">
-
-      <div class="footer-col">
-        <div class="socials">
-          <a href="https://github.com" target="_blank" title="GitHub" aria-label="GitHub">
-            <i class="fab fa-github"></i>
-          </a>
-          <a href="https://linkedin.com" target="_blank" title="LinkedIn" aria-label="LinkedIn">
-            <i class="fab fa-linkedin"></i>
-          </a>
-          <a href="https://twitter.com" target="_blank" title="Twitter" aria-label="Twitter">
-            <i class="fab fa-x-twitter"></i>
-          </a>
-        </div>
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
-
-      <div class="footer-col">
-        <h3>Explore</h3>
-        <ul>
-          <li><a href="button.html">Buttons</a></li>
-          <li><a href="navbar.html">Navbars</a></li>
-          <li><a href="cards.html">Cards</a></li>
-          <li><a href="inputs.html">Inputs</a></li>
-          <li><a href="forms.html">Forms</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Resources</h3>
-        <ul>
-          <li><a href="documentation.html">Documentation</a></li>
-          <li><a href="contribute.html">Contribute</a></li>
-          <li><a href="https://github.com/uiverse/uiverse" target="_blank">GitHub Repo</a></li>
-          <li><a href="community.html">Community</a></li>
-          <li><a href="support.html">Support</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Legal</h3>
-        <ul>
-          <li><a href="privacypolicy.html">Privacy Policy</a></li>
-          <li><a href="terms.html">Terms of Service</a></li>
-          <li><a href="license.html">License</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col newsletter">
-        <h3>Stay Updated</h3>
-        <p>Get notified when new components drop.</p>
-        <div class="newsletter-form">
-          <input type="email" placeholder="your@email.com" id="newsletterEmail" />
-          <button type="button" onclick="subscribe()">Subscribe</button>
-        </div>
-      </div>
-
     </div>
 
-    <div class="footer-bottom">
-      <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
     </div>
-  </footer>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
 
   <!-- ===== SCROLL TO TOP ===== -->
   <button id="scrollTopBtn" onclick="scrollToTop()" title="Back to top" aria-label="Back to top">
@@ -2426,5 +2655,6 @@
 
   </script>
 
+  <script src="dist/shared.js"></script>
 </body>
 </html>

@@ -24,6 +24,13 @@ const URLStateManager = (function () {
   };
 
   /**
+   * Helper to get a clean URL instance of the current location
+   */
+  function getNormalizedURL() {
+    return new URL(window.location.href);
+  }
+
+  /**
    * Build URL search string from current state
    */
   function buildQueryString(query = '', category = 'all', sort = 'default') {

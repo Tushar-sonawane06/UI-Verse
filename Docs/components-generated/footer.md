@@ -3,26 +3,26 @@
 Component ID: footer
 
 - Path: footer.html
-- Version: 0.1.0
-- Documentation score: 90/100
-- Tags: layout, site
+- Version: 0.1.1
+- Documentation score: 100/100
+- Tags: layout, site, footer
 - Description: Footer patterns and site utilities
 
 ## Assets
 
-- CSS: css/main.css, footer.css, home.css, https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css, style.css
-- JS: -
+- CSS: dist/shared.css, footer.css, https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css
+- JS: dist/shared.js
 
 ## Headings
 
+- H1: Beautiful Footer Components
+- H2: 20+
+- H2: 100%
+- H2: HTML
+- H2: Free
 - H1: Footer Components
-- H2: Launch Faster
-- H2: Build Beautiful UI
-- H2: Download App
-- H2: Creative Footer
-- H2: John Doe
-- H2: Elegant UI
-- H2: UIverse Pro
+- H2: Site Footer
+- H3: UIverse
 
 ## Usage Snippet
 

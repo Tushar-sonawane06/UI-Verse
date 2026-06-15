@@ -1,0 +1,26 @@
+name: I18n Sync Validator
+
+on:
+  pull_request:
+    paths:
+      - 'locales/**'
+      - 'scripts/i18n-sync.js'
+
+jobs:
+  i18n-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate Translations
+        run: npm run i18n:sync:check

@@ -61,9 +61,25 @@ git clone https://github.com/your-username/uiverse.git
 
 ---
 
-### 3️⃣ Open the Project
+### 3️⃣ Setup and Local Testing
 
-Simply open `index.html` in your browser.
+* **Prerequisites**: Node.js `v18` or `v20` (recommended).
+* **Install dependencies**:
+  ```bash
+  npm install
+  ```
+* **Run local development/preview server**:
+  ```bash
+  npm run storybook
+  ```
+* **Verify metadata verification rules**:
+  ```bash
+  npm run components:version:check
+  ```
+* **Run accessibility evaluation and validation tools**:
+  ```bash
+  npm run audit:a11y
+  ```
 
 ---
 

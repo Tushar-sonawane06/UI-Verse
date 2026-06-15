@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-inline'; style-src 'self' https: 'unsafe-inline';" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeoBeat Music Player</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg1: #0f172a;
+      --bg2: #1e293b;
+      --accent: #7c3aed;
+      --accent2: #22c55e;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+      color: var(--text);
+    }
+
+    .music-player {
+      width: 360px;
+      padding: 20px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .album-wrapper {
+      margin: 20px auto;
+      width: 220px;
+      height: 220px;
+      position: relative;
+    }
+
+    .vinyl-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px dashed rgba(255,255,255,0.2);
+      animation: spin 10s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .album-cover {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 6px solid rgba(255,255,255,0.1);
+    }
+
+    .song-details {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .song-details h2 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .song-details p {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .music-progress {
+      margin-top: 18px;
+    }
+
+    .time {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .progress-container {
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      margin-top: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 40%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .progress-dot {
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .control-btn, .play-btn {
+      border: none;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    .control-btn {
+      width: 42px;
+      height: 42px;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+    }
+
+    .play-btn {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      box-shadow: 0 10px 30px rgba(124,58,237,0.4);
+    }
+
+    .control-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .play-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .bottom-options {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 18px;
+      color: var(--muted);
+    }
+
+    .option {
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .option:hover {
+      color: var(--text);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="music-player">
+
+    <div class="top-bar">
+      <i class="fa-solid fa-chevron-left"></i>
+      <span>Now Playing</span>
+      <i class="fa-solid fa-ellipsis"></i>
+    </div>
+
+    <div class="album-wrapper">
+      <div class="vinyl-ring"></div>
+      <img class="album-cover" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1200&auto=format&fit=crop" />
+    </div>
+
+    <div class="song-details">
+      <h2>Dream Waves</h2>
+      <p>Unknown Artist</p>
+    </div>
+
+    <div class="music-progress">
+      <div class="time">
+        <span>1:24</span>
+        <span>3:45</span>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="control-btn"><i class="fa-solid fa-backward-step"></i></button>
+      <button class="play-btn" id="playBtn"><i class="fa-solid fa-play"></i></button>
+      <button class="control-btn"><i class="fa-solid fa-forward-step"></i></button>
+    </div>
+
+    <div class="bottom-options">
+      <div class="option"><i class="fa-solid fa-heart"></i></div>
+      <div class="option"><i class="fa-solid fa-music"></i></div>
+      <div class="option"><i class="fa-solid fa-volume-high"></i></div>
+    </div>
+
+  </div>
+
+  <script>
+    const playBtn = document.getElementById('playBtn');
+    let isPlaying = false;
+
+    playBtn.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      playBtn.innerHTML = isPlaying 
+        ? '<i class="fa-solid fa-pause"></i>' 
+        : '<i class="fa-solid fa-play"></i>';
+    });
+  </script>
+    <script src="../dist/shared.js"></script>
+</body>
+</html>

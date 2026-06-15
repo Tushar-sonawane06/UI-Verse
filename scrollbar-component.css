@@ -1,0 +1,528 @@
+:root {
+  --uiv-bg-main: #060813;
+  --uiv-bg-surface: #0c0f22;
+  --uiv-bg-card: #12172d;
+  --uiv-bg-code: #05060d;
+  --uiv-text-primary: #f8fafc;
+  --uiv-text-secondary: #94a3b8;
+  --uiv-text-muted: #475569;
+  --uiv-primary: #007bff;
+  --uiv-primary-glow: rgba(0, 123, 255, 0.35);
+  --uiv-accent-cyan: #00f3ff;
+  --uiv-success: #30d158;
+  --uiv-success-bg: rgba(48, 209, 88, 0.12);
+  --uiv-danger: #ff453a;
+  --uiv-premium-gold: #ffd700;
+  
+  /* Layout Sizing Mechanics */
+  --uiv-font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --uiv-radius-lg: 14px;
+  --uiv-radius-md: 8px;
+  --uiv-radius-sm: 4px;
+  --uiv-speed-fast: 0.2s;
+  --uiv-speed-smooth: 0.3s;
+  --uiv-curve-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --uiv-shadow-md: 0 12px 32px rgba(0, 0, 0, 0.4);
+  --uiv-border-color: rgba(255, 255, 255, 0.08);
+  --uiv-border-hover: rgba(255, 255, 255, 0.18);
+}
+
+/* --- System Light Theme Property Overrides --- */
+body.uiv-light-theme {
+  --uiv-bg-main: #f5f7fb;
+  --uiv-bg-surface: #ffffff;
+  --uiv-bg-card: #f8fafc;
+  --uiv-bg-code: #1e1e24;
+  --uiv-text-primary: #0f172a;
+  --uiv-text-secondary: #475569;
+  --uiv-text-muted: #94a3b8;
+  --uiv-border-color: rgba(15, 23, 42, 0.08);
+  --uiv-border-hover: rgba(15, 23, 42, 0.16);
+}
+
+/* --- Core Normalization Rules --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+}
+
+body {
+  background-color: var(--uiv-bg-main);
+  color: var(--uiv-text-primary);
+  font-family: var(--uiv-font-sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--uiv-speed-smooth), color var(--uiv-speed-smooth);
+}
+
+/* ==========================================================================
+   DASHBOARD INFRASTRUCTURE CORE MECHANICS LAYOUT
+   ========================================================================== */
+.uiv-navbar {
+  position: fixed; top: 0; left: 0; right: 0; height: 68px;
+  background-color: var(--uiv-bg-surface);
+  border-bottom: 1px solid var(--uiv-border-color);
+  z-index: 1000;
+}
+
+.uiv-nav-container {
+  display: block; width: 100%; max-width: 1600px;
+  height: 100%; margin: 0 auto; padding: 0 24px;
+}
+.uiv-nav-container::after { content: ""; display: table; clear: both; }
+
+.uiv-nav-brand { float: left; margin-top: 20px; }
+.uiv-logo { display: inline-block; font-size: 22px; font-weight: 800; }
+.logo-accent-u { color: var(--uiv-primary); }
+.logo-main-text { color: var(--uiv-text-primary); }
+.uiv-brand-divider { display: inline-block; width: 1px; height: 16px; background-color: var(--uiv-border-color); margin: 0 12px; vertical-align: middle; }
+.uiv-library-badge { display: inline-block; font-size: 11px; background-color: var(--uiv-border-color); color: var(--uiv-text-secondary); padding: 2px 8px; border-radius: 20px; vertical-align: middle; }
+
+.uiv-nav-search-wrapper {
+  float: left; margin-left: 48px; margin-top: 14px; position: relative; width: 360px;
+}
+.search-lens-icon { position: absolute; left: 14px; top: 13px; color: var(--uiv-text-muted); font-size: 14px; }
+
+#uiv-global-search {
+  width: 100%; height: 40px; background-color: var(--uiv-bg-main);
+  border: 1px solid var(--uiv-border-color); border-radius: var(--uiv-radius-md);
+  padding: 0 40px 0 38px; color: var(--uiv-text-primary); font-size: 13px; outline: none;
+}
+#uiv-global-search:focus { border-color: var(--uiv-primary); }
+.uiv-search-shortcut-key { position: absolute; right: 12px; top: 11px; background-color: var(--uiv-bg-surface); border: 1px solid var(--uiv-border-color); color: var(--uiv-text-muted); font-size: 11px; padding: 1px 6px; border-radius: 4px; }
+
+.uiv-nav-actions-group { float: right; margin-top: 14px; }
+.uiv-action-icon-btn {
+  display: inline-block; width: 40px; height: 40px; background: transparent; border: 1px solid var(--uiv-border-color);
+  color: var(--uiv-text-secondary); border-radius: var(--uiv-radius-md); cursor: pointer; text-align: center; line-height: 38px; margin-left: 8px;
+}
+.uiv-btn-primary {
+  display: inline-block; height: 40px; padding: 0 16px; background-color: var(--uiv-primary); color: #ffffff; border: none; border-radius: var(--uiv-radius-md); font-size: 13px; font-weight: 600; cursor: pointer; margin-left: 12px; line-height: 40px; vertical-align: top;
+}
+
+/* --- Sidebar System Metrics Configuration --- */
+.uiv-application-layout { display: block; max-width: 1600px; margin: 68px auto 0 auto; position: relative; }
+.uiv-sidebar { position: fixed; top: 68px; left: calc((100vw - 1600px) / 2); width: 280px; height: calc(100vh - 68px); background-color: var(--uiv-bg-surface); border-right: 1px solid var(--uiv-border-color); padding: 32px 24px; overflow-y: auto; }
+@media (max-width: 1600px) { .uiv-sidebar { left: 0; } }
+
+.uiv-sidebar-heading { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--uiv-text-muted); margin-bottom: 16px; }
+.uiv-sidebar-section { margin-bottom: 36px; }
+.uiv-sidebar-menu { list-style: none; }
+.uiv-menu-item { display: block; padding: 11px 14px; border-radius: var(--uiv-radius-md); color: var(--uiv-text-secondary); font-size: 13px; font-weight: 500; cursor: pointer; margin-bottom: 6px; position: relative; }
+.uiv-menu-item i { margin-right: 12px; width: 16px; text-align: center; }
+.uiv-menu-item.uiv-active { background-color: var(--uiv-primary-glow); color: var(--uiv-primary); }
+.uiv-item-count-badge { position: absolute; right: 14px; top: 11px; font-size: 11px; background-color: var(--uiv-bg-main); padding: 2px 7px; border-radius: 12px; color: var(--uiv-text-muted); }
+
+.uiv-stats-widget-box { background-color: var(--uiv-bg-main); border: 1px solid var(--uiv-border-color); border-radius: var(--uiv-radius-md); padding: 16px; }
+.uiv-stat-entry { font-size: 13px; margin-bottom: 10px; }
+.uiv-stat-label { color: var(--uiv-text-muted); }
+.uiv-stat-value { float: right; font-weight: 600; color: var(--uiv-text-primary); }
+.uiv-text-success { color: var(--uiv-success) !important; }
+.uiv-sidebar-footer-note { font-size: 11px; color: var(--uiv-text-muted); text-align: center; margin-top: 48px; }
+
+/* --- Workspace Display Channels --- */
+.uiv-main-workspace { margin-left: 280px; padding: 40px; min-height: calc(100vh - 68px); }
+.uiv-hero-dashboard { position: relative; background-color: var(--uiv-bg-surface); border: 1px solid var(--uiv-border-color); border-radius: var(--uiv-radius-lg); padding: 56px; overflow: hidden; margin-bottom: 36px; }
+.uiv-hero-glow-layer { position: absolute; top: -120px; right: -120px; width: 360px; height: 360px; background: radial-gradient(circle, rgba(0, 123, 255, 0.16) 0%, transparent 75%); pointer-events: none; }
+.uiv-hero-body { position: relative; z-index: 2; max-width: 860px; }
+.uiv-hero-main-title { font-size: 38px; font-weight: 800; letter-spacing: -1px; margin: 0 0 16px 0; }
+.uiv-title-gradient { background: linear-gradient(90deg, var(--uiv-primary), var(--uiv-accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.uiv-hero-description { font-size: 15px; color: var(--uiv-text-secondary); line-height: 1.6; margin: 0 0 28px 0; }
+
+.uiv-hero-cta-bar .uiv-hero-btn { display: inline-block; padding: 12px 24px; border-radius: var(--uiv-radius-md); font-size: 13px; font-weight: 600; cursor: pointer; border: none; margin-right: 12px; }
+.uiv-hero-btn.uiv-hero-primary { background-color: var(--uiv-text-primary); color: var(--uiv-bg-main); }
+.uiv-hero-btn.uiv-hero-secondary { background: transparent; border: 1px solid var(--uiv-border-color); color: var(--uiv-text-primary); }
+
+.uiv-catalog-toolbar { background-color: var(--uiv-bg-surface); border: 1px solid var(--uiv-border-color); border-radius: var(--uiv-radius-md); padding: 16px 24px; margin-bottom: 36px; }
+.uiv-catalog-toolbar::after { content: ""; display: table; clear: both; }
+.uiv-toolbar-title-summary { font-size: 14px; font-weight: 500; color: var(--uiv-text-secondary); margin: 6px 0 0 0; float: left; }
+.uiv-toolbar-right-side { float: right; }
+.uiv-layout-toggle-cluster { display: inline-block; border: 1px solid var(--uiv-border-color); border-radius: var(--uiv-radius-md); overflow: hidden; background-color: var(--uiv-bg-main); }
+.uiv-layout-btn { background: transparent; border: none; color: var(--uiv-text-muted); padding: 8px 14px; cursor: pointer; font-size: 14px; }
+.uiv-layout-btn.uiv-active { background-color: var(--uiv-bg-card); color: var(--uiv-primary); }
+
+/* --- Dynamic Generation Workbench Core Panel Layout --- */
+.uiv-workbench-panel { background-color: var(--uiv-bg-surface); border: 1px solid var(--uiv-primary); border-radius: var(--uiv-radius-lg); padding: 24px; margin-bottom: 36px; box-shadow: 0 4px 20px rgba(0,123,255,0.1); }
+.uiv-workbench-header::after { content: ""; display: table; clear: both; }
+.uiv-workbench-header h3 { float: left; margin: 0; font-size: 15px; font-weight: 700; }
+.uiv-workbench-close-btn { float: right; background: transparent; border: none; color: var(--uiv-text-muted); font-size: 20px; cursor: pointer; line-height: 1; }
+
+.uiv-form-row { display: block; margin-top: 20px; }
+.uiv-form-row::after { content: ""; display: table; clear: both; }
+.uiv-form-group { float: left; width: 23%; margin-right: 2%; }
+.uiv-form-submit-group { float: left; width: 25%; margin-top: 22px; }
+.uiv-form-group label { display: block; font-size: 11px; text-transform: uppercase; color: var(--uiv-text-muted); margin-bottom: 6px; font-weight: 600; }
+.uiv-form-group input, .uiv-form-group select { width: 100%; height: 38px; background-color: var(--uiv-bg-main); border: 1px solid var(--uiv-border-color); border-radius: var(--uiv-radius-md); color: var(--uiv-text-primary); padding: 0 12px; font-size: 13px; outline: none; }
+.uiv-btn-success { width: 100%; height: 38px; background-color: var(--uiv-success); color: #ffffff; border: none; border-radius: var(--uiv-radius-md); font-size: 12px; font-weight: 700; cursor: pointer; }
+
+.uiv-workbench-output-row { border-top: 1px solid var(--uiv-border-color); margin-top: 20px; padding-top: 16px; }
+.uiv-output-heading-label { font-size: 12px; font-weight: 600; color: var(--uiv-text-muted); display: block; margin-bottom: 12px; }
+.uiv-sandbox-insertion-row { display: block; min-height: 44px; }
+.uiv-empty-sandbox-notice { font-size: 12px; color: var(--uiv-text-muted); font-style: italic; margin: 8px 0; }
+
+/* ==========================================================================
+   COMPACT REGULAR ELEMENT HOUSINGS GRID MATRIX
+   ========================================================================== */
+.uiv-components-catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(440px, 1fr)); gap: 36px; clear: both; }
+.uiv-component-card-node { display: block; width: 100%; background-color: var(--uiv-bg-surface); border: 1px solid var(--uiv-border-color); border-radius: var(--uiv-radius-lg); overflow: hidden; position: relative; }
+.uiv-component-card-node:hover { border-color: var(--uiv-border-hover); box-shadow: var(--uiv-shadow-md); }
+
+.uiv-node-card-header { padding: 16px 20px; border-bottom: 1px solid var(--uiv-border-color); }
+.uiv-node-title-group { float: left; }
+.uiv-node-title { margin: 0; font-size: 14px; font-weight: 600; color: var(--uiv-text-primary); display: inline-block; }
+
+.uiv-node-meta-badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 700; text-transform: uppercase; margin-left: 10px; vertical-align: middle; }
+.uiv-node-meta-badge.uiv-badge-minimal { background-color: rgba(255,255,255,0.06); color: var(--uiv-text-secondary); }
+.uiv-node-meta-badge.uiv-badge-vfx { background: linear-gradient(90deg, #ff007f, #7f00ff); color: #ffffff; }
+.uiv-node-meta-badge.uiv-badge-ui { background-color: rgba(0,123,255,0.15); color: var(--uiv-primary); }
+.uiv-node-meta-badge.uiv-badge-premium { background: linear-gradient(90deg, #ffd700, #b8860b); color: #000000; }
+
+.uiv-node-action-cluster { float: right; }
+.uiv-node-btn { background: transparent; border: 1px solid var(--uiv-border-color); color: var(--uiv-text-secondary); width: 34px; height: 34px; border-radius: var(--uiv-radius-md); cursor: pointer; margin-left: 6px; font-size: 13px; }
+.uiv-node-btn:hover { background-color: var(--uiv-border-color); color: var(--uiv-text-primary); }
+
+.uiv-node-description-text { font-size: 12px; color: var(--uiv-text-secondary); padding: 14px 20px 0 20px; margin: 0; }
+.uiv-node-live-preview-box { background-color: var(--uiv-bg-card); padding: 40px; text-align: center; position: relative; overflow: hidden; }
+.uiv-pattern-mesh-bg { background-image: radial-gradient(var(--uiv-border-color) 1px, transparent 1px); background-size: 14px 14px; }
+
+/* --- Code Panel Drawer Component Panels --- */
+.uiv-node-code-drawer-panel { background-color: var(--uiv-bg-code); border-top: 1px solid var(--uiv-border-color); display: none; }
+.uiv-node-code-drawer-panel.uiv-visible { display: block; }
+.uiv-drawer-tab-row { padding: 8px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); background-color: rgba(0,0,0,0.15); }
+.uiv-tab-selector { background: transparent; border: none; color: var(--uiv-text-muted); font-size: 11px; font-weight: 700; padding: 6px 12px; cursor: pointer; border-radius: 4px; margin-right: 4px; }
+.uiv-tab-selector.uiv-active { background-color: rgba(255,255,255,0.06); color: #ffffff; }
+
+.uiv-markup-block { margin: 0; padding: 16px 20px; overflow-x: auto; font-family: monospace; font-size: 12.5px; color: #e1e1e6; line-height: 1.5; display: none; }
+.uiv-markup-block.uiv-active { display: block; }
+
+/* ==========================================================================
+   THE OVERFLOW INTERACTIVE PREVIEW WELL CRADLE WRAPPERS
+   ========================================================================== */
+.uiv-scrollbar-preview-well {
+  width: 100%; max-width: 320px; height: 160px; margin: 0 auto;
+  background-color: var(--uiv-bg-main); border: 1px solid var(--uiv-border-color);
+  border-radius: var(--uiv-radius-md); overflow-y: auto; text-align: left;
+}
+
+.uiv-dummy-content-scroller { padding: 20px; }
+.uiv-dummy-content-scroller h5 { font-size: 14px; margin-bottom: 8px; color: var(--uiv-text-primary); font-family: var(--uiv-font-sans); }
+.uiv-dummy-content-scroller p { font-size: 12.5px; color: var(--uiv-text-secondary); margin-bottom: 16px; line-height: 1.6; }
+
+/* ==========================================================================
+   CROSS-BROWSER STANDALONE SCROLLBAR OVERRIDE SPECIFICATIONS
+   ========================================================================== */
+
+/* 01. Basic Scrollbar Presets */
+.uiv-scroll-basic-default::-webkit-scrollbar { width: 8px; height: 8px; }
+.uiv-scroll-basic-default::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.01); }
+.uiv-scroll-basic-default::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+.uiv-scroll-basic-default::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+
+/* 02. Razor Thin Preset */
+.uiv-scroll-minimal-thin::-webkit-scrollbar { width: 4px; height: 4px; }
+.uiv-scroll-minimal-thin::-webkit-scrollbar-track { background: transparent; }
+.uiv-scroll-minimal-thin::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.22); border-radius: 2px; }
+
+/* 03. Neon Cyan Glow Preset */
+.uiv-scroll-neon-cyan::-webkit-scrollbar { width: 6px; }
+.uiv-scroll-neon-cyan::-webkit-scrollbar-track { background: #05070a; }
+.uiv-scroll-neon-cyan::-webkit-scrollbar-thumb { background: var(--uiv-accent-cyan); border-radius: 3px; box-shadow: 0 0 10px var(--uiv-accent-cyan); }
+
+/* 04. Sunset Gradient Preset */
+.uiv-scroll-gradient-sunset::-webkit-scrollbar { width: 8px; }
+.uiv-scroll-gradient-sunset::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #ff453a, #ff9f0a); border-radius: 4px; }
+
+/* 05. Glassmorphism Blur Preset */
+.uiv-scroll-glassmorphism::-webkit-scrollbar { width: 10px; }
+.uiv-scroll-glassmorphism::-webkit-scrollbar-track { background: transparent; }
+.uiv-scroll-glassmorphism::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border-radius: 5px; }
+
+/* 06. Stealth Hidden Preset */
+.uiv-scroll-stealth-hidden::-webkit-scrollbar { display: none; }
+.uiv-scroll-stealth-hidden { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* 07. Matrix Emerald Preset */
+.uiv-scroll-neon-emerald::-webkit-scrollbar { width: 6px; }
+.uiv-scroll-neon-emerald::-webkit-scrollbar-thumb { background: var(--uiv-success); border-radius: 3px; box-shadow: 0 0 10px var(--uiv-success); }
+
+/* 08. Inset Groove Preset */
+.uiv-scroll-inset-groove::-webkit-scrollbar { width: 10px; }
+.uiv-scroll-inset-groove::-webkit-scrollbar-track { box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5); background-color: #08080c; }
+.uiv-scroll-inset-groove::-webkit-scrollbar-thumb { background-color: #35353d; border-radius: 5px; }
+
+/* 09. Corporate Flat Preset */
+.uiv-scroll-corporate-flat::-webkit-scrollbar { width: 8px; }
+.uiv-scroll-corporate-flat::-webkit-scrollbar-track { background-color: rgba(0,0,0,0.05); }
+.uiv-scroll-corporate-flat::-webkit-scrollbar-thumb { background-color: #4a4a54; border-radius: 0px; }
+
+/* 10. Premium Luxury Gold */
+.uiv-scroll-premium-gold::-webkit-scrollbar { width: 7px; }
+.uiv-scroll-premium-gold::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #ffd700, #b8860b); border-radius: 4px; }
+
+/* 11. Cyberpunk Magenta Track */
+.uiv-scroll-cyber-magenta::-webkit-scrollbar { width: 6px; }
+.uiv-scroll-cyber-magenta::-webkit-scrollbar-thumb { background: #ff007f; border-radius: 3px; box-shadow: 0 0 8px #ff007f; }
+
+/* 12. Dotted Pattern Matrix */
+.uiv-scroll-dotted-texture::-webkit-scrollbar { width: 10px; }
+.uiv-scroll-dotted-texture::-webkit-scrollbar-thumb { background-color: #3d3d47; background-image: radial-gradient(rgba(255,255,255,0.2) 1px, transparent 1px); background-size: 3px 3px; border-radius: 5px; }
+
+/* 13. Electric Purple Glow */
+.uiv-scroll-electric-purple::-webkit-scrollbar { width: 6px; }
+.uiv-scroll-electric-purple::-webkit-scrollbar-thumb { background: #bf94ff; border-radius: 3px; box-shadow: 0 0 10px #bf94ff; }
+
+/* 14. Wide Industrial Block */
+.uiv-scroll-wide-block::-webkit-scrollbar { width: 14px; }
+.uiv-scroll-wide-block::-webkit-scrollbar-track { background: #15151c; }
+.uiv-scroll-wide-block::-webkit-scrollbar-thumb { background: #353540; border: 2px solid #15151c; }
+
+/* 15. Double Rail Parallel Lines */
+.uiv-scroll-double-rail::-webkit-scrollbar { width: 10px; }
+.uiv-scroll-double-rail::-webkit-scrollbar-thumb { background: #25252e; border-left: 2px solid #ffffff; border-right: 2px solid #ffffff; }
+
+/* 16. Capsule Pill Rounded Shape */
+.uiv-scroll-capsule-pill::-webkit-scrollbar { width: 8px; }
+.uiv-scroll-capsule-pill::-webkit-scrollbar-thumb { background: #47474e; border-radius: 99px; }
+
+/* 17. Volcanic Neon Amber Core */
+.uiv-scroll-neon-amber::-webkit-scrollbar { width: 6px; }
+.uiv-scroll-neon-amber::-webkit-scrollbar-thumb { background: var(--uiv-warning); border-radius: 3px; box-shadow: 0 0 10px var(--uiv-warning); }
+
+/* 18. Matrix Rain Repeating Lines */
+.uiv-scroll-matrix-rain::-webkit-scrollbar { width: 8px; }
+.uiv-scroll-matrix-rain::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--uiv-success) 25%, #05060d 25%, #05060d 50%, var(--uiv-success) 50%); background-size: 8px 16px; border-radius: 4px; }
+
+/* 19. Ghost Low Contrast Hover Layer */
+.uiv-scroll-ghost-trans::-webkit-scrollbar { width: 6px; }
+.uiv-scroll-ghost-trans::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.02); }
+.uiv-scroll-ghost-trans:hover::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); }
+
+/* 20. Tactical Knurled Diamond Pattern */
+.uiv-scroll-tactical-knurled::-webkit-scrollbar { width: 12px; }
+.uiv-scroll-tactical-knurled::-webkit-scrollbar-thumb { background-color: #25252a; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 2px, transparent 2px, transparent 4px); border-radius: 6px; }
+
+/* 21. Ice Frost Glacier Blue */
+.uiv-scroll-ice-glacier::-webkit-scrollbar { width: 8px; }
+.uiv-scroll-ice-glacier::-webkit-scrollbar-thumb { background: rgba(0, 180, 216, 0.15); border: 1px solid rgba(0, 180, 216, 0.3); border-radius: 4px; }
+
+/* 22. Deep Recessed Trench Inset */
+.uiv-scroll-deep-trench::-webkit-scrollbar { width: 10px; }
+.uiv-scroll-deep-trench::-webkit-scrollbar-track { background: #000000; box-shadow: inset 0 0 8px rgba(0,0,0,0.9); }
+.uiv-scroll-deep-trench::-webkit-scrollbar-thumb { background: #1a1a24; border-radius: 5px; }
+
+/* 23. Chroma Rainbow Fade */
+.uiv-scroll-chroma-rainbow::-webkit-scrollbar { width: 6px; }
+.uiv-scroll-chroma-rainbow::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #ff453a, #ff9f0a, #30d158, #007bff); border-radius: 3px; }
+
+/* 24. Professional Slate Solid */
+.uiv-scroll-slate-pro::-webkit-scrollbar { width: 8px; }
+.uiv-scroll-slate-pro::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+
+/* 25. Shimmer Process Loading Sweep */
+.uiv-scroll-shimmer-sweep::-webkit-scrollbar { width: 8px; }
+.uiv-scroll-shimmer-sweep::-webkit-scrollbar-thumb { background: linear-gradient(90deg, #18181f, var(--uiv-primary), #18181f); background-size: 200% 100%; border-radius: 4px; }
+
+/* 26. Royal Velvet Crimson */
+.uiv-scroll-velvet-maroon::-webkit-scrollbar { width: 7px; }
+.uiv-scroll-velvet-maroon::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #6b0f1a, #b91c1c); border-radius: 4px; }
+
+/* 27. Telemetry Cyber Alert Yellow */
+.uiv-scroll-cyber-grid-yellow::-webkit-scrollbar { width: 6px; }
+.uiv-scroll-cyber-grid-yellow::-webkit-scrollbar-thumb { background: var(--uiv-warning); border-radius: 3px; box-shadow: 0 0 10px var(--uiv-warning); }
+
+/* 28. Stealth Charcoal Dark Mode */
+.uiv-scroll-charcoal-stealth::-webkit-scrollbar { width: 6px; }
+.uiv-scroll-charcoal-stealth::-webkit-scrollbar-thumb { background: #181822; border: 1px solid #282834; border-radius: 3px; }
+
+/* 29. Deep Sea Aquamarine Blue */
+.uiv-scroll-sea-aquamarine::-webkit-scrollbar { width: 8px; }
+.uiv-scroll-sea-aquamarine::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #00b4d8, #0077b6); border-radius: 4px; }
+
+/* 30. Diamond Plate Industrial Lines */
+.uiv-scroll-industrial-plate::-webkit-scrollbar { width: 12px; }
+.uiv-scroll-industrial-plate::-webkit-scrollbar-thumb { background-color: #353540; background-image: repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 1px, transparent 3px); border-radius: 4px; }
+
+
+/* --- Floating Feedback Toast System Hub --- */
+.uiv-toast-pipeline-host { position: fixed; bottom: 32px; right: 32px; z-index: 3000; }
+.uiv-system-toast-node { background-color: #121218; color: #ffffff; padding: 14px 24px; border-radius: var(--uiv-radius-md); font-size: 13.5px; margin-top: 10px; box-shadow: var(--uiv-shadow-md); border-left: 4px solid var(--uiv-primary); }
+
+/* --- Framework Platform Integrated Footer --- */
+.uiv-footer-block { background-color: var(--uiv-bg-surface); border-top: 1px solid var(--uiv-border-color); padding: 48px 24px; margin-top: 68px; clear: both; }
+.uiv-footer-container { max-width: 1600px; margin: 0 auto; }
+.uiv-footer-container::after { content: ""; display: table; clear: both; }
+.uiv-footer-brand-summary { float: left; width: 45%; }
+.uiv-footer-brand-summary h4 { margin: 0 0 10px 0; font-size: 16px; font-weight: 700; }
+.uiv-footer-brand-summary p { margin: 0; font-size: 13px; color: var(--uiv-text-muted); max-width: 360px; }
+.uiv-footer-links-matrix { float: right; width: 40%; }
+.uiv-footer-column { float: left; width: 50%; }
+.uiv-footer-column h5 { margin: 0 0 14px 0; font-size: 12px; text-transform: uppercase; color: var(--uiv-text-muted); }
+.uiv-footer-column a { display: block; color: var(--uiv-text-secondary); font-size: 13px; text-decoration: none; margin-bottom: 8px; }
+.uiv-footer-column a:hover { color: var(--uiv-text-primary); }
+.uiv-footer-bottom-copyright { text-align: center; border-top: 1px solid var(--uiv-border-color); margin-top: 40px; padding-top: 24px; font-size: 12px; color: var(--uiv-text-muted); }
+
+/* ==========================================================================
+   RESPONSIVE OVERRIDES BREAKPOINTS SYSTEM MANIFEST
+   ========================================================================== */
+@media (max-width: 1200px) {
+  .uiv-form-group { float: none; width: 100%; margin-right: 0; margin-bottom: 12px; }
+  .uiv-form-submit-group { float: none; width: 100%; margin-top: 4px; }
+}
+@media (max-width: 992px) {
+  .uiv-sidebar { display: none; }
+  .uiv-main-workspace { margin-left: 0; padding: 24px; }
+  .uiv-nav-search-wrapper { width: 240px; margin-left: 16px; }
+}
+@media (max-width: 768px) {
+  .uiv-nav-search-wrapper { display: none; }
+  .uiv-hero-dashboard { padding: 36px; }
+  .uiv-footer-brand-summary, .uiv-footer-links-matrix { float: none; width: 100%; }
+  .uiv-footer-links-matrix { margin-top: 36px; }
+}
+
+
+/* ==========================================================================
+   ADVANCED SCROLLBAR CROSS-BROWSER ARCHITECTURE & UTILITY EXTENSIONS
+   ========================================================================== */
+
+/* --- Firefox Future-Proof Layout Fallbacks Mapping --- */
+.uiv-scroll-basic-default { scrollbar-width: auto; scrollbar-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.01); }
+.uiv-scroll-minimal-thin { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.22) transparent; }
+.uiv-scroll-neon-cyan { scrollbar-width: thin; scrollbar-color: var(--uiv-accent-cyan) #05070a; }
+.uiv-scroll-gradient-sunset { scrollbar-width: auto; scrollbar-color: #ff453a transparent; }
+.uiv-scroll-glassmorphism { scrollbar-width: auto; scrollbar-color: rgba(255, 255, 255, 0.08) transparent; }
+.uiv-scroll-neon-emerald { scrollbar-width: thin; scrollbar-color: var(--uiv-success) transparent; }
+.uiv-scroll-inset-groove { scrollbar-width: auto; scrollbar-color: #35353d #08080c; }
+.uiv-scroll-corporate-flat { scrollbar-width: auto; scrollbar-color: #4a4a54 transparent; }
+.uiv-scroll-premium-gold { scrollbar-width: thin; scrollbar-color: #ffd700 transparent; }
+.uiv-scroll-cyber-magenta { scrollbar-width: thin; scrollbar-color: #ff007f transparent; }
+.uiv-scroll-dotted-texture { scrollbar-width: auto; scrollbar-color: #3d3d47 transparent; }
+.uiv-scroll-electric-purple { scrollbar-width: thin; scrollbar-color: #bf94ff transparent; }
+.uiv-scroll-wide-block { scrollbar-width: auto; scrollbar-color: #353540 #15151c; }
+.uiv-scroll-double-rail { scrollbar-width: auto; scrollbar-color: #25252e transparent; }
+.uiv-scroll-capsule-pill { scrollbar-width: auto; scrollbar-color: #47474e transparent; }
+.uiv-scroll-neon-amber { scrollbar-width: thin; scrollbar-color: var(--uiv-warning) transparent; }
+.uiv-scroll-matrix-rain { scrollbar-width: auto; scrollbar-color: var(--uiv-success) transparent; }
+.uiv-scroll-ghost-trans { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.02) transparent; }
+.uiv-scroll-tactical-knurled { scrollbar-width: auto; scrollbar-color: #25252a transparent; }
+.uiv-scroll-ice-glacier { scrollbar-width: auto; scrollbar-color: rgba(0, 180, 216, 0.15) transparent; }
+.uiv-scroll-deep-trench { scrollbar-width: auto; scrollbar-color: #1a1a24 #000000; }
+.uiv-scroll-chroma-rainbow { scrollbar-width: thin; scrollbar-color: #ff453a transparent; }
+.uiv-scroll-slate-pro { scrollbar-width: auto; scrollbar-color: #475569 transparent; }
+.uiv-scroll-shimmer-sweep { scrollbar-width: auto; scrollbar-color: var(--uiv-primary) transparent; }
+.uiv-scroll-velvet-maroon { scrollbar-width: auto; scrollbar-color: #6b0f1a transparent; }
+.uiv-scroll-cyber-grid-yellow { scrollbar-width: thin; scrollbar-color: var(--uiv-warning) transparent; }
+.uiv-scroll-charcoal-stealth { scrollbar-width: thin; scrollbar-color: #181822 transparent; }
+.uiv-scroll-sea-aquamarine { scrollbar-width: auto; scrollbar-color: #00b4d8 transparent; }
+.uiv-scroll-industrial-plate { scrollbar-width: auto; scrollbar-color: #353540 transparent; }
+
+/* --- IE and Legacy Edge Component Normalizations --- */
+.uiv-scrollbar-preview-well {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/* --- High-Density Touch Target Layout Padding Modifiers --- */
+.uiv-p-4 { padding: 4px !important; }
+.uiv-p-8 { padding: 8px !important; }
+.uiv-p-12 { padding: 12px !important; }
+.uiv-p-16 { padding: 16px !important; }
+.uiv-p-20 { padding: 20px !important; }
+.uiv-m-0 { margin: 0 !important; }
+.uiv-mt-4 { margin-top: 4px !important; }
+.uiv-mt-8 { margin-top: 8px !important; }
+.uiv-mt-12 { margin-top: 12px !important; }
+.uiv-mt-16 { margin-top: 16px !important; }
+.uiv-mb-4 { margin-bottom: 4px !important; }
+.uiv-mb-8 { margin-bottom: 8px !important; }
+.uiv-mb-12 { margin-bottom: 12px !important; }
+.uiv-mb-16 { margin-bottom: 16px !important; }
+
+/* --- Hardware Accelerated GPU Rendertrack Smoothness Shims --- */
+.uiv-scrollbar-preview-well, .uiv-components-catalog-grid {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* --- System-Wide Focus Indicator States Ring Variables --- */
+button:focus-visible, [role="button"]:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--uiv-primary);
+  outline-offset: 2px;
+}
+
+/* --- High Definition Retina Screen Sharpening Enhancements --- */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .uiv-scrollbar-preview-well {
+    border-width: 0.5px;
+  }
+}
+
+/* --- Print Viewport Framework Protocol Constraints --- */
+@media print {
+  body { background: #ffffff !important; color: #000000 !important; }
+  .uiv-navbar, .uiv-sidebar, .uiv-catalog-toolbar, .uiv-node-action-cluster, .uiv-node-code-drawer-panel, .uiv-workbench-panel { display: none !important; }
+  .uiv-main-workspace { margin-left: 0 !important; padding: 0 !important; }
+  .uiv-component-card-node { border: none !important; page-break-inside: avoid; }
+}
+
+
+/* ==========================================================================
+   EXTENDED FRAMEWORK LAYOUT MULTIPLIERS AND ALIGNMENT MATRIX UTILITIES
+   ========================================================================== */
+
+/* Spacing and Alignment Modifiers */
+.uiv-flex { display: flex !important; }
+.uiv-inline-flex { display: inline-flex !important; }
+.uiv-align-center { align-items: center !important; }
+.uiv-justify-center { justify-content: center !important; }
+.uiv-justify-between { justify-content: space-between !important; }
+.uiv-flex-column { flex-direction: column !important; }
+.uiv-flex-wrap { flex-wrap: wrap !important; }
+.uiv-flex-grow-1 { flex-grow: 1 !important; }
+.uiv-flex-shrink-0 { flex-shrink: 0 !important; }
+
+/* Text Sizing Properties Controls */
+.uiv-text-left { text-align: left !important; }
+.uiv-text-center { text-align: center !important; }
+.uiv-text-right { text-align: right !important; }
+.uiv-text-uppercase { text-transform: uppercase !important; }
+.uiv-font-weight-bold { font-weight: 700 !important; }
+.uiv-font-weight-semibold { font-weight: 600 !important; }
+.uiv-font-weight-medium { font-weight: 500 !important; }
+
+/* Display Visibility Modifiers */
+.uiv-display-block { display: block !important; }
+.uiv-display-inline { display: inline-block !important; }
+.uiv-display-none { display: none !important; }
+.uiv-overflow-hidden { overflow: hidden !important; }
+.uiv-user-select-none { user-select: none !important; }
+.uiv-pointer-events-none { pointer-events: none !important; }
+
+/* Dynamic Layout Scale Transitions */
+.uiv-transition-fast { transition: all var(--uiv-speed-fast) var(--uiv-curve-default) !important; }
+.uiv-transition-smooth { transition: all var(--uiv-speed-smooth) var(--uiv-curve-default) !important; }
+
+/* Custom Range View Borders Controls */
+.uiv-border-radius-sm { border-radius: var(--uiv-radius-sm) !important; }
+.uiv-border-radius-md { border-radius: var(--uiv-radius-md) !important; }
+.uiv-border-radius-lg { border-radius: var(--uiv-radius-lg) !important; }
+.uiv-border-none { border: none !important; }
+
+/* Localized Box Shadows Definitions */
+.uiv-shadow-sm { box-shadow: var(--uiv-shadow-sm) !important; }
+.uiv-shadow-md { box-shadow: var(--uiv-shadow-md) !important; }
+.uiv-shadow-none { box-shadow: none !important; }
+
+/* Alpha Tint Layer Backdrops For Custom Previews Containers */
+.uiv-tint-bg-primary { background-color: var(--uiv-primary-glow) !important; }
+.uiv-tint-bg-success { background-color: var(--uiv-success-bg) !important; }
+.uiv-tint-bg-danger { background-color: var(--uiv-danger-bg) !important; }
+.uiv-tint-bg-warning { background-color: var(--uiv-warning-bg) !important; }
+
+/* Width/Height Utilities Spacers */
+.uiv-w-full { width: 100% !important; }
+.uiv-h-full { height: 100% !important; }
+.uiv-min-h-screen { min-height: 100vh !important; }

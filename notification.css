@@ -92,6 +92,30 @@ body{
   gap: 4px;
 }
 
+.sr-only{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  border:0;
+}
+
+.menu-toggle{
+  display:none;
+  border:none;
+  background:none;
+  font-size:1.3rem;
+  cursor:pointer;
+}
+
+@media (max-width:900px){
+  .menu-toggle{
+    display:block;
+  }
+}
 .sidebar-nav li a {
   display: flex;
   align-items: center;
@@ -1021,51 +1045,118 @@ body{
 }
 
 
-/* RESPONSIVE */
+/* Tablet (≤ 992px) */
 
-@media(max-width:900px){
 
-  .sidebar{
-    display:none;
+@media (max-width: 992px) {
+  .sidebar {
+    width: 240px;
   }
-
-  .navbar,
-  .main-home{
-
-    margin-left:0;
-
-    left:0;
+  .notification-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
   }
-
 }
 
-@media(max-width:768px){
+/* Mobile (≤ 600px) */
 
-  .navbar{
-
-    flex-direction:column;
-
-    height:auto;
-
-    padding:18px;
-
-    gap:16px;
+@media (max-width: 600px) {
+  /* Sidebar collapses into hamburger */
+  .sidebar {
+    position: fixed;
+    left: -100%;
+    top: 0;
+    height: 100%;
+    transition: left 0.3s ease;
+  }
+  .sidebar.open {
+    left: 0;
   }
 
-  .search-bar{
-    width:100%;
+  /* Cards stack vertically */
+
+  .notification-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
-  .main-home{
-    padding:160px 20px 40px;
+  /* Buttons touch-friendly */
+
+  .notification-card button {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
   }
 
-  .notification-grid{
-    grid-template-columns:1fr;
+  /* Header & tags scale down */
+
+  .page-title {
+    font-size: 22px;
+  }
+  .page-tags {
+    flex-wrap: wrap;
+    gap: 6px;
   }
 
-  .activity-item{
-    flex-wrap:wrap;
-  }
+  /* Live Preview button alignment */
 
+  .live-preview {
+    display: block;
+    margin: 12px auto;
+    text-align: center;
+  }
+}
+
+/* Prevent horizontal overflow */
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Sidebar collapses fully */
+.sidebar {
+  width: 100%;          
+  max-width: 320px;      
+  box-sizing: border-box;
+}
+
+/* Notification grid stacks */
+.notification-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;          
+  box-sizing: border-box;
+}
+
+/* Cards full width */
+.notification-card {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Buttons touch-friendly */
+.notification-card button {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Header and tags scale */
+.page-title {
+  font-size: 22px;
+  word-wrap: break-word;
+}
+.page-tags {
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Live Preview button centered */
+.live-preview {
+  display: block;
+  margin: 12px auto;
+  text-align: center;
 }

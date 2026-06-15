@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8" />
 
   <meta
@@ -36,7 +37,6 @@
   />
 
   <!-- CSS -->
-  <link rel="stylesheet" href="home.css" />
   <link rel="stylesheet" href="loaders.css" />
 
   <style>
@@ -489,8 +489,8 @@
     .footer {
       margin-left: 280px;
       background: #fff;
-      padding: 60px 40px;
-      margin-top: 80px;
+      padding: 10px 30px;
+      margin-top: 30px;
     }
 
     body.dark-mode .footer {
@@ -500,11 +500,11 @@
     .footer-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 30px;
+      gap: 15px;
     }
 
     .footer-col h3 {
-      margin-bottom: 18px;
+      margin-bottom: 10px;
     }
 
     .footer-col ul {
@@ -541,6 +541,7 @@
       margin-top: 40px;
       text-align: center;
       opacity: 0.7;
+      color: #aaa;
     }
 
     /* ================= SCROLL BUTTON ================= */
@@ -623,8 +624,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="shared-sidebar.css">
-</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
 
@@ -961,56 +961,70 @@
   ></div>
 
   <!-- NAVBAR -->
-  <header class="navbar" id="navbar">
-
-    <button
-      class="menu-toggle"
-      onclick="toggleSidebar()"
-      aria-label="Toggle Sidebar"
-    >
-      <i class="fa-solid fa-bars"></i>
+  <!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
     </button>
-
-    <div class="logo">UIverse</div>
-
-    <div class="search-bar">
-
-      <i class="fa-solid fa-magnifying-glass search-icon"></i>
-
-      <input
-        type="text"
-        placeholder="Search components..."
-      />
-
-      <kbd class="search-kbd">⌘K</kbd>
-
-    </div>
-
-    <div class="nav-right">
-
-      <button class="nav-btn outline-nav-btn">
-        <i class="fa-solid fa-plus"></i>
-        Add Component
-      </button>
-
-      <a href="MyCollection.html">
-        <button class="nav-btn primary-nav-btn">
-          <i class="fa-solid fa-bookmark"></i>
-          My Collection
-        </button>
-      </a>
-
-      <button
-        id="darkModeToggle"
-        class="theme-toggle"
-        aria-label="Toggle Theme"
-      >
-        <i class="fa-solid fa-moon"></i>
-      </button>
-
-    </div>
-
-  </header>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
 
   <!-- MAIN -->
   <main class="main">
@@ -1018,6 +1032,40 @@
     <h1>Loaders</h1>
 
     <div class="loaders-grid">
+      <!-- SEARCH + SORT TOOLBAR -->
+      <div class="toolbar" style="grid-column: 1 / -1;">
+        <div class="toolbar-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="componentSearch" placeholder="Filter loaders..." autocomplete="off">
+        </div>
+
+        <div class="sort-dropdown-wrapper" id="sortWrapper">
+          <button class="sort-trigger" id="sortTrigger" onclick="toggleSortMenu()">
+            <i class="fa-solid fa-arrow-up-arrow-down"></i>
+            <span id="sortLabel">Order</span>
+            <i class="fa-solid fa-chevron-down sort-chevron"></i>
+          </button>
+          <div class="sort-menu" id="sortMenu">
+            <label class="sort-option">
+              <span>Default</span>
+              <input type="radio" name="sort" value="default" checked onchange="sortCards('default')">
+              <span class="radio-dot"></span>
+            </label>
+            <label class="sort-option">
+              <span>A → Z</span>
+              <input type="radio" name="sort" value="az" onchange="sortCards('az')">
+              <span class="radio-dot"></span>
+            </label>
+            <label class="sort-option">
+              <span>Z → A</span>
+              <input type="radio" name="sort" value="za" onchange="sortCards('za')">
+              <span class="radio-dot"></span>
+            </label>
+          </div>
+        </div>
+
+        <span class="results-count" id="resultsCount">21 components</span>
+      </div>
 
       <!-- Loader 1 -->
       <div class="component-card">
@@ -1520,6 +1568,108 @@
         </pre>
       </div>
 
+      <!-- Loader 18 — Spinning Gear -->
+      <div class="component-card">
+        <h3>Spinning Gear Loader</h3>
+        <div class="loader-demo-box">
+          <div class="icon-spin-loader">
+            <i class="fa-solid fa-gear"></i>
+            <i class="fa-solid fa-gear"></i>
+          </div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('loader18')">View Code</button>
+          <button onclick="copyCode('loader18')">Copy</button>
+        </div>
+        <pre id="loader18" class="code-block">
+      &lt;div class="icon-spin-loader"&gt;
+        &lt;i class="fa-solid fa-gear"&gt;&lt;/i&gt;
+        &lt;i class="fa-solid fa-gear"&gt;&lt;/i&gt;
+      &lt;/div&gt;
+        </pre>
+      </div>
+
+      <!-- Loader 19 — Icon Pulse Ring -->
+      <div class="component-card">
+        <h3>Icon Pulse Ring</h3>
+        <div class="loader-demo-box">
+          <div class="icon-pulse-ring">
+            <i class="fa-solid fa-bolt"></i>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('loader19')">View Code</button>
+          <button onclick="copyCode('loader19')">Copy</button>
+        </div>
+        <pre id="loader19" class="code-block">
+      &lt;div class="icon-pulse-ring"&gt;
+        &lt;i class="fa-solid fa-bolt"&gt;&lt;/i&gt;
+        &lt;span&gt;&lt;/span&gt;
+        &lt;span&gt;&lt;/span&gt;
+      &lt;/div&gt;
+        </pre>
+      </div>
+
+      <!-- Loader 20 — Circular Text Orbit -->
+      <div class="component-card">
+        <h3>Circular Text Orbit</h3>
+        <div class="loader-demo-box">
+          <div class="text-orbit-loader">
+            <svg viewBox="0 0 100 100" width="110" height="110">
+              <path id="orbit-path" d="M 50,50 m -32,0 a 32,32 0 1,1 64,0 a 32,32 0 1,1 -64,0" fill="none"/>
+              <text font-size="10.5" fill="#7c5cff" font-family="DM Sans, sans-serif" font-weight="700" letter-spacing="3">
+                <textPath href="#orbit-path">LOADING • PLEASE WAIT •</textPath>
+              </text>
+            </svg>
+            <i class="fa-solid fa-circle-notch text-orbit-icon"></i>
+          </div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('loader20')">View Code</button>
+          <button onclick="copyCode('loader20')">Copy</button>
+        </div>
+        <pre id="loader20" class="code-block">
+      &lt;div class="text-orbit-loader"&gt;
+        &lt;svg viewBox="0 0 100 100" width="110" height="110"&gt;
+          &lt;path id="orbit-path"
+            d="M 50,50 m -32,0 a 32,32 0 1,1 64,0 a 32,32 0 1,1 -64,0"
+            fill="none"/&gt;
+          &lt;text font-size="10.5" fill="#7c5cff"
+            font-family="DM Sans, sans-serif"
+            font-weight="700" letter-spacing="3"&gt;
+            &lt;textPath href="#orbit-path"&gt;LOADING • PLEASE WAIT •&lt;/textPath&gt;
+          &lt;/text&gt;
+        &lt;/svg&gt;
+        &lt;i class="fa-solid fa-circle-notch text-orbit-icon"&gt;&lt;/i&gt;
+      &lt;/div&gt;
+        </pre>
+      </div>
+
+      <!-- Loader 21 — Stacked Squares -->
+      <div class="component-card">
+        <h3>Stacked Squares</h3>
+        <div class="loader-demo-box">
+          <div class="stacked-squares">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('loader21')">View Code</button>
+          <button onclick="copyCode('loader21')">Copy</button>
+        </div>
+        <pre id="loader21" class="code-block">
+      &lt;div class="stacked-squares"&gt;
+        &lt;span&gt;&lt;/span&gt;
+        &lt;span&gt;&lt;/span&gt;
+        &lt;span&gt;&lt;/span&gt;
+      &lt;/div&gt;
+        </pre>
+      </div>
+
     </div>
 
 
@@ -1529,21 +1679,25 @@
   <button id="scrollTopBtn" onclick="scrollToTop()">
     <i class="fa-solid fa-chevron-up"></i>
   </button>
+
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
-
-    <div class="socials">
-  <a href="https://github.com" target="_blank" title="GitHub">
-    <i class="fab fa-github"></i>
-  </a>
-  <a href="https://linkedin.com" target="_blank" title="LinkedIn">
-    <i class="fab fa-linkedin"></i>
-  </a>
-  <a href="https://twitter.com" target="_blank" title="Twitter">
-    <i class="fab fa-x-twitter"></i>
-  </a>
-</div>
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
 
     <div class="footer-col">
       <h3>Explore</h3>
@@ -1560,10 +1714,9 @@
       <h3>Resources</h3>
       <ul>
         <li><a href="documentation.html">Documentation</a></li>
-        <li><a href="contribute.html">Contribute</a></li>
-        <li><a href="https://github.com/uiverse/uiverse" target="_blank">GitHub Repo</a></li>
-        <li><a href="community.html">Community</a></li>
-        <li><a href="support.html">Support</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
     </div>
 
@@ -1580,17 +1733,37 @@
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
         <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
-
   </div>
 
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
 
   <!-- SCRIPT -->
   <script>
@@ -1699,7 +1872,71 @@
 
     }
 
+    // Toolbar: search + sort
+    function initToolbar() {
+      const input = document.getElementById('componentSearch');
+      const grid = document.querySelector('.loaders-grid');
+      const cards = [...grid.querySelectorAll('.component-card')];
+      const countEl = document.getElementById('resultsCount');
+      const originalOrder = [...cards];
+      let currentSort = 'default';
+
+      document.addEventListener('click', function(e) {
+        const wrapper = document.getElementById('sortWrapper');
+        if (wrapper && !wrapper.contains(e.target)) closeSortMenu();
+      });
+
+      function update() {
+        const q = input.value.toLowerCase();
+
+        cards.forEach(card => {
+          const text = card.querySelector('h3').textContent.toLowerCase();
+          card.style.display = text.includes(q) ? '' : 'none';
+        });
+
+        const visible = cards.filter(c => c.style.display !== 'none');
+        countEl.textContent = visible.length + ' component' + (visible.length === 1 ? '' : 's');
+
+        const sorted = [...visible].sort((a, b) => {
+          if (currentSort === 'default') return originalOrder.indexOf(a) - originalOrder.indexOf(b);
+          const ta = a.querySelector('h3').textContent;
+          const tb = b.querySelector('h3').textContent;
+          return currentSort === 'az' ? ta.localeCompare(tb) : tb.localeCompare(ta);
+        });
+
+        sorted.forEach(c => grid.appendChild(c));
+        cards.filter(c => c.style.display === 'none').forEach(c => grid.appendChild(c));
+      }
+
+      window.toggleSortMenu = function() {
+        const menu = document.getElementById('sortMenu');
+        const trigger = document.getElementById('sortTrigger');
+        const isOpen = menu.classList.contains('open');
+        menu.classList.toggle('open', !isOpen);
+        trigger.classList.toggle('open', !isOpen);
+      };
+
+      function closeSortMenu() {
+        document.getElementById('sortMenu').classList.remove('open');
+        document.getElementById('sortTrigger').classList.remove('open');
+      }
+
+      window.sortCards = function(dir) {
+        currentSort = dir;
+        const labels = { default: 'Order', az: 'A → Z', za: 'Z → A' };
+        document.getElementById('sortLabel').textContent = labels[dir];
+        closeSortMenu();
+        update();
+      };
+
+      input.addEventListener('input', update);
+      update();
+    }
+
+    document.addEventListener('DOMContentLoaded', initToolbar);
+
   </script>
 
+  <script src="dist/shared.js"></script>
 </body>
 </html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Habit Tracker</title>
+  <link rel="stylesheet" href="ht.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="top">
+      <h1>✨ Habit Tracker</h1>
+
+      <div class="stats">
+        <div class="card">
+          <h2 id="totalHabits">0</h2>
+          <p>Total</p>
+        </div>
+
+        <div class="card">
+          <h2 id="completedHabits">0</h2>
+          <p>Completed</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="habit-input">
+      <input
+        type="text"
+        id="habitInput"
+        placeholder="Enter a new habit..."
+      />
+
+      <button onclick="addHabit()">
+        + Add Habit
+      </button>
+    </div>
+
+    <div class="habit-list" id="habitList">
+      <div class="empty">
+        No habits added yet 🚀
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const habitInput = document.getElementById("habitInput");
+    const habitList = document.getElementById("habitList");
+    const totalHabits = document.getElementById("totalHabits");
+    const completedHabits =
+      document.getElementById("completedHabits");
+
+    let habits = JSON.parse(
+      localStorage.getItem("habits")
+    ) || [];
+
+    function saveHabits() {
+      localStorage.setItem(
+        "habits",
+        JSON.stringify(habits)
+      );
+    }
+
+    function updateStats() {
+      totalHabits.textContent = habits.length;
+
+      const completed =
+        habits.filter(h => h.completed).length;
+
+      completedHabits.textContent = completed;
+    }
+
+    function renderHabits() {
+      habitList.innerHTML = "";
+
+      if (habits.length === 0) {
+        habitList.innerHTML = `
+          <div class="empty">
+            No habits added yet 🚀
+          </div>
+        `;
+      }
+
+      habits.forEach((habit, index) => {
+
+        const habitCard = document.createElement("div");
+
+        habitCard.className =
+          habit.completed
+            ? "habit completed"
+            : "habit";
+
+        habitCard.innerHTML = `
+          <div class="habit-top">
+            <div class="habit-title">
+              ${habit.name}
+            </div>
+
+            <div class="badge">
+              ${habit.completed
+                ? "Completed"
+                : "In Progress"}
+            </div>
+          </div>
+
+          <div class="progress-bar">
+            <div
+              class="progress"
+              style="width:${
+                habit.completed ? "100%" : "45%"
+              }"
+            ></div>
+          </div>
+
+          <div class="habit-actions">
+
+            <button
+              class="done-btn"
+              onclick="toggleHabit(${index})"
+            >
+              ${
+                habit.completed
+                  ? "Undo"
+                  : "Done"
+              }
+            </button>
+
+            <button
+              class="delete-btn"
+              onclick="deleteHabit(${index})"
+            >
+              Delete
+            </button>
+
+          </div>
+        `;
+
+        habitList.appendChild(habitCard);
+      });
+
+      updateStats();
+      saveHabits();
+    }
+
+    function addHabit() {
+      const value = habitInput.value.trim();
+
+      if (value === "") {
+        alert("Please enter a habit!");
+        return;
+      }
+
+      habits.push({
+        name: value,
+        completed: false
+      });
+
+      habitInput.value = "";
+
+      renderHabits();
+    }
+
+    function toggleHabit(index) {
+      habits[index].completed =
+        !habits[index].completed;
+
+      renderHabits();
+    }
+
+    function deleteHabit(index) {
+      habits.splice(index, 1);
+
+      renderHabits();
+    }
+
+    habitInput.addEventListener("keypress", e => {
+      if (e.key === "Enter") {
+        addHabit();
+      }
+    });
+
+    renderHabits();
+  </script>
+
+<script src="ht.js"></script>
+    <script src="../dist/shared.js"></script>
+</body>
+</html>

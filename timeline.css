@@ -980,24 +980,6 @@ body.dark-mode .act-timeline-info p {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* ============================================================
    FOOTER
    ============================================================ */
@@ -1054,11 +1036,29 @@ body.dark-mode .act-timeline-info p {
   color: #888;
   text-decoration: none;
   font-size: 14px;
+  position: relative; /* needed for underline effect */
   transition: color var(--transition);
 }
 
+/* Hover effect: color + underline */
 .footer-col ul li a:hover {
   color: var(--accent);
+}
+
+/* Animated underline effect */
+.footer-col ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px; /* adjust spacing under text */
+  width: 0%;
+  height: 2px;
+  background-color: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.footer-col ul li a:hover::after {
+  width: 100%;
 }
 
 .socials {
@@ -1131,6 +1131,292 @@ body.dark-mode .act-timeline-info p {
   padding: 20px 48px;
   text-align: center;
   font-size: 13px;
-  color: #555;
+  color: #aaa;
 }
 
+
+/* ========================================= */
+/* 6. Neon Career Timeline */
+/* ========================================= */
+
+.career-timeline{
+  position:relative;
+  margin-top:20px;
+  padding-left:40px;
+}
+
+.career-timeline::before{
+  content:"";
+  position:absolute;
+  left:18px;
+  top:0;
+  width:3px;
+  height:100%;
+  background:linear-gradient(to bottom,#7b61ff,#eb6835);
+}
+
+.career-item{
+  position:relative;
+  margin-bottom:35px;
+}
+
+.career-icon{
+  position:absolute;
+  left:-2px;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#111827;
+  border:2px solid #7b61ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  box-shadow:0 0 20px rgba(123,97,255,.5);
+}
+
+.career-content{
+  margin-left:65px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  padding:20px;
+  border-radius:18px;
+  backdrop-filter:blur(10px);
+}
+
+.career-date{
+  color:#eb6835;
+  font-size:13px;
+  font-weight:700;
+}
+
+/* ========================================= */
+/* 7. SaaS Release Timeline */
+/* ========================================= */
+
+.release-timeline{
+  display:grid;
+  gap:20px;
+}
+
+.release-card{
+  display:flex;
+  gap:20px;
+  padding:24px;
+  border-radius:22px;
+  background:#111827;
+  border:1px solid rgba(255,255,255,.08);
+  transition:.4s ease;
+}
+
+.release-card:hover{
+  transform:translateY(-5px);
+}
+
+.release-card.active{
+  border-color:#7b61ff;
+  box-shadow:0 0 25px rgba(123,97,255,.25);
+}
+
+.release-version{
+  min-width:80px;
+  height:80px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#7b61ff,#eb6835);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  font-size:20px;
+}
+
+.release-body ul{
+  margin-top:12px;
+  padding-left:18px;
+}
+
+/* ========================================= */
+/* 8. Zigzag Timeline */
+/* ========================================= */
+
+.zigzag-timeline{
+  position:relative;
+  padding:20px 0;
+}
+
+.zigzag-timeline::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  width:3px;
+  height:100%;
+  background:linear-gradient(to bottom,#7b61ff,#eb6835);
+  transform:translateX(-50%);
+}
+
+.zigzag-item{
+  width:50%;
+  position:relative;
+  margin-bottom:40px;
+}
+
+.zigzag-item.left{
+  left:0;
+  padding-right:40px;
+}
+
+.zigzag-item.right{
+  left:50%;
+  padding-left:40px;
+}
+
+.zigzag-dot{
+  position:absolute;
+  top:24px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#7b61ff;
+  box-shadow:0 0 15px #7b61ff;
+}
+
+.zigzag-item.left .zigzag-dot{
+  right:-10px;
+}
+
+.zigzag-item.right .zigzag-dot{
+  left:-8px;
+}
+
+.zigzag-card{
+  background:#111827;
+  padding:24px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.08);
+  transition:.4s;
+}
+
+.zigzag-card:hover{
+  transform:translateY(-6px);
+}
+
+/* ========================================= */
+/* 9. Funding Timeline */
+/* ========================================= */
+
+.funding-timeline{
+  display:grid;
+  gap:24px;
+}
+
+.funding-item{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;
+  padding:24px;
+}
+
+.funding-amount{
+  min-width:110px;
+  padding:18px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#eb6835,#7b61ff);
+  color:#fff;
+  font-size:22px;
+  font-weight:800;
+  text-align:center;
+}
+
+/* ========================================= */
+/* 10. Animated Roadmap */
+/* ========================================= */
+
+.roadmap-timeline{
+  position:relative;
+  padding-left:60px;
+}
+
+.roadmap-line{
+  position:absolute;
+  left:22px;
+  top:0;
+  width:4px;
+  height:100%;
+  background:linear-gradient(to bottom,#7b61ff,#eb6835);
+}
+
+.roadmap-step{
+  position:relative;
+  margin-bottom:35px;
+}
+
+.roadmap-node{
+  position:absolute;
+  left:-50px;
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:#111827;
+  border:2px solid #7b61ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  z-index:2;
+}
+
+.roadmap-step.active .roadmap-node{
+  animation:pulseGlow 1.8s infinite;
+}
+
+@keyframes pulseGlow{
+  0%{
+    box-shadow:0 0 0 rgba(123,97,255,.4);
+  }
+  50%{
+    box-shadow:0 0 25px rgba(123,97,255,.8);
+  }
+  100%{
+    box-shadow:0 0 0 rgba(123,97,255,.4);
+  }
+}
+
+.roadmap-content{
+  background:#111827;
+  padding:22px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+/* ========================================= */
+/* Responsive */
+/* ========================================= */
+
+@media(max-width:768px){
+
+  .zigzag-timeline::before{
+    left:20px;
+  }
+
+  .zigzag-item{
+    width:100%;
+    left:0 !important;
+    padding-left:55px !important;
+    padding-right:0 !important;
+  }
+
+  .zigzag-dot{
+    left:12px !important;
+    right:auto !important;
+  }
+
+  .release-card,
+  .funding-item{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}

@@ -45,3 +45,86 @@ searchInput.addEventListener("input", () => {
 
   renderNotes(filtered);
 });
+
+const noteInput = document.getElementById("noteInput");
+const addBtn = document.getElementById("addBtn");
+const notesContainer = document.getElementById("notesContainer");
+const searchInput = document.getElementById("searchInput");
+
+// Load notes from localStorage
+let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+// Save notes to localStorage
+function saveNotes() {
+  localStorage.setItem("notes", JSON.stringify(notes));
+}
+
+// Render notes
+function renderNotes(filter = "") {
+  notesContainer.innerHTML = "";
+
+  const filtered = notes.filter(note =>
+    note.text.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  if (filtered.length === 0) {
+    notesContainer.innerHTML = `<p style="opacity:0.5;">No notes found</p>`;
+    return;
+  }
+
+  filtered.forEach((note, index) => {
+    const noteEl = document.createElement("div");
+    noteEl.classList.add("note");
+
+    noteEl.innerHTML = `
+      <span>${note.text}</span>
+      <small class="delete">🗑</small>
+    `;
+
+    // Delete note
+    noteEl.querySelector(".delete").addEventListener("click", (e) => {
+      e.stopPropagation();
+      notes.splice(index, 1);
+      saveNotes();
+      renderNotes(searchInput.value);
+    });
+
+    // Click effect (optional future expansion)
+    noteEl.addEventListener("click", () => {
+      noteInput.value = note.text;
+    });
+
+    notesContainer.appendChild(noteEl);
+  });
+}
+
+// Add note
+addBtn.addEventListener("click", () => {
+  const text = noteInput.value.trim();
+
+  if (!text) return;
+
+  notes.unshift({
+    text,
+    time: new Date().toLocaleString()
+  });
+
+  noteInput.value = "";
+  saveNotes();
+  renderNotes(searchInput.value);
+});
+
+// Enter key support
+noteInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    addBtn.click();
+  }
+});
+
+// Search notes
+searchInput.addEventListener("input", (e) => {
+  renderNotes(e.target.value);
+});
+
+// Initial render
+renderNotes();

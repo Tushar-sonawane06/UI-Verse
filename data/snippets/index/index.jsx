@@ -133,6 +133,58 @@ export default function index(){
               <a href="alerts.html" className="feature-link">View <i className="fa-solid fa-arrow-right"></i></a>
             </div>
       
+            <div className="feature-card">
+              <div className="feature-icon-wrap" style="--icon-color: #4ecdc4;">🌾</div>
+              <div className="feature-card-body">
+                <h3>Crop ROI Lab</h3>
+                <p>Predict yield, revenue, and return on investment for the next harvest cycle.</p>
+                <div className="feature-tags">
+                  <span className="tag tag-new">New</span>
+                  <span className="tag tag-essential">Finance</span>
+                </div>
+              </div>
+              <a href="roi_dashboard.html" className="feature-link">View <i className="fa-solid fa-arrow-right"></i></a>
+            </div>
+      
+            <div className="feature-card">
+              <div className="feature-icon-wrap" style="--icon-color: #86c06a;">📦</div>
+              <div className="feature-card-body">
+                <h3>Produce Traceability</h3>
+                <p>Generate a QR code for each batch and verify the full farm-to-shelf timeline.</p>
+                <div className="feature-tags">
+                  <span className="tag tag-new">New</span>
+                  <span className="tag tag-essential">Supply Chain</span>
+                </div>
+              </div>
+              <a href="trace.html" className="feature-link">View <i className="fa-solid fa-arrow-right"></i></a>
+            </div>
+      
+            <div className="feature-card">
+              <div className="feature-icon-wrap" style="--icon-color: #2f6f9f;">📡</div>
+              <div className="feature-card-body">
+                <h3>IoT Sensor Hub</h3>
+                <p>Track moisture, temperature, humidity, and nutrient levels from connected farm sensors.</p>
+                <div className="feature-tags">
+                  <span className="tag tag-new">New</span>
+                  <span className="tag tag-essential">Realtime</span>
+                </div>
+              </div>
+              <a href="farm_dashboard.html" className="feature-link">View <i className="fa-solid fa-arrow-right"></i></a>
+            </div>
+      
+            <div className="feature-card">
+              <div className="feature-icon-wrap" style="--icon-color: #d97706;">🚜</div>
+              <div className="feature-card-body">
+                <h3>Equipment Marketplace</h3>
+                <p>Share tractors and heavy machinery with neighboring farms through a rental marketplace.</p>
+                <div className="feature-tags">
+                  <span className="tag tag-new">New</span>
+                  <span className="tag tag-essential">Sharing Economy</span>
+                </div>
+              </div>
+              <a href="equipment.html" className="feature-link">View <i className="fa-solid fa-arrow-right"></i></a>
+            </div>
+      
           </div>
         </section>
       
@@ -173,6 +225,30 @@ export default function index(){
               <h3>Forms</h3>
               <p>Complete form templates</p>
               <span className="cat-count">10 items</span>
+            </a>
+            <a href="roi_dashboard.html" className="cat-card">
+              <div className="cat-icon">🌾</div>
+              <h3>Finance Tools</h3>
+              <p>Predict crop ROI and yield</p>
+              <span className="cat-count">1 dashboard</span>
+            </a>
+            <a href="trace.html" className="cat-card">
+              <div className="cat-icon">📦</div>
+              <h3>Traceability</h3>
+              <p>QR code and ledger verification</p>
+              <span className="cat-count">2 pages</span>
+            </a>
+            <a href="farm_dashboard.html" className="cat-card">
+              <div className="cat-icon">📡</div>
+              <h3>IoT Hub</h3>
+              <p>Realtime sensor telemetry</p>
+              <span className="cat-count">2 pages</span>
+            </a>
+            <a href="equipment.html" className="cat-card">
+              <div className="cat-icon">🚜</div>
+              <h3>Equipment</h3>
+              <p>Rental listings and booking</p>
+              <span className="cat-count">2 pages</span>
             </a>
             <a href="badges.html" className="cat-card">
               <div className="cat-icon">🏅</div>

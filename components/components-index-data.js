@@ -1,6 +1,6 @@
 window.UIVerseComponentsIndexData = {
   "generatedAt": "2026-05-19T14:10:52.508Z",
-  "totalComponents": 298,
+  "totalComponents": 299,
   "totalCategories": 11,
   "categories": [
     {
@@ -637,15 +637,39 @@ window.UIVerseComponentsIndexData = {
       "id": "data-display",
       "name": "Data Display",
       "icon": "fa-chart-column",
-      "count": 15,
+      "count": 19,
       "popularityScore": 86,
-      "latestUpdatedAt": "2026-05-19T14:07:05.559Z",
+      "latestUpdatedAt": "2026-05-23T00:00:00.000Z",
       "previewItems": [
         {
           "title": "Calendarcomponent",
           "path": "calendarcomponent.html",
           "popularity": 87,
           "updatedAt": "2026-05-19T14:07:04.903Z"
+        },
+        {
+          "title": "Calendar Components",
+          "path": "calendar-components.html",
+          "popularity": 87,
+          "updatedAt": "2026-05-23T00:00:00.000Z"
+        },
+        {
+          "title": "Notes Components",
+          "path": "notes-components.html",
+          "popularity": 87,
+          "updatedAt": "2026-05-23T00:00:00.000Z"
+        },
+        {
+          "title": "Leaderboard Components",
+          "path": "leaderboard-components.html",
+          "popularity": 87,
+          "updatedAt": "2026-05-23T00:00:00.000Z"
+        },
+        {
+          "title": "Breadcrumb Components",
+          "path": "breadcrumbs.html",
+          "popularity": 87,
+          "updatedAt": "2026-05-23T00:00:00.000Z"
         },
         {
           "title": "Badge",
@@ -698,6 +722,38 @@ window.UIVerseComponentsIndexData = {
           "categoryId": "data-display",
           "popularity": 87,
           "updatedAt": "2026-05-19T14:07:04.903Z"
+        },
+        {
+          "id": "calendar-components",
+          "title": "Calendar Components",
+          "path": "calendar-components.html",
+          "categoryId": "data-display",
+          "popularity": 87,
+          "updatedAt": "2026-05-23T00:00:00.000Z"
+        },
+        {
+          "id": "notes-components",
+          "title": "Notes Components",
+          "path": "notes-components.html",
+          "categoryId": "data-display",
+          "popularity": 87,
+          "updatedAt": "2026-05-23T00:00:00.000Z"
+        },
+        {
+          "id": "leaderboard-components",
+          "title": "Leaderboard Components",
+          "path": "leaderboard-components.html",
+          "categoryId": "data-display",
+          "popularity": 87,
+          "updatedAt": "2026-05-23T00:00:00.000Z"
+        },
+        {
+          "id": "breadcrumbs",
+          "title": "Breadcrumb Components",
+          "path": "breadcrumbs.html",
+          "categoryId": "data-display",
+          "popularity": 87,
+          "updatedAt": "2026-05-23T00:00:00.000Z"
         },
         {
           "id": "charts",

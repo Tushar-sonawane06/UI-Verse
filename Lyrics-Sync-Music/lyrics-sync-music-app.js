@@ -20,6 +20,28 @@ searchInput.addEventListener(
 
 });
 
+  const audio = document.getElementById("audio");
+  const playBtn = document.getElementById("playBtn");
+  const progressBar = document.getElementById("progressBar");
+
+  let isPlaying = false;
+
+  playBtn.addEventListener("click", () => {
+    if (isPlaying) {
+      audio.pause();
+      playBtn.innerHTML = '<i class="fa fa-play"></i>';
+    } else {
+      audio.play();
+      playBtn.innerHTML = '<i class="fa fa-pause"></i>';
+    }
+    isPlaying = !isPlaying;
+  });
+
+  audio.addEventListener("timeupdate", () => {
+    const percent = (audio.currentTime / audio.duration) * 100;
+    progressBar.style.width = percent + "%";
+  });
+
 /* PLAY / PAUSE */
 
 const playBtn =

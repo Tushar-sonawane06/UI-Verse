@@ -1,178 +1,351 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="../dist/shared.css">
   <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' sha256-8jiyZyxW+Mp2ZvMcIrtRj0YRpTS8BD45YTYNqghhK7U= sha256-pa1AUuS5tEiJ7NJ4GwrOEqmzQwXQ7AvZQ8TB7E8Z2qU=; script-src-attr 'unsafe-hashes' sha256-8jiyZyxW+Mp2ZvMcIrtRj0YRpTS8BD45YTYNqghhK7U= sha256-pa1AUuS5tEiJ7NJ4GwrOEqmzQwXQ7AvZQ8TB7E8Z2qU=; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Community Comments — UIverse</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-2YuGFaxtC2xCJVelmo/KelMXuAUNQfd2pRNc0Y7mG0o=' 'sha256-5J8QIN0uHa3X4+TaUpRKBKn3pljcpBNl9MhDpDECP+U=' 'sha256-m7ndwgMCmtBlQIQxncLKIXd1Q7IdtjWVc34r9sY9uvQ=' 'sha256-pa1AUuS5tEiJ7NJ4GwrOEqmzQwXQ7AvZQ8TB7E8Z2qU='; script-src-attr 'unsafe-hashes' 'sha256-2YuGFaxtC2xCJVelmo/KelMXuAUNQfd2pRNc0Y7mG0o=' 'sha256-5J8QIN0uHa3X4+TaUpRKBKn3pljcpBNl9MhDpDECP+U=' 'sha256-m7ndwgMCmtBlQIQxncLKIXd1Q7IdtjWVc34r9sY9uvQ=' 'sha256-pa1AUuS5tEiJ7NJ4GwrOEqmzQwXQ7AvZQ8TB7E8Z2qU='; style-src 'self' https: 'unsafe-hashes' 'sha256-g3JdLG4AGBF2Dco/JPDrbKcJXqUyg08GNvfSPehNIxk=' 'sha256-xKT4Zt3llnfAlq2zca9zj+FgiWUpLuaIIWByYKyvZ0c='; style-src-attr 'unsafe-hashes' 'sha256-g3JdLG4AGBF2Dco/JPDrbKcJXqUyg08GNvfSPehNIxk=' 'sha256-xKT4Zt3llnfAlq2zca9zj+FgiWUpLuaIIWByYKyvZ0c='">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community Comments — Enhanced UI</title>
 
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="community.css">
+  <style>
+    :root{
+      --bg:#0f1220;
+      --card:#171a2b;
+      --muted:#9aa3b2;
+      --text:#e9ecf1;
+      --accent:#6c7cff;
+      --accent2:#22c55e;
+      --border:rgba(255,255,255,0.08);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"DM Sans",sans-serif;
+      background:linear-gradient(135deg,#0f1220,#0b0d17);
+      color:var(--text);
+    }
+
+    .community-section{
+      max-width:900px;
+      margin:40px auto;
+      padding:20px;
+    }
+
+    .section-header{
+      text-align:center;
+      margin-bottom:30px;
+    }
+
+    .section-tag{
+      display:inline-block;
+      padding:6px 12px;
+      background:rgba(108,124,255,0.15);
+      border:1px solid var(--border);
+      border-radius:20px;
+      font-size:13px;
+      color:var(--accent);
+    }
+
+    .section-title{
+      font-size:32px;
+      margin:10px 0;
+    }
+
+    .section-desc{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .comment-box{
+      display:flex;
+      gap:12px;
+      background:var(--card);
+      padding:14px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      margin-bottom:25px;
+    }
+
+    .comment-user img{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+    }
+
+
+    body.light{
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --border:rgba(15,23,42,.08);
+}
+    textarea{
+      width:100%;
+      min-height:70px;
+      resize:none;
+      background:transparent;
+      border:none;
+      color:var(--text);
+      outline:none;
+      font-size:14px;
+    }
+
+    .comment-actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:10px;
+    }
+
+    .comment-tools button,
+    .post-btn{
+      border:none;
+      padding:6px 10px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:13px;
+    }
+
+    .comment-tools button{
+      background:rgba(255,255,255,0.05);
+      color:var(--text);
+    }
+
+    .post-btn{
+      background:var(--accent);
+      color:white;
+      transition:0.2s;
+    }
+
+    .post-btn:hover{
+      transform:scale(1.05);
+    }
+
+    .comments-wrapper{
+      display:flex;
+      flex-direction:column;
+      gap:15px;
+    }
+
+    .comment-card{
+      background:var(--card);
+      padding:16px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      transition:0.2s;
+    }
+
+    .comment-card:hover{
+      transform:translateY(-2px);
+    }
+
+    .comment-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .comment-profile{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    .comment-profile img{
+      width:40px;
+      height:40px;
+      border-radius:50%;
+    }
+
+    .comment-profile h3{
+      margin:0;
+      font-size:14px;
+    }
+
+    .comment-profile span{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .comment-text{
+      margin:12px 0;
+      font-size:14px;
+      color:var(--text);
+    }
+
+    .comment-footer{
+      display:flex;
+      gap:10px;
+    }
+
+    .comment-footer button{
+      background:transparent;
+      border:1px solid var(--border);
+      color:var(--text);
+      padding:5px 10px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:13px;
+    }
+
+    .comment-footer button:hover{
+      border-color:var(--accent);
+    }
+
+    .dark-toggle{
+      position:fixed;
+      top:20px;
+      right:20px;
+      background:var(--card);
+      border:1px solid var(--border);
+      padding:8px 12px;
+      border-radius:10px;
+      cursor:pointer;
+    }
+
+    .comment-card,
+.comment-box{
+  backdrop-filter:blur(20px);
+  background:rgba(23,26,43,.75);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.25),
+    inset 0 1px rgba(255,255,255,.05);
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:1fr 280px;
+  gap:24px;
+}
+
+.badge{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+}
+
+.expert{
+  background:#22c55e22;
+  color:#22c55e;
+}
+
+.react{
+  background:#61dafb22;
+  color:#61dafb;
+}
+  </style>
 </head>
 
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <section class="community-section">
 
-    <div class="section-header">
+<button class="dark-toggle" onclick="toggleTheme()">🌓 Theme</button>
 
-      <span class="section-tag">
-        💬 Developer Community
-      </span>
+<section class="community-section">
 
-      <h1 class="section-title">
-        Community Comments & Discussions
-      </h1>
+  <div class="section-header">
+    <span class="section-tag">💬 Developer Community</span>
+    <h1 class="section-title">Community Discussions</h1>
+    <p class="section-desc">Share ideas and collaborate with developers worldwide</p>
+  </div>
 
-      <p class="section-desc">
-        Share ideas, ask questions and discuss UI components
-        with developers worldwide.
-      </p>
-
+  <div class="comment-box">
+    <div class="comment-user">
+      <img src="https://i.pravatar.cc/100?img=12" / alt="">
     </div>
 
-    <!-- COMMENT INPUT -->
-    <div class="comment-box">
+    <div style="flex:1">
+      <textarea id="commentInput" placeholder="Write something meaningful..."></textarea>
 
-      <div class="comment-user">
-        <img
-          src="https://i.pravatar.cc/100?img=12"
-          alt="user"
-        >
-      </div>
-
-      <div class="comment-input-area">
-
-        <textarea
-          id="commentInput"
-          placeholder="Write your thoughts here..."
-        ></textarea>
-
-        <div class="comment-actions">
-
-          <div class="comment-tools">
-            <button>😊 Emoji</button>
-            <button>📎 Attach</button>
-          </div>
-
-          <button
-            class="post-btn"
-            onclick="postComment()"
-          >
-            Post Comment
-          </button>
-
+      <div class="comment-actions">
+        <div class="comment-tools">
+          <button>😊 Emoji</button>
+          <button>📎 Attach</button>
         </div>
 
+        <button class="post-btn" onclick="postComment()">Post</button>
       </div>
-
     </div>
+  </div>
+  <div class="community-stats">
+  <div class="stat">
+    <strong id="totalComments">0</strong>
+    <span>Posts</span>
+  </div>
 
-    <!-- COMMENTS -->
-    <div class="comments-wrapper" id="commentsWrapper">
+  <div class="stat">
+    <strong>4.2k</strong>
+    <span>Members</span>
+  </div>
+  <aside class="sidebar">
+  <h3>Trending Topics</h3>
 
-      <!-- COMMENT -->
-      <div class="comment-card">
+  <div class="topic">#React19</div>
+  <div class="topic">#TypeScript</div>
+  <div class="topic">#NextJS</div>
+  <div class="topic">#AI</div>
+</aside>
 
-        <div class="comment-top">
+  <div class="stat">
+    <strong>96%</strong>
+    <span>Helpful Replies</span>
+  </div>
+</div>
 
-          <div class="comment-profile">
-            <img
-              src="https://i.pravatar.cc/100?img=15"
-              alt=""
-            >
+<div class="badges">
+  <span class="badge expert">Expert</span>
+  <span class="badge react">React</span>
+</div>
+  <div class="comments-wrapper" id="commentsWrapper"></div>
 
-            <div>
-              <h3>Sarah Johnson</h3>
-              <span>2 hours ago</span>
-            </div>
-          </div>
+</section>
 
-          <button class="more-btn">
-            ⋮
-          </button>
+<script>
+function postComment(){
+  const input=document.getElementById('commentInput');
+  if(!input.value.trim()) return;
 
+  const wrapper=document.getElementById('commentsWrapper');
+
+  const card=document.createElement('div');
+  card.className='comment-card';
+  card.innerHTML=`
+    <div class="comment-top">
+      <div class="comment-profile">
+        <img src="https://i.pravatar.cc/100?img=32" / alt="">
+        <div>
+          <h3>You</h3>
+          <span>Just now</span>
         </div>
-
-        <p class="comment-text">
-          The glassmorphism navbar component is amazing.
-          I integrated it into my portfolio website and
-          the UI feels super modern now.
-        </p>
-
-        <div class="comment-footer">
-
-          <button onclick="likeComment(this)">
-            ❤️ <span>12</span>
-          </button>
-
-          <button>
-            💬 Reply
-          </button>
-
-          <button>
-            🔗 Share
-          </button>
-
-        </div>
-
       </div>
-
-      <!-- COMMENT -->
-      <div class="comment-card">
-
-        <div class="comment-top">
-
-          <div class="comment-profile">
-            <img
-              src="https://i.pravatar.cc/100?img=25"
-              alt=""
-            >
-
-            <div>
-              <h3>David Miller</h3>
-              <span>5 hours ago</span>
-            </div>
-          </div>
-
-          <button class="more-btn">
-            ⋮
-          </button>
-
-        </div>
-
-        <p class="comment-text">
-          Would love to see more animated buttons and
-          advanced pricing sections added soon.
-        </p>
-
-        <div class="comment-footer">
-
-          <button onclick="likeComment(this)">
-            ❤️ <span>8</span>
-          </button>
-
-          <button>
-            💬 Reply
-          </button>
-
-          <button>
-            🔗 Share
-          </button>
-
-        </div>
-
-      </div>
-
     </div>
+    <p class="comment-text">${input.value}</p>
+    <div class="comment-footer">
+      <button onclick="like(this)">❤️ <span>0</span></button>
+      <button>💬 Reply</button>
+      <button>🔗 Share</button>
+    </div>
+  `;
 
-  </section>
+  wrapper.prepend(card);
+  input.value='';
+}
 
-  <!-- JS -->
-  <script src="community.js"></script>
+function like(btn){
+  const span=btn.querySelector('span');
+  span.textContent=parseInt(span.textContent)+1;
+}
 
+function toggleTheme(){
+  document.body.classList.toggle('light');
+}
+</script>
+
+      <script src="../dist/shared.js"></script>
 </body>
 </html>

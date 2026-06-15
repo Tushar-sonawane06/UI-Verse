@@ -454,6 +454,12 @@ const ComponentGallery = {
         btn.innerHTML = '<i class="fa-solid fa-bookmark"></i> Add to My Collection';
         btn.addEventListener('click', () => this._addToCollectionFromCard(btn, title));
         actions.appendChild(btn);
+
+        const versionBtn = document.createElement('a');
+        versionBtn.className = 'action-btn version-history-btn';
+        versionBtn.href = `component-version-history.html?component=${encodeURIComponent(card.dataset.componentId || '')}`;
+        versionBtn.innerHTML = '<i class="fa-solid fa-clock-rotate-left"></i> Version History';
+        actions.appendChild(versionBtn);
       });
     } catch (e) {
       if (window.UIVERSE_DEBUG) console.error('insertCollectionButtons', e);

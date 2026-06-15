@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../../dist/shared.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explore Components — UIverse</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../../shared-sidebar.css">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0f;
+      --surface: #16161a;
+      --surface2: #1e1e24;
+      --border: rgba(255,255,255,0.07);
+      --text: #f0f0f5;
+      --text-muted: #8888a0;
+      --accent: #eb6835;
+      --accent2: #7b61ff;
+      --radius: 12px;
+      --sidebar-width: 240px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .main-wrap {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 40px 48px 80px;
+      max-width: 1400px;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      margin-bottom: 36px;
+    }
+    .page-header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+    .page-header h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .page-header p {
+      color: var(--text-muted);
+      margin-top: 10px;
+      font-size: 15px;
+    }
+
+    /* ── SEARCH BAR ── */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 28px;
+    }
+    .search-wrap .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 15px;
+      pointer-events: none;
+    }
+    #discoverySearch {
+      width: 100%;
+      padding: 16px 48px 16px 48px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    #discoverySearch:focus {
+      border-color: var(--accent);
+    }
+    #discoverySearch::placeholder { color: var(--text-muted); }
+    .clear-btn {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 14px;
+      padding: 4px;
+      display: none;
+      transition: color 0.15s;
+    }
+    .clear-btn:hover { color: var(--text); }
+    .clear-btn.visible { display: block; }
+
+    /* ── TOOLBAR (filters + count) ── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .filter-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    .chip {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      transition: all 0.15s;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .chip:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+    .chip.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: transparent;
+      color: #fff;
+    }
+    .results-count {
+      font-size: 13px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      margin-left: auto;
+    }
+    .results-count strong {
+      color: var(--text);
+    }
+
+    /* ── COMPONENT GRID ── */
+    .component-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .comp-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 22px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .comp-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(235,104,53,0.04), rgba(123,97,255,0.04));
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .comp-card:hover {
+      border-color: rgba(235,104,53,0.45);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+    }
+    .comp-card:hover::before { opacity: 1; }
+
+    .comp-card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .comp-card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .comp-card-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      flex: 1;
+    }
+    .comp-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .comp-card-cat {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      background: rgba(123,97,255,0.1);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .comp-card-arrow {
+      font-size: 12px;
+      color: var(--text-muted);
+      transition: color 0.15s, transform 0.15s;
+    }
+    .comp-card:hover .comp-card-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 20px;
+      display: none;
+    }
+    .empty-state.visible { display: block; }
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+    .empty-state h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .empty-state p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .empty-state .reset-btn {
+      margin-top: 20px;
+      padding: 10px 24px;
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .empty-state .reset-btn:hover { border-color: var(--accent); }
+
+    /* ── SKELETON LOADING ── */
+    .skeleton-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .skeleton-line {
+      height: 14px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, var(--surface2) 25%, #22222a 50%, var(--surface2) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+    }
+    .skeleton-line.short { width: 40%; }
+    .skeleton-line.medium { width: 70%; }
+    .skeleton-line.full { width: 100%; }
+    .skeleton-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--surface2) 25%, #22222a 50%, var(--surface2) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .main-wrap {
+        margin-left: 0;
+        padding: 24px 20px 60px;
+      }
+      .component-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+<!-- 
+  INSTRUCTION: Copy the full <aside class="sidebar"> block from index.html here.
+  It is identical across all pages. We omit it here to keep this file clean.
+  After you paste this file into your project, copy the sidebar from index.html.
+-->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-icon">⬡</span>
+    <span class="brand-text">UIverse <span style="font-size:9px;background:linear-gradient(135deg,#eb6835,#7b61ff);color:#fff;padding:1px 6px;border-radius:10px;font-weight:800;margin-left:4px;">V2</span></span>
+  </div>
+  <nav class="sidebar-nav">
+    <ul>
+      <li><a href="../../index.html"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
+      <li class="active"><a href="../../components/Discovery/component-discovery.html"><i class="fa-solid fa-compass"></i><span>Explore All</span></a></li>
+      <li><a href="../../button.html"><i class="fa-solid fa-hand-pointer"></i><span>Buttons</span></a></li>
+      <li><a href="../../dropdown-components.html"><i class="fa-solid fa-caret-down"></i><span>Dropdowns</span></a></li>
+      <li><a href="../../profile-components.html"><i class="fa-solid fa-user"></i><span>Profiles</span></a></li>
+      <li><a href="../../navbar.html"><i class="fa-solid fa-bars"></i><span>Navbar</span></a></li>
+      <li><a href="../../cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Cards</span></a></li>
+      <li><a href="../../flipcards.html"><i class="fa-solid fa-clone"></i><span>3D Cards</span></a></li>
+      <li><a href="../../inputs.html"><i class="fa-solid fa-keyboard"></i><span>Inputs</span></a></li>
+      <li><a href="../../forms.html"><i class="fa-brands fa-wpforms"></i><span>Forms</span></a></li>
+      <li><a href="../../badges.html"><i class="fa-solid fa-award"></i><span>Badges</span></a></li>
+      <li><a href="../../loaders.html"><i class="fa-solid fa-spinner"></i><span>Loaders</span></a></li>
+      <li><a href="../../search.html"><i class="fa-solid fa-magnifying-glass"></i><span>Search Bars</span></a></li>
+      <li><a href="../../alerts.html"><i class="fa-solid fa-triangle-exclamation"></i><span>Alerts</span></a></li>
+      <li><a href="../../charts.html"><i class="fa-solid fa-chart-pie"></i><span>Charts</span></a></li>
+      <li><a href="../../dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a></li>
+      <li><a href="../../about.html"><i class="fa-solid fa-circle-info"></i><span>About</span></a></li>
+      <li><a href="../../documentation.html"><i class="fa-solid fa-book"></i><span>Documentation</span></a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+    <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+    <a href="#" title="Twitter"><i class="fab fa-x-twitter"></i></a>
+  </div>
+</aside>
+
+<!-- ================= MAIN ================= -->
+<main class="main-wrap">
+
+  <div class="page-header">
+    <h1>Explore <span>All Components</span></h1>
+    <p>Search, filter, and discover every UI component in the library.</p>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input
+      type="text"
+      id="discoverySearch"
+      placeholder="Search components — try 'button', 'navbar', 'loader'..."
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button class="clear-btn" id="clearBtn" title="Clear search" aria-label="Clear search">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <!-- CATEGORY CHIPS + COUNT -->
+  <div class="toolbar">
+    <div class="filter-chips" id="filterChips">
+      <button class="chip active" data-category="all">All</button>
+      <!-- chips injected by JS after data loads -->
+    </div>
+    <span class="results-count" id="resultsCount"></span>
+  </div>
+
+  <!-- GRID -->
+  <div class="component-grid" id="componentGrid">
+    <!-- Skeleton placeholders shown while data loads -->
+    <div class="skeleton-card">
+      <div class="skeleton-icon"></div>
+      <div class="skeleton-line medium"></div>
+      <div class="skeleton-line full"></div>
+      <div class="skeleton-line short"></div>
+    </div>
+    <div class="skeleton-card">
+      <div class="skeleton-icon"></div>
+      <div class="skeleton-line medium"></div>
+      <div class="skeleton-line full"></div>
+      <div class="skeleton-line short"></div>
+    </div>
+    <div class="skeleton-card">
+      <div class="skeleton-icon"></div>
+      <div class="skeleton-line medium"></div>
+      <div class="skeleton-line full"></div>
+      <div class="skeleton-line short"></div>
+    </div>
+    <div class="skeleton-card">
+      <div class="skeleton-icon"></div>
+      <div class="skeleton-line medium"></div>
+      <div class="skeleton-line full"></div>
+      <div class="skeleton-line short"></div>
+    </div>
+    <div class="skeleton-card">
+      <div class="skeleton-icon"></div>
+      <div class="skeleton-line medium"></div>
+      <div class="skeleton-line full"></div>
+      <div class="skeleton-line short"></div>
+    </div>
+    <div class="skeleton-card">
+      <div class="skeleton-icon"></div>
+      <div class="skeleton-line medium"></div>
+      <div class="skeleton-line full"></div>
+      <div class="skeleton-line short"></div>
+    </div>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="empty-state" id="emptyState">
+    <div class="empty-state-icon"><i class="fa-solid fa-face-meh"></i></div>
+    <h3>No components found</h3>
+    <p>Try a different keyword or reset the category filter.</p>
+    <button class="reset-btn" onclick="resetAll()">Reset Search</button>
+  </div>
+
+</main>
+
+<!-- Discovery engine scripts (same path as index.html uses) -->
+<script src="../../js/core/component-discovery.js"></script>
+<script src="../../js/core/component-index.js"></script>
+
+<script>
+(function () {
+
+  // ── STATE ──────────────────────────────────────────────────────
+  const state = {
+    allComponents: [],   // full list from ComponentIndex after init
+    activeCategory: 'all',
+    searchQuery: '',
+    debounceTimer: null
+  };
+
+  // ── DOM REFS ───────────────────────────────────────────────────
+  const searchInput  = document.getElementById('discoverySearch');
+  const clearBtn     = document.getElementById('clearBtn');
+  const filterChips  = document.getElementById('filterChips');
+  const grid         = document.getElementById('componentGrid');
+  const emptyState   = document.getElementById('emptyState');
+  const resultsCount = document.getElementById('resultsCount');
+
+  // ── INIT ───────────────────────────────────────────────────────
+  async function init() {
+    try {
+      await window.ComponentIndex.init();
+      state.allComponents = window.ComponentIndex.getAll();
+      buildCategoryChips();
+      render();
+    } catch (err) {
+      // ComponentIndex failed (e.g. no server) — fall back to fetching JSON directly
+      console.warn('[Discovery] ComponentIndex failed, fetching JSON directly:', err);
+      try {
+        const res = await fetch('../../data/components.json');
+        const data = await res.json();
+        // Minimal normalisation so cards render properly
+        state.allComponents = data.map(c => ({
+          id: c.id,
+          title: c.title || c.id,
+          path: c.path || '#',
+          description: c.description || '',
+          category: c.category || 'Component',
+          icon: c.icon || 'fa-solid fa-circle',
+          tags: c.tags || []
+        }));
+        buildCategoryChips();
+        render();
+      } catch (e) {
+        grid.innerHTML = '<p style="color:#8888a0;padding:40px;">Could not load component data. Make sure you are running on a local server.</p>';
+      }
+    }
+  }
+
+  // ── BUILD CATEGORY FILTER CHIPS ───────────────────────────────
+  function buildCategoryChips() {
+    // Collect unique categories preserving first-seen order
+    const seen = new Set();
+    const categories = [];
+    state.allComponents.forEach(c => {
+      if (c.category && !seen.has(c.category)) {
+        seen.add(c.category);
+        categories.push(c.category);
+      }
+    });
+    categories.sort();
+
+    // Keep the "All" chip and append the rest
+    categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'chip';
+      btn.dataset.category = cat;
+      btn.textContent = cat;
+      btn.addEventListener('click', () => setCategory(cat));
+      filterChips.appendChild(btn);
+    });
+
+    // Wire the "All" chip
+    filterChips.querySelector('[data-category="all"]')
+      .addEventListener('click', () => setCategory('all'));
+  }
+
+  // ── FILTER LOGIC ──────────────────────────────────────────────
+  function getFilteredComponents() {
+    const q = state.searchQuery.toLowerCase().trim();
+    const cat = state.activeCategory;
+
+    return state.allComponents.filter(comp => {
+      // Category filter
+      const categoryMatch = cat === 'all' || comp.category === cat;
+
+      // Text search: check title, description, tags, id
+      let textMatch = true;
+      if (q) {
+        const haystack = [
+          comp.title,
+          comp.description,
+          comp.category,
+          comp.id,
+          (comp.tags || []).join(' ')
+        ].join(' ').toLowerCase();
+        textMatch = haystack.includes(q);
+      }
+
+      return categoryMatch && textMatch;
+    });
+  }
+
+  // ── RENDER CARDS ──────────────────────────────────────────────
+  function render() {
+    const filtered = getFilteredComponents();
+
+    // Update count
+    resultsCount.innerHTML = `<strong>${filtered.length}</strong> component${filtered.length === 1 ? '' : 's'}`;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '';
+      emptyState.classList.add('visible');
+      return;
+    }
+
+    emptyState.classList.remove('visible');
+
+    // Build cards via DocumentFragment for performance
+    const frag = document.createDocumentFragment();
+    filtered.forEach(comp => {
+      const a = document.createElement('a');
+      a.className = 'comp-card';
+      a.href = comp.path || '#';
+      a.setAttribute('aria-label', comp.title);
+      a.innerHTML = `
+        <div class="comp-card-icon">
+          <i class="${comp.icon || 'fa-solid fa-circle'}"></i>
+        </div>
+        <div class="comp-card-title">${escHtml(comp.title)}</div>
+        <div class="comp-card-desc">${escHtml(comp.description || '')}</div>
+        <div class="comp-card-footer">
+          <span class="comp-card-cat">${escHtml(comp.category || '')}</span>
+          <i class="fa-solid fa-arrow-right comp-card-arrow"></i>
+        </div>
+      `;
+      frag.appendChild(a);
+    });
+
+    grid.innerHTML = '';
+    grid.appendChild(frag);
+  }
+
+  // ── ACTIONS ───────────────────────────────────────────────────
+  function setCategory(cat) {
+    state.activeCategory = cat;
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.classList.toggle('active', chip.dataset.category === cat);
+    });
+    render();
+  }
+
+  function resetAll() {
+    state.searchQuery = '';
+    state.activeCategory = 'all';
+    searchInput.value = '';
+    clearBtn.classList.remove('visible');
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.classList.toggle('active', chip.dataset.category === 'all');
+    });
+    render();
+  }
+
+  // Expose resetAll for the empty-state button's onclick
+  window.resetAll = resetAll;
+
+  // ── EVENTS ────────────────────────────────────────────────────
+  searchInput.addEventListener('input', function () {
+    state.searchQuery = this.value;
+    clearBtn.classList.toggle('visible', this.value.length > 0);
+
+    // Debounce so we don't re-render on every keystroke
+    clearTimeout(state.debounceTimer);
+    state.debounceTimer = setTimeout(render, 120);
+  });
+
+  clearBtn.addEventListener('click', resetAll);
+
+  // Keyboard shortcut: Escape clears search
+  searchInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') resetAll();
+  });
+
+  // ── UTIL ──────────────────────────────────────────────────────
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // ── SIDEBAR TOGGLE (matches pattern from index.html) ──────────
+  window.toggleSidebar = function () {
+    const sidebar  = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    if (sidebar)  sidebar.classList.toggle('open');
+    if (backdrop) backdrop.classList.toggle('visible');
+  };
+
+  // ── BOOT ──────────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', init);
+
+})();
+</script>
+    <script src="../../dist/shared.js"></script>
+</body>
+</html>

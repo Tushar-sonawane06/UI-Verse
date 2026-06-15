@@ -1,0 +1,102 @@
+:root {
+  --bg-color: #1e1e1e;
+  --container-bg: #252526;
+  --text-color: #cccccc;
+  --hover-bg: #2a2d2e;
+  --active-bg: #37373d;
+  --border-color: #404040;
+  --line-color: #404040;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Consolas', 'Courier New', monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.tree-container {
+  background-color: var(--container-bg);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  min-width: 350px;
+  border: 1px solid var(--border-color);
+}
+
+.tree-container h2 {
+  font-size: 1.1rem;
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #fff;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.tree-view, .tree-view ul {
+  list-style-type: none;
+  padding-left: 20px;
+  position: relative;
+  margin: 0;
+}
+
+.tree-view ul::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5px;
+  bottom: 10px;
+  border-left: 1px dashed var(--line-color);
+}
+
+.tree-view li {
+  margin: 5px 0;
+  position: relative;
+}
+
+.tree-view li::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: -15px;
+  width: 10px;
+  border-top: 1px dashed var(--line-color);
+}
+
+.folder, .file {
+  padding: 5px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  user-select: none;
+  transition: background-color 0.2s;
+  width: calc(100% - 20px);
+}
+
+.folder:hover, .file:hover {
+  background-color: var(--hover-bg);
+}
+
+.folder.expanded::after {
+  content: " ▼";
+  font-size: 0.7em;
+  color: #888;
+}
+
+.folder:not(.expanded)::after {
+  content: " ▶";
+  font-size: 0.7em;
+  color: #888;
+}
+
+.hidden {
+  display: none;
+}
+
+.file {
+  color: #9cdcfe;
+}

@@ -120,3 +120,12 @@ if (document.readyState === "loading") {
 } else {
   ToastWidget.init();
 }
+
+function showNotification(type, message) {
+    const toast = document.getElementById('copyToast');
+    if (!toast) return;
+    toast.className = `toast show toast-${type}`;
+    toast.innerHTML = `<span role="status">${message}</span>`;
+    setTimeout(() => toast.classList.remove('show'), 2000);
+}
+    
