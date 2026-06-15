@@ -90,7 +90,22 @@
     }
 
     dependencies.delete(start);
+    // Deterministic ordering: sort result alphabetically
     return Array.from(dependencies).sort();
+  }
+
+  function resolveDependencyConflict(conflicts = []) {
+    if (conflicts.length === 0) return null;
+    if (conflicts.length === 1) return conflicts[0];
+    
+    // Deterministic conflict resolution:
+    // 1. Sort by priority score (lower = higher priority)
+    // 2. Use alphabetical order as tiebreaker
+    return conflicts.slice().sort((a, b) => {
+      const scoreDiff = (a.priorityScore ?? 999) - (b.priorityScore ?? 999);
+      if (scoreDiff !== 0) return scoreDiff;
+      return String(a.name || '').localeCompare(String(b.name || ''));
+    })[0];
   }
 
   function detectCycles(names = getRegisteredNames()) {
@@ -113,17 +128,23 @@
       visited.add(node);
       stack.add(node);
 
-      (graph[node] || []).forEach((dependency) => {
+      // Deterministic ordering: sort dependencies before visiting
+      const sortedDeps = (graph[node] || []).slice().sort();
+      sortedDeps.forEach((dependency) => {
         visit(dependency, trail.concat(node));
       });
 
       stack.delete(node);
     }
 
-    names.forEach((name) => visit(name));
+    // Deterministic ordering: sort names for consistent cycle detection
+    const sortedNames = Array.from(names).sort();
+    sortedNames.forEach((name) => visit(name));
 
     const unique = [];
     const seen = new Set();
+    // Sort cycles for deterministic output
+    cycles.sort((a, b) => a.join('>').localeCompare(b.join('>')));
     cycles.forEach((cycle) => {
       const key = cycle.slice().sort().join('>');
       if (!seen.has(key)) {
@@ -150,6 +171,9 @@
     const visited = new Set();
     const visiting = new Set();
     const order = [];
+    
+    // Deterministic ordering: sort names alphabetically for consistent conflict resolution
+    const sortedNames = Array.from(names).sort();
 
     function visit(name) {
       if (visiting.has(name)) {
@@ -158,13 +182,15 @@
       if (visited.has(name)) return;
 
       visiting.add(name);
-      (graph[name] || []).forEach(visit);
+      // Sort dependencies deterministically before visiting to ensure consistent ordering
+      const sortedDeps = (graph[name] || []).slice().sort();
+      sortedDeps.forEach(visit);
       visiting.delete(name);
       visited.add(name);
       order.push(name);
     }
 
-    names.forEach(visit);
+    sortedNames.forEach(visit);
     return order;
   }
 
@@ -233,6 +259,7 @@
     getDependents,
     validateGraph,
     describe,
+    resolveDependencyConflict,
     reset
   };
 

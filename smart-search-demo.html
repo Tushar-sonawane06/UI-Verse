@@ -1,167 +1,649 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Search Components - UIverse</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <title>Smart Search & Filter Demo — UIverse</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="smart-search-demo.css" />
-</head>
+  
+  <style>
+    :root {
+      --accent: #eb6835;
+      --bg: #0f1117;
+      --card: #161922;
+      --border: rgba(255, 255, 255, .06);
+      --text: #ffffff;
+      --muted: #9ca3af;
+      --transition: .3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f1117, #111827);
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      font-family: "Syne", sans-serif;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: var(--muted);
+      font-size: 1.1em;
+    }
+
+    .demo-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 1.3em;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Search Input */
+    #search-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: inherit;
+      margin-bottom: 12px;
+    }
+
+    #search-input::placeholder {
+      color: var(--muted);
+    }
+
+    #search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(235, 104, 53, 0.1);
+    }
+
+    /* Suggestions */
+    .suggestions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .suggestion-chip {
+      padding: 6px 12px;
+      background: rgba(235, 104, 53, 0.1);
+      border: 1px solid rgba(235, 104, 53, 0.3);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9em;
+    }
+
+    .suggestion-chip:hover {
+      background: rgba(235, 104, 53, 0.2);
+      border-color: var(--accent);
+    }
+
+    /* Filter Section */
+    .filter-group {
+      margin-bottom: 20px;
+    }
+
+    .filter-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+      font-size: 0.95em;
+    }
+
+    .filter-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+    }
+
+    .filter-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-checkbox:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .filter-checkbox input {
+      cursor: pointer;
+      accent-color: var(--accent);
+    }
+
+    /* Results */
+    #results {
+      margin-top: 20px;
+    }
+
+    .result-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .result-item:hover {
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .result-name {
+      font-weight: 700;
+      font-size: 1.05em;
+      margin-bottom: 6px;
+    }
+
+    .result-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 0.85em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .result-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag-chip {
+      font-size: 0.8em;
+      background: rgba(235, 104, 53, 0.1);
+      color: var(--accent);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .no-results {
+      text-align: center;
+      color: var(--muted);
+      padding: 24px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-value {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 0.85em;
+      color: var(--muted);
+    }
+
+    .reset-btn {
+      padding: 10px 16px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .reset-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+  </style>
+  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 <body>
 
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      ⬡ UIverse Search
-    </div>
-    <nav class="sidebar-nav">
-      <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
-      <a href="smart-search-demo.html" class="active"><i class="fas fa-search"></i> Search Components</a>
-      <a href="button.html"><i class="fas fa-hand-pointer"></i> Buttons</a>
-      <a href="cards.html"><i class="fas fa-th-large"></i> Cards</a>
-      <a href="forms.html"><i class="fas fa-align-justify"></i> Forms</a>
-      <a href="skeletons.html"><i class="fas fa-bone"></i> Skeletons</a>
-      <a href="retroui.html"><i class="fas fa-gamepad"></i> Retro UI</a>
-    </nav>
-  </aside>
-
-  <!-- Main Content Wrapper -->
-  <div class="main-wrapper">
-    
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
+  <div class="container">
     <!-- Header -->
-    <header class="navbar">
-      <div class="search-bar-header">
+    <div class="header">
+      <h1>🔍 Smart Search & Filter</h1>
+      <p>Advanced component discovery system</p>
+    </div>
+
+    <!-- Search Section -->
+    <div class="demo-section">
+      <div class="section-title">
         <i class="fas fa-search"></i>
-        <input type="text" placeholder="Query attributes, toggle variables, filter scopes (⌘K)..." />
+        Live Search
       </div>
-      <div class="header-actions">
-        <button class="btn-outline">System Manuals</button>
-        <button class="btn-primary">Save Engine Configuration</button>
+      <input 
+        type="search" 
+        id="search-input" 
+        placeholder="Search components (e.g., button, form, responsive)..."
+      />
+      <div id="suggestions" class="suggestions"></div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="demo-section">
+      <div class="section-title">
+        <i class="fas fa-sliders-h"></i>
+        Advanced Filters
       </div>
-    </header>
 
-    <!-- Hero -->
-    <section class="hero-section">
-      <div class="hero-badge">✦ Operational Hierarchy Tuning Channels Deployed</div>
-      <h1 class="hero-title">Account Preferences</h1>
-      <p class="hero-subtitle">Configure structural state spaces, environment variable tokens, multi-tenant workspace members, and automated notification loops inside your localized execution terminal instance node.</p>
-    </section>
-
-    <!-- Main Content -->
-    <main class="content">
-      <div class="component-grid">
-
-        <!-- COMPONENT 1 -->
-        <div class="component-card">
-          <div class="component-title">1. Basic Search Bar</div>
-          <div class="preview-area">
-            <div class="search-basic">
-              <i class="fas fa-search"></i>
-              <input type="text" placeholder="Search anything...">
-            </div>
-          </div>
-        </div>
-
-        <!-- COMPONENT 2 -->
-        <div class="component-card">
-          <div class="component-title">2. Expandable Search</div>
-          <div class="preview-area">
-            <div class="search-expand">
-              <i class="fas fa-search"></i>
-              <input type="text" placeholder="Hover or focus to expand...">
-            </div>
-          </div>
-        </div>
-
-        <!-- COMPONENT 3 -->
-        <div class="component-card">
-          <div class="component-title">3. Search with Filters</div>
-          <div class="preview-area">
-            <div class="search-filter">
-              <select>
-                <option>All Categories</option>
-                <option>Components</option>
-                <option>Templates</option>
-                <option>Icons</option>
-              </select>
-              <input type="text" placeholder="Search resources...">
-              <button><i class="fas fa-arrow-right"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- COMPONENT 4 -->
-        <div class="component-card">
-          <div class="component-title">4. Minimalist Underline</div>
-          <div class="preview-area">
-            <div class="search-minimal">
-              <i class="fas fa-search"></i>
-              <input type="text" placeholder="Type to search...">
-            </div>
-          </div>
-        </div>
-
-        <!-- COMPONENT 5 -->
-        <div class="component-card">
-          <div class="component-title">5. Floating Pill</div>
-          <div class="preview-area">
-            <div class="search-pill">
-              <input type="text" placeholder="Search the galaxy...">
-              <button><i class="fas fa-search"></i></button>
-            </div>
-          </div>
-        </div>
-
+      <!-- Categories -->
+      <div class="filter-group">
+        <div class="filter-title">Categories</div>
+        <div class="filter-options" id="category-filters"></div>
       </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="site-footer">
-      <div class="footer-grid">
-        <div class="footer-col brand">
-          <div class="footer-logo">⬡ UIverse</div>
-          <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
-          <div class="social-links">
-            <a href="#"><i class="fab fa-github"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
-            <a href="#"><i class="fab fa-x-twitter"></i></a>
-          </div>
-        </div>
-        <div class="footer-col links">
-          <h4>EXPLORE</h4>
-          <a href="button.html">Buttons</a>
-          <a href="navbar.html">Navbars</a>
-          <a href="cards.html">Cards</a>
-          <a href="inputs.html">Inputs</a>
-          <a href="forms.html">Forms</a>
-        </div>
-        <div class="footer-col links">
-          <h4>RESOURCES</h4>
-          <a href="#">Documentation</a>
-          <a href="#">GitHub Repo</a>
-          <a href="#">Community</a>
-        </div>
-        <div class="footer-col links">
-          <h4>LEGAL</h4>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-        </div>
-        <div class="footer-col subscribe">
-          <h4>STAY UPDATED</h4>
-          <p>Get notified when new components drop.</p>
-          <div class="subscribe-form">
-            <input type="email" placeholder="your@email.com" />
-            <button>Subscribe</button>
-          </div>
+      <!-- Tags -->
+      <div class="filter-group">
+        <div class="filter-title">Tags</div>
+        <div class="filter-options" id="tag-filters"></div>
+      </div>
+
+      <!-- Responsive -->
+      <div class="filter-group">
+        <div class="filter-title">Responsive Design</div>
+        <div class="filter-options">
+          <label class="filter-checkbox">
+            <input type="radio" name="responsive" value="all" checked />
+            All Components
+          </label>
+          <label class="filter-checkbox">
+            <input type="radio" name="responsive" value="true" />
+            Responsive Only
+          </label>
         </div>
       </div>
-      <div class="footer-bottom">
-        &copy; 2026 UIverse. Made with <i class="fas fa-heart" style="color: #ff4757;"></i> for developers worldwide.
-      </div>
-    </footer>
 
+      <button class="reset-btn" onclick="resetFilters()">Reset Filters</button>
+    </div>
+
+    <!-- Results Section -->
+    <div class="demo-section">
+      <div class="section-title">
+        <i class="fas fa-list"></i>
+        Results
+      </div>
+      <div id="results"></div>
+    </div>
   </div>
 
-</body>
+  <!-- Scripts -->
+  <script src="js/features/smart-search.js"></script>
+  <script src="js/features/filter-manager.js"></script>
+
+  <script>
+    let allComponents = SmartSearch.search('');
+    let currentResults = allComponents;
+
+    // =========================================================
+    // Initialize Categories
+    // =========================================================
+    const categories = SmartSearch.getCategories();
+    const categoryContainer = document.getElementById('category-filters');
+    
+    categories.forEach(category => {
+      const label = document.createElement('label');
+      label.className = 'filter-checkbox';
+      label.innerHTML = `
+        <input type="checkbox" data-filter-type="category" value="${category}" />
+        ${category}
+      `;
+      categoryContainer.appendChild(label);
+    });
+
+    // =========================================================
+    // Initialize Tags
+    // =========================================================
+    const tags = SmartSearch.getAllTags().slice(0, 12); // Limit to first 12
+    const tagContainer = document.getElementById('tag-filters');
+    
+    tags.forEach(tag => {
+      const label = document.createElement('label');
+      label.className = 'filter-checkbox';
+      label.innerHTML = `
+        <input type="checkbox" data-filter-type="tag" value="${tag}" />
+        ${tag}
+      `;
+      tagContainer.appendChild(label);
+    });
+
+    // =========================================================
+    // Search Handler
+    // =========================================================
+    const searchInput = document.getElementById('search-input');
+    const suggestionsContainer = document.getElementById('suggestions');
+
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value;
+      
+      // Update search results
+      FilterManager.updateFilters({ query });
+      currentResults = FilterManager.applyFilters();
+      displayResults();
+
+      // Show suggestions
+      if (query.length > 1) {
+        const suggestions = SmartSearch.getSuggestions(query, 5);
+        suggestionsContainer.innerHTML = suggestions.map(s => 
+          `<div class="suggestion-chip" onclick="applySuggestion('${s}')">${s}</div>`
+        ).join('');
+      } else {
+        suggestionsContainer.innerHTML = '';
+      }
+    });
+
+    // =========================================================
+    // Apply Suggestion
+    // =========================================================
+    function applySuggestion(suggestion) {
+      searchInput.value = suggestion;
+      searchInput.dispatchEvent(new Event('input'));
+    }
+
+    // =========================================================
+    // Filter Handlers
+    // =========================================================
+    document.querySelectorAll('[data-filter-type]').forEach(checkbox => {
+      checkbox.addEventListener('change', (e) => {
+        const type = e.target.dataset.filterType;
+        const value = e.target.value;
+
+        if (type === 'category') {
+          if (e.target.checked) {
+            FilterManager.addCategory(value);
+          } else {
+            FilterManager.removeCategory(value);
+          }
+        } else if (type === 'tag') {
+          if (e.target.checked) {
+            FilterManager.addTag(value);
+          } else {
+            FilterManager.removeTag(value);
+          }
+        }
+
+        currentResults = FilterManager.applyFilters();
+        displayResults();
+      });
+    });
+
+    document.querySelectorAll('input[name="responsive"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        if (e.target.value === 'all') {
+          FilterManager.updateFilters({ responsive: undefined });
+        } else {
+          FilterManager.updateFilters({ responsive: e.target.value === 'true' });
+        }
+
+        currentResults = FilterManager.applyFilters();
+        displayResults();
+      });
+    });
+
+    // =========================================================
+    // Display Results
+    // =========================================================
+    function displayResults() {
+      const resultsContainer = document.getElementById('results');
+
+      if (currentResults.length === 0) {
+        resultsContainer.innerHTML = '<div class="no-results">No components found. Try adjusting your filters.</div>';
+        return;
+      }
+
+      const html = currentResults.map(result => `
+        <div class="result-item">
+          <div class="result-name">${result.name}</div>
+          <div class="result-meta">
+            <span>📁 ${result.category}</span>
+            <span>📄 ${result.page}</span>
+            <span>${result.responsive ? '✅ Responsive' : '❌ Not Responsive'}</span>
+          </div>
+          <div class="result-tags">
+            ${result.tags.slice(0, 5).map(tag => `<span class="tag-chip">${tag}</span>`).join('')}
+            ${result.tags.length > 5 ? `<span class="tag-chip">+${result.tags.length - 5}</span>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      resultsContainer.innerHTML = html + `
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-value">${currentResults.length}</div>
+            <div class="stat-label">Results Found</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">${SmartSearch.getCategories().length}</div>
+            <div class="stat-label">Categories</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">${SmartSearch.getAllTags().length}</div>
+            <div class="stat-label">Total Tags</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================================================
+    // Reset Filters
+    // =========================================================
+    function resetFilters() {
+      searchInput.value = '';
+      document.querySelectorAll('[data-filter-type]').forEach(cb => cb.checked = false);
+      document.querySelector('input[name="responsive"][value="all"]').checked = true;
+      
+      FilterManager.resetFilters();
+      currentResults = SmartSearch.search('');
+      suggestionsContainer.innerHTML = '';
+      displayResults();
+    }
+
+    // =========================================================
+    // Initial Display
+    // =========================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      displayResults();
+    });
+  </script>
+  <script src="dist/shared.js"></script>
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>\n\n</body>
 </html>

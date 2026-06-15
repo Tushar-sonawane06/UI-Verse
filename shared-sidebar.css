@@ -1,19 +1,33 @@
 /* ============================================================
    SHARED PREMIUM SIDEBAR & LAYOUT SYSTEM
    ============================================================ */
+
+:root {
+  --sidebar-width: 260px;
+  --sidebar-bg: #0f172a;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-text: #8a9bc0;
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.06);
+  --sidebar-hover-text: #ffffff;
+  --sidebar-active-bg: linear-gradient(90deg, rgba(235, 104, 53, 0.15) 0%, rgba(235, 104, 53, 0.02) 100%);
+  --sidebar-active-color: #eb6835;
+}
+
+/* Base Sidebar styles */
 .sidebar {
-  width: 250px;
-  height: 100vh;
-  background: linear-gradient(160deg, #141428 0%, #1c1c35 100%);
-  display: flex;
-  flex-direction: column;
-  padding: 0;
   position: fixed;
   top: 0;
   left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
   z-index: 1050;
-  border-right: 1px solid rgba(255,255,255,0.05);
   transition: transform 0.3s ease;
+  overflow-y: auto;
 }
 
 .sidebar-brand {
@@ -21,12 +35,12 @@
   align-items: center;
   gap: 10px;
   padding: 22px 24px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid var(--sidebar-border);
 }
 
 .brand-icon {
   font-size: 24px;
-  color: #eb6835;
+  color: var(--sidebar-active-color);
 }
 
 .brand-text {
@@ -57,7 +71,7 @@
   align-items: center;
   gap: 12px;
   padding: 11px 14px;
-  color: #8a9bc0;
+  color: var(--sidebar-text);
   text-decoration: none;
   border-radius: 8px;
   font-size: 14px;
@@ -72,20 +86,20 @@
 }
 
 .sidebar-nav li a:hover {
-  background: rgba(255,255,255,0.07);
-  color: #fff;
+  background: var(--sidebar-hover-bg);
+  color: var(--sidebar-hover-text);
   transform: translateX(3px);
 }
 
 .sidebar-nav li.active a {
-  background: linear-gradient(90deg, rgba(235,104,53,0.2) 0%, rgba(235,104,53,0.05) 100%);
-  color: #eb6835;
-  border-left: 3px solid #eb6835;
+  background: var(--sidebar-active-bg);
+  color: var(--sidebar-active-color);
+  border-left: 3px solid var(--sidebar-active-color);
 }
 
 .sidebar-footer {
   padding: 20px 24px;
-  border-top: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid var(--sidebar-border);
   display: flex;
   gap: 16px;
 }
@@ -97,75 +111,490 @@
 }
 
 .sidebar-footer a:hover {
-  color: #eb6835;
+  color: var(--sidebar-active-color);
 }
 
-.main-home {
-  margin-left: 250px;
-  padding: 42px;
-}
-
-@media(max-width:992px){
-  .main-home{ margin-left: 0; }
-  .sidebar{ display: none; }
-}
-
-/* SIDEBAR */
-.sidebar {
+/* Sidebar Backdrop */
+.sidebar-backdrop {
   position: fixed;
   top: 0;
   left: 0;
-  width: 260px;              /* consistent width */
-  height: 100vh;
-  background: #12192b;       /* dark theme */
-  padding: 24px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  overflow-y: auto;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1040;
 }
 
-.sidebar h2 {
-  color: #ffffff;
-  font-family: 'Syne', sans-serif;
-  font-size: 22px;
+.sidebar-backdrop.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  
+  body.sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+  
+  .main, .main-content, .main-home, .full-page {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 901px) {
+  body.sidebar-hidden .sidebar {
+    transform: translateX(-100%);
+  }
+  
+  body.sidebar-hidden .main,
+  body.sidebar-hidden .main-content,
+  body.sidebar-hidden .main-home,
+  body.sidebar-hidden .full-page {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+}
+
+/* ============================================================
+   SHARED PREMIUM FOOTER SYSTEM
+   ============================================================ */
+.footer {
+  margin-top: auto;
+  margin-left: var(--sidebar-width);
+  background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 60px 80px 40px;
+  text-align: left;
+  width: calc(100% - var(--sidebar-width));
+  display: block;
+  flex-basis: 100%;
+  clear: both;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #eb6835, #7b61ff, #00f7ff);
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.footer-col {
+  padding: 0;
+}
+
+.footer-col.brand p {
+  color: #94a3b8;
+  margin-top: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.footer-logo {
+  font-family: var(--font-heading, "Syne", sans-serif);
+  font-weight: 800;
+  font-size: 24px;
+  background: linear-gradient(135deg, #eb6835, #7b61ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0;
+  display: inline-block;
+}
+
+.footer-col h3 {
+  font-size: 13px;
   font-weight: 700;
-  text-align: center;
-  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #e2e8f0;
+  margin-bottom: 24px;
+  margin-top: 0;
 }
 
-/* NAV ITEMS */
-.sidebar ul {
+.footer-col ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.sidebar li {
-  margin-bottom: 8px;
+.footer-col p {
+  margin: 0;
+  font-size: 14px;
+  color: #94a3b8;
+  line-height: 1.6;
 }
 
-.sidebar a {
+.footer-col a {
+  text-decoration: none;
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.footer-col a:hover {
+  color: #a78bfa;
+  transform: translateX(4px);
+}
+
+.footer-col .socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.footer-col .socials a {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1e293b;
   display: flex;
   align-items: center;
-  gap: 12px;                 /* spacing between icon and text */
-  padding: 12px 20px;
-  border-radius: 12px;
-  color: #d0d6e2;
-  font-size: 15px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-.sidebar a:hover,
-.sidebar a.active {
-  background: rgba(255,255,255,.08);
-  color: #ffffff;
-}
-
-.sidebar i {
+  justify-content: center;
+  color: #94a3b8;
   font-size: 16px;
-  min-width: 20px;           /* ensures icons align */
-  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.footer-col .socials a:hover {
+  background: #a78bfa;
+  color: white;
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 10px 20px rgba(167, 139, 250, 0.2);
+}
+
+.newsletter-form {
+  display: flex;
+  margin-top: 16px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 4px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.newsletter-form:focus-within {
+  border-color: #7b61ff;
+  box-shadow: 0 0 0 3px rgba(123, 97, 255, 0.15);
+}
+
+.newsletter-form input {
+  flex: 1;
+  border: none;
+  padding: 10px 12px;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  min-width: 0;
+  color: white;
+}
+
+.newsletter-form button {
+  background: #0f172a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.newsletter-form button:hover {
+  background: #7b61ff;
+}
+
+.footer-bottom {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-bottom p {
+  color: #94a3b8;
+  font-size: 14px;
+  margin: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Footer responsive rules matching sidebar layout */
+@media (max-width: 900px) {
+  .footer {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 40px 24px 30px !important;
+  }
+  .footer-container {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 40px;
+  }
+}
+
+@media (min-width: 901px) {
+  body.sidebar-hidden .footer {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+}
+
+/* ============================================================
+   GLOBAL PREMIUM NAVBAR STYLES (MATCHING SCREENSHOT)
+   ============================================================ */
+
+body .navbar {
+  position: fixed;
+  top: 0;
+  left: var(--sidebar-width);
+  right: 0;
+  height: 70px;
+  background-color: #0b0f19 !important; /* Premium dark background */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 24px !important;
+  z-index: 1000 !important;
+  box-sizing: border-box !important;
+  transition: left 0.3s ease, width 0.3s ease !important;
+}
+
+body.sidebar-hidden .navbar {
+  left: 0 !important;
+}
+
+/* Menu Toggle Button (Hamburger) */
+body .navbar .menu-toggle {
+  background: none !important;
+  border: none !important;
+  color: #94a3b8 !important;
+  font-size: 20px !important;
+  cursor: pointer !important;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  transition: color 0.2s;
+}
+
+body .navbar .menu-toggle:hover {
+  color: #ffffff !important;
+}
+
+@media (max-width: 900px) {
+  body .navbar {
+    left: 0 !important;
+    padding: 0 16px !important;
+  }
+  body .navbar .menu-toggle {
+    display: flex !important;
+  }
+}
+
+/* Brand Area */
+body .navbar .navbar-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+body .navbar .brand-logo-svg {
+  width: 22px;
+  height: 22px;
+  color: #eb6835; /* UIverse orange */
+  flex-shrink: 0;
+}
+
+body .navbar .brand-text {
+  font-family: "Syne", sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 20px !important;
+  color: #ffffff !important;
+  letter-spacing: -0.5px !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+}
+
+/* Vertical Divider */
+body .navbar .navbar-divider {
+  width: 1px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.15);
+  margin: 0 16px;
+}
+
+@media (max-width: 768px) {
+  body .navbar .navbar-divider {
+    display: none !important;
+  }
+}
+
+/* Search Bar */
+body .navbar .search-bar {
+  position: relative !important;
+  max-width: 380px !important;
+  width: 100% !important;
+  margin: 0 16px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+body .navbar .search-bar .search-icon {
+  position: absolute !important;
+  left: 14px !important;
+  color: #475569 !important;
+  font-size: 14px !important;
+  pointer-events: none !important;
+}
+
+body .navbar .search-bar input {
+  width: 100% !important;
+  height: 38px !important;
+  background-color: #131926 !important; /* Slightly lighter than navbar */
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 99px !important;
+  padding: 0 16px 0 38px !important;
+  color: #ffffff !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 14px !important;
+  outline: none !important;
+  transition: all 0.2s ease !important;
+}
+
+body .navbar .search-bar input::placeholder {
+  color: #475569 !important;
+}
+
+body .navbar .search-bar input:focus {
+  border-color: #eb6835 !important;
+  box-shadow: 0 0 0 2px rgba(235, 104, 53, 0.15) !important;
+}
+
+@media (max-width: 640px) {
+  body .navbar .search-bar {
+    display: none !important; /* Hide search bar on mobile to fit elements */
+  }
+}
+
+/* Right Controls */
+body .navbar .nav-right {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-left: auto !important;
+}
+
+/* Premium Buttons */
+body .navbar .nav-btn {
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  height: 38px !important;
+  padding: 0 18px !important;
+  border-radius: 99px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  box-sizing: border-box !important;
+}
+
+/* Docs Button: Dark Grey Pill */
+body .navbar .docs-btn {
+  background-color: #131926 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+}
+
+body .navbar .docs-btn:hover {
+  background-color: #1e293b !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Add Component Button: Orange/Purple Gradient */
+body .navbar .add-btn {
+  background: linear-gradient(135deg, #eb6835 0%, #7b61ff 100%) !important;
+  border: none !important;
+  color: #ffffff !important;
+}
+
+body .navbar .add-btn:hover {
+  opacity: 0.95 !important;
+  box-shadow: 0 0 12px rgba(235, 104, 53, 0.3) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Dark Mode Toggle inside Navbar */
+body .navbar .theme-toggle {
+  background: none !important;
+  border: none !important;
+  color: #94a3b8 !important;
+  font-size: 16px !important;
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+
+body .navbar .theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+}
+
+@media (max-width: 480px) {
+  body .navbar .docs-btn {
+    display: none !important; /* Hide docs on very small screen */
+  }
+}
+
+

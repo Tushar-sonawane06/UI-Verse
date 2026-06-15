@@ -43,7 +43,7 @@ class DependencyResolver {
       includeOptional = false,
       includeTransitive = true,
       includeConflicts = true,
-      maxDepth = this.maxDepthLimit
+      maxDepth = options.maxDepth || this.maxDepthLimit
     } = options;
 
     const cacheKey = `${componentName}:${includeOptional}:${includeTransitive}`;
@@ -145,9 +145,12 @@ class DependencyResolver {
       throw new Error(`Component not found: ${componentName}`);
     }
 
+    const targetVersion = component.version || '1.0.0';
+    // Parse semver prefixes if present (^ or ~)
+    const cleanVersion = targetVersion.replace(/^[\^~]/, '');
     resolved.set(componentName, {
       name: componentName,
-      version: component.version || '1.0.0',
+      version: cleanVersion,
       required: true,
       depth
     });
@@ -319,7 +322,7 @@ class DependencyResolver {
             const cycleStart = path.indexOf(depName);
             const cycle = path.slice(cycleStart).concat(depName);
             cycles.push(cycle);
-            return true;
+            // Continue searching other paths rather than returning immediately
           }
         }
       }

@@ -51,9 +51,12 @@ class StatePersistenceOptimizer {
     // Write listener callbacks
     this.listeners = [];
 
+    // In-memory fallback database
+    this.memoryStorageFallback = {};
+
     // Adaptive persistence state
     this.updateFrequency = new Map();
-    this.frequencyWindow = 1000; // 1 second window
+    this.frequencyWindow = options.frequencyWindow || 1000; // customisable window
   }
 
   /**
@@ -184,7 +187,9 @@ class StatePersistenceOptimizer {
       }
 
       // Write to localStorage
-      localStorage.setItem(this.storageKey, JSON.stringify(storedData));
+      if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+        localStorage.setItem(this.storageKey, JSON.stringify(storedData));
+      }
 
       const duration = performance.now() - startTime;
       this.recordMetrics(duration, keys.length);
@@ -264,6 +269,9 @@ class StatePersistenceOptimizer {
    * @private
    */
   getStoredData() {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+      return {};
+    }
     try {
       const data = localStorage.getItem(this.storageKey);
       return data ? JSON.parse(data) : {};
@@ -437,6 +445,7 @@ class StatePersistenceOptimizer {
     if (options.batchSize !== undefined) this.batchSize = options.batchSize;
     if (options.enableCoalescing !== undefined) this.enableCoalescing = options.enableCoalescing;
     if (options.enableMetrics !== undefined) this.enableMetrics = options.enableMetrics;
+    if (options.frequencyWindow !== undefined) this.frequencyWindow = options.frequencyWindow;
   }
 
   /**
@@ -459,6 +468,7 @@ class StatePersistenceOptimizer {
       clearTimeout(timer);
     }
     this.debounceTimers.clear();
+    this.debounceTimers = new Map();
 
     this.metrics.pendingOperations = 0;
   }

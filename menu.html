@@ -3,16 +3,13 @@
 <head>
   <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-wu5WTaxlrfFvQyi+yWG3mJhY3K6TBX4A67HC66aqIpQ='; script-src-attr 'unsafe-hashes' 'sha256-wu5WTaxlrfFvQyi+yWG3mJhY3K6TBX4A67HC66aqIpQ='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Menus ? UIverse</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="menu.css" />
-  </head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-
   <aside class="sidebar">
     <div class="sidebar-brand">
       <span class="brand-icon"><i class="fa-solid fa-bars"></i></span>
@@ -330,51 +327,70 @@
   </nav>
   </aside>
 
-  <header class="navbar">
-    <div class="logo">UIverse</div>
-    <div class="search-bar"><i class="fa-solid fa-magnifying-glass"></i><input placeholder="Search components..." / data-a11y-remediation="label-needed"></div>
-    <div class="nav-actions">
-      <button class="outline-btn" data-a11y-remediation="button-label-needed">Docs</button>
-      <button class="primary-btn">Add Component</button>
-    </div>
-  </header>
-
-  <div class="hero-stats">
-
-  <div class="hero-stat">
-      <strong>35+</strong>
-      <span>Components</span>
+  <!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
   </div>
-
-  <div class="hero-stat">
-      <strong>100%</strong>
-      <span>Responsive</span>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
   </div>
-
-  <div class="hero-stat">
-      <strong>CSS Only</strong>
-      <span>Many layouts</span>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
   </div>
-
-</div>
-
-<div class="menu-filter-bar">
-
-<button class="active">All</button>
-
-<button>Dropdowns</button>
-
-<button>Navigation</button>
-
-<button>Dock</button>
-
-<button>Command</button>
-
-<button>Sidebar</button>
-
-<button>Mega Menu</button>
-
-</div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
 
   <main class="main-home">
     <section class="hero-section">
@@ -395,600 +411,6 @@
         </div>
       </div>
     </section>
-
-    <article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">Fullscreen Overlay</span>
-    <span class="card-tag pink">Navigation</span>
-  </div>
-
-  <div class="card-preview dark">
-    <div class="overlay-demo">
-      <button class="overlay-trigger">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-
-      <div class="overlay-menu">
-        <a href="#">Home</a>
-        <a href="#">Projects</a>
-        <a href="#">Services</a>
-        <a href="#">Contact</a>
-      </div>
-    </div>
-  </div>
-
-  <p>Fullscreen navigation with immersive transitions.</p>
-</article>
-<article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">Breadcrumbs</span>
-    <span class="card-tag yellow">Docs</span>
-  </div>
-
-  <div class="card-preview">
-    <nav class="breadcrumbs">
-      <a href="#">Home</a>
-      <span>/</span>
-      <a href="#">Components</a>
-      <span>/</span>
-      <span>Menus</span>
-    </nav>
-  </div>
-
-  <p>Shows the current navigation path.</p>
-</article>
-
-<article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">Animated Tabs</span>
-    <span class="card-tag purple">Tabs</span>
-  </div>
-
-  <div class="card-preview">
-    <div class="animated-tabs">
-      <button class="active">Overview</button>
-      <button>Analytics</button>
-      <button>Settings</button>
-      <div class="tab-indicator"></div>
-    </div>
-  </div>
-
-  <p>Interactive tab menu with sliding indicator.</p>
-</article>
-
-<article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">Quick Actions</span>
-    <span class="card-tag pink">Bento</span>
-  </div>
-
-  <div class="card-preview">
-    <div class="bento-menu">
-      <button><i class="fa-solid fa-plus"></i> New</button>
-      <button><i class="fa-solid fa-file"></i> Files</button>
-      <button><i class="fa-solid fa-users"></i> Team</button>
-      <button><i class="fa-solid fa-gear"></i> Settings</button>
-    </div>
-  </div>
-
-  <p>Dashboard quick-launch menu using bento layout.</p>
-</article>
-    <!-- ================= MODERN MEGA MENU ================= -->
-<section class="menu-showcase">
-
-  <!-- SECTION TITLE -->
-  <div class="section-heading">
-    <span class="section-badge">
-      <i class="fa-solid fa-bars-staggered"></i>
-      Navigation Systems
-    </span>
-
-    <h2>Professional Modern Menu Components</h2>
-
-    <p>
-      Elegant navigation layouts with premium interactions,
-      glassmorphism effects, animated dropdowns, and dashboard-ready menus.
-    </p>
-  </div>
-
-  <!-- ================= TOP NAVIGATION ================= -->
-  <div class="menu-grid">
-
-    <!-- COMPONENT 1 -->
-    <article class="menu-card">
-      <div class="menu-card-header">
-        <div>
-          <span class="menu-label">Glassmorphism</span>
-          <h3>Premium Navbar</h3>
-        </div>
-
-        <button class="live-btn">Live</button>
-      </div>
-
-      <nav class="premium-navbar">
-        <div class="nav-logo">
-          <span>⬡</span>
-          UIverse
-        </div>
-
-        <ul class="nav-links">
-          <li><a href="#">Home</a></li>
-
-          <li class="dropdown">
-            <a href="#">
-              Components
-              <i class="fa-solid fa-chevron-down"></i>
-            </a>
-
-            <div class="dropdown-menu">
-              <a href="#">
-                <i class="fa-solid fa-layer-group"></i>
-                Cards
-              </a>
-
-              <a href="#">
-                <i class="fa-solid fa-toggle-on"></i>
-                Toggles
-              </a>
-
-              <a href="#">
-                <i class="fa-solid fa-table"></i>
-                Tables
-              </a>
-
-              <a href="#">
-                <i class="fa-solid fa-chart-simple"></i>
-                Charts
-              </a>
-            </div>
-          </li>
-
-          <li><a href="#">Pricing</a></li>
-          <li><a href="#">Docs</a></li>
-        </ul>
-
-        <div class="nav-actions-modern">
-          <button class="ghost-btn">Login</button>
-          <button class="gradient-btn">Get Started</button>
-        </div>
-      </nav>
-    </article>
-
-    <article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">Mega Menu</span>
-    <span class="card-tag blue">Enterprise</span>
-  </div>
-
-  <div class="card-preview">
-    <div class="mega-menu-demo">
-      <button class="mega-btn">
-        Products <i class="fa-solid fa-chevron-down"></i>
-      </button>
-
-      <div class="mega-panel">
-        <div>
-          <h4>UI Components</h4>
-          <a href="#">Buttons</a>
-          <a href="#">Cards</a>
-          <a href="#">Forms</a>
-        </div>
-
-        <div>
-          <h4>Templates</h4>
-          <a href="#">Dashboard</a>
-          <a href="#">Landing Page</a>
-          <a href="#">Portfolio</a>
-        </div>
-
-        <div>
-          <h4>Resources</h4>
-          <a href="#">Docs</a>
-          <a href="#">Blog</a>
-          <a href="#">Support</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <p>Large enterprise navigation with categorized content.</p>
-
-  <div class="card-actions">
-    <button class="view-btn">Preview</button>
-    <button class="copy-btn">Copy Code</button>
-  </div>
-</article>
-
-
-<article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">Accordion Menu</span>
-    <span class="card-tag purple">Expandable</span>
-  </div>
-
-  <div class="card-preview dark">
-    <div class="accordion-menu">
-      <details open>
-        <summary>Dashboard</summary>
-        <a href="#">Analytics</a>
-        <a href="#">Reports</a>
-      </details>
-
-      <details>
-        <summary>Users</summary>
-        <a href="#">Customers</a>
-        <a href="#">Teams</a>
-      </details>
-    </div>
-  </div>
-
-  <p>Expandable navigation groups for dashboards.</p>
-
-  <div class="card-actions">
-    <button class="view-btn">Preview</button>
-    <button class="copy-btn">Copy Code</button>
-  </div>
-</article>
-
-<article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">Context Menu</span>
-    <span class="card-tag yellow">Desktop</span>
-  </div>
-
-  <div class="card-preview">
-    <div class="context-demo">
-      <button class="context-trigger">
-        Right Click Menu
-      </button>
-
-      <div class="context-menu">
-        <a href="#"><i class="fa-regular fa-copy"></i> Copy</a>
-        <a href="#"><i class="fa-solid fa-pen"></i> Rename</a>
-        <a href="#"><i class="fa-solid fa-trash"></i> Delete</a>
-      </div>
-    </div>
-  </div>
-
-  <p>Desktop-style contextual action menu.</p>
-
-  <div class="card-actions">
-    <button class="view-btn">Preview</button>
-    <button class="copy-btn">Copy Code</button>
-  </div>
-</article>
-
-
-<article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">Bottom Nav</span>
-    <span class="card-tag pink">Mobile</span>
-  </div>
-
-  <div class="card-preview dark">
-    <div class="bottom-nav">
-      <a href="#"><i class="fa-solid fa-house"></i></a>
-      <a href="#"><i class="fa-solid fa-compass"></i></a>
-      <a href="#" class="active"><i class="fa-solid fa-plus"></i></a>
-      <a href="#"><i class="fa-solid fa-heart"></i></a>
-      <a href="#"><i class="fa-solid fa-user"></i></a>
-    </div>
-  </div>
-
-  <p>Instagram and TikTok inspired mobile navigation.</p>
-
-  <div class="card-actions">
-    <button class="view-btn">Preview</button>
-    <button class="copy-btn">Copy Code</button>
-  </div>
-</article>
-
-<article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">Bottom Nav</span>
-    <span class="card-tag pink">Mobile</span>
-  </div>
-
-  <div class="card-preview dark">
-    <div class="bottom-nav">
-      <a href="#"><i class="fa-solid fa-house"></i></a>
-      <a href="#"><i class="fa-solid fa-compass"></i></a>
-      <a href="#" class="active"><i class="fa-solid fa-plus"></i></a>
-      <a href="#"><i class="fa-solid fa-heart"></i></a>
-      <a href="#"><i class="fa-solid fa-user"></i></a>
-    </div>
-  </div>
-
-  <p>Instagram and TikTok inspired mobile navigation.</p>
-
-  <div class="card-actions">
-    <button class="view-btn">Preview</button>
-    <button class="copy-btn">Copy Code</button>
-  </div>
-</article>
-
-<article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">Radial Menu</span>
-    <span class="card-tag purple">Creative</span>
-  </div>
-
-  <div class="card-preview">
-    <div class="radial-menu">
-      <button class="radial-center">
-        <i class="fa-solid fa-plus"></i>
-      </button>
-
-      <span><i class="fa-solid fa-camera"></i></span>
-      <span><i class="fa-solid fa-image"></i></span>
-      <span><i class="fa-solid fa-music"></i></span>
-      <span><i class="fa-solid fa-video"></i></span>
-    </div>
-  </div>
-
-  <p>Animated circular menu for creative applications.</p>
-
-  <div class="card-actions">
-    <button class="view-btn">Preview</button>
-    <button class="copy-btn">Copy Code</button>
-  </div>
-</article>
-
-<article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">Breadcrumb</span>
-    <span class="card-tag blue">Navigation</span>
-  </div>
-
-  <div class="card-preview">
-    <div class="breadcrumb-demo">
-      <a href="#">Home</a>
-      <i class="fa-solid fa-angle-right"></i>
-      <a href="#">Components</a>
-      <i class="fa-solid fa-angle-right"></i>
-      <span>Menus</span>
-    </div>
-  </div>
-
-  <p>Hierarchical navigation for large websites.</p>
-
-  <div class="card-actions">
-    <button class="view-btn">Preview</button>
-    <button class="copy-btn">Copy Code</button>
-  </div>
-</article>
-
-<article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">Tab Navigation</span>
-    <span class="card-tag pink">Tabs</span>
-  </div>
-
-  <div class="card-preview">
-    <div class="tab-menu">
-      <button class="active">Overview</button>
-      <button>Analytics</button>
-      <button>Reports</button>
-      <button>Settings</button>
-    </div>
-  </div>
-
-  <p>Modern segmented navigation for dashboards.</p>
-
-  <div class="card-actions">
-    <button class="view-btn">Preview</button>
-    <button class="copy-btn">Copy Code</button>
-  </div>
-</article>
-
-<article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">Mac Dock</span>
-    <span class="card-tag yellow">Animated</span>
-  </div>
-
-  <div class="card-preview dark">
-    <div class="mac-dock">
-      <i class="fa-solid fa-folder"></i>
-      <i class="fa-solid fa-envelope"></i>
-      <i class="fa-solid fa-music"></i>
-      <i class="fa-solid fa-video"></i>
-      <i class="fa-solid fa-gear"></i>
-    </div>
-  </div>
-
-  <p>macOS inspired hover-magnification dock navigation.</p>
-
-  <div class="card-actions">
-    <button class="view-btn">Preview</button>
-    <button class="copy-btn">Copy Code</button>
-  </div>
-</article>
-
-<article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">Music Sidebar</span>
-    <span class="card-tag green">Media</span>
-  </div>
-
-  <div class="card-preview dark">
-    <div class="spotify-sidebar">
-      <a href="#"><i class="fa-solid fa-house"></i> Home</a>
-      <a href="#"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
-      <a href="#"><i class="fa-solid fa-book"></i> Library</a>
-    </div>
-  </div>
-
-  <p>Streaming app inspired sidebar navigation.</p>
-
-  <div class="card-actions">
-    <button class="view-btn">Preview</button>
-    <button class="copy-btn">Copy Code</button>
-  </div>
-</article>
-
-<article class="menu-card">
-  <div class="card-top">
-    <span class="card-label">AI Palette</span>
-    <span class="card-tag purple">AI</span>
-  </div>
-
-  <div class="card-preview">
-    <div class="ai-command">
-      <div class="ai-input">
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-        Ask AI anything...
-      </div>
-
-      <div class="ai-suggestions">
-        <span>Generate UI</span>
-        <span>Create Navbar</span>
-        <span>Build Dashboard</span>
-      </div>
-    </div>
-  </div>
-
-  <p>Modern AI-powered command center inspired by ChatGPT and Cursor.</p>
-
-  <div class="card-actions">
-    <button class="view-btn">Preview</button>
-    <button class="copy-btn">Copy Code</button>
-  </div>
-</article>
-
-    <!-- COMPONENT 2 -->
-    <article class="menu-card">
-      <div class="menu-card-header">
-        <div>
-          <span class="menu-label">Dashboard</span>
-          <h3>Admin Sidebar</h3>
-        </div>
-      </div>
-
-      <div class="dashboard-sidebar">
-
-        <div class="dashboard-brand">
-          <span class="brand-circle"></span>
-          NeoAdmin
-        </div>
-
-        <ul class="dashboard-menu">
-          <li class="active">
-            <i class="fa-solid fa-house"></i>
-            Dashboard
-          </li>
-
-          <li>
-            <i class="fa-solid fa-chart-line"></i>
-            Analytics
-          </li>
-
-          <li>
-            <i class="fa-solid fa-user-group"></i>
-            Customers
-          </li>
-
-          <li>
-            <i class="fa-solid fa-credit-card"></i>
-            Transactions
-          </li>
-
-          <li>
-            <i class="fa-solid fa-gear"></i>
-            Settings
-          </li>
-        </ul>
-
-      </div>
-    </article>
-
-    <!-- COMPONENT 3 -->
-    <article class="menu-card">
-      <div class="menu-card-header">
-        <div>
-          <span class="menu-label">Mobile</span>
-          <h3>Floating Dock Menu</h3>
-        </div>
-      </div>
-
-      <div class="dock-wrapper">
-
-        <div class="floating-dock">
-
-          <button>
-            <i class="fa-solid fa-house"></i>
-          </button>
-
-          <button>
-            <i class="fa-solid fa-heart"></i>
-          </button>
-
-          <button class="dock-active">
-            <i class="fa-solid fa-plus"></i>
-          </button>
-
-          <button>
-            <i class="fa-solid fa-message"></i>
-          </button>
-
-          <button>
-            <i class="fa-solid fa-user"></i>
-          </button>
-
-        </div>
-
-      </div>
-    </article>
-
-    <!-- COMPONENT 4 -->
-    <article class="menu-card">
-      <div class="menu-card-header">
-        <div>
-          <span class="menu-label">Minimal</span>
-          <h3>Command Menu</h3>
-        </div>
-      </div>
-
-      <div class="command-menu">
-
-        <div class="command-search">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Search commands..." />
-        </div>
-
-        <div class="command-items">
-
-          <div class="command-item">
-            <div>
-              <i class="fa-solid fa-file"></i>
-              New File
-            </div>
-            <kbd>⌘N</kbd>
-          </div>
-
-          <div class="command-item">
-            <div>
-              <i class="fa-solid fa-folder-open"></i>
-              Open Project
-            </div>
-            <kbd>⌘O</kbd>
-          </div>
-
-          <div class="command-item">
-            <div>
-              <i class="fa-solid fa-gear"></i>
-              Preferences
-            </div>
-            <kbd>⌘,</kbd>
-          </div>
-
-        </div>
-
-      </div>
-    </article>
-
-  </div>
-</section>
 
     <section class="menu-grid">
       <article class="menu-card">
@@ -1278,54 +700,88 @@
 
   <!-- ================= FOOTER ================= -->
 <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-col brand">
-        <h2 class="footer-logo">⬡ UIverse</h2>
-        <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
-        <div class="socials">
-          <a href="https://github.com" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
-          <a href="https://linkedin.com" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-          <a href="https://twitter.com" aria-label="Twitter" title="Twitter"><i class="fab fa-x-twitter"></i></a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h3>Explore</h3>
-        <ul>
-          <li><a href="button.html">Buttons</a></li>
-          <li><a href="navbar.html">Navbars</a></li>
-          <li><a href="cards.html">Cards</a></li>
-          <li><a href="inputs.html">Inputs</a></li>
-          <li><a href="forms.html">Forms</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h3>Resources</h3>
-        <ul>
-          <li><a href="#">Documentation</a></li>
-          <li><a href="#">GitHub Repo</a></li>
-          <li><a href="#">Community</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h3>Legal</h3>
-        <ul>
-          <li><a href="privacypolicy.html">Privacy Policy</a></li>
-          <li><a href="terms.html">Terms of Service</a></li>
-        </ul>
-      </div>
-      <div class="footer-col newsletter">
-        <h3>Stay Updated</h3>
-        <p>Get notified when new components drop.</p>
-        <div class="newsletter-form">
-          <input type="email" placeholder="your@email.com">
-          <button type="button">Subscribe</button>
-        </div>
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
     </div>
-  </footer>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
 
   <script>
     // JS for dropdowns and command menu
@@ -1402,6 +858,6 @@
       }
     });
   </script>
-    <script src="dist/shared.js"></script>
+  <script src="dist/shared.js"></script>
 </body>
 </html>

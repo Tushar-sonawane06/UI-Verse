@@ -1,5 +1,8 @@
 # Component Registry Dependency Resolution API
 
+## Semantic Version Resolution
+Supports basic caret (`^`) and tilde (`~`) prefixes to resolve dynamic semantic updates dynamically.
+
 Backend-friendly API specification for resolving component dependencies, analyzing dependency graphs, detecting circular dependencies, and managing complex dependency relationships.
 
 **API Version:** 1.0.0  

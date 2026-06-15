@@ -2,9 +2,9 @@
  * UIverse Theme Validator
  * 
  * Implements the dedicated theme validation API contract for external consumers.
- * Provides comprehensive validation, error reporting, and accessibility analysis.
+ * Provides comprehensive validation, error reporting with semantic color granularity, and accessibility analysis.
  * 
- * @version 1.0.0
+ * @version 1.0.1
  * @author UIverse Community
  * @license MIT
  */
@@ -28,6 +28,7 @@ class ThemeValidator {
     this.cacheMaxSize = 1000;
     
     this.initializeValidationRules();
+    this.initializeColorProcessingRules();
   }
 
   /**
@@ -79,6 +80,25 @@ class ThemeValidator {
         required: false,
         fields: ['sm', 'md', 'lg', 'full']
       }
+    };
+  }
+
+  /**
+   * Initialize color processing rules for semantic error detection
+   * @private
+   */
+  initializeColorProcessingRules() {
+    this.colorRules = {
+      supportedFormats: ['hex-3', 'hex-6', 'hex-8', 'rgb', 'rgba'],
+      colorSpace: 'RGB',
+      hexValidation: {
+        'hex-3': /^#[0-9a-fA-F]{3}$/,
+        'hex-6': /^#[0-9a-fA-F]{6}$/,
+        'hex-8': /^#[0-9a-fA-F]{8}$/
+      },
+      rgbValidation: /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([0-9.]+))?\)$/,
+      rgbComponentRange: [0, 255],
+      alphaRange: [0, 1]
     };
   }
 
@@ -167,7 +187,7 @@ class ThemeValidator {
     }
 
     const result = this.buildResult(errors.length === 0, errors, warnings, startTime);
-
+    
     // Cache result
     if (this.enableCaching && options.useCache !== false) {
       this.cacheValidationResult(theme, result);
@@ -206,10 +226,10 @@ class ThemeValidator {
     if (!rule.pattern.test(value)) {
       errors.push({
         field: 'id',
-        message: `Field id must match pattern: ^[a-zA-Z0-9-]+$`,
+        message: `Field id must match pattern: ${rule.pattern}`,
         code: 'INVALID_PATTERN',
         severity: 'error',
-        constraint: 'pattern: ^[a-zA-Z0-9-]+$'
+        constraint: `pattern: ${rule.pattern}`
       });
     }
   }
@@ -241,7 +261,7 @@ class ThemeValidator {
   }
 
   /**
-   * Validate colors field
+   * Validate colors field with semantic granularity
    * @private
    */
   validateColorsField(colors, errors, warnings) {
@@ -255,41 +275,282 @@ class ThemeValidator {
       return;
     }
 
-    // Check required color fields
-    const rule = this.rules.colors;
-    for (const requiredField of rule.requiredFields) {
-      if (!colors[requiredField]) {
-        errors.push({
-          field: `colors.${requiredField}`,
-          message: `Required color field is missing: ${requiredField}`,
-          code: 'MISSING_REQUIRED_FIELD',
-          severity: 'error'
-        });
+    const requiredColors = this.rules.colors.requiredFields;
+    
+    // Validate required colors
+    for (const requiredColor of requiredColors) {
+      if (requiredColor === 'text') {
+        if (!colors.text) {
+          errors.push({
+            field: 'colors.text',
+            message: 'Required field is missing: colors.text',
+            code: 'MISSING_REQUIRED_FIELD',
+            severity: 'error'
+          });
+          continue;
+        }
+        
+        // Validate text colors
+        for (const textKey of ['primary', 'secondary']) {
+          const textColor = colors.text[textKey];
+          if (!this.isValidColor(textColor)) {
+            this.validateColorWithSemantics(
+              textColor,
+              `colors.text.${textKey}`,
+              errors
+            );
+          }
+        }
+      } else {
+        const colorValue = colors[requiredColor];
+        if (!colorValue) {
+          errors.push({
+            field: `colors.${requiredColor}`,
+            message: `Required field is missing: colors.${requiredColor}`,
+            code: 'MISSING_REQUIRED_FIELD',
+            severity: 'error'
+          });
+          continue;
+        }
+
+        if (!this.isValidColor(colorValue)) {
+          this.validateColorWithSemantics(
+            colorValue,
+            `colors.${requiredColor}`,
+            errors
+          );
+        }
       }
     }
 
-    // Validate each color
+    // Validate optional colors
     for (const [colorName, colorValue] of Object.entries(colors)) {
-      if (colorName === 'text' && typeof colorValue === 'object') {
-        // Validate text object
-        for (const [textKey, textValue] of Object.entries(colorValue)) {
-          if (!this.isValidColor(textValue)) {
-            errors.push({
-              field: `colors.text.${textKey}`,
-              message: `Color must be valid hex (#RRGGBB) or rgb format`,
-              code: 'INVALID_COLOR',
-              severity: 'error'
-            });
-          }
-        }
-      } else if (typeof colorValue === 'string' && !this.isValidColor(colorValue)) {
-        errors.push({
-          field: `colors.${colorName}`,
-          message: `Color must be valid hex (#RRGGBB) or rgb format`,
-          code: 'INVALID_COLOR',
-          severity: 'error'
-        });
+      if (colorName === 'text' || requiredColors.includes(colorName)) continue;
+      if (!requiredColors.includes(colorName) && colorValue && !this.isValidColor(colorValue)) {
+        this.validateColorWithSemantics(
+          colorValue,
+          `colors.${colorName}`,
+          errors
+        );
       }
+    }
+  }
+
+  /**
+   * Validate color with semantic error codes for specific failure types
+   * @private
+   */
+  validateColorWithSemantics(color, fieldPath, errors) {
+    if (typeof color !== 'string') {
+      errors.push({
+        field: fieldPath,
+        message: `Color must be a string, received ${typeof color}`,
+        code: 'INVALID_TYPE',
+        severity: 'error'
+      });
+      return;
+    }
+
+    const trimmed = color.trim();
+    
+    // Detect attempted format
+    if (trimmed.startsWith('#')) {
+      this.validateHexColor(trimmed, fieldPath, errors);
+    } else if (trimmed.startsWith('rgb')) {
+      this.validateRgbColor(trimmed, fieldPath, errors);
+    } else if (trimmed.startsWith('hsl')) {
+      errors.push({
+        field: fieldPath,
+        message: `HSL color space not compatible with RGB-only theme`,
+        code: 'COLOR_SPACE_INCOMPATIBLE',
+        severity: 'error',
+        colorDetails: {
+          attemptedFormat: 'hsl',
+          expectedFormats: this.colorRules.supportedFormats,
+          colorValue: trimmed,
+          colorSpace: 'HSL',
+          failureReason: 'Theme requires RGB color space',
+          suggestion: 'Convert HSL color to hex or rgb format'
+        }
+      });
+    } else if (trimmed.startsWith('lab') || trimmed.startsWith('lch')) {
+      errors.push({
+        field: fieldPath,
+        message: `Lab/LCH color space not compatible with RGB-only theme`,
+        code: 'COLOR_SPACE_INCOMPATIBLE',
+        severity: 'error',
+        colorDetails: {
+          attemptedFormat: 'lab/lch',
+          expectedFormats: this.colorRules.supportedFormats,
+          colorValue: trimmed,
+          colorSpace: 'Lab/LCH',
+          failureReason: 'Theme requires RGB color space',
+          suggestion: 'Convert Lab/LCH color to hex or rgb format'
+        }
+      });
+    } else {
+      errors.push({
+        field: fieldPath,
+        message: `Color format not recognized`,
+        code: 'COLOR_FORMAT_MISMATCH',
+        severity: 'error',
+        colorDetails: {
+          attemptedFormat: 'unknown',
+          expectedFormats: this.colorRules.supportedFormats,
+          colorValue: trimmed,
+          failureReason: 'Format does not match any supported color format',
+          suggestion: `Use hex (#RRGGBB), hex with alpha (#RRGGBBAA), or rgb(r, g, b) format`
+        }
+      });
+    }
+  }
+
+  /**
+   * Validate hex color with semantic error codes
+   * @private
+   */
+  validateHexColor(hex, fieldPath, errors) {
+    // Remove hash for analysis
+    const hexDigits = hex.substring(1);
+    
+    // Check length
+    if (hexDigits.length !== 3 && hexDigits.length !== 6 && hexDigits.length !== 8) {
+      errors.push({
+        field: fieldPath,
+        message: `Hex color length invalid: expected 3, 6, or 8 digits (after #), got ${hexDigits.length}`,
+        code: 'COLOR_PARSE_ERROR',
+        severity: 'error',
+        colorDetails: {
+          attemptedFormat: 'hex',
+          expectedFormats: ['hex-3', 'hex-6', 'hex-8'],
+          colorValue: hex,
+          failureReason: `Invalid hex length: ${hexDigits.length} digits`,
+          suggestion: 'Use 3 digits (#RGB), 6 digits (#RRGGBB), or 8 digits (#RRGGBBAA)'
+        }
+      });
+      return;
+    }
+
+    // Find invalid hex digits
+    const invalidDigits = [];
+    for (const char of hexDigits) {
+      if (!/[0-9a-fA-F]/.test(char) && !invalidDigits.includes(char)) {
+        invalidDigits.push(char);
+      }
+    }
+
+    if (invalidDigits.length > 0) {
+      errors.push({
+        field: fieldPath,
+        message: `Hex color '${hex}' contains invalid digits`,
+        code: 'HEX_DIGIT_INVALID',
+        severity: 'error',
+        colorDetails: {
+          attemptedFormat: 'hex',
+          expectedFormats: ['hex-3', 'hex-6', 'hex-8'],
+          colorValue: hex,
+          failureReason: `Invalid hexadecimal digits: ${invalidDigits.join(', ')}`,
+          suggestion: 'Use valid hex digits (0-9, a-f) and ensure format is #RGB, #RRGGBB, or #RRGGBBAA'
+        }
+      });
+      return;
+    }
+  }
+
+  /**
+   * Validate RGB color with semantic error codes
+   * @private
+   */
+  validateRgbColor(rgb, fieldPath, errors) {
+    const match = this.colorRules.rgbValidation.exec(rgb);
+    
+    if (!match) {
+      errors.push({
+        field: fieldPath,
+        message: `RGB color format invalid`,
+        code: 'COLOR_PARSE_ERROR',
+        severity: 'error',
+        colorDetails: {
+          attemptedFormat: 'rgb',
+          expectedFormats: ['rgb', 'rgba'],
+          colorValue: rgb,
+          failureReason: 'Invalid RGB/RGBA syntax',
+          suggestion: 'Use rgb(r, g, b) or rgba(r, g, b, a) format with values 0-255'
+        }
+      });
+      return;
+    }
+
+    const [, rStr, gStr, bStr, aStr] = match;
+    const r = parseInt(rStr, 10);
+    const g = parseInt(gStr, 10);
+    const b = parseInt(bStr, 10);
+    const a = aStr ? parseFloat(aStr) : undefined;
+
+    // Check RGB component ranges
+    if (r < this.colorRules.rgbComponentRange[0] || r > this.colorRules.rgbComponentRange[1]) {
+      errors.push({
+        field: fieldPath,
+        message: `RGB component value ${r} out of range [0-255]`,
+        code: 'RGB_COMPONENT_OUT_OF_RANGE',
+        severity: 'error',
+        colorDetails: {
+          attemptedFormat: 'rgb',
+          colorValue: rgb,
+          failureReason: `Red component ${r} exceeds valid range [0-255]`,
+          suggestion: 'Ensure all RGB components are between 0 and 255'
+        }
+      });
+      return;
+    }
+
+    if (g < this.colorRules.rgbComponentRange[0] || g > this.colorRules.rgbComponentRange[1]) {
+      errors.push({
+        field: fieldPath,
+        message: `RGB component value ${g} out of range [0-255]`,
+        code: 'RGB_COMPONENT_OUT_OF_RANGE',
+        severity: 'error',
+        colorDetails: {
+          attemptedFormat: 'rgb',
+          colorValue: rgb,
+          failureReason: `Green component ${g} exceeds valid range [0-255]`,
+          suggestion: 'Ensure all RGB components are between 0 and 255'
+        }
+      });
+      return;
+    }
+
+    if (b < this.colorRules.rgbComponentRange[0] || b > this.colorRules.rgbComponentRange[1]) {
+      errors.push({
+        field: fieldPath,
+        message: `RGB component value ${b} out of range [0-255]`,
+        code: 'RGB_COMPONENT_OUT_OF_RANGE',
+        severity: 'error',
+        colorDetails: {
+          attemptedFormat: 'rgb',
+          colorValue: rgb,
+          failureReason: `Blue component ${b} exceeds valid range [0-255]`,
+          suggestion: 'Ensure all RGB components are between 0 and 255'
+        }
+      });
+      return;
+    }
+
+    // Check alpha range if present
+    if (a !== undefined && (a < this.colorRules.alphaRange[0] || a > this.colorRules.alphaRange[1])) {
+      errors.push({
+        field: fieldPath,
+        message: `Alpha value ${a} out of range [0-1]`,
+        code: 'RGB_COMPONENT_OUT_OF_RANGE',
+        severity: 'error',
+        colorDetails: {
+          attemptedFormat: 'rgba',
+          colorValue: rgb,
+          failureReason: `Alpha component ${a} exceeds valid range [0-1]`,
+          suggestion: 'Ensure alpha is between 0 (transparent) and 1 (opaque)'
+        }
+      });
+      return;
     }
   }
 
@@ -308,22 +569,15 @@ class ThemeValidator {
       return;
     }
 
-    if (typography.fontHeading && typeof typography.fontHeading !== 'string') {
-      errors.push({
-        field: 'typography.fontHeading',
-        message: 'fontHeading must be a string',
-        code: 'INVALID_TYPE',
-        severity: 'error'
-      });
-    }
-
-    if (typography.fontBody && typeof typography.fontBody !== 'string') {
-      errors.push({
-        field: 'typography.fontBody',
-        message: 'fontBody must be a string',
-        code: 'INVALID_TYPE',
-        severity: 'error'
-      });
+    for (const field of this.rules.typography.fields) {
+      if (typography[field] && typeof typography[field] !== 'string') {
+        errors.push({
+          field: `typography.${field}`,
+          message: `Typography.${field} must be a string`,
+          code: 'INVALID_TYPE',
+          severity: 'error'
+        });
+      }
     }
   }
 
@@ -339,20 +593,6 @@ class ThemeValidator {
         code: 'INVALID_TYPE',
         severity: 'error'
       });
-      return;
-    }
-
-    // Validate each spacing value
-    const spacingPattern = /^\d+(px|em|rem)$/;
-    for (const [key, value] of Object.entries(spacing)) {
-      if (value && !spacingPattern.test(value)) {
-        errors.push({
-          field: `spacing.${key}`,
-          message: `Spacing value must be in format: <number>px|em|rem`,
-          code: 'INVALID_FORMAT',
-          severity: 'error'
-        });
-      }
     }
   }
 
@@ -368,25 +608,11 @@ class ThemeValidator {
         code: 'INVALID_TYPE',
         severity: 'error'
       });
-      return;
-    }
-
-    // Validate each radius value
-    const radiusPattern = /^\d+(px|em|rem|%)$/;
-    for (const [key, value] of Object.entries(radius)) {
-      if (value && !radiusPattern.test(value)) {
-        errors.push({
-          field: `radius.${key}`,
-          message: `Radius value must be in format: <number>px|em|rem|%`,
-          code: 'INVALID_FORMAT',
-          severity: 'error'
-        });
-      }
     }
   }
 
   /**
-   * Check if color is valid
+   * Check if color is valid format
    * @private
    */
   isValidColor(color) {
@@ -448,8 +674,28 @@ class ThemeValidator {
    * Get relative luminance of color
    * @private
    */
+  hslToRgb(h, s, l) {
+    s /= 100;
+    l /= 100;
+    const k = n => (n + h / 30) % 12;
+    const a = s * Math.min(l, 1 - l);
+    const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1));
+    return [Math.round(255 * f(0)), Math.round(255 * f(8)), Math.round(255 * f(4))];
+  }
+
   getRelativeLuminance(color) {
-    const rgb = this.hexToRgb(color);
+    let rgb = null;
+    if (color.startsWith('#')) {
+      rgb = this.hexToRgb(color);
+    } else if (color.startsWith('rgb')) {
+      const match = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+      if (match) rgb = [Number(match[1]), Number(match[2]), Number(match[3])];
+    } else if (color.startsWith('hsl')) {
+      const match = color.match(/hsla?\((\d+),\s*(\d+)%,\s*(\d+)%/);
+      if (match) {
+        rgb = this.hslToRgb(Number(match[1]), Number(match[2]), Number(match[3]));
+      }
+    }
     if (!rgb) return 0;
 
     const [r, g, b] = rgb.map(val => val / 255);
@@ -475,6 +721,7 @@ class ThemeValidator {
   }
 
   /**
+   * Validate single color value
    * Validate color value
    * 
    * @param {string} color - Color to validate
@@ -522,6 +769,8 @@ class ThemeValidator {
     if (color.startsWith('#')) return 'hex';
     if (color.startsWith('rgb(')) return 'rgb';
     if (color.startsWith('rgba(')) return 'rgba';
+    if (color.startsWith('hsl(')) return 'hsl';
+    if (color.startsWith('hsla(')) return 'hsla';
     return 'unknown';
   }
 
@@ -592,101 +841,35 @@ class ThemeValidator {
       results,
       summary: {
         total: results.length,
-        valid,
-        invalid,
-        totalErrors,
-        totalWarnings
+        valid: validCount,
+        invalid: results.length - validCount,
+        totalErrors: results.reduce((sum, r) => sum + r.validation.metadata.errorCount, 0),
+        totalWarnings: results.reduce((sum, r) => sum + r.validation.metadata.warningCount, 0)
       }
     };
   }
 
   /**
-   * Generate validation report
-   * 
-   * @param {Object} theme - Theme to analyze
-   * @returns {Object} - Validation report with analysis
-   */
-  generateReport(theme) {
-    const validation = this.validate(theme);
-
-    if (!validation.valid) {
-      return { validation, report: null };
-    }
-
-    const accessibility = this.analyzeAccessibilityMetrics(theme);
-    const score = this.calculateThemeScore(theme, accessibility);
-
-    return {
-      validation,
-      report: {
-        accessibility,
-        score,
-        recommendations: this.generateRecommendations(theme, score)
-      }
-    };
-  }
-
-  /**
-   * Analyze accessibility metrics
+   * Generate validation cache key
    * @private
    */
-  analyzeAccessibilityMetrics(theme) {
-    const colors = theme.colors || {};
+  generateCacheKey(theme) {
+    return JSON.stringify(theme);
+  }
+
+  /**
+   * Cache validation result
+   * @private
+   */
+  cacheValidationResult(theme, result) {
+    const key = this.generateCacheKey(theme);
     
-    return {
-      wcagAA: true,
-      wcagAAA: false,
-      contrastAnalysis: {
-        text: colors.text ? this.getContrastRatio(colors.text.primary, colors.background) : null
-      }
-    };
-  }
-
-  /**
-   * Calculate theme quality score
-   * @private
-   */
-  calculateThemeScore(theme, accessibility) {
-    let score = 100;
-
-    // Deduct for missing optional fields
-    if (!theme.description) score -= 5;
-    if (!theme.typography) score -= 5;
-    if (!theme.spacing) score -= 5;
-    if (!theme.radius) score -= 5;
-
-    // Deduct for accessibility issues
-    if (accessibility.contrastAnalysis.text && accessibility.contrastAnalysis.text < 4.5) {
-      score -= 15;
+    if (this.validationCache.size >= this.cacheMaxSize) {
+      const firstKey = this.validationCache.keys().next().value;
+      this.validationCache.delete(firstKey);
     }
 
-    return Math.max(0, score);
-  }
-
-  /**
-   * Generate recommendations
-   * @private
-   */
-  generateRecommendations(theme, score) {
-    const recommendations = [];
-
-    if (score < 70) {
-      recommendations.push('Consider adding more design tokens for consistency');
-    }
-
-    if (!theme.description) {
-      recommendations.push('Add a theme description to help users understand its purpose');
-    }
-
-    if (!theme.typography) {
-      recommendations.push('Define typography tokens for better consistency');
-    }
-
-    if (!theme.spacing) {
-      recommendations.push('Define spacing scale for consistent layout');
-    }
-
-    return recommendations;
+    this.validationCache.set(key, result);
   }
 
   /**
@@ -737,6 +920,20 @@ class ThemeValidator {
    */
   clearCache() {
     this.validationCache.clear();
+  }
+
+  getSchema(format = 'json-schema') {
+    return {
+      $schema: 'https://json-schema.org/draft/2020-12/schema',
+      type: 'object',
+      properties: {
+        id: { type: 'string', pattern: '^[a-zA-Z0-9-]+$', minLength: 1, maxLength: 50 },
+        name: { type: 'string', minLength: 1, maxLength: 100 },
+        isDark: { type: 'boolean' },
+        colors: { type: 'object' }
+      },
+      required: ['id', 'name', 'isDark', 'colors']
+    };
   }
 
   /**

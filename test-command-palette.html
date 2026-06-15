@@ -1,551 +1,603 @@
+<!-- Command Palette Feature Test Page -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-2Rio7hu8v3eDzzYf0dUjhCXdFKozdyEHjoRVaiMEDgY=' 'sha256-ZXupLbLNupUWjvJrxwmGnkT4E1R2LA5nfM5MoWSZMBg=' 'sha256-cyXSEOKe9h53z9vsVzzihFiHaz5mND3Gucy64p73x3E=' 'sha256-tXQhI7HVkYw5y+Wl2JjGjsJSqpY7b3+I5BfLBBDhUnQ='; script-src-attr 'unsafe-hashes' 'sha256-2Rio7hu8v3eDzzYf0dUjhCXdFKozdyEHjoRVaiMEDgY=' 'sha256-ZXupLbLNupUWjvJrxwmGnkT4E1R2LA5nfM5MoWSZMBg=' 'sha256-cyXSEOKe9h53z9vsVzzihFiHaz5mND3Gucy64p73x3E=' 'sha256-tXQhI7HVkYw5y+Wl2JjGjsJSqpY7b3+I5BfLBBDhUnQ='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' sha256-2Rio7hu8v3eDzzYf0dUjhCXdFKozdyEHjoRVaiMEDgY= sha256-2gQWMHZvaPJg+wJvLa1jh+MJ75iB3s/zeJVeinFw+IA=; script-src-attr 'unsafe-hashes' sha256-2Rio7hu8v3eDzzYf0dUjhCXdFKozdyEHjoRVaiMEDgY= sha256-2gQWMHZvaPJg+wJvLa1jh+MJ75iB3s/zeJVeinFw+IA=; style-src 'self' https: 'unsafe-hashes' sha256-aqNNdDLnnrDOnTNdkJpYlAxKVJtLt9CtFLklmInuUAE= sha256-jJmiDwPmdghbWqGWDDjx+NS6nBmezfPUE1Mb15izM4w=; style-src-attr 'unsafe-hashes' sha256-aqNNdDLnnrDOnTNdkJpYlAxKVJtLt9CtFLklmInuUAE= sha256-jJmiDwPmdghbWqGWDDjx+NS6nBmezfPUE1Mb15izM4w=">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Command Palette Diagnostic Core | UIverse Premium</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
-  <link rel="stylesheet" href="test-command-palette.css">
-  
+  <title>Command Palette Test - UIverse</title>
   <script src="js/features/command-palette.js"></script>
-</head>
-<body class="palette-diagnostics-view">
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+    .test-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    h1 { color: #333; }
+    .test-section { margin: 20px 0; padding: 15px; background: #f9f9f9; border-left: 4px solid #0066cc; }
+    .test-item { margin: 10px 0; }
+    .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+    .status.pass { background: #d4edda; color: #155724; }
+    .status.fail { background: #f8d7da; color: #721c24; }
+    code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+    .keyboard-hint { background: #e8f4fd; padding: 15px; border-radius: 6px; margin: 20px 0; }
+    button { padding: 10px 20px; background: #0066cc; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+    button:hover { background: #0052a3; }
+  </style>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+<body>
 
+<div class="test-container">
+  <h1>🎯 Command Palette Feature Test</h1>
+  
+  <div class="keyboard-hint">
+    <strong>⌨️ Try it out:</strong> Press <code>Cmd+K</code> or <code>Ctrl+K</code> to open the command palette
+  </div>
+
+  <div class="test-section">
+    <h2>Implementation Checklist</h2>
+    <div class="test-item">
+      <div class="status pass">✅ command-palette.css - CSS styling file created</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ js/features/command-palette.js - JavaScript module created</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ js/bootstrap.js - CommandPalette initialization added</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ index.html - CSS, JS includes and HTML markup added</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ button.html - Command palette updated</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ badges.html - Command palette updated</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ cards.html - Command palette updated</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ navbar.html - Command palette updated</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ forms.html - Command palette updated</div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Feature Capabilities</h2>
+    <div class="test-item">✅ Keyboard shortcut (Cmd+K / Ctrl+K)</div>
+    <div class="test-item">✅ Fuzzy search algorithm with ranking</div>
+    <div class="test-item">✅ Arrow key navigation (↑ ↓)</div>
+    <div class="test-item">✅ Enter to select and navigate</div>
+    <div class="test-item">✅ Escape to close</div>
+    <div class="test-item">✅ Recent items tracking (localStorage)</div>
+    <div class="test-item">✅ Mobile responsive design</div>
+    <div class="test-item">✅ Dark mode support</div>
+  </div>
+
+  <div class="test-section">
+    <h2>Testing Instructions</h2>
+    <ol>
+      <li><strong>Open Command Palette:</strong> Press Cmd+K (Mac) or Ctrl+K (Windows/Linux)</li>
+      <li><strong>Type to search:</strong> Try typing "button", "card", "navbar", or "form"</li>
+      <li><strong>Navigate results:</strong> Use arrow keys to highlight items</li>
+      <li><strong>Select component:</strong> Press Enter to navigate to the selected component</li>
+      <li><strong>Close palette:</strong> Press Escape</li>
+      <li><strong>Check mobile:</strong> Open on mobile device and verify responsive design</li>
+    </ol>
+  </div>
+
+  <button onclick="window.CommandPalette && window.CommandPalette.open && window.CommandPalette.open()">
+    🔍 Open Command Palette (Test)
+  </button>
+
+</div>
+
+<!-- Create mock sidebar for testing -->
+<div style="display:none">
   <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <span class="brand-icon">⬡</span>
-      <span class="brand-text">UIverse <span class="engine-badge">Diagnostic Labs</span></span>
-    </div>
-
-    <nav class="sidebar-nav">
-      <div class="nav-group-wrapper">
-        <span class="nav-group-title">Platform Hub Core</span>
-        <ul>
-          <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home Registry</span></a></li>
-          <li><a href="button.html"><i class="fa-solid fa-hand-pointer"></i><span>Interactive Buttons</span></a></li>
-          <li><a href="dropdown-components.html"><i class="fa-solid fa-caret-down"></i><span>Cascading Dropdowns</span></a></li>
-          <li><a href="profile-components.html"><i class="fa-solid fa-user"></i><span>User Identity Modules</span></a></li>
-          <li><a href="navbar.html"><i class="fa-solid fa-bars"></i><span>Navigation Shells</span></a></li>
-          <li><a href="cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Component Cards</span></a></li>
-        </ul>
-      </div>
-
-      <div class="nav-group-wrapper">
-        <span class="nav-group-title">Input & State Controls</span>
-        <ul>
-          <li><a href="inputs.html"><i class="fa-solid fa-keyboard"></i><span>Form Inputs</span></a></li>
-          <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><span>Schema Intakes</span></a></li>
-          <li><a href="badges.html"><i class="fa-solid fa-award"></i><span>Status Badges</span></a></li>
-          <li><a href="blog.html"><i class="fa-solid fa-blog"></i><span>Blog Layouts</span></a></li>
-          <li><a href="article.html"><i class="fa-solid fa-newspaper"></i><span>Article Modules</span></a></li>
-          <li><a href="alerts.html"><i class="fa-solid fa-triangle-exclamation"></i><span>Alert Systems</span></a></li>
-        </ul>
-      </div>
-
-      <div class="nav-group-wrapper">
-        <span class="nav-group-title">SaaS Pipelines</span>
-        <ul>
-          <li><a href="color.html"><i class="fa-solid fa-palette"></i><span>Color tokens</span></a></li>
-          <li><a href="charts.html"><i class="fa-solid fa-chart-pie"></i><span>Data Visualization</span></a></li>
-          <li><a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Admin Panels</span></a></li>
-          <li><a href="div.html"><i class="fa-solid fa-square"></i><span>Structural Divs</span></a></li>
-          <li><a href="widgets.html"><i class="fa-solid fa-layer-group"></i><span>Utility Widgets</span></a></li>
-          <li><a href="search.html"><i class="fa-solid fa-magnifying-glass"></i><span>Standard Search</span></a></li>
-          <li><a href="hover.html"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Micro-Interactions</span></a></li>
-          <li><a href="error.html"><i class="fa-solid fa-circle-exclamation"></i><span>Error Canvases</span></a></li>
-        </ul>
-      </div>
-
-      <div class="nav-group-wrapper">
-        <span class="nav-group-title">Active Environment Frameworks</span>
-        <ul>
-          <li><a href="ecommerce.html"><i class="fa-solid fa-cart-shopping"></i><span>E-Commerce Shells</span></a></li>
-          <li><a href="files.html"><i class="fa-solid fa-file-arrow-up"></i><span>Drag & Drop File Vaults</span></a></li>
-          <li><a href="hero.html"><i class="fa-solid fa-star"></i><span>Hero Landing Arenas</span></a></li>
-          <li><a href="loaders.html"><i class="fa-solid fa-spinner"></i><span>System Loaders</span></a></li>
-          <li><a href="timeline.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Milestone Paths</span></a></li>
-          <li><a href="map.html"><i class="fa-solid fa-map-location-dot"></i><span>Spatial Maps</span></a></li>
-          <li><a href="menu.html"><i class="fa-solid fa-bars-staggered"></i><span>Context Lists</span></a></li>
-          <li><a href="pricing.html"><i class="fa-solid fa-tags"></i><span>Pricing Tiers</span></a></li>
-          <li><a href="subscription.html"><i class="fa-solid fa-credit-card"></i><span>Billing Streams</span></a></li>
-          <li><a href="auth.html"><i class="fa-solid fa-user-shield"></i><span>Authentication Core</span></a></li>
-          <li><a href="recovery.html"><i class="fa-solid fa-key"></i><span>Identity Restoration</span></a></li>
-        </ul>
-      </div>
-
-      <div class="nav-group-wrapper">
-        <span class="nav-group-title">System Architecture Layers</span>
-        <ul>
-          <li><a href="section.html"><i class="fa-solid fa-rectangle-list"></i><span>Layout Segments</span></a></li>
-          <li><a href="span.html"><i class="fa-solid fa-code"></i><span>Inline Micro-Spans</span></a></li>
-          <li><a href="table.html"><i class="fa-solid fa-table"></i><span>Data Matrices</span></a></li>
-          <li><a href="tabs.html"><i class="fa-solid fa-table-columns"></i><span>Viewport Tabs</span></a></li>
-          <li><a href="terms.html"><i class="fa-solid fa-file-contract"></i><span>Terms & Regulations</span></a></li>
-          <li><a href="testimonials.html"><i class="fa-solid fa-comments"></i><span>Social Feedback Walls</span></a></li>
-          <li><a href="toggles.html"><i class="fa-solid fa-toggle-on"></i><span>Tactile Switches</span></a></li>
-          <li><a href="radiobutton.html"><i class="fa-solid fa-circle-dot"></i><span>Radio Arrays</span></a></li>
-          <li><a href="checkbox.html"><i class="fa-solid fa-square-check"></i><span>Binary Check Selection</span></a></li>
-          <li><a href="notifications-premium.html"><i class="fa-solid fa-bell"></i><span>Notification Feeds</span></a></li>
-          <li><a href="step-indicators.html"><i class="fa-solid fa-list-check"></i><span>Stepper Linear Trails</span></a></li>
-          <li><a href="progress-premium.html"><i class="fa-solid fa-bars-progress"></i><span>Velocity Progress</span></a></li>
-          <li><a href="ratings-premium.html"><i class="fa-solid fa-star"></i><span>Feedback Matrices</span></a></li>
-          <li><a href="filters-premium.html"><i class="fa-solid fa-sliders"></i><span>Multi-Token Query Filters</span></a></li>
-          <li><a href="admin-panel.html"><i class="fa-solid fa-gauge-high"></i><span>Admin Panel V2</span></a></li>
-        </ul>
-      </div>
-
-      <div class="nav-group-wrapper">
-        <span class="nav-group-title">Technical Support Vaults</span>
-        <ul>
-          <li><a href="about.html"><i class="fa-solid fa-circle-info"></i><span>Platform Blueprint</span></a></li>
-          <li><a href="documentation.html"><i class="fa-solid fa-book"></i><span>Technical Guides</span></a></li>
-          <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i><span>Knowledge Base FAQ</span></a></li>
-          <li><a href="contact.html"><i class="fa-regular fa-envelope"></i><span>Emergency Channels</span></a></li>
-        </ul>
-      </div>
-    </div>
+            <nav class="sidebar-nav">
+    <ul>
+      <li>
+        <a href="index.html">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="button.html">
+          <i class="fa-solid fa-hand-pointer"></i>
+          <span>Buttons</span>
+        </a>
+      </li>
+            <li>
+        <a href="dropdown-components.html">
+          <i class="fa-solid fa-caret-down"></i>
+          <span>Dropdowns</span>
+        </a>
+      </li>
+      <li>
+        <a href="profile-components.html">
+          <i class="fa-solid fa-user"></i>
+          <span>Profiles</span>
+        </a>
+      </li>
+<li>
+        <a href="navbar.html">
+          <i class="fa-solid fa-bars"></i>
+          <span>Navbar</span>
+        </a>
+      </li>
+      <li>
+        <a href="cards.html">
+          <i class="fa-solid fa-table-cells-large"></i>
+          <span>Cards</span>
+        </a>
+      </li>
+      <li>
+        <a href="flipcards.html">
+          <i class="fa-solid fa-clone"></i>
+          <span>3D Cards</span>
+        </a>
+      </li>
+      <li>
+        <a href="inputs.html">
+          <i class="fa-solid fa-keyboard"></i>
+          <span>Inputs</span>
+        </a>
+      </li>
+      <li>
+        <a href="forms.html">
+          <i class="fa-brands fa-wpforms"></i>
+          <span>Forms</span>
+        </a>
+      </li>
+      <li>
+        <a href="badges.html">
+          <i class="fa-solid fa-award"></i>
+          <span>Badges</span>
+        </a>
+      </li>
+      <li>
+        <a href="blog.html">
+          <i class="fa-solid fa-blog"></i>
+          <span>Blog</span>
+        </a>
+      </li>
+      <li>
+        <a href="article.html">
+          <i class="fa-solid fa-newspaper"></i>
+          <span>Articles</span>
+        </a>
+      </li>
+      <li>
+        <a href="alerts.html">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>Alerts</span>
+        </a>
+      </li>
+      <li>
+        <a href="color.html">
+          <i class="fa-solid fa-palette"></i>
+          <span>Colors</span>
+        </a>
+      </li>
+      <li>
+        <a href="charts.html">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Charts</span>
+        </a>
+      </li>
+      <li>
+        <a href="dashboard.html">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="div.html">
+          <i class="fa-solid fa-square"></i>
+          <span>DIV</span>
+        </a>
+      </li>
+      <li>
+        <a href="widgets.html">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Widgets</span>
+        </a>
+      </li>
+      <li>
+        <a href="search.html">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Search Bars</span>
+        </a>
+      </li>
+      <li>
+        <a href="hover.html">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>Hover Effects</span>
+        </a>
+      </li>
+      <li>
+        <a href="error.html">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span>Error Pages</span>
+        </a>
+      </li>
+      <li>
+        <a href="ecommerce.html">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span>E-commerce</span>
+        </a>
+      </li>
+      <li>
+        <a href="files.html">
+          <i class="fa-solid fa-file-arrow-up"></i>
+          <span>Drag & Drop</span>
+        </a>
+      </li>
+      <li>
+        <a href="hero.html">
+          <i class="fa-solid fa-star"></i>
+          <span>Hero Sections</span>
+        </a>
+      </li>
+      <li>
+        <a href="loaders.html">
+          <i class="fa-solid fa-spinner"></i>
+          <span>Loaders</span>
+        </a>
+      </li>
+      <li>
+        <a href="timeline.html">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Timeline</span>
+        </a>
+      </li>
+      <li>
+        <a href="map.html">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Maps</span>
+        </a>
+      </li>
+      <li>
+        <a href="menu.html">
+          <i class="fa-solid fa-bars-staggered"></i>
+          <span>Menu</span>
+        </a>
+      </li>
+      <li>
+        <a href="pricing.html">
+          <i class="fa-solid fa-tags"></i>
+          <span>Pricing</span>
+        </a>
+      </li>
+      <li>
+        <a href="subscription.html">
+          <i class="fa-solid fa-credit-card"></i>
+          <span>Subscription</span>
+        </a>
+      </li>
+      <li>
+        <a href="auth.html">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Authentication</span>
+        </a>
+      </li>
+        <li>
+          <a href="recovery.html">
+            <i class="fa-solid fa-key" aria-hidden="true"></i>
+            <span>Password Recovery</span>
+          </a>
+        </li>
+      <li>
+        <a href="section.html">
+          <i class="fa-solid fa-rectangle-list"></i>
+          <span>Section</span>
+        </a>
+      </li>
+      <li>
+        <a href="span.html">
+          <i class="fa-solid fa-code"></i>
+          <span>Span</span>
+        </a>
+      </li>
+      <li>
+        <a href="table.html">
+          <i class="fa-solid fa-table"></i>
+          <span>Table</span>
+        </a>
+      </li>
+      <li>
+        <a href="tabs.html">
+          <i class="fa-solid fa-table-columns"></i>
+          <span>Tabs</span>
+        </a>
+      </li>
+      <li>
+        <a href="terms.html">
+          <i class="fa-solid fa-file-contract"></i>
+          <span>Terms</span>
+        </a>
+      </li>
+      <li>
+        <a href="testimonials.html">
+          <i class="fa-solid fa-comments"></i>
+          <span>Testimonials</span>
+        </a>
+      </li>
+      <li>
+        <a href="toggles.html">
+          <i class="fa-solid fa-toggle-on"></i>
+          <span>Toggle</span>
+        </a>
+      </li>
+      <li>
+        <a href="radiobutton.html">
+          <i class="fa-solid fa-circle-dot"></i>
+          <span>Radio Buttons</span>
+        </a>
+      </li>
+      <li>
+        <a href="checkbox.html">
+          <i class="fa-solid fa-square-check"></i>
+          <span>Checkboxes</span>
+        </a>
+      </li>
+      <li>
+        <a href="notifications-premium.html">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="step-indicators.html">
+          <i class="fa-solid fa-list-check"></i>
+          <span>Steppers</span>
+        </a>
+      </li>
+      <li>
+        <a href="progress-premium.html">
+          <i class="fa-solid fa-bars-progress"></i>
+          <span>Progress V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="ratings-premium.html">
+          <i class="fa-solid fa-star"></i>
+          <span>Ratings V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="filters-premium.html">
+          <i class="fa-solid fa-sliders"></i>
+          <span>Filters V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="admin-panel.html">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Admin Panel V2</span>
+        </a>
+      </li>
+<li>
+        <a href="about.html">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>About</span>
+        </a>
+      </li>
+      <li>
+        <a href="documentation.html">
+          <i class="fa-solid fa-book"></i>
+          <span>Documentation</span>
+        </a>
+      </li>
+      <li>
+        <a href="faq.html">
+          <i class="fa-solid fa-circle-question"></i>
+          <span>Faq</span>
+        </a>
+      </li>
+      <li>
+        <a href="contact.html">
+          <i class="fa-regular fa-envelope"></i>
+          <span>Contact Us</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
   </aside>
 
-  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="window.runtimeToggleSidebar && window.runtimeToggleSidebar()"></div>
-
-  <header class="navbar" id="navbar">
-    <button class="menu-toggle" onclick="window.runtimeToggleSidebar && window.runtimeToggleSidebar()" aria-label="Toggle system navigation sidebar stack">
-      <i class="fa-solid fa-bars"></i>
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
     </button>
-    <div class="logo-branding-block">
-      <span class="logo-txt">UIverse</span>
-      <span class="pro-badge">LABS Core</span>
-    </div>
-    
-    <div class="nav-actions-wrapper">
-      <button class="palette-trigger-cta" onclick="window.CommandPalette && window.CommandPalette.open && window.CommandPalette.open()">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <span>Launch Terminal Index...</span>
-        <kbd class="trigger-kbd">⌘K</kbd>
-      </button>
-    </div>
-  </header>
-
-  <main class="main-content" id="main-content">
-    
-    <div class="test-container">
-      
-      <section class="diagnostic-hero">
-        <div class="hero-bg-blur"></div>
-        <div class="hero-badge">
-          <span class="pulse-dot"></span>
-          Diagnostic Laboratory Environment Enabled
-        </div>
-        <h1>Command Palette <span>Integration Vector</span></h1>
-        <p>Real-time fuzzy search tracking models, keystroke routing channels, and multi-viewport orchestration engines evaluated across the global SaaS workspace ecosystem structure.</p>
-        
-        <div class="keyboard-hint-card">
-          <div class="hint-left">
-            <div class="hint-glyph-icon"><i class="fa-solid fa-terminal"></i></div>
-            <div class="hint-text">
-              <h3>Global Activation Interceptor Handshake</h3>
-              <p>Press the specialized key sequence to call the runtime execution layer from any point in the thread context structure.</p>
-            </div>
-          </div>
-          <div class="hint-right">
-            <div class="shortcut-token-group">
-              <kbd class="premium-kbd">⌘</kbd>
-              <span class="kbd-joiner">+</span>
-              <kbd class="premium-kbd">K</kbd>
-            </div>
-            <span class="or-separator">or</span>
-            <div class="shortcut-token-group">
-              <kbd class="premium-kbd">Ctrl</kbd>
-              <span class="kbd-joiner">+</span>
-              <kbd class="premium-kbd">K</kbd>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div class="interactive-sandbox-trigger-strip">
-        <button class="laboratory-action-btn" type="button" onclick="window.CommandPalette && window.CommandPalette.open && window.CommandPalette.open()">
-          <i class="fa-solid fa-circle-nodes fa-spin-hover"></i>
-          <span>Initialize Live Compilation Diagnostic Overlays</span>
-        </button>
-      </div>
-
-      <section class="diagnostic-grid-architecture">
-        
-        <div class="glass-diagnostic-card">
-          <div class="card-header-telemetry">
-            <div class="telemetry-title-group">
-              <span class="telemetry-micro-tag">MODULE MANIFEST v2.12</span>
-              <h2>Implementation Registry</h2>
-            </div>
-            <div class="telemetry-status-shield healthy">Verified</div>
-          </div>
-          <p class="panel-functional-desc">Structural evaluation mapping file distribution across the live system asset framework registry trees.</p>
-          
-          <div class="checklist-stack-ledger">
-            <div class="checklist-row-node pass">
-              <div class="indicator-glyph-box"><i class="fa-solid fa-shield-halved"></i></div>
-              <div class="node-meta-text">
-                <strong>command-palette.css</strong>
-                <span>Frosted absolute positioning glass layers and micro boundary glows compiled down core sheets.</span>
-              </div>
-              <span class="status-badge-capsule success">Success // Sync</span>
-            </div>
-
-            <div class="checklist-row-node pass">
-              <div class="indicator-glyph-box"><i class="fa-solid fa-file-code"></i></div>
-              <div class="node-meta-text">
-                <strong>js/features/command-palette.js</strong>
-                <span>Fuzzy sorting architecture and indexing trees injected safely into active application heaps.</span>
-              </div>
-              <span class="status-badge-capsule success">Success // Sync</span>
-            </div>
-
-            <div class="checklist-row-node pass">
-              <div class="indicator-glyph-box"><i class="fa-solid fa-bezier-curve"></i></div>
-              <div class="node-meta-text">
-                <strong>js/bootstrap.js</strong>
-                <span>Lifecycle interception events hooked inside system bootstrap pipelines on thread startup sequences.</span>
-              </div>
-              <span class="status-badge-capsule success">Success // Sync</span>
-            </div>
-
-            <div class="checklist-row-node pass">
-              <div class="indicator-glyph-box"><i class="fa-solid fa-network-wired"></i></div>
-              <div class="node-meta-text">
-                <strong>index.html Integration Point</strong>
-                <span>Core entry frames matching standard search nodes verified with semantic accessibility tags.</span>
-              </div>
-              <span class="status-badge-capsule success">Success // Sync</span>
-            </div>
-
-            <div class="checklist-row-node pass">
-              <div class="indicator-glyph-box"><i class="fa-solid fa-cube"></i></div>
-              <div class="node-meta-text">
-                <strong>button.html / badges.html Components</strong>
-                <span>Transactional routing tokens established within localized input tracking frames.</span>
-              </div>
-              <span class="status-badge-capsule success">Success // Sync</span>
-            </div>
-
-            <div class="checklist-row-node pass">
-              <div class="indicator-glyph-box"><i class="fa-solid fa-cubes-stacked"></i></div>
-              <div class="node-meta-text">
-                <strong>cards.html / navbar.html / forms.html Views</strong>
-                <span>Universal shortcut routing targets mapped into layout navigation frameworks without breaking logic templates.</span>
-              </div>
-              <span class="status-badge-capsule success">Success // Sync</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="glass-diagnostic-card">
-          <div class="card-header-telemetry">
-            <div class="telemetry-title-group">
-              <span class="telemetry-micro-tag">ALGORITHMIC PARAMETERS</span>
-              <h2>Feature Vector Matrix</h2>
-            </div>
-            <div class="telemetry-status-shield computing">Active Thread</div>
-          </div>
-          <p class="panel-functional-desc">Algorithmic runtime specs verified inside the engine environment matrix fields.</p>
-          
-          <div class="capabilities-mosaic-layout">
-            <div class="capability-tile-item">
-              <div class="tile-icon-glyph blue-gradient"><i class="fa-solid fa-bolt-lightning"></i></div>
-              <h4>Low-Latency Routing Shortcut</h4>
-              <p>Captures localized keyboard actions instantly using hardware intercept structures.</p>
-            </div>
-
-            <div class="capability-tile-item">
-              <div class="tile-icon-glyph purple-gradient"><i class="fa-solid fa-filter-list"></i></div>
-              <h4>Fuzzy Scoring Engine Matrix</h4>
-              <p>Employs substring evaluation parameters to sort results according to match relevance.</p>
-            </div>
-
-            <div class="capability-tile-item">
-              <div class="tile-icon-glyph cyan-gradient"><i class="fa-solid fa-arrows-up-down"></i></div>
-              <h4>Linear Key Navigation</h4>
-              <p>Enables zero-latency list item manipulation using cursor focus pipelines.</p>
-            </div>
-
-            <div class="capability-tile-item">
-              <div class="tile-icon-glyph pink-gradient"><i class="fa-solid fa-arrow-turn-down"></i></div>
-              <h4>Execution Selection Routing</h4>
-              <p>Fires atomic execution tokens to switch window context structures instantly upon validation input.</p>
-            </div>
-
-            <div class="capability-tile-item">
-              <div class="tile-icon-glyph orange-gradient"><i class="fa-solid fa-rectangle-xmark"></i></div>
-              <h4>Escape Window Dismissal</h4>
-              <p>Instantly routes cleanup signals to hide active modal overlay nodes safely from focus hierarchies.</p>
-            </div>
-
-            <div class="capability-tile-item">
-              <div class="tile-icon-glyph green-gradient"><i class="fa-solid fa-clock-rotate-left"></i></div>
-              <h4>Historical Retention Streams</h4>
-              <p>Maintains persistent telemetry arrays inside local browser stores for instant context recovery.</p>
-            </div>
-
-            <div class="capability-tile-item">
-              <div class="tile-icon-glyph yellow-gradient"><i class="fa-solid fa-sliders"></i></div>
-              <h4>Fluid Viewport Scale Curves</h4>
-              <p>Adaptive grid dimensions using absolute flex calculations to maintain visibility proportions across mobile layout frames.</p>
-            </div>
-
-            <div class="capability-tile-item">
-              <div class="tile-icon-glyph dynamic-gradient"><i class="fa-solid fa-circle-half-stroke"></i></div>
-              <h4>Ambient Contrast Tuning</h4>
-              <p>Dynamically mutes custom CSS background values based on parent window style themes.</p>
-            </div>
-          </div>
-        </div>
-
-      </section>
-
-      <section class="glass-diagnostic-card instructions-full-width-block">
-        <div class="card-header-telemetry">
-          <div class="telemetry-title-group">
-            <span class="telemetry-micro-tag">QUALITY ASSURANCE MANUALS</span>
-            <h2>Operational Verification & Testing Sequences</h2>
-          </div>
-        </div>
-        <p class="panel-functional-desc">Execute these linear testing paths to validate compilation integrity inside production environment branches.</p>
-        
-        <div class="testing-itinerary-workflow-grid">
-          <div class="workflow-step-node">
-            <div class="step-badge-numeric">01</div>
-            <div class="step-body-content">
-              <h4>Call Overlay Vector</h4>
-              <p>Fire the shortcut key string <code>Cmd+K</code> or <code>Ctrl+K</code> from any viewport sector and verify absolute overlay positioning rendering layers over visual blocks.</p>
-            </div>
-          </div>
-
-          <div class="workflow-step-node">
-            <div class="step-badge-numeric">02</div>
-            <div class="step-body-content">
-              <h4>Fuzzy Search Validation</h4>
-              <p>Input text fragments like <code>"button"</code>, <code>"card"</code>, or <code>"form"</code> inside the query area. Confirm search ranking changes match sub-character string occurrences.</p>
-            </div>
-          </div>
-
-          <div class="workflow-step-node">
-            <div class="step-badge-numeric">03</div>
-            <div class="step-body-content">
-              <h4>Focus Stack Selection</h4>
-              <p>Manipulate results using keyboard keys (<code>↑</code> and <code>↓</code> arrows). Verify active highlights toggle appropriately down data lines.</p>
-            </div>
-          </div>
-
-          <div class="workflow-step-node">
-            <div class="step-badge-numeric">04</div>
-            <div class="step-body-content">
-              <h4>Route Execution Handshake</h4>
-              <p>Press the <code>Enter</code> key structure over an item. Confirm window navigation targets fire immediately to match the selected reference paths.</p>
-            </div>
-          </div>
-
-          <div class="workflow-step-node">
-            <div class="step-badge-numeric">05</div>
-            <div class="step-body-content">
-              <h4>Overlay Dismissal Cycle</h4>
-              <p>Press the <code>Esc</code> mechanism while search frames are open. Confirm canvas assets restore immediate pointer focus variables safely.</p>
-            </div>
-          </div>
-
-          <div class="workflow-step-node">
-            <div class="step-badge-numeric">06</div>
-            <div class="step-body-content">
-              <h4>Responsive Grid Regression</h4>
-              <p>Resize browser dimensions to small device widths. Verify modal limits stay absolute and input layout boxes scale evenly.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
-
-    <div class="hidden-telemetry-mock-sandbox-sector" aria-hidden="true">
-      <aside class="sidebar" id="mock-testing-sidebar">
-        <nav class="sidebar-nav">
-          <ul>
-            <li><a href="index.html"><span>Home</span></a></li>
-            <li><a href="button.html"><span>Buttons</span></a></li>
-            <li><a href="dropdown-components.html"><span>Dropdowns</span></a></li>
-            <li><a href="profile-components.html"><span>Profiles</span></a></li>
-            <li><a href="navbar.html"><span>Navbar</span></a></li>
-            <li><a href="cards.html"><span>Cards</span></a></li>
-            <li><a href="flipcards.html"><span>3D Cards</span></a></li>
-            <li><a href="inputs.html"><span>Inputs</span></a></li>
-            <li><a href="forms.html"><span>Forms</span></a></li>
-            <li><a href="badges.html"><span>Badges</span></a></li>
-            <li><a href="blog.html"><span>Blog</span></a></li>
-            <li><a href="article.html"><span>Articles</span></a></li>
-            <li><a href="alerts.html"><span>Alerts</span></a></li>
-            <li><a href="color.html"><span>Colors</span></a></li>
-            <li><a href="charts.html"><span>Charts</span></a></li>
-            <li><a href="dashboard.html"><span>Dashboard</span></a></li>
-            <li><a href="div.html"><span>DIV</span></a></li>
-            <li><a href="widgets.html"><span>Widgets</span></a></li>
-            <li><a href="search.html"><span>Search Bars</span></a></li>
-            <li><a href="hover.html"><span>Hover Effects</span></a></li>
-            <li><a href="error.html"><span>Error Pages</span></a></li>
-            <li><a href="ecommerce.html"><span>E-commerce</span></a></li>
-            <li><a href="files.html"><span>Drag & Drop</span></a></li>
-            <li><a href="hero.html"><span>Hero Sections</span></a></li>
-            <li><a href="loaders.html"><span>Loaders</span></a></li>
-            <li><a href="timeline.html"><span>Timeline</span></a></li>
-            <li><a href="map.html"><span>Maps</span></a></li>
-            <li><a href="menu.html"><span>Menu</span></a></li>
-            <li><a href="pricing.html"><span>Pricing</span></a></li>
-            <li><a href="subscription.html"><span>Subscription</span></a></li>
-            <li><a href="auth.html"><span>Authentication</span></a></li>
-            <li><a href="recovery.html"><span>Password Recovery</span></a></li>
-            <li><a href="section.html"><span>Section</span></a></li>
-            <li><a href="span.html"><span>Span</span></a></li>
-            <li><a href="table.html"><span>Table</span></a></li>
-            <li><a href="tabs.html"><span>Tabs</span></a></li>
-            <li><a href="terms.html"><span>Terms</span></a></li>
-            <li><a href="testimonials.html"><span>Testimonials</span></a></li>
-            <li><a href="toggles.html"><span>Toggle</span></a></li>
-            <li><a href="radiobutton.html"><span>Radio Buttons</span></a></li>
-            <li><a href="checkbox.html"><span>Checkboxes</span></a></li>
-            <li><a href="notifications-premium.html"><span>Notifications V2</span></a></li>
-            <li><a href="step-indicators.html"><span>Steppers</span></a></li>
-            <li><a href="progress-premium.html"><span>Progress V2</span></a></li>
-            <li><a href="ratings-premium.html"><span>Ratings V2</span></a></li>
-            <li><a href="filters-premium.html"><span>Filters V2</span></a></li>
-            <li><a href="admin-panel.html"><span>Admin Panel V2</span></a></li>
-            <li><a href="about.html"><span>About</span></a></li>
-            <li><a href="documentation.html"><span>Documentation</span></a></li>
-            <li><a href="faq.html"><span>Faq</span></a></li>
-            <li><a href="contact.html"><span>Contact Us</span></a></li>
-          </ul>
-        </nav>
-      </aside>
-    </div>
-
-    <div id="commandPaletteOverlay" class="command-palette-overlay">
-      <div class="command-palette-container">
-        <div class="command-palette-input-wrapper">
-          <i class="fa-solid fa-magnifying-glass search-palette-icon"></i>
-          <input 
-            type="text" 
-            id="commandPaletteInput" 
-            class="command-palette-input" 
-            placeholder="Type configuration parameter string... (e.g. 'buttons')"
-            autocomplete="off"
-            aria-label="Command palette quick navigation bar"
-          >
-          <div class="palette-input-badge">Index Active</div>
-        </div>
-        
-        <ul id="commandPaletteResults" class="command-palette-results">
-          </ul>
-        
-        <div class="command-palette-footer">
-          <div class="command-palette-footer-item">
-            <span class="command-palette-footer-kbd"><i class="fa-solid fa-arrow-up-long"></i><i class="fa-solid fa-arrow-down-long"></i></span>
-            <span>Navigate Spectrum</span>
-          </div>
-          <div class="command-palette-footer-item">
-            <span class="command-palette-footer-kbd">⏎</span>
-            <span>Execute Shift</span>
-          </div>
-          <div class="command-palette-footer-item">
-            <span class="command-palette-footer-kbd">Esc</span>
-            <span>Collapse Node</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </main>
-
-  <footer class="site-footer">
-    <div class="footer-container">
-      <div class="footer-col brand-column">
-        <h2 class="footer-logo">⬡ UIverse</h2>
-        <p>Architecting extreme performance component matrices utilizing clean structural layouts, atomic variable systems, and low-latency interactive execution code blocks.</p>
-        <div class="social-strip">
-          <a href="#" aria-label="GitHub Repository Pipeline Source"><i class="fab fa-github"></i></a>
-          <a href="#" aria-label="LinkedIn Corporate Directory Network"><i class="fab fa-linkedin"></i></a>
-          <a href="#" aria-label="Operational Platform Streaming Status Updates"><i class="fab fa-x-twitter"></i></a>
-        </div>
-      </div>
-
-      <div class="footer-col">
-        <h3>Explore Framework Components</h3>
-        <ul>
-          <li><a href="button.html">Action Toggles Matrix</a></li>
-          <li><a href="navbar.html">Navigation Shell Outlines</a></li>
-          <li><a href="cards.html">Content Canvas Containers</a></li>
-          <li><a href="inputs.html">Form Input Channels</a></li>
-          <li><a href="forms.html">Schema Layout Units</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Technical Support Registries</h3>
-        <ul>
-          <li><a href="documentation.html">Technical Manual Sheets</a></li>
-          <li><a href="https://github.com" target="_blank">Open Source Hubs</a></li>
-          <li><a href="faq.html">Centralized FAQ Vault</a></li>
-          <li><a href="contact.html">Support Dispatch Nodes</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Legal Integrity Bounds</h3>
-        <ul>
-          <li><a href="#">Data Isolation Frameworks</a></li>
-          <li><a href="terms.html">Terms of Operational Usage</a></li>
-          <li><a href="#">Asset Manifest Licensing</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col newsletter-column">
-        <h3>Continuous Integration Registries</h3>
-        <p>Subscribe to register your workspace hub nodes and capture deployment logging sequences instantly.</p>
-        <div class="newsletter-form">
-          <input type="email" placeholder="operator@domain.com" aria-label="Operator destination update payload input field">
-          <button type="button" onclick="alert('Destination route established. Logging active.');">Register</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p>© 2026 UIverse Diagnostic Laboratory. All layout elements engineered to absolute specifications for frontend system architects globally.</p>
-    </div>
-  </footer>
-
+  </div>
   <script>
-    function runtimeToggleSidebar() {
-      const sidebarElement = document.getElementById('sidebar');
-      const backdropElement = document.getElementById('sidebarBackdrop');
-      if (sidebarElement && backdropElement) {
-        sidebarElement.classList.toggle('visible');
-        backdropElement.classList.toggle('visible');
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
+</div>
+
+<!-- Command Palette Markup -->
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
       }
     }
-    window.runtimeToggleSidebar = runtimeToggleSidebar;
+  }
+</script>\n\n<div id="commandPaletteOverlay" class="command-palette-overlay">
+  <div class="command-palette-container">
+    <div class="command-palette-input-wrapper">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input 
+        type="text" 
+        id="commandPaletteInput" 
+        class="command-palette-input" 
+        placeholder="Search components... (Cmd+K)"
+        autocomplete="off"
+      />
+    </div>
+    <ul id="commandPaletteResults" class="command-palette-results"></ul>
+    <div class="command-palette-footer">
+      <div class="command-palette-footer-item">
+        <span class="command-palette-footer-kbd">↑↓</span>
+        <span>Navigate</span>
+      </div>
+      <div class="command-palette-footer-item">
+        <span class="command-palette-footer-kbd">⏎</span>
+        <span>Select</span>
+      </div>
+      <div class="command-palette-footer-item">
+        <span class="command-palette-footer-kbd">Esc</span>
+        <span>Close</span>
+      </div>
+    </div>
+  </div>
+</div>
 
-    // Attach explicit listener variables to mirror command debug calls safely
-    window.addEventListener('DOMContentLoaded', () => {
-      if (window.CommandPalette && window.CommandPalette.init) {
-        window.CommandPalette.init();
-        console.log('--- COMMAND PALETTE SUBSYSTEM DIAGNOSTICS ENGAGED NOMINAL ---');
-      }
-    });
-  </script>
+<script>
+  // Initialize command palette
+  if (typeof CommandPalette !== 'undefined') {
+    CommandPalette.init();
+    if (window.UIVERSE_DEBUG) console.log('✅ Command Palette initialized successfully');
+  } else {
+    console.error('❌ Command Palette module not found');
+  }
+</script>
+
   <script src="dist/shared.js"></script>
 </body>
 </html>

@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UIverse Custom Scrollbars Component Library</title>
+    <link rel="stylesheet" href="scrollbar-components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="uiv-dark-theme">
+
+    <nav class="uiv-navbar" aria-label="Main Infrastructure Navigation">
+        <div class="uiv-nav-container">
+            <div class="uiv-nav-brand">
+                <div class="uiv-logo">
+                    <span class="logo-accent-u">UI</span><span class="logo-main-text">verse</span>
+                </div>
+                <div class="uiv-brand-divider" role="separator"></div>
+                <span class="uiv-library-badge">Scrollbars Module v1.0</span>
+            </div>
+            
+            <div class="uiv-nav-search-wrapper">
+                <i class="fas fa-search search-lens-icon" aria-hidden="true"></i>
+                <input type="text" id="uiv-global-search" placeholder="Search 30+ scrollbar skins (e.g., neon, thin, stealth)..." autocomplete="off" aria-label="Search scrollbars catalog">
+                <span class="uiv-search-shortcut-key" aria-hidden="true">/</span>
+            </div>
+            
+            <div class="uiv-nav-actions-group">
+                <button id="uiv-theme-toggle" class="uiv-action-icon-btn" title="Toggle System Theme (Shift+T)" aria-label="Toggle light or dark theme state">
+                    <i class="fas fa-moon theme-icon-dark"></i>
+                    <i class="fas fa-sun theme-icon-light" style="display: none;"></i>
+                </button>
+                <a href="https://github.com" target="_blank" class="uiv-action-icon-btn" title="Visit Open Source Repository" aria-label="Visit GitHub Repository">
+                    <i class="fab fa-github"></i>
+                </a>
+                <button id="uiv-creator-trigger-btn" class="uiv-btn-primary">
+                    <i class="fas fa-plus" aria-hidden="true"></i> <span>Build Scrollbar</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="uiv-application-layout">
+        
+        <aside class="uiv-sidebar" aria-label="Categories and Statistics Sidebar">
+            <div class="uiv-sidebar-inner">
+                <div class="uiv-sidebar-section">
+                    <h3 class="uiv-sidebar-heading">Filter Categories</h3>
+                    <ul class="uiv-sidebar-menu" id="uiv-category-menu">
+                        <li class="uiv-menu-item uiv-active" data-category="all" role="button" tabindex="0">
+                            <i class="fas fa-scroll" aria-hidden="true"></i>
+                            <span class="uiv-menu-label">All Variations</span>
+                            <span class="uiv-item-count-badge" id="count-all">0</span>
+                        </li>
+                        <li class="uiv-menu-item" data-category="minimal" role="button" tabindex="0">
+                            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                            <span class="uiv-menu-label">Minimal & Thin</span>
+                            <span class="uiv-item-count-badge" id="count-minimal">0</span>
+                        </li>
+                        <li class="uiv-menu-item" data-category="vfx" role="button" tabindex="0">
+                            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                            <span class="uiv-menu-label">Glow & Color</span>
+                            <span class="uiv-item-count-badge" id="count-vfx">0</span>
+                        </li>
+                        <li class="uiv-menu-item" data-category="ui" role="button" tabindex="0">
+                            <i class="fas fa-window-restore" aria-hidden="true"></i>
+                            <span class="uiv-menu-label">SaaS Indicators</span>
+                            <span class="uiv-item-count-badge" id="count-ui">0</span>
+                        </li>
+                        <li class="uiv-menu-item" data-category="premium" role="button" tabindex="0">
+                            <i class="fas fa-crown" aria-hidden="true"></i>
+                            <span class="uiv-menu-label">Luxury Presets</span>
+                            <span class="uiv-item-count-badge" id="count-premium">0</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="uiv-sidebar-section">
+                    <h3 class="uiv-sidebar-heading">Library Status</h3>
+                    <div class="uiv-stats-widget-box">
+                        <div class="uiv-stat-entry">
+                            <span class="uiv-stat-label">Total Previews:</span>
+                            <span class="uiv-stat-value" id="stats-total-previews">30</span>
+                        </div>
+                        <div class="uiv-stat-entry">
+                            <span class="uiv-stat-label">Sandbox Presets:</span>
+                            <span class="uiv-stat-value" id="stats-dynamic-nodes">0</span>
+                        </div>
+                        <div class="uiv-stat-entry">
+                            <span class="uiv-stat-label">Licensing:</span>
+                            <span class="uiv-stat-value uiv-text-success">MIT Core</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="uiv-sidebar-footer-note">
+                    <p>Contributed to the UIverse platform optimization track.</p>
+                </div>
+            </div>
+        </aside>
+
+        <main class="uiv-main-workspace" id="uiv-scroll-target">
+            
+            <header class="uiv-hero-dashboard">
+                <div class="uiv-hero-glow-layer" aria-hidden="true"></div>
+                <div class="uiv-hero-body">
+                    <h1 class="uiv-hero-main-title">Custom CSS <span class="uiv-title-gradient">Scrollbar Tracks</span></h1>
+                    <p class="uiv-hero-description">An enterprise-ready, standalone suite of 30 scrollbar thumb and track overrides. Crafted completely with pure semantic CSS variables, webkit structural selectors, and future-proof typography parameters to replace standard, clinical desktop scrolling controls.</p>
+                    <div class="uiv-hero-cta-bar">
+                        <button class="uiv-hero-btn uiv-hero-primary" id="uiv-hero-action-browse">Explore Scrollbar Grid</button>
+                        <button class="uiv-hero-btn uiv-hero-secondary" id="uiv-hero-action-docs">Syntax Standards</button>
+                    </div>
+                </div>
+            </header>
+
+            <section class="uiv-catalog-toolbar">
+                <div class="uiv-toolbar-left-side">
+                    <h2 class="uiv-toolbar-title-summary" id="uiv-catalog-summary-text">Displaying all 30 interactive layout nodes</h2>
+                </div>
+                <div class="uiv-toolbar-right-side">
+                    <div class="uiv-layout-toggle-cluster" role="radiogroup" aria-label="Layout mode grid or list">
+                        <button class="uiv-layout-btn uiv-active" id="uiv-layout-grid-trigger" title="Grid Layout" aria-checked="true" role="radio"><i class="fas fa-th-large"></i></button>
+                        <button class="uiv-layout-btn" id="uiv-layout-list-trigger" title="List Layout" aria-checked="false" role="radio"><i class="fas fa-list"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="uiv-workbench-panel" id="uiv-dynamic-workbench" style="display: none;">
+                <div class="uiv-workbench-header">
+                    <h3><i class="fas fa-magic"></i> Live Scrollbar Generation Workbench</h3>
+                    <button class="uiv-workbench-close-btn" id="uiv-workbench-close" aria-label="Dismiss workbench UI layer">&times;</button>
+                </div>
+                <div class="uiv-workbench-body">
+                    <div class="uiv-form-row">
+                        <div class="uiv-form-group">
+                            <label for="uiv-new-scroll-name">Custom Track Name</label>
+                            <input type="text" id="uiv-new-scroll-name" placeholder="e.g., Matrix Runner" maxlength="28">
+                        </div>
+                        <div class="uiv-form-group">
+                            <label for="uiv-new-scroll-style">VFX Thumb Theme</label>
+                            <select id="uiv-new-scroll-style">
+                                <option value="uiv-scroll-minimal-thin">Sleek Razor Thin</option>
+                                <option value="uiv-scroll-neon-emerald">Neon Matrix Emerald</option>
+                                <option value="uiv-scroll-gradient-sunset">Vibrant Sunset Gradient</option>
+                            </select>
+                        </div>
+                        <div class="uiv-form-group">
+                            <label for="uiv-new-scroll-size">Track Sizing Scale</label>
+                            <select id="uiv-new-scroll-size">
+                                <option value="4px">4px Micro Line</option>
+                                <option value="8px">8px Standard Pill</option>
+                                <option value="12px">12px Bold Comfort</option>
+                            </select>
+                        </div>
+                        <div class="uiv-form-group uiv-form-submit-group">
+                            <button id="uiv-new-scroll-submit" class="uiv-btn-success">Compile Scrollbar Container</button>
+                        </div>
+                    </div>
+                    <div class="uiv-workbench-output-row">
+                        <span class="uiv-output-heading-label">Runtime Synchronized Interactive Nodes:</span>
+                        <div class="uiv-sandbox-insertion-row" id="uiv-sandbox-runtime-target">
+                            <p class="uiv-empty-sandbox-notice" id="uiv-sandbox-empty-prompt">No customized system track layers initialized yet. Use input controls above.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="uiv-components-catalog-grid" id="uiv-catalog-grid">
+
+                <article class="uiv-component-card-node" data-id="scroll-01" data-category="minimal" data-tags="basic primitive minimal default gray theme standard track thumb box">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">01. Basic Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-minimal">Minimal</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source codes"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy layout markup blocks"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">Standard clean charcoal layout preset utilizing a subtle grey tracking bar background for core documentation lists.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-basic-default">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Section Headline Element</h5>
+                                <p>Scroll downward to test layout behavior tracking parameters. This mock paragraph is intentionally elongated to verify the look of the scroll thumb and track. Custom scrollbars enhance the visual harmony of application scroll panes by stripping away native browser scaffolding.</p>
+                                <h5>Technical Properties Parameters</h5>
+                                <p>The webkit scrollbar mechanism targets structural pseudo-elements including track, thumb, and corner anchors to redefine boundary graphics flawlessly without framework dependency packages.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-basic-default"&gt;\n  &lt;!-- Scrollable content container layer --&gt;\n&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-basic-default::-webkit-scrollbar {
+  width: 8px;
+}
+.uiv-scroll-basic-default::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+.uiv-scroll-basic-default::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-02" data-category="minimal" data-tags="razor thin ultra micro fine sleek track line compact layout invisible spacer">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">02. Razor Thin Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-minimal">Minimal</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">A micro-sized 4px scroll footprint suited for compact multi-column side panels or inside embedded drop-down cards.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-minimal-thin">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Micro Viewport Scroller</h5>
+                                <p>Scroll inside this frame to observe the performance of the razor-thin track configuration. It is built to minimize visual clutter across data-heavy dashboard interfaces by dropping width properties down to an absolute functional minimum scale metric limit.</p>
+                                <h5>SaaS Data Matrices Layouts</h5>
+                                <p>Perfect for lateral workspace widgets, navigation asset list trees, and secondary notification drop arrays where column real estate is prioritized.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-minimal-thin"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-minimal-thin::-webkit-scrollbar {
+  width: 4px;
+}
+.uiv-scroll-minimal-thin::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-03" data-category="vfx" data-tags="neon cyan cyber glow radiant laser light bright cyberpunk illuminate shadow vfx">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">03. Neon Cyan Glow Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-vfx">VFX Track</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">Features a highly luminescent neon tracking bar shadow curve tailored specifically for modern dark cyberpunk modules.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-neon-cyan">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Luminescent Traversal Well</h5>
+                                <p>Scroll downward to map out the cyber-cyan neon pipeline illumination effect. The thumb handle projects a distinct glow shadow into neighboring container bounds, producing high-contrast structural indicator markers highly valued in gaming console dashboards.</p>
+                                <h5>VFX Layer Tokens</h5>
+                                <p>Utilizes advanced standard CSS color tokens coupled with deep dark backing surface filters to simulate real-time glowing elements.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-neon-cyan"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-neon-cyan::-webkit-scrollbar {
+  width: 6px;
+}
+.uiv-scroll-neon-cyan::-webkit-scrollbar-thumb {
+  background: #00f3ff;
+  border-radius: 3px;
+  box-shadow: 0 0 8px #00f3ff;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-04" data-category="vfx" data-tags="gradient sunset colorful linear multi dynamic vibrant spectrum thumb color chroma">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">04. Sunset Gradient Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-vfx">VFX Track</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">Employs a smooth dual-chroma linear background curve across the moving scroll thumb element track layout node.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-gradient-sunset">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Vibrant Color Interpolation</h5>
+                                <p>Scroll down inside this block to monitor the multi-color linear sunset blend parameters. By mapping vibrant color strings directly onto the webkit scrolling handle, the component shifts colors naturally during scroll actions to deliver an elegant user experience matrix layer loop.</p>
+                                <h5>Design Framework Assets</h5>
+                                <p>Integrates beautifully into minimalist web architectures, serving as a bright, colored centerpiece element inside dark SaaS workspaces.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-gradient-sunset"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-gradient-sunset::-webkit-scrollbar {
+  width: 8px;
+}
+.uiv-scroll-gradient-sunset::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff453a, #ff9f0a);
+  border-radius: 4px;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-05" data-category="vfx" data-tags="glassmorphism glass blur translucent transparent frost floating crystal backdrop filter">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">05. Glassmorphism Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-vfx">VFX Track</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">Utilizes translucent layout boundaries paired with high-blur backdrops to pass background colors organically.</p>
+                    <div class="uiv-node-live-preview-box uiv-pattern-mesh-bg">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-glassmorphism">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Backdrop Alpha Optimization</h5>
+                                <p>Scroll to observe how the glassmorphic frosted tracking thumb meshes with the underlying grid background layer array. Applying alpha-saturated transparent fills alongside heavy blur variables keeps components highly legible across multi-colored sheets.</p>
+                                <h5>Premium SaaS Tokens</h5>
+                                <p>Matches luxury web app themes by keeping content layouts completely clean, unified, and integrated into native browser frames.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-glassmorphism"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-glassmorphism::-webkit-scrollbar {
+  width: 10px;
+}
+.uiv-scroll-glassmorphism::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 5px;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-06" data-category="ui" data-tags="stealth invisible hidden custom none clean clear hidden-scrollbar desktop browser">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">06. Stealth Invisible Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-ui">SaaS UI</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">Completely hides physical tracking lines while preserving structural scrolling functionality for fluid minimalist layouts.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-stealth-hidden">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Borderless Traversal Field</h5>
+                                <p>Scroll this element freely. The traditional desktop side scroll scaffolding is completely eliminated via programmatic webkit visibility suppression protocols, though standard touch swiping and mouse wheels remain perfectly active.</p>
+                                <h5>Ergonomic Minimalist Layouts</h5>
+                                <p>Suited for modern creative design templates, horizontal layout sliders, and inline text blocks where scrolling bars disrupt clean geometry lines.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-stealth-hidden"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-stealth-hidden::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+.uiv-scroll-stealth-hidden {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-07" data-category="vfx" data-tags="matrix emerald green glow digital vintage terminal code radioactive light design tech">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">07. Matrix Emerald Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-vfx">VFX Track</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">A retro-digital radioactive green tracker built to give standalone data layouts a distinct terminal look.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-neon-emerald">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Terminal Pipeline Stream</h5>
+                                <p>Scroll down to track the emerald digital neon track parameters. This high-intensity styling configuration includes localized thumb highlights that simulate classic vintage console screens, giving software documentation or deployment logs an immersive feel.</p>
+                                <h5>Console Interface Tokens</h5>
+                                <p>Perfect for engineering platforms, data server health dashboards, and markdown documentation nodes.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-neon-emerald"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-neon-emerald::-webkit-scrollbar {
+  width: 6px;
+}
+.uiv-scroll-neon-emerald::-webkit-scrollbar-thumb {
+  background: #30d158;
+  border-radius: 3px;
+  box-shadow: 0 0 10px #30d158;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-08" data-category="ui" data-tags="inset internal groove track shadow depth structural dashboard interface panel sub-box deep">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">08. Dashboard Inset Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-ui">SaaS UI</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">Utilizes internal tracking shadows to create an elegant sunken groove layout effect along container margins.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-inset-groove">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Internal Track Carving</h5>
+                                <p>Scroll down inside this box to check out the inset shadow depth parameters. This approach builds a distinct structural trench right into the block surface, recessing the scrolling thumb beneath container planes to keep dashboard layouts feeling dimensional and clean.</p>
+                                <h5>Interface Depth Architecture</h5>
+                                <p>Pairs beautifully with dark theme dashboard modules, complex analytic charts, and dense operational data list sheets.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-inset-groove"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-inset-groove::-webkit-scrollbar {
+  width: 10px;
+}
+.uiv-scroll-inset-groove::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
+  background-color: #0b0b0f;
+}
+.uiv-scroll-inset-groove::-webkit-scrollbar-thumb {
+  background-color: #3a3a44;
+  border-radius: 5px;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-09" data-category="minimal" data-tags="corporate flat neutral clean enterprise professional simple solid gray borderless">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">09. Corporate Flat Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-minimal">Minimal</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">A clean, neutral enterprise design utilizing a solid gray track that matches corporate documentation layouts perfectly.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-corporate-flat">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Enterprise Dataset Frame</h5>
+                                <p>Scroll this area to test the flat, borderless corporate preset. It avoids gradients or glow metrics entirely to match business application frameworks, delivering high-level platform harmony across basic tables, charts, and file grids.</p>
+                                <h5>Administrative Sizing Rules</h5>
+                                <p>Standardized width parameters ensure reliable scrolling click fields on high-definition office displays and tablets.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-corporate-flat"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-corporate-flat::-webkit-scrollbar {
+  width: 8px;
+}
+.uiv-scroll-corporate-flat::-webkit-scrollbar-thumb {
+  background-color: #4e4e5a;
+  border-radius: 0px;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-10" data-category="premium" data-tags="premium gold luxury elite royal gold-theme shiny metallic chassis prestige custom">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">10. Premium Gold Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-premium">Premium Skin</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div class="uiv-node-description-text">A luxury golden variant crafted specifically for highlighting premium membership tiers or VIP dashboard workspaces.</div>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-premium-gold">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Elite Royal Navigation</h5>
+                                <p>Scroll down inside this box to check out the metallic gold tracking track values. This high-fidelity configuration adds a distinct royal signature along layout margins, giving specialized account interfaces an elevated, upscale feel.</p>
+                                <h5>Luxury UI Tokens</h5>
+                                <p>Pairs beautifully with micro-gold indicators, high-contrast black panels, and card frameworks that flag exclusive pricing models.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-premium-gold"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-premium-gold::-webkit-scrollbar {
+  width: 7px;
+}
+.uiv-scroll-premium-gold::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ffd700, #b8860b);
+  border-radius: 3.5px;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-11" data-category="vfx" data-tags="cyberpunk magenta pink neon laser glowing synthwave vibrant bright tracker design">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">11. Cyberpunk Magenta Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-vfx">VFX Track</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">A high-intensity hot pink luminescent tracker built to anchor neon retro-synth interface modules.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-cyber-magenta">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Synthwave Traversal Track</h5>
+                                <p>Scroll inside this frame to verify the look of the vibrant magenta scrolling line. It introduces an intense pink glow along container margins, injecting striking retro-futuristic vibes into dark theme pages or gaming hub cards.</p>
+                                <h5>Vibrant Color Scales</h5>
+                                <p>Combines perfectly with deep midnight surfaces, glowing status chips, and neon button structures.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-cyber-magenta"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-cyber-magenta::-webkit-scrollbar {
+  width: 6px;
+}
+.uiv-scroll-cyber-magenta::-webkit-scrollbar-thumb {
+  background: #ff007f;
+  border-radius: 3px;
+  box-shadow: 0 0 8px #ff007f;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-12" data-category="ui" data-tags="dotted pattern modular grid micro dots ticks texture vintage unique retro custom">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">12. Dotted Pattern Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-ui">SaaS UI</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">Features a micro-dotted repeating texture inside the scroll thumb to deliver a vintage mechanical feel.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-dotted-texture">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Tactile Grid Texture</h5>
+                                <p>Scroll downward to test the feedback look of this custom patterned scroll handle. It builds a beautiful micro-dot matrix texture right into the moving thumb component, giving technical layout grids a clean, highly customized tactile finish.</p>
+                                <h5>Creative Interface Presets</h5>
+                                <p>Perfect for engineering portfolios, dynamic audio mixing web boards, and telemetry tracking views.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-dotted-texture"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-dotted-texture::-webkit-scrollbar {
+  width: 10px;
+}
+.uiv-scroll-dotted-texture::-webkit-scrollbar-thumb {
+  background-color: #4a4a5a;
+  background-image: radial-gradient(#ffffff 1px, transparent 1px);
+  background-size: 3px 3px;
+  border-radius: 5px;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-13" data-category="vfx" data-tags="electric purple violet deep neon glow luxury majestic dynamic colorful tracking active">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">13. Electric Purple Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-vfx">VFX Track</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">A majestic electric violet tracking line that adds deep luminescent color accents along dashboard edges.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-electric-purple">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Violet Pipeline Run</h5>
+                                <p>Scroll inside this window to test the electric purple track preset. The layout integrates an active glowing core inside the scroll track margin, casting high-value purple accents that draw user eyes smoothly down elongated page bodies.</p>
+                                <h5>AI Core Theme Elements</h5>
+                                <p>Ideal for AI utility chat boxes, futuristic tech data grids, and dark creative blog timelines.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-electric-purple"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-electric-purple::-webkit-scrollbar {
+  width: 6px;
+}
+.uiv-scroll-electric-purple::-webkit-scrollbar-thumb {
+  background: #bf94ff;
+  border-radius: 3px;
+  box-shadow: 0 0 10px #bf94ff;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-14" data-category="ui" data-tags="wide block thick massive geometric retro vintage control panel solid square structural text">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">14. Wide Block Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-ui">SaaS UI</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">A massive 14px thick industrial-style block scrollbar designed for retro control panels or native file explorer windows.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-wide-block">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Industrial Wide Track</h5>
+                                <p>Scroll down inside this field to test the wide geometric block scroller. It sets an ultra-accessible, wide target profile that mirrors vintage operating system configurations, offering clear tracking targets that stand out inside complex multi-layered containers.</p>
+                                <h5>Retro Desktop Engineering</h5>
+                                <p>Excellent for vintage emulators, terminal file listings, and specialized terminal layouts.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-wide-block"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-wide-block::-webkit-scrollbar {
+  width: 14px;
+}
+.uiv-scroll-wide-block::-webkit-scrollbar-track {
+  background: #1c1c24;
+}
+.uiv-scroll-wide-block::-webkit-scrollbar-thumb {
+  background: #3e3e4a;
+  border: 2px solid #1c1c24;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-15" data-category="ui" data-tags="double line split dynamic geometric clean minimal track structure architecture rails dual lines">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">15. Double Line Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-ui">SaaS UI</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">Utilizes detailed border configurations to create a beautifully split dual-rail geometric look on the moving thumb handle.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-double-rail">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Parallel Rail Framework</h5>
+                                <p>Scroll down inside this well to monitor the double-line indicator design. By utilizing clean structural padding and nested borders, the thumb handle breaks apart into parallel lines that add an architectural finish along application scroll tracks.</p>
+                                <h5>Sleek System Accents</h5>
+                                <p>Pairs cleanly with technical diagrams, structural blueprint grids, and minimalist code viewports.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-double-rail"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-double-rail::-webkit-scrollbar {
+  width: 10px;
+}
+.uiv-scroll-double-rail::-webkit-scrollbar-thumb {
+  background: #2e2e38;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #ffffff;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-16" data-category="minimal" data-tags="capsule rounded round soft circular modern simple neutral smooth pill track shadow">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">16. Capsule Rounded Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-minimal">Minimal</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">Features completely circular capsule borders on the scrolling thumb, matching fluid mobile application design patterns.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-capsule-pill">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Capsular Soft Aesthetics</h5>
+                                <p>Scroll down to test the look of the rounded capsule scroller. It drops sharp right angles entirely, ensuring the track thumb blends naturally into modern app views, rounded user profiles, and clean data grids.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-capsule-pill"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-capsule-pill::-webkit-scrollbar { width: 8px; }\n.uiv-scroll-capsule-pill::-webkit-scrollbar-thumb { background: #515159; border-radius: 999px; }</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-17" data-category="vfx" data-tags="fire amber orange glow electric laser radioactive volcanic intense bright color tracker">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">17. Electric Fire Amber Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-vfx">VFX Track</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">A highly intense volcanic amber glowing scroller designed to capture attention on real-time task alerts or critical incident logs.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-neon-amber">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Volcanic Warning Well</h5>
+                                <p>Scroll down inside this box to check out the radiant amber tracking track lines. The handle uses a deep orange laser shadow map that stands out vibrantly against pitch-black app dashboards and telemetry feeds.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-neon-amber"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-neon-amber::-webkit-scrollbar { width: 6px; }\n.uiv-scroll-neon-amber::-webkit-scrollbar-thumb { background: #ff9f0a; border-radius: 3px; box-shadow: 0 0 10px #ff9f0a; }</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-18" data-category="vfx" data-tags="matrix rain green code pattern dynamic digital cascading technical engineering logs">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">18. Matrix Rain Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-vfx">VFX Track</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">Utilizes a vertical repeating gradient bar to simulate cascading digital terminal code strings inside the scroll thumb.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-matrix-rain">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Cascading Digital Thumb</h5>
+                                <p>Scroll down inside this area to monitor the matrix-rain texture behavior. The track handle layers a repeating multi-stop linear gradient block that perfectly captures the look of a live streaming developer log channel.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-matrix-rain"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-matrix-rain::-webkit-scrollbar { width: 8px; }\n.uiv-scroll-matrix-rain::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #30d158 25%, #0f172a 25%, #0f172a 50%, #30d158 50%); background-size: 8px 16px; }</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-19" data-category="minimal" data-tags="ghost transparent minimal stealth low contrast subtle invisible background mask track grey text">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">19. Ghost Transparency Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-minimal">Minimal</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">An ultra-low contrast ghost scroller layout engineered to rest completely hidden until active user mouse hovers fire.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-ghost-trans">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Ghost Alpha Node</h5>
+                                <p>Scroll down inside this area to check out the low-contrast ghost preset parameters. It leverages ultra-dimmed background values to preserve maximum screen layout minimalism, shifting focus entirely to typography components.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-ghost-trans"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-ghost-trans::-webkit-scrollbar { width: 6px; }\n.uiv-scroll-ghost-trans::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.03); }\n.uiv-scroll-ghost-trans:hover::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); }</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-20" data-category="ui" data-tags="tactical knurled stripe industrial pattern grip mechanical chassis dashboard hardware component texture options">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">20. Tactical Knurled Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-ui">SaaS UI</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">Includes a textured linear knurled industrial grip pattern running down the center core of the moving thumb track.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-tactical-knurled">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Tactile Mechanical Rig</h5>
+                                <p>Scroll inside this frame to verify the knurled linear pattern structure. The layout maps crisp repeating linear background tracks directly onto the moving thumb asset, giving physical parameter dashboards a unique mechanical signature.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-tactical-knurled"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-tactical-knurled::-webkit-scrollbar { width: 12px; }\n.uiv-scroll-tactical-knurled::-webkit-scrollbar-thumb { background-color: #2c2c35; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 2px, transparent 2px, transparent 4px); border-radius: 6px; }</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-21" data-category="premium" data-tags="ice frost glacier clean light blue crisp white arctic translucent design scroll track font">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">21. Ice Frost Glacier Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-premium">Premium Skin</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">An ultra-clean arctic light blue scroller built to add crisp translucent highlights along dashboard edges.</p>
+                    <div class="uiv-node-live-preview-box uiv-pattern-mesh-bg">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-ice-glacier">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Arctic Glacial Channel</h5>
+                                <p>Scroll down to test the look of the arctic frost scroller track. It features a bright translucent core that layers seamlessly over clean light templates or dark charcoal design components.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-ice-glacier"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-ice-glacier::-webkit-scrollbar { width: 8px; }\n.uiv-scroll-ice-glacier::-webkit-scrollbar-thumb { background: rgba(0, 180, 216, 0.2); border: 1px solid rgba(0, 180, 216, 0.4); border-radius: 4px; }</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-22" data-category="ui" data-tags="inset deep trench shadow depth pitch black sub-box tracking parameters data curves">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">22. Deep Inset Trench Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-ui">SaaS UI</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">Employs an absolute pitch-black sunken track runway layer, completely segregating scroll tracks from standard viewport panels.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-deep-trench">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Recessed Tracking Trench</h5>
+                                <p>Scroll downward to map out the deep internal carved trench lines. By pairing heavy background box shadows inside the track runway, the scroll track appears cleanly slotted inside the view field.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-deep-trench"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-deep-trench::-webkit-scrollbar { width: 10px; }\n.uiv-scroll-deep-trench::-webkit-scrollbar-track { background: #000; box-shadow: inset 0 0 8px rgba(0,0,0,0.8); }\n.uiv-scroll-deep-trench::-webkit-scrollbar-thumb { background: #1f1f2e; border-radius: 5px; }</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-23" data-category="vfx" data-tags="rainbow chroma multi-color spectrum spectrum-vfx vibrant shiny light layout dynamic rules choice">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">23. Chroma Rainbow Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-vfx">VFX Track</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">A multi-stop chromatic linear spectrum sweep designed to bring highly vibrant elements onto flat code templates.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-chroma-rainbow">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Chromatic Spectrum Track</h5>
+                                <p>Scroll down inside this block to test the look of the chroma rainbow scrollbar thumb. It renders a smooth multi-color fade along layout tracks, creating a highly customized visual center point.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-chroma-rainbow"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-chroma-rainbow::-webkit-scrollbar { width: 6px; }\n.uiv-scroll-chroma-rainbow::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #ff453a, #ff9f0a, #30d158, #007bff); border-radius: 3px; }</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-24" data-category="minimal" data-tags="slate professional clean simple business enterprise grid data lists text font size options">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">24. Professional Slate Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-minimal">Minimal</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">An enterprise-grade slate color override configured specifically for reliable, clean data data entries layouts.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-slate-pro">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Corporate Table Frame</h5>
+                                <p>Scroll this area to review the professional slate layout node behavior. It stays perfectly clean and neutral, eliminating distracting patterns or glow metrics to ensure maximum readability within data layouts.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-slate-pro"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-slate-pro::-webkit-scrollbar { width: 8px; }\n.uiv-scroll-slate-pro::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-25" data-category="vfx" data-tags="shimmer continuous loop loading processing sweep active vfx effects animation">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">25. High Velocity Shimmer Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-vfx">VFX Track</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">Includes a continuous cycling shimmer gradient sweep that overlays a live background loading animation onto the moving thumb.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-shimmer-sweep">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Continuous Scanning Thumb</h5>
+                                <p>Scroll downward inside this window to check out the background shimmer wave layout. The scrolling handle maintains a clean linear animation loop, indicating live background processes are active within the container.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-shimmer-sweep"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-shimmer-sweep::-webkit-scrollbar { width: 8px; }\n.uiv-scroll-shimmer-sweep::-webkit-scrollbar-thumb { background: linear-gradient(90deg, #1e1e24, #007bff, #1e1e24); background-size: 200% 100%; border-radius: 4px; }</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-26" data-category="premium" data-tags="maroon velvet luxury royal elite deep red color prestige chassis handles">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">26. Royal Velvet Maroon Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-premium">Premium Skin</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">A luxury deep maroon layout preset crafted to anchor exclusive premium account dashboards or membership sections.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-velvet-maroon">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Velvet Premium Channel</h5>
+                                <p>Scroll down inside this area to monitor the rich velvet color curves. This layout preset brings an executive signature style along container margins, optimizing presentation hierarchy for tiered web blocks.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-velvet-maroon"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-velvet-maroon::-webkit-scrollbar { width: 7px; }\n.uiv-scroll-velvet-maroon::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #6b0f1a, #b91c1c); border-radius: 3.5px; }</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-27" data-category="vfx" data-tags="cyber grid terminal laser glowing yellow warning critical telemetry data charts parameters">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">27. Futuristic Cyber Grid Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-vfx">VFX Track</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">A glowing amber cyber-grid template designed to draw immediate visual alignment to critical real-time streaming notifications.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-cyber-grid-yellow">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Telemetry Alert Runway</h5>
+                                <p>Scroll down to test the look of the cyber-grid scroller track. The handle glows intensely to ensure critical error screens or deployment pipelines remain immediately apparent to operators.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-cyber-grid-yellow"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-cyber-grid-yellow::-webkit-scrollbar { width: 6px; }\n.uiv-scroll-cyber-grid-yellow::-webkit-scrollbar-thumb { background: #fbbf24; border-radius: 3px; box-shadow: 0 0 10px #fbbf24; }</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-28" data-category="minimal" data-tags="minimalist charcoal dark background theme sleek hidden options lines layout panel option flat">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">28. Minimalist Charcoal Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-minimal">Minimal</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">A modern, stealth charcoal token configured to blend seamlessly into neutral dark-mode layout designs.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-charcoal-stealth">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Stealth Dark Track</h5>
+                                <p>Scroll this area to verify the clean, unobtrusive charcoal layout track behavior. It eliminates high-contrast elements to maintain clean visual geometry across modern dark user dashboards.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-charcoal-stealth"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-charcoal-stealth::-webkit-scrollbar { width: 6px; }\n.uiv-scroll-charcoal-stealth::-webkit-scrollbar-thumb { background: #1c1c24; border: 1px solid #2e2e38; border-radius: 3px; }</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-29" data-category="premium" data-tags="aquamarine cyan deep sea flowing layout sectioning ocean vector smooth vector fluid blue">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">29. Deep Sea Aquamarine Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-premium">Premium Skin</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">Features a rich, deep-sea aquamarine linear gradient sweep to bring fluid oceanic aesthetics onto standard container view fields.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-sea-aquamarine">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Fluid Ocean Tracking Well</h5>
+                                <p>Scroll down to track the deep-sea gradient pipeline. The thumb blends rich aquamarine and cyan tones, creating an elegant visual flow along layout tracks.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-sea-aquamarine"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-sea-aquamarine::-webkit-scrollbar { width: 8px; }\n.uiv-scroll-sea-aquamarine::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #00b4d8, #0077b6); border-radius: 4px; }</code></pre>
+                    </div>
+                </article>
+
+                <article class="uiv-component-card-node" data-id="scroll-30" data-category="ui" data-tags="industrial diamond plate mechanical texture abstract chassis component element shape layout rails">
+                    <div class="uiv-node-card-header">
+                        <div class="uiv-node-title-group">
+                            <h4 class="uiv-node-title">30. Industrial Diamond Plate Scrollbar</h4>
+                            <span class="uiv-node-meta-badge uiv-badge-ui">SaaS UI</span>
+                        </div>
+                        <div class="uiv-node-action-cluster">
+                            <button class="uiv-node-btn view-source-trigger" title="Inspect source"><i class="fas fa-code"></i></button>
+                            <button class="uiv-node-btn copy-markup-trigger" title="Copy source"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <p class="uiv-node-description-text">A knurled industrial diamond plate texture variant designed for hardware monitoring consoles or heavy dashboard frameworks.</p>
+                    <div class="uiv-node-live-preview-box">
+                        <div class="uiv-scrollbar-preview-well uiv-scroll-industrial-plate">
+                            <div class="uiv-dummy-content-scroller">
+                                <h5>Heavy Hardware Explorer Chassis</h5>
+                                <p>Scroll down inside this field to test the industrial diamond plate scroller. It adds a textured tactile pattern directly onto the moving thumb asset, giving dark system telemetry panels a distinct industrial feel.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uiv-node-code-drawer-panel">
+                        <div class="uiv-drawer-tab-row">
+                            <button class="uiv-tab-selector uiv-active" data-format="html">HTML</button>
+                            <button class="uiv-tab-selector" data-format="css">CSS</button>
+                        </div>
+                        <pre class="uiv-markup-block html-format-block uiv-active"><code>&lt;div class="uiv-scrollbar-preview-well uiv-scroll-industrial-plate"&gt;&lt;/div&gt;</code></pre>
+                        <pre class="uiv-markup-block css-format-block"><code>.uiv-scroll-industrial-plate::-webkit-scrollbar { width: 12px; }\n.uiv-scroll-industrial-plate::-webkit-scrollbar-thumb { background-color: #3e3e4a; background-image: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 3px); border-radius: 4px; }</code></pre>
+                    </div>
+                </article>
+
+            </div>
+        </main>
+    </div>
+
+    <div class="uiv-toast-pipeline-host" id="uiv-toast-dock" aria-live="polite"></div>
+
+    <footer class="uiv-footer-block" role="contentinfo">
+        <div class="uiv-footer-container">
+            <div class="uiv-footer-brand-summary">
+                <h4>UIverse Scrollbar Optimization Framework</h4>
+                <p>A production-optimized system track suite engineered for managing horizontal/vertical text overflow pools, technical list charts, and standalone system windows.</p>
+            </div>
+            <div class="uiv-footer-links-matrix">
+                <div class="uiv-footer-column">
+                    <h5>Resources</h5>
+                    <a href="#">Design System Tokens</a>
+                    <a href="#">Theming Tokens</a>
+                </div>
+                <div class="uiv-footer-column">
+                    <h5>Community</h5>
+                    <a href="#">GitHub Issues Track</a>
+                    <a href="#">Discord Main Core</a>
+                </div>
+            </div>
+        </div>
+        <div class="uiv-footer-bottom-copyright">
+            <p>&copy; 2026 UIverse Project Library Hub. Open source under the MIT License Architecture Validation Framework.</p>
+        </div>
+    </footer>
+
+    <script src="scrollbar-components.js"></script>
+</body>
+</html>

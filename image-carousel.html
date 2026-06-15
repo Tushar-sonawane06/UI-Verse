@@ -3,8 +3,9 @@
 <html lang="en">
 <head>
   <link rel="stylesheet" href="dist/shared.css">
+
   <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-l2cgH2wDeJWBAySIPo8T9tBkWB2zX1/lgJKv8ETqsvU='; script-src-attr 'unsafe-hashes' 'sha256-l2cgH2wDeJWBAySIPo8T9tBkWB2zX1/lgJKv8ETqsvU='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' sha256-/Yz3LOm4jJYuvnmyIQcGt1s9JeDSCKQTWE4Hi4BkUqg=; script-src-attr 'unsafe-hashes' sha256-/Yz3LOm4jJYuvnmyIQcGt1s9JeDSCKQTWE4Hi4BkUqg=; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -29,127 +30,76 @@
 
 
   <!-- UIverse Modular CSS Architecture -->
-  </head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-
 
   <!-- ================= NAVBAR ================= -->
-  <header class="navbar">
-
-    <div class="logo">
-      ⬡ UIverse
-    </div>
-
-    <div class="nav-right">
-
-      <a
-        href="index.html"
-        class="nav-btn outline-btn"
-      >
-        <i class="fa-solid fa-house"></i>
-        Home
-      </a>
-
-      <button
-        class="theme-toggle"
-        id="darkModeToggle"
-       data-a11y-remediation="button-label-needed">
-        <i class="fa-solid fa-moon"></i>
-      </button>
-
-    </div>
-
-  </header>
-
-  <div class="image-carousel-card">
-  <div class="image-preview tilt-carousel">
-    <div class="tilt-image"></div>
+  <!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
   </div>
-
-  <h3>Tilt Carousel</h3>
-  <p>Interactive tilt effect with mouse movement.</p>
-  <a href="#">View Component</a>
-</div>
-
-<div class="image-carousel-card">
-  <div class="image-preview fan-gallery">
-    <div class="fan-card"></div>
-    <div class="fan-card"></div>
-    <div class="fan-card"></div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
   </div>
-
-  <h3>Card Fan</h3>
-  <p>Cards spread like a handheld deck.</p>
-  <a href="#">View Component</a>
-</div>
-
-
-<div class="image-carousel-card">
-  <div class="image-preview spiral-carousel">
-    <div class="spiral-item"></div>
-    <div class="spiral-item"></div>
-    <div class="spiral-item"></div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
   </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
 
-  <h3>Spiral Slider</h3>
-  <p>Images rotate in a spiral arrangement.</p>
-  <a href="#">View Component</a>
-</div>
-
-<div class="image-carousel-card">
-  <div class="image-preview reflection-gallery">
-    <div class="reflection-image"></div>
-  </div>
-
-  <h3>Reflection Gallery</h3>
-  <p>Modern mirror reflection showcase.</p>
-  <a href="#">View Component</a>
-</div>
-<div class="image-carousel-card">
-  <div class="image-preview ribbon-gallery">
-    <div class="ribbon-track"></div>
-  </div>
-
-  <h3>Ribbon Gallery</h3>
-  <p>Continuous ribbon-style image flow.</p>
-  <a href="#">View Component</a>
-</div>
-
-<div class="image-carousel-card">
-  <div class="image-preview window-carousel">
-    <div class="window-frame"></div>
-  </div>
-
-  <h3>Window Preview</h3>
-  <p>Desktop window-inspired gallery.</p>
-  <a href="#">View Component</a>
-</div>
-
-<div class="image-carousel-card">
-  <div class="image-preview sliding-stack">
-    <div class="slide-card"></div>
-    <div class="slide-card"></div>
-    <div class="slide-card"></div>
-  </div>
-
-  <h3>Sliding Stack</h3>
-  <p>Smooth horizontal card transitions.</p>
-  <a href="#">View Component</a>
-</div>
-
-<div class="image-carousel-card">
-  <div class="image-preview depth-carousel">
-    <div class="depth-layer"></div>
-    <div class="depth-layer"></div>
-    <div class="depth-layer"></div>
-  </div>
-
-  <h3>Depth Carousel</h3>
-  <p>Multi-layer perspective image effect.</p>
-  <a href="#">View Component</a>
-</div>
   <!-- ================= HERO ================= -->
   <section class="carousel-hero">
 
@@ -176,160 +126,6 @@
 
   </section>
 
-
-  <div class="image-carousel-card">
-
-  <div class="image-preview apple-showcase">
-
-    <div class="apple-product"></div>
-
-    <div class="apple-content">
-      <h4>iPhone Pro</h4>
-      <span>Built for Apple Intelligence</span>
-    </div>
-
-  </div>
-
-  <h3>Apple Showcase</h3>
-
-  <p>
-    Premium Apple-style product presentation slider.
-  </p>
-
-  <a href="#">View Component</a>
-
-</div>
-
-<div class="image-carousel-card">
-
-  <div class="image-preview testimonial-carousel">
-
-    <div class="testimonial-avatar"></div>
-
-    <div class="testimonial-content">
-      <p>"Beautiful UI components."</p>
-      <span>Sarah Johnson</span>
-    </div>
-
-  </div>
-
-  <h3>Testimonial Slider</h3>
-
-  <p>
-    Modern customer review carousel layout.
-  </p>
-
-  <a href="#">View Component</a>
-
-</div>
-
-<div class="image-carousel-card">
-
-  <div class="image-preview ecommerce-carousel">
-
-    <div class="product-card"></div>
-
-    <div class="product-info">
-      <span>Wireless Headphones</span>
-    </div>
-
-  </div>
-
-  <h3>Product Carousel</h3>
-
-  <p>
-    Modern shopping and product showcase slider.
-  </p>
-
-  <a href="#">View Component</a>
-
-</div>
-
-<div class="image-carousel-card">
-
-  <div class="image-preview comparison-slider">
-
-    <div class="before"></div>
-
-    <div class="after"></div>
-
-    <div class="slider-handle"></div>
-
-  </div>
-
-  <h3>Comparison Slider</h3>
-
-  <p>
-    Before and after image comparison interface.
-  </p>
-
-  <a href="#">View Component</a>
-
-</div>
-
-
-<div class="image-carousel-card">
-
-  <div class="image-preview card-stack-carousel">
-
-    <div class="stack-card active"></div>
-    <div class="stack-card"></div>
-    <div class="stack-card"></div>
-
-  </div>
-
-  <h3>Card Stack</h3>
-
-  <p>
-    Tinder-style stacked image navigation effect.
-  </p>
-
-  <a href="#">View Component</a>
-
-</div>
-<div class="image-carousel-card">
-
-  <div class="image-preview dashboard-carousel">
-
-    <div class="dashboard-window">
-
-      <div class="chart"></div>
-
-      <div class="stats"></div>
-
-    </div>
-
-  </div>
-
-  <h3>Dashboard Preview</h3>
-
-  <p>
-    SaaS analytics and dashboard showcase slider.
-  </p>
-
-  <a href="#">View Component</a>
-
-</div>
-
-<div class="image-carousel-card">
-
-  <div class="image-preview portfolio-carousel">
-
-    <div class="portfolio-shot"></div>
-
-    <div class="portfolio-meta"></div>
-
-  </div>
-
-  <h3>Portfolio Slider</h3>
-
-  <p>
-    Dribbble-inspired creative portfolio showcase.
-  </p>
-
-  <a href="#">View Component</a>
-
-</div>
   <!-- ================= IMAGE CAROUSELS ================= -->
   <section class="section">
 
@@ -348,273 +144,6 @@
       </p>
 
     </div>
-
-    <!-- ================= PHOTO COLLAGE ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview collage-grid">
-    <div class="collage-item large"></div>
-    <div class="collage-item"></div>
-    <div class="collage-item"></div>
-    <div class="collage-item"></div>
-  </div>
-
-  <h3>Photo Collage</h3>
-  <p>Creative multi-image collage gallery layout.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= DIAGONAL GRID ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview diagonal-gallery">
-    <div class="diag-item"></div>
-    <div class="diag-item"></div>
-    <div class="diag-item"></div>
-  </div>
-
-  <h3>Diagonal Gallery</h3>
-  <p>Angled image arrangement with dynamic layout.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= HOVER REVEAL ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview hover-reveal-grid">
-    <div class="reveal-image"></div>
-
-    <div class="reveal-overlay">
-      <span>Explore</span>
-    </div>
-  </div>
-
-  <h3>Hover Reveal</h3>
-  <p>Smooth overlay image reveal animation.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= TRAVEL GRID ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview travel-gallery">
-    <div class="travel-card"></div>
-    <div class="travel-card"></div>
-    <div class="travel-card"></div>
-  </div>
-
-  <h3>Travel Gallery</h3>
-  <p>Destination-focused image showcase layout.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= PHOTO WALL ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview photo-wall">
-    <div class="wall-item"></div>
-    <div class="wall-item"></div>
-    <div class="wall-item"></div>
-    <div class="wall-item"></div>
-    <div class="wall-item"></div>
-  </div>
-
-  <h3>Photo Wall</h3>
-  <p>Pinterest-inspired responsive photo wall.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= ZOOM GALLERY ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview zoom-gallery">
-    <div class="zoom-image"></div>
-  </div>
-
-  <h3>Zoom Gallery</h3>
-  <p>Interactive zoom-on-hover image showcase.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= FASHION LOOKBOOK ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview lookbook-gallery">
-    <div class="lookbook-main"></div>
-    <div class="lookbook-thumbs">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </div>
-
-  <h3>Fashion Lookbook</h3>
-  <p>Modern fashion and apparel showcase grid.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= DRAG STACK ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview drag-stack">
-    <div class="drag-card"></div>
-    <div class="drag-card"></div>
-    <div class="drag-card"></div>
-  </div>
-
-  <h3>Drag Stack</h3>
-  <p>Layered draggable card gallery concept.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= SPOTLIGHT ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview spotlight-gallery">
-    <div class="spotlight-image"></div>
-    <div class="spotlight-effect"></div>
-  </div>
-
-  <h3>Spotlight Gallery</h3>
-  <p>Interactive spotlight hover image effect.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= PANORAMA ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview panorama-slider">
-    <div class="panorama-track"></div>
-  </div>
-
-  <h3>Panorama Slider</h3>
-  <p>Wide panoramic image scrolling gallery.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= PHOTO REEL ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview photo-reel">
-    <div class="reel-item"></div>
-    <div class="reel-item"></div>
-    <div class="reel-item"></div>
-  </div>
-
-  <h3>Photo Reel</h3>
-  <p>Social-media style scrolling image reel.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= MOSAIC GRID ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview mosaic-grid">
-    <div class="mosaic big"></div>
-    <div class="mosaic"></div>
-    <div class="mosaic"></div>
-    <div class="mosaic"></div>
-  </div>
-
-  <h3>Mosaic Grid</h3>
-  <p>Modern asymmetrical image mosaic layout.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= WAVE GALLERY ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview wave-gallery">
-    <div class="wave-image"></div>
-  </div>
-
-  <h3>Wave Gallery</h3>
-  <p>Animated wave distortion image effect.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= DUAL FOCUS ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview dual-focus">
-    <div class="focus-left"></div>
-    <div class="focus-right"></div>
-  </div>
-
-  <h3>Dual Focus</h3>
-  <p>Side-by-side image presentation layout.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= CATALOG GRID ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview catalog-grid">
-    <div class="catalog-item"></div>
-    <div class="catalog-item"></div>
-    <div class="catalog-item"></div>
-    <div class="catalog-item"></div>
-  </div>
-
-  <h3>Catalog Grid</h3>
-  <p>E-commerce inspired product image gallery.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= FRAME COLLAGE ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview frame-collage">
-    <div class="frame-card"></div>
-    <div class="frame-card"></div>
-    <div class="frame-card"></div>
-  </div>
-
-  <h3>Frame Collage</h3>
-  <p>Elegant framed photo collection layout.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= EXPOSURE STACK ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview exposure-stack">
-    <div class="exposure-card"></div>
-    <div class="exposure-card"></div>
-    <div class="exposure-card"></div>
-  </div>
-
-  <h3>Exposure Stack</h3>
-  <p>Photography-inspired overlapping image cards.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= LIGHTBOX PREVIEW ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview lightbox-gallery">
-    <div class="lightbox-image"></div>
-    <div class="lightbox-icon">
-      <i class="fa-solid fa-expand"></i>
-    </div>
-  </div>
-
-  <h3>Lightbox Preview</h3>
-  <p>Image gallery with fullscreen preview concept.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= GRID SLIDER ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview grid-slider">
-    <div class="grid-slide"></div>
-    <div class="grid-slide"></div>
-    <div class="grid-slide"></div>
-    <div class="grid-slide"></div>
-  </div>
-
-  <h3>Grid Slider</h3>
-  <p>Hybrid image grid and carousel experience.</p>
-  <a href="#">View Component</a>
-</div>
-
-<!-- ================= INFINITE MARQUEE ================= -->
-<div class="image-carousel-card">
-  <div class="image-preview marquee-gallery">
-    <div class="marquee-track">
-      <div class="marquee-item"></div>
-      <div class="marquee-item"></div>
-      <div class="marquee-item"></div>
-      <div class="marquee-item"></div>
-    </div>
-  </div>
-
-  <h3>Marquee Gallery</h3>
-  <p>Infinite horizontal scrolling image gallery.</p>
-  <a href="#">View Component</a>
-</div>
 
     <!-- ================= GRID ================= -->
     <div class="image-carousel-grid">
@@ -1383,202 +912,89 @@
   </section>
 
   <!-- ================= FOOTER ================= -->
-  <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-container">
-
-    <!-- Brand -->
     <div class="footer-col brand">
       <h2 class="footer-logo">⬡ UIverse</h2>
-      <p>
-        Build modern, reusable UI components with clean HTML,
-        CSS and JavaScript.
-      </p>
-
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
       <div class="socials">
-        <a href="#"><i class="fab fa-github"></i></a>
-        <a href="#"><i class="fab fa-linkedin"></i></a>
-        <a href="#"><i class="fab fa-x-twitter"></i></a>
-        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
 
-    <!-- Explore -->
     <div class="footer-col">
       <h3>Explore</h3>
       <ul>
         <li><a href="button.html">Buttons</a></li>
         <li><a href="navbar.html">Navbars</a></li>
         <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
         <li><a href="forms.html">Forms</a></li>
-        <li><a href="badges.html">Badges</a></li>
       </ul>
     </div>
 
-    <div class="image-carousel-card">
-  <div class="image-preview infinite-carousel">
-    <div class="infinite-track">
-      <div class="slide"></div>
-      <div class="slide"></div>
-      <div class="slide"></div>
-      <div class="slide"></div>
-    </div>
-  </div>
-
-  <h3>Infinite Loop</h3>
-  <p>Continuous seamless scrolling image carousel.</p>
-  <a href="#">View Component</a>
-</div>
-
-<div class="image-carousel-card">
-  <div class="image-preview perspective-carousel">
-    <div class="perspective-item left"></div>
-    <div class="perspective-item center"></div>
-    <div class="perspective-item right"></div>
-  </div>
-
-  <h3>Perspective Slider</h3>
-  <p>Deep perspective image presentation effect.</p>
-  <a href="#">View Component</a>
-</div>
-
-<div class="image-carousel-card">
-  <div class="image-preview bento-carousel">
-    <div class="bento large"></div>
-    <div class="bento"></div>
-    <div class="bento"></div>
-    <div class="bento wide"></div>
-  </div>
-
-  <h3>Bento Gallery</h3>
-  <p>Apple-inspired modern bento image showcase.</p>
-  <a href="#">View Component</a>
-</div>
-
-<div class="image-carousel-card">
-  <div class="image-preview expansion-carousel">
-    <div class="expand-card active"></div>
-    <div class="expand-card"></div>
-    <div class="expand-card"></div>
-  </div>
-
-  <h3>Expanding Cards</h3>
-  <p>Cards expand smoothly when active.</p>
-  <a href="#">View Component</a>
-</div>
-
-<div class="image-carousel-card">
-  <div class="image-preview dock-carousel">
-    <div class="dock-item"></div>
-    <div class="dock-item active"></div>
-    <div class="dock-item"></div>
-    <div class="dock-item"></div>
-  </div>
-
-  <h3>Dock Gallery</h3>
-  <p>MacOS dock-inspired scaling image slider.</p>
-  <a href="#">View Component</a>
-</div>
-
-<div class="image-carousel-card">
-  <div class="image-preview filmstrip-carousel">
-    <div class="film-frame"></div>
-    <div class="film-frame"></div>
-    <div class="film-frame"></div>
-  </div>
-
-  <h3>Film Strip</h3>
-  <p>Classic cinema film reel gallery design.</p>
-  <a href="#">View Component</a>
-</div>
-
-<div class="image-carousel-card">
-  <div class="image-preview flip-carousel">
-    <div class="flip-card">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-  </div>
-
-  <h3>Flip Gallery</h3>
-  <p>3D flipping image transition effect.</p>
-  <a href="#">View Component</a>
-</div>
-
-<div class="image-carousel-card">
-  <div class="image-preview orbit-carousel">
-    <div class="orbit-center"></div>
-    <div class="orbit-item"></div>
-    <div class="orbit-item"></div>
-    <div class="orbit-item"></div>
-  </div>
-
-  <h3>Orbit Slider</h3>
-  <p>Images rotate around a central element.</p>
-  <a href="#">View Component</a>
-</div>
-
-<div class="image-carousel-card">
-  <div class="image-preview wall-carousel">
-    <div class="wall-photo"></div>
-    <div class="wall-photo"></div>
-    <div class="wall-photo"></div>
-    <div class="wall-photo"></div>
-  </div>
-
-  <h3>Gallery Wall</h3>
-  <p>Modern art wall image arrangement.</p>
-  <a href="#">View Component</a>
-</div>
-
-<div class="image-carousel-card">
-  <div class="image-preview floating-polaroid">
-    <div class="polaroid-card"></div>
-    <div class="polaroid-card"></div>
-    <div class="polaroid-card"></div>
-  </div>
-
-  <h3>Floating Polaroids</h3>
-  <p>Animated floating memory-board gallery.</p>
-  <a href="#">View Component</a>
-</div>
-    <!-- Resources -->
     <div class="footer-col">
       <h3>Resources</h3>
       <ul>
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">Templates</a></li>
-        <li><a href="#">UI Kits</a></li>
-        <li><a href="#">Roadmap</a></li>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
     </div>
 
-    <!-- Newsletter -->
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
     <div class="footer-col newsletter">
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
-
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" / data-a11y-remediation="label-needed">
-        <button type="button">
-          <i class="fa-solid fa-paper-plane"></i>
-        </button>
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
-
   </div>
 
-  <!-- Bottom -->
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
-
-    <div class="footer-links">
-      <a href="privacypolicy.html">Privacy Policy</a>
-      <a href="terms.html">Terms</a>
-      <a href="#">Cookies</a>
-    </div>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
 
   <!-- ================= SCRIPT ================= -->
   <script>
@@ -1610,7 +1026,7 @@
 
   </script>
 
-    <script src="dist/shared.js"></script>
+  <script src="dist/shared.js"></script>
 </body>
 </html>
 

@@ -1,7 +1,7 @@
 {
-  "apiVersion": "1.0.0",
+  "apiVersion": "1.0.1",
   "title": "UIverse Theme Validation API Contract",
-  "description": "Dedicated API contract specification for theme validation workflows",
+  "description": "Dedicated API contract specification for theme validation workflows with semantic color error granularity",
   "baseUrl": "/api/themes",
   "endpoints": [
     {
@@ -180,7 +180,7 @@
       },
       "responses": {
         "200": {
-          "description": "Color validation result",
+          "description": "Color validation result with semantic error details",
           "schema": {
             "valid": { "type": "boolean" },
             "color": { "type": "string" },
@@ -193,6 +193,11 @@
             "wcagCompliance": {
               "wcagAA": { "type": "boolean" },
               "wcagAAA": { "type": "boolean" }
+            },
+            "colorSpace": { "type": "string", "description": "Detected color space (RGB, Lab, HSL, etc.)" },
+            "processingDetails": {
+              "type": "object",
+              "description": "Details about color processing and normalization"
             }
           }
         }
@@ -252,6 +257,10 @@
                 "wcagAAA": { "type": "boolean" },
                 "issues": { "type": "array" }
               },
+              "colorProcessing": {
+                "type": "object",
+                "description": "Detailed color processing analysis"
+              },
               "recommendations": { "type": "array" },
               "score": { "type": "number", "range": [0, 100] }
             }
@@ -274,11 +283,29 @@
           "VALUE_TOO_SHORT",
           "VALUE_TOO_LONG",
           "INVALID_PATTERN",
-          "CONSTRAINT_VIOLATION"
+          "CONSTRAINT_VIOLATION",
+          "COLOR_FORMAT_MISMATCH",
+          "COLOR_PARSE_ERROR",
+          "COLOR_SPACE_INCOMPATIBLE",
+          "RGB_COMPONENT_OUT_OF_RANGE",
+          "HEX_DIGIT_INVALID",
+          "COLOR_NORMALIZATION_FAILED"
         ]
       },
       "constraint": { "type": "string", "description": "Violated constraint" },
-      "severity": { "type": "string", "enum": ["error", "warning"] }
+      "severity": { "type": "string", "enum": ["error", "warning"] },
+      "colorDetails": {
+        "type": "object",
+        "description": "Optional: detailed color error information",
+        "properties": {
+          "attemptedFormat": { "type": "string" },
+          "expectedFormats": { "type": "array" },
+          "colorValue": { "type": "string" },
+          "failureReason": { "type": "string" },
+          "colorSpace": { "type": "string" },
+          "suggestion": { "type": "string" }
+        }
+      }
     },
     "validationResult": {
       "valid": { "type": "boolean" },
@@ -311,6 +338,45 @@
     },
     "INVALID_COLOR": {
       "httpStatus": 422,
+      "description": "Color value is invalid (generic fallback)",
+      "example": "Color must be valid hex (#RRGGBB) or rgb format"
+    },
+    "COLOR_FORMAT_MISMATCH": {
+      "httpStatus": 422,
+      "description": "Color provided in unsupported format",
+      "example": "Color uses unsupported HSL format; provide hex or rgb(a)",
+      "semantic": "Indicates format incompatibility, not parsing failure"
+    },
+    "COLOR_PARSE_ERROR": {
+      "httpStatus": 422,
+      "description": "Color string cannot be parsed",
+      "example": "Unable to parse color value '#GGGGGG': invalid hex digits",
+      "semantic": "String syntax is malformed or contains invalid characters"
+    },
+    "COLOR_SPACE_INCOMPATIBLE": {
+      "httpStatus": 422,
+      "description": "Color space does not match theme requirements",
+      "example": "Lab color space not compatible with RGB-only theme",
+      "semantic": "Color exists in wrong color space context"
+    },
+    "RGB_COMPONENT_OUT_OF_RANGE": {
+      "httpStatus": 422,
+      "description": "RGB component value outside valid range [0-255]",
+      "example": "RGB component value 300 exceeds maximum of 255",
+      "semantic": "Numeric component value is out of bounds"
+    },
+    "HEX_DIGIT_INVALID": {
+      "httpStatus": 422,
+      "description": "Hex color contains invalid digit characters",
+      "example": "Hex color '#XXYYZZ' contains invalid digits: X, Y, Z",
+      "semantic": "Specific digits are not valid hexadecimal"
+    },
+    "COLOR_NORMALIZATION_FAILED": {
+      "httpStatus": 422,
+      "description": "Color could not be normalized to canonical format",
+      "example": "Unable to normalize color due to ambiguous format specification",
+      "semantic": "Conversion between color spaces failed"
+    },
       "description": "Color value is invalid",
       "example": "Color must be valid hex (#RRGGBB) or rgb format"
     },
@@ -335,6 +401,25 @@
       "example": "Theme ID already exists"
     }
   },
+  "colorProcessingGuide": {
+    "supportedFormats": ["hex-3", "hex-6", "hex-8", "rgb", "rgba"],
+    "colorSpaces": ["RGB"],
+    "hexFormats": {
+      "hex-3": { "pattern": "#RGB", "example": "#F0A", "normalized": "#FF00AA" },
+      "hex-6": { "pattern": "#RRGGBB", "example": "#FF00AA", "normalized": "#FF00AA" },
+      "hex-8": { "pattern": "#RRGGBBAA", "example": "#FF00AACC", "normalized": "#FF00AACC" }
+    },
+    "rgbFormats": {
+      "rgb": { "pattern": "rgb(r, g, b)", "example": "rgb(255, 0, 170)", "componentRange": [0, 255] },
+      "rgba": { "pattern": "rgba(r, g, b, a)", "example": "rgba(255, 0, 170, 0.8)", "componentRange": [0, 255], "alphaRange": [0, 1] }
+    },
+    "errorRecovery": {
+      "colorFormatMismatch": "Use hex or rgb format; convert from HSL/Lab if needed",
+      "parseError": "Check for typos; verify hex digits are 0-9, a-f",
+      "outOfRange": "Ensure RGB components are 0-255, alpha is 0-1",
+      "normalizationFailed": "Verify color space compatibility and format specification"
+    }
+  },
   "examples": {
     "validationRequest": {
       "id": "custom-light",
@@ -357,13 +442,14 @@
       "errors": [],
       "warnings": [],
       "metadata": {
-        "timestamp": "2026-06-11T15:30:45.123Z",
-        "validator": "1.0.0",
+        "timestamp": "2026-06-15T10:30:45.123Z",
+        "validator": "1.0.1",
         "errorCount": 0,
         "warningCount": 0,
         "validationDuration": 12
       }
     },
+    "validationFailureWithSemanticErrors": {
     "validationFailure": {
       "valid": false,
       "errors": [

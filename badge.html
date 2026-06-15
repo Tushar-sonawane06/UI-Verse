@@ -3,8 +3,9 @@
 
 <head>
   <link rel="stylesheet" href="dist/shared.css">
+
   <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-1lcnFn0nSEILtALog+Urr6SIA8OK/4AdAGePOZ1zzB8='; script-src-attr 'unsafe-hashes' 'sha256-1lcnFn0nSEILtALog+Urr6SIA8OK/4AdAGePOZ1zzB8='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' sha256-TPk8Ptcfplaeg5545jpydJkNH+Iu/Em2h71VzHAP0o0=; script-src-attr 'unsafe-hashes' sha256-TPk8Ptcfplaeg5545jpydJkNH+Iu/Em2h71VzHAP0o0=; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Badges — UIverse</title>
@@ -20,15 +21,12 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="badges.css">
-  <link rel="stylesheet" href="home.css">
-  <link rel="stylesheet" href="badge.css">
+
 
   <!-- UIverse Modular CSS Architecture -->
-  </head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-
 
 <!-- =========================================================
      MENU TOGGLE
@@ -138,6 +136,71 @@
 
 </aside>
 
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
+
 <!-- =========================================================
      MAIN
 ========================================================= -->
@@ -186,497 +249,6 @@
 
   </section>
 
-  <div class="badge-grid">
-  <div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Achievement</span>
-    <button class="save-btn">
-      <i class="fa-regular fa-bookmark"></i>
-    </button>
-  </div>
-
-  <div class="badge-preview dark-preview">
-    <span class="achievement-badge">
-      <i class="fa-solid fa-trophy"></i>
-      TOP CONTRIBUTOR
-    </span>
-  </div>
-
-  <h2>Achievement Badge</h2>
-  <p>Reward users for milestones and accomplishments.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Role</span>
-  </div>
-
-  <div class="badge-preview dark-preview">
-    <span class="admin-badge">
-      <i class="fa-solid fa-user-shield"></i>
-      ADMIN
-    </span>
-  </div>
-
-  <h2>Admin Badge</h2>
-  <p>Authority badge for moderators and administrators.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Web3</span>
-  </div>
-
-  <div class="badge-preview dark-preview">
-    <span class="blockchain-badge">
-      <i class="fa-solid fa-link"></i>
-      ON-CHAIN
-    </span>
-  </div>
-
-  <h2>Blockchain Badge</h2>
-  <p>Modern crypto verification badge.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Support</span>
-  </div>
-
-  <div class="badge-preview">
-    <span class="support-badge">
-      <i class="fa-solid fa-headset"></i>
-      24/7 SUPPORT
-    </span>
-  </div>
-
-  <h2>Support Badge</h2>
-  <p>Perfect for customer service dashboards.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Accessibility</span>
-  </div>
-
-  <div class="badge-preview">
-    <span class="accessibility-badge">
-      <i class="fa-solid fa-universal-access"></i>
-      WCAG READY
-    </span>
-  </div>
-
-  <h2>Accessibility Badge</h2>
-  <p>Highlights accessibility compliance.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Marketplace</span>
-  </div>
-
-  <div class="badge-preview dark-preview">
-    <span class="favorite-badge">
-      <i class="fa-solid fa-heart"></i>
-      CUSTOMER FAVORITE
-    </span>
-  </div>
-
-  <h2>Favorite Badge</h2>
-  <p>Popular choice indicator for products.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">DevOps</span>
-  </div>
-
-  <div class="badge-preview dark-preview">
-    <span class="devops-badge">
-      <i class="fa-solid fa-server"></i>
-      DEPLOYED
-    </span>
-  </div>
-
-  <h2>DevOps Badge</h2>
-  <p>Deployment status indicator.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Environment</span>
-  </div>
-
-  <div class="badge-preview">
-    <span class="env-badge production">
-      PRODUCTION
-    </span>
-
-    <span class="env-badge staging">
-      STAGING
-    </span>
-
-    <span class="env-badge development">
-      DEV
-    </span>
-  </div>
-
-  <h2>Environment Badges</h2>
-  <p>Perfect for developer and cloud dashboards.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Progress</span>
-  </div>
-
-  <div class="badge-preview dark-preview">
-    <div class="progress-badge">
-      <span>Upload</span>
-      <div class="progress-line">
-        <div class="progress-fill"></div>
-      </div>
-      <span>75%</span>
-    </div>
-  </div>
-
-  <h2>Progress Badge</h2>
-  <p>Compact progress tracker for widgets and dashboards.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Team</span>
-  </div>
-
-  <div class="badge-preview">
-    <span class="team-badge designer">Designer</span>
-    <span class="team-badge developer">Developer</span>
-    <span class="team-badge manager">Manager</span>
-  </div>
-
-  <h2>Team Role Badges</h2>
-  <p>Role indicators for collaboration platforms.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-  <!-- =========================================
-BADGE CARD — SECURITY LEVEL
-========================================= -->
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Security</span>
-    <button class="save-btn active-save">
-      <i class="fa-solid fa-bookmark"></i>
-    </button>
-  </div>
-
-  <div class="badge-preview dark-preview">
-    <span class="security-level-badge">
-      <i class="fa-solid fa-shield-halved"></i>
-      LEVEL 5 SECURE
-    </span>
-  </div>
-
-  <h2>Security Level Badge</h2>
-  <p>Advanced protection indicator for enterprise systems and admin dashboards.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<!-- =========================================
-BADGE CARD — SOC2 COMPLIANT
-========================================= -->
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Compliance</span>
-    <button class="save-btn">
-      <i class="fa-regular fa-bookmark"></i>
-    </button>
-  </div>
-
-  <div class="badge-preview">
-    <span class="soc-badge">
-      <i class="fa-solid fa-certificate"></i>
-      SOC 2 CERTIFIED
-    </span>
-  </div>
-
-  <h2>SOC 2 Badge</h2>
-  <p>Trust-focused compliance badge for SaaS platforms and enterprises.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<!-- =========================================
-BADGE CARD — CLOUD READY
-========================================= -->
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Cloud</span>
-    <button class="save-btn">
-      <i class="fa-regular fa-bookmark"></i>
-    </button>
-  </div>
-
-  <div class="badge-preview dark-preview">
-    <span class="cloud-ready-badge">
-      <i class="fa-solid fa-cloud"></i>
-      CLOUD READY
-    </span>
-  </div>
-
-  <h2>Cloud Ready Badge</h2>
-  <p>Perfect for cloud-native applications, deployment tools and SaaS products.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<!-- =========================================
-BADGE CARD — AI AGENT
-========================================= -->
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">AI</span>
-    <button class="save-btn active-save">
-      <i class="fa-solid fa-bookmark"></i>
-    </button>
-  </div>
-
-  <div class="badge-preview dark-preview">
-    <span class="agent-badge">
-      <span class="agent-dot"></span>
-      AI AGENT ACTIVE
-    </span>
-  </div>
-
-  <h2>AI Agent Badge</h2>
-  <p>Real-time AI processing indicator for assistants and automation tools.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<!-- =========================================
-BADGE CARD — ENTERPRISE PLAN
-========================================= -->
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Subscription</span>
-    <button class="save-btn">
-      <i class="fa-regular fa-bookmark"></i>
-    </button>
-  </div>
-
-  <div class="badge-preview">
-    <span class="enterprise-plan-badge">
-      <i class="fa-solid fa-building"></i>
-      ENTERPRISE PLAN
-    </span>
-  </div>
-
-  <h2>Enterprise Plan Badge</h2>
-  <p>Premium SaaS plan badge for corporate customers and teams.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<!-- =========================================
-BADGE CARD — TRENDING NOW
-========================================= -->
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Trending</span>
-    <button class="save-btn active-save">
-      <i class="fa-solid fa-bookmark"></i>
-    </button>
-  </div>
-
-  <div class="badge-preview dark-preview">
-    <span class="trending-now-badge">
-      <i class="fa-solid fa-fire"></i>
-      TRENDING NOW
-    </span>
-  </div>
-
-  <h2>Trending Badge</h2>
-  <p>Animated popularity badge for products, creators and content.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<!-- =========================================
-BADGE CARD — REVENUE GROWTH
-========================================= -->
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Analytics</span>
-    <button class="save-btn">
-      <i class="fa-regular fa-bookmark"></i>
-    </button>
-  </div>
-
-  <div class="badge-preview">
-    <span class="growth-badge">
-      <i class="fa-solid fa-arrow-trend-up"></i>
-      +42% GROWTH
-    </span>
-  </div>
-
-  <h2>Growth Badge</h2>
-  <p>Analytics-focused KPI badge for dashboards and business reports.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<!-- =========================================
-BADGE CARD — VERIFIED ORGANIZATION
-========================================= -->
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Organization</span>
-    <button class="save-btn active-save">
-      <i class="fa-solid fa-bookmark"></i>
-    </button>
-  </div>
-
-  <div class="badge-preview dark-preview">
-    <span class="verified-org-badge">
-      <i class="fa-solid fa-badge-check"></i>
-      VERIFIED ORG
-    </span>
-  </div>
-
-  <h2>Verified Organization</h2>
-  <p>Premium trust badge for companies, brands and institutions.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<!-- =========================================
-BADGE CARD — NFT VERIFIED
-========================================= -->
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Web3</span>
-    <button class="save-btn">
-      <i class="fa-regular fa-bookmark"></i>
-    </button>
-  </div>
-
-  <div class="badge-preview dark-preview">
-    <span class="nft-verified-badge">
-      <i class="fa-solid fa-cube"></i>
-      NFT VERIFIED
-    </span>
-  </div>
-
-  <h2>NFT Verified Badge</h2>
-  <p>Modern blockchain verification badge for Web3 platforms.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-
-<!-- =========================================
-BADGE CARD — ACHIEVEMENT
-========================================= -->
-<div class="badge-card">
-  <div class="card-top">
-    <span class="card-tag">Achievement</span>
-    <button class="save-btn active-save">
-      <i class="fa-solid fa-bookmark"></i>
-    </button>
-  </div>
-
-  <div class="badge-preview dark-preview">
-    <span class="achievement-badge">
-      <i class="fa-solid fa-medal"></i>
-      TOP CONTRIBUTOR
-    </span>
-  </div>
-
-  <h2>Achievement Badge</h2>
-  <p>Reward and recognition badge for communities and productivity apps.</p>
-
-  <div class="card-actions">
-    <button>Preview</button>
-    <button>Copy</button>
-  </div>
-</div>
-  </div>
   <!-- =========================================================
        EARNED
   ========================================================= -->
@@ -695,10 +267,10 @@ BADGE CARD — ACHIEVEMENT
 
     </div>
 
-    <div class="earned-grid">
+    <div class="badge-container">
 
       <!-- CARD -->
-      <div class="earned-card">
+      <div class="badge">
 
         <div class="badge-icon purple">
           <i class="fa-solid fa-code-pull-request"></i>
@@ -718,7 +290,7 @@ BADGE CARD — ACHIEVEMENT
       </div>
 
       <!-- CARD -->
-      <div class="earned-card">
+      <div class="badge">
 
         <div class="badge-icon cyan">
           <i class="fa-solid fa-users"></i>
@@ -738,7 +310,7 @@ BADGE CARD — ACHIEVEMENT
       </div>
 
 <!-- Open Source Hero -->
-<div class="earned-card">
+<div class="badge">
 
   <div class="badge-icon gradient-blue">
     <i class="fa-brands fa-github"></i>
@@ -767,7 +339,7 @@ BADGE CARD — ACHIEVEMENT
 
 
 <!-- Design Architect -->
-<div class="earned-card">
+<div class="badge">
 
   <div class="badge-icon gradient-purple">
     <i class="fa-solid fa-bezier-curve"></i>
@@ -792,7 +364,7 @@ BADGE CARD — ACHIEVEMENT
 
 
 <!-- Bug Hunter -->
-<div class="earned-card">
+<div class="badge">
 
   <div class="badge-icon gradient-red">
     <i class="fa-solid fa-bug"></i>
@@ -817,7 +389,7 @@ BADGE CARD — ACHIEVEMENT
 
 
 <!-- Mentor Badge -->
-<div class="earned-card">
+<div class="badge">
 
   <div class="badge-icon gradient-gold">
     <i class="fa-solid fa-user-graduate"></i>
@@ -842,7 +414,7 @@ BADGE CARD — ACHIEVEMENT
 
 
 <!-- AI Innovator -->
-<div class="progress-card">
+<div class="badge progress">
 
   <div class="badge-icon gradient-cyan">
     <i class="fa-solid fa-robot"></i>
@@ -871,7 +443,7 @@ BADGE CARD — ACHIEVEMENT
 
 
 <!-- Global Rank -->
-<div class="locked-card premium">
+<div class="badge locked premium">
 
   <div class="badge-icon gradient-dark">
     <i class="fa-solid fa-globe"></i>
@@ -889,7 +461,7 @@ BADGE CARD — ACHIEVEMENT
 
 </div>
       <!-- CARD -->
-      <div class="earned-card">
+      <div class="badge">
 
         <div class="badge-icon orange">
           <i class="fa-solid fa-fire"></i>
@@ -930,10 +502,10 @@ BADGE CARD — ACHIEVEMENT
 
     </div>
 
-    <div class="progress-grid">
+    <div class="badge-container">
 
       <!-- CARD -->
-      <div class="progress-card">
+      <div class="badge progress">
 
         <div class="badge-icon green">
           <i class="fa-solid fa-trophy"></i>
@@ -961,7 +533,7 @@ BADGE CARD — ACHIEVEMENT
       </div>
 
       <!-- CARD -->
-      <div class="progress-card">
+      <div class="badge progress">
 
         <div class="badge-icon cyan">
           <i class="fa-solid fa-layer-group"></i>
@@ -1010,10 +582,10 @@ BADGE CARD — ACHIEVEMENT
 
     </div>
 
-    <div class="locked-grid">
+    <div class="badge-container">
 
       <!-- CARD -->
-      <div class="locked-card">
+      <div class="badge locked">
 
         <div class="badge-icon red">
           <i class="fa-solid fa-lock"></i>
@@ -1032,7 +604,7 @@ BADGE CARD — ACHIEVEMENT
       </div>
 
       <!-- CARD -->
-      <div class="locked-card">
+      <div class="badge locked">
 
         <div class="badge-icon purple">
           <i class="fa-solid fa-crown"></i>
@@ -1056,94 +628,90 @@ BADGE CARD — ACHIEVEMENT
 
 </main>
 
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
-
   <div class="footer-container">
-
     <div class="footer-col brand">
-
-      <h2 class="footer-logo">
-        ⬡ UIverse
-      </h2>
-
-      <p>
-        Build modern reusable UI components
-        using clean HTML, CSS and JavaScript.
-      </p>
-
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
       <div class="socials">
-
-        <a href="#">
-          <i class="fab fa-github"></i>
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
         </a>
-
-        <a href="#">
-          <i class="fab fa-linkedin"></i>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
         </a>
-
-        <a href="#">
-          <i class="fab fa-x-twitter"></i>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
         </a>
-
       </div>
-
     </div>
 
     <div class="footer-col">
-
       <h3>Explore</h3>
-
       <ul>
-
-        <li><a href="#">Buttons</a></li>
-        <li><a href="#">Cards</a></li>
-        <li><a href="#">Forms</a></li>
-        <li><a href="#">Inputs</a></li>
-
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
       </ul>
-
     </div>
 
     <div class="footer-col">
-
       <h3>Resources</h3>
-
       <ul>
-
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">Community</a></li>
-        <li><a href="#">Contributors</a></li>
-        <li><a href="#">GitHub</a></li>
-
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
-
     </div>
 
     <div class="footer-col">
-
       <h3>Legal</h3>
-
       <ul>
-
-        <li><a href="#">Privacy</a></li>
-        <li><a href="#">Terms</a></li>
-        <li><a href="#">License</a></li>
-
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
       </ul>
-
     </div>
 
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
   </div>
 
   <div class="footer-bottom">
-    © 2026 UIverse. Crafted for developers worldwide.
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
-
 </footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
 
 <!-- =========================================================
      JS
@@ -1165,7 +733,7 @@ menuToggle.addEventListener("click",()=>{
 
 </script>
 
-    <script src="dist/shared.js"></script>
+  <script src="dist/shared.js"></script>
 </body>
 </html>
 

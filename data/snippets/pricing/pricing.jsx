@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function pricing(){
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const layoutMatches = (layout, keywords) => {
+    if (activeFilter !== 'all' && activeFilter !== layout) return false;
+    if (searchTerm.trim() === '') return true;
+    return keywords.toLowerCase().includes(searchTerm.trim().toLowerCase());
+  };
+
+  const isVisible = (layout, keywords) => layoutMatches(layout, keywords);
   return (
     <>
       <main className="main-home">
@@ -45,10 +55,66 @@ export default function pricing(){
         </div>
       
       </div>
-      
+
+      {/* ================= PRICING FILTER BAR ================= */}
+
+      <div className="pricing-filter-bar">
+
+        <div className="pricing-search-wrap">
+          <i className="fa-solid fa-search"></i>
+          <input
+            type="text"
+            className="pricing-search-input"
+            placeholder="Search pricing components..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
+        <div className="pricing-filter-pills">
+
+          <button
+            className={`filter-pill ${activeFilter === 'all' ? 'active' : ''}`}
+            onClick={() => setActiveFilter('all')}>
+            All
+          </button>
+
+          <button
+            className={`filter-pill ${activeFilter === 'glass' ? 'active' : ''}`}
+            onClick={() => setActiveFilter('glass')}>
+            Glassmorphism
+          </button>
+
+          <button
+            className={`filter-pill ${activeFilter === 'neon' ? 'active' : ''}`}
+            onClick={() => setActiveFilter('neon')}>
+            Neon
+          </button>
+
+          <button
+            className={`filter-pill ${activeFilter === 'minimal' ? 'active' : ''}`}
+            onClick={() => setActiveFilter('minimal')}>
+            Minimal
+          </button>
+
+          <button
+            className={`filter-pill ${activeFilter === 'toggle' ? 'active' : ''}`}
+            onClick={() => setActiveFilter('toggle')}>
+            Billing Toggle
+          </button>
+
+          <button
+            className={`filter-pill ${activeFilter === 'gradient' ? 'active' : ''}`}
+            onClick={() => setActiveFilter('gradient')}>
+            Gradient Cards
+          </button>
+
+        </div>
+
+      </div>      
       
       {/* ================= GLASSMORPHISM PRICING ================= */}
-      
+      {isVisible('glass', 'glassmorphism basic team agency') && (
       <div className="component-card">
       
         <div className="glass-pricing-grid">
@@ -124,9 +190,10 @@ export default function pricing(){
         </div>
       
       </div>
-      
+      )}
       {/* ================= NEON PRICING ================= */}
-      
+      {isVisible('neon', 'neon basic team agency') && (
+
       <div className="component-card">
       
         <div className="neon-pricing-grid">
@@ -214,9 +281,10 @@ export default function pricing(){
         </div>
       
       </div>
-      
+      )}
       {/* ================= MINIMAL PRICING ================= */}
-      
+      {isVisible('minimal', 'minimal basic team agency') && (
+
       <div className="component-card">
       
         <div className="minimal-pricing-grid">
@@ -281,8 +349,10 @@ export default function pricing(){
         </div>
       
       </div>
+      )}
       {/* ================= COMPONENT CARD ================= */}
-      
+      {isVisible('toggle', 'interactive pricing table billing toggle monthly quarterly yearly free pro enterprise') && (
+
       <div className="component-card">
       
         {/* TOP */}
@@ -344,7 +414,6 @@ export default function pricing(){
         </div>
       
         {/* ================= PRICING GRID ================= */}
-      
         <div className="pricing-grid-preview">
       
           {/* FREE */}
@@ -566,9 +635,9 @@ export default function pricing(){
           </div>
       
         </div>
-      
+
         {/* ================= ACTION BUTTONS ================= */}
-      
+        
         <div className="actions">
       
           <button className="action-btn view-btn"
@@ -588,7 +657,7 @@ export default function pricing(){
           </button>
       
         </div>
-      
+        
         {/* ================= CODE BLOCK ================= */}
       
         <pre id="pc1" className="code-block"><code>
@@ -606,56 +675,11 @@ export default function pricing(){
         </code></pre>
       
       </div>
-        
-      
-        {/* ================= ACTION BUTTONS ================= */}
-      
-        <div className="actions">
-      
-          <button className="action-btn view-btn"
-            onclick="toggleCode('pc1', this)">
-      
-            <i className="fa-solid fa-code"></i>
-            View Code
-      
-          </button>
-      
-          <button className="action-btn copy-btn"
-            onclick="copyCode('pc1', this)">
-      
-            <i className="fa-solid fa-copy"></i>
-            Copy
-      
-          </button>
-      
-        </div>
-      
-        {/* ================= CODE BLOCK ================= */}
-      
-        <pre id="pc1" className="code-block"><code>
-      
-      &lt;div className="pricing-grid-preview"&gt;
-      
-        &lt;div className="plan-card free-card"&gt;
-          ...
-        &lt;/div&gt;
-      
-        &lt;div className="plan-card pro-card"&gt;
-          ...
-        &lt;/div&gt;
-      
-        &lt;div className="plan-card enterprise-card"&gt;
-          ...
-        &lt;/div&gt;
-      
-      &lt;/div&gt;
-      
-        </code></pre>
-      
-      </div>
+      )}
       
       {/* ================= SECOND COMPONENT ================= */}
-      
+      {isVisible('gradient', 'starter pro business gradient pricing card') && (
+
       <div className="component-card">
       
         <div className="pricing-grid">
@@ -735,7 +759,7 @@ export default function pricing(){
               <div className="plan-header">
                 <h3>Business</h3>
                 <p>For growing startups & teams</p>
-          
+                </div>
       
               <div className="plan-price">
                 <span className="old-price">$99</span>
@@ -801,11 +825,9 @@ export default function pricing(){
         </code></pre>
       
       </div>
-       {/* /pricing-grid-preview */}
-      
-          
-        
-      
+         
+      )}
+        {/* /pricing-grid-preview */}
       </main>
     </>
   );

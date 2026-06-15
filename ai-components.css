@@ -2256,3 +2256,48 @@ aside {
     padding: 1rem;
   }
 }
+
+/* ---------- Sidebar & Footer Improvements (overrides) ---------- */
+/* Ensure modern sidebar class toggles work alongside legacy 'aside' rules */
+.sidebar {
+  --ui-sidebar-width: 260px;
+  width: var(--ui-sidebar-width);
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--dark-surface-2);
+  z-index: 1000;
+  transition: transform .24s ease, width .24s ease;
+}
+.sidebar-backdrop,
+#sidebarBackdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 900;
+}
+.main-home, .content { margin-left: calc(var(--ui-sidebar-width) + 20px); transition: margin .24s ease; }
+
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); width: 80%; max-width: 360px; }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-backdrop, #sidebarBackdrop { display: block; }
+  .navbar .menu-toggle { display: inline-flex; }
+  .search-bar { display: none; }
+  .main-home, .content { margin-left: 0; padding: 1rem; }
+
+  /* Footer: two columns on tablet, newsletter spans full width */
+  .footer-container { grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 2rem 1rem; }
+  .footer-col.newsletter { grid-column: 1 / -1; }
+  .footer .socials { display:flex; gap:.5rem; }
+  .footer-bottom { text-align: center; }
+}
+
+@media (max-width: 420px) {
+  .sidebar { width: 100%; }
+  .footer-container { grid-template-columns: 1fr; gap: .75rem; }
+  .newsletter-form { flex-direction: column; }
+  .menu-toggle { padding: .4rem .5rem; }
+}

@@ -3,7 +3,7 @@
 <head>
   <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y=' 'sha256-7CjgYh9gDby9fWndCRvdXnhxZG3Cw2bYyE7am/Hmc/A=' 'sha256-s0o0/RXFejpsyHs0ambNY/JIjaZZ7KL9R18qPfsBScA='; script-src-attr 'unsafe-hashes' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y=' 'sha256-7CjgYh9gDby9fWndCRvdXnhxZG3Cw2bYyE7am/Hmc/A=' 'sha256-s0o0/RXFejpsyHs0ambNY/JIjaZZ7KL9R18qPfsBScA='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y= sha256-Ptjq1sGj98C2H5TXIQi22lEVpEXuElRMzoVgrDK0qdQ=; script-src-attr 'unsafe-hashes' sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y= sha256-Ptjq1sGj98C2H5TXIQi22lEVpEXuElRMzoVgrDK0qdQ=; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>License — UIverse</title>
 
@@ -11,11 +11,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- UIverse Modular CSS Architecture -->
   <link rel="stylesheet" href="license.css">
-  </head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-
 
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
@@ -335,13 +333,6 @@
     </ul>
   </nav>
 
-  <input
-  type="text"
-  placeholder="Search components..."
-  aria-label="Search components"
-  data-a11y-remediation="label-needed"
-/>
-
   <div class="sidebar-footer">
     <a href="#"><i class="fab fa-github"></i></a>
     <a href="#"><i class="fab fa-linkedin"></i></a>
@@ -352,45 +343,83 @@
 <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
 <!-- NAVBAR -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
 <header class="navbar" id="navbar">
-  <button class="menu-toggle" onclick="toggleSidebar()" data-a11y-remediation="button-label-needed">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
     <i class="fa-solid fa-bars"></i>
   </button>
-
-  <div class="logo">UIverse</div>
-
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
   <div class="search-bar">
     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    <input type="text" placeholder="Search components..." / data-a11y-remediation="label-needed">
-    <kbd class="search-kbd">⌘K</kbd>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
   </div>
-
   <div class="nav-right">
-    <button class="nav-btn outline-nav-btn">
-      <i class="fa-solid fa-book"></i> Docs
-    </button>
-
-    <button class="nav-btn primary-nav-btn">
-      <i class="fa-solid fa-layer-group"></i> Components
-    </button>
-
-    <button id="darkModeToggle" class="theme-toggle">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
       <i class="fa-solid fa-moon"></i>
     </button>
   </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
 </header>
 
 <!-- MAIN -->
 <main class="main-home">
 
   <!-- HERO -->
-  <section class="license-hero" role="region" aria-labelledby="license-title">
-    <div class="license-badge" aria-label="Open Source Friendly">
+  <section class="license-hero">
+
+    <div class="license-badge">
       <i class="fa-solid fa-scale-balanced"></i>
       Open Source Friendly
     </div>
 
-    <h1 id="license-title" class="license-title">
+    <h1 class="license-title">
       Simple & Transparent <span>Licensing</span>
     </h1>
 
@@ -399,107 +428,43 @@
       commercial, and client projects without unnecessary restrictions.
     </p>
 
-    <div class="hero-license-cards" role="group" aria-label="License Highlights">
-      <div class="hero-mini-card" role="button" aria-label="Commercial Use">
+    <div class="hero-license-cards">
+
+      <div class="hero-mini-card">
         <i class="fa-solid fa-check"></i>
         <span>Commercial Use</span>
       </div>
 
-      <div class="hero-mini-card" role="button" aria-label="Modify Freely">
+      <div class="hero-mini-card">
         <i class="fa-solid fa-check"></i>
         <span>Modify Freely</span>
       </div>
 
-      <div class="hero-mini-card" role="button" aria-label="No Attribution Required">
+      <div class="hero-mini-card">
         <i class="fa-solid fa-check"></i>
         <span>No Attribution Required</span>
       </div>
+
     </div>
+
   </section>
-
-  <div class="license-stats">
-  <div class="stat">
-    <h3>100%</h3>
-    <span>Commercial Use</span>
-  </div>
-
-  <div class="stat">
-    <h3>0</h3>
-    <span>Hidden Fees</span>
-  </div>
-
-  <div class="stat">
-    <h3>∞</h3>
-    <span>Customization</span>
-  </div>
-</div>
-
-<div class="license-comparison">
-
-  <div class="comparison-column allowed">
-    ...
-  </div>
-
-  <div class="comparison-column restricted">
-    ...
-  </div>
-
-</div>
-
-<section class="permission-matrix">
-
-  <div class="matrix-row">
-    <span>Commercial Projects</span>
-    <span class="allowed">✓ Allowed</span>
-  </div>
-
-  <div class="matrix-row">
-    <span>Client Work</span>
-    <span class="allowed">✓ Allowed</span>
-  </div>
-
-  <div class="matrix-row">
-    <span>Reselling Components</span>
-    <span class="restricted">✕ Restricted</span>
-  </div>
-
-</section>
-
-<section class="license-highlights">
-
-  <div class="highlight-card">
-    <i class="fa-solid fa-briefcase"></i>
-    <h3>Commercial Friendly</h3>
-    <p>Use UIverse in startups, agencies and enterprise projects.</p>
-  </div>
-
-  <div class="highlight-card">
-    <i class="fa-solid fa-code"></i>
-    <h3>Source Included</h3>
-    <p>Every component is fully editable and customizable.</p>
-  </div>
-
-  <div class="highlight-card">
-    <i class="fa-solid fa-shield-halved"></i>
-    <h3>Transparent Rules</h3>
-    <p>No confusing legal jargon or hidden restrictions.</p>
-  </div>
-
-</section>
 
   <!-- LICENSE GRID -->
   <section class="license-grid">
+
     <!-- Allowed -->
-    <div class="license-card allowed" role="region" aria-labelledby="allowed-heading">
+    <div class="license-card allowed">
       <div class="license-card-top">
         <div class="license-icon">
           <i class="fa-solid fa-circle-check"></i>
         </div>
+
         <div>
-          <h2 id="allowed-heading">What You Can Do</h2>
+          <h2>What You Can Do</h2>
           <p>Everything below is fully allowed.</p>
         </div>
       </div>
+
       <ul class="license-list">
         <li><i class="fa-solid fa-check"></i> Use in personal projects</li>
         <li><i class="fa-solid fa-check"></i> Use in commercial websites</li>
@@ -511,16 +476,18 @@
     </div>
 
     <!-- Restricted -->
-    <div class="license-card restricted" role="region" aria-labelledby="restricted-heading">
+    <div class="license-card restricted">
       <div class="license-card-top">
         <div class="license-icon">
           <i class="fa-solid fa-ban"></i>
         </div>
+
         <div>
-          <h2 id="restricted-heading">Restrictions</h2>
+          <h2>Restrictions</h2>
           <p>Please avoid these actions.</p>
         </div>
       </div>
+
       <ul class="license-list">
         <li><i class="fa-solid fa-xmark"></i> Reselling components as-is</li>
         <li><i class="fa-solid fa-xmark"></i> Re-uploading full UIverse collections</li>
@@ -528,70 +495,8 @@
         <li><i class="fa-solid fa-xmark"></i> Using branding without permission</li>
       </ul>
     </div>
+
   </section>
-</main>
-
-  
-
-  <section class="license-faq">
-
-  <details>
-    <summary>Can I use UIverse in client projects?</summary>
-    <p>Yes, client work is fully allowed.</p>
-  </details>
-
-  <details>
-    <summary>Do I need attribution?</summary>
-    <p>No, attribution is optional.</p>
-  </details>
-
-  <details>
-    <summary>Can I sell UIverse components?</summary>
-    <p>Not as standalone products.</p>
-  </details>
-
-</section>
-
-<div class="license-feature-grid">
-
-  <div class="feature">
-    <i class="fa-solid fa-code"></i>
-    <h4>Editable Source</h4>
-    <span>100%</span>
-  </div>
-
-  <div class="feature">
-    <i class="fa-solid fa-building"></i>
-    <h4>Commercial Rights</h4>
-    <span>Included</span>
-  </div>
-
-  <div class="feature">
-    <i class="fa-solid fa-copy"></i>
-    <h4>Redistribution</h4>
-    <span>Restricted</span>
-  </div>
-
-</div>
-
-<section class="trust-banner">
-
-  <div class="trust-item">
-    <i class="fa-solid fa-circle-check"></i>
-    Commercial Projects
-  </div>
-
-  <div class="trust-item">
-    <i class="fa-solid fa-circle-check"></i>
-    Client Work
-  </div>
-
-  <div class="trust-item">
-    <i class="fa-solid fa-circle-check"></i>
-    Unlimited Customization
-  </div>
-
-</section>
 
   <!-- LICENSE DETAILS -->
   <section class="license-details">
@@ -677,169 +582,92 @@
 
   </section>
 
-  <section class="license-cta premium">
-
-  <div class="cta-glow"></div>
-
-  <h2>Build Without Licensing Headaches</h2>
-
-  <p>
-    Focus on creating amazing products while UIverse
-    handles the design foundation.
-  </p>
-
-  <div class="cta-buttons">
-    ...
-  </div>
-
-</section>
-
 </main>
 
-<section class="faq-section">
-  <h2>Frequently Asked Questions</h2>
-
-  <div class="faq-item">
-    <button class="faq-question">Can I use UIverse components in client projects?</button>
-    <div class="faq-answer">
-      <p>Yes, UIverse components are free to use in client projects without restrictions.</p>
-    </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question">Do I need to credit UIverse?</button>
-    <div class="faq-answer">
-      <p>No attribution is required, but giving credit is appreciated.</p>
-    </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question">Can I modify components and resell them?</button>
-    <div class="faq-answer">
-      <p>You may modify components for personal or client use, but direct reselling of UIverse assets is not permitted.</p>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- FOOTER -->
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
-
   <div class="footer-container">
-
     <div class="footer-col brand">
       <h2 class="footer-logo">⬡ UIverse</h2>
-
-      <p>
-        Beautiful reusable UI components crafted with
-        clean HTML, CSS and JavaScript.
-      </p>
-
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
       <div class="socials">
-        <a href="#"><i class="fab fa-github"></i></a>
-        <a href="#"><i class="fab fa-linkedin"></i></a>
-        <a href="#"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
 
     <div class="footer-col">
       <h3>Explore</h3>
-
       <ul>
         <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
         <li><a href="cards.html">Cards</a></li>
-        <li><a href="forms.html">Forms</a></li>
         <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
     </div>
 
     <div class="footer-col">
       <h3>Legal</h3>
-
       <ul>
-        <li><a href="license.html">License</a></li>
         <li><a href="privacypolicy.html">Privacy Policy</a></li>
         <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
       </ul>
     </div>
 
-    <section class="license-summary">
-
-    <h2>License at a Glance</h2>
-
-    <div class="summary-grid">
-
-        <div>
-
-            <strong>Commercial</strong>
-
-            <p>Allowed</p>
-
-        </div>
-
-        <div>
-
-            <strong>Modification</strong>
-
-            <p>Allowed</p>
-
-        </div>
-
-        <div>
-
-            <strong>Redistribution</strong>
-
-            <p>Restricted</p>
-
-        </div>
-
-        <div>
-
-            <strong>Attribution</strong>
-
-            <p>Optional</p>
-
-        </div>
-
-    </div>
-
-</section>
-
     <div class="footer-col newsletter">
       <h3>Stay Updated</h3>
-
-      <p>Get notified when new UI components are released.</p>
-
+      <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com">
-        <button>Subscribe</button>
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
-
   </div>
 
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Crafted for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
-
 </footer>
 
 <script>
-  const questions = document.querySelectorAll(".faq-question");
-  questions.forEach(q => {
-    q.addEventListener("click", () => {
-      q.classList.toggle("active");
-      const answer = q.nextElementSibling;
-      if (answer.style.maxHeight) {
-        answer.style.maxHeight = null;
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
       } else {
-        answer.style.maxHeight = answer.scrollHeight + "px";
+        alert("Please enter a valid email address.");
       }
-    });
-  });
+    }
+  }
 </script>
-
 
 <script>
 
@@ -863,36 +691,6 @@ toggle.addEventListener('click', () => {
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
 });
 
-const sidebar = document.getElementById("sidebar");
-const button = document.getElementById("menuToggle");
-
-function toggleSidebar() {
-
-    sidebar.classList.toggle("active");
-
-    const expanded =
-        sidebar.classList.contains("active");
-
-    button.setAttribute(
-        "aria-expanded",
-        expanded
-    );
-
-    document
-      .getElementById("sidebarBackdrop")
-      .classList.toggle("active");
-}
-
-function toggleSidebar() {
-  document
-    .getElementById('sidebar')
-    .classList.toggle('active');
-
-  document
-    .getElementById('sidebarBackdrop')
-    .classList.toggle('active');
-}
-
 window.addEventListener('scroll', () => {
   document.getElementById('navbar')
     .classList.toggle('scrolled', window.scrollY > 40);
@@ -900,6 +698,6 @@ window.addEventListener('scroll', () => {
 
 </script>
 
-    <script src="dist/shared.js"></script>
+  <script src="dist/shared.js"></script>
 </body>
 </html>

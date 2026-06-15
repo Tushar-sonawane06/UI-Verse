@@ -3,8 +3,8 @@
 
 <head>
   <link rel="stylesheet" href="dist/shared.css">
+
   <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y=' 'sha256-XriXHWKMwk2T+JOvuAt7cij0Iacl5D/SqRKl7ZgDNZ4=' 'sha256-uXUaHMV6W5t+ecyacP9YcaFyJ7vJYeiganbWLNJn8U0='; script-src-attr 'unsafe-hashes' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y=' 'sha256-XriXHWKMwk2T+JOvuAt7cij0Iacl5D/SqRKl7ZgDNZ4=' 'sha256-uXUaHMV6W5t+ecyacP9YcaFyJ7vJYeiganbWLNJn8U0='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
 
   <meta
     name="viewport"
@@ -24,19 +24,13 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
   />
-  
+
   <!-- CSS -->
-   <link rel="stylesheet" href="home.css">
-   <link rel="stylesheet" href="style.css">
-  
-  <link rel="stylesheet" href="shared-sidebar.css">
   <link rel="stylesheet" href="icon.css" />
 
-  </head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-
 
 <!-- =========================================================
    SIDEBAR
@@ -371,473 +365,71 @@
    NAVBAR
 ========================================================= -->
 
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
 <header class="navbar" id="navbar">
-  <button class="menu-toggle" onclick="toggleSidebar()" data-a11y-remediation="button-label-needed">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
     <i class="fa-solid fa-bars"></i>
   </button>
-  <div class="logo">UIverse</div>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
   <div class="search-bar">
     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    <input type="text" id="searchInput" placeholder="Search components..." oninput="liveFilter(this.value)" / data-a11y-remediation="label-needed">
-    <kbd class="search-kbd">⌘K</kbd>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
   </div>
   <div class="nav-right">
-    <button class="nav-btn outline-nav-btn"><i class="fa-solid fa-plus"></i> Add Component</button>
-    <button class="nav-btn primary-nav-btn"><i class="fa-solid fa-bookmark"></i> My Collection</button>
-    <button id="darkModeToggle" class="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
   </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
 </header>
 
-
-<!-- BUSINESS -->
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-briefcase"></i>
-  </div>
-  <h3>Briefcase</h3>
-  <p>fa-briefcase</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-dollar-sign"></i>
-  </div>
-  <h3>Dollar</h3>
-  <p>fa-dollar-sign</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-credit-card"></i>
-  </div>
-  <h3>Credit Card</h3>
-  <p>fa-credit-card</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-piggy-bank"></i>
-  </div>
-  <h3>Piggy Bank</h3>
-  <p>fa-piggy-bank</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-cart-shopping"></i>
-  </div>
-  <h3>Shopping Cart</h3>
-  <p>fa-cart-shopping</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-bag-shopping"></i>
-  </div>
-  <h3>Shopping Bag</h3>
-  <p>fa-bag-shopping</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-store"></i>
-  </div>
-  <h3>Store</h3>
-  <p>fa-store</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-house"></i>
-  </div>
-  <h3>Home</h3>
-  <p>fa-house</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-location-dot"></i>
-  </div>
-  <h3>Location</h3>
-  <p>fa-location-dot</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-compass"></i>
-  </div>
-  <h3>Compass</h3>
-  <p>fa-compass</p>
-  <button class="copy-btn">Copy</button>
-</div>
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-play"></i>
-  </div>
-  <h3>Play</h3>
-  <p>fa-play</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-pause"></i>
-  </div>
-  <h3>Pause</h3>
-  <p>fa-pause</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-volume-high"></i>
-  </div>
-  <h3>Volume</h3>
-  <p>fa-volume-high</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-file"></i>
-  </div>
-  <h3>File</h3>
-  <p>fa-file</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-file-pdf"></i>
-  </div>
-  <h3>PDF</h3>
-  <p>fa-file-pdf</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-folder"></i>
-  </div>
-  <h3>Folder</h3>
-  <p>fa-folder</p>
-  <button class="copy-btn">Copy</button>
-</div>
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-user"></i>
-  </div>
-  <h3>User</h3>
-  <p>fa-user</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-user-group"></i>
-  </div>
-  <h3>Users</h3>
-  <p>fa-user-group</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-user-gear"></i>
-  </div>
-  <h3>User Settings</h3>
-  <p>fa-user-gear</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-chart-line"></i>
-  </div>
-  <h3>Analytics</h3>
-  <p>fa-chart-line</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-gear"></i>
-  </div>
-  <h3>Settings</h3>
-  <p>fa-gear</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-sliders"></i>
-  </div>
-  <h3>Sliders</h3>
-  <p>fa-sliders</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-wrench"></i>
-  </div>
-  <h3>Wrench</h3>
-  <p>fa-wrench</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-sun"></i>
-  </div>
-  <h3>Sun</h3>
-  <p>fa-sun</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-cloud-rain"></i>
-  </div>
-  <h3>Rain</h3>
-  <p>fa-cloud-rain</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-snowflake"></i>
-  </div>
-  <h3>Snow</h3>
-  <p>fa-snowflake</p>
-  <button class="copy-btn">Copy</button>
-</div>
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-wallet"></i>
-  </div>
-  <h3>Wallet</h3>
-  <p>fa-wallet</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- COMMUNICATION -->
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-envelope"></i>
-  </div>
-  <h3>Email</h3>
-  <p>fa-envelope</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-comments"></i>
-  </div>
-  <h3>Chat</h3>
-  <p>fa-comments</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-phone"></i>
-  </div>
-  <h3>Phone</h3>
-  <p>fa-phone</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- DEVELOPMENT -->
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-terminal"></i>
-  </div>
-  <h3>Terminal</h3>
-  <p>fa-terminal</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-database"></i>
-  </div>
-  <h3>Database</h3>
-  <p>fa-database</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-server"></i>
-  </div>
-  <h3>Server</h3>
-  <p>fa-server</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- SECURITY -->
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-shield-halved"></i>
-  </div>
-  <h3>Security</h3>
-  <p>fa-shield-halved</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-lock"></i>
-  </div>
-  <h3>Lock</h3>
-  <p>fa-lock</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-fingerprint"></i>
-  </div>
-  <h3>Fingerprint</h3>
-  <p>fa-fingerprint</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- CLOUD -->
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-cloud-arrow-up"></i>
-  </div>
-  <h3>Upload</h3>
-  <p>fa-cloud-arrow-up</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-cloud-arrow-down"></i>
-  </div>
-  <h3>Download</h3>
-  <p>fa-cloud-arrow-down</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-globe"></i>
-  </div>
-  <h3>Global</h3>
-  <p>fa-globe</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- AI -->
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-robot"></i>
-  </div>
-  <h3>AI Bot</h3>
-  <p>fa-robot</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-brain"></i>
-  </div>
-  <h3>Brain</h3>
-  <p>fa-brain</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-microchip"></i>
-  </div>
-  <h3>Microchip</h3>
-  <p>fa-microchip</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- PRODUCTIVITY -->
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-calendar-days"></i>
-  </div>
-  <h3>Calendar</h3>
-  <p>fa-calendar-days</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-list-check"></i>
-  </div>
-  <h3>Tasks</h3>
-  <p>fa-list-check</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-solid fa-clock"></i>
-  </div>
-  <h3>Clock</h3>
-  <p>fa-clock</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- SOCIAL -->
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-brands fa-github"></i>
-  </div>
-  <h3>GitHub</h3>
-  <p>fa-github</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-brands fa-linkedin"></i>
-  </div>
-  <h3>LinkedIn</h3>
-  <p>fa-linkedin</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card">
-  <div class="icon-preview">
-    <i class="fa-brands fa-discord"></i>
-  </div>
-  <h3>Discord</h3>
-  <p>fa-discord</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="filter-bar">
-  <button class="filter-btn active">All</button>
-  <button class="filter-btn">Business</button>
-  <button class="filter-btn">Development</button>
-  <button class="filter-btn">Security</button>
-  <button class="filter-btn">Cloud</button>
-  <button class="filter-btn">AI</button>
-  <button class="filter-btn">Productivity</button>
-  <button class="filter-btn">Social</button>
-</div>
 <!-- =========================================================
    MAIN
 ========================================================= -->
@@ -894,246 +486,6 @@
 
     </div>
 
-
-    <!-- NAVIGATION -->
-<div class="icon-card" data-category="navigation">
-  <div class="icon-preview">
-    <i class="fa-solid fa-compass"></i>
-  </div>
-  <h3>Compass</h3>
-  <p>fa-compass</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card" data-category="navigation">
-  <div class="icon-preview">
-    <i class="fa-solid fa-location-dot"></i>
-  </div>
-  <h3>Location</h3>
-  <p>fa-location-dot</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- ECOMMERCE -->
-<div class="icon-card" data-category="ecommerce">
-  <div class="icon-preview">
-    <i class="fa-solid fa-cart-shopping"></i>
-  </div>
-  <h3>Cart</h3>
-  <p>fa-cart-shopping</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card" data-category="ecommerce">
-  <div class="icon-preview">
-    <i class="fa-solid fa-credit-card"></i>
-  </div>
-  <h3>Credit Card</h3>
-  <p>fa-credit-card</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- FILES -->
-<div class="icon-card" data-category="files">
-  <div class="icon-preview">
-    <i class="fa-solid fa-file"></i>
-  </div>
-  <h3>File</h3>
-  <p>fa-file</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card" data-category="files">
-  <div class="icon-preview">
-    <i class="fa-solid fa-folder"></i>
-  </div>
-  <h3>Folder</h3>
-  <p>fa-folder</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- MEDIA -->
-<div class="icon-card" data-category="media">
-  <div class="icon-preview">
-    <i class="fa-solid fa-play"></i>
-  </div>
-  <h3>Play</h3>
-  <p>fa-play</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card" data-category="media">
-  <div class="icon-preview">
-    <i class="fa-solid fa-pause"></i>
-  </div>
-  <h3>Pause</h3>
-  <p>fa-pause</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card" data-category="media">
-  <div class="icon-preview">
-    <i class="fa-solid fa-video"></i>
-  </div>
-  <h3>Video</h3>
-  <p>fa-video</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- WEATHER -->
-<div class="icon-card" data-category="weather">
-  <div class="icon-preview">
-    <i class="fa-solid fa-sun"></i>
-  </div>
-  <h3>Sun</h3>
-  <p>fa-sun</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card" data-category="weather">
-  <div class="icon-preview">
-    <i class="fa-solid fa-cloud-rain"></i>
-  </div>
-  <h3>Rain</h3>
-  <p>fa-cloud-rain</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card" data-category="weather">
-  <div class="icon-preview">
-    <i class="fa-solid fa-snowflake"></i>
-  </div>
-  <h3>Snow</h3>
-  <p>fa-snowflake</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- DEVICES -->
-<div class="icon-card" data-category="devices">
-  <div class="icon-preview">
-    <i class="fa-solid fa-mobile-screen"></i>
-  </div>
-  <h3>Mobile</h3>
-  <p>fa-mobile-screen</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card" data-category="devices">
-  <div class="icon-preview">
-    <i class="fa-solid fa-laptop"></i>
-  </div>
-  <h3>Laptop</h3>
-  <p>fa-laptop</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card" data-category="devices">
-  <div class="icon-preview">
-    <i class="fa-solid fa-desktop"></i>
-  </div>
-  <h3>Desktop</h3>
-  <p>fa-desktop</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- EDUCATION -->
-<div class="icon-card" data-category="education">
-  <div class="icon-preview">
-    <i class="fa-solid fa-graduation-cap"></i>
-  </div>
-  <h3>Graduation</h3>
-  <p>fa-graduation-cap</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card" data-category="education">
-  <div class="icon-preview">
-    <i class="fa-solid fa-book-open"></i>
-  </div>
-  <h3>Book</h3>
-  <p>fa-book-open</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- FINANCE -->
-<div class="icon-card" data-category="finance">
-  <div class="icon-preview">
-    <i class="fa-solid fa-dollar-sign"></i>
-  </div>
-  <h3>Dollar</h3>
-  <p>fa-dollar-sign</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card" data-category="finance">
-  <div class="icon-preview">
-    <i class="fa-solid fa-coins"></i>
-  </div>
-  <h3>Coins</h3>
-  <p>fa-coins</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- HEALTH -->
-<div class="icon-card" data-category="health">
-  <div class="icon-preview">
-    <i class="fa-solid fa-heart-pulse"></i>
-  </div>
-  <h3>Health</h3>
-  <p>fa-heart-pulse</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card" data-category="health">
-  <div class="icon-preview">
-    <i class="fa-solid fa-stethoscope"></i>
-  </div>
-  <h3>Stethoscope</h3>
-  <p>fa-stethoscope</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<!-- GAMING -->
-<div class="icon-card" data-category="gaming">
-  <div class="icon-preview">
-    <i class="fa-solid fa-dice"></i>
-  </div>
-  <h3>Dice</h3>
-  <p>fa-dice</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-<div class="icon-card" data-category="gaming">
-  <div class="icon-preview">
-    <i class="fa-solid fa-headset"></i>
-  </div>
-  <h3>Headset</h3>
-  <p>fa-headset</p>
-  <button class="copy-btn">Copy</button>
-</div>
-
-
-<div class="filter-bar">
-  <button class="filter-btn active">All</button>
-  <button class="filter-btn">Business</button>
-  <button class="filter-btn">Communication</button>
-  <button class="filter-btn">Development</button>
-  <button class="filter-btn">Security</button>
-  <button class="filter-btn">Cloud</button>
-  <button class="filter-btn">AI</button>
-  <button class="filter-btn">Productivity</button>
-  <button class="filter-btn">Navigation</button>
-  <button class="filter-btn">Ecommerce</button>
-  <button class="filter-btn">Files</button>
-  <button class="filter-btn">Media</button>
-  <button class="filter-btn">Weather</button>
-  <button class="filter-btn">Devices</button>
-  <button class="filter-btn">Education</button>
-  <button class="filter-btn">Finance</button>
-  <button class="filter-btn">Health</button>
-  <button class="filter-btn">Gaming</button>
-  <button class="filter-btn">Social</button>
-</div>
     <!-- HERO PREVIEW -->
     <div class="hero-icons">
 
@@ -1357,253 +709,6 @@
       </button>
 
     </div>
-    <!-- =========================================================
-MODERN ICON GRID
-========================================================= -->
-
-
-
-  <!-- ICON CARD -->
-
-  <div class="advanced-icon-card">
-
-    <div class="icon-glow purple"></div>
-
-    <div class="advanced-icon">
-      <i class="fa-solid fa-brain"></i>
-    </div>
-
-    <h3>AI Brain</h3>
-
-    <p>fa-brain</p>
-
-    <button class="copy-icon-btn">
-      Copy Icon
-    </button>
-
-  </div>
-
-  <!-- ICON CARD -->
-
-  <div class="advanced-icon-card">
-
-    <div class="icon-glow blue"></div>
-
-    <div class="advanced-icon">
-      <i class="fa-solid fa-microchip"></i>
-    </div>
-
-    <h3>Chip</h3>
-
-    <p>fa-microchip</p>
-
-    <button class="copy-icon-btn">
-      Copy Icon
-    </button>
-
-  </div>
-
-  <!-- ICON CARD -->
-
-  <div class="advanced-icon-card">
-
-    <div class="icon-glow orange"></div>
-
-    <div class="advanced-icon">
-      <i class="fa-solid fa-bolt"></i>
-    </div>
-
-    <h3>Energy</h3>
-
-    <p>fa-bolt</p>
-
-    <button class="copy-icon-btn">
-      Copy Icon
-    </button>
-
-  </div>
-
-  <!-- ICON CARD -->
-
-  <div class="advanced-icon-card">
-
-    <div class="icon-glow green"></div>
-
-    <div class="advanced-icon">
-      <i class="fa-solid fa-leaf"></i>
-    </div>
-
-    <h3>Nature</h3>
-
-    <p>fa-leaf</p>
-
-    <button class="copy-icon-btn">
-      Copy Icon
-    </button>
-
-  </div>
-
-  <!-- ICON CARD -->
-
-  <div class="advanced-icon-card">
-
-    <div class="icon-glow pink"></div>
-
-    <div class="advanced-icon">
-      <i class="fa-solid fa-gem"></i>
-    </div>
-
-    <h3>Gem</h3>
-
-    <p>fa-gem</p>
-
-    <button class="copy-icon-btn">
-      Copy Icon
-    </button>
-
-  </div>
-
-  <!-- ICON CARD -->
-
-  <div class="advanced-icon-card">
-
-    <div class="icon-glow cyan"></div>
-
-    <div class="advanced-icon">
-      <i class="fa-solid fa-satellite"></i>
-    </div>
-
-    <h3>Satellite</h3>
-
-    <p>fa-satellite</p>
-
-    <button class="copy-icon-btn">
-      Copy Icon
-    </button>
-
-  </div>
-
-  <!-- ICON CARD -->
-
-  <div class="advanced-icon-card">
-
-    <div class="icon-glow red"></div>
-
-    <div class="advanced-icon">
-      <i class="fa-solid fa-dragon"></i>
-    </div>
-
-    <h3>Dragon</h3>
-
-    <p>fa-dragon</p>
-
-    <button class="copy-icon-btn">
-      Copy Icon
-    </button>
-
-  </div>
-
-  <!-- ICON CARD -->
-
-  <div class="advanced-icon-card">
-
-    <div class="icon-glow yellow"></div>
-
-    <div class="advanced-icon">
-      <i class="fa-solid fa-crown"></i>
-    </div>
-
-    <h3>Crown</h3>
-
-    <p>fa-crown</p>
-
-    <button class="copy-icon-btn">
-      Copy Icon
-    </button>
-
-  </div>
-
-  <!-- ICON CARD -->
-
-  <div class="advanced-icon-card">
-
-    <div class="icon-glow sky"></div>
-
-    <div class="advanced-icon">
-      <i class="fa-solid fa-paper-plane"></i>
-    </div>
-
-    <h3>Plane</h3>
-
-    <p>fa-paper-plane</p>
-
-    <button class="copy-icon-btn">
-      Copy Icon
-    </button>
-
-  </div>
-
-  <!-- ICON CARD -->
-
-  <div class="advanced-icon-card">
-
-    <div class="icon-glow violet"></div>
-
-    <div class="advanced-icon">
-      <i class="fa-solid fa-mask"></i>
-    </div>
-
-    <h3>Mask</h3>
-
-    <p>fa-mask</p>
-
-    <button class="copy-icon-btn">
-      Copy Icon
-    </button>
-
-  </div>
-
-  <!-- ICON CARD -->
-
-  <div class="advanced-icon-card">
-
-    <div class="icon-glow teal"></div>
-
-    <div class="advanced-icon">
-      <i class="fa-solid fa-robot"></i>
-    </div>
-
-    <h3>Robot</h3>
-
-    <p>fa-robot</p>
-
-    <button class="copy-icon-btn">
-      Copy Icon
-    </button>
-
-  </div>
-
-  <!-- ICON CARD -->
-
-  <div class="advanced-icon-card">
-
-    <div class="icon-glow white"></div>
-
-    <div class="advanced-icon">
-      <i class="fa-solid fa-moon"></i>
-    </div>
-
-    <h3>Moon</h3>
-
-    <p>fa-moon</p>
-
-    <button class="copy-icon-btn">
-      Copy Icon
-    </button>
-
-  </div>
-
-
 
   </section>
 
@@ -1615,18 +720,21 @@ MODERN ICON GRID
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
-
-    <div class="socials">
-  <a href="https://github.com" target="_blank" title="GitHub">
-    <i class="fab fa-github"></i>
-  </a>
-  <a href="https://linkedin.com" target="_blank" title="LinkedIn">
-    <i class="fab fa-linkedin"></i>
-  </a>
-  <a href="https://twitter.com" target="_blank" title="Twitter">
-    <i class="fab fa-x-twitter"></i>
-  </a>
-</div>
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
 
     <div class="footer-col">
       <h3>Explore</h3>
@@ -1643,10 +751,9 @@ MODERN ICON GRID
       <h3>Resources</h3>
       <ul>
         <li><a href="documentation.html">Documentation</a></li>
-        <li><a href="contribute.html">Contribute</a></li>
-        <li><a href="https://github.com/uiverse/uiverse" target="_blank">GitHub Repo</a></li>
-        <li><a href="community.html">Community</a></li>
-        <li><a href="support.html">Support</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
     </div>
 
@@ -1663,18 +770,38 @@ MODERN ICON GRID
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
         <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
-
   </div>
 
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
 
-    <script src="dist/shared.js"></script>
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
+
+  <script src="dist/shared.js"></script>
 </body>
 </html>

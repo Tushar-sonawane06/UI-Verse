@@ -3,8 +3,8 @@
 
 <head>
   <link rel="stylesheet" href="dist/shared.css">
+
   <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes' 'sha256-5gz2c1mG+rwxmYnSeeebLAR8qCrXnUfXX6WitG8+IzU='; style-src-attr 'unsafe-hashes' 'sha256-5gz2c1mG+rwxmYnSeeebLAR8qCrXnUfXX6WitG8+IzU='">
 
   <meta
     name="viewport"
@@ -28,17 +28,15 @@
   <!-- CSS -->
   <link rel="stylesheet" href="retroui.css" />
 
-  </head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-
     <body>
 
 <!-- =========================================================
    SIDEBAR
 ========================================================= -->
-<div class="layout">
+
 <aside class="sidebar">
 
   <div class="sidebar-brand">
@@ -375,45 +373,77 @@
 <!-- =========================================================
    MAIN WRAPPER
 ========================================================= -->
-<main class="main-content">
+
 <div class="main-wrapper">
 
   <!-- =========================================================
      NAVBAR
   ========================================================= -->
 
-  <header class="navbar">
-
-    <div class="logo">
-
-      <span class="pixel-box"></span>
-
-      UIverse
-
-    </div>
-
-    <nav class="nav-links">
-
-      <a href="index.html">
-        Home
-      </a>
-
-      <a href="ai-components.html">
-        Components
-      </a>
-
-      <a href="retroui.html">
-        Retro
-      </a>
-
+  <!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
       
-      <a href="docs.html">
-        Docs
-      </a>
-
-    </nav>
-
-  </header>
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
 
   <!-- =========================================================
      HERO
@@ -450,412 +480,6 @@
 
   </section>
 
-  <!-- =========================================================
-   EXTRA PIXEL COMPONENTS
-   Add these inside your .pixel-grid section
-========================================================= -->
-
-<!-- CARD -->
-<div class="pixel-card">
-
-  <div class="card-top">
-
-    <span class="pixel-tag">
-      TOGGLE
-    </span>
-
-    <span class="pixel-level">
-      LVL 7
-    </span>
-
-  </div>
-
-  <h3>
-    Pixel Toggle
-  </h3>
-
-  <p>
-    Retro styled on/off switch inspired
-    by classic console settings menus.
-  </p>
-
-  <div class="preview-box">
-
-    <label class="pixel-switch">
-      <input type="checkbox" checked>
-      <span class="slider"></span>
-    </label>
-
-  </div>
-
-  <div class="card-actions">
-
-    <button class="view-btn">
-      VIEW
-    </button>
-
-    <button class="copy-btn">
-      COPY
-    </button>
-
-  </div>
-
-</div>
-
-<!-- CARD -->
-<div class="pixel-card">
-
-  <div class="card-top">
-
-    <span class="pixel-tag">
-      INPUT
-    </span>
-
-    <span class="pixel-level">
-      LVL 8
-    </span>
-
-  </div>
-
-  <h3>
-    Pixel Input
-  </h3>
-
-  <p>
-    8-bit inspired retro text field
-    with glowing focus effect.
-  </p>
-
-  <div class="preview-box dark">
-
-    <input
-      type="text"
-      class="pixel-input"
-      placeholder="ENTER NAME"
-    />
-
-  </div>
-
-  <div class="card-actions">
-
-    <button class="view-btn">
-      VIEW
-    </button>
-
-    <button class="copy-btn">
-      COPY
-    </button>
-
-  </div>
-
-</div>
-
-<!-- CARD -->
-<div class="pixel-card">
-
-  <div class="card-top">
-
-    <span class="pixel-tag">
-      PROGRESS
-    </span>
-
-    <span class="pixel-level">
-      LVL 9
-    </span>
-
-  </div>
-
-  <h3>
-    Pixel Progress
-  </h3>
-
-  <p>
-    Retro loading progress bar styled
-    like old-school RPG health meters.
-  </p>
-
-  <div class="preview-box">
-
-    <div class="pixel-progress">
-      <div class="pixel-progress-fill"></div>
-    </div>
-
-  </div>
-
-  <div class="card-actions">
-
-    <button class="view-btn">
-      VIEW
-    </button>
-
-    <button class="copy-btn">
-      COPY
-    </button>
-
-  </div>
-
-</div>
-
-<!-- CARD -->
-<div class="pixel-card">
-
-  <div class="card-top">
-
-    <span class="pixel-tag">
-      TOOLTIP
-    </span>
-
-    <span class="pixel-level">
-      LVL 10
-    </span>
-
-  </div>
-
-  <h3>
-    Pixel Tooltip
-  </h3>
-
-  <p>
-    Hover tooltip inspired by vintage
-    handheld gaming interfaces.
-  </p>
-
-  <div class="preview-box dark">
-
-    <div class="pixel-tooltip-box">
-
-      <button class="arcade-btn">
-        HOVER
-      </button>
-
-      <span class="pixel-tooltip">
-        SECRET ITEM FOUND
-      </span>
-
-    </div>
-
-  </div>
-
-  <div class="card-actions">
-
-    <button class="view-btn">
-      VIEW
-    </button>
-
-    <button class="copy-btn">
-      COPY
-    </button>
-
-  </div>
-
-</div>
-
-<!-- CARD -->
-<div class="pixel-card">
-
-  <div class="card-top">
-
-    <span class="pixel-tag">
-      MODAL
-    </span>
-
-    <span class="pixel-level">
-      LVL 11
-    </span>
-
-  </div>
-
-  <h3>
-    Pixel Modal
-  </h3>
-
-  <p>
-    Classic retro popup window with
-    pixel border and CRT style design.
-  </p>
-
-  <div class="preview-box">
-
-    <div class="pixel-modal">
-
-      <h4>MISSION START</h4>
-
-      <p>READY PLAYER?</p>
-
-      <button class="arcade-btn">
-        OK
-      </button>
-
-    </div>
-
-  </div>
-
-  <div class="card-actions">
-
-    <button class="view-btn">
-      VIEW
-    </button>
-
-    <button class="copy-btn">
-      COPY
-    </button>
-
-  </div>
-
-</div>
-
-<!-- CARD -->
-<div class="pixel-card">
-
-  <div class="card-top">
-
-    <span class="pixel-tag">
-      STATS
-    </span>
-
-    <span class="pixel-level">
-      LVL 12
-    </span>
-
-  </div>
-
-  <h3>
-    Player Stats
-  </h3>
-
-  <p>
-    RPG style player statistics widget
-    with retro pixel progress bars.
-  </p>
-
-  <div class="preview-box dark">
-
-    <div class="pixel-stats">
-
-      <div class="stat-row">
-        <span>HP</span>
-        <div class="bar"><div class="fill hp"></div></div>
-      </div>
-
-      <div class="stat-row">
-        <span>XP</span>
-        <div class="bar"><div class="fill xp"></div></div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card-actions">
-
-    <button class="view-btn">
-      VIEW
-    </button>
-
-    <button class="copy-btn">
-      COPY
-    </button>
-
-  </div>
-
-</div>
-
-<!-- CARD -->
-<div class="pixel-card">
-
-  <div class="card-top">
-
-    <span class="pixel-tag">
-      CHAT
-    </span>
-
-    <span class="pixel-level">
-      LVL 13
-    </span>
-
-  </div>
-
-  <h3>
-    Pixel Chat Bubble
-  </h3>
-
-  <p>
-    Retro dialogue box inspired by
-    classic JRPG conversation systems.
-  </p>
-
-  <div class="preview-box">
-
-    <div class="pixel-chat">
-      WELCOME TO UIVERSE HERO!
-    </div>
-
-  </div>
-
-  <div class="card-actions">
-
-    <button class="view-btn">
-      VIEW
-    </button>
-
-    <button class="copy-btn">
-      COPY
-    </button>
-
-  </div>
-
-</div>
-
-<!-- CARD -->
-<div class="pixel-card">
-
-  <div class="card-top">
-
-    <span class="pixel-tag">
-      AVATAR
-    </span>
-
-    <span class="pixel-level">
-      LVL 14
-    </span>
-
-  </div>
-
-  <h3>
-    Pixel Team
-  </h3>
-
-  <p>
-    Pixelated multiplayer avatar group
-    with retro arcade aesthetics.
-  </p>
-
-  <div class="preview-box dark">
-
-    <div class="pixel-team">
-
-      <div class="team-avatar"></div>
-      <div class="team-avatar"></div>
-      <div class="team-avatar"></div>
-
-    </div>
-
-  </div>
-
-  <div class="card-actions">
-
-    <button class="view-btn">
-      VIEW
-    </button>
-
-    <button class="copy-btn">
-      COPY
-    </button>
-
-  </div>
-
-</div>
-
   <!-- FILTER -->
   <section class="filter-bar">
 
@@ -884,292 +508,7 @@
   <!-- GRID -->
   <section class="pixel-grid">
 
-    
-  <!-- CARD: TABS -->
-  <div class="pixel-card">
-    <div class="card-top">
-      <span class="pixel-tag">TABS</span>
-      <span class="pixel-level">LVL 15</span>
-    </div>
-    <h3>Pixel Tabs</h3>
-    <p>Retro style tabbed navigation for organizing content menus.</p>
-    <div class="preview-box">
-      <div class="pixel-tabs">
-        <div class="pixel-tab active">INV</div>
-        <div class="pixel-tab">MAP</div>
-        <div class="pixel-tab">SKILL</div>
-      </div>
-    </div>
-    <div class="card-actions">
-      <button class="view-btn">VIEW</button>
-      <button class="copy-btn">COPY</button>
-    </div>
-  </div>
-
-  <!-- CARD: CHECKBOX -->
-  <div class="pixel-card">
-    <div class="card-top">
-      <span class="pixel-tag">INPUT</span>
-      <span class="pixel-level">LVL 16</span>
-    </div>
-    <h3>Pixel Checkbox</h3>
-    <p>Chunky 8-bit checkbox input for forms and settings.</p>
-    <div class="preview-box">
-      <label class="pixel-checkbox-container">
-        <input type="checkbox" checked>
-        <span class="pixel-checkmark"></span>
-        ENABLE SOUND
-      </label>
-    </div>
-    <div class="card-actions">
-      <button class="view-btn">VIEW</button>
-      <button class="copy-btn">COPY</button>
-    </div>
-  </div>
-
-  <!-- CARD: RADIO -->
-  <div class="pixel-card">
-    <div class="card-top">
-      <span class="pixel-tag">INPUT</span>
-      <span class="pixel-level">LVL 17</span>
-    </div>
-    <h3>Pixel Radio</h3>
-    <p>Classic circular retro radio button for multiple choice.</p>
-    <div class="preview-box">
-      <label class="pixel-radio-container">
-        <input type="radio" name="difficulty" checked>
-        <span class="pixel-radio"></span>
-        HARD MODE
-      </label>
-    </div>
-    <div class="card-actions">
-      <button class="view-btn">VIEW</button>
-      <button class="copy-btn">COPY</button>
-    </div>
-  </div>
-
-  <!-- CARD: SLIDER -->
-  <div class="pixel-card">
-    <div class="card-top">
-      <span class="pixel-tag">INPUT</span>
-      <span class="pixel-level">LVL 18</span>
-    </div>
-    <h3>Pixel Slider</h3>
-    <p>Blocky range slider input for adjusting values.</p>
-    <div class="preview-box">
-      <div style="width:80%;">
-        <input type="range" min="1" max="100" value="50" class="pixel-slider">
-      </div>
-    </div>
-    <div class="card-actions">
-      <button class="view-btn">VIEW</button>
-      <button class="copy-btn">COPY</button>
-    </div>
-  </div>
-
-  <!-- CARD: SELECT -->
-  <div class="pixel-card">
-    <div class="card-top">
-      <span class="pixel-tag">INPUT</span>
-      <span class="pixel-level">LVL 19</span>
-    </div>
-    <h3>Pixel Select</h3>
-    <p>Retro dropdown menu for choosing game options.</p>
-    <div class="preview-box">
-      <select class="pixel-select">
-        <option>WARRIOR</option>
-        <option>MAGE</option>
-        <option>ROGUE</option>
-      </select>
-    </div>
-    <div class="card-actions">
-      <button class="view-btn">VIEW</button>
-      <button class="copy-btn">COPY</button>
-    </div>
-  </div>
-
-  <!-- CARD: ACCORDION -->
-  <div class="pixel-card">
-    <div class="card-top">
-      <span class="pixel-tag">DATA</span>
-      <span class="pixel-level">LVL 20</span>
-    </div>
-    <h3>Pixel Accordion</h3>
-    <p>Expandable content panels styled like old dialogs.</p>
-    <div class="preview-box">
-      <div class="pixel-accordion">
-        <div class="pixel-accordion-header">QUEST LOG <span>+</span></div>
-        <div class="pixel-accordion-content">Defeat 10 Slimes in the Forest of Doom.</div>
-      </div>
-    </div>
-    <div class="card-actions">
-      <button class="view-btn">VIEW</button>
-      <button class="copy-btn">COPY</button>
-    </div>
-  </div>
-
-  <!-- CARD: SKELETON -->
-  <div class="pixel-card">
-    <div class="card-top">
-      <span class="pixel-tag">FEEDBACK</span>
-      <span class="pixel-level">LVL 21</span>
-    </div>
-    <h3>Pixel Skeleton</h3>
-    <p>Retro animated skeleton loader for loading states.</p>
-    <div class="preview-box">
-      <div style="width:80%;">
-        <div class="pixel-skeleton" style="width: 100%;"></div>
-        <div class="pixel-skeleton" style="width: 70%;"></div>
-        <div class="pixel-skeleton" style="width: 85%;"></div>
-      </div>
-    </div>
-    <div class="card-actions">
-      <button class="view-btn">VIEW</button>
-      <button class="copy-btn">COPY</button>
-    </div>
-  </div>
-
-  <!-- CARD: BREADCRUMBS -->
-  <div class="pixel-card">
-    <div class="card-top">
-      <span class="pixel-tag">NAV</span>
-      <span class="pixel-level">LVL 22</span>
-    </div>
-    <h3>Pixel Breadcrumbs</h3>
-    <p>Navigation trail indicator for deep nested menus.</p>
-    <div class="preview-box">
-      <div class="pixel-breadcrumbs">
-        <a href="#">WORLD</a> <span>></span>
-        <a href="#">TOWN</a> <span>></span>
-        <span>SHOP</span>
-      </div>
-    </div>
-    <div class="card-actions">
-      <button class="view-btn">VIEW</button>
-      <button class="copy-btn">COPY</button>
-    </div>
-  </div>
-
-  <!-- CARD: SPINNER -->
-  <div class="pixel-card">
-    <div class="card-top">
-      <span class="pixel-tag">FEEDBACK</span>
-      <span class="pixel-level">LVL 23</span>
-    </div>
-    <h3>Pixel Spinner</h3>
-    <p>Blocky rotating loading spinner element.</p>
-    <div class="preview-box">
-      <div class="pixel-spinner"></div>
-    </div>
-    <div class="card-actions">
-      <button class="view-btn">VIEW</button>
-      <button class="copy-btn">COPY</button>
-    </div>
-  </div>
-
-  <!-- CARD: TOAST -->
-  <div class="pixel-card">
-    <div class="card-top">
-      <span class="pixel-tag">ALERT</span>
-      <span class="pixel-level">LVL 24</span>
-    </div>
-    <h3>Pixel Toast</h3>
-    <p>Notification popup for temporary game messages.</p>
-    <div class="preview-box">
-      <div class="pixel-toast">
-        ITEM SAVED
-      </div>
-    </div>
-    <div class="card-actions">
-      <button class="view-btn">VIEW</button>
-      <button class="copy-btn">COPY</button>
-    </div>
-  </div>
-
-  <!-- CARD: STEPPER -->
-  <div class="pixel-card">
-    <div class="card-top">
-      <span class="pixel-tag">NAV</span>
-      <span class="pixel-level">LVL 25</span>
-    </div>
-    <h3>Pixel Stepper</h3>
-    <p>Progress indicator for multi-step retro flows.</p>
-    <div class="preview-box">
-      <div class="pixel-stepper">
-        <div class="pixel-step completed">1</div>
-        <div class="pixel-step-line"></div>
-        <div class="pixel-step">2</div>
-      </div>
-    </div>
-    <div class="card-actions">
-      <button class="view-btn">VIEW</button>
-      <button class="copy-btn">COPY</button>
-    </div>
-  </div>
-
-  <!-- CARD: DIVIDER -->
-  <div class="pixel-card">
-    <div class="card-top">
-      <span class="pixel-tag">LAYOUT</span>
-      <span class="pixel-level">LVL 26</span>
-    </div>
-    <h3>Pixel Divider</h3>
-    <p>Dashed separator line for UI sections.</p>
-    <div class="preview-box">
-      <div style="width:80%; padding: 20px 0;">
-        <div class="pixel-divider"></div>
-      </div>
-    </div>
-    <div class="card-actions">
-      <button class="view-btn">VIEW</button>
-      <button class="copy-btn">COPY</button>
-    </div>
-  </div>
-
-  <!-- CARD: PAGINATION -->
-  <div class="pixel-card">
-    <div class="card-top">
-      <span class="pixel-tag">NAV</span>
-      <span class="pixel-level">LVL 27</span>
-    </div>
-    <h3>Pixel Pagination</h3>
-    <p>Blocky page numbers for scrolling through items.</p>
-    <div class="preview-box">
-      <div class="pixel-pagination">
-        <div class="pixel-page">&lt;</div>
-        <div class="pixel-page active">1</div>
-        <div class="pixel-page">2</div>
-        <div class="pixel-page">&gt;</div>
-      </div>
-    </div>
-    <div class="card-actions">
-      <button class="view-btn">VIEW</button>
-      <button class="copy-btn">COPY</button>
-    </div>
-  </div>
-
-  <!-- CARD: RATING -->
-  <div class="pixel-card">
-    <div class="card-top">
-      <span class="pixel-tag">DATA</span>
-      <span class="pixel-level">LVL 28</span>
-    </div>
-    <h3>Pixel Rating</h3>
-    <p>Star rating system with retro pixel stars.</p>
-    <div class="preview-box">
-      <div class="pixel-rating">
-        <span class="pixel-star">★</span>
-        <span class="pixel-star">★</span>
-        <span class="pixel-star">★</span>
-        <span class="pixel-star empty">★</span>
-      </div>
-    </div>
-    <div class="card-actions">
-      <button class="view-btn">VIEW</button>
-      <button class="copy-btn">COPY</button>
-    </div>
-  </div>
-\n    <!-- KEEP ALL YOUR EXISTING PIXEL CARDS HERE -->
+    <!-- KEEP ALL YOUR EXISTING PIXEL CARDS HERE -->
 
   </section>
 
@@ -1177,8 +516,91 @@
 
 <script src="retro-pixel.js"></script>
 
-    <script src="dist/shared.js"></script>
-</body>
+  <script src="dist/shared.js"></script>
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>\n\n</body>
 
 <!-- =========================================================
    NAVBAR
@@ -1561,106 +983,7 @@
 
   </div>
 
-  <!-- CARD -->
-<div class="pixel-card">
-
-  <div class="card-top">
-    <span class="pixel-tag">
-      PROGRESS
-    </span>
-    <span class="pixel-level">
-      LVL 7
-    </span>
-  </div>
-
-  <h3>
-    Pixel Progress Bar
-  </h3>
-
-  <p>
-    Retro inspired progress indicator
-    styled with pixel blocks.
-  </p>
-
-  <div class="preview-box dark">
-    <div class="pixel-progress">
-      <div class="progress-fill" style="width: 60%;"></div>
-    </div>
-  </div>
-
-  <div class="card-actions">
-    <button class="view-btn">
-      VIEW
-    </button>
-    <button class="copy-btn">
-      COPY
-    </button>
-  </div>
-
-</div>
-
-
 </section>
-
-</main>
-</div>
-
-<button id="scrollTopBtn" class="scroll-top-btn">
-  <i class="fa-solid fa-arrow-up"></i>
-</button>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-container">
-    <div class="footer-col brand">
-      <h2 class="footer-logo">⬡ UIverse</h2>
-      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
-      <div class="socials">
-        <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
-        <a href="https://twitter.com" target="_blank"><i class="fab fa-x-twitter"></i></a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h3>Explore</h3>
-      <ul>
-        <li><a href="button.html">Buttons</a></li>
-        <li><a href="navbar.html">Navbars</a></li>
-        <li><a href="cards.html">Cards</a></li>
-        <li><a href="inputs.html">Inputs</a></li>
-        <li><a href="forms.html">Forms</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h3>Resources</h3>
-      <ul>
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">GitHub Repo</a></li>
-        <li><a href="#">Community</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h3>Legal</h3>
-      <ul>
-        <li><a href="privacypolicy.html">Privacy Policy</a></li>
-        <li><a href="terms.html">Terms of Service</a></li>
-      </ul>
-    </div>
-    <div class="footer-col newsletter">
-      <h3>Stay Updated</h3>
-      <p>Get notified when new components drop.</p>
-      <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
-        <button type="button">Subscribe</button>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
-  </div>
-</footer>
-</body>
-
 
 <script src="retroui.js"></script>
 

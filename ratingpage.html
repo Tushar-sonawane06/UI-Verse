@@ -1,705 +1,522 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <link rel="stylesheet" href="dist/shared.css">
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- SECURITY ENFORCEMENT LAYER -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-+Kx1GnfMJT91+hyTTntE1zHLRrUoV3kuuMJaykG/QCg=' 'sha256-/Wgxaqi/50PTmkxdmGXf14BejL55Bmc6ybWhA7Cylp0=' 'sha256-0IBPBxNuX6zqZV612AuxWGJAC99By4w3qcHaPmotjlk=' 'sha256-8VeKbRXfsOVWa6keWVaIB1ehyyCk+1LdhVarJ8hKeyo=' 'sha256-9iqURCUSbRHb9oL4duTqTkTcc02r+TZdGC0RMMqUGhk=' 'sha256-KwYy1A83Ayt+pa/MGVf1yFiIj6sn7FAOjuPXOnefmcg=' 'sha256-N81fHhdFrZJpHOhF+82/0AZg/ztIGxa3DCWUzdsqNic=' 'sha256-NUqqUTzXKesnXBjl7T0sfBPUT3v4iXQYtw3248dvUds=' 'sha256-P/KXPJy6ibxgla9V28uZVLQU4i8Io27E3DndzL9tM5c=' 'sha256-PQJHT+6cLu6p+Liv0mjIlmS09BdOlTzgPiTh+yzbLXk=' 'sha256-U3SGDbtm1pr9R2Rg80vVJuhWJ4tJJmjw4Faxdk+TXm4=' 'sha256-XHzx0vjTo5pMz87xvqGW6wE3qjKNhsoDn/G7gc3M1yU=' 'sha256-YJQucJAyD7NxCBvbEsc72rCaIelVSoMvRZZiEv0GTjI=' 'sha256-YLCPHH/4ovqmNkmcqndAVfV2ozEEel4bWwjkVY3rOxo=' 'sha256-YOldn36WO2yn/+ysL/LImHV3CcH+DvgntQqiuJBkD/U=' 'sha256-ZCNOgAzLTken9MfTBd3KOx6Y73ryk9hvmFzCJWtiako=' 'sha256-cA2kbxJVVPSlTbA868dOo05kDaeaQPysp7O6RZ73wz4=' 'sha256-cQ/9XXscBRSTGbwK4bvy1ss1i7wrS7UW3xgcDZw3OdI=' 'sha256-fI3xaDyQY2NXRhSxil2fKTa238Tyw9KX/Xx+BJE8qSU=' 'sha256-hwjYitG0o9DUJ+lVfltUnTrXCXnjFp6r4hlWQ9LcTTk=' 'sha256-mUuZxSIyntn2sJXGcinGGiYG14FwAnuJrh6hzWJhTnU=' 'sha256-n8i72j2TeSx7iEEGOe/wB1kCnBK0X4UppF6NFBa41/s=' 'sha256-pEdG6FH2SOS28ZeE7lDdjq2cJ7EI5Ky8/sZtAjlmgBQ=' 'sha256-r4TB1ZGuuHtKaETngs3zXy40bawdSfvzwbyt0t/uV2w=' 'sha256-vafaF2n8kwMAyUyGKCi4Zl8NOsPDLMWPCFE+UfpBiVE=' 'sha256-xVdRVUsd/N8sheXPwefyU7gfOQfI7iY53DfRZym2bnE=' 'sha256-xeoJazb4Rb14E1TmtgzfhfzTL+joDHLGnhiY8k2CQqc='; script-src-attr 'unsafe-hashes' 'sha256-+Kx1GnfMJT91+hyTTntE1zHLRrUoV3kuuMJaykG/QCg=' 'sha256-/Wgxaqi/50PTmkxdmGXf14BejL55Bmc6ybWhA7Cylp0=' 'sha256-0IBPBxNuX6zqZV612AuxWGJAC99By4w3qcHaPmotjlk=' 'sha256-8VeKbRXfsOVWa6keWVaIB1ehyyCk+1LdhVarJ8hKeyo=' 'sha256-9iqURCUSbRHb9oL4duTqTkTcc02r+TZdGC0RMMqUGhk=' 'sha256-KwYy1A83Ayt+pa/MGVf1yFiIj6sn7FAOjuPXOnefmcg=' 'sha256-N81fHhdFrZJpHOhF+82/0AZg/ztIGxa3DCWUzdsqNic=' 'sha256-NUqqUTzXKesnXBjl7T0sfBPUT3v4iXQYtw3248dvUds=' 'sha256-P/KXPJy6ibxgla9V28uZVLQU4i8Io27E3DndzL9tM5c=' 'sha256-PQJHT+6cLu6p+Liv0mjIlmS09BdOlTzgPiTh+yzbLXk=' 'sha256-U3SGDbtm1pr9R2Rg80vVJuhWJ4tJJmjw4Faxdk+TXm4=' 'sha256-XHzx0vjTo5pMz87xvqGW6wE3qjKNhsoDn/G7gc3M1yU=' 'sha256-YJQucJAyD7NxCBvbEsc72rCaIelVSoMvRZZiEv0GTjI=' 'sha256-YLCPHH/4ovqmNkmcqndAVfV2ozEEel4bWwjkVY3rOxo=' 'sha256-YOldn36WO2yn/+ysL/LImHV3CcH+DvgntQqiuJBkD/U=' 'sha256-ZCNOgAzLTken9MfTBd3KOx6Y73ryk9hvmFzCJWtiako=' 'sha256-cA2kbxJVVPSlTbA868dOo05kDaeaQPysp7O6RZ73wz4=' 'sha256-cQ/9XXscBRSTGbwK4bvy1ss1i7wrS7UW3xgcDZw3OdI=' 'sha256-fI3xaDyQY2NXRhSxil2fKTa238Tyw9KX/Xx+BJE8qSU=' 'sha256-hwjYitG0o9DUJ+lVfltUnTrXCXnjFp6r4hlWQ9LcTTk=' 'sha256-mUuZxSIyntn2sJXGcinGGiYG14FwAnuJrh6hzWJhTnU=' 'sha256-n8i72j2TeSx7iEEGOe/wB1kCnBK0X4UppF6NFBa41/s=' 'sha256-pEdG6FH2SOS28ZeE7lDdjq2cJ7EI5Ky8/sZtAjlmgBQ=' 'sha256-r4TB1ZGuuHtKaETngs3zXy40bawdSfvzwbyt0t/uV2w=' 'sha256-vafaF2n8kwMAyUyGKCi4Zl8NOsPDLMWPCFE+UfpBiVE=' 'sha256-xVdRVUsd/N8sheXPwefyU7gfOQfI7iY53DfRZym2bnE=' 'sha256-xeoJazb4Rb14E1TmtgzfhfzTL+joDHLGnhiY8k2CQqc='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
-  <title>Rating & Feedback Analytics Matrix | UIverse Premium</title>
+  <!-- SECURITY -->
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="
+      default-src 'self' https:;
+      base-uri 'self';
+      frame-ancestors 'none';
+      object-src 'none';
+      connect-src 'self' https:;
+      img-src 'self' data: https:;
+      font-src 'self' data: https:;
+      script-src 'self' https: 'unsafe-inline';
+      style-src 'self' https: 'unsafe-inline';
+    "
+  />
 
-  <!-- GRAPHIC PARADIGM FONTS -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <title>Rating Components — UIverse</title>
 
-  <!-- FUNCTIONAL GLYPH SYSTEMS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <!-- CSS -->
   <link rel="stylesheet" href="ratingpage.css" />
-</head>
-<body class="dark">
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
-  <!-- =========================================================
-     GLOBAL RUNTIME PLATFORM SIDEBAR MODULE
-  ========================================================= -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <span class="brand-icon">⬡</span>
-      <span class="brand-text">UIverse <span class="engine-badge">Metrics Engine</span></span>
+<body>
+
+<!-- =========================================================
+   SIDEBAR
+========================================================= -->
+
+<aside
+  class="sidebar"
+  aria-label="Sidebar Navigation"
+>
+
+  <div class="sidebar-brand">
+
+    <span class="brand-icon">⬡</span>
+
+    <span class="brand-text">
+      UIverse
+    </span>
+
+  </div>
+
+  <nav class="sidebar-nav">
+
+    <ul>
+
+      <li>
+        <a href="index.html">
+          <i class="fa-solid fa-house" aria-hidden="true"></i>
+          <span>Home</span>
+        </a>
+      </li>
+
+      <li class="active">
+        <a href="ratings-premium.html">
+          <i class="fa-solid fa-star" aria-hidden="true"></i>
+          <span>Ratings V2</span>
+        </a>
+      </li>
+
+    </ul>
+
+  </nav>
+
+</aside>
+
+<!-- =========================================================
+   NAVBAR
+========================================================= -->
+
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
+
+<!-- =========================================================
+   MAIN
+========================================================= -->
+
+<main class="main-home">
+
+  <!-- HERO -->
+  <section class="page-hero">
+
+    <div class="page-hero-left">
+
+      <div class="breadcrumb">
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <i
+          class="fa-solid fa-chevron-right"
+          aria-hidden="true"
+        ></i>
+
+        <span>
+          Rating Components
+        </span>
+
+      </div>
+
+      <h1 class="page-title">
+        Rating UI Components
+      </h1>
+
+      <p class="page-desc">
+        Beautiful rating components including stars,
+        emoji feedback, sliders, bars and modern
+        review cards crafted for modern interfaces.
+      </p>
+
+      <div class="page-meta">
+
+        <span class="meta-badge">
+          <i class="fa-solid fa-star" aria-hidden="true"></i>
+          8 Components
+        </span>
+
+        <span class="meta-badge">
+          <i class="fa-solid fa-code" aria-hidden="true"></i>
+          Pure HTML CSS JS
+        </span>
+
+        <span class="meta-badge">
+          <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+          Interactive
+        </span>
+
+      </div>
+
     </div>
 
-    <nav class="sidebar-nav">
-      <div class="nav-group-wrapper">
-        <span class="nav-group-title">Ecosystem Foundations</span>
-        <ul>
-          <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home Registry</span></a></li>
-          <li><a href="button.html"><i class="fa-solid fa-hand-pointer"></i><span>Action Toggles</span></a></li>
-          <li><a href="dropdown-components.html"><i class="fa-solid fa-caret-down"></i><span>Dropdown Cascades</span></a></li>
-          <li><a href="profile-components.html"><i class="fa-solid fa-user"></i><span>Identity Profiles</span></a></li>
-          <li><a href="navbar.html"><i class="fa-solid fa-bars"></i><span>Navbar Shells</span></a></li>
-          <li><a href="cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Component Cards</span></a></li>
-          <li><a href="flipcards.html"><i class="fa-solid fa-clone"></i><span>3D Perspective Units</span></a></li>
-        </ul>
+    <!-- HERO PREVIEW -->
+    <div class="rating-hero-preview">
+
+      <div class="hero-rating-card">
+
+        <span class="hero-rating-label">
+          User Experience
+        </span>
+
+        <div
+          class="hero-stars"
+          aria-label="4 out of 5 stars"
+        >
+
+          <i class="fa-solid fa-star active"></i>
+          <i class="fa-solid fa-star active"></i>
+          <i class="fa-solid fa-star active"></i>
+          <i class="fa-solid fa-star active"></i>
+          <i class="fa-solid fa-star"></i>
+
+        </div>
+
+        <p>
+          4.0 / 5.0
+        </p>
+
       </div>
 
-      <div class="nav-group-wrapper">
-        <span class="nav-group-title">Data Intake Pipelines</span>
-        <ul>
-          <li><a href="inputs.html"><i class="fa-solid fa-keyboard"></i><span>Form Inputs</span></a></li>
-          <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><span>Schema Intakes</span></a></li>
-          <li><a href="badges.html"><i class="fa-solid fa-award"></i><span>Status Badges</span></a></li>
-          <li><a href="blog.html"><i class="fa-solid fa-blog"></i><span>Blog Channels</span></a></li>
-          <li><a href="article.html"><i class="fa-solid fa-newspaper"></i><span>Article Modules</span></a></li>
-          <li><a href="alerts.html"><i class="fa-solid fa-triangle-exclamation"></i><span>Alert Canvas Frames</span></a></li>
-        </ul>
-      </div>
+    </div>
 
-      <div class="nav-group-wrapper">
-        <span class="nav-group-title">SaaS Visualizations</span>
-        <ul>
-          <li><a href="color.html"><i class="fa-solid fa-palette"></i><span>Global Color Tokens</span></a></li>
-          <li><a href="charts.html"><i class="fa-solid fa-chart-pie"></i><span>Data Visualizers</span></a></li>
-          <li><a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Admin Viewports</span></a></li>
-          <li><a href="div.html"><i class="fa-solid fa-square"></i><span>DIV Structural Units</span></a></li>
-          <li><a href="widgets.html"><i class="fa-solid fa-layer-group"></i><span>Utility Widgets</span></a></li>
-          <li><a href="search.html"><i class="fa-solid fa-magnifying-glass"></i><span>Search Interfaces</span></a></li>
-          <li><a href="hover.html"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Micro-Physics Hover</span></a></li>
-          <li><a href="error.html"><i class="fa-solid fa-circle-exclamation"></i><span>Error Canvas Sheets</span></a></li>
-          <li><a href="ecommerce.html"><i class="fa-solid fa-cart-shopping"></i><span>E-Commerce Pools</span></a></li>
-          <li><a href="files.html"><i class="fa-solid fa-file-arrow-up"></i><span>File Drop Drop Vaults</span></a></li>
-        </ul>
-      </div>
+  </section>
 
-      <div class="nav-group-wrapper">
-        <span class="nav-group-title">Enterprise Infrastructure</span>
-        <ul>
-          <li><a href="hero.html"><i class="fa-solid fa-star"></i><span>Hero Landing Landing Landing Arenas</span></a></li>
-          <li><a href="loaders.html"><i class="fa-solid fa-spinner"></i><span>System Loaders</span></a></li>
-          <li><a href="timeline.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Milestone Trails</span></a></li>
-          <li><a href="map.html"><i class="fa-solid fa-map-location-dot"></i><span>Spatial Maps</span></a></li>
-          <li><a href="menu.html"><i class="fa-solid fa-bars-staggered"></i><span>Context Lists</span></a></li>
-          <li><a href="pricing.html"><i class="fa-solid fa-tags"></i><span>Subscription Tiers</span></a></li>
-          <li><a href="section.html"><i class="fa-solid fa-rectangle-list"></i><span>Layout Segments</span></a></li>
-          <li><a href="span.html"><i class="fa-solid fa-code"></i><span>Inline Micro-Spans</span></a></li>
-          <li><a href="table.html"><i class="fa-solid fa-table"></i><span>Data Matrices</span></a></li>
-          <li><a href="tabs.html"><i class="fa-solid fa-table-columns"></i><span>Viewport Tabs</span></a></li>
-          <li><a href="terms.html"><i class="fa-solid fa-file-contract"></i><span>Terms & Compliances</span></a></li>
-          <li><a href="testimonials.html"><i class="fa-solid fa-comments"></i><span>Social Proof Matrix</span></a></li>
-          <li><a href="toggles.html"><i class="fa-solid fa-toggle-on"></i><span>Tactile Power Switches</span></a></li>
-          <li><a href="radiobutton.html"><i class="fa-solid fa-circle-dot"></i><span>Radio Selection Nodes</span></a></li>
-          <li><a href="checkbox.html"><i class="fa-solid fa-square-check"></i><span>Binary Check Selection</span></a></li>
-          <li><a href="notifications-premium.html"><i class="fa-solid fa-bell"></i><span>Notification Streams</span></a></li>
-          <li><a href="step-indicators.html"><i class="fa-solid fa-list-check"></i><span>Stepper Linear Trails</span></a></li>
-          <li><a href="progress-premium.html"><i class="fa-solid fa-bars-progress"></i><span>Velocity Progress Monitors</span></a></li>
-          <li class="active"><a href="ratings-premium.html"><i class="fa-solid fa-star"></i><span>Ratings Analytics V2</span></a></li>
-          <li><a href="filters-premium.html"><i class="fa-solid fa-sliders"></i><span>Multi-Token Query Filters</span></a></li>
-          <li><a href="admin-panel.html"><i class="fa-solid fa-gauge-high"></i><span>Admin Terminal V2</span></a></li>
-          <li><a href="about.html"><i class="fa-solid fa-circle-info"></i><span>Platform Origins</span></a></li>
-          <li><a href="documentation.html"><i class="fa-solid fa-book"></i><span>Technical Manuals</span></a></li>
-          <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i><span>Knowledge Base FAQ</span></a></li>
-          <li><a href="contact.html"><i class="fa-regular fa-envelope"></i><span>Emergency Protocols</span></a></li>
-        </ul>
-      </div>
-    </nav>
-  </aside>
+  <!-- FILTER -->
+  <div class="filter-bar">
 
-  <!-- SIDEBAR MOBILITY INTERCEPTOR LAYER -->
-  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="runtimeToggleSidebar()"></div>
-
-  <!-- =========================================================
-     TOP INTEGRATED PLATFORM NAVBAR
-  ========================================================= -->
-  <header class="navbar" id="navbar">
-    <button class="menu-toggle" onclick="runtimeToggleSidebar()" aria-label="Toggle system navigation menu">
-      <i class="fa-solid fa-bars"></i>
+    <button
+      type="button"
+      class="filter-btn active"
+    >
+      All
     </button>
 
-    <div class="logo">UIverse <span class="badge-pro">PRO Matrix</span></div>
+    <button
+      type="button"
+      class="filter-btn"
+    >
+      Stars
+    </button>
 
-    <div class="search-bar">
-      <i class="fa-solid fa-magnifying-glass search-icon"></i>
-      <input type="text" placeholder="Query interface templates, scoring metrics, vector layouts (⌘K)..." aria-label="Search rating components">
-      <kbd class="search-kbd">⌘K</kbd>
-    </div>
+    <button
+      type="button"
+      class="filter-btn"
+    >
+      Reviews
+    </button>
 
-    <div class="nav-right">
-      <button class="nav-btn outline-nav-btn" type="button"><i class="fa-solid fa-plus"></i> Add Metric Pack</button>
-      <button class="nav-btn primary-nav-btn" type="button"><i class="fa-solid fa-bookmark"></i> Component Hub</button>
-      <button id="themeToggle" class="theme-toggle" title="Toggle Surface Lighting State" type="button">
-        <i id="themeIcon" class="fa-solid fa-sun"></i>
-      </button>
-    </div>
-  </header>
+    <button
+      type="button"
+      class="filter-btn"
+    >
+      Emoji
+    </button>
 
-  <!-- =========================================================
-     MAIN WORKSPACE VIEWPORT CANVAS
-  ========================================================= -->
-  <main class="main-home" id="main-content">
+    <button
+      type="button"
+      class="filter-btn"
+    >
+      Progress
+    </button>
 
-    <!-- PLATFORM JUMBOTRON HERO -->
-    <section class="page-hero">
-      <div class="page-hero-left">
-        <div class="breadcrumb">
-          <a href="index.html">Home Infrastructure</a>
-          <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-          <span class="current-target">Ratings Engine Analytics</span>
-        </div>
-        <h1 class="page-title">Rating UI System</h1>
-        <p class="page-desc">High-fidelity responsive review frameworks configured for rapid integration across data registries, user satisfaction indices, and micro-transaction validation components.</p>
-        
-        <div class="page-meta">
-          <span class="meta-badge"><i class="fa-solid fa-star" aria-hidden="true"></i> 16 Telemetry Elements</span>
-          <span class="meta-badge"><i class="fa-solid fa-code" aria-hidden="true"></i> Hardware Accelerated CSS</span>
-          <span class="meta-badge"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> State Interactive Nodes</span>
-        </div>
-      </div>
-
-      <!-- HERO INTERACTIVE REALTIME INSIGHT OVERLAY -->
-      <div class="rating-hero-preview">
-        <div class="hero-rating-card">
-          <span class="hero-rating-label">Platform Customer Experience Index</span>
-          <div class="hero-stars" aria-label="4 out of 5 stars calculated from live telemetry pools">
-            <i class="fa-solid fa-star active"></i>
-            <i class="fa-solid fa-star active"></i>
-            <i class="fa-solid fa-star active"></i>
-            <i class="fa-solid fa-star active"></i>
-            <i class="fa-solid fa-star"></i>
-          </div>
-          <p class="hero-metric-output-string">4.8 / 5.0 nominal capacity</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- LIVE FILTER PARAMETERS SEGMENTATION TABS -->
-    <div class="filter-bar">
-      <button type="button" class="filter-btn active" onclick="runtimeFilterCategories('all', this)">All Nodes</button>
-      <button type="button" class="filter-btn" onclick="runtimeFilterCategories('stars', this)">Star Arrays</button>
-      <button type="button" class="filter-btn" onclick="runtimeFilterCategories('reviews', this)">Review Blocks</button>
-      <button type="button" class="filter-btn" onclick="runtimeFilterCategories('emoji', this)">Emoji Feedback</button>
-      <button type="button" class="filter-btn" onclick="runtimeFilterCategories('analytics', this)">Compute Analytics</button>
-    </div>
-
-    <!-- MAIN DISPLAY TARGET TILES SECTOR GRID -->
-    <section class="rating-grid">
-
-      <!-- MODEL 1: STANDARD STATE INTERACTIVE STARS -->
-      <div class="component-card" data-category="stars">
-        <div class="card-top">
-          <span class="card-label">Interactive Star Pipeline</span>
-          <span class="card-tag tag-popular">Highly Demanded</span>
-        </div>
-        <div class="card-preview">
-          <div class="star-rating" aria-label="5 star interactive intake field" data-runtime-rating-interactive="true">
-            <i class="fa-solid fa-star option-node-js" data-index="1"></i>
-            <i class="fa-solid fa-star option-node-js" data-index="2"></i>
-            <i class="fa-solid fa-star option-node-js" data-index="3"></i>
-            <i class="fa-solid fa-star option-node-js" data-index="4"></i>
-            <i class="fa-solid fa-star option-node-js" data-index="5"></i>
-          </div>
-        </div>
-        <p class="card-desc">Low-latency hover state tracking utilizing transactional element loops to record choices instantly on thread contexts.</p>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Interactive Star Array Component')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 2: SYMMETRICAL BINARY THUMBS ELEVATION -->
-      <div class="component-card" data-category="emoji">
-        <div class="card-top">
-          <span class="card-label">Symmetrical Thumbs Relay</span>
-          <span class="card-tag tag-modern">Minimal Weight</span>
-        </div>
-        <div class="card-preview">
-          <div class="thumb-rating">
-            <button type="button" aria-label="Register positive satisfaction token" class="binary-action-node-js" onclick="toggleBinaryState(this)"><i class="fa-solid fa-thumbs-up"></i></button>
-            <button type="button" aria-label="Register negative satisfaction token" class="binary-action-node-js" onclick="toggleBinaryState(this)"><i class="fa-solid fa-thumbs-down"></i></button>
-          </div>
-        </div>
-        <p class="card-desc">Symmetrical layout containers deploying isolated tap handshakes for clean transactional verification pools.</p>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Binary Thumbs Component')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 3: CONTINUOUS STEP LESS MATRIX RANGE SLIDER -->
-      <div class="component-card" data-category="analytics">
-        <div class="card-top">
-          <span class="card-label">Linear Precision Range Slider</span>
-          <span class="card-tag tag-trending">Stepless Intake</span>
-        </div>
-        <div class="card-preview">
-          <div class="slider-rating-wrapper">
-            <input type="range" min="0" max="100" value="78" id="ratingRange" class="matrix-range-input-js" oninput="syncRangeStringMetric(this.value)" aria-label="System continuous performance range validator input" />
-            <span id="rangeValue" class="jetbrains-mono-string">78%</span>
-          </div>
-        </div>
-        <p class="card-desc">Fluid input track routing continuous floating numeric parameters into active memory buffers cleanly.</p>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Continuous Range Slider Tracker')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 4: NEUMORPHIC CONTOUR SOFTSPACE UNIT -->
-      <div class="component-card" data-category="stars">
-        <div class="card-top">
-          <span class="card-label">Neumorphic Cavity Grid</span>
-          <span class="card-tag tag-modern">Soft Contour</span>
-        </div>
-        <div class="card-preview">
-          <div class="neo-rating-box">
-            <button type="button" aria-label="Rate 1 star"><i class="fa-solid fa-star"></i></button>
-            <button type="button" aria-label="Rate 2 stars"><i class="fa-solid fa-star"></i></button>
-            <button type="button" aria-label="Rate 3 stars"><i class="fa-solid fa-star"></i></button>
-            <button type="button" aria-label="Rate 4 stars"><i class="fa-solid fa-star"></i></button>
-            <button type="button" aria-label="Rate 5 stars"><i class="fa-regular fa-star"></i></button>
-          </div>
-        </div>
-        <p class="card-desc">Symmetrical external lighting shadows casting balance layouts that mirror real-world object depths.</p>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Neumorphic Soft Contour Array')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 5: DATA GAUGE INTEGRATION PIPELINE -->
-      <div class="component-card" data-category="analytics">
-        <div class="card-top">
-          <span class="card-label">Speedometer Vector Dial</span>
-          <span class="card-tag tag-premium">Analytics Matrix</span>
-        </div>
-        <div class="card-preview">
-          <div class="speed-rating-shell">
-            <div class="speed-circle-track">
-              <div class="needle-vector-line" id="matrixNeedle"></div>
-              <span class="center-score-string font-display-syne">86</span>
-            </div>
-          </div>
-        </div>
-        <div class="card-desc">Dashboard inspired vector dial tracking pipeline health metrics using rotational transform constraints.</div>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Speedometer Gauge Dial Container')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 6: E-COMMERCE CONSOLIDATED AGGREGATE LEDGER -->
-      <div class="component-card" data-category="reviews">
-        <div class="card-top">
-          <span class="card-label">Consolidated Aggregate Summary</span>
-          <span class="card-tag tag-essential">Inventory Pool</span>
-        </div>
-        <div class="card-preview">
-          <div class="summary-rating-ledger-block">
-            <h2 class="font-display-syne">4.8</h2>
-            <div class="summary-stars-row">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star-half-stroke"></i>
-            </div>
-            <span class="sample-weight-text">Computed from 24,192 incoming payloads</span>
-          </div>
-        </div>
-        <p class="card-desc">Macro data component summarizing thousands of data records into an absolute structural header well instantly.</p>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Consolidated Summary Aggregator')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 7:UX SURVEY DYNAMIC MOOD MATRIX -->
-      <div class="component-card" data-category="emoji">
-        <div class="card-top">
-          <span class="card-label">Survey Mood Quantizer</span>
-          <span class="card-tag tag-trending">User Context</span>
-        </div>
-        <div class="card-preview">
-          <div class="mood-rating-container">
-            <button type="button" onclick="switchActiveMoodNode(this)">😠</button>
-            <button type="button" onclick="switchActiveMoodNode(this)">🙁</button>
-            <button type="button" onclick="switchActiveMoodNode(this)">😐</button>
-            <button type="button" class="active" onclick="switchActiveMoodNode(this)">🙂</button>
-            <button type="button" onclick="switchActiveMoodNode(this)">😁</button>
-          </div>
-        </div>
-        <p class="card-desc">Segmented feedback clusters recording emotional responses instantly during asynchronous research operations.</p>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Survey Mood Selector Grid')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 8: CONTINUOUS SHIFTING ANIMATED GRADIENT BAR -->
-      <div class="component-card" data-category="analytics">
-        <div class="card-top">
-          <span class="card-label">Continuous Shifting Gradient Bar</span>
-          <span class="card-tag tag-modern">Animated Track</span>
-        </div>
-        <div class="card-preview">
-          <div class="gradient-rating-bar-wrapper">
-            <div class="gradient-track-rail">
-              <div class="gradient-fill-core"></div>
-            </div>
-            <span class="jetbrains-mono-string">89% Efficiency</span>
-          </div>
-        </div>
-        <p class="card-desc">Low-latency style layout shifting color channels across vector fills continuously over thread lifespan steps.</p>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Continuous Shifting Gradient Tracker')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 9: GLASSMORPHIC REFRESHING OVERLAY CARD -->
-      <div class="component-card" data-category="reviews">
-        <div class="card-top">
-          <span class="card-label">Glassmorphic Review Layer</span>
-          <span class="card-tag tag-popular">Frosted Core</span>
-        </div>
-        <div class="card-preview-heavy-dark">
-          <div class="floating-glass-review-card">
-            <div class="floating-top-row">
-              <img src="https://i.pravatar.cc/100?img=18" alt="Teammate profile matrix trace photo" />
-              <div class="floating-meta-identity">
-                <h4>Emma Watson</h4>
-                <div class="floating-stars-row">
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                </div>
-              </div>
-            </div>
-            <p class="t-text-curated">"The layout architecture handles high-density charts pipelines inside complex dashboard matrices seamlessly without dropping view cycles."</p>
-          </div>
-        </div>
-        <p class="card-desc">Translucent container architecture designed for media spaces with precise edge blur variables.</p>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Glassmorphic Review Layer Asset')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 10: AUTOMATED RADIAL GAUGE MODULE -->
-      <div class="component-card" data-category="analytics">
-        <div class="card-top">
-          <span class="card-label">Conic Radial Score Gauge</span>
-          <span class="card-tag tag-modern">Conic Vector</span>
-        </div>
-        <div class="card-preview">
-          <div class="radial-rating-shell-wrapper">
-            <div class="radial-ring-conic-vector">
-              <span class="font-display-syne">9.2</span>
-            </div>
-            <p class="radial-summary-tag">Optimal Allocation</p>
-          </div>
-        </div>
-        <div class="card-desc">Conic tracking metrics compiling performance indices straight into proportional circle rings.</div>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Conic Radial Gauge Component')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 11: VERIFIED TRANSACTION AUDIT RECORD -->
-      <div class="component-card" data-category="reviews">
-        <div class="card-top">
-          <span class="card-label">Verified Record Ledger Link</span>
-          <span class="card-tag tag-essential">Audited Data</span>
-        </div>
-        <div class="card-preview">
-          <div class="verified-review-card-blueprint">
-            <div class="verified-top-header-strip">
-              <strong>Sarah Lee</strong>
-              <span class="badge-verified-success-js"><i class="fa-solid fa-circle-check"></i> Cryptographic Signature Confirmed</span>
-            </div>
-            <div class="verified-stars-row">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-            </div>
-            <p class="t-text-curated">"Perfect component compliance matching local sandbox expectations precisely. Zero layout shifts identified."</p>
-          </div>
-        </div>
-        <p class="card-desc">Trusted review data element with explicit cryptographic approval signature displays built-in.</p>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Verified Ledger Audit Block')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 12: RETRO RETRO LEVEL DISPLAY ARCADE BLOCK -->
-      <div class="component-card" data-category="stars">
-        <div class="card-top">
-          <span class="card-label">Monochrome Console Brackets</span>
-          <span class="card-tag tag-fun">Console Engine</span>
-        </div>
-        <div class="card-preview">
-          <div class="arcade-rating-container">
-            <h2 class="jetbrains-mono-string">SYSTEM CORE LEVEL 09</h2>
-            <div class="arcade-stars-row">★★★★★</div>
-            <span class="arcade-badge-tag-string">LEGENDARY PROTOCOL FACTOR</span>
-          </div>
-        </div>
-        <p class="card-desc">Retro terminal interface recreating classic console aesthetics through fixed monospace fonts and high-contrast grids.</p>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Monochrome Arcade Bracket Node')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 13: TRANSLUCENT ISOLATED EMBEDDED SHEET -->
-      <div class="component-card" data-category="reviews">
-        <div class="card-top">
-          <span class="card-label">Isolated Canvas Block</span>
-          <span class="card-tag tag-modern">Translucent Minimal</span>
-        </div>
-        <div class="card-preview translucent-mesh-backing-box">
-          <div class="glass-rating-isolated-node">
-            <span class="glass-stars-row-strip">★★★★★</span>
-            <h2 class="font-display-syne">4.9</h2>
-            <p class="glass-status-descriptor">Nominal Target Alignment Factor</p>
-          </div>
-        </div>
-        <p class="card-desc">Isolated floating layout mapping state outputs securely inside frosted mesh environment backdrops.</p>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Isolated Canvas Glass Block')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 14: SVG CIRCULAR CONTINUOUS TRACE PATH -->
-      <div class="component-card" data-category="analytics">
-        <div class="card-top">
-          <span class="card-label">Concentric Circle Trace Path</span>
-          <span class="card-tag tag-premium">SVG Telemetry</span>
-        </div>
-        <div class="card-preview">
-          <div class="circle-rating-shell-container">
-            <div class="circle-vector-wrap-box">
-              <svg viewBox="0 0 130 130" class="circle-svg-node-element">
-                <circle cx="65" cy="65" r="52"></circle>
-                <circle class="progress-circle-fill-path-js" cx="65" cy="65" r="52"></circle>
-              </svg>
-              <div class="circle-text-center-string jetbrains-mono-string">8.7 / 10</div>
-            </div>
-          </div>
-        </div>
-        <div class="card-desc">SVG path tracing displaying continuous status metrics with high-fidelity low-latency rendering properties.</div>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Concentric Circle Trace Path Component')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 15: STRUCTURAL COMPATIBILITY CELL STRUCTURE -->
-      <div class="component-card" data-category="analytics">
-        <div class="card-top">
-          <span class="card-label">DNA Symmetrical Bar Grid</span>
-          <span class="card-tag tag-essential">Structural Load</span>
-        </div>
-        <div class="card-preview">
-          <div class="dna-rating-structural-wrapper">
-            <div class="dna-bars-flex-container">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <h3 class="font-display-syne">Matrix Harmony Weight</h3>
-            <strong class="jetbrains-mono-string">92% Match Code</strong>
-          </div>
-        </div>
-        <p class="card-desc">Proportional vertical bars summarizing complex parameter comparisons inside highly cohesive analytics arrays.</p>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('DNA Structural Harmony Bar Component')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-      <!-- MODEL 16: LIQUID STADIA Survey FEEDBACK -->
-      <div class="component-card" data-category="emoji">
-        <div class="card-top">
-          <span class="card-label">Isolated Stadia Survey Grid</span>
-          <span class="card-tag tag-fun">Condensed Feedback</span>
-        </div>
-        <div class="card-preview">
-          <div class="compact-emoji-stadia-container">
-            <button type="button" onclick="switchActiveMoodNode(this)">😡</button>
-            <button type="button" onclick="switchActiveMoodNode(this)">😐</button>
-            <button type="button" class="active" onclick="switchActiveMoodNode(this)">🙂</button>
-            <button type="button" onclick="switchActiveMoodNode(this)">😍</button>
-          </div>
-        </div>
-        <p class="card-desc">Highly condensed layout configuration row optimized for quick response extraction inside narrow sidebars.</p>
-        <div class="card-actions-strip">
-          <button type="button" class="harvest-btn-js" onclick="simulateTokenHarvest('Isolated Stadia Emoji Row')"><i class="fa-solid fa-copy"></i> Harvest Token</button>
-        </div>
-      </div>
-
-    </section>
-  </main>
+  </div>
 
   <!-- =========================================================
-     COMPREHENSIVE GLOBAL ENVIRONMENT FOOTER
+     GRID
   ========================================================= -->
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-col brand">
-        <h2 class="footer-logo">⬡ UIverse</h2>
-        <p>Architecting fine structural user interface frameworks using standard low-latency design variables, geometric layout matrices, and secure compilation rules downstream.</p>
-        <div class="socials">
-          <a href="#" aria-label="GitHub Code Pipelines Repository Vault"><i class="fab fa-github"></i></a>
-          <a href="#" aria-label="LinkedIn Corporate Operations Directory Network"><i class="fab fa-linkedin"></i></a>
-          <a href="#" aria-label="Operational Streaming Update Logs Broadcast"><i class="fab fa-x-twitter"></i></a>
+
+  <section class="rating-grid">
+
+    <!-- STAR RATING -->
+    <div class="component-card">
+
+      <div class="card-top">
+
+        <span class="card-label">
+          Interactive Stars
+        </span>
+
+        <span class="card-tag tag-popular">
+          Popular
+        </span>
+
+      </div>
+
+      <div class="card-preview">
+
+        <div
+          class="star-rating"
+          aria-label="5 star rating"
+        >
+
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+
         </div>
+
       </div>
 
-      <div class="footer-col">
-        <h3>Explore Repositories</h3>
-        <ul>
-          <li><a href="button.html">Action Toggles Matrix</a></li>
-          <li><a href="navbar.html">Navigation Shell Arrays</a></li>
-          <li><a href="cards.html">Canvas Card Layouts</a></li>
-          <li><a href="inputs.html">Form Input Channels</a></li>
-          <li><a href="forms.html">Schema Layout Forms</a></li>
-        </ul>
+      <p class="card-desc">
+        Interactive star rating system with hover
+        effects and active state animations.
+      </p>
+
+    </div>
+
+    <!-- THUMBS -->
+    <div class="component-card">
+
+      <div class="card-top">
+
+        <span class="card-label">
+          Thumbs Feedback
+        </span>
+
+        <span class="card-tag tag-modern">
+          Minimal
+        </span>
+
       </div>
 
-      <div class="footer-col">
-        <h3>Technical Manuals</h3>
-        <ul>
-          <li><a href="#">Technical Documentation Vault</a></li>
-          <li><a href="#">Open Source Repositories</a></li>
-          <li><a href="#">Developer Core Communities</a></li>
-        </ul>
-      </div>
+      <div class="card-preview">
 
-      <div class="footer-col">
-        <h3>Regulatory Compliance</h3>
-        <ul>
-          <li><a href="privacypolicy.html">Data Isolation Policies</a></li>
-          <li><a href="terms.html">Terms of System Operations Matrix</a></li>
-          <li><a href="#">Modular Asset Licensing Manifest</a></li>
-        </ul>
-      </div>
+        <div class="thumb-rating">
 
-      <div class="footer-col newsletter">
-        <h3>Continuous Integration Feeds</h3>
-        <p>Register your workspace hub node destination to intercept low-frequency layout logging sequences instantly.</p>
-        <div class="newsletter-form">
-          <input type="email" placeholder="operator@engine.domain" aria-label="Operator email register allocation input path" />
-          <button type="button" onclick="alert('Destination node bound successfully inside telemetry channels.');">Sync Core Hub</button>
+          <button
+            type="button"
+            aria-label="Like"
+          >
+            <i class="fa-solid fa-thumbs-up"></i>
+          </button>
+
+          <button
+            type="button"
+            aria-label="Dislike"
+          >
+            <i class="fa-solid fa-thumbs-down"></i>
+          </button>
+
         </div>
+
+      </div>
+
+      <p class="card-desc">
+        Simple thumbs up and down feedback
+        component for quick interactions.
+      </p>
+
+    </div>
+
+    <!-- SLIDER -->
+    <div class="component-card">
+
+      <div class="card-top">
+
+        <span class="card-label">
+          Slider Rating
+        </span>
+
+        <span class="card-tag tag-trending">
+          Interactive
+        </span>
+
+      </div>
+
+      <div class="card-preview">
+
+        <div class="slider-rating">
+
+          <label
+            for="ratingRange"
+            class="sr-only"
+          >
+            Rating Slider
+          </label>
+
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value="78"
+            id="ratingRange"
+          />
+
+          <span id="rangeValue">
+            78%
+          </span>
+
+        </div>
+
+      </div>
+
+      <p class="card-desc">
+        Smooth slider based rating system
+        with dynamic value updates.
+      </p>
+
+    </div>
+
+  </section>
+
+</main>
+
+<script src="rating.js"></script>
+
+  <script src="dist/shared.js"></script>
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
 
-    <div class="footer-bottom">
-      <p>© 2026 UIverse Engine Core Architecture. Compiled and engineered with absolute mechanical mathematical precision for professional front-end teams globally[cite: 15].</p>
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
     </div>
-  </footer>
 
-  <!-- =========================================================
-     COMPREHENSIVE RUNTIME LOGIC INTERACTION SCRIPTS
-  ========================================================= -->
-  <script>
-    // Initialize skin settings from local memory traces on frame load
-    document.addEventListener("DOMContentLoaded", () => {
-      const recordedSkinStateToken = localStorage.getItem("platform-skin-state-trace") || "dark";
-      document.body.className = recordedSkinStateToken;
-      
-      const themeToggleIconButton = document.getElementById("themeIcon");
-      themeToggleIconButton.className = recordedSkinStateToken === "dark" ? "fa-solid fa-moon" : "fa-solid fa-sun";
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
 
-      // Instantly calculate speedometer indicator alignment lines
-      const matrixNeedleElement = document.getElementById('matrixNeedle');
-      if (matrixNeedleElement) {
-        matrixNeedleElement.style.transform = "rotate(74deg)";
-      }
-    });
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
 
-    // Theme switching runtime control sequence
-    document.getElementById("themeToggle").addEventListener("click", () => {
-      const themeToggleIconButton = document.getElementById("themeIcon");
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
 
-      if (document.body.classList.contains("light")) {
-        document.body.classList.replace("light", "dark");
-        localStorage.setItem("platform-skin-state-trace", "dark");
-        themeToggleIconButton.className = "fa-solid fa-moon";
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
       } else {
-        document.body.classList.replace("dark", "light");
-        localStorage.setItem("platform-skin-state-trace", "light");
-        themeToggleIconButton.className = "fa-solid fa-sun";
-      }
-    });
-
-    // Interactive star element highlight mapping loop structures
-    const starInteractiveGroupContainers = document.querySelectorAll('.star-rating[data-runtime-rating-interactive="true"]');
-    starInteractiveGroupContainers.forEach(container => {
-      const structuralOptionNodes = container.querySelectorAll('.option-node-js');
-      structuralOptionNodes.forEach(node => {
-        node.addEventListener('click', () => {
-          const targetedIndexValue = parseInt(node.getAttribute('data-index'), 10);
-          structuralOptionNodes.forEach(sibling => {
-            const siblingIndexValue = parseInt(sibling.getAttribute('data-index'), 10);
-            if (siblingIndexValue <= targetedIndexValue) {
-              sibling.classList.add('active');
-            } else {
-              sibling.classList.remove('active');
-            }
-          });
-        });
-      });
-    });
-
-    // Toggle logic for binary buttons elements
-    function toggleBinaryState(clickedElement) {
-      const parentThumbContainer = clickedElement.closest('.thumb-rating');
-      parentThumbContainer.querySelectorAll('.binary-action-node-js').forEach(btn => btn.classList.remove('active'));
-      clickedElement.classList.add('active');
-    }
-
-    // Survey node switcher interaction paths
-    function switchActiveMoodNode(clickedElement) {
-      const parentMoodContainer = clickedElement.closest('div');
-      parentMoodContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
-      clickedElement.classList.add('active');
-    }
-
-    // Continuous slider data mirroring mapping mechanics
-    function syncRangeStringMetric(currentInputStringValue) {
-      const targetStringOutputContainer = document.getElementById('rangeValue');
-      if (targetStringOutputContainer) {
-        targetStringOutputContainer.innerText = currentInputStringValue + '%';
+        alert("Please enter a valid email address.");
       }
     }
-
-    // Category sorting filter evaluation framework
-    function runtimeFilterCategories(selectedCategoryTokenKey, triggerButtonNode) {
-      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-      triggerButtonNode.classList.add('active');
-
-      document.querySelectorAll('.component-card').forEach(card => {
-        const structuralCardCategoryReference = card.getAttribute('data-category');
-        if (selectedCategoryTokenKey === 'all' || structuralCardCategoryReference === selectedCategoryTokenKey) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    // Clipboard notification simulator actions
-    function simulateTokenHarvest(componentIdentityStringLabel) {
-      navigator.clipboard.writeText(`UIverse Compilation Asset Token: ${componentIdentityStringLabel}`);
-      alert(`[METRICS] Atomic asset parameters successfully harvested for: ${componentIdentityStringLabel}`);
-    }
-
-    // Sidebar position toggle mobility structures
-    function runtimeToggleSidebar() {
-      const sidebarNodeElement = document.querySelector('.sidebar');
-      const backdropNodeElement = document.getElementById('sidebarBackdrop');
-      if (sidebarNodeElement && backdropNodeElement) {
-        sidebarNodeElement.classList.toggle('visible');
-        backdropNodeElement.classList.toggle('visible');
-      }
-    }
-  </script>
-</body>
+  }
+</script>\n\n</body>
 </html>

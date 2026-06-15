@@ -1,4 +1,4 @@
-export class UVDropdown extends HTMLElement {
+class UVDropdown extends HTMLElement {
     constructor() {
         super();
         this._toggleBind = (e) => this.toggle(e);
@@ -123,3 +123,6 @@ if (typeof customElements !== "undefined" &&
     !customElements.get("uv-dropdown")) {
     customElements.define("uv-dropdown", UVDropdown);
 }
+
+export { UVDropdown };
+//# sourceMappingURL=uv-dropdown.js.map

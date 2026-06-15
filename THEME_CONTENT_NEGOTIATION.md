@@ -1,5 +1,8 @@
 # Theme HTTP Content Negotiation Guide
 
+## Security and Sanitization
+Accept headers are fully sanitized against script injection or parameter manipulation. Any characters outside `[a-zA-Z0-9/*+-]` are stripped during resolution.
+
 Comprehensive guide for implementing HTTP content negotiation in theme delivery workflows. Supports multiple content types, encodings, languages, and character sets based on client preferences.
 
 **Version:** 1.0.0

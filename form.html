@@ -3,7 +3,6 @@
 <head>
   <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-+7WeooanCDkpQE0peR9I9nrCdMEk0s0o/az6hwK/YC4=' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y=' 'sha256-5nm7aQJlBwD+lW2N1pxCTIl1rSeKO/Rm5+q6JEoIXUM=' 'sha256-It0gemy1iCD0teH6nnXaJJUb7wj8gJvumkEjNT0kV/4=' 'sha256-KOPFnkTS28ReBUoUCFEm8ysO3CLYm7hVyMHEStSPMjU=' 'sha256-LMw5Z7H8XK2tRzVXUDggMnKzd6yManNQEF5Ywsxqswc=' 'sha256-OQzIx4CDDPxD96S44Hclomclj+Mpfg+LxrVk8hytc8k=' 'sha256-SS6BCTg7gS8G26JctttvBZtMpxi9pSkZpZaVEWJ8noI=' 'sha256-YRzopD0k/AP1+b8sp6k3LRHtvi7m+ax3FS+kZsaO+Ag=' 'sha256-gEfdSvQnNHa9sHTIneDzrEoVi26OopxRINm+880NcYg=' 'sha256-rbWfE36z2kuZDnw9n1zB1vPAWbU3jgp3g9xJ9NsZtRc='; script-src-attr 'unsafe-hashes' 'sha256-+7WeooanCDkpQE0peR9I9nrCdMEk0s0o/az6hwK/YC4=' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y=' 'sha256-5nm7aQJlBwD+lW2N1pxCTIl1rSeKO/Rm5+q6JEoIXUM=' 'sha256-It0gemy1iCD0teH6nnXaJJUb7wj8gJvumkEjNT0kV/4=' 'sha256-KOPFnkTS28ReBUoUCFEm8ysO3CLYm7hVyMHEStSPMjU=' 'sha256-LMw5Z7H8XK2tRzVXUDggMnKzd6yManNQEF5Ywsxqswc=' 'sha256-OQzIx4CDDPxD96S44Hclomclj+Mpfg+LxrVk8hytc8k=' 'sha256-SS6BCTg7gS8G26JctttvBZtMpxi9pSkZpZaVEWJ8noI=' 'sha256-YRzopD0k/AP1+b8sp6k3LRHtvi7m+ax3FS+kZsaO+Ag=' 'sha256-gEfdSvQnNHa9sHTIneDzrEoVi26OopxRINm+880NcYg=' 'sha256-rbWfE36z2kuZDnw9n1zB1vPAWbU3jgp3g9xJ9NsZtRc='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Forms — UIverse</title>
 
@@ -11,11 +10,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <link rel="stylesheet" href="forms.css">
-</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-
 
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
@@ -45,21 +42,69 @@
 <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
 <!-- NAVBAR -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
 <header class="navbar" id="navbar">
-  <button class="menu-toggle" onclick="toggleSidebar()" data-a11y-remediation="button-label-needed">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
     <i class="fa-solid fa-bars"></i>
   </button>
-  <div class="logo">UIverse</div>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
   <div class="search-bar">
     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    <input type="text" placeholder="Search components..." / data-a11y-remediation="label-needed">
-    <kbd class="search-kbd">⌘K</kbd>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
   </div>
   <div class="nav-right">
-    <button class="nav-btn outline-nav-btn"><i class="fa-solid fa-plus"></i> Add Component</button>
-    <button class="nav-btn primary-nav-btn"><i class="fa-solid fa-bookmark"></i> My Collection</button>
-    <button id="darkModeToggle" class="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
   </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
 </header>
 
 <!-- MAIN -->
@@ -94,7 +139,7 @@
           <h3>Welcome back</h3>
           <p class="form-sub">Sign in to your account</p>
           <div class="form-field">
-            <label for="email-input">Email</label>
+            <label>Email</label>
             <input type="email" placeholder="you@example.com" />
           </div>
           <div class="form-field">
@@ -139,7 +184,7 @@
             <input type="text" placeholder="John Doe" />
           </div>
           <div class="form-field">
-            <label for="email-input">Email</label>
+            <label>Email</label>
             <input type="email" placeholder="you@example.com" />
           </div>
           <div class="form-field">
@@ -167,278 +212,6 @@
 &lt;/div&gt;</code></pre>
     </div>
 
-    <div class="form-component-card" data-name="search filter form">
-  <div class="card-top">
-    <span class="card-label">Search Filter</span>
-    <span class="card-tag tag-new">New</span>
-  </div>
-
-  <div class="form-preview">
-    <div class="form-card">
-      <h3>Search Products</h3>
-
-      <div class="form-field">
-        <label>Keyword</label>
-        <input type="text" placeholder="Search...">
-      </div>
-
-      <div class="form-field">
-        <label>Category</label>
-        <select>
-          <option>All Categories</option>
-          <option>Design</option>
-          <option>Development</option>
-          <option>Marketing</option>
-        </select>
-      </div>
-
-      <button class="form-btn">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        Search
-      </button>
-    </div>
-  </div>
-</div>
-
-<div class="form-component-card">
-  <div class="form-preview">
-    <div class="form-card">
-      <h3>Job Application</h3>
-
-      <input type="text" placeholder="Full Name">
-      <input type="email" placeholder="Email">
-
-      <select>
-        <option>Select Position</option>
-        <option>Frontend Developer</option>
-        <option>Backend Developer</option>
-      </select>
-
-      <input type="file">
-
-      <button class="form-btn">Apply Now</button>
-    </div>
-  </div>
-</div>
-
-<div class="form-component-card">
-  <div class="form-preview">
-    <div class="form-card">
-      <h3>Event Registration</h3>
-
-      <input type="text" placeholder="Your Name">
-
-      <input type="email" placeholder="Email">
-
-      <input type="number" placeholder="Number of Tickets">
-
-      <button class="form-btn">
-        Register
-      </button>
-    </div>
-  </div>
-</div>
-
-<div class="form-component-card">
-  <div class="form-preview">
-    <div class="form-card">
-
-      <h3>Create Ticket</h3>
-
-      <input type="text" placeholder="Subject">
-
-      <select>
-        <option>Priority</option>
-        <option>Low</option>
-        <option>Medium</option>
-        <option>High</option>
-      </select>
-
-      <textarea placeholder="Describe your issue"></textarea>
-
-      <button class="form-btn">
-        Submit Ticket
-      </button>
-
-    </div>
-  </div>
-</div>
-
-<div class="form-card">
-
-<div class="form-row flex-row">
-
-<div class="form-field flex-1">
-<input type="text" placeholder="First Name">
-</div>
-
-<div class="form-field flex-1">
-<input type="text" placeholder="Last Name">
-</div>
-
-</div>
-
-<input type="email" placeholder="Email">
-
-<textarea placeholder="Message"></textarea>
-
-<button class="form-btn">
-Send
-</button>
-
-</div>
-
-<div class="form-card">
-
-<h3>Donate</h3>
-
-<input type="number" placeholder="$50">
-
-<select>
-
-<option>Credit Card</option>
-
-<option>UPI</option>
-
-<option>PayPal</option>
-
-</select>
-
-<button class="form-btn">
-
-Donate Now
-
-</button>
-
-</div>
-
-<div class="form-card">
-
-<h3>Newsletter</h3>
-
-<input type="text" placeholder="Name">
-
-<input type="email" placeholder="Email">
-
-<button class="form-btn">
-
-Subscribe
-
-</button>
-
-</div>
-
-<div class="form-card">
-
-<h3>Login</h3>
-
-<input type="email">
-
-<input type="password">
-
-<button class="form-btn">
-
-Login
-
-</button>
-
-<div class="social-login">
-
-<button>
-
-<i class="fab fa-google"></i>
-
-Google
-
-</button>
-
-<button>
-
-<i class="fab fa-github"></i>
-
-GitHub
-
-</button>
-
-</div>
-
-</div>
-
-<div class="form-card">
-
-<h3>Upload Document</h3>
-
-<input type="file">
-
-<p>PDF, DOCX or ZIP</p>
-
-<button class="form-btn">
-
-Upload
-
-</button>
-
-</div>
-
-<div class="form-card">
-
-<h3>Invite Member</h3>
-
-<input type="email" placeholder="Email">
-
-<select>
-
-<option>Viewer</option>
-
-<option>Editor</option>
-
-<option>Admin</option>
-
-</select>
-
-<button class="form-btn">
-
-Send Invite
-
-</button>
-
-</div>
-
-<div class="form-card">
-
-<input type="password" placeholder="Current Password">
-
-<input type="password" placeholder="New Password">
-
-<input type="password" placeholder="Confirm Password">
-
-<button class="form-btn">
-
-Update Password
-
-</button>
-
-</div>
-
-<div class="form-card">
-
-<h3>Rate Us</h3>
-
-<div class="rating-stars">
-
-★★★★★
-
-</div>
-
-<textarea placeholder="Your review"></textarea>
-
-<button class="form-btn">
-
-Submit
-
-</button>
-
-</div>
     <!-- Contact Form -->
     <div class="form-component-card" data-name="contact form message textarea">
       <div class="card-top">
@@ -549,189 +322,90 @@ Submit
   <i class="fa-solid fa-chevron-up"></i>
 </button>
 
-<!-- Checkout Form -->
-<div class="form-component-card" data-name="checkout payment card billing">
-  <div class="card-top">
-    <span class="card-label">Checkout Form</span>
-    <span class="card-tag tag-popular">Trending</span>
-  </div>
-
-  <div class="form-preview">
-    <div class="form-card">
-      <h3>Payment Details</h3>
-      <p class="form-sub">Secure checkout experience</p>
-
-      <div class="form-field">
-        <label>Card Holder</label>
-        <input type="text" placeholder="John Doe">
-      </div>
-
-      <div class="form-field">
-        <label>Card Number</label>
-        <input type="text" placeholder="1234 5678 9012 3456">
-      </div>
-
-      <div class="row">
-        <div class="form-field">
-          <label>Expiry</label>
-          <input type="text" placeholder="MM/YY">
-        </div>
-
-        <div class="form-field">
-          <label>CVV</label>
-          <input type="password" placeholder="123">
-        </div>
-      </div>
-
-      <button class="form-btn">Pay Now</button>
-    </div>
-  </div>
-</div>
-
-
-<!-- Profile Settings -->
-<div class="form-component-card" data-name="profile settings account user">
-  <div class="card-top">
-    <span class="card-label">Profile Settings</span>
-    <span class="card-tag tag-essential">Essential</span>
-  </div>
-
-  <div class="form-preview">
-    <div class="form-card">
-      <h3>Account Settings</h3>
-      <p class="form-sub">Manage your profile</p>
-
-      <div class="form-field">
-        <label>Username</label>
-        <input type="text" placeholder="@developer">
-      </div>
-
-      <div class="form-field">
-        <label>Email</label>
-        <input type="email" placeholder="developer@email.com">
-      </div>
-
-      <div class="form-field">
-        <label>Bio</label>
-        <textarea rows="3" placeholder="Tell us about yourself"></textarea>
-      </div>
-
-      <button class="form-btn">Save Changes</button>
-    </div>
-  </div>
-</div>
-
-<!-- Feedback Form -->
-<div class="form-component-card" data-name="feedback rating review">
-  <div class="card-top">
-    <span class="card-label">Feedback Form</span>
-    <span class="card-tag tag-popular">Popular</span>
-  </div>
-
-  <div class="form-preview">
-    <div class="form-card">
-      <h3>Share Feedback</h3>
-      <p class="form-sub">Help us improve</p>
-
-      <div class="form-field">
-        <label>Your Name</label>
-        <input type="text" placeholder="John Doe">
-      </div>
-
-      <div class="form-field">
-        <label>Rating</label>
-        <div class="rating-stars">
-          ★ ★ ★ ★ ★
-        </div>
-      </div>
-
-      <div class="form-field">
-        <label>Feedback</label>
-        <textarea rows="4" placeholder="Write your review"></textarea>
-      </div>
-
-      <button class="form-btn">Submit Review</button>
-    </div>
-  </div>
-</div>
-
-<!-- Job Application -->
-<div class="form-component-card" data-name="job application resume hiring">
-  <div class="card-top">
-    <span class="card-label">Job Application</span>
-    <span class="card-tag tag-new">New</span>
-  </div>
-
-  <div class="form-preview">
-    <div class="form-card">
-      <h3>Apply for Position</h3>
-      <p class="form-sub">Join our growing team</p>
-
-      <div class="form-field">
-        <label>Full Name</label>
-        <input type="text" placeholder="John Doe">
-      </div>
-
-      <div class="form-field">
-        <label>Email</label>
-        <input type="email" placeholder="you@email.com">
-      </div>
-
-      <div class="form-field">
-        <label>Resume</label>
-        <input type="file">
-      </div>
-
-      <div class="form-field">
-        <label>Cover Letter</label>
-        <textarea rows="3" placeholder="Tell us why you're a good fit"></textarea>
-      </div>
-
-      <button class="form-btn">Submit Application</button>
-    </div>
-  </div>
-</div>
-<!-- FOOTER -->
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
     <div class="footer-col brand">
       <h2 class="footer-logo">⬡ UIverse</h2>
       <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
       <div class="socials">
-        <a href="#"><i class="fab fa-github"></i></a>
-        <a href="#"><i class="fab fa-linkedin"></i></a>
-        <a href="#"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
+
     <div class="footer-col">
       <h3>Explore</h3>
       <ul>
         <li><a href="button.html">Buttons</a></li>
         <li><a href="navbar.html">Navbars</a></li>
         <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
         <li><a href="forms.html">Forms</a></li>
       </ul>
     </div>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
     <div class="footer-col">
       <h3>Legal</h3>
       <ul>
         <li><a href="privacypolicy.html">Privacy Policy</a></li>
         <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
       </ul>
     </div>
+
     <div class="footer-col newsletter">
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
-        <button type="button">Subscribe</button>
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
   </div>
+
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
 
 <script>
   /* Dark Mode */
@@ -788,6 +462,6 @@ Submit
   }, { threshold: 0.08 });
   document.querySelectorAll('.form-component-card').forEach(el => observer.observe(el));
 </script>
-    <script src="dist/shared.js"></script>
+  <script src="dist/shared.js"></script>
 </body>
 </html>

@@ -1,7 +1,6 @@
 // =========================================================
 // FILTER ACTIVE
 // =========================================================
-
 const filters = document.querySelectorAll(".filter-btn");
 
 filters.forEach((btn) => {
@@ -12,80 +11,95 @@ filters.forEach((btn) => {
 });
 
 // =========================================================
-// COPY — basic cards
+// UNIFIED COPY CONTROLLER (Basic & Advanced Cards)
 // =========================================================
+function handleCopy(btn, cardSelector, defaultText) {
+  const card = btn.closest(cardSelector);
+  if (!card) return;
+  
+  const p = card.querySelector("p");
+  if (!p) return;
+  
+  const iconName = p.innerText.trim();
 
-document.querySelectorAll(".copy-btn").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const card = btn.closest(".icon-card");
-    if (!card) return;
-    const p = card.querySelector("p");
-    if (!p) return;
-    const iconName = p.innerText.trim();
+  const updateButtonText = () => {
+    btn.innerText = "Copied!";
+    setTimeout(() => { 
+      btn.innerText = defaultText; 
+    }, 1500);
+  };
 
-    navigator.clipboard.writeText(iconName).then(() => {
-      btn.innerText = "Copied!";
-      setTimeout(() => { btn.innerText = "Copy"; }, 1500);
-    }).catch(() => {
-      // fallback for file:// protocol
-      const ta = document.createElement("textarea");
-      ta.value = iconName;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-      btn.innerText = "Copied!";
-      setTimeout(() => { btn.innerText = "Copy"; }, 1500);
-    });
-  });
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(iconName)
+      .then(updateButtonText)
+      .catch(() => fallbackCopy(iconName, updateButtonText));
+  } else {
+    fallbackCopy(iconName, updateButtonText);
+  }
+}
+
+// Reusable fallback handler for non-HTTPS / file:// protocols
+function fallbackCopy(text, callback) {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  // Prevent scrolling to bottom when appending
+  ta.style.position = "fixed"; 
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  
+  try {
+    document.execCommand("copy");
+    callback();
+  } catch (err) {
+    console.error("Fallback copy execution failed layout fallback: ", err);
+  }
+  
+  document.body.removeChild(ta);
+}
+
+// Attach Event Listeners for Copy Actions
+document.addEventListener("click", (e) => {
+  const copyBtn = e.target.closest(".copy-btn");
+  const copyAdvancedBtn = e.target.closest(".copy-icon-btn");
+
+  if (copyBtn) {
+    handleCopy(copyBtn, ".icon-card", "Copy");
+  } else if (copyAdvancedBtn) {
+    handleCopy(copyAdvancedBtn, ".advanced-icon-card", "Copy Icon");
+  }
 });
 
 // =========================================================
-// COPY — advanced cards
+// UNIFIED ENGINE SEARCH FILTER
 // =========================================================
+function performLiveFilter(query) {
+  const normalizedQuery = query.toLowerCase().trim();
+  
+  // Selects both basic and advanced style card nodes cleanly
+  const targets = document.querySelectorAll(".icon-card, .advanced-icon-card");
 
-document.querySelectorAll(".copy-icon-btn").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const card = btn.closest(".advanced-icon-card");
-    if (!card) return;
-    const p = card.querySelector("p");
-    if (!p) return;
-    const iconName = p.innerText.trim();
-
-    navigator.clipboard.writeText(iconName).then(() => {
-      btn.innerText = "Copied!";
-      setTimeout(() => { btn.innerText = "Copy Icon"; }, 1500);
-    }).catch(() => {
-      const ta = document.createElement("textarea");
-      ta.value = iconName;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-      btn.innerText = "Copied!";
-      setTimeout(() => { btn.innerText = "Copy Icon"; }, 1500);
-    });
+  targets.forEach((card) => {
+    const isMatched = card.innerText.toLowerCase().includes(normalizedQuery);
+    
+    // Using a visibility class style mutation avoids overriding flex/grid attributes
+    if (isMatched) {
+      card.style.removeProperty("display");
+    } else {
+      card.style.display = "none";
+    }
   });
-});
+}
 
-// =========================================================
-// SEARCH FILTER
-// =========================================================
-
+// JavaScript-based listener attachment fallback
 const searchInput = document.getElementById("searchInput");
-
 if (searchInput) {
-  searchInput.addEventListener("keyup", () => {
-    const value = searchInput.value.toLowerCase();
-    document.querySelectorAll(".icon-card").forEach((card) => {
-      card.style.display = card.innerText.toLowerCase().includes(value) ? "block" : "none";
-    });
+  searchInput.addEventListener("input", (e) => {
+    performLiveFilter(e.target.value);
   });
 }
 
-// fix for oninput="liveFilter()" called in HTML
-function liveFilter(value) {
-  document.querySelectorAll(".icon-card").forEach((card) => {
-    card.style.display = card.innerText.toLowerCase().includes(value.toLowerCase()) ? "block" : "none";
-  });
-}
+// Global exposure map targeting standard HTML inline macro: oninput="liveFilter(this.value)"
+window.liveFilter = function(value) {
+  performLiveFilter(value);
+};

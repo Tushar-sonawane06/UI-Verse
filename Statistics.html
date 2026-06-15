@@ -1,3100 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-2OTSFn1uYThd5qOhM/4DyEt5Av8mRvrozVfMZNeoVcc='; script-src-attr 'unsafe-hashes' 'sha256-2OTSFn1uYThd5qOhM/4DyEt5Av8mRvrozVfMZNeoVcc='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+  <title>Advanced Statistics Section</title>
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>
-
-Statistics Dashboard
-
-</title>
-
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap"
-rel="stylesheet">
-
-<link rel="stylesheet"
-href="statistics.css">
-
-</head>
+  <link rel="stylesheet" href="statistics.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
 
-<div class="bg-gradient"></div>
-
-<!-- =========================
-NAVBAR
-========================= -->
-
-<header class="navbar">
-
-<div class="logo">
-
-📊 StatVerse
-
-</div>
-
-<nav>
-
-<a href="#">Analytics</a>
-
-<a href="#">Revenue</a>
-
-<a href="#">Growth</a>
-
-<a href="#">Insights</a>
-
-</nav>
-
-<div class="nav-actions">
-
-<button class="outline-btn">
-
-Reports
-
-</button>
-
-<button class="primary-btn">
-
-Dashboard
-
-</button>
-
-</div>
-
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
 </header>
 
-<!-- =========================
-HERO
-========================= -->
-
-<section class="stats-hero">
-
-<div class="hero-left">
-
-<div class="hero-badge">
-
-⚡ Enterprise Analytics Platform
-
-</div>
-
-<h1>
-
-Statistics That
-
-<span>
-
-Drive Decisions
-
-</span>
-
-</h1>
-
-<p>
-
-Track performance, monitor
-growth, understand customer
-behavior and unlock powerful
-AI-driven business insights.
-
-</p>
-
-<div class="hero-actions">
-
-<button class="primary-btn">
-
-View Dashboard
-
-</button>
-
-<button class="outline-btn">
-
-Download Report
-
-</button>
-
-</div>
-
-</div>
-
-<div class="hero-right">
-
-<div class="hero-metric">
-
-<h2>
-
-$12.4M
-
-</h2>
-
-<span>
-
-Annual Revenue
-
-</span>
-
-</div>
-
-<div class="hero-metric">
-
-<h2>
-
-5.2M
-
-</h2>
-
-<span>
-
-Active Users
-
-</span>
-
-</div>
-
-<div class="hero-metric">
-
-<h2>
-
-99.99%
-
-</h2>
-
-<span>
-
-Uptime
-
-</span>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-EXECUTIVE KPI
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Overview
-
-</span>
-
-<h2>
-
-Executive Dashboard
-
-</h2>
-
-</div>
-
-<div class="kpi-grid">
-
-<div class="kpi-card">
-
-<div class="kpi-icon">
-
-💰
-
-</div>
-
-<h3>
-
-Revenue
-
-</h3>
-
-<h1>
-
-$12.4M
-
-</h1>
-
-<p>
-
-+18.2% Growth
-
-</p>
-
-</div>
-
-<div class="kpi-card">
-
-<div class="kpi-icon">
-
-👥
-
-</div>
-
-<h3>
-
-Users
-
-</h3>
-
-<h1>
-
-5.2M
-
-</h1>
-
-<p>
-
-+24.1% Growth
-
-</p>
-
-</div>
-
-<div class="kpi-card">
-
-<div class="kpi-icon">
-
-🚀
-
-</div>
-
-<h3>
-
-Conversions
-
-</h3>
-
-<h1>
-
-48.6%
-
-</h1>
-
-<p>
-
-+6.8% Increase
-
-</p>
-
-</div>
-
-<div class="kpi-card">
-
-<div class="kpi-icon">
-
-📈
-
-</div>
-
-<h3>
-
-Profit
-
-</h3>
-
-<h1>
-
-$4.8M
-
-</h1>
-
-<p>
-
-+15.7% Growth
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-REAL TIME ANALYTICS
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Live Data
-
-</span>
-
-<h2>
-
-Real-Time Analytics
-
-</h2>
-
-</div>
-
-<div class="analytics-layout">
-
-<div class="analytics-large">
-
-<div class="analytics-top">
-
-<h3>
-
-Revenue Overview
-
-</h3>
-
-<span>
-
-Last 30 Days
-
-</span>
-
-</div>
-
-<div class="chart-placeholder">
-
-Revenue Chart
-
-</div>
-
-</div>
-
-<div class="analytics-side">
-
-<div class="live-card">
-
-<div class="live-dot"></div>
-
-<h2>
-
-12,842
-
-</h2>
-
-<p>
-
-Live Visitors
-
-</p>
-
-</div>
-
-<div class="live-card">
-
-<h2>
-
-3.8s
-
-</h2>
-
-<p>
-
-Avg Response Time
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-GLOBAL ANALYTICS
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Worldwide
-
-</span>
-
-<h2>
-
-Global Analytics
-
-</h2>
-
-</div>
-
-<div class="global-layout">
-
-<div class="world-map-card">
-
-🌍
-
-<h3>
-
-Global Traffic
-
-</h3>
-
-</div>
-
-<div class="country-stats">
-
-<div class="country-card">
-
-<span>
-
-United States
-
-</span>
-
-<strong>
-
-42%
-
-</strong>
-
-</div>
-
-<div class="country-card">
-
-<span>
-
-Europe
-
-</span>
-
-<strong>
-
-31%
-
-strong>
-
-</div>
-
-<div class="country-card">
-
-<span>
-
-Asia
-
-</span>
-
-<strong>
-
-27%
-
-</strong>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-<!-- =========================
-AI INSIGHTS
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Artificial Intelligence
-
-</span>
-
-<h2>
-
-AI Insights Dashboard
-
-</h2>
-
-</div>
-
-<div class="insights-grid">
-
-<div class="insight-card">
-
-<div class="insight-icon">
-
-🤖
-
-</div>
-
-<h3>
-
-Growth Forecast
-
-</h3>
-
-<h1>
-
-+18.4%
-
-</h1>
-
-<p>
-
-Expected revenue increase
-next quarter.
-
-</p>
-
-</div>
-
-<div class="insight-card">
-
-<div class="insight-icon">
-
-📉
-
-</div>
-
-<h3>
-
-Churn Prediction
-
-</h3>
-
-<h1>
-
-Low Risk
-
-</h1>
-
-<p>
-
-Customer retention remains
-strong across all segments.
-
-</p>
-
-</div>
-
-<div class="insight-card">
-
-<div class="insight-icon">
-
-🎯
-
-</div>
-
-<h3>
-
-Recommendation
-
-</h3>
-
-<h1>
-
-Scale Ads
-
-</h1>
-
-<p>
-
-Increase acquisition budget
-for highest ROI channels.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-REVENUE FORECASTING
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Predictions
-
-</span>
-
-<h2>
-
-Revenue Forecasting
-
-</h2>
-
-</div>
-
-<div class="forecast-layout">
-
-<div class="forecast-main">
-
-<h3>
-
-Projected Revenue
-
-</h3>
-
-<h1>
-
-$18.9M
-
-</h1>
-
-<p>
-
-Forecasted annual revenue
-based on current growth.
-
-</p>
-
-<div class="forecast-growth">
-
-▲ +22.6%
-
-</div>
-
-</div>
-
-<div class="forecast-side">
-
-<div class="forecast-box">
-
-Q1
-
-<strong>
-
-$4.2M
-
-</strong>
-
-</div>
-
-<div class="forecast-box">
-
-Q2
-
-<strong>
-
-$4.8M
-
-</strong>
-
-</div>
-
-<div class="forecast-box">
-
-Q3
-
-<strong>
-
-$5.1M
-
-</strong>
-
-</div>
-
-<div class="forecast-box">
-
-Q4
-
-<strong>
-
-$6.0M
-
-</strong>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-CONVERSION FUNNEL
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Acquisition
-
-</span>
-
-<h2>
-
-Conversion Funnel
-
-</h2>
-
-</div>
-
-<div class="funnel-card">
-
-<div class="funnel-step visitors">
-
-120K Visitors
-
-</div>
-
-<div class="funnel-step leads">
-
-48K Leads
-
-</div>
-
-<div class="funnel-step trials">
-
-18K Trials
-
-</div>
-
-<div class="funnel-step customers">
-
-8.4K Customers
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-CUSTOMER ANALYTICS
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Customers
-
-</span>
-
-<h2>
-
-Customer Analytics
-
-</h2>
-
-</div>
-
-<div class="customer-grid">
-
-<div class="customer-card">
-
-<h3>
-
-Average Session
-
-</h3>
-
-<h1>
-
-18m
-
-</h1>
-
-</div>
-
-<div class="customer-card">
-
-<h3>
-
-Daily Active Users
-
-</h3>
-
-<h1>
-
-320K
-
-</h1>
-
-</div>
-
-<div class="customer-card">
-
-<h3>
-
-Engagement Rate
-
-</h3>
-
-<h1>
-
-78%
-
-</h1>
-
-</div>
-
-<div class="customer-card">
-
-<h3>
-
-Customer Satisfaction
-
-</h3>
-
-<h1>
-
-96%
-
-</h1>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-RETENTION METRICS
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Retention
-
-</span>
-
-<h2>
-
-User Retention Metrics
-
-</h2>
-
-</div>
-
-<div class="retention-layout">
-
-<div class="retention-card">
-
-<h3>
-
-30 Day Retention
-
-</h3>
-
-<h1>
-
-84%
-
-</h1>
-
-</div>
-
-<div class="retention-card">
-
-<h3>
-
-90 Day Retention
-
-</h3>
-
-<h1>
-
-72%
-
-</h1>
-
-</div>
-
-<div class="retention-card">
-
-<h3>
-
-1 Year Retention
-
-</h3>
-
-<h1>
-
-61%
-
-</h1>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-GROWTH ENGINE
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Expansion
-
-</span>
-
-<h2>
-
-Growth Engine
-
-</h2>
-
-</div>
-
-<div class="growth-engine">
-
-<div class="engine-card">
-
-🚀
-
-<h3>
-
-Acquisition
-
-</h3>
-
-<p>
-
-Bringing new users into
-the ecosystem.
-
-</p>
-
-</div>
-
-<div class="engine-card">
-
-📚
-
-<h3>
-
-Engagement
-
-</h3>
-
-<p>
-
-Keeping customers active
-and involved.
-
-</p>
-
-</div>
-
-<div class="engine-card">
-
-🔁
-
-<h3>
-
-Retention
-
-</h3>
-
-<p>
-
-Maintaining long-term
-relationships.
-
-</p>
-
-</div>
-
-<div class="engine-card">
-
-🌎
-
-<h3>
-
-Expansion
-
-</h3>
-
-<p>
-
-Scaling globally through
-new opportunities.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-FINANCIAL BREAKDOWN
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Finance
-
-</span>
-
-<h2>
-
-Financial Breakdown
-
-</h2>
-
-</div>
-
-<div class="finance-grid">
-
-<div class="finance-card">
-
-<h3>
-
-Revenue
-
-</h3>
-
-<h1>
-
-$12.4M
-
-</h1>
-
-</div>
-
-<div class="finance-card">
-
-<h3>
-
-Expenses
-
-</h3>
-
-<h1>
-
-$5.1M
-
-</h1>
-
-</div>
-
-<div class="finance-card">
-
-<h3>
-
-Profit
-
-</h3>
-
-<h1>
-
-$7.3M
-
-</h1>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-TRAFFIC SOURCES
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Sources
-
-</span>
-
-<h2>
-
-Traffic Sources
-
-</h2>
-
-</div>
-
-<div class="traffic-grid">
-
-<div class="traffic-card">
-
-Organic Search
-
-<strong>
-
-42%
-
-</strong>
-
-</div>
-
-<div class="traffic-card">
-
-Direct
-
-<strong>
-
-28%
-
-</strong>
-
-</div>
-
-<div class="traffic-card">
-
-Social Media
-
-<strong>
-
-18%
-
-</strong>
-
-</div>
-
-<div class="traffic-card">
-
-Referrals
-
-<strong>
-
-12%
-
-</strong>
-
-</div>
-
-</div>
-
-</section>
-<!-- =========================
-ENTERPRISE METRICS
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Enterprise
-
-</span>
-
-<h2>
-
-Enterprise Metrics
-
-</h2>
-
-</div>
-
-<div class="enterprise-grid">
-
-<div class="enterprise-card">
-
-<h3>
-
-System Uptime
-
-</h3>
-
-<h1>
-
-99.99%
-
-</h1>
-
-<p>
-
-Operational stability across
-all regions.
-
-</p>
-
-</div>
-
-<div class="enterprise-card">
-
-<h3>
-
-API Requests
-
-</h3>
-
-<h1>
-
-842M
-
-</h1>
-
-<p>
-
-Processed this month.
-
-</p>
-
-</div>
-
-<div class="enterprise-card">
-
-<h3>
-
-Cloud Availability
-
-</h3>
-
-<h1>
-
-100%
-
-</h1>
-
-<p>
-
-Multi-region redundancy.
-
-</p>
-
-</div>
-
-<div class="enterprise-card">
-
-<h3>
-
-Service Health
-
-</h3>
-
-<h1>
-
-Excellent
-
-</h1>
-
-<p>
-
-No critical incidents.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-INFRASTRUCTURE DASHBOARD
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Infrastructure
-
-</span>
-
-<h2>
-
-Infrastructure Dashboard
-
-</h2>
-
-</div>
-
-<div class="infrastructure-layout">
-
-<div class="infra-main">
-
-<h3>
-
-Global Infrastructure
-
-</h3>
-
-<div class="infra-chart">
-
-Infrastructure Map
-
-</div>
-
-</div>
-
-<div class="infra-side">
-
-<div class="infra-box">
-
-Servers
-
-<strong>
-
-1,248
-
-</strong>
-
-</div>
-
-<div class="infra-box">
-
-Regions
-
-<strong>
-
-24
-
-</strong>
-
-</div>
-
-<div class="infra-box">
-
-Latency
-
-<strong>
-
-18ms
-
-</strong>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-SECURITY ANALYTICS
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Security
-
-</span>
-
-<h2>
-
-Security Analytics
-
-</h2>
-
-</div>
-
-<div class="security-grid">
-
-<div class="security-card">
-
-🛡️
-
-<h3>
-
-Threats Blocked
-
-</h3>
-
-<h1>
-
-18.4K
-
-</h1>
-
-</div>
-
-<div class="security-card">
-
-🔒
-
-<h3>
-
-Encrypted Sessions
-
-</h3>
-
-<h1>
-
-100%
-
-</h1>
-
-</div>
-
-<div class="security-card">
-
-⚡
-
-<h3>
-
-Security Score
-
-</h3>
-
-<h1>
-
-98/100
-
-</h1>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-TEAM PRODUCTIVITY
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Performance
-
-</span>
-
-<h2>
-
-Team Productivity
-
-</h2>
-
-</div>
-
-<div class="team-productivity">
-
-<div class="team-stat">
-
-<h3>
-
-Tasks Completed
-
-</h3>
-
-<h1>
-
-18.2K
-
-</h1>
-
-</div>
-
-<div class="team-stat">
-
-<h3>
-
-Projects Active
-
-</h3>
-
-<h1>
-
-124
-
-</h1>
-
-</div>
-
-<div class="team-stat">
-
-<h3>
-
-Efficiency Score
-
-</h3>
-
-<h1>
-
-92%
-
-</h1>
-
-</div>
-
-<div class="team-stat">
-
-<h3>
-
-Collaboration Rate
-
-</h3>
-
-<h1>
-
-88%
-
-</h1>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-DEPARTMENT STATISTICS
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Departments
-
-</span>
-
-<h2>
-
-Department Statistics
-
-</h2>
-
-</div>
-
-<div class="department-grid">
-
-<div class="department-card">
-
-💻
-
-<h3>
-
-Engineering
-
-</h3>
-
-<strong>
-
-34%
-
-strong>
-
-</div>
-
-<div class="department-card">
-
-🎨
-
-<h3>
-
-Design
-
-</h3>
-
-<strong>
-
-22%
-
-</strong>
-
-</div>
-
-<div class="department-card">
-
-📈
-
-<h3>
-
-Marketing
-
-</h3>
-
-<strong>
-
-26%
-
-</strong>
-
-</div>
-
-<div class="department-card">
-
-🤝
-
-<h3>
-
-Support
-
-</h3>
-
-<strong>
-
-18%
-
-</strong>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-REVENUE HEATMAP
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Heatmap
-
-</span>
-
-<h2>
-
-Revenue Heatmap
-
-</h2>
-
-</div>
-
-<div class="heatmap-card">
-
-<div class="heat-grid">
-
-<div class="heat high"></div>
-<div class="heat medium"></div>
-<div class="heat low"></div>
-<div class="heat high"></div>
-
-<div class="heat medium"></div>
-<div class="heat high"></div>
-<div class="heat low"></div>
-<div class="heat medium"></div>
-
-<div class="heat high"></div>
-<div class="heat medium"></div>
-<div class="heat high"></div>
-<div class="heat low"></div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-EXECUTIVE SUMMARY
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Summary
-
-</span>
-
-<h2>
-
-Executive Overview
-
-</h2>
-
-</div>
-
-<div class="executive-card">
-
-<h1>
-
-$18.9M Forecasted Revenue
-
-</h1>
-
-<p>
-
-Strong customer retention,
-high engagement and expanding
-global reach continue driving
-sustainable growth.
-
-</p>
-
-</div>
-
-</section>
-
-<!-- =========================
-KPI BENTO LAYOUT
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Bento Dashboard
-
-</span>
-
-<h2>
-
-Performance Highlights
-
-</h2>
-
-</div>
-
-<div class="bento-layout">
-
-<div class="bento-card large">
-
-<h3>
-
-Revenue Growth
-
-</h3>
-
-<h1>
-
-+24.8%
-
-</h1>
-
-<p>
-
-Highest growth rate recorded
-in the last 24 months.
-
-</p>
-
-</div>
-
-<div class="bento-card">
-
-<h3>
-
-Users
-
-</h3>
-
-<h1>
-
-5.2M
-
-</h1>
-
-</div>
-
-<div class="bento-card">
-
-<h3>
-
-Retention
-
-</h3>
-
-<h1>
-
-84%
-
-</h1>
-
-</div>
-
-<div class="bento-card">
-
-<h3>
-
-Profit Margin
-
-</h3>
-
-<h1>
-
-42%
-
-</h1>
-
-</div>
-
-</div>
-
-</section>
-<!-- =========================
-AI COMMAND ANALYTICS
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-AI Intelligence
-
-</span>
-
-<h2>
-
-AI Command Analytics
-
-</h2>
-
-</div>
-
-<div class="ai-command-grid">
-
-<div class="ai-command-card">
-
-🤖
-
-<h3>
-
-Queries Processed
-
-</h3>
-
-<h1>
-
-48.2M
-
-</h1>
-
-<p>
-
-AI requests analyzed this year.
-
-</p>
-
-</div>
-
-<div class="ai-command-card">
-
-⚡
-
-<h3>
-
-Avg Response
-
-</h3>
-
-<h1>
-
-0.7s
-
-</h1>
-
-<p>
-
-Average processing speed.
-
-</p>
-
-</div>
-
-<div class="ai-command-card">
-
-🎯
-
-<h3>
-
-Accuracy
-
-</h3>
-
-<h1>
-
-98.4%
-
-</h1>
-
-<p>
-
-Prediction confidence level.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-SMART RECOMMENDATIONS
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Optimization
-
-</span>
-
-<h2>
-
-Smart Recommendations
-
-</h2>
-
-</div>
-
-<div class="recommendation-grid">
-
-<div class="recommend-card">
-
-<h3>
-
-Increase Paid Traffic
-
-</h3>
-
-<p>
-
-AI detected strong ROI from
-current acquisition channels.
-
-</p>
-
-</div>
-
-<div class="recommend-card">
-
-<h3>
-
-Expand EU Presence
-
-</h3>
-
-<p>
-
-European engagement has
-grown significantly.
-
-</p>
-
-</div>
-
-<div class="recommend-card">
-
-<h3>
-
-Improve Mobile Funnel
-
-</h3>
-
-<p>
-
-Mobile conversions can be
-improved by 11%.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-PREDICTIVE MODELS
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Forecasting
-
-</span>
-
-<h2>
-
-Predictive Models
-
-</h2>
-
-</div>
-
-<div class="predictive-layout">
-
-<div class="predictive-card">
-
-<h3>
-
-Revenue Prediction
-
-</h3>
-
-<h1>
-
-$24.2M
-
-</h1>
-
-<p>
-
-Projected annual revenue.
-
-</p>
-
-</div>
-
-<div class="predictive-card">
-
-<h3>
-
-User Growth
-
-</h3>
-
-<h1>
-
-+38%
-
-</h1>
-
-<p>
-
-Expected increase next year.
-
-</p>
-
-</div>
-
-<div class="predictive-card">
-
-<h3>
-
-Market Expansion
-
-</h3>
-
-<h1>
-
-12 New Regions
-
-</h1>
-
-<p>
-
-Forecasted opportunities.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-LIVE ACTIVITY FEED
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Live Events
-
-</span>
-
-<h2>
-
-Activity Feed
-
-</h2>
-
-</div>
-
-<div class="activity-feed">
-
-<div class="activity-item">
-
-<div class="activity-dot"></div>
-
-New enterprise customer joined
-
-</div>
-
-<div class="activity-item">
-
-<div class="activity-dot"></div>
-
-Revenue milestone reached
-
-</div>
-
-<div class="activity-item">
-
-<div class="activity-dot"></div>
-
-AI model completed forecast
-
-</div>
-
-<div class="activity-item">
-
-<div class="activity-dot"></div>
-
-System health check passed
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-INVESTOR DASHBOARD
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Investors
-
-</span>
-
-<h2>
-
-Investor Dashboard
-
-</h2>
-
-</div>
-
-<div class="investor-grid">
-
-<div class="investor-card">
-
-<h3>
-
-ARR
-
-</h3>
-
-<h1>
-
-$18.9M
-
-</h1>
-
-</div>
-
-<div class="investor-card">
-
-<h3>
-
-Valuation
-
-</h3>
-
-<h1>
-
-$220M
-
-</h1>
-
-</div>
-
-<div class="investor-card">
-
-<h3>
-
-Growth Rate
-
-</h3>
-
-<h1>
-
-42%
-
-</h1>
-
-</div>
-
-<div class="investor-card">
-
-<h3>
-
-Runway
-
-</h3>
-
-<h1>
-
-36 Months
-
-</h1>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-SAAS METRICS
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-SaaS Metrics
-
-</span>
-
-<h2>
-
-Subscription Analytics
-
-</h2>
-
-</div>
-
-<div class="saas-grid">
-
-<div class="saas-card">
-
-<h3>
-
-MRR
-
-</h3>
-
-<h1>
-
-$1.58M
-
-</h1>
-
-</div>
-
-<div class="saas-card">
-
-<h3>
-
-ARR
-
-</h3>
-
-<h1>
-
-$18.9M
-
-</h1>
-
-</div>
-
-<div class="saas-card">
-
-<h3>
-
-LTV
-
-</h3>
-
-<h1>
-
-$4,280
-
-</h1>
-
-</div>
-
-<div class="saas-card">
-
-<h3>
-
-CAC
-
-</h3>
-
-<h1>
-
-$312
-
-</h1>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-BUSINESS INTELLIGENCE HUB
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Business Intelligence
-
-</span>
-
-<h2>
-
-Intelligence Hub
-
-</h2>
-
-</div>
-
-<div class="intelligence-card">
-
-<h1>
-
-All Metrics Unified
-
-</h1>
-
-<p>
-
-Monitor operations, revenue,
-customers, infrastructure,
-security and growth through
-one centralized dashboard.
-
-</p>
-
-</div>
-
-</section>
-
-<!-- =========================
-ANALYTICS SHOWCASE
-========================= -->
-
-<section class="stats-section">
-
-<div class="section-header">
-
-<span>
-
-Highlights
-
-</span>
-
-<h2>
-
-Premium Analytics Showcase
-
-</h2>
-
-</div>
-
-<div class="showcase-grid">
-
-<div class="showcase-card large">
-
-<h3>
-
-Revenue Intelligence
-
-</h3>
-
-<p>
-
-Comprehensive forecasting,
-financial analysis and
-business performance.
-
-</p>
-
-</div>
-
-<div class="showcase-card">
-
-📊
-
-<h3>
-
-Analytics
-
-</h3>
-
-</div>
-
-<div class="showcase-card">
-
-🤖
-
-<h3>
-
-AI Models
-
-</h3>
-
-</div>
-
-<div class="showcase-card">
-
-🌎
-
-<h3>
-
-Global Growth
-
-</h3>
-
-</div>
-
-</div>
-
-</section>
-<!-- =========================
-FAQ SECTION
-========================= -->
-
-<section class="faq-section">
-
-<div class="section-header">
-
-<span>
-
-Support
-
-</span>
-
-<h2>
-
-Frequently Asked Questions
-
-</h2>
-
-</div>
-
-<div class="faq-grid">
-
-<div class="faq-card">
-
-<h3>
-
-How often is data updated?
-
-</h3>
-
-<p>
-
-Real-time metrics update
-instantly while reports are
-refreshed continuously.
-
-</p>
-
-</div>
-
-<div class="faq-card">
-
-<h3>
-
-Can I export reports?
-
-</h3>
-
-<p>
-
-Yes. Reports can be exported
-in multiple formats including
-PDF, CSV and XLSX.
-
-</p>
-
-</div>
-
-<div class="faq-card">
-
-<h3>
-
-Is forecasting AI-powered?
-
-</h3>
-
-<p>
-
-Advanced predictive models
-provide future growth and
-revenue projections.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-DOCUMENTATION
-========================= -->
-
-<section class="docs-section">
-
-<div class="section-header">
-
-<span>
-
-Documentation
-
-</span>
-
-<h2>
-
-Dashboard Architecture
-
-</h2>
-
-</div>
-
-<div class="docs-card">
-
-<pre>
-
-Statistics Dashboard
-│
-├ Executive KPIs
-├ Live Analytics
-├ Global Insights
-├ AI Forecasting
-├ Revenue Analysis
-├ Customer Metrics
-├ Infrastructure
-├ Security Analytics
-├ SaaS Metrics
-├ Intelligence Hub
-└ Reports Center
-
-</pre>
-
-</div>
-
-</section>
-
-<!-- =========================
-REPORTS CENTER
-========================= -->
-
-<section class="reports-section">
-
-<div class="section-header">
-
-<span>
-
-Reports
-
-</span>
-
-<h2>
-
-Analytics Reports Center
-
-</h2>
-
-</div>
-
-<div class="reports-grid">
-
-<div class="report-card">
-
-📄
-
-<h3>
-
-Monthly Report
-
-</h3>
-
-<p>
-
-Performance summary and
-growth metrics.
-
-</p>
-
-</div>
-
-<div class="report-card">
-
-📈
-
-<h3>
-
-Revenue Analysis
-
-</h3>
-
-<p>
-
-Detailed financial overview.
-
-</p>
-
-</div>
-
-<div class="report-card">
-
-🌍
-
-<h3>
-
-Global Insights
-
-</h3>
-
-<p>
-
-Regional traffic and growth.
-
-</p>
-
-</div>
-
-<div class="report-card">
-
-🤖
-
-<h3>
-
-AI Forecasts
-
-</h3>
-
-<p>
-
-Predictive business models.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-ANALYTICS GALLERY
-========================= -->
-
-<section class="gallery-section">
-
-<div class="section-header">
-
-<span>
-
-Showcase
-
-</span>
-
-<h2>
-
-Analytics Gallery
-
-</h2>
-
-</div>
-
-<div class="gallery-grid">
-
-<div class="gallery-card large">
-
-📊
-
-<h3>
-
-Enterprise Dashboard
-
-</h3>
-
-</div>
-
-<div class="gallery-card">
-
-📈 Revenue
-
-</div>
-
-<div class="gallery-card">
-
-🌎 Growth
-
-</div>
-
-<div class="gallery-card">
-
-🤖 AI
-
-</div>
-
-<div class="gallery-card">
-
-🛡 Security
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-NEWSLETTER
-========================= -->
-
-<section class="newsletter-section">
-
-<div class="newsletter-card">
-
-<h2>
-
-Stay Ahead With Insights
-
-</h2>
-
-<p>
-
-Receive analytics reports,
-industry trends and growth
-forecasts directly in your inbox.
-
-</p>
-
-<form class="newsletter-form">
-
-<input
-type="email"
-placeholder="Enter your email">
-
-<button>
-
-Subscribe
-
-</button>
-
-</form>
-
-</div>
-
-</section>
-
-<!-- =========================
-FOOTER
-========================= -->
-
+  <section class="stats-section">
+
+    <!-- Background Shapes -->
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+
+    <!-- Section Header -->
+    <div class="section-header">
+      <span class="tag">OUR SUCCESS</span>
+
+      <h1>
+        Trusted By Thousands <br />
+        Around The World
+      </h1>
+
+      <p>
+        We deliver high-quality digital solutions that help businesses grow
+        faster and achieve outstanding results.
+      </p>
+    </div>
+
+    <!-- Statistics Grid -->
+    <div class="stats-container">
+
+      <!-- Card 1 -->
+      <div class="stat-card">
+        <div class="card-top">
+          <div class="icon blue">
+            <i class="fa-solid fa-users"></i>
+          </div>
+
+          <span class="growth positive">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            +12%
+          </span>
+        </div>
+
+        <h2 class="counter" data-target="1200">0</h2>
+
+        <h3>Happy Clients</h3>
+
+        <p>
+          Satisfied customers across multiple industries worldwide.
+        </p>
+
+        <div class="progress-bar">
+          <div class="progress blue-progress"></div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="stat-card">
+        <div class="card-top">
+          <div class="icon purple">
+            <i class="fa-solid fa-rocket"></i>
+          </div>
+
+          <span class="growth positive">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            +20%
+          </span>
+        </div>
+
+        <h2 class="counter" data-target="350">0</h2>
+
+        <h3>Projects Completed</h3>
+
+        <p>
+          Successfully delivered projects with premium quality.
+        </p>
+
+        <div class="progress-bar">
+          <div class="progress purple-progress"></div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="stat-card">
+        <div class="card-top">
+          <div class="icon green">
+            <i class="fa-solid fa-earth-americas"></i>
+          </div>
+
+          <span class="growth positive">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            +8%
+          </span>
+        </div>
+
+        <h2 class="counter" data-target="25">0</h2>
+
+        <h3>Countries Reached</h3>
+
+        <p>
+          Expanding services globally with trusted partnerships.
+        </p>
+
+        <div class="progress-bar">
+          <div class="progress green-progress"></div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="stat-card">
+        <div class="card-top">
+          <div class="icon orange">
+            <i class="fa-solid fa-star"></i>
+          </div>
+
+          <span class="growth positive">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            +15%
+          </span>
+        </div>
+
+        <h2 class="counter" data-target="98">0</h2>
+
+        <h3>Positive Reviews</h3>
+
+        <p>
+          Rated highly by clients for excellent customer experience.
+        </p>
+
+        <div class="progress-bar">
+          <div class="progress orange-progress"></div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="stat-card">
+        <div class="card-top">
+          <div class="icon red">
+            <i class="fa-solid fa-award"></i>
+          </div>
+
+          <span class="growth positive">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            +10%
+          </span>
+        </div>
+
+        <h2 class="counter" data-target="45">0</h2>
+
+        <h3>Awards Won</h3>
+
+        <p>
+          Recognized internationally for innovation and creativity.
+        </p>
+
+        <div class="progress-bar">
+          <div class="progress red-progress"></div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="stat-card">
+        <div class="card-top">
+          <div class="icon cyan">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+
+          <span class="growth negative">
+            <i class="fa-solid fa-arrow-trend-down"></i>
+            -5%
+          </span>
+        </div>
+
+        <h2 class="counter" data-target="24">0</h2>
+
+        <h3>Support Hours</h3>
+
+        <p>
+          Dedicated support team available around the clock.
+        </p>
+
+        <div class="progress-bar">
+          <div class="progress cyan-progress"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="stats-footer">
+      <a href="#" class="stats-btn">
+        Explore More
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+  </section>
+
+  <script src="statistics.js"></script>
+
+  <script src="dist/shared.js"></script>
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
 
-<div class="footer-grid">
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
 
-<div>
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
 
-<h3>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
 
-StatVerse
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
 
-</h3>
-
-<p>
-
-Modern analytics platform
-for enterprise intelligence.
-
-</p>
-
-</div>
-
-<div>
-
-<h4>
-
-Analytics
-
-</h4>
-
-<ul>
-
-<li>Revenue</li>
-<li>Growth</li>
-<li>Forecasts</li>
-
-</ul>
-
-</div>
-
-<div>
-
-<h4>
-
-Resources
-
-</h4>
-
-<ul>
-
-<li>Reports</li>
-<li>Documentation</li>
-<li>Support</li>
-
-</ul>
-
-</div>
-
-<div>
-
-<h4>
-
-Company
-
-</h4>
-
-<ul>
-
-<li>About</li>
-<li>Careers</li>
-<li>Contact</li>
-
-</ul>
-
-</div>
-
-</div>
-
-<div class="footer-bottom">
-
-© 2026 StatVerse Analytics Platform
-
-</div>
-
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
 </footer>
 
-<!-- =========================
-ANALYTICS MODAL
-========================= -->
-
-<div
-class="analytics-modal-overlay"
-id="analyticsModal">
-
-<div class="analytics-modal">
-
-<div class="modal-header">
-
-<h3>
-
-Analytics Insight
-
-</h3>
-
-<button
-id="closeAnalyticsModal">
-
-✕
-
-</button>
-
-</div>
-
-<div class="modal-content">
-
-<h2>
-
-Growth Accelerating
-
-</h2>
-
-<p>
-
-AI models predict sustained
-growth driven by increased
-engagement, retention and
-global expansion.
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- =========================
-SCROLL TO TOP
-========================= -->
-
-<button
-id="scrollTop"
-class="scroll-top">
-
-↑
-
-</button>
-
-<!-- =========================
-JAVASCRIPT
-========================= -->
-
 <script>
-
-const modal =
-document.getElementById(
-"analyticsModal"
-);
-
-const closeBtn =
-document.getElementById(
-"closeAnalyticsModal"
-);
-
-document
-.querySelectorAll(
-".gallery-card"
-)
-.forEach(card=>{
-
-card.addEventListener(
-"click",
-()=>{
-
-modal.classList.add(
-"active"
-);
-
-});
-
-});
-
-closeBtn.addEventListener(
-"click",
-()=>{
-
-modal.classList.remove(
-"active"
-);
-
-});
-
-modal.addEventListener(
-"click",
-(e)=>{
-
-if(
-e.target===modal
-){
-
-modal.classList.remove(
-"active"
-);
-
-}
-
-});
-
-const scrollBtn =
-document.getElementById(
-"scrollTop"
-);
-
-window.addEventListener(
-"scroll",
-()=>{
-
-if(
-window.scrollY>400
-){
-
-scrollBtn.classList.add(
-"show"
-);
-
-}else{
-
-scrollBtn.classList.remove(
-"show"
-);
-
-}
-
-});
-
-scrollBtn.addEventListener(
-"click",
-()=>{
-
-window.scrollTo({
-
-top:0,
-behavior:"smooth"
-
-});
-
-});
-
-</script>
-
-</body>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>\n\n</body>
 </html>

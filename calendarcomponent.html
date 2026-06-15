@@ -3,8 +3,8 @@
 
 <head>
   <link rel="stylesheet" href="dist/shared.css">
+
   <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y=' 'sha256-XriXHWKMwk2T+JOvuAt7cij0Iacl5D/SqRKl7ZgDNZ4=' 'sha256-uXUaHMV6W5t+ecyacP9YcaFyJ7vJYeiganbWLNJn8U0='; script-src-attr 'unsafe-hashes' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y=' 'sha256-XriXHWKMwk2T+JOvuAt7cij0Iacl5D/SqRKl7ZgDNZ4=' 'sha256-uXUaHMV6W5t+ecyacP9YcaFyJ7vJYeiganbWLNJn8U0='; style-src 'self' https: 'unsafe-hashes' 'sha256-5gz2c1mG+rwxmYnSeeebLAR8qCrXnUfXX6WitG8+IzU=' 'sha256-86PuPnZji8a/kr+KRpg8H54LRYDCx3faaUvGW9lXWZ0='; style-src-attr 'unsafe-hashes' 'sha256-5gz2c1mG+rwxmYnSeeebLAR8qCrXnUfXX6WitG8+IzU=' 'sha256-86PuPnZji8a/kr+KRpg8H54LRYDCx3faaUvGW9lXWZ0='">
 
   <meta
     name="viewport"
@@ -30,30 +30,76 @@
 
 
   <link rel="stylesheet" href="playground.css">
-</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-
 <!-- =========================================================
    NAVBAR
 ========================================================= -->
 
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
 <header class="navbar" id="navbar">
-  <button type="button" class="menu-toggle" onclick="toggleSidebar()" aria-label="menu toggle" data-a11y-remediation="button-label-needed">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
     <i class="fa-solid fa-bars"></i>
   </button>
-  <div class="logo">UIverse</div>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
   <div class="search-bar">
     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    <input type="text" id="searchInput" placeholder="Search components..." oninput="liveFilter(this.value)" / data-a11y-remediation="label-needed">
-    <kbd class="search-kbd">⌘K</kbd>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
   </div>
   <div class="nav-right">
-    <button class="nav-btn outline-nav-btn"><i class="fa-solid fa-plus"></i> Add Component</button>
-    <button class="nav-btn primary-nav-btn"><i class="fa-solid fa-bookmark"></i> My Collection</button>
-    <button id="darkModeToggle" class="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
   </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
 </header>
 
 <!-- =========================================================
@@ -385,68 +431,6 @@
 
 </aside>
 
-<div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Attendance Calendar</span>
-    <span class="card-tag tag-essential">Education</span>
-  </div>
-
-  <div class="card-preview">
-    <div class="attendance-calendar">
-
-      <h4>July Attendance</h4>
-
-      <div class="attendance-grid">
-        <span class="present"></span>
-        <span class="present"></span>
-        <span class="present"></span>
-        <span class="absent"></span>
-        <span class="present"></span>
-        <span class="present"></span>
-        <span class="present"></span>
-      </div>
-
-    </div>
-  </div>
-
-
-  <div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Executive Calendar</span>
-    <span class="card-tag tag-modern">Business</span>
-  </div>
-
-  <div class="card-preview dark-preview">
-
-    <div class="executive-calendar">
-      <h4>Board Meeting</h4>
-
-      <div class="meeting-row">
-        <span>09:00 AM</span>
-        <p>Quarterly Review</p>
-      </div>
-
-      <div class="meeting-row">
-        <span>11:30 AM</span>
-        <p>Investor Call</p>
-      </div>
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Executive meeting scheduling interface.
-  </p>
-
-</div>
-  <p class="card-desc">
-    Student attendance tracking calendar.
-  </p>
-
-</div>
-
 
 
 <!-- =========================================================
@@ -485,394 +469,6 @@
         crafted for modern applications.
       </p>
 
-      <div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Exam Schedule</span>
-    <span class="card-tag tag-modern">Education</span>
-  </div>
-
-  <div class="card-preview dark-preview">
-
-    <div class="exam-schedule">
-
-      <h4>Mid Semester</h4>
-
-      <div class="exam-item">
-        <span>Aug 12</span>
-        <p>Compiler Design</p>
-      </div>
-
-      <div class="exam-item">
-        <span>Aug 15</span>
-        <p>Computer Networks</p>
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Academic examination planner UI.
-  </p>
-
-</div>
-
-
-<div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Sprint Calendar</span>
-    <span class="card-tag tag-trending">Agile</span>
-  </div>
-
-  <div class="card-preview">
-
-    <div class="sprint-calendar">
-
-      <h4>Sprint 24</h4>
-
-      <div class="sprint-days">
-        <span>Day 1</span>
-        <span>Day 5</span>
-        <span>Day 10</span>
-        <span>Day 14</span>
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Agile sprint planning calendar.
-  </p>
-
-</div>
-
-
-<div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Conference Agenda</span>
-    <span class="card-tag tag-popular">Events</span>
-  </div>
-
-  <div class="card-preview dark-preview">
-
-    <div class="conference-agenda">
-
-      <div class="agenda-session">
-        <span>10:00</span>
-        <p>Opening Keynote</p>
-      </div>
-
-      <div class="agenda-session">
-        <span>12:30</span>
-        <p>Product Showcase</p>
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Conference and summit scheduling UI.
-  </p>
-
-</div>
-
-<div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Leave Calendar</span>
-    <span class="card-tag tag-modern">HR</span>
-  </div>
-
-  <div class="card-preview">
-
-    <div class="leave-calendar">
-
-      <h4>Team Leave</h4>
-
-      <div class="leave-item">
-        <p>Sarah</p>
-        <span>12-15 Jul</span>
-      </div>
-
-      <div class="leave-item">
-        <p>Alex</p>
-        <span>18-20 Jul</span>
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Employee leave management calendar.
-  </p>
-
-</div>
-
-<div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Doctor Schedule</span>
-    <span class="card-tag tag-essential">Healthcare</span>
-  </div>
-
-  <div class="card-preview dark-preview">
-
-    <div class="doctor-schedule">
-
-      <h4>Dr. Wilson</h4>
-
-      <div class="patient-slot">
-        <span>09:30</span>
-        <p>Patient Checkup</p>
-      </div>
-
-      <div class="patient-slot">
-        <span>11:00</span>
-        <p>Consultation</p>
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Healthcare appointment scheduling.
-  </p>
-
-</div>
-
-<div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Milestone Tracker</span>
-    <span class="card-tag tag-trending">Projects</span>
-  </div>
-
-  <div class="card-preview">
-
-    <div class="milestone-calendar">
-
-      <div class="milestone active">
-        Planning
-      </div>
-
-      <div class="milestone active">
-        Design
-      </div>
-
-      <div class="milestone">
-        Launch
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Product milestone scheduling component.
-  </p>
-
-</div>
-
-<div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Interview Scheduler</span>
-    <span class="card-tag tag-modern">Recruitment</span>
-  </div>
-
-  <div class="card-preview">
-
-    <div class="interview-scheduler">
-
-      <h4>Frontend Developer</h4>
-
-      <p>Round 2</p>
-
-      <span>16 Jul • 03:00 PM</span>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Candidate interview scheduling UI.
-  </p>
-
-</div>
-
-<div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Webinar Planner</span>
-    <span class="card-tag tag-popular">Marketing</span>
-  </div>
-
-  <div class="card-preview dark-preview">
-
-    <div class="webinar-calendar">
-
-      <h4>AI Product Launch</h4>
-
-      <span>500 Registrations</span>
-
-      <p>24 Jul • 05:00 PM</p>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Webinar and virtual event calendar.
-  </p>
-
-</div>
-<div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Release Timeline</span>
-    <span class="card-tag tag-popular">Development</span>
-  </div>
-
-  <div class="card-preview dark-preview">
-
-    <div class="release-timeline">
-
-      <div class="release-step active">
-        Alpha
-      </div>
-
-      <div class="release-step">
-        Beta
-      </div>
-
-      <div class="release-step">
-        Launch
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Product launch schedule tracker.
-  </p>
-
-</div>
-
-<div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Hotel Reservation</span>
-    <span class="card-tag tag-popular">Travel</span>
-  </div>
-
-  <div class="card-preview">
-
-    <div class="hotel-calendar">
-
-      <h4>Check-In</h4>
-
-      <div class="date-range">
-        <span>14 Jul</span>
-        <i class="fa-solid fa-arrow-right"></i>
-        <span>18 Jul</span>
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Hotel booking calendar UI.
-  </p>
-
-</div>
-
-<div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Shift Planner</span>
-    <span class="card-tag tag-essential">Workforce</span>
-  </div>
-
-  <div class="card-preview">
-
-    <div class="shift-planner">
-
-      <div class="shift">
-        Morning
-      </div>
-
-      <div class="shift active">
-        Evening
-      </div>
-
-      <div class="shift">
-        Night
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Employee shift scheduling interface.
-  </p>
-
-</div>
-
-<div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Medicine Reminder</span>
-    <span class="card-tag tag-trending">Health</span>
-  </div>
-
-  <div class="card-preview">
-
-    <div class="medicine-reminder">
-
-      <i class="fa-solid fa-pills"></i>
-
-      <h4>Vitamin D</h4>
-
-      <p>Tonight • 09:00 PM</p>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="component-card">
-
-  <div class="card-top">
-    <span class="card-label">Birthday Calendar</span>
-    <span class="card-tag tag-popular">Social</span>
-  </div>
-
-  <div class="card-preview">
-
-    <div class="birthday-calendar">
-
-      <i class="fa-solid fa-cake-candles"></i>
-
-      <h4>Sarah Parker</h4>
-
-      <span>Tomorrow</span>
-
-    </div>
-
-  </div>
-
-</div>
       <div class="page-meta">
 
         <span class="meta-badge">
@@ -896,321 +492,6 @@
   </section>
 
     <!-- =========================================
-     MONTHLY AGENDA
-<div class="component-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      Monthly Agenda
-    </span>
-
-    <span class="card-tag tag-modern">
-      Planner
-    </span>
-
-  </div>
-
-  <div class="card-preview">
-
-    <div class="monthly-agenda">
-
-      <div class="agenda-top">
-        <h4>September</h4>
-        <span>12 Events</span>
-      </div>
-
-      <div class="agenda-grid">
-
-        <span>1</span>
-        <span>2</span>
-        <span class="agenda-active">3</span>
-        <span>4</span>
-        <span>5</span>
-        <span>6</span>
-        <span>7</span>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Monthly agenda calendar with
-    premium productivity styling.
-  </p>
-
-</div>
-
-<!-- =========================================
-     VACATION PLANNER
-<div class="component-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      Vacation Planner
-    </span>
-
-    <span class="card-tag tag-popular">
-      Travel
-    </span>
-
-  </div>
-
-  <div class="card-preview dark-preview">
-
-    <div class="vacation-planner">
-
-      <div class="vacation-top">
-
-        <div>
-          <h4>Paris Trip</h4>
-          <span>Aug 10 - Aug 18</span>
-        </div>
-
-        <i class="fa-solid fa-plane"></i>
-
-      </div>
-
-      <div class="vacation-progress">
-        <span></span>
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Stylish vacation planning card
-    for travel booking platforms.
-  </p>
-
-</div>
-
-<!-- =========================================
-     HABIT TRACKER
-<div class="component-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      Habit Tracker
-    </span>
-
-    <span class="card-tag tag-essential">
-      Tracking
-    </span>
-
-  </div>
-
-  <div class="card-preview">
-
-    <div class="habit-tracker">
-
-      <div class="habit-top">
-        <h4>Workout Goal</h4>
-        <span>5/7 Days</span>
-      </div>
-
-      <div class="habit-days">
-
-        <span class="done"></span>
-        <span class="done"></span>
-        <span class="done"></span>
-        <span class="done"></span>
-        <span class="done"></span>
-        <span></span>
-        <span></span>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Habit tracking calendar widget
-    with clean modern visuals.
-  </p>
-
-</div>
-
-<!-- =========================================
-     DEADLINE ALERT
-<div class="component-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      Deadline Alert
-    </span>
-
-    <span class="card-tag tag-trending">
-      Alert
-    </span>
-
-  </div>
-
-  <div class="card-preview dark-preview">
-
-    <div class="deadline-alert">
-
-      <div class="alert-icon">
-        <i class="fa-solid fa-hourglass-half"></i>
-      </div>
-
-      <div>
-        <h4>Project Submission</h4>
-        <p>Due in 12 Hours</p>
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Deadline warning component for
-    productivity dashboards.
-  </p>
-
-</div>
-
-<!-- =========================================
-     CLASS SCHEDULE
-<div class="component-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      Class Schedule
-    </span>
-
-    <span class="card-tag tag-modern">
-      Education
-    </span>
-
-  </div>
-
-  <div class="card-preview">
-
-    <div class="class-schedule">
-
-      <div class="class-item">
-
-        <span>09:00</span>
-
-        <p>Computer Networks</p>
-
-      </div>
-
-      <div class="class-item active-class">
-
-        <span>11:00</span>
-
-        <p>Compiler Design</p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Educational schedule layout for
-    student management systems.
-  </p>
-
-</div>
-
-<!-- =========================================
-     FITNESS CALENDAR
-<div class="component-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      Fitness Calendar
-    </span>
-
-    <span class="card-tag tag-popular">
-      Fitness
-    </span>
-
-  </div>
-
-  <div class="card-preview dark-preview">
-
-    <div class="fitness-calendar">
-
-      <div class="fitness-top">
-
-        <div>
-          <h4>Calories Burned</h4>
-          <span>This Week</span>
-        </div>
-
-        <i class="fa-solid fa-fire"></i>
-
-      </div>
-
-      <h2>2,480</h2>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Fitness tracking calendar card
-    with premium dashboard UI.
-  </p>
-
-</div>
-
-<!-- =========================================
-     CONTENT PLANNER
-<div class="component-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      Content Planner
-    </span>
-
-    <span class="card-tag tag-essential">
-      Marketing
-    </span>
-
-  </div>
-
-  <div class="card-preview">
-
-    <div class="content-planner">
-
-      <div class="content-row">
-        <span>YouTube Upload</span>
-        <p>Monday</p>
-      </div>
-
-      <div class="content-row">
-        <span>Instagram Reel</span>
-        <p>Wednesday</p>
-      </div>
-
-    </div>
-
-  </div>
-
-  <p class="card-desc">
-    Content scheduling widget for
-    creators and marketing teams.
-  </p>
-
-</div>
-
-    <!-- =========================================
-     PROJECT MANAGEMENT CALENDAR
      PROJECT MANAGEMENT CALENDAR -->
 <div class="component-card">
 
@@ -2712,19 +1993,18 @@
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
-
     <div class="footer-col brand">
       <h2 class="footer-logo">⬡ UIverse</h2>
       <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
       <div class="socials">
-        <a href="#" title="GitHub">
-          <i class="fab fa-github"></i>
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
         </a>
-        <a href="#" title="LinkedIn">
-          <i class="fab fa-linkedin"></i>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
         </a>
-        <a href="#" title="Twitter">
-          <i class="fab fa-x-twitter"></i>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
         </a>
       </div>
     </div>
@@ -2743,10 +2023,10 @@
     <div class="footer-col">
       <h3>Resources</h3>
       <ul>
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">Contribute</a></li>
-        <li><a href="#">GitHub Repo</a></li>
-        <li><a href="#">Community</a></li>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
     </div>
 
@@ -2755,7 +2035,7 @@
       <ul>
         <li><a href="privacypolicy.html">Privacy Policy</a></li>
         <li><a href="terms.html">Terms of Service</a></li>
-        <li><a href="#">License</a></li>
+        <li><a href="license.html">License</a></li>
       </ul>
     </div>
 
@@ -2763,20 +2043,40 @@
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
         <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
-
   </div>
 
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
 
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
+
 <script src="calendarcomponent.js"></script>
 
-    <script src="dist/shared.js"></script>
+  <script src="dist/shared.js"></script>
 </body>
 </html>

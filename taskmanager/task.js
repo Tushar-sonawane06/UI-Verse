@@ -81,3 +81,202 @@ function loadTasks(){
 }
 
 loadTasks();
+
+const taskInput = document.getElementById("taskInput");
+const addTaskBtn = document.getElementById("addTaskBtn");
+
+const pendingTasks = document.getElementById("pendingTasks");
+const completedTasks = document.getElementById("completedTasks");
+
+function updateStats() {
+
+  const pending =
+    pendingTasks.children.length;
+
+  const completed =
+    completedTasks.children.length;
+
+  const total = pending + completed;
+
+  document.getElementById("pendingCount").innerText = pending;
+  document.getElementById("completedCount").innerText = completed;
+  document.getElementById("totalTasks").innerText = total;
+
+  let progress = total
+    ? Math.round((completed / total) * 100)
+    : 0;
+
+  document.getElementById("progressText").innerText =
+    progress + "%";
+
+  document.getElementById("progressFill").style.width =
+    progress + "%";
+}
+
+function createTask(text){
+
+  const task = document.createElement("div");
+  task.classList.add("task");
+
+  task.innerHTML = `
+    <span>${text}</span>
+
+    <button class="complete-btn">
+      <i class="fas fa-check"></i>
+    </button>
+
+    <button class="delete-btn">
+      <i class="fas fa-trash"></i>
+    </button>
+  `;
+
+  const completeBtn =
+    task.querySelector(".complete-btn");
+
+  const deleteBtn =
+    task.querySelector(".delete-btn");
+
+  completeBtn.onclick = () => {
+
+    completedTasks.appendChild(task);
+
+    completeBtn.remove();
+
+    task.style.animation =
+      "slideIn .5s ease";
+
+    updateStats();
+  };
+
+  deleteBtn.onclick = () => {
+    task.remove();
+    updateStats();
+  };
+
+  pendingTasks.appendChild(task);
+
+  updateStats();
+}
+
+addTaskBtn.onclick = () => {
+
+  const text = taskInput.value.trim();
+
+  if(!text) return;
+
+  createTask(text);
+
+  taskInput.value = "";
+};
+
+function updateClock(){
+
+  const now = new Date();
+
+  document.getElementById("time").innerText =
+    now.toLocaleTimeString();
+
+  document.getElementById("date").innerText =
+    now.toDateString();
+}
+
+setInterval(updateClock,1000);
+updateClock();
+
+function updateGoal(progress){
+
+ const circle =
+ document.getElementById("goalProgress");
+
+ const percent =
+ document.getElementById("goalPercent");
+
+ let offset = 377 - (377 * progress)/100;
+
+ circle.style.strokeDashoffset = offset;
+
+ percent.innerText = progress + "%";
+}
+
+const focusBtn =
+document.getElementById("focusBtn");
+
+focusBtn.addEventListener("click",()=>{
+
+ document.body.classList.toggle("focus");
+
+ const active =
+ document.body.classList.contains("focus");
+
+ document.getElementById("focusStatus")
+ .innerText = active
+ ? "Focus Mode Enabled"
+ : "Normal Mode";
+});
+
+function updateInsights(){
+
+ let completed =
+ document.getElementById("completedTasks")
+ .children.length;
+
+ let insight =
+ document.getElementById("insightText");
+
+ if(completed >= 10){
+
+   insight.innerHTML =
+   "🏆 Amazing! You're having a highly productive day.";
+
+ }else if(completed >= 5){
+
+   insight.innerHTML =
+   "🚀 Great work! Keep your momentum going.";
+
+ }else{
+
+   insight.innerHTML =
+   "⚡ Complete more tasks to unlock achievements.";
+ }
+}
+
+const cursor =
+document.querySelector(".cursor");
+
+const blur =
+document.querySelector(".cursor-blur");
+
+document.addEventListener("mousemove",(e)=>{
+
+    cursor.style.left =
+    e.clientX + "px";
+
+    cursor.style.top =
+    e.clientY + "px";
+
+    blur.style.left =
+    e.clientX - 20 + "px";
+
+    blur.style.top =
+    e.clientY - 20 + "px";
+});
+
+/* Button Hover Effect */
+
+document
+.querySelectorAll("button,a")
+.forEach(item=>{
+
+    item.addEventListener("mouseenter",()=>{
+
+        blur.style.transform =
+        "scale(2)";
+    });
+
+    item.addEventListener("mouseleave",()=>{
+
+        blur.style.transform =
+        "scale(1)";
+    });
+
+});

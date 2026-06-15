@@ -150,7 +150,12 @@
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -165,6 +170,9 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -234,8 +242,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export class UVTooltip extends HTMLElement {
   private _tooltipEl: HTMLElement;
@@ -243,15 +253,18 @@
 &nbsp;
   constructor() {
     super();
-    const s = this.attachShadow({ mode: 'open' });
+    const s = this.attachShadow({ mode: "open" });
     s.innerHTML = `
       &lt;span&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/span&gt;
       &lt;div class="tooltip" hidden&gt;Tooltip text&lt;/div&gt;
     `;
-    this._tooltipEl = s.querySelector('.tooltip') as HTMLElement;
-    this._triggerEl = s.querySelector('span') as HTMLElement;
+    this._tooltipEl = s.querySelector(".tooltip") as HTMLElement;
+    this._triggerEl = s.querySelector("span") as HTMLElement;
 &nbsp;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof CSSStyleSheet !== 'undefined' &amp;&amp; 'replaceSync' in CSSStyleSheet.prototype) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (
+      typeof CSSStyleSheet !== "undefined" &amp;&amp;
+      "replaceSync" in CSSStyleSheet.prototype
+    ) {
       const sheet = <span class="cstat-no" title="statement not covered" >new CSSStyleSheet();</span>
 <span class="cstat-no" title="statement not covered" >      sheet.replaceSync(`</span>
         .tooltip {
@@ -272,7 +285,7 @@
       `);
 <span class="cstat-no" title="statement not covered" >      s.adoptedStyleSheets = [sheet];</span>
     } else {
-      const style = document.createElement('style');
+      const style = document.createElement("style");
       style.textContent = `
         .tooltip {
           position: absolute;
@@ -298,32 +311,34 @@
   private _hideBind = () =&gt; this.hide();
 &nbsp;
   connectedCallback() {
-    this._triggerEl.addEventListener('mouseenter', this._showBind);
-    this._triggerEl.addEventListener('mouseleave', this._hideBind);
-    this._triggerEl.addEventListener('focusin', this._showBind);
-    this._triggerEl.addEventListener('focusout', this._hideBind);
+    this._triggerEl.addEventListener("mouseenter", this._showBind);
+    this._triggerEl.addEventListener("mouseleave", this._hideBind);
+    this._triggerEl.addEventListener("focusin", this._showBind);
+    this._triggerEl.addEventListener("focusout", this._hideBind);
   }
 &nbsp;
   disconnectedCallback() {
-    this._triggerEl.removeEventListener('mouseenter', this._showBind);
-    this._triggerEl.removeEventListener('mouseleave', this._hideBind);
-    this._triggerEl.removeEventListener('focusin', this._showBind);
-    this._triggerEl.removeEventListener('focusout', this._hideBind);
+    this._triggerEl.removeEventListener("mouseenter", this._showBind);
+    this._triggerEl.removeEventListener("mouseleave", this._hideBind);
+    this._triggerEl.removeEventListener("focusin", this._showBind);
+    this._triggerEl.removeEventListener("focusout", this._hideBind);
   }
 &nbsp;
   show() {
-    this._tooltipEl.removeAttribute('hidden');
+    this._tooltipEl.removeAttribute("hidden");
   }
 &nbsp;
   hide() {
-    this._tooltipEl.setAttribute('hidden', '');
+    this._tooltipEl.setAttribute("hidden", "");
   }
 }
 &nbsp;
-if (typeof customElements !== 'undefined' &amp;&amp; !customElements.get('uv-tooltip')) {
-  customElements.define('uv-tooltip', UVTooltip);
+if (
+  typeof customElements !== "undefined" &amp;&amp;
+  !customElements.get("uv-tooltip")
+) {
+  customElements.define("uv-tooltip", UVTooltip);
 }
-&nbsp;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -331,7 +346,7 @@ if (typeof customElements !== 'undefined' &amp;&amp; !customElements.get('uv-too
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-13T17:56:46.762Z
+                at 2026-06-14T14:20:55.543Z
             </div>
         <script src="prettify.js"></script>
         <script>

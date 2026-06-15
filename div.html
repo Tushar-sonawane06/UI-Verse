@@ -3,10 +3,22 @@
 
 <head>
   <link rel="stylesheet" href="dist/shared.css">
+
   <meta charset="UTF-8" />
 
   <!-- SECURITY -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y=' 'sha256-bJrVPQ/p9Hq92+Fwdk0sVp04v8NI7ZVha8Ziq+EX4mA='; script-src-attr 'unsafe-hashes' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y=' 'sha256-bJrVPQ/p9Hq92+Fwdk0sVp04v8NI7ZVha8Ziq+EX4mA='; style-src 'self' https: 'unsafe-hashes' 'sha256-Escl73CroLGiW8IsY+ea2SJvSjflCvxVpWjTKfRdv5k=' 'sha256-UURs4At+4ylzrbWFQHXOFodf+e07eIsuhEbPfjafUhA=' 'sha256-gfWWEnvKKoTlzUjAteohS0VdAmLDUTjckiEVuNBD4Ck=' 'sha256-z2TBOJthd5ZpUYKlhid/XNTmF+NqivaKALOtrABTzAQ='; style-src-attr 'unsafe-hashes' 'sha256-Escl73CroLGiW8IsY+ea2SJvSjflCvxVpWjTKfRdv5k=' 'sha256-UURs4At+4ylzrbWFQHXOFodf+e07eIsuhEbPfjafUhA=' 'sha256-gfWWEnvKKoTlzUjAteohS0VdAmLDUTjckiEVuNBD4Ck=' 'sha256-z2TBOJthd5ZpUYKlhid/XNTmF+NqivaKALOtrABTzAQ='">
+  <meta http-equiv="Content-Security-Policy"
+    content="
+      default-src 'self' https:;
+      base-uri 'self';
+      frame-ancestors 'none';
+      object-src 'none';
+      connect-src 'self' https:;
+      img-src 'self' data: https:;
+      font-src 'self' data: https:;
+      script-src 'self' https: 'unsafe-inline';
+      style-src 'self' https: 'unsafe-inline';
+    ">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -151,8 +163,6 @@
        MAIN
     ========================================================= */
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-
 
 <!-- ================= SIDEBAR ================= -->
 <aside class="sidebar" id="sidebar">
@@ -483,6 +493,71 @@
 
 /* <!-- ================= SIDEBAR BACKDROP ================= -->
 <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
 <!-- =========================================================
      MAIN
 
@@ -494,399 +569,6 @@
     <div class="hero-badge">
       ✨ Modern Layout Components
     </div> */
-
-    <!-- CRM CARD -->
-<div class="form-component-card">
-
-  <div class="card-top">
-    <span class="card-label">CRM Overview</span>
-
-    <span class="card-tag tag-popular">
-      SaaS
-    </span>
-  </div>
-
-  <div class="bento-grid">
-  <div class="bento-card large">Analytics</div>
-  <div class="bento-card">Revenue</div>
-  <div class="bento-card">Users</div>
-  <div class="bento-card wide">Performance</div>
-</div>
-
-<div class="stats-card">
-  <div class="stats-value">12.5K</div>
-  <div class="stats-label">Active Users</div>
-  <div class="stats-trend positive">+18%</div>
-</div>
-
-
-<div class="timeline-item">
-  <div class="timeline-dot"></div>
-  <div class="timeline-content">
-    <h4>Project Launch</h4>
-    <p>Version 1.0 released.</p>
-  </div>
-</div>
-
-<div class="team-card">
-  <div class="avatar"></div>
-  <h4>Sarah Johnson</h4>
-  <span>Product Designer</span>
-</div>
-
-<div class="expand-card">
-  <div class="expand-header">
-    <span>Project Details</span>
-  </div>
-  <div class="expand-content">
-    Hidden content appears here.
-  </div>
-</div>
-<div class="activity-card">
-  <div class="activity-avatar"></div>
-  <div class="activity-content">
-    <strong>Alex</strong> uploaded a new design file.
-  </div>
-</div>
-
-<div class="dashboard-widget">
-  <div class="widget-header">
-    <h4>Conversion Rate</h4>
-  </div>
-  <div class="widget-body">
-    <strong>4.8%</strong>
-  </div>
-</div>
-
-<div class="spotlight-card">
-  <div class="glow"></div>
-  <h3>Premium Feature</h3>
-</div>
-  <div class="form-component-card">
-  <div class="card-top">
-    <span class="card-label">KPI Card</span>
-    <span class="card-tag tag-popular">Business</span>
-  </div>
-
-  <div class="form-preview">
-    <div class="kpi-card">
-      <div class="kpi-top">
-        <h2>3,450</h2>
-        <i class="fa-solid fa-arrow-trend-up"></i>
-      </div>
-      <p>Monthly Active Users</p>
-      <div class="kpi-bar"><span></span></div>
-    </div>
-  </div>
-</div>
-
-  <div class="form-preview">
-
-    <div class="crm-card">
-
-      <div class="crm-header">
-
-        <div>
-          <p>Total Clients</p>
-          <h2>1,284</h2>
-        </div>
-
-        <div class="crm-icon">
-          <i class="fa-solid fa-users"></i>
-        </div>
-
-      </div>
-
-      <div class="crm-progress">
-        <div class="crm-progress-fill"></div>
-      </div>
-
-      <div class="crm-footer">
-        <span>+24% this month</span>
-        <span>Target: 2K</span>
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="form-component-card">
-  <div class="card-top">
-    <span class="card-label">Floating Stats</span>
-    <span class="card-tag tag-new">UI</span>
-  </div>
-
-  <div class="form-preview">
-    <div class="float-stats">
-      <div>
-        <h2>92%</h2>
-        <p>Performance</p>
-      </div>
-      <i class="fa-solid fa-gauge"></i>
-    </div>
-  </div>
-</div>
-
-
-<div class="form-component-card">
-  <div class="card-top">
-    <span class="card-label">Calendar</span>
-    <span class="card-tag tag-popular">Date</span>
-  </div>
-
-  <div class="form-preview">
-    <div class="calendar-box">
-      <h3>May 2026</h3>
-      <div class="calendar-grid">
-        <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span>
-        <span class="day">1</span><span class="day">2</span><span class="day active">3</span>
-        <span class="day">4</span><span class="day">5</span><span class="day">6</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="form-component-card">
-  <div class="card-top">
-    <span class="card-label">Progress Steps</span>
-    <span class="card-tag tag-trending">Flow</span>
-  </div>
-
-  <div class="form-preview">
-    <div class="steps">
-      <div class="step done">1</div>
-      <div class="step done">2</div>
-      <div class="step active">3</div>
-      <div class="step">4</div>
-    </div>
-  </div>
-</div>
-
-<div class="form-component-card">
-  <div class="card-top">
-    <span class="card-label">Search UI</span>
-    <span class="card-tag tag-essential">Input</span>
-  </div>
-
-  <div class="form-preview">
-    <div class="search-box">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" placeholder="Search components..." />
-    </div>
-  </div>
-</div>
-
-<div class="form-component-card">
-  <div class="card-top">
-    <span class="card-label">Toast Stack</span>
-    <span class="card-tag tag-new">UI</span>
-  </div>
-
-  <div class="form-preview">
-    <div class="toast-stack">
-      <div class="toast success">✔ Payment successful</div>
-      <div class="toast warning">⚠ Low storage warning</div>
-      <div class="toast error">✖ Upload failed</div>
-    </div>
-  </div>
-</div>
-<!-- FILE MANAGER -->
-<div class="form-component-card">
-
-  <div class="card-top">
-    <span class="card-label">File Manager</span>
-
-    <span class="card-tag tag-essential">
-      Cloud
-    </span>
-  </div>
-
-  <div class="form-preview">
-
-    <div class="file-card">
-
-      <div class="file-top">
-        <i class="fa-solid fa-folder-open"></i>
-        <span>Design Assets</span>
-      </div>
-
-      <div class="file-storage">
-
-        <div class="storage-bar">
-          <span class="storage-fill"></span>
-        </div>
-
-        <p>18GB of 32GB used</p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- MUSIC PLAYER -->
-<div class="form-component-card">
-
-  <div class="card-top">
-    <span class="card-label">Music Widget</span>
-
-    <span class="card-tag tag-new">
-      Audio
-    </span>
-  </div>
-
-  <div class="form-preview">
-
-    <div class="music-card">
-
-      <div class="music-cover">
-        <i class="fa-solid fa-compact-disc"></i>
-      </div>
-
-      <h3>Midnight Waves</h3>
-      <p>Synthwave Playlist</p>
-
-      <div class="music-controls">
-
-        <button>
-          <i class="fa-solid fa-backward"></i>
-        </button>
-
-        <button class="play-btn">
-          <i class="fa-solid fa-play"></i>
-        </button>
-
-        <button>
-          <i class="fa-solid fa-forward"></i>
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- ACTIVITY FEED -->
-<div class="form-component-card">
-
-  <div class="card-top">
-    <span class="card-label">Activity Feed</span>
-
-    <span class="card-tag tag-trending">
-      Live
-    </span>
-  </div>
-
-  <div class="form-preview">
-
-    <div class="activity-card">
-
-      <div class="activity-item">
-        <div class="activity-dot"></div>
-        <p><strong>Sarah</strong> uploaded new files</p>
-      </div>
-
-      <div class="activity-item">
-        <div class="activity-dot"></div>
-        <p><strong>Michael</strong> updated dashboard</p>
-      </div>
-
-      <div class="activity-item">
-        <div class="activity-dot"></div>
-        <p><strong>Emma</strong> joined the workspace</p>
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- WEATHER CARD -->
-<div class="form-component-card">
-
-  <div class="card-top">
-    <span class="card-label">Weather Widget</span>
-
-    <span class="card-tag tag-popular">
-      Widget
-    </span>
-  </div>
-
-  <div class="form-preview">
-
-    <div class="weather-card">
-
-      <div class="weather-top">
-
-        <div>
-          <h2>26°</h2>
-          <p>Mumbai, India</p>
-        </div>
-
-        <i class="fa-solid fa-cloud-sun"></i>
-
-      </div>
-
-      <div class="weather-bottom">
-        <span>Humidity: 72%</span>
-        <span>Wind: 12km/h</span>
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- SOCIAL INSIGHTS -->
-<div class="form-component-card">
-
-  <div class="card-top">
-    <span class="card-label">Social Insights</span>
-
-    <span class="card-tag tag-essential">
-      Analytics
-    </span>
-  </div>
-
-  <div class="form-preview">
-
-    <div class="social-card">
-
-      <div class="social-stat">
-
-        <i class="fab fa-instagram"></i>
-
-        <div>
-          <h3>28.4K</h3>
-          <span>Followers</span>
-        </div>
-
-      </div>
-
-      <div class="social-stat">
-
-        <i class="fab fa-youtube"></i>
-
-        <div>
-          <h3>14.2K</h3>
-          <span>Subscribers</span>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
 
     .main-home {
       margin-left: 280px;
@@ -1573,7 +1255,7 @@
     }
   </style>
 
-  </head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
 
@@ -2451,7 +2133,7 @@
       <div>
         <form class="scearch">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Filter Divs..." id="DivSearch" data-a11y-remediation="label-needed">
+          <input type="text" placeholder="Filter Divs..." id="DivSearch">
         </form>
       </div> */
 
@@ -2903,18 +2585,25 @@
 
   </main>
 
- <!-- FOOTER -->
+ <!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
     <div class="footer-col brand">
       <h2 class="footer-logo">⬡ UIverse</h2>
       <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
       <div class="socials">
-        <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
+
     <div class="footer-col">
       <h3>Explore</h3>
       <ul>
@@ -2925,34 +2614,61 @@
         <li><a href="forms.html">Forms</a></li>
       </ul>
     </div>
+
     <div class="footer-col">
       <h3>Resources</h3>
       <ul>
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">GitHub Repo</a></li>
-        <li><a href="#">Community</a></li>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
     </div>
+
     <div class="footer-col">
       <h3>Legal</h3>
       <ul>
         <li><a href="privacypolicy.html">Privacy Policy</a></li>
         <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
       </ul>
     </div>
+
     <div class="footer-col newsletter">
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com">
-        <button type="button">Subscribe</button>
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
   </div>
+
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
 
 <script>
 
@@ -2981,7 +2697,7 @@ input.addEventListener("input", function () {
     <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
   </div>
 </footer>
-    <script src="dist/shared.js"></script>
+  <script src="dist/shared.js"></script>
 </body>
 
 </html>

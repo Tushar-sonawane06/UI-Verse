@@ -4,21 +4,79 @@
   <link rel="stylesheet" href="dist/shared.css">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' http://127.0.0.1:5000 http://localhost:5000 https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-inline'; style-src 'self' https: 'unsafe-inline'">
   <title>Crop ROI Lab — UI-Verse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="roi_dashboard.css">
-  <!-- Icons -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-  />
-</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
 
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
   <main class="roi-shell">
     <section class="hero-panel">
       <div class="hero-copy">
@@ -44,112 +102,10 @@
           <p>Use recent season data to estimate your next harvest.</p>
         </div>
 
-
-        <form id="roi-form" class="input-card" novalidate>
-  <div class="card-heading">
-    <h2>Forecast Inputs</h2>
-    <p>Use recent season data to estimate your next harvest.</p>
-  </div>
-
-  <div class="field-grid">
-
-    <div class="field">
-      <label for="acreage">Acreage</label>
-      <input
-        id="acreage"
-        name="acreage"
-        type="number"
-        min="0.1"
-        step="0.1"
-        value="40"
-        required
-      >
-    </div>
-
-    <div class="field">
-      <label for="seed_cost">Seed Cost</label>
-      <input
-        id="seed_cost"
-        name="seed_cost"
-        type="number"
-        min="0"
-        step="50"
-        value="1200"
-        required
-      >
-    </div>
-
-    <div class="field">
-      <label for="fertilizer_cost">Fertilizer Cost</label>
-      <input
-        id="fertilizer_cost"
-        name="fertilizer_cost"
-        type="number"
-        min="0"
-        step="50"
-        value="1500"
-        required
-      >
-    </div>
-
-    <div class="field">
-      <label for="budget">Current Budget</label>
-      <input
-        id="budget"
-        name="budget"
-        type="number"
-        min="0"
-        step="100"
-        value="7500"
-        required
-      >
-    </div>
-
-    <div class="field">
-      <label for="soil_type">Soil Type</label>
-      <select id="soil_type" name="soil_type" required>
-        <option value="Loamy">Loamy</option>
-        <option value="Sandy">Sandy</option>
-        <option value="Clay">Clay</option>
-        <option value="Silt">Silt</option>
-        <option value="Black">Black</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label for="target_crop">Target Crop</label>
-      <select id="target_crop" name="target_crop" required>
-        <option value="Corn">Corn</option>
-        <option value="Wheat">Wheat</option>
-        <option value="Rice">Rice</option>
-        <option value="Soybean">Soybean</option>
-        <option value="Cotton">Cotton</option>
-      </select>
-    </div>
-
-  </div>
-
-  <button type="submit" class="submit-btn">
-    <span class="btn-label">Predict ROI</span>
-    <span class="btn-arrow">↗</span>
-  </button>
-
-  <p class="form-note">
-    Estimates are generated from historical crop and pricing data.
-  </p>
-
-  <p
-    id="status"
-    class="status"
-    role="status"
-    aria-live="polite"
-  ></p>
-</form>
-
         <div class="field-grid">
           <label>
             Acreage
-            <input name="acreage" type="number" min="0.1" step="0.1" value="40" required data-a11y-remediation="label-needed">
+            <input name="acreage" type="number" min="0.1" step="0.1" value="40" required>
           </label>
           <label>
             Seed Cost
@@ -236,61 +192,32 @@
             <strong id="price-value">$0 / ton</strong>
           </div>
         </div>
-
-        <div class="metrics-grid">
-  <article class="metric">
-    <span class="metric-label">Expected yield</span>
-    <strong id="yield-value">0.00 tons</strong>
-  </article>
-  <article class="metric">
-    <span class="metric-label">Projected revenue</span>
-    <strong id="revenue-value">$0</strong>
-  </article>
-  <article class="metric">
-    <span class="metric-label">Expected profit</span>
-    <strong id="profit-value">$0</strong>
-  </article>
-  <article class="metric highlight">
-    <span class="metric-label">Estimated ROI</span>
-    <strong id="roi-value">0%</strong>
-  </article>
-
-  <!-- New Metrics -->
-  <article class="metric">
-    <span class="metric-label">Break-even Point</span>
-    <strong id="breakeven-value">N/A</strong>
-  </article>
-  <article class="metric">
-    <span class="metric-label">Risk Indicator</span>
-    <strong id="risk-value">N/A</strong>
-  </article>
-  <article class="metric">
-    <span class="metric-label">Seasonal Comparison</span>
-    <strong id="seasonal-value">N/A</strong>
-  </article>
-</div>
- 
-<div class="chart-wrap">
-  <canvas id="roiChart" height="160" aria-label="Costs versus returns chart" role="img"></canvas>
-</div>
-
       </section>
     </section>
   </main>
 
-  
-<!-- FOOTER -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="js/features/roi-dashboard.js"></script>
+  <script src="dist/shared.js"></script>
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
     <div class="footer-col brand">
       <h2 class="footer-logo">⬡ UIverse</h2>
       <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
       <div class="socials">
-        <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
-        <a href="https://twitter.com" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
+
     <div class="footer-col">
       <h3>Explore</h3>
       <ul>
@@ -301,37 +228,59 @@
         <li><a href="forms.html">Forms</a></li>
       </ul>
     </div>
+
     <div class="footer-col">
       <h3>Resources</h3>
       <ul>
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">GitHub Repo</a></li>
-        <li><a href="#">Community</a></li>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
     </div>
+
     <div class="footer-col">
       <h3>Legal</h3>
       <ul>
         <li><a href="privacypolicy.html">Privacy Policy</a></li>
         <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
       </ul>
     </div>
+
     <div class="footer-col newsletter">
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
-        <button type="button">Subscribe</button>
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
   </div>
+
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-  <script src="js/features/roi-dashboard.js"></script>
-    <script src="dist/shared.js"></script>
-</body>
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>\n\n</body>
 </html>

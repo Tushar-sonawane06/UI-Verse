@@ -3,8 +3,8 @@
 
 <head>
   <link rel="stylesheet" href="dist/shared.css">
+
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y=' 'sha256-FyNvtxmSKiuUKATVXqqLS+CnfVGPj3HPJQPUachOesw=' 'sha256-uXUaHMV6W5t+ecyacP9YcaFyJ7vJYeiganbWLNJn8U0='; script-src-attr 'unsafe-hashes' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y=' 'sha256-FyNvtxmSKiuUKATVXqqLS+CnfVGPj3HPJQPUachOesw=' 'sha256-uXUaHMV6W5t+ecyacP9YcaFyJ7vJYeiganbWLNJn8U0='; style-src 'self' https: 'unsafe-hashes' 'sha256-UURs4At+4ylzrbWFQHXOFodf+e07eIsuhEbPfjafUhA='; style-src-attr 'unsafe-hashes' 'sha256-UURs4At+4ylzrbWFQHXOFodf+e07eIsuhEbPfjafUhA='">
 
   <meta
     name="viewport"
@@ -35,18 +35,14 @@
   >
 
   <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="home.css">
-  <link rel="stylesheet" href="shared-sidebar.css">
+
   <link
     rel="stylesheet"
     href="Accordionsui.css"
   >
-  </head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-
   
 
 <!-- ================= SIDEBAR ================= -->
@@ -379,57 +375,6 @@
     </ul>
   </nav>
 
-  <div class="hero-stats">
-  <div class="stat">
-    <h3>50+</h3>
-    <span>Accordion Variants</span>
-  </div>
-
-  <div class="stat">
-    <h3>100%</h3>
-    <span>Responsive</span>
-  </div>
-
-  <div class="stat">
-    <h3>Dark Mode</h3>
-    <span>Included</span>
-  </div>
-</div>
-
-<div class="hero-actions">
-  <button class="primary-btn">
-    Browse Components
-  </button>
-
-  <button class="secondary-btn">
-    View Documentation
-  </button>
-</div>
-<section class="accordion-filters">
-
-  <button class="filter active">
-    All
-  </button>
-
-  <button class="filter">
-    FAQ
-  </button>
-
-  <button class="filter">
-    Pricing
-  </button>
-
-  <button class="filter">
-    Support
-  </button>
-
-  <button class="filter">
-    Tutorials
-  </button>
-
-</section>
-
-
  <div class="socials">
   <a href="https://github.com/yourusername" target="_blank" title="GitHub">
     <i class="fab fa-github"></i>
@@ -451,23 +396,69 @@
    NAVBAR
 ========================================================= -->
 
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
 <header class="navbar" id="navbar">
-  <button class="menu-toggle" onclick="toggleSidebar()" data-a11y-remediation="button-label-needed">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
     <i class="fa-solid fa-bars"></i>
   </button>
-  <div class="logo">UIverse</div>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
   <div class="search-bar">
     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    <input type="text" id="searchInput" placeholder="Search components..." oninput="liveFilter(this.value)" / data-a11y-remediation="label-needed">
-    <kbd class="search-kbd">⌘K</kbd>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
   </div>
   <div class="nav-right">
-    <button class="nav-btn outline-nav-btn"><i class="fa-solid fa-plus"></i> Add Component</button>
-    <button class="nav-btn primary-nav-btn"><i class="fa-solid fa-bookmark"></i> My Collection</button>
-    <button id="themeToggle" class="btn-icon" title="Toggle Theme">
-  <i id="themeIcon" class="fa-solid fa-sun"></i>
-</button>
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
   </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
 </header>
 <!-- =====================================================
 MAIN
@@ -494,56 +485,6 @@ MAIN
       dashboard and premium UI systems.
 
     </p>
-
-  <div class="hero-stats">
-  <div class="stat">
-    <h3>50+</h3>
-    <span>Accordion Variants</span>
-  </div>
-
-  <div class="stat">
-    <h3>100%</h3>
-    <span>Responsive</span>
-  </div>
-
-  <div class="stat">
-    <h3>Dark Mode</h3>
-    <span>Included</span>
-  </div>
-</div>
-
-<div class="hero-actions">
-  <button class="primary-btn">
-    Browse Components
-  </button>
-
-  <button class="secondary-btn">
-    View Documentation
-  </button>
-</div>
-<section class="accordion-filters">
-
-  <button class="filter active">
-    All
-  </button>
-
-  <button class="filter">
-    FAQ
-  </button>
-
-  <button class="filter">
-    Pricing
-  </button>
-
-  <button class="filter">
-    Support
-  </button>
-
-  <button class="filter">
-    Tutorials
-  </button>
-
-</section>
 
   </section>
 
@@ -972,819 +913,32 @@ MAIN
   </div>
 </div>
 
-<div class="accordion-card">
 
-  <div class="card-header">
-    <span class="card-label">KNOWLEDGE</span>
-    <h2>Knowledge Base</h2>
-  </div>
 
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Getting Started Guide</span>
-      <i class="fa-solid fa-book"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Learn the fundamentals and quickly integrate components.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Design Principles</span>
-      <i class="fa-solid fa-palette"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Understand spacing, typography and modern UI practices.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Performance Tips</span>
-      <i class="fa-solid fa-gauge-high"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Optimize animations and improve frontend performance.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card">
-
-  <div class="card-header">
-    <span class="card-label">CAREERS</span>
-    <h2>Join Our Team</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Frontend Developer</span>
-      <i class="fa-solid fa-code"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Create interactive UI components and premium experiences.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>UI Designer</span>
-      <i class="fa-solid fa-pen-ruler"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Design beautiful interfaces for modern web applications.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Community Manager</span>
-      <i class="fa-solid fa-users"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Engage with developers and grow the UIverse community.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card">
-
-  <div class="card-header">
-    <span class="card-label">SECURITY</span>
-    <h2>Security Center</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Two-Factor Authentication</span>
-      <i class="fa-solid fa-shield"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Add an extra layer of protection to your account.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Login Activity</span>
-      <i class="fa-solid fa-clock-rotate-left"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Review recent login history and active sessions.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Data Encryption</span>
-      <i class="fa-solid fa-lock"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Your information is protected using industry standards.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card">
-
-  <div class="card-header">
-    <span class="card-label">ANALYTICS</span>
-    <h2>Growth Insights</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>User Growth</span>
-      <i class="fa-solid fa-chart-line"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Monthly user registrations increased by 28%.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Engagement Metrics</span>
-      <i class="fa-solid fa-chart-pie"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Average session duration continues to improve.</p>
-    </div>
-  </div>
-
-  <div class="accordion-card revenue-card">
-    <button class="accordion-btn">
-      <span>Revenue Reports</span>
-      <i class="fa-solid fa-sack-dollar"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Track subscriptions, sales, and monthly earnings.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card ai-card">
-
-  <div class="card-header">
-    <span class="card-label">AI ASSISTANT</span>
-    <h2>Smart AI Tools</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Code Generation</span>
-      <i class="fa-solid fa-wand-magic-sparkles"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Generate production-ready code snippets instantly.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>UI Suggestions</span>
-      <i class="fa-solid fa-brain"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Receive intelligent design recommendations.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Content Assistant</span>
-      <i class="fa-solid fa-robot"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Create descriptions, emails, and documentation faster.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card api-card">
-
-  <div class="card-header">
-    <span class="card-label">API DOCS</span>
-    <h2>Developer APIs</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Authentication</span>
-      <i class="fa-solid fa-key"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Secure endpoints using API keys and OAuth.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Rate Limits</span>
-      <i class="fa-solid fa-gauge"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Understand usage quotas and request limits.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Webhooks</span>
-      <i class="fa-solid fa-plug"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Receive real-time events from the platform.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card design-card">
-
-  <div class="card-header">
-    <span class="card-label">DESIGN SYSTEM</span>
-    <h2>Visual Guidelines</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Color Tokens</span>
-      <i class="fa-solid fa-palette"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Consistent color scales for every interface.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Typography</span>
-      <i class="fa-solid fa-font"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Readable and scalable text hierarchy.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Spacing Rules</span>
-      <i class="fa-solid fa-ruler"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Maintain visual balance across layouts.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card tools-card">
-
-  <div class="card-header">
-    <span class="card-label">DEV TOOLS</span>
-    <h2>Developer Toolkit</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>CLI Commands</span>
-      <i class="fa-solid fa-terminal"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Automate repetitive development tasks.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Debug Utilities</span>
-      <i class="fa-solid fa-bug"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Track errors and improve application quality.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Performance Monitor</span>
-      <i class="fa-solid fa-microchip"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Measure runtime and optimize resources.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card showcase-card">
-
-  <div class="card-header">
-    <span class="card-label">SHOWCASE</span>
-    <h2>Featured Components</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Modern Cards</span>
-      <i class="fa-solid fa-id-card"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Premium cards with gradients and animations.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Interactive Buttons</span>
-      <i class="fa-solid fa-hand-pointer"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Creative hover and click interactions.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Advanced Forms</span>
-      <i class="fa-solid fa-file-lines"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Modern input fields and validation states.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card cert-card">
-
-  <div class="card-header">
-    <span class="card-label">CERTIFICATION</span>
-    <h2>Learning Paths</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Frontend Mastery</span>
-      <i class="fa-solid fa-award"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Become proficient in modern frontend development.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>UI Design Expert</span>
-      <i class="fa-solid fa-certificate"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Master visual design and component architecture.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Advanced Accessibility</span>
-      <i class="fa-solid fa-universal-access"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Create inclusive digital experiences.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card success-card">
-
-  <div class="card-header">
-    <span class="card-label">SUCCESS</span>
-    <h2>Customer Stories</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Startup Launch</span>
-      <i class="fa-solid fa-rocket"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Reduced development time by 40% using UIverse.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>SaaS Growth</span>
-      <i class="fa-solid fa-chart-line"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Improved user engagement through better UI.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Enterprise Adoption</span>
-      <i class="fa-solid fa-building"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Scaled design systems across multiple teams.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card compare-card">
-
-  <div class="card-header">
-    <span class="card-label">COMPARE</span>
-    <h2>Feature Comparison</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Free vs Pro</span>
-      <i class="fa-solid fa-scale-balanced"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Compare component access and premium features.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Performance Metrics</span>
-      <i class="fa-solid fa-chart-column"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Review speed, optimization and scalability.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Design Quality</span>
-      <i class="fa-solid fa-star"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Compare visual consistency and customization.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card startup-card">
-
-  <div class="card-header">
-    <span class="card-label">STARTUPS</span>
-    <h2>Startup Resources</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Funding Guide</span>
-      <i class="fa-solid fa-sack-dollar"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Learn how to attract investors and secure funding.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>MVP Strategy</span>
-      <i class="fa-solid fa-rocket"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Build and launch your first version efficiently.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Growth Tactics</span>
-      <i class="fa-solid fa-chart-line"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Scale your product with proven growth methods.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card creative-card">
-
-  <div class="card-header">
-    <span class="card-label">ASSETS</span>
-    <h2>Creative Resources</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Icons Library</span>
-      <i class="fa-solid fa-icons"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Thousands of customizable SVG icons.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Illustrations</span>
-      <i class="fa-solid fa-image"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Modern artwork for websites and dashboards.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Background Packs</span>
-      <i class="fa-solid fa-layer-group"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Premium gradients and abstract visuals.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card analytics-card">
-
-  <div class="card-header">
-    <span class="card-label">DATA</span>
-    <h2>Analytics Widgets</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Line Charts</span>
-      <i class="fa-solid fa-chart-line"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Track trends and performance metrics.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Bar Charts</span>
-      <i class="fa-solid fa-chart-column"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Compare categories and datasets visually.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Heatmaps</span>
-      <i class="fa-solid fa-fire"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Discover patterns using color intensity.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card community-card">
-
-  <div class="card-header">
-    <span class="card-label">COMMUNITY</span>
-    <h2>Community Hub</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Discussions</span>
-      <i class="fa-solid fa-comments"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Join conversations with developers worldwide.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Events</span>
-      <i class="fa-solid fa-calendar-days"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Attend webinars and live workshops.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Contributors</span>
-      <i class="fa-solid fa-user-group"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Meet the creators behind UIverse.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card automation-card">
-
-  <div class="card-header">
-    <span class="card-label">AUTOMATION</span>
-    <h2>Workflow Automation</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Scheduled Tasks</span>
-      <i class="fa-solid fa-clock"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Run workflows automatically at set times.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Triggers</span>
-      <i class="fa-solid fa-bolt"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Launch actions based on user events.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Integrations</span>
-      <i class="fa-solid fa-link"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Connect third-party tools seamlessly.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card academy-card">
-
-  <div class="card-header">
-    <span class="card-label">ACADEMY</span>
-    <h2>Learning Center</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Frontend Basics</span>
-      <i class="fa-solid fa-graduation-cap"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Master HTML, CSS and JavaScript fundamentals.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Advanced UI</span>
-      <i class="fa-solid fa-layer-group"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Build modern interfaces and animations.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Certificates</span>
-      <i class="fa-solid fa-award"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Earn badges and professional certifications.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card trending-card">
-
-  <div class="card-header">
-    <span class="card-label">TRENDING</span>
-    <h2>Popular Components</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Glassmorphism Cards</span>
-      <i class="fa-solid fa-gem"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Modern frosted-glass interface designs.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Animated Buttons</span>
-      <i class="fa-solid fa-hand-pointer"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Interactive buttons with creative effects.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Dashboard Widgets</span>
-      <i class="fa-solid fa-table-cells"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Powerful analytics and monitoring widgets.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card project-card">
-
-  <div class="card-header">
-    <span class="card-label">PROJECTS</span>
-    <h2>Project Workspace</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Task Boards</span>
-      <i class="fa-solid fa-list-check"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Manage tasks efficiently with kanban boards.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Team Collaboration</span>
-      <i class="fa-solid fa-users"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Work together with real-time updates.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Reports</span>
-      <i class="fa-solid fa-file-chart-column"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Track project performance and progress.</p>
-    </div>
-  </div>
-
-</div>
-<div class="accordion-card premium-card">
-
-  <div class="card-header">
-    <span class="card-label">PREMIUM</span>
-    <h2>Member Benefits</h2>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Exclusive Components</span>
-      <i class="fa-solid fa-crown"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Unlock premium UI sections and templates.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Priority Support</span>
-      <i class="fa-solid fa-headset"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Get assistance directly from experts.</p>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <button class="accordion-btn">
-      <span>Early Access</span>
-      <i class="fa-solid fa-star"></i>
-    </button>
-    <div class="accordion-content">
-      <p>Try new features before public release.</p>
-    </div>
-  </div>
-
-</div>
   </section>
 
 </main>
-<!-- FOOTER -->
+
+
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
     <div class="footer-col brand">
       <h2 class="footer-logo">⬡ UIverse</h2>
       <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
       <div class="socials">
-        <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
+
     <div class="footer-col">
       <h3>Explore</h3>
       <ul>
@@ -1795,61 +949,64 @@ MAIN
         <li><a href="forms.html">Forms</a></li>
       </ul>
     </div>
+
     <div class="footer-col">
       <h3>Resources</h3>
       <ul>
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">GitHub Repo</a></li>
-        <li><a href="#">Community</a></li>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
     </div>
+
     <div class="footer-col">
       <h3>Legal</h3>
       <ul>
         <li><a href="privacypolicy.html">Privacy Policy</a></li>
         <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
       </ul>
     </div>
+
     <div class="footer-col newsletter">
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com">
-        <button type="button">Subscribe</button>
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
   </div>
+
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const savedTheme = localStorage.getItem("theme") || "light";
-      document.body.classList.add(savedTheme);
-
-      const themeIcon = document.getElementById("themeIcon");
-      themeIcon.className = savedTheme === "dark" ? "fa-solid fa-moon" : "fa-solid fa-sun";
-    });
-
-    document.getElementById("themeToggle").addEventListener("click", () => {
-      const themeIcon = document.getElementById("themeIcon");
-
-      if (document.body.classList.contains("light")) {
-        document.body.classList.replace("light", "dark");
-        localStorage.setItem("theme", "dark");
-        themeIcon.className = "fa-solid fa-moon"; // 🌙
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
       } else {
-        document.body.classList.replace("dark", "light");
-        localStorage.setItem("theme", "light");
-        themeIcon.className = "fa-solid fa-sun"; // ☀️
+        alert("Please enter a valid email address.");
       }
-    });
-  </script>
+    }
+  }
+</script>
 
 <script src="Accordionsui.js"></script>
 
-    <script src="dist/shared.js"></script>
+  <script src="dist/shared.js"></script>
 </body>
 </html>

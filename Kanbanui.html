@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-
 <head>
   <link rel="stylesheet" href="dist/shared.css">
+
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y='; script-src-attr 'unsafe-hashes' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
 
   <meta
     name="viewport"
@@ -41,25 +39,11 @@
     href="Kanbanui.css"
   >
 
-</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
 
 
-
-
-  <button
-  class="menu-toggle"
-  aria-label="Open sidebar"
-  onclick="toggleSidebar()">
-
-  <i
-    class="fa-solid fa-bars"
-    aria-hidden="true">
-  </i>
-
-</button>
       <!-- ================= SIDEBAR ================= -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
@@ -392,33 +376,6 @@
 </aside>
 
 
-
-      <a href="#">
-        <i class="fa-solid fa-book"></i>
-        <span>Docs</span>
-      </a>
-
-    </nav>
-
-  </div>
-
-  <div class="sidebar-footer">
-
-    <a href="#">
-      <i class="fab fa-github"></i>
-    </a>
-
-    <a href="#">
-      <i class="fab fa-discord"></i>
-    </a>
-
-    <a href="#">
-      <i class="fab fa-x-twitter"></i>
-    </a>
-
-  </div>
-
-</aside>
 <!-- ================= SIDEBAR BACKDROP ================= -->
 <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
@@ -426,31 +383,68 @@
 TOPBAR
 ===================================================== -->
 
-<header class="navbar">
-
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
   <div class="search-bar">
-
-    <i class="fa-solid fa-magnifying-glass"></i>
-
-    <input
-      type="text"
-      placeholder="Search kanban tasks..."
-     data-a11y-remediation="label-needed">
-
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
   </div>
-
-  <div class="nav-actions">
-
-    <button class="outline-btn">
-      Documentation
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
     </button>
-
-    <button class="primary-btn">
-      New Task
-    </button>
-
   </div>
-
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
 </header>
 
 <!-- =====================================================
@@ -788,605 +782,98 @@ MAIN
       </div>
 
     </div>
-    <!-- =========================================
-    ADVANCED CREATIVE KANBAN COMPONENTS
-    ========================================= -->
 
-   
-
-  <!-- GLASS COLUMN -->
-
-  <div class="neo-column">
-
-    <div class="neo-header">
-
-      <div class="left">
-
-        <span class="pulse-dot red"></span>
-
-        <div>
-          <h2>Critical Tasks</h2>
-          <p>High priority missions</p>
-        </div>
-
-      </div>
-
-      <button class="add-btn">
-        +
-      </button>
-
-    </div>
-
-    <!-- TASK -->
-
-    <div class="neo-task danger-card">
-
-      <div class="task-cover gradient-red"></div>
-
-      <div class="neo-top">
-
-        <span class="tag urgent">
-          Urgent
-        </span>
-
-        <i class="fa-solid fa-bolt"></i>
-
-      </div>
-
-      <h3>
-        Fix Payment Gateway
-      </h3>
-
-      <p>
-        Resolve API timeout and checkout
-        transaction failures.
-      </p>
-
-      <div class="mini-progress">
-
-        <div class="mini-fill red-fill"></div>
-
-      </div>
-
-      <div class="neo-footer">
-
-        <div class="avatar-stack">
-
-          <img src="https://i.pravatar.cc/100?img=5">
-
-          <img src="https://i.pravatar.cc/100?img=8">
-
-          <img src="https://i.pravatar.cc/100?img=10">
-
-        </div>
-
-        <span class="deadline">
-          3h Left
-        </span>
-
-      </div>
-
-    </div>
-
-    <!-- TASK -->
-
-    <div class="neo-task dark-card">
-
-      <div class="neo-top">
-
-        <span class="tag bug">
-          Bug
-        </span>
-
-        <i class="fa-solid fa-bug"></i>
-
-      </div>
-
-      <h3>
-        Mobile Layout Crash
-      </h3>
-
-      <p>
-        Responsive layout breaking on
-        small screen devices.
-      </p>
-
-      <div class="task-stats">
-
-        <div>
-          <i class="fa-regular fa-comment"></i>
-          12
-        </div>
-
-        <div>
-          <i class="fa-regular fa-paperclip"></i>
-          6
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- AI COLUMN -->
-
-  <div class="neo-column">
-
-    <div class="neo-header">
-
-      <div class="left">
-
-        <span class="pulse-dot blue"></span>
-
-        <div>
-          <h2>AI Workflow</h2>
-          <p>Automation pipeline</p>
-        </div>
-
-      </div>
-
-      <button class="add-btn">
-        +
-      </button>
-
-    </div>
-
-    <!-- TASK -->
-
-    <div class="ai-card">
-
-      <div class="ai-glow"></div>
-
-      <div class="ai-top">
-
-        <span class="tag ai">
-          AI
-        </span>
-
-        <span class="live-badge">
-          LIVE
-        </span>
-
-      </div>
-
-      <h3>
-        Smart Assistant Training
-      </h3>
-
-      <p>
-        Fine tuning futuristic chatbot
-        behavior patterns.
-      </p>
-
-      <div class="wave-loader">
-
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-
-      </div>
-
-      <div class="ai-footer">
-
-        <span>
-          Processing...
-        </span>
-
-        <span>
-          89%
-        </span>
-
-      </div>
-
-    </div>
-
-    <!-- TASK -->
-
-    <div class="music-task">
-
-      <div class="music-icon">
-        <i class="fa-solid fa-headphones"></i>
-      </div>
-
-      <div>
-
-        <h3>
-          Voice UI Design
-        </h3>
-
-        <p>
-          Audio interaction workflow.
-        </p>
-
-      </div>
-
-      <button class="play-btn">
-        <i class="fa-solid fa-play"></i>
-      </button>
-
-    </div>
-
-  </div>
-
-  <!-- FUTURE COLUMN -->
-
-  <div class="neo-column">
-
-    <div class="neo-header">
-
-      <div class="left">
-
-        <span class="pulse-dot green"></span>
-
-        <div>
-          <h2>Future Ideas</h2>
-          <p>Experimental concepts</p>
-        </div>
-
-      </div>
-
-      <button class="add-btn">
-        +
-      </button>
-
-    </div>
-
-    <!-- TASK -->
-
-    <div class="holo-card">
-
-      <div class="holo-bg"></div>
-
-      <span class="idea-chip">
-        Concept
-      </span>
-
-      <h3>
-        Holographic Dashboard
-      </h3>
-
-      <p>
-        Interactive futuristic analytics
-        with floating widgets.
-      </p>
-
-      <div class="idea-footer">
-
-        <span>
-          <i class="fa-solid fa-lightbulb"></i>
-          24 Ideas
-        </span>
-
-        <span>
-          Tomorrow
-        </span>
-
-      </div>
-
-    </div>
-
-    <!-- TASK -->
-
-    <div class="timeline-task">
-
-      <div class="timeline-line"></div>
-
-      <div class="timeline-content">
-
-        <span class="time">
-          11:45 PM
-        </span>
-
-        <h3>
-          Launch Beta System
-        </h3>
-
-        <p>
-          Release futuristic workspace
-          prototype to testers.
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-  <!-- =========================================
-CREATIVE KANBAN CARDS
-========================================= -->
-
-<!-- CYBER SECURITY CARD -->
-
-<div class="kanban-card cyber-card">
-
-  <div class="cyber-grid"></div>
-
-  <div class="card-top">
-
-    <span class="status-chip danger">
-      Security
-    </span>
-
-    <i class="fa-solid fa-shield-halved"></i>
-
-  </div>
-
-  <h3>
-    Firewall Protection Upgrade
-  </h3>
-
-  <p>
-    Deploy next generation cyber
-    security protocols across servers.
-  </p>
-
-  <div class="threat-box">
-
-    <div class="threat-bar">
-
-      <div class="threat-fill"></div>
-
-    </div>
-
-    <span>
-      Threat Level 92%
-    </span>
-
-  </div>
-
-  <div class="card-bottom">
-
-    <div class="mini-users">
-
-      <img src="https://i.pravatar.cc/100?img=33">
-      <img src="https://i.pravatar.cc/100?img=25">
-
-    </div>
-
-    <span class="priority-text">
-      Critical
-    </span>
-
-  </div>
-
-</div>
-
-<!-- SPACE MISSION CARD -->
-
-<div class="kanban-card space-card">
-
-  <div class="planet planet-1"></div>
-  <div class="planet planet-2"></div>
-
-  <div class="card-top">
-
-    <span class="status-chip galaxy">
-      Space
-    </span>
-
-    <i class="fa-solid fa-rocket"></i>
-
-  </div>
-
-  <h3>
-    Launch Orbit Dashboard
-  </h3>
-
-  <p>
-    Build futuristic mission control
-    analytics for deep space systems.
-  </p>
-
-  <div class="orbit-progress">
-
-    <div class="orbit-circle">
-
-      <span>
-        73%
-      </span>
-
-    </div>
-
-  </div>
-
-  <div class="space-footer">
-
-    <span>
-      <i class="fa-regular fa-clock"></i>
-      Tomorrow
-    </span>
-
-    <span>
-      12 Tasks
-    </span>
-
-  </div>
-
-</div>
-
-<!-- NEON MUSIC CARD -->
-
-<div class="kanban-card neon-music-card">
-
-  <div class="music-lines">
-
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-
-  </div>
-
-  <div class="card-top">
-
-    <span class="status-chip music">
-      Audio
-    </span>
-
-    <i class="fa-solid fa-wave-square"></i>
-
-  </div>
-
-  <h3>
-    Synthwave Sound System
-  </h3>
-
-  <p>
-    Create immersive futuristic
-    ambient sound experience.
-  </p>
-
-  <div class="song-controls">
-
-    <button>
-      <i class="fa-solid fa-backward"></i>
-    </button>
-
-    <button class="play-main">
-      <i class="fa-solid fa-play"></i>
-    </button>
-
-    <button>
-      <i class="fa-solid fa-forward"></i>
-    </button>
-
-  </div>
-
-  <div class="audio-time">
-
-    <span>
-      01:42
-    </span>
-
-    <span>
-      04:58
-    </span>
-
-  </div>
-
-</div>
-  
-
-
-
-</div>
-
-</section>
+  </section>
 
 </main>
 
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
-
-  <div class="footer-shell">
-
+  <div class="footer-container">
     <div class="footer-col brand">
-
       <h2 class="footer-logo">⬡ UIverse</h2>
-
-      <p>
-        Build modern, reusable UI components with clean HTML,
-        CSS, and JavaScript.
-      </p>
-
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
       <div class="socials">
-
-        <a href="#" aria-label="GitHub">
-          <i class="fab fa-github"></i>
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
         </a>
-
-        <a href="#" aria-label="LinkedIn">
-          <i class="fab fa-linkedin"></i>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
         </a>
-
-        <a href="#" aria-label="X">
-          <i class="fab fa-x-twitter"></i>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
         </a>
-
       </div>
-
     </div>
 
     <div class="footer-col">
-
       <h3>Explore</h3>
-
       <ul>
         <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
         <li><a href="cards.html">Cards</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="charts.html">Charts</a></li>
-        <li><a href="tabs.html">Tabs</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
       </ul>
-
     </div>
 
     <div class="footer-col">
-
       <h3>Resources</h3>
-
       <ul>
         <li><a href="documentation.html">Documentation</a></li>
-        <li><a href="about.html">About UIverse</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
-
     </div>
 
     <div class="footer-col">
-
       <h3>Legal</h3>
-
       <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
         <li><a href="terms.html">Terms of Service</a></li>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">License</a></li>
+        <li><a href="license.html">License</a></li>
       </ul>
-
     </div>
 
     <div class="footer-col newsletter">
-
       <h3>Stay Updated</h3>
-
-      <p>
-        Get notified when new components drop.
-      </p>
-
+      <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-
+        <label for="newsletterEmail" class="sr-only">Email address</label>
         <input
+          id="newsletterEmail"
           type="email"
           placeholder="your@email.com"
-          aria-label="Email address"
-        >
-
-        <button type="button">
-          Subscribe
-        </button>
-
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
-
     </div>
-
   </div>
 
   <div class="footer-bottom">
-
-    <p>
-      © 2026 UIverse. Made with ❤️ for developers worldwide.
-    </p>
-
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
-
 </footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
 
 <script src="Kanbanui.js"></script>
 
-    <script src="dist/shared.js"></script>
+  <script src="dist/shared.js"></script>
 </body>
 </html>

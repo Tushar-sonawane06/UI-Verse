@@ -3,8 +3,8 @@
 
 <head>
   <link rel="stylesheet" href="dist/shared.css">
+
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y=' 'sha256-XriXHWKMwk2T+JOvuAt7cij0Iacl5D/SqRKl7ZgDNZ4='; script-src-attr 'unsafe-hashes' 'sha256-4idOpfcVGcf1JIcDr6s5pmLauAMO9auB0wLw0b1hd9Y=' 'sha256-XriXHWKMwk2T+JOvuAt7cij0Iacl5D/SqRKl7ZgDNZ4='; style-src 'self' https: 'unsafe-hashes' 'sha256-UURs4At+4ylzrbWFQHXOFodf+e07eIsuhEbPfjafUhA='; style-src-attr 'unsafe-hashes' 'sha256-UURs4At+4ylzrbWFQHXOFodf+e07eIsuhEbPfjafUhA='">
 
   <meta
     name="viewport"
@@ -33,19 +33,15 @@
   >
 
   <!-- CSS -->
- <link rel="stylesheet" href="shared-sidebar.css">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="home.css">
+
   <link
     rel="stylesheet"
     href="dockss.css"
   >
 
-</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-
 <!-- ================= SIDEBAR ================= -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
@@ -55,7 +51,7 @@
 
           <nav class="sidebar-nav">
     <ul>
-      <li>
+      <li class="active">
         <a href="index.html">
           <i class="fa-solid fa-house"></i>
           <span>Home</span>
@@ -149,18 +145,6 @@
         <a href="div.html">
           <i class="fa-solid fa-square"></i>
           <span>DIV</span>
-        </a>
-      </li>
-      <li class="active">
-        <a href="docks.html">
-          <i class="fa-solid fa-circle-exclamation"></i>
-          <span>Docks UI</span>
-        </a>
-      </li>
-      <li>
-        <a href="command-palettes.html">
-          <i class="fa-solid fa-terminal"></i>
-          <span>Command Palettes</span>
         </a>
       </li>
       <li>
@@ -403,31 +387,69 @@
 TOPBAR
 ===================================================== -->
 
-<header class="navbar">
-
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
   <div class="search-bar">
-
-    <i class="fa-solid fa-magnifying-glass"></i>
-
-    <input
-      type="text"
-      placeholder="Search dock components..."
-     data-a11y-remediation="label-needed">
-
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
   </div>
-  
-  <div class="nav-actions">
-
-    <button class="outline-btn">
-      Documentation
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
     </button>
-
-    <button class="primary-btn">
-      Explore UI
-    </button>
-
   </div>
-
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
 </header>
 
 <!-- =====================================================
@@ -672,746 +694,6 @@ MAIN
       </div>
 
     </div>
-    <!-- =====================================================
-CARD — CYBER ORBIT DOCK
-===================================================== -->
-
-<div class="dock-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      CYBER
-    </span>
-
-    <div class="card-icon pink">
-      <i class="fa-solid fa-satellite"></i>
-    </div>
-
-  </div>
-
-  <h2>
-    Orbit Dock
-  </h2>
-
-  <p>
-
-    Circular futuristic dock
-    with orbit styled navigation
-    and glowing active states.
-
-  </p>
-
-  <div class="demo-box">
-
-    <div class="orbit-dock">
-
-      <div class="orbit-ring"></div>
-
-      <div class="orbit-item center">
-        <i class="fa-solid fa-bolt"></i>
-      </div>
-
-      <div class="orbit-item top">
-        <i class="fa-solid fa-house"></i>
-      </div>
-
-      <div class="orbit-item right">
-        <i class="fa-solid fa-play"></i>
-      </div>
-
-      <div class="orbit-item bottom">
-        <i class="fa-solid fa-heart"></i>
-      </div>
-
-      <div class="orbit-item left">
-        <i class="fa-solid fa-user"></i>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card-buttons">
-
-    <button class="view-btn">
-      View Code
-    </button>
-
-    <button class="copy-btn">
-      Copy
-    </button>
-
-  </div>
-
-</div>
-
-<!-- =====================================================
-CARD — LIQUID DOCK
-===================================================== -->
-
-<div class="dock-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      LIQUID
-    </span>
-
-    <div class="card-icon cyan">
-      <i class="fa-solid fa-droplet"></i>
-    </div>
-
-  </div>
-
-  <h2>
-    Liquid Dock
-  </h2>
-
-  <p>
-
-    Smooth fluid inspired dock
-    with jelly hover animation
-    and soft glowing effects.
-
-  </p>
-
-  <div class="demo-box">
-
-    <div class="mini-dock liquid-dock">
-
-      <div class="dock-item liquid">
-        <i class="fa-solid fa-cloud"></i>
-      </div>
-
-      <div class="dock-item liquid">
-        <i class="fa-solid fa-camera"></i>
-      </div>
-
-      <div class="dock-item liquid active">
-        <i class="fa-solid fa-water"></i>
-      </div>
-
-      <div class="dock-item liquid">
-        <i class="fa-solid fa-compass"></i>
-      </div>
-
-      <div class="dock-item liquid">
-        <i class="fa-solid fa-moon"></i>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card-buttons">
-
-    <button class="view-btn">
-      View Code
-    </button>
-
-    <button class="copy-btn">
-      Copy
-    </button>
-
-  </div>
-
-</div>
-
-<!-- =====================================================
-CARD — TERMINAL DOCK
-===================================================== -->
-
-<div class="dock-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      DEV
-    </span>
-
-    <div class="card-icon green">
-      <i class="fa-solid fa-terminal"></i>
-    </div>
-
-  </div>
-
-  <h2>
-    Terminal Dock
-  </h2>
-
-  <p>
-
-    Developer inspired dock
-    interface with terminal
-    styling and matrix glow.
-
-  </p>
-
-  <div class="demo-box">
-
-    <div class="mini-dock terminal-dock">
-
-      <div class="dock-item terminal">
-        <i class="fa-solid fa-code"></i>
-      </div>
-
-      <div class="dock-item terminal">
-        <i class="fa-solid fa-bug"></i>
-      </div>
-
-      <div class="dock-item terminal active">
-        <i class="fa-solid fa-laptop-code"></i>
-      </div>
-
-      <div class="dock-item terminal">
-        <i class="fa-solid fa-server"></i>
-      </div>
-
-      <div class="dock-item terminal">
-        <i class="fa-solid fa-shield-halved"></i>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card-buttons">
-
-    <button class="view-btn">
-      View Code
-    </button>
-
-    <button class="copy-btn">
-      Copy
-    </button>
-
-  </div>
-
-</div>
-
-<!-- =====================================================
-CARD — STACKED DOCK
-===================================================== -->
-
-<div class="dock-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      MODERN
-    </span>
-
-    <div class="card-icon orange">
-      <i class="fa-solid fa-layer-group"></i>
-    </div>
-
-  </div>
-
-  <h2>
-    Stacked Dock
-  </h2>
-
-  <p>
-
-    Layered navigation dock
-    with stacked depth cards
-    and floating shadows.
-
-  </p>
-
-  <div class="demo-box">
-
-    <div class="stacked-dock">
-
-      <div class="stack-layer"></div>
-      <div class="stack-layer second"></div>
-
-      <div class="mini-dock">
-
-        <div class="dock-item stack">
-          <i class="fa-solid fa-book"></i>
-        </div>
-
-        <div class="dock-item stack">
-          <i class="fa-solid fa-chart-pie"></i>
-        </div>
-
-        <div class="dock-item stack active">
-          <i class="fa-solid fa-cube"></i>
-        </div>
-
-        <div class="dock-item stack">
-          <i class="fa-solid fa-globe"></i>
-        </div>
-
-        <div class="dock-item stack">
-          <i class="fa-solid fa-wifi"></i>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card-buttons">
-
-    <button class="view-btn">
-      View Code
-    </button>
-
-    <button class="copy-btn">
-      Copy
-    </button>
-
-  </div>
-
-</div>
-
-<!-- =====================================================
-CARD — AI DOCK
-===================================================== -->
-
-<div class="dock-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      AI
-    </span>
-
-    <div class="card-icon violet">
-      <i class="fa-solid fa-brain"></i>
-    </div>
-
-  </div>
-
-  <h2>
-    Neural Dock
-  </h2>
-
-  <p>
-
-    AI inspired navigation
-    dock with connected nodes
-    and animated pulse lines.
-
-  </p>
-
-  <div class="demo-box">
-
-    <div class="neural-dock">
-
-      <div class="neural-line"></div>
-
-      <div class="dock-item neural">
-        <i class="fa-solid fa-microchip"></i>
-      </div>
-
-      <div class="dock-item neural">
-        <i class="fa-solid fa-robot"></i>
-      </div>
-
-      <div class="dock-item neural active">
-        <i class="fa-solid fa-brain"></i>
-      </div>
-
-      <div class="dock-item neural">
-        <i class="fa-solid fa-network-wired"></i>
-      </div>
-
-      <div class="dock-item neural">
-        <i class="fa-solid fa-wave-square"></i>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card-buttons">
-
-    <button class="view-btn">
-      View Code
-    </button>
-
-    <button class="copy-btn">
-      Copy
-    </button>
-
-  </div>
-
-</div>
-<!-- =====================================================
-CARD — CYBER ORBIT DOCK
-===================================================== -->
-
-<div class="dock-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      CYBER
-    </span>
-
-    <div class="card-icon pink">
-      <i class="fa-solid fa-satellite"></i>
-    </div>
-
-  </div>
-
-  <h2>
-    Orbit Dock
-  </h2>
-
-  <p>
-
-    Circular futuristic dock
-    with orbit styled navigation
-    and glowing active states.
-
-  </p>
-
-  <div class="demo-box">
-
-    <div class="orbit-dock">
-
-      <div class="orbit-ring"></div>
-
-      <div class="orbit-item center">
-        <i class="fa-solid fa-bolt"></i>
-      </div>
-
-      <div class="orbit-item top">
-        <i class="fa-solid fa-house"></i>
-      </div>
-
-      <div class="orbit-item right">
-        <i class="fa-solid fa-play"></i>
-      </div>
-
-      <div class="orbit-item bottom">
-        <i class="fa-solid fa-heart"></i>
-      </div>
-
-      <div class="orbit-item left">
-        <i class="fa-solid fa-user"></i>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card-buttons">
-
-    <button class="view-btn">
-      View Code
-    </button>
-
-    <button class="copy-btn">
-      Copy
-    </button>
-
-  </div>
-
-</div>
-
-<!-- =====================================================
-CARD — LIQUID DOCK
-===================================================== -->
-
-<div class="dock-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      LIQUID
-    </span>
-
-    <div class="card-icon cyan">
-      <i class="fa-solid fa-droplet"></i>
-    </div>
-
-  </div>
-
-  <h2>
-    Liquid Dock
-  </h2>
-
-  <p>
-
-    Smooth fluid inspired dock
-    with jelly hover animation
-    and soft glowing effects.
-
-  </p>
-
-  <div class="demo-box">
-
-    <div class="mini-dock liquid-dock">
-
-      <div class="dock-item liquid">
-        <i class="fa-solid fa-cloud"></i>
-      </div>
-
-      <div class="dock-item liquid">
-        <i class="fa-solid fa-camera"></i>
-      </div>
-
-      <div class="dock-item liquid active">
-        <i class="fa-solid fa-water"></i>
-      </div>
-
-      <div class="dock-item liquid">
-        <i class="fa-solid fa-compass"></i>
-      </div>
-
-      <div class="dock-item liquid">
-        <i class="fa-solid fa-moon"></i>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card-buttons">
-
-    <button class="view-btn">
-      View Code
-    </button>
-
-    <button class="copy-btn">
-      Copy
-    </button>
-
-  </div>
-
-</div>
-
-<!-- =====================================================
-CARD — TERMINAL DOCK
-===================================================== -->
-
-<div class="dock-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      DEV
-    </span>
-
-    <div class="card-icon green">
-      <i class="fa-solid fa-terminal"></i>
-    </div>
-
-  </div>
-
-  <h2>
-    Terminal Dock
-  </h2>
-
-  <p>
-
-    Developer inspired dock
-    interface with terminal
-    styling and matrix glow.
-
-  </p>
-
-  <div class="demo-box">
-
-    <div class="mini-dock terminal-dock">
-
-      <div class="dock-item terminal">
-        <i class="fa-solid fa-code"></i>
-      </div>
-
-      <div class="dock-item terminal">
-        <i class="fa-solid fa-bug"></i>
-      </div>
-
-      <div class="dock-item terminal active">
-        <i class="fa-solid fa-laptop-code"></i>
-      </div>
-
-      <div class="dock-item terminal">
-        <i class="fa-solid fa-server"></i>
-      </div>
-
-      <div class="dock-item terminal">
-        <i class="fa-solid fa-shield-halved"></i>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card-buttons">
-
-    <button class="view-btn">
-      View Code
-    </button>
-
-    <button class="copy-btn">
-      Copy
-    </button>
-
-  </div>
-
-</div>
-
-<!-- =====================================================
-CARD — STACKED DOCK
-===================================================== -->
-
-<div class="dock-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      MODERN
-    </span>
-
-    <div class="card-icon orange">
-      <i class="fa-solid fa-layer-group"></i>
-    </div>
-
-  </div>
-
-  <h2>
-    Stacked Dock
-  </h2>
-
-  <p>
-
-    Layered navigation dock
-    with stacked depth cards
-    and floating shadows.
-
-  </p>
-
-  <div class="demo-box">
-
-    <div class="stacked-dock">
-
-      <div class="stack-layer"></div>
-      <div class="stack-layer second"></div>
-
-      <div class="mini-dock">
-
-        <div class="dock-item stack">
-          <i class="fa-solid fa-book"></i>
-        </div>
-
-        <div class="dock-item stack">
-          <i class="fa-solid fa-chart-pie"></i>
-        </div>
-
-        <div class="dock-item stack active">
-          <i class="fa-solid fa-cube"></i>
-        </div>
-
-        <div class="dock-item stack">
-          <i class="fa-solid fa-globe"></i>
-        </div>
-
-        <div class="dock-item stack">
-          <i class="fa-solid fa-wifi"></i>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card-buttons">
-
-    <button class="view-btn">
-      View Code
-    </button>
-
-    <button class="copy-btn">
-      Copy
-    </button>
-
-  </div>
-
-</div>
-
-<!-- =====================================================
-CARD — AI DOCK
-===================================================== -->
-
-<div class="dock-card">
-
-  <div class="card-top">
-
-    <span class="card-label">
-      AI
-    </span>
-
-    <div class="card-icon violet">
-      <i class="fa-solid fa-brain"></i>
-    </div>
-
-  </div>
-
-  <h2>
-    Neural Dock
-  </h2>
-
-  <p>
-
-    AI inspired navigation
-    dock with connected nodes
-    and animated pulse lines.
-
-  </p>
-
-  <div class="demo-box">
-
-    <div class="neural-dock">
-
-      <div class="neural-line"></div>
-
-      <div class="dock-item neural">
-        <i class="fa-solid fa-microchip"></i>
-      </div>
-
-      <div class="dock-item neural">
-        <i class="fa-solid fa-robot"></i>
-      </div>
-
-      <div class="dock-item neural active">
-        <i class="fa-solid fa-brain"></i>
-      </div>
-
-      <div class="dock-item neural">
-        <i class="fa-solid fa-network-wired"></i>
-      </div>
-
-      <div class="dock-item neural">
-        <i class="fa-solid fa-wave-square"></i>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card-buttons">
-
-    <button class="view-btn">
-      View Code
-    </button>
-
-    <button class="copy-btn">
-      Copy
-    </button>
-
-  </div>
-
-</div>
 
   </section>
 
@@ -1453,18 +735,21 @@ BOTTOM GLOBAL DOCK
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
-
-    <div class="socials">
-  <a href="https://github.com" target="_blank" title="GitHub">
-    <i class="fab fa-github"></i>
-  </a>
-  <a href="https://linkedin.com" target="_blank" title="LinkedIn">
-    <i class="fab fa-linkedin"></i>
-  </a>
-  <a href="https://twitter.com" target="_blank" title="Twitter">
-    <i class="fab fa-x-twitter"></i>
-  </a>
-</div>
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
 
     <div class="footer-col">
       <h3>Explore</h3>
@@ -1481,10 +766,9 @@ BOTTOM GLOBAL DOCK
       <h3>Resources</h3>
       <ul>
         <li><a href="documentation.html">Documentation</a></li>
-        <li><a href="contribute.html">Contribute</a></li>
-        <li><a href="https://github.com/uiverse/uiverse" target="_blank">GitHub Repo</a></li>
-        <li><a href="community.html">Community</a></li>
-        <li><a href="support.html">Support</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
     </div>
 
@@ -1501,20 +785,40 @@ BOTTOM GLOBAL DOCK
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
         <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
-
   </div>
 
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
 
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
+
 <script src="docks.js"></script>
 
-    <script src="dist/shared.js"></script>
+  <script src="dist/shared.js"></script>
 </body>
 </html>

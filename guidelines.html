@@ -3,6 +3,7 @@
 
 <head>
   <link rel="stylesheet" href="dist/shared.css">
+
   <meta charset="UTF-8" />
 
   <meta
@@ -11,7 +12,20 @@
   />
 
   <!-- SECURITY -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="
+      default-src 'self' https:;
+      base-uri 'self';
+      frame-ancestors 'none';
+      object-src 'none';
+      connect-src 'self' https:;
+      img-src 'self' data: https:;
+      font-src 'self' data: https:;
+      script-src 'self' https: 'unsafe-inline';
+      style-src 'self' https: 'unsafe-inline';
+    "
+  />
 
   <title>Guidelines | UIverse</title>
 
@@ -29,11 +43,9 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="guide.css" />
-  </head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-
 
 <div class="container">
 
@@ -85,6 +97,71 @@
 
   </aside>
 
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
+
   <!-- MAIN -->
   <main
     class="main"
@@ -131,57 +208,6 @@
 
       </div>
 
-      <section class="gradient-generator">
-
-  <div class="generator-header">
-    <span class="gallery-tag">Tool</span>
-    <h2>Gradient Generator</h2>
-    <p>Create beautiful CSS gradients instantly.</p>
-  </div>
-
-  <div class="gradient-preview" id="gradientPreview"></div>
-
-  <div class="gradient-controls">
-
-    <div class="control-group">
-      <label>Color 1</label>
-      <input type="color" id="color1" value="#7c3aed">
-    </div>
-
-    <div class="control-group">
-      <label>Color 2</label>
-      <input type="color" id="color2" value="#06b6d4">
-    </div>
-
-    <div class="control-group">
-      <label>Angle</label>
-      <input
-        type="range"
-        id="angle"
-        min="0"
-        max="360"
-        value="135"
-      >
-      <span id="angleValue">135°</span>
-    </div>
-
-  </div>
-
-  <div class="gradient-output">
-
-    <textarea
-      id="cssOutput"
-      readonly
-    ></textarea>
-
-    <button id="copyGradient">
-      Copy CSS
-    </button>
-
-  </div>
-
-</section>
-
       <!-- STATS -->
       <div class="hero-stats">
 
@@ -205,258 +231,68 @@
     </section>
 
     <!-- DOCUMENTATION -->
-    <section class="documentation" id="guides">
-
-  <div class="section-heading">
-    <span class="section-badge">
-      📘 Contribution Standards
-    </span>
-
-    <h2>UIverse Development Guidelines</h2>
-        <div class="doc-top">
-    <h2>UIverse Development Guidelines</h2>
-    <!-- CARD -->
-    <article class="guide-card">
-      <div class="guide-number">01</div>
-
-        <div class="doc-top">
-          <div class="doc-icon">💻</div>
-          <span class="doc-tag">Frontend</span>
-        </div>
-
-    <p>
-      Follow modern frontend practices to maintain quality,
-      consistency, scalability, and accessibility.
-    </p>
-  </div>
-
-  <div class="guideline-grid">
-
-
-    <p>
-      Follow modern frontend practices to maintain quality,
-      consistency, scalability, and accessibility.
-    </p>
-  </div>
-
-  <div class="guideline-grid">
-
-    <!-- CARD -->
-    <article class="guide-card">
-      <div class="guide-number">01</div>
-
-      <div class="guide-icon">
-        <i class="fas fa-code"></i>
-      </div>
-
-      <h3>Code Style</h3>
-
-      <p>
-        Write maintainable and scalable code using semantic
-        structures and reusable architecture.
-      </p>
-        <div class="doc-top">
-      <h3>Code Style</h3>
-
-      <p>
-        Write maintainable and scalable code using semantic
-        structures and reusable architecture.
-      </p>
-
-      <ul>
-        <li>Semantic HTML</li>
-        <li>Reusable CSS</li>
-        <li>No inline styling</li>
-        <li>Kebab-case naming</li>
-      </ul>
-    </article>
-
-    <!-- CARD -->
-    <article class="guide-card">
-      <div class="guide-number">02</div>
-
-      <div class="guide-icon">
-        <i class="fas fa-palette"></i>
-      </div>
-
-      <h3>Design System</h3>
-
-      <p>
-        Keep all components visually consistent and
-        responsive across devices.
-      </p>
-
-      <ul>
-        <li>Spacing Scale</li>
-        <li>Color Variables</li>
-        <li>Responsive Layouts</li>
-        <li>Typography System</li>
-      </ul>
-    </article>
-
-    <!-- CARD -->
-    <article class="guide-card">
-      <div class="guide-number">03</div>
-
-        <div class="doc-top">
-          <div class="doc-icon">🎨</div>
-          <span class="doc-tag">Design</span>
-        </div>
-
-
-      <ul>
-        <li>Semantic HTML</li>
-        <li>Reusable CSS</li>
-        <li>No inline styling</li>
-        <li>Kebab-case naming</li>
-      </ul>
-    </article>
-
-    <!-- CARD -->
-    <article class="guide-card">
-      <div class="guide-number">02</div>
-
-      <div class="guide-icon">
-        <i class="fas fa-palette"></i>
-      </div>
-
-      <h3>Design System</h3>
-
-      <p>
-        Keep all components visually consistent and
-        responsive across devices.
-      </p>
-
-      <ul>
-        <li>Spacing Scale</li>
-        <li>Color Variables</li>
-        <li>Responsive Layouts</li>
-        <li>Typography System</li>
-
-      <ul>
-        <li>Spacing Scale</li>
-        <li>Color Variables</li>
-        <li>Responsive Layouts</li>
-        <li>Typography System</li>
-      </ul>
-    </article>
-
-    <!-- CARD -->
-    <article class="guide-card">
-      <div class="guide-number">03</div>
-
-      <div class="guide-icon">
-        <i class="fas fa-cubes"></i>
-      </div>
-
-      <h3>Components</h3>
-
-      <p>
-        Components must remain independent,
-        lightweight and reusable.
-      </p>
-
-      <ul>
-        <li>Framework Agnostic</li>
-        <li>Reusable Structure</li>
-        <li>Minimal Dependencies</li>
-        <li>Scalable Design</li>
-      </ul>
-    </article>
-
-    <!-- CARD -->
-    <article class="guide-card">
-      <div class="guide-number">04</div>
-
-      <div class="guide-icon">
-        <i class="fas fa-code-branch"></i>
-      </div>
-
-      <h3>Components</h3>
-
-      <p>
-        Components must remain independent,
-        lightweight and reusable.
-      </p>
-
-      <ul>
-        <li>Framework Agnostic</li>
-        <li>Reusable Structure</li>
-        <li>Minimal Dependencies</li>
-        <li>Scalable Design</li>
-      </ul>
-    </article>
-
-    <!-- CARD -->
-    <article class="guide-card">
-      <div class="guide-number">03</div>
-
-      <div class="guide-icon">
-        <i class="fas fa-cubes"></i>
-      <div class="guide-number">04</div>
-
-      <div class="guide-icon">
-        <i class="fas fa-code-branch"></i>
-      </div>
-
-      <h3>Components</h3>
-
-      <p>
-        Components must remain independent,
-        lightweight and reusable.
-      </p>
-
-      <ul>
-        <li>Framework Agnostic</li>
-        <li>Reusable Structure</li>
-        <li>Minimal Dependencies</li>
-        <li>Scalable Design</li>
-      </ul>
-    </article>
-
-    <!-- CARD -->
-    <article class="guide-card">
-      <div class="guide-number">04</div>
-
-      <div class="guide-icon">
-        <i class="fas fa-code-branch"></i>
-      </div>
-
-      <h3>Components</h3>
-
-      <p>
-        Components must remain independent,
-        lightweight and reusable.
-      </p>
-
-      <ul>
-        <li>Framework Agnostic</li>
-        <li>Reusable Structure</li>
-        <li>Minimal Dependencies</li>
-        <li>Scalable Design</li>
-      </ul>
-    </article>
+    <section
+      class="documentation"
+      id="guides"
+    >
 
       <!-- CARD -->
       <div class="doc-block">
-      <h3>Git Workflow</h3>
 
-      <p>
-        Maintain a clean contribution process
-        and organized repository structure.
-      </p>
+        <div class="doc-top">
 
-      <ul>
-        <li>Fork Repository</li>
-        <li>Create Branches</li>
-        <li>Follow Conventions</li>
-        <li>Submit PRs</li>
-      </ul>
-    </article>
+          <div class="doc-icon">💻</div>
 
-  </div>
+          <span class="doc-tag">Frontend</span>
 
-</section>
+        </div>
+
+        <h3>Code Style</h3>
+
+        <p>
+          Keep components clean, readable, and scalable using
+          modern frontend standards.
+        </p>
+
+        <ul class="doc-list">
+          <li>✔ Use semantic HTML structure</li>
+          <li>✔ Keep CSS reusable & modular</li>
+          <li>✔ Avoid inline styles</li>
+          <li>✔ Follow kebab-case naming</li>
+        </ul>
+
+      </div>
+
+      <!-- CARD -->
+      <div class="doc-block">
+
+        <div class="doc-top">
+
+          <div class="doc-icon">🎨</div>
+
+          <span class="doc-tag">Design</span>
+
+        </div>
+
+        <h3>UI Consistency</h3>
+
+        <p>
+          Consistent layouts improve usability and create
+          a better visual experience.
+        </p>
+
+        <ul class="doc-list">
+          <li>✔ Maintain spacing consistency</li>
+          <li>✔ Use color variables</li>
+          <li>✔ Ensure responsive layouts</li>
+          <li>✔ Follow typography system</li>
+        </ul>
+
+      </div>
+
+      <!-- CARD -->
+      <div class="doc-block">
+
         <div class="doc-top">
 
           <div class="doc-icon">🧩</div>
@@ -510,107 +346,6 @@
 
     </section>
 
-    <!-- DOCUMENTATION -->
-<section class="documentation" id="guides">
-
-  <!-- CARD 1 -->
-  <article class="guide-card">
-    <div class="guide-number">01</div>
-
-    <div class="doc-top">
-      <div class="doc-icon">💻</div>
-      <span class="doc-tag">Frontend</span>
-    </div>
-
-    <h3>Code Style</h3>
-
-    <p>
-      Write maintainable and scalable code using semantic
-      structures and reusable architecture.
-    </p>
-
-    <ul>
-      <li>Semantic HTML</li>
-      <li>Reusable CSS</li>
-      <li>No inline styling</li>
-      <li>Kebab-case naming</li>
-    </ul>
-  </article>
-
-  <!-- CARD 2 -->
-  <article class="guide-card">
-    <div class="guide-number">02</div>
-
-    <div class="doc-top">
-      <div class="doc-icon">🎨</div>
-      <span class="doc-tag">Design</span>
-    </div>
-
-    <h3>Design System</h3>
-
-    <p>
-      Keep all components visually consistent and
-      responsive across devices.
-    </p>
-
-    <ul>
-      <li>Spacing Scale</li>
-      <li>Color Variables</li>
-      <li>Responsive Layouts</li>
-      <li>Typography System</li>
-    </ul>
-  </article>
-
-  <!-- CARD 3 -->
-  <article class="guide-card">
-    <div class="guide-number">03</div>
-
-    <div class="doc-top">
-      <div class="doc-icon">🧩</div>
-      <span class="doc-tag">Components</span>
-    </div>
-
-    <h3>Component Rules</h3>
-
-    <p>
-      Components should remain lightweight,
-      independent and reusable.
-    </p>
-
-    <ul>
-      <li>Independent Components</li>
-      <li>No Framework Dependency</li>
-      <li>Reusable Across Projects</li>
-      <li>Minimal Bundle Size</li>
-    </ul>
-  </article>
-
-  <!-- CARD 4 -->
-  <article class="guide-card">
-    <div class="guide-number">04</div>
-
-    <div class="doc-top">
-      <div class="doc-icon">🌱</div>
-      <span class="doc-tag">Git Workflow</span>
-    </div>
-
-    <h3>Contribution Workflow</h3>
-
-    <p>
-      Maintain clean Git practices and organized
-      contribution workflows.
-    </p>
-
-    <ul>
-      <li>Fork Repository</li>
-      <li>Create Feature Branches</li>
-      <li>Follow Naming Conventions</li>
-      <li>Submit Clean Pull Requests</li>
-    </ul>
-  </article>
-
-</section>
-
     <!-- CTA -->
     <section class="doc-cta">
 
@@ -654,334 +389,31 @@
 
     </section>
 
-    <!-- DOCUMENTATION -->
-<section class="documentation" id="guides">
-
-  <!-- CARD 1 -->
-  <article class="guide-card">
-    <div class="guide-number">01</div>
-
-    <div class="doc-top">
-      <div class="doc-icon">💻</div>
-      <span class="doc-tag">Frontend</span>
-    </div>
-
-    <h3>Code Style</h3>
-
-    <p>
-      Write maintainable and scalable code using semantic
-      structures and reusable architecture.
-    </p>
-
-    <ul>
-      <li>Semantic HTML</li>
-      <li>Reusable CSS</li>
-      <li>No Inline Styling</li>
-      <li>Kebab-case Naming</li>
-    </ul>
-  </article>
-
-  <!-- CARD 2 -->
-  <article class="guide-card">
-    <div class="guide-number">02</div>
-
-    <div class="doc-top">
-      <div class="doc-icon">🎨</div>
-      <span class="doc-tag">Design</span>
-    </div>
-
-    <h3>Design System</h3>
-
-    <p>
-      Keep all components visually consistent across
-      desktop, tablet, and mobile devices.
-    </p>
-
-    <ul>
-      <li>Spacing Scale</li>
-      <li>CSS Variables</li>
-      <li>Responsive Layouts</li>
-      <li>Typography System</li>
-    </ul>
-  </article>
-
-  <!-- CARD 3 -->
-  <article class="guide-card">
-    <div class="guide-number">03</div>
-
-    <div class="doc-top">
-      <div class="doc-icon">🧩</div>
-      <span class="doc-tag">Components</span>
-    </div>
-
-    <h3>Component Rules</h3>
-
-    <p>
-      Components should remain lightweight,
-      reusable and framework agnostic.
-    </p>
-
-    <ul>
-      <li>Independent Components</li>
-      <li>No Framework Dependency</li>
-      <li>Reusable Structure</li>
-      <li>Minimal Bundle Size</li>
-    </ul>
-  </article>
-
-  <!-- CARD 4 -->
-  <article class="guide-card">
-    <div class="guide-number">04</div>
-
-    <div class="doc-top">
-      <div class="doc-icon">🌱</div>
-      <span class="doc-tag">Workflow</span>
-    </div>
-
-    <h3>Git Workflow</h3>
-
-    <p>
-      Follow a clean contribution process for every pull request.
-    </p>
-
-    <ul>
-      <li>Fork Repository</li>
-      <li>Create Feature Branch</li>
-      <li>Commit with Clear Messages</li>
-      <li>Submit Pull Request</li>
-    </ul>
-  </article>
-
-</section>
-
-<section class="best-practices">
-
-  <div class="section-header">
-    <span>♿ Accessibility</span>
-    <h2>Accessibility Standards</h2>
-  </div>
-
-  <div class="practice-grid">
-
-    <article class="practice-card">
-      <h3>Keyboard Navigation</h3>
-      <p>
-        Every interactive component must be fully keyboard accessible.
-      </p>
-    </article>
-
-    <article class="practice-card">
-      <h3>ARIA Labels</h3>
-      <p>
-        Use descriptive ARIA attributes for screen readers.
-      </p>
-    </article>
-
-    <article class="practice-card">
-      <h3>Color Contrast</h3>
-      <p>
-        Maintain WCAG-compliant contrast ratios.
-      </p>
-    </article>
-
-  </div>
-
-</section>
-
-<section class="performance-section">
-
-  <div class="section-header">
-    <span>⚡ Performance</span>
-    <h2>Performance Standards</h2>
-  </div>
-
-  <div class="performance-grid">
-
-    <div class="perf-card">
-      <h3>Lazy Loading</h3>
-      <p>Images should load only when needed.</p>
-    </div>
-
-    <div class="perf-card">
-      <h3>Optimized Assets</h3>
-      <p>Compress fonts, images and scripts.</p>
-    </div>
-
-    <div class="perf-card">
-      <h3>Minimal Dependencies</h3>
-      <p>Avoid unnecessary libraries.</p>
-    </div>
-
-  </div>
-
-</section>
-
-<section class="security-section">
-
-  <div class="section-header">
-    <span>🔒 Security</span>
-    <h2>Security Checklist</h2>
-  </div>
-
-  <div class="security-list">
-
-    <div class="security-item">
-      ✔ Sanitize user input
-    </div>
-
-    <div class="security-item">
-      ✔ Use Content Security Policy
-    </div>
-
-    <div class="security-item">
-      ✔ Avoid inline scripts
-    </div>
-
-    <div class="security-item">
-      ✔ Validate forms
-    </div>
-
-  </div>
-
-</section>
-
-<section class="timeline-section">
-
-  <div class="section-header">
-    <span>🚀 Workflow</span>
-    <h2>Contribution Journey</h2>
-  </div>
-
-  <div class="timeline">
-
-    <div class="timeline-step">
-      <span>1</span>
-      Fork Repository
-    </div>
-
-    <div class="timeline-step">
-      <span>2</span>
-      Create Branch
-    </div>
-
-    <div class="timeline-step">
-      <span>3</span>
-      Build Component
-    </div>
-
-    <div class="timeline-step">
-      <span>4</span>
-      Open Pull Request
-    </div>
-
-    <div class="timeline-step">
-      <span>5</span>
-      Review & Merge
-    </div>
-
-  </div>
-
-</section>
-
-<section class="levels-section">
-
-  <div class="section-header">
-    <span>🏆 Community</span>
-    <h2>Contributor Levels</h2>
-  </div>
-
-  <div class="levels-grid">
-
-    <div class="level-card">
-      <h3>Beginner</h3>
-      <p>First contribution submitted.</p>
-    </div>
-
-    <div class="level-card">
-      <h3>Contributor</h3>
-      <p>5 approved pull requests.</p>
-    </div>
-
-    <div class="level-card">
-      <h3>Maintainer</h3>
-      <p>Regularly reviews community submissions.</p>
-    </div>
-
-  </div>
-
-</section>
-
-<div class="hero-metrics">
-
-  <div class="metric">
-    <strong>150+</strong>
-    <span>Components</span>
-  </div>
-
-  <div class="metric">
-    <strong>10k+</strong>
-    <span>Developers</span>
-  </div>
-
-  <div class="metric">
-    <strong>95%</strong>
-    <span>Accessibility Score</span>
-  </div>
-
-</div>
-
   </main>
 
 </div>
 
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
-
   <div class="footer-container">
-
     <div class="footer-col brand">
-
       <h2 class="footer-logo">⬡ UIverse</h2>
-
-      <p>
-        Build modern, reusable UI components with clean HTML,
-        CSS, and JavaScript.
-      </p>
-
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
       <div class="socials">
-
-        <a
-          href="#"
-          title="GitHub"
-          aria-label="GitHub"
-        >
-          <i class="fab fa-github"></i>
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
         </a>
-
-        <a
-          href="#"
-          title="LinkedIn"
-          aria-label="LinkedIn"
-        >
-          <i class="fab fa-linkedin"></i>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
         </a>
-
-        <a
-          href="#"
-          title="Twitter"
-          aria-label="Twitter"
-        >
-          <i class="fab fa-x-twitter"></i>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
         </a>
-
       </div>
-
     </div>
 
     <div class="footer-col">
-
       <h3>Explore</h3>
-
       <ul>
         <li><a href="button.html">Buttons</a></li>
         <li><a href="navbar.html">Navbars</a></li>
@@ -989,69 +421,63 @@
         <li><a href="inputs.html">Inputs</a></li>
         <li><a href="forms.html">Forms</a></li>
       </ul>
-
     </div>
 
     <div class="footer-col">
-
       <h3>Resources</h3>
-
       <ul>
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">Contribute</a></li>
-        <li><a href="#">GitHub Repo</a></li>
-        <li><a href="#">Community</a></li>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
-
     </div>
 
     <div class="footer-col">
-
       <h3>Legal</h3>
-
       <ul>
         <li><a href="privacypolicy.html">Privacy Policy</a></li>
         <li><a href="terms.html">Terms of Service</a></li>
-        <li><a href="#">License</a></li>
+        <li><a href="license.html">License</a></li>
       </ul>
-
     </div>
 
     <div class="footer-col newsletter">
-
       <h3>Stay Updated</h3>
-
-      <p>
-        Get notified when new components drop.
-      </p>
-
+      <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-
+        <label for="newsletterEmail" class="sr-only">Email address</label>
         <input
+          id="newsletterEmail"
           type="email"
           placeholder="your@email.com"
-          aria-label="Email Address"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
         />
-
-        <button type="button">
-          Subscribe
-        </button>
-
+        <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
-
     </div>
-
   </div>
 
   <div class="footer-bottom">
-    <p>
-      © 2026 UIverse. Made with ❤️ for developers worldwide.
-    </p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
-
 </footer>
 
-    <script src="dist/shared.js"></script>
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
+
+  <script src="dist/shared.js"></script>
 </body>
 </html>
-

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8" />
@@ -9,8 +8,20 @@
     content="width=device-width, initial-scale=1.0"
   />
 
-  
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-nr+G5cRikxeDAszxtxz5ch7U6EL6aF8E+ylJwOKN/VA='; script-src-attr 'unsafe-hashes' 'sha256-nr+G5cRikxeDAszxtxz5ch7U6EL6aF8E+ylJwOKN/VA='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="
+      default-src 'self' https:;
+      base-uri 'self';
+      frame-ancestors 'none';
+      object-src 'none';
+      connect-src 'self' https:;
+      img-src 'self' data: https:;
+      font-src 'self' data: https:;
+      style-src 'self' 'unsafe-inline' https:;
+      script-src 'self' 'unsafe-inline' https:;
+    "
+  />
 
   <title>Toggles — UIverse</title>
 
@@ -876,73 +887,304 @@
       100% { transform: scaleX(1); }
     }
 
-    /* Theme Toggle */
-.theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
-}
+    .toggle-solar label {
+      width: 62px;
+      height: 32px;
+      border-radius: 999px;
+      background: #38bdf8;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      overflow: hidden;
+    }
+    .toggle-solar .solar-stars {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #fff;
+      border-radius: 50%;
+      top: 8px;
+      left: 20px;
+      opacity: 0;
+      box-shadow: 10px 4px 0 #fff, 6px 12px 0 #fff, 18px 8px 0 #fff;
+      transition: all 0.4s ease;
+    }
+    .toggle-solar label::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #facc15;
+      box-shadow: 0 0 10px #facc15;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .toggle-solar input:checked + label {
+      background: #0f172a;
+    }
+    .toggle-solar input:checked + label .solar-stars {
+      opacity: 1;
+    }
+    .toggle-solar input:checked + label::after {
+      transform: translateX(30px);
+      background: #e2e8f0;
+      box-shadow: 0 0 10px #e2e8f0, inset -5px -2px 0 #94a3b8;
+    }
 
-<meta charset="UTF-8">
+    .toggle-arcade label {
+      width: 58px;
+      height: 24px;
+      border-radius: 6px;
+      background: #27272a;
+      border: 2px solid #3f3f46;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
+    }
+    .toggle-arcade .arcade-knob {
+      position: absolute;
+      top: -6px;
+      left: 6px;
+      width: 14px;
+      height: 32px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform-origin: bottom center;
+      transform: rotate(-15deg);
+    }
+    .toggle-arcade input:checked + label .arcade-knob {
+      left: calc(100% - 20px);
+      background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+      transform: rotate(15deg);
+    }
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
+    /* NEW: Glass Toggle */
+    .toggle-glass label{
+      width:60px; height:30px; border-radius:999px; background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.06); backdrop-filter: blur(6px); position:relative; overflow:hidden;
+    }
+    .toggle-glass label::after{ content:""; position:absolute; top:3px; left:3px; width:24px; height:24px; border-radius:50%; background:#fff; opacity:.95; transition:.28s; box-shadow:0 4px 12px rgba(0,0,0,.18);}    
+    .toggle-glass input:checked + label{ background: linear-gradient(90deg,#6c5ce7,#eb6835); }
+    .toggle-glass input:checked + label::after{ transform: translateX(30px); background:#fff; }
 
-<title>
+    /* NEW: Retro Slider */
+    .toggle-retro label{ width:58px; height:30px; border-radius:6px; background:#0b1220; border:2px solid #071126; position:relative; }
+    .toggle-retro label::after{ content:""; position:absolute; top:4px; left:6px; width:18px; height:22px; border-radius:4px; background:linear-gradient(90deg,#ef4444,#f97316); transition:.25s; box-shadow:0 2px 6px rgba(0,0,0,.5);}    
+    .toggle-retro input:checked + label{ border-color:#16a34a; }
+    .toggle-retro input:checked + label::after{ transform: translateX(30px); background:linear-gradient(90deg,#22c55e,#16a34a);}    
 
-Toggle Components UI
+    /* NEW: Minimal Dot */
+    .toggle-minimal label{ width:40px; height:24px; border-radius:999px; background:#e6edf3; position:relative; }
+    .toggle-minimal label::after{ content:""; position:absolute; top:3px; left:3px; width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.12); transition:.2s; }
+    .toggle-minimal input:checked + label{ background:#34d399; }
+    .toggle-minimal input:checked + label::after{ transform: translateX(16px); }
 
-</title>
+    /* NEW: Swirl Toggle (animated) */
+    .toggle-swirl label{ width:64px; height:32px; border-radius:999px; background:#f1f5f9; position:relative; overflow:hidden; }
+    .toggle-swirl label::after{ content:""; position:absolute; top:3px; left:3px; width:26px; height:26px; border-radius:50%; background:linear-gradient(90deg,#6c5ce7,#eb6835); transition:.35s cubic-bezier(.2,.9,.3,1); box-shadow:0 6px 18px rgba(108,92,231,.16);}    
+    .toggle-swirl input:checked + label{ background:linear-gradient(90deg,#0f172a,#0b1220);}    
+    .toggle-swirl input:checked + label::after{ transform: translateX(34px) rotate(360deg); }
 
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      margin-left: 250px;
+      background: var(--card);
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding: 0;
+      margin-top: 60px;
+    }
 
-<link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
+    .footer-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+      gap: 40px;
+      padding: 56px 48px 40px;
+      max-width: 100%;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap"
-rel="stylesheet">
+    .footer-logo {
+      font-family: "Syne", sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--orange, #eb6835);
+      margin-bottom: 12px;
+    }
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    .footer-col p {
+      font-size: 14px;
+      line-height: 1.7;
+      margin: 0 0 16px;
+      color: var(--muted);
+    }
 
-<link rel="stylesheet"
-href="toggles.css">
+    .footer-col h3 {
+      font-family: "Syne", sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
 
-</head>
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col ul li a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      display: inline-block;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .footer-col ul li a:hover {
+      color: var(--orange, #eb6835);
+      transform: translateX(6px);
+    }
+
+    .socials {
+      display: flex;
+      gap: 12px;
+    }
+
+    .socials a {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .socials a:hover {
+      background: var(--orange, #eb6835);
+      color: #fff;
+      transform: translateY(-2px);
+      border-color: var(--orange, #eb6835);
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      min-width: 0;
+      padding: 10px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .newsletter-form input:focus {
+      border-color: var(--orange, #eb6835);
+    }
+
+    .newsletter-form button {
+      padding: 10px 18px;
+      background: var(--orange, #eb6835);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .newsletter-form button:hover {
+      background: #d45c28;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding: 20px 48px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* SCROLL TOP */
+    #scrollTopBtn {
+      position: fixed;
+      right: 28px;
+      bottom: 28px;
+      width: 54px;
+      height: 54px;
+      border: none;
+      border-radius: 50%;
+      background: #eb6835;
+      color: white;
+      cursor: pointer;
+      font-size: 18px;
+      opacity: 0;
+      visibility: hidden;
+      transition: .3s ease;
+      z-index: 999;
+      box-shadow: 0 4px 12px rgba(235, 104, 53, 0.3);
+    }
+
+    #scrollTopBtn:hover {
+      background: #d45c28;
+      transform: translateY(-2px);
+    }
+
+    #scrollTopBtn.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @media (max-width: 992px) {
+      .footer {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .page-hero {
+        flex-direction: column;
+        padding: 36px 24px;
+      }
+      .toggle-hero-preview {
+        width: 100%;
+        min-width: 0;
+      }
+      .footer-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 40px 24px;
+      }
+      .footer-bottom {
+        padding: 20px 24px;
+      }
+    }
+  </style>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
-
-<!-- ==================================
-BACKGROUND
-================================== -->
-
-<div class="bg-gradient"></div>
-
-<!-- ==================================
-NAVBAR
-================================== -->
-
-<header class="navbar">
-
-<div class="logo">
-
-⚡ ToggleVerse
-
-</div>
-
-<nav>
-
-<a href="#">Basic</a>
-
-<a href="#">Advanced</a>
-
-<a href="#">Animated</a>
-
-<a href="#">Docs</a>
 
 <!-- ================= SIDEBAR ================= -->
 <aside class="sidebar" id="sidebar">
@@ -1269,19 +1511,69 @@ NAVBAR
   </div>
 </aside>
 
-<header class="navbar">
-  <div class="logo">
-    <span>⬡</span> UIverse
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
   </div>
-
-  <nav class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="components.html">Components</a>
-    <a href="docs.html">Docs</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-
-  <a href="#" class="nav-btn">Get Started</a>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
 </header>
 
 <!-- ================= MAIN CONTENT ================= -->
@@ -1430,2641 +1722,939 @@ NAVBAR
           <i class="fa-solid fa-copy"></i>
           Copy
         </button>
-</nav>
 
-<div class="nav-actions">
-
-<button class="outline-btn">
-
-Preview
-
-</button>
-
-<button class="primary-btn">
-
-Get Started
-
-</button>
-
-</div>
-
-</header>
-
-<!-- ==================================
-HERO
-================================== -->
-
-<section class="hero">
-
-<div class="hero-left">
-
-<div class="hero-badge">
-
-✨ Premium Toggle Collection
-
-</div>
-
-<h1>
-
-Beautiful
-
-<span>
-
-Toggle Switches
-
-</span>
-
-For Every UI
-
-</h1>
-
-<p>
-
-A modern collection of
-toggle switches including
-iOS, Material, Glassmorphism,
-Neon, AI and Animated styles.
-
-</p>
-
-<div class="hero-buttons">
-
-<button class="primary-btn">
-
-Explore Components
-
-</button>
-
-<button class="outline-btn">
-
-Documentation
-
-</button>
-
-</div>
-
-</div>
-
-<div class="hero-right">
-
-<div class="hero-preview">
-
-<div class="toggle-row">
-
-<span>
-
-Dark Mode
-
-</span>
-
-<label class="toggle ios">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-row">
-
-<span>
-
-Notifications
-
-</span>
-
-<label class="toggle neon">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-row">
-
-<span>
-
-AI Assistant
-
-</span>
-
-<label class="toggle gradient">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-BASIC TOGGLES
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Basic Toggles
-
-</span>
-
-<h2>
-
-Classic Switches
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-Classic
-
-</h3>
-
-<label class="toggle classic">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Rounded
-
-</h3>
-
-<label class="toggle rounded">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Square
-
-</h3>
-
-<label class="toggle square">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Outline
-
-</h3>
-
-<label class="toggle outline">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-IOS TOGGLES
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Apple Style
-
-</span>
-
-<h2>
-
-iOS Toggles
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-iOS Default
-
-</h3>
-
-<label class="toggle ios">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Large iOS
-
-</h3>
-
-<label class="toggle ios-large">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Minimal iOS
-
-</h3>
-
-<label class="toggle ios-minimal">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-<!-- ==================================
-NEON TOGGLES
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Cyber UI
-
-</span>
-
-<h2>
-
-Neon Toggles
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-Purple Neon
-
-</h3>
-
-<label class="toggle neon">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Blue Neon
-
-</h3>
-
-<label class="toggle neon-blue">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Pink Neon
-
-</h3>
-
-<label class="toggle neon-pink">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Cyberpunk
-
-</h3>
-
-<label class="toggle cyber">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-GRADIENT TOGGLES
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Colorful
-
-</span>
-
-<h2>
-
-Gradient Toggles
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-Sunset
-
-</h3>
-
-<label class="toggle sunset">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Ocean
-
-</h3>
-
-<label class="toggle ocean">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Aurora
-
-</h3>
-
-<label class="toggle aurora">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Rainbow
-
-</h3>
-
-<label class="toggle rainbow">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-GLASSMORPHISM
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Glass UI
-
-</span>
-
-<h2>
-
-Glass Toggles
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card glass-card">
-
-<h3>
-
-Glass Toggle
-
-</h3>
-
-<label class="toggle glass">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card glass-card">
-
-<h3>
-
-Blur Toggle
-
-</h3>
-
-<label class="toggle blur">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card glass-card">
-
-<h3>
-
-Crystal Toggle
-
-</h3>
-
-<label class="toggle crystal">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-MATERIAL UI
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Google Style
-
-</span>
-
-<h2>
-
-Material Toggles
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-Material Default
-
-</h3>
-
-<label class="toggle material">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Material Filled
-
-</h3>
-
-<label class="toggle material-fill">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Material Outlined
-
-</h3>
-
-<label class="toggle material-outline">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-TEXT TOGGLES
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Labels
-
-</span>
-
-<h2>
-
-ON / OFF Toggles
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-Text Toggle
-
-</h3>
-
-<label class="toggle text-toggle">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-YES / NO
-
-</h3>
-
-<label class="toggle yesno">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-ENABLE
-
-</h3>
-
-<label class="toggle enable">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-STATUS TOGGLES
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-System States
-
-</span>
-
-<h2>
-
-Status Toggles
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-Online
-
-</h3>
-
-<label class="toggle online">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Offline
-
-</h3>
-
-<label class="toggle offline">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Live Server
-
-</h3>
-
-<label class="toggle server">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Protected
-
-</h3>
-
-<label class="toggle secure">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-<!-- ==================================
-ANIMATED TOGGLES
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Motion UI
-
-</span>
-
-<h2>
-
-Animated Toggles
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-Bounce Toggle
-
-</h3>
-
-<label class="toggle bounce">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Elastic Toggle
-
-</h3>
-
-<label class="toggle elastic">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Slide Toggle
-
-</h3>
-
-<label class="toggle slide">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Pulse Toggle
-
-</h3>
-
-<label class="toggle pulse">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-AI TOGGLES
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Artificial Intelligence
-
-</span>
-
-<h2>
-
-AI Controls
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-AI Assistant
-
-</h3>
-
-<label class="toggle ai">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Auto Learning
-
-</h3>
-
-<label class="toggle neural">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Smart Reply
-
-</h3>
-
-<label class="toggle smart">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-AI Vision
-
-</h3>
-
-<label class="toggle vision">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-GAMING TOGGLES
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Gaming UI
-
-</span>
-
-<h2>
-
-Gaming Toggles
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-RGB Mode
-
-</h3>
-
-<label class="toggle rgb">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Turbo Mode
-
-</h3>
-
-<label class="toggle turbo">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-FPS Boost
-
-</h3>
-
-<label class="toggle fps">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Pro Gamer
-
-</h3>
-
-<label class="toggle gamer">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-MUSIC TOGGLES
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Audio Controls
-
-</span>
-
-<h2>
-
-Music Toggles
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-Play Music
-
-</h3>
-
-<label class="toggle music">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Bass Boost
-
-</h3>
-
-<label class="toggle bass">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-3D Audio
-
-</h3>
-
-<label class="toggle audio3d">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-NOTIFICATION TOGGLES
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Notifications
-
-</span>
-
-<h2>
-
-Alert Toggles
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-Push Alerts
-
-</h3>
-
-<label class="toggle notify">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Email Alerts
-
-</h3>
-
-<label class="toggle email">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-SMS Alerts
-
-</h3>
-
-<label class="toggle sms">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-THEME SWITCHERS
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Themes
-
-</span>
-
-<h2>
-
-Theme Switchers
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-Dark Mode
-
-</h3>
-
-<label class="toggle dark-mode">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Light Mode
-
-</h3>
-
-<label class="toggle light-mode">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Auto Theme
-
-</h3>
-
-<label class="toggle auto-theme">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-DASHBOARD TOGGLES
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Admin Panel
-
-</span>
-
-<h2>
-
-Dashboard Controls
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-Analytics
-
-</h3>
-
-<label class="toggle dashboard">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Live Tracking
-
-</h3>
-
-<label class="toggle tracking">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Auto Reports
-
-</h3>
-
-<label class="toggle reports">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Cloud Sync
-
-</h3>
-
-<label class="toggle cloud">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-<!-- ==================================
-SOCIAL MEDIA TOGGLES
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Social Media
-
-</span>
-
-<h2>
-
-Social Toggles
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-Instagram Sync
-
-</h3>
-
-<label class="toggle instagram">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Twitter/X Feed
-
-</h3>
-
-<label class="toggle twitter">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-LinkedIn Updates
-
-</h3>
-
-<label class="toggle linkedin">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-YouTube Alerts
-
-</h3>
-
-<label class="toggle youtube">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-FINANCE TOGGLES
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-FinTech
-
-</span>
-
-<h2>
-
-Finance Controls
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-Auto Invest
-
-</h3>
-
-<label class="toggle invest">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Savings Mode
-
-</h3>
-
-<label class="toggle savings">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Crypto Alerts
-
-</h3>
-
-<label class="toggle crypto">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Secure Payments
-
-</h3>
-
-<label class="toggle payment">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-SMART HOME
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Smart Home
-
-</span>
-
-<h2>
-
-Home Automation
-
-</h2>
-
-</div>
-
-<div class="toggle-grid">
-
-<div class="toggle-card">
-
-<h3>
-
-Living Room Lights
-
-</h3>
-
-<label class="toggle home-light">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Smart Lock
-
-</h3>
-
-<label class="toggle lock">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Air Conditioner
-
-</h3>
-
-<label class="toggle ac">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="toggle-card">
-
-<h3>
-
-Security Camera
-
-</h3>
-
-<label class="toggle camera">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-GLASS DASHBOARD
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Glass Dashboard
-
-</span>
-
-<h2>
-
-Glassmorphism Controls
-
-</h2>
-
-</div>
-
-<div class="glass-dashboard">
-
-<div class="glass-widget">
-
-<h3>
-
-Analytics Engine
-
-</h3>
-
-<label class="toggle glass-dashboard-toggle">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="glass-widget">
-
-<h3>
-
-Cloud Services
-
-</h3>
-
-<label class="toggle glass-dashboard-toggle">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="glass-widget">
-
-<h3>
-
-AI Processing
-
-</h3>
-
-<label class="toggle glass-dashboard-toggle">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-PREMIUM TOGGLE CARDS
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Premium Cards
-
-</span>
-
-<h2>
-
-Feature Toggles
-
-</h2>
-
-</div>
-
-<div class="premium-grid">
-
-<div class="premium-card">
-
-<h3>
-
-Premium Membership
-
-</h3>
-
-<p>
-
-Unlock all premium features.
-
-</p>
-
-<label class="toggle premium">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="premium-card">
-
-<h3>
-
-Cloud Backup
-
-</h3>
-
-<p>
-
-Automatic secure backups.
-
-</p>
-
-<label class="toggle premium">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="premium-card">
-
-<h3>
-
-AI Automation
-
-</h3>
-
-<p>
-
-Enable workflow automation.
-
-</p>
-
-<label class="toggle premium">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-BENTO TOGGLE LAYOUT
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Bento UI
-
-</span>
-
-<h2>
-
-Dashboard Bento Toggles
-
-</h2>
-
-</div>
-
-<div class="bento-layout">
-
-<div class="bento-card large">
-
-<h3>
-
-System Controls
-
-</h3>
-
-<label class="toggle bento-toggle">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="bento-card">
-
-<h3>
-
-Security
-
-</h3>
-
-<label class="toggle bento-toggle">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="bento-card">
-
-<h3>
-
-Updates
-
-</h3>
-
-<label class="toggle bento-toggle">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-INTERACTIVE PREVIEW
-================================== -->
-
-<section class="toggle-section">
-
-<div class="section-header">
-
-<span>
-
-Live Demo
-
-</span>
-
-<h2>
-
-Interactive Preview Panel
-
-</h2>
-
-</div>
-
-<div class="preview-dashboard">
-
-<div class="preview-item">
-
-<span>
-
-Dark Mode
-
-</span>
-
-<label class="toggle preview-toggle">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="preview-item">
-
-<span>
-
-Notifications
-
-</span>
-
-<label class="toggle preview-toggle">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="preview-item">
-
-<span>
-
-AI Assistant
-
-</span>
-
-<label class="toggle preview-toggle">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="preview-item">
-
-<span>
-
-Cloud Sync
-
-</span>
-
-<label class="toggle preview-toggle">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-<!-- ==================================
-FAQ SECTION
-================================== -->
-
-<section class="faq-section">
-
-<div class="section-header">
-
-<span>
-
-FAQ
-
-</span>
-
-<h2>
-
-Frequently Asked Questions
-
-<button id="scrollTopBtn" class="scroll-top-btn">
-  ↑
-</button>
-
-
-  <!-- ================= FOOTER ================= -->
-  <footer class="footer">
-    <div class="footer-container">
-</h2>
-
-</div>
-
-<div class="faq-grid">
-
-<div class="faq-card">
-
-<h3>
-
-Can I customize colors?
-
-</h3>
-
-<p>
-
-Yes. Every toggle component
-supports custom colors,
-gradients and animations.
-
-</p>
-
-</div>
-
-<div class="faq-card">
-
-<h3>
-
-Are these mobile responsive?
-
-</h3>
-
-<p>
-
-Absolutely. All toggle layouts
-adapt perfectly across devices.
-
-</p>
-
-</div>
-
-<div class="faq-card">
-
-<h3>
-
-Can I use them commercially?
-
-</h3>
-
-<p>
-
-Yes. They are suitable for
-personal and commercial
-projects.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-DOCUMENTATION
-================================== -->
-
-<section class="docs-section">
-
-<div class="section-header">
-
-<span>
-
-Documentation
-
-</span>
-
-<h2>
-
-Basic Usage
-
-</h2>
-
-</div>
-
-<div class="docs-card">
-
-<pre>
-
-&lt;label class="toggle ios"&gt;
-  &lt;input type="checkbox"&gt;
-  &lt;span&gt;&lt;/span&gt;
-&lt;/label&gt;
-
-</pre>
-
-</div>
-
-</section>
-
-<!-- ==================================
-TOGGLE PLAYGROUND
-================================== -->
-
-<section class="playground-section">
-
-<div class="section-header">
-
-<span>
-
-Playground
-
-</span>
-
-<h2>
-
-Test Toggle States
-
-</h2>
-
-</div>
-
-<div class="playground-card">
-
-<div class="play-row">
-
-<span>
-
-Enable Experimental Features
-
-</span>
-
-<label class="toggle playground">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="play-row">
-
-<span>
-
-Smart Suggestions
-
-</span>
-
-<label class="toggle playground">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="play-row">
-
-<span>
-
-Performance Mode
-
-</span>
-
-<label class="toggle playground">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-CTA SECTION
-================================== -->
-
-<section class="cta-section">
-
-<div class="cta-card">
-
-<div>
-
-<span>
-
-Premium Toggle Library
-
-</span>
-
-<h2>
-
-Build Better Interfaces
-
-</h2>
-
-<p>
-
-A complete collection of modern
-toggle switches for dashboards,
-mobile apps and web products.
-
-</p>
-
-<button class="primary-btn">
-
-Get Started
-
-</button>
-
-</div>
-
-<div class="cta-icon">
-
-⚡
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-NEWSLETTER
-================================== -->
-
-<section class="newsletter-section">
-
-<div class="newsletter-card">
-
-<h2>
-
-Stay Updated
-
-</h2>
-
-<p>
-
-Receive new UI components,
-toggle designs and updates.
-
-</p>
-
-<form class="newsletter-form">
-
-<input
-type="email"
-placeholder="Enter your email">
-
-<button>
-
-Subscribe
-
-</button>
-
-</form>
-
-</div>
-
-</section>
-
-<!-- ==================================
-FOOTER
-================================== -->
-
+      </div>
+
+      <pre
+        id="code1"
+        class="code-block"
+      ><code>.toggle-classic input:checked + label{
+  background:#6c5ce7;
+}</code></pre>
+
+    </div>
+
+    <!-- IOS -->
+
+    <div
+      class="component-card"
+      data-cat="simple"
+      data-name="ios toggle"
+    >
+
+      <div class="card-top">
+        <span class="card-label">iOS Toggle</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+
+      <div class="card-preview">
+
+        <div class="toggle-demo-rows">
+
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-ios">
+              <input type="checkbox" id="ios1" checked />
+              <label for="ios1"></label>
+            </div>
+
+            <span class="toggle-label-text">
+              Wi-Fi
+            </span>
+          </div>
+
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-ios">
+              <input type="checkbox" id="ios2" />
+              <label for="ios2"></label>
+            </div>
+
+            <span class="toggle-label-text">
+              Bluetooth
+            </span>
+          </div>
+
+          <!-- FIXED LABEL -->
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-ios">
+              <input type="checkbox" id="ios3" checked />
+              <label for="ios3"></label>
+            </div>
+
+            <span class="toggle-label-text">
+              Notifications
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <p class="card-desc">
+        Apple-inspired smooth iOS style switch.
+      </p>
+
+      <div class="actions">
+
+        <button
+          class="action-btn view-btn"
+          onclick="toggleCode('code2', this)"
+        >
+          <i class="fa-solid fa-code"></i>
+          View Code
+        </button>
+
+        <button
+          class="action-btn copy-btn"
+          onclick="copyCode('code2', this)"
+        >
+          <i class="fa-solid fa-copy"></i>
+          Copy
+        </button>
+
+      </div>
+
+      <pre
+        id="code2"
+        class="code-block"
+      ><code>.toggle-ios input:checked + label{
+  background:#34c759;
+}</code></pre>
+
+    </div>
+
+    <!-- NEON -->
+
+    <div
+      class="component-card"
+      data-cat="themed"
+      data-name="neon toggle"
+    >
+
+      <div class="card-top">
+        <span class="card-label">Neon Toggle</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+
+      <div class="card-preview dark-preview">
+
+        <div class="toggle-demo-rows">
+
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-neon">
+              <input type="checkbox" id="neon1" />
+              <label for="neon1"></label>
+            </div>
+
+            <span
+              class="toggle-label-text"
+              style="color:#a78bfa;"
+            >
+              Off
+            </span>
+          </div>
+
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-neon">
+              <input type="checkbox" id="neon2" checked />
+              <label for="neon2"></label>
+            </div>
+
+            <span
+              class="toggle-label-text"
+              style="color:#a78bfa;"
+            >
+              Glow
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <p class="card-desc">
+        Glowing cyberpunk neon switch for dark UIs.
+      </p>
+
+      <div class="actions">
+
+        <button
+          class="action-btn view-btn"
+          onclick="toggleCode('code3', this)"
+        >
+          <i class="fa-solid fa-code"></i>
+          View Code
+        </button>
+
+        <button
+          class="action-btn copy-btn"
+          onclick="copyCode('code3', this)"
+        >
+          <i class="fa-solid fa-copy"></i>
+          Copy
+        </button>
+
+      </div>
+
+      <pre
+        id="code3"
+        class="code-block"
+      ><code>.toggle-neon input:checked + label{
+  box-shadow:0 0 16px rgba(167,139,250,.7);
+}</code></pre>
+
+    </div>
+
+    <div
+      class="component-card"
+      data-cat="simple"
+      data-name="text toggle"
+    >
+      <div class="card-top">
+        <span class="card-label">Text Toggle</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-text">
+              <input type="checkbox" id="text-t1" />
+              <label for="text-t1"></label>
+            </div>
+            <span class="toggle-label-text">Switch Mode</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A simple toggle featuring distinct internal text displays for state representation.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code4', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code4', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code4" class="code-block"><code>.toggle-text input:checked + label::before{
+  content:"ON";
+}</code></pre>
+    </div>
+
+    <div
+      class="component-card"
+      data-cat="simple"
+      data-name="flat toggle"
+    >
+      <div class="card-top">
+        <span class="card-label">Flat Toggle</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-flat">
+              <input type="checkbox" id="flat-t1" />
+              <label for="flat-t1"></label>
+            </div>
+            <span class="toggle-label-text">Selectable option</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A minimal and modern flat switch featuring a bright coral background color when active.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code5', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code5', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code5" class="code-block"><code>.toggle-flat input:checked + label{
+  background:#ff6b6b;
+}</code></pre>
+    </div>
+
+    <div
+      class="component-card"
+      data-cat="styled"
+      data-name="gradient toggle"
+    >
+      <div class="card-top">
+        <span class="card-label">Gradient Toggle</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-gradient">
+              <input type="checkbox" id="grad-t1" checked />
+              <label for="grad-t1"></label>
+            </div>
+            <span class="toggle-label-text">Gradient transition</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">An elegant styled toggle utilizing a vivid dual-color gradient overlay when enabled.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code6', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code6', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code6" class="code-block"><code>.toggle-gradient input:checked + label{
+  background:linear-gradient(90deg, #eb6835, #6c5ce7);
+}</code></pre>
+    </div>
+
+    <div
+      class="component-card"
+      data-cat="styled"
+      data-name="icon toggle"
+    >
+      <div class="card-top">
+        <span class="card-label">Icon Toggle</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-icon">
+              <input type="checkbox" id="icon-t1" />
+              <label for="icon-t1">
+                <span class="icon-thumb"></span>
+                <i class="fa-solid fa-sun" style="font-size:12px; color:#f59e0b; z-index:1;"></i>
+                <i class="fa-solid fa-moon" style="font-size:12px; color:#94a3b8; z-index:1;"></i>
+              </label>
+            </div>
+            <span class="toggle-label-text">Active mode switch</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A beautiful design displaying a sun and moon representation for day and night transitions.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code7', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code7', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code7" class="code-block"><code>.toggle-icon input:checked + label .icon-thumb{
+  transform:translateX(36px);
+}</code></pre>
+    </div>
+
+    <div
+      class="component-card"
+      data-cat="simple"
+      data-name="outline toggle"
+    >
+      <div class="card-top">
+        <span class="card-label">Outline Toggle</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-outline">
+              <input type="checkbox" id="out-t1" checked />
+              <label for="out-t1"></label>
+            </div>
+            <span class="toggle-label-text">Outline mode</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A clean hollow border toggle switch featuring neat color transformations on state changes.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code8', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code8', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code8" class="code-block"><code>.toggle-outline input:checked + label{
+  border-color:#eb6835;
+}</code></pre>
+    </div>
+
+    <div
+      class="component-card"
+      data-cat="simple"
+      data-name="large toggle"
+    >
+      <div class="card-top">
+        <span class="card-label">Large Toggle</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-large">
+              <input type="checkbox" id="large-t1" />
+              <label for="large-t1"></label>
+            </div>
+            <span class="toggle-label-text">Enhanced sizing</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">An oversized responsive toggle widget intended to maximize accessibility and ease of use.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code9', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code9', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code9" class="code-block"><code>.toggle-large input:checked + label::after{
+  transform:translateX(36px);
+}</code></pre>
+    </div>
+
+    <div
+      class="component-card"
+      data-cat="themed"
+      data-name="cyberpunk toggle"
+    >
+      <div class="card-top">
+        <span class="card-label">Cyberpunk Toggle</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview dark-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-cyberpunk">
+              <input type="checkbox" id="cyber-t1" checked />
+              <label for="cyber-t1"></label>
+            </div>
+            <span class="toggle-label-text" style="color:#00f2fe;">SYS_ACTIVE</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Futuristic theme toggle utilizing neon cyan, glowing hot pink, and digital corner clips.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code10', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code10', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code10" class="code-block"><code>.toggle-cyberpunk input:checked + label{
+  border-color:#ff007f;
+}</code></pre>
+    </div>
+
+    <div
+      class="component-card"
+      data-cat="styled"
+      data-name="3d tactile toggle"
+    >
+      <div class="card-top">
+        <span class="card-label">3D Tactile Toggle</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-3d">
+              <input type="checkbox" id="tactile-t1" />
+              <label for="tactile-t1"></label>
+            </div>
+            <span class="toggle-label-text">Tactile Switch</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Highly polished three-dimensional physical switch replicating tactile pushing effects.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code11', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code11', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code11" class="code-block"><code>.toggle-3d label{
+  box-shadow:inset 0 3px 8px rgba(0, 0, 0, 0.8);
+}</code></pre>
+    </div>
+
+    <div
+      class="component-card"
+      data-cat="styled"
+      data-name="liquid jelly toggle"
+    >
+      <div class="card-top">
+        <span class="card-label">Liquid Jelly Toggle</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-liquid">
+              <input type="checkbox" id="liquid-t1" checked />
+              <label for="liquid-t1"></label>
+            </div>
+            <span class="toggle-label-text">Jelly bounce</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">An organic toggle exhibiting elastic squash and stretch jelly physics on transitions.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code12', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code12', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code12" class="code-block"><code>.toggle-liquid input:checked + label::after{
+  animation: jelly-bounce-css 0.4s linear;
+}</code></pre>
+    </div>
+
+    <div
+      class="component-card"
+      data-cat="themed"
+      data-name="day/night solar toggle"
+    >
+      <div class="card-top">
+        <span class="card-label">Day/Night Solar</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview dark-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-solar">
+              <input type="checkbox" id="solar-t1" />
+              <label for="solar-t1">
+                <span class="solar-stars"></span>
+              </label>
+            </div>
+            <span class="toggle-label-text" style="color:#e2e8f0;">Astronomy Toggle</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Advanced theme transition switch showing a detailed glowing sun and cratered moon.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code13', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code13', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code13" class="code-block"><code>.toggle-solar input:checked + label .solar-stars{
+  opacity:1;
+}</code></pre>
+    </div>
+
+    <div
+      class="component-card"
+      data-cat="themed"
+      data-name="retro arcade toggle"
+    >
+      <div class="card-top">
+        <span class="card-label">Retro Arcade</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview dark-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-arcade">
+              <input type="checkbox" id="arcade-t1" checked />
+              <label for="arcade-t1">
+                <span class="arcade-knob"></span>
+              </label>
+            </div>
+            <span class="toggle-label-text" style="color:#22c55e;">JOY_STATE_OK</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A classic red arcade joystick switcher tilting dynamically with organic 3D rotations.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code14', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code14', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code14" class="code-block"><code>.toggle-arcade input:checked + label .arcade-knob{
+  transform:rotate(15deg);
+}</code></pre>
+    </div>
+
+    <!-- NEW: Glass Toggle -->
+    <div class="component-card" data-cat="styled" data-name="glass toggle">
+      <div class="card-top">
+        <span class="card-label">Glass Toggle</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-glass">
+              <input type="checkbox" id="glass-t1" />
+              <label for="glass-t1"></label>
+            </div>
+            <span class="toggle-label-text">Frosted UI</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A modern frosted glass style toggle with subtle blur and bright active gradient.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code15', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code15', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code15" class="code-block"><code>.toggle-glass input:checked + label{ background:linear-gradient(90deg,#6c5ce7,#eb6835); }</code></pre>
+    </div>
+
+    <!-- NEW: Retro Slider -->
+    <div class="component-card" data-cat="themed" data-name="retro slider">
+      <div class="card-top">
+        <span class="card-label">Retro Slider</span>
+        <span class="card-tag tag-trending">Trending</span>
+      </div>
+      <div class="card-preview dark-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-retro">
+              <input type="checkbox" id="retro-t1" />
+              <label for="retro-t1"></label>
+            </div>
+            <span class="toggle-label-text" style="color:#e2e8f0;">Retro Mode</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Classic retro slider with bold knob and strong color transitions for status indication.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code16', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code16', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code16" class="code-block"><code>.toggle-retro input:checked + label::after{ transform:translateX(30px); }</code></pre>
+    </div>
+
+    <!-- NEW: Minimal Dot -->
+    <div class="component-card" data-cat="simple" data-name="minimal dot">
+      <div class="card-top">
+        <span class="card-label">Minimal Dot</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-minimal">
+              <input type="checkbox" id="min-t1" />
+              <label for="min-t1"></label>
+            </div>
+            <span class="toggle-label-text">Compact</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Tiny, unobtrusive toggle designed for space-constrained UIs.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code17', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code17', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code17" class="code-block"><code>.toggle-minimal input:checked + label{ background:#34d399; }</code></pre>
+    </div>
+
+    <!-- NEW: Swirl Toggle -->
+    <div class="component-card" data-cat="styled" data-name="swirl toggle">
+      <div class="card-top">
+        <span class="card-label">Swirl Toggle</span>
+        <span class="card-tag tag-popular">Popular</span>
+      </div>
+      <div class="card-preview">
+        <div class="toggle-demo-rows">
+          <div class="toggle-demo-row">
+            <div class="toggle-wrap toggle-swirl">
+              <input type="checkbox" id="swirl-t1" />
+              <label for="swirl-t1"></label>
+            </div>
+            <span class="toggle-label-text">Animated</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A playful animated knob that rotates while sliding, adding motion personality.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('code18', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('code18', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="code18" class="code-block"><code>.toggle-swirl input:checked + label::after{ transform:translateX(34px) rotate(360deg); }</code></pre>
+    </div>
+
+  </main>
+
+  <!-- TOAST -->
+
+  <div
+    class="copy-toast"
+    id="copyToast"
+  >
+    <i class="fa-solid fa-check"></i>
+    Copied to clipboard!
+  </div>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
 
-<div class="footer-grid">
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
 
-<div>
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
 
-<h3>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
 
-ToggleVerse
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
 
-</h3>
-
-<p>
-
-Premium toggle switch
-components and UI systems.
-
-</p>
-
-</div>
-
-<div>
-
-<h4>
-
-Resources
-
-</h4>
-
-<ul>
-
-<li>Docs</li>
-<li>Components</li>
-<li>Templates</li>
-
-</ul>
-
-</div>
-
-<div>
-
-<h4>
-
-Company
-
-</h4>
-
-<ul>
-
-<li>About</li>
-<li>Contact</li>
-<li>Support</li>
-
-</ul>
-
-</div>
-
-<div>
-
-<h4>
-
-Social
-
-</h4>
-
-<ul>
-
-<li>Twitter</li>
-<li>GitHub</li>
-<li>Discord</li>
-
-</ul>
-
-</div>
-
-</div>
-
-<div class="footer-bottom">
-
-© 2026 ToggleVerse UI Library
-
-</div>
-
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
 </footer>
 
-<!-- ==================================
-SCROLL TO TOP
-================================== -->
-
-<button
-id="scrollTop"
-class="scroll-top">
-
-<i class="fa-solid fa-arrow-up"></i>
-
-</button>
-
-<!-- ==================================
-JAVASCRIPT
-================================== -->
-
 <script>
-
-const scrollBtn =
-document.getElementById(
-"scrollTop"
-);
-
-window.addEventListener(
-"scroll",
-()=>{
-
-if(window.scrollY > 400){
-
-scrollBtn.classList.add(
-"show"
-);
-
-}else{
-
-scrollBtn.classList.remove(
-"show"
-);
-
-}
-
-});
-
-scrollBtn.addEventListener(
-"click",
-()=>{
-
-window.scrollTo({
-
-top:0,
-behavior:"smooth"
-
-});
-
-});
-
-</script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-  const scrollBtn = document.getElementById("scrollTopBtn");
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) {
-      scrollBtn.style.display = "block";
-    } else {
-      scrollBtn.style.display = "none";
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
     }
-  });
-
-  scrollBtn.addEventListener("click", () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  });
-});
-
+  }
 </script>
+
+  <!-- ===== SCROLL TO TOP ===== -->
+  <button id="scrollTopBtn" onclick="scrollToTop()" title="Back to top" aria-label="Back to top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <!-- SCRIPT -->
+
+  <script>
+
+    /* DARK MODE */
+
+    const darkBtn =
+      document.getElementById("darkModeToggle");
+
+    const darkIcon =
+      darkBtn.querySelector("i");
+
+    if(
+      localStorage.getItem("theme")==="dark"
+    ){
+      document.body.classList.add("dark-mode");
+      darkIcon.className="fa-solid fa-sun";
+    }
+
+    darkBtn.addEventListener(
+      "click",
+      ()=>{
+        document.body.classList.toggle("dark-mode");
+
+        const isDark =
+          document.body.classList.contains("dark-mode");
+
+        darkIcon.className =
+          isDark
+            ? "fa-solid fa-sun"
+            : "fa-solid fa-moon";
+
+        localStorage.setItem(
+          "theme",
+          isDark ? "dark":"light"
+        );
+      }
+    );
+
+    /* VIEW CODE */
+
+    function toggleCode(id,btn){
+
+      const block =
+        document.getElementById(id);
+
+      block.classList.toggle("open");
+
+      const open =
+        block.classList.contains("open");
+
+      btn.innerHTML =
+        open
+          ? '<i class="fa-solid fa-eye-slash"></i> Hide Code'
+          : '<i class="fa-solid fa-code"></i> View Code';
+    }
+
+    /* COPY */
+
+    let toastTimer;
+
+    function copyCode(id,btn){
+
+      const code =
+        document.getElementById(id).innerText;
+
+      navigator.clipboard.writeText(code)
+      .then(()=>{
+
+        btn.innerHTML =
+          '<i class="fa-solid fa-check"></i> Copied';
+
+        const toast =
+          document.getElementById("copyToast");
+
+        toast.classList.add("show");
+
+        clearTimeout(toastTimer);
+
+        toastTimer =
+          setTimeout(()=>{
+            toast.classList.remove("show");
+
+            btn.innerHTML =
+              '<i class="fa-solid fa-copy"></i> Copy';
+
+          },2000);
+
+      });
+
+    }
+
+    /* FILTER */
+
+    function filterCards(cat,btn){
+
+      document
+      .querySelectorAll(".filter-btn")
+      .forEach(b=>b.classList.remove("active"));
+
+      btn.classList.add("active");
+
+      document
+      .querySelectorAll(".component-card")
+      .forEach(card=>{
+
+        const match =
+          cat==="all" ||
+          card.dataset.cat===cat;
+
+        card.style.display =
+          match ? "block":"none";
+
+      });
+
+    }
+
+    /* SCROLL TO TOP & SUBSCRIBE */
+
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        scrollTopBtn.classList.add("visible");
+      } else {
+        scrollTopBtn.classList.remove("visible");
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      const email = emailInput.value.trim();
+      if (email) {
+        alert("Thank you for subscribing: " + email);
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+
+  </script>
+
+  <script src="dist/shared.js"></script>
 </body>
 </html>

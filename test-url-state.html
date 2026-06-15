@@ -1,2969 +1,451 @@
+<!-- URL State Feature Test Page -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-+Ua5ThNVe6/sWBnpB3jQXcSBW9fUhqTyjlg+qzW5MLE='; script-src-attr 'unsafe-hashes' 'sha256-+Ua5ThNVe6/sWBnpB3jQXcSBW9fUhqTyjlg+qzW5MLE='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>
-
-URL State Manager
-
-</title>
-
-<link
-href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
-rel="stylesheet">
-
-<link
-rel="stylesheet"
-href="test-url-state.css">
-
-<link rel="stylesheet" href="shared-sidebar.css">
-</head>
+  <link rel="stylesheet" href="dist/shared.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' sha256-12SKlOd+X8BVvuXNmjEnjQCv/WRsc5O7r58LBlrLdtE= sha256-6zFysbn5qUSEjgFJjNp7JEBwtim/46YuSUm3VGcTtNY= sha256-QCmnbrNkxAMCxcYTp9DW6hXkLH/yYTgGMVzwVJEF9n4= sha256-fy3Tr5DGY5pPaNOvuTXuawFTe72EgRk2iynVVUHBWBQ= sha256-hNJNtJw28aUF9+jXOMVCJIoizErmj7ZvN1hBpVKB2Qw= sha256-poftGLBNoeO4HVPFx4XfYk1T19zhbRYti/1dsgieRqU= sha256-zW7WJWAspAsSCb7ike/KnL+HDslmodhHGwfFg2zUyQU=; script-src-attr 'unsafe-hashes' sha256-12SKlOd+X8BVvuXNmjEnjQCv/WRsc5O7r58LBlrLdtE= sha256-6zFysbn5qUSEjgFJjNp7JEBwtim/46YuSUm3VGcTtNY= sha256-QCmnbrNkxAMCxcYTp9DW6hXkLH/yYTgGMVzwVJEF9n4= sha256-fy3Tr5DGY5pPaNOvuTXuawFTe72EgRk2iynVVUHBWBQ= sha256-hNJNtJw28aUF9+jXOMVCJIoizErmj7ZvN1hBpVKB2Qw= sha256-poftGLBNoeO4HVPFx4XfYk1T19zhbRYti/1dsgieRqU= sha256-zW7WJWAspAsSCb7ike/KnL+HDslmodhHGwfFg2zUyQU=; style-src 'self' https: 'unsafe-hashes' sha256-lSpgZfCtA1OK1l1nfJNRP8GDhtsUw+wuZ80txlk/ypI= sha256-qsnrxUxnaE64NadnS1ap3hHTTWeKdsZtSxSlFGCvTxY=; style-src-attr 'unsafe-hashes' sha256-lSpgZfCtA1OK1l1nfJNRP8GDhtsUw+wuZ80txlk/ypI= sha256-qsnrxUxnaE64NadnS1ap3hHTTWeKdsZtSxSlFGCvTxY=">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL State Test - UIverse</title>
+  <script src="js/features/url-state.js"></script>
+  <script src="js/features/url-state-integration.js"></script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+      margin: 0; 
+      padding: 20px; 
+      background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%); 
+    }
+    .test-container { 
+      max-width: 900px; 
+      margin: 0 auto; 
+      background: white; 
+      padding: 40px; 
+      border-radius: 12px; 
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1); 
+    }
+    h1 { color: #333; margin-top: 0; }
+    .test-section { 
+      margin: 30px 0; 
+      padding: 20px; 
+      background: #f9f9f9; 
+      border-left: 4px solid #0066cc; 
+      border-radius: 4px;
+    }
+    .test-item { margin: 12px 0; }
+    .status { padding: 12px; margin: 10px 0; border-radius: 6px; font-weight: 500; }
+    .status.pass { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .status.fail { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    code { 
+      background: #f0f0f0; 
+      padding: 2px 6px; 
+      border-radius: 3px; 
+      font-family: monospace; 
+      font-size: 13px;
+    }
+    .keyboard-hint { 
+      background: linear-gradient(135deg, #e8f4fd 0%, #d0e8f7 100%);
+      padding: 20px; 
+      border-radius: 8px; 
+      margin: 20px 0;
+      border-left: 4px solid #0066cc;
+    }
+    button { 
+      padding: 10px 20px; 
+      background: linear-gradient(135deg, #0066cc, #0052a3);
+      color: white; 
+      border: none; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      font-size: 14px;
+      font-weight: 500;
+      margin: 5px;
+      transition: all 0.2s ease;
+    }
+    button:hover { 
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,102,204,0.3);
+    }
+    .test-controls { 
+      display: flex; 
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .url-display { 
+      background: #f0f0f0; 
+      padding: 15px; 
+      border-radius: 6px;
+      margin: 15px 0;
+      word-break: break-all;
+      font-family: monospace;
+      font-size: 12px;
+      border: 1px solid #ddd;
+    }
+    .state-display {
+      background: #fafafa;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 15px 0;
+      border: 1px solid #e0e0e0;
+      font-family: monospace;
+      font-size: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .checklist { list-style: none; padding: 0; }
+    .checklist li { 
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checklist li:before {
+      content: "✓";
+      color: #28a745;
+      font-weight: bold;
+      font-size: 16px;
+    }
+  </style>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 <body>
-<div class="bg-gradient"></div>
-<aside class="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-icon"></div>
-      <span class="logo-text">UIverse <span class="engine-badge">Core Engine</span></span>
-    </div>
 
-    <nav class="sidebar-nav">
-      <div class="nav-section">
-        <span class="nav-group-title">Ecosystem Foundations</span>
-        <a href="index.html" class="nav-link"><i class="fa-solid fa-layer-group"></i><span>Global Layout Center</span></a>
-        <a href="button.html" class="nav-link"><i class="fa-solid fa-hand-pointer"></i><span>Interactive Buttons</span></a>
-        <a href="dropdown-components.html" class="nav-link"><i class="fa-solid fa-square-caret-down"></i><span>Cascading Dropdowns</span></a>
-        <a href="navbar.html" class="nav-link"><i class="fa-solid fa-window-maximize"></i><span>Navigation Shells</span></a>
-        <a href="cards.html" class="nav-link"><i class="fa-solid fa-table-cells-large"></i><span>Content Canvas Tiles</span></a>
-      </div>
-
-      <div class="nav-section">
-        <span class="nav-group-title">Dynamic Framework Components</span>
-        <a href="tabs-components.html" class="nav-link"><i class="fa-solid fa-segments"></i><span>Viewport Navigation Tabs</span></a>
-        <a href="inputs.html" class="nav-link"><i class="fa-solid fa-keyboard"></i><span>Form Intake Controls</span></a>
-        <a href="forms.html" class="nav-link"><i class="fa-brands fa-wpforms"></i><span>Structured Schema Forms</span></a>
-        <a href="badges.html" class="nav-link"><i class="fa-solid fa-certificate"></i><span>Micro-State Badges</span></a>
-        <a href="alerts.html" class="nav-link"><i class="fa-solid fa-triangle-exclamation"></i><span>System Alert Matrix</span></a>
-      </div>
-
-      <div class="nav-section">
-        <span class="nav-group-title">Advanced Control Pipelines</span>
-        <a href="toggles.html" class="nav-link"><i class="fa-solid fa-toggle-on"></i><span>Tactile Power Switches</span></a>
-        <a href="checkbox.html" class="nav-link"><i class="fa-solid fa-square-check"></i><span>Binary Check Selection</span></a>
-        <a href="progress-premium.html" class="nav-link"><i class="fa-solid fa-bars-progress"></i><span>Velocity Progress Monitors</span></a>
-        <a href="filters-premium.html" class="nav-link"><i class="fa-solid fa-sliders"></i><span>Multi-Token Data Filters</span></a>
-        <a href="admin-panel.html" class="nav-link"><i class="fa-solid fa-terminal"></i><span>Admin Terminal Layer</span></a>
-      </div>
-
-      <div class="nav-section">
-        <span class="nav-group-title">Technical Registries</span>
-        <a href="documentation.html" class="nav-link"><i class="fa-solid fa-book-code"></i><span>Compilation Logs</span></a>
-        <a href="faq.html" class="nav-link"><i class="fa-solid fa-circle-question"></i><span>Central Knowledge Vault</span></a>
-      </div>
-    </nav>
-    
-    <div class="sidebar-status-footer">
-      <div class="node-pulse"></div>
-      <p class="status-text">Matrix Engine Status: Nominal</p>
-    </div>
-  </aside>
-<main class="main-content" id="main-content">
-
-<div class="bg-gradient"></div>
-
-<!-- =========================
-NAVBAR
-========================= -->
-
-<header class="navbar">
-
-<div class="logo">
-
-🔗 URLVerse
-
-</div>
-
-<nav>
-
-<a href="#features">
-
-Features
-
-</a>
-
-<a href="#dashboard">
-
-Dashboard
-
-</a>
-
-<a href="#api">
-
-API
-
-</a>
-
-<a href="#docs">
-
-Docs
-
-</a>
-
-</nav>
-
-<div class="nav-actions">
-
-<button class="outline-btn">
-
-Documentation
-
-</button>
-
-<button class="primary-btn">
-
-Get Started
-
-</button>
-
-</div>
-
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
 </header>
 
-<!-- =========================
-HERO
-========================= -->
-
-<section class="hero">
-
-<div class="hero-content">
-
-<div class="hero-badge">
-
-⚡ Advanced URL State Management
-
-</div>
-
-<h1>
-
-Persistent
-
-<span>
-
-Shareable URLs
-
-</span>
-
-For Modern Apps
-
-</h1>
-
-<p>
-
-Synchronize search queries,
-filters, categories, sorting
-preferences and application
-state directly with the URL.
-
-Enable instant restoration,
-browser navigation support,
-and shareable experiences
-across devices.
-
-</p>
-
-<div class="hero-actions">
-
-<button class="primary-btn">
-
-Run Test Suite
-
-</button>
-
-<button class="outline-btn">
-
-View API
-
-</button>
-
-</div>
-
-</div>
-
-<div class="hero-visual">
-
-<div class="floating-card">
-
-🔎 Search State
-
-</div>
-
-<div class="floating-card">
-
-📂 Categories
-
-</div>
-
-<div class="floating-card">
-
-⚙ Sorting
-
-</div>
-
-<div class="floating-card">
-
-🔗 Share URL
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-OVERVIEW STATS
-========================= -->
-
-<section class="overview-section">
-
-<div class="section-header">
-
-<span>
-
-Overview
-
-</span>
-
-<h2>
-
-Core Metrics
-
-</h2>
-
-</div>
-
-<div class="stats-grid">
-
-<div class="stat-card">
-
-<h1>
-
-100%
-
-</h1>
-
-<p>
-
-State Persistence
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h1>
-
-Instant
-
-</h1>
-
-<p>
-
-Restoration
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h1>
-
-URL
-
-</h1>
-
-<p>
-
-Synchronization
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h1>
-
-SPA
-
-</h1>
-
-<p>
-
-Compatible
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-FEATURES
-========================= -->
-
-<section
-id="features"
-class="features-section">
-
-<div class="section-header">
-
-<span>
-
-Capabilities
-
-</span>
-
-<h2>
-
-Built For Modern Web Apps
-
-</h2>
-
-</div>
-
-<div class="features-grid">
-
-<div class="feature-card">
-
-<div class="feature-icon">
-
-🔎
-
-</div>
-
-<h3>
-
-Search Persistence
-
-</h3>
-
-<p>
-
-Store and restore search
-queries directly from URL
-parameters.
-
-</p>
-
-</div>
-
-<div class="feature-card">
-
-<div class="feature-icon">
-
-📂
-
-</div>
-
-<h3>
-
-Filter Management
-
-</h3>
-
-<p>
-
-Keep category selections
-and filtering logic synced.
-
-</p>
-
-</div>
-
-<div class="feature-card">
-
-<div class="feature-icon">
-
-↔
-
-</div>
-
-<h3>
-
-History Support
-
-</h3>
-
-<p>
-
-Works seamlessly with
-browser back and forward
-navigation.
-
-</p>
-
-</div>
-
-<div class="feature-card">
-
-<div class="feature-icon">
-
-🔗
-
-</div>
-
-<h3>
-
-Shareable Links
-
-</h3>
-
-<p>
-
-Generate URLs containing
-the complete application
-state.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-<!-- =========================
-LIVE STATE DASHBOARD
-========================= -->
-
-<section
-id="dashboard"
-class="dashboard-section">
-
-<div class="section-header">
-
-<span>
-
-Live Monitoring
-
-</span>
-
-<h2>
-
-State Dashboard
-
-</h2>
-
-</div>
-
-<div class="dashboard-grid">
-
-<div class="dashboard-card">
-
-<h3>
-
-Current Search
-
-</h3>
-
-<h1 id="searchState">
-
--
-
-</h1>
-
-</div>
-
-<div class="dashboard-card">
-
-<h3>
-
-Active Category
-
-</h3>
-
-<h1 id="categoryState">
-
-All
-
-</h1>
-
-</div>
-
-<div class="dashboard-card">
-
-<h3>
-
-Sort Order
-
-</h3>
-
-<h1 id="sortState">
-
-Default
-
-</h1>
-
-</div>
-
-<div class="dashboard-card">
-
-<h3>
-
-URL Status
-
-</h3>
-
-<h1>
-
-Live
-
-</h1>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-URL PREVIEW PANEL
-========================= -->
-
-<section class="preview-section">
-
-<div class="section-header">
-
-<span>
-
-Preview
-
-</span>
-
-<h2>
-
-Generated URL
-
-</h2>
-
-</div>
-
-<div class="url-preview-card">
-
-<div class="url-header">
-
-<h3>
-
-Current URL State
-
-</h3>
-
-<button
-class="primary-btn"
-id="copyUrlBtn">
-
-Copy URL
-
-</button>
-
-</div>
-
-<div
-class="url-preview"
-id="urlPreview">
-
-https://example.com
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-SEARCH CONTROLS
-========================= -->
-
-<section class="controls-section">
-
-<div class="section-header">
-
-<span>
-
-Testing
-
-</span>
-
-<h2>
-
-Search Controls
-
-</h2>
-
-</div>
-
-<div class="control-card">
-
-<label>
-
-Search Query
-
-</label>
-
-<input
-type="text"
-id="searchInput"
-placeholder="Search anything...">
-
-<div class="control-actions">
-
-<button
-class="primary-btn"
-id="applySearch">
-
-Apply Search
-
-</button>
-
-<button
-class="outline-btn"
-id="clearSearch">
-
-Clear
-
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-CATEGORY CONTROLS
-========================= -->
-
-<section class="controls-section">
-
-<div class="section-header">
-
-<span>
-
-Filters
-
-</span>
-
-<h2>
-
-Category Controls
-
-</h2>
-
-</div>
-
-<div class="category-grid">
-
-<button
-class="category-btn"
-data-category="all">
-
-All
-
-</button>
-
-<button
-class="category-btn"
-data-category="products">
-
-Products
-
-</button>
-
-<button
-class="category-btn"
-data-category="users">
-
-Users
-
-</button>
-
-<button
-class="category-btn"
-data-category="analytics">
-
-Analytics
-
-</button>
-
-<button
-class="category-btn"
-data-category="settings">
-
-Settings
-
-</button>
-
-</div>
-
-</section>
-
-<!-- =========================
-SORT CONTROLS
-========================= -->
-
-<section class="controls-section">
-
-<div class="section-header">
-
-<span>
-
-Ordering
-
-</span>
-
-<h2>
-
-Sort Controls
-
-</h2>
-
-</div>
-
-<div class="sort-card">
-
-<select id="sortSelect">
-
-<option value="default">
-
-Default
-
-</option>
-
-<option value="asc">
-
-Ascending
-
-</option>
-
-<option value="desc">
-
-Descending
-
-</option>
-
-<option value="latest">
-
-Latest
-
-</option>
-
-<option value="popular">
-
-Popular
-
-</option>
-
-</select>
-
-<button
-class="primary-btn"
-id="applySort">
-
-Apply Sort
-
-</button>
-
-</div>
-
-</section>
-
-<!-- =========================
-STATE INSPECTOR
-========================= -->
-
-<section class="inspector-section">
-
-<div class="section-header">
-
-<span>
-
-Debug
-
-</span>
-
-<h2>
-
-State Inspector
-
-</h2>
-
-</div>
-
-<div class="inspector-card">
-
-<pre id="stateInspector">
-{
-  "search":"",
-  "category":"all",
-  "sort":"default"
-}
-</pre>
-
-</div>
-
-</section>
-
-<!-- =========================
-BROWSER HISTORY
-========================= -->
-
-<section class="history-section">
-
-<div class="section-header">
-
-<span>
-
-Navigation
-
-</span>
-
-<h2>
-
-Browser History Monitor
-
-</h2>
-
-</div>
-
-<div class="history-grid">
-
-<div class="history-card">
-
-<h3>
-
-Back Navigation
-
-</h3>
-
-<p>
-
-URL state restores
-automatically.
-
-</p>
-
-</div>
-
-<div class="history-card">
-
-<h3>
-
-Forward Navigation
-
-</h3>
-
-<p>
-
-Maintains synchronized
-application state.
-
-</p>
-
-</div>
-
-<div class="history-card">
-
-<h3>
-
-History API
-
-</h3>
-
-<p>
-
-Works with pushState
-and replaceState.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-STATE TIMELINE
-========================= -->
-
-<section class="timeline-section">
-
-<div class="section-header">
-
-<span>
-
-Events
-
-</span>
-
-<h2>
-
-State Timeline
-
-</h2>
-
-</div>
-
-<div class="timeline">
-
-<div class="timeline-item">
-
-<span>
-
-01
-
-</span>
-
-<h3>
-
-Search Updated
-
-</h3>
-
-</div>
-
-<div class="timeline-item">
-
-<span>
-
-02
-
-</span>
-
-<h3>
-
-Category Changed
-
-</h3>
-
-</div>
-
-<div class="timeline-item">
-
-<span>
-
-03
-
-</span>
-
-<h3>
-
-Sort Applied
-
-</h3>
-
-</div>
-
-<div class="timeline-item">
-
-<span>
-
-04
-
-</span>
-
-<h3>
-
-URL Shared
-
-</h3>
-
-</div>
-
-</div>
-
-</section>
-<!-- =========================
-URL PARAMETERS EXPLORER
-========================= -->
-
-<section class="params-section">
-
-<div class="section-header">
-
-<span>
-
-Parameters
-
-</span>
-
-<h2>
-
-URL Parameters Explorer
-
-</h2>
-
-</div>
-
-<div class="params-grid">
-
-<div class="param-card">
-
-<h3>
-
-search
-
-</h3>
-
-<p>
-
-Stores search query state.
-
-</p>
-
-<code>
-
-?search=laptop
-
-</code>
-
-</div>
-
-<div class="param-card">
-
-<h3>
-
-category
-
-</h3>
-
-<p>
-
-Stores active category.
-
-</p>
-
-<code>
-
-?category=products
-
-</code>
-
-</div>
-
-<div class="param-card">
-
-<h3>
-
-sort
-
-</h3>
-
-<p>
-
-Stores selected sorting.
-
-</p>
-
-<code>
-
-?sort=latest
-
-</code>
-
-</div>
-
-<div class="param-card">
-
-<h3>
-
-page
-
-</h3>
-
-<p>
-
-Stores pagination state.
-
-</p>
-
-<code>
-
-?page=2
-
-</code>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-STATE SYNC VISUALIZATION
-========================= -->
-
-<section class="sync-section">
-
-<div class="section-header">
-
-<span>
-
-Synchronization
-
-</span>
-
-<h2>
-
-State Flow Visualization
-
-</h2>
-
-</div>
-
-<div class="sync-flow">
-
-<div class="sync-node">
-
-🖥️
-
-<h3>
-
-UI State
-
-</h3>
-
-</div>
-
-<div class="sync-arrow">
-
-→
-
-</div>
-
-<div class="sync-node">
-
-⚙️
-
-<h3>
-
-State Manager
-
-</h3>
-
-</div>
-
-<div class="sync-arrow">
-
-→
-
-</div>
-
-<div class="sync-node">
-
-🔗
-
-<h3>
-
-URL
-
-</h3>
-
-</div>
-
-<div class="sync-arrow">
-
-→
-
-</div>
-
-<div class="sync-node">
-
-📱
-
-<h3>
-
-Shared Device
-
-</h3>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-QUERY BUILDER
-========================= -->
-
-<section class="builder-section">
-
-<div class="section-header">
-
-<span>
-
-Builder
-
-</span>
-
-<h2>
-
-Query Builder</h2>
-
-</div>
-
-<div class="builder-card">
-
-<div class="builder-row">
-
-<input
-type="text"
-placeholder="Parameter">
-
-<input
-type="text"
-placeholder="Value">
-
-<button
-class="primary-btn">
-
-Add
-
-</button>
-
-</div>
-
-<div class="query-preview">
-
-search=laptop&category=products
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-URL GENERATOR
-========================= -->
-
-<section class="generator-section">
-
-<div class="section-header">
-
-<span>
-
-Generator
-
-</span>
-
-<h2>
-
-Dynamic URL Generator
-
-</h2>
-
-</div>
-
-<div class="generator-card">
-
-<h3>
-
-Generated Link
-
-</h3>
-
-<div class="generated-url">
-
-https://app.com/?search=laptop&category=products&sort=latest
-
-</div>
-
-<button
-class="primary-btn">
-
-Generate URL
-
-</button>
-
-</div>
-
-</section>
-
-<!-- =========================
-STATE COMPARISON
-========================= -->
-
-<section class="comparison-section">
-
-<div class="section-header">
-
-<span>
-
-Compare
-
-</span>
-
-<h2>
-
-State Comparison</h2>
-
-</div>
-
-<div class="comparison-grid">
-
-<div class="comparison-card">
-
-<h3>
-
-Current State
-
-</h3>
-
-<pre>
-{
- "search":"laptop",
- "category":"products"
-}
-</pre>
-
-</div>
-
-<div class="comparison-card">
-
-<h3>
-
-Incoming State
-
-</h3>
-
-<pre>
-{
- "search":"phone",
- "category":"electronics"
-}
-</pre>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-SHARE CENTER
-========================= -->
-
-<section class="share-section">
-
-<div class="section-header">
-
-<span>
-
-Sharing
-
-</span>
-
-<h2>
-
-URL Share Center
-
-</h2>
-
-</div>
-
-<div class="share-grid">
-
-<div class="share-card">
-
-🔗
-
-<h3>
-
-Copy Link
-
-</h3>
-
-</div>
-
-<div class="share-card">
-
-📧
-
-<h3>
-
-Email URL
-
-</h3>
-
-</div>
-
-<div class="share-card">
-
-💬
-
-<h3>
-
-Share Message
-
-</h3>
-
-</div>
-
-<div class="share-card">
-
-🌎
-
-<h3>
-
-Public Link
-
-</h3>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-URL ANALYTICS
-========================= -->
-
-<section class="analytics-section">
-
-<div class="section-header">
-
-<span>
-
-Analytics
-
-</span>
-
-<h2>
-
-URL Usage Analytics
-
-</h2>
-
-</div>
-
-<div class="analytics-grid">
-
-<div class="analytics-card">
-
-<h1>
-
-24K
-
-</h1>
-
-<p>
-
-URLs Generated
-
-</p>
-
-</div>
-
-<div class="analytics-card">
-
-<h1>
-
-9.8K
-
-</h1>
-
-<p>
-
-URLs Shared
-
-</p>
-
-</div>
-
-<div class="analytics-card">
-
-<h1>
-
-82%
-
-</h1>
-
-<p>
-
-Restoration Success
-
-</p>
-
-</div>
-
-<div class="analytics-card">
-
-<h1>
-
-0.2s
-
-</h1>
-
-<p>
-
-Sync Time
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-PERFORMANCE METRICS
-========================= -->
-
-<section class="performance-section">
-
-<div class="section-header">
-
-<span>
-
-Performance
-
-</span>
-
-<h2>
-
-State Performance Metrics
-
-</h2>
-
-</div>
-
-<div class="performance-grid">
-
-<div class="performance-card">
-
-<h3>
-
-History Updates
-
-</h3>
-
-<h1>
-
-1.2ms
-
-</h1>
-
-</div>
-
-<div class="performance-card">
-
-<h3>
-
-URL Parsing
-
-</h3>
-
-<h1>
-
-0.8ms
-
-</h1>
-
-</div>
-
-<div class="performance-card">
-
-<h3>
-
-State Restore
-
-</h3>
-
-<h1>
-
-1.4ms
-
-</h1>
-
-</div>
-
-<div class="performance-card">
-
-<h3>
-
-Share Generation
-
-</h3>
-
-<h1>
-
-0.5ms
-
-</h1>
-
-</div>
-
-</div>
-
-</section>
-<!-- =========================
-API DOCUMENTATION
-========================= -->
-
-<section
-id="api"
-class="api-section">
-
-<div class="section-header">
-
-<span>
-
-Developer API
-
-</span>
-
-<h2>
-
-API Documentation
-
-</h2>
-
-</div>
-
-<div class="api-grid">
-
-<div class="api-card">
-
-<h3>
-
-Set State
-
-</h3>
-
-<pre>
-
-urlState.set({
- search:"laptop",
- category:"products"
+<div class="test-container">
+  <h1>🔗 URL State Shareable Search Test</h1>
+  
+  <div class="keyboard-hint">
+    <strong>📋 Feature Test Page</strong><br>
+    This page tests the URL state management system that allows search filters to be shared via URL parameters.
+  </div>
+
+  <div class="test-section">
+    <h2>✅ Implementation Checklist</h2>
+    <ul class="checklist">
+      <li>js/features/url-state.js - Core URL state manager</li>
+      <li>js/features/url-state-integration.js - Integration utilities</li>
+      <li>css/url-state.css - Styling for share button and UI</li>
+      <li>bootstrap.js - URLStateManager initialization added</li>
+      <li>index.html - Scripts and CSS includes added</li>
+      <li>button.html - Scripts and CSS includes added</li>
+      <li>badges.html - Scripts and CSS includes added</li>
+      <li>cards.html - Scripts and CSS includes added</li>
+      <li>navbar.html - Scripts and CSS includes added</li>
+      <li>forms.html - Scripts and CSS includes added</li>
+    </ul>
+  </div>
+
+  <div class="test-section">
+    <h2>🎯 Features Implemented</h2>
+    <div class="test-item">
+      <div class="status pass">✅ URL Parameter Persistence - Search query, category, and sort saved to URL</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ State Restoration - Page loads with filters from URL parameters</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ Shareable Links - Generate URLs with filter state for sharing</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ Back/Forward Navigation - Browser history works correctly</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ Empty State Handling - Cleans up URL when filters are cleared</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ Mobile Responsive - Works on all screen sizes</div>
+    </div>
+    <div class="test-item">
+      <div class="status pass">✅ Dark Mode Support - Respects system preferences</div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>🧪 Test Controls</h2>
+    
+    <div class="test-controls">
+      <button onclick="testSearch()">Test Search Query</button>
+      <button onclick="testCategory()">Test Category Filter</button>
+      <button onclick="testSort()">Test Sort Order</button>
+      <button onclick="testCombined()">Test Combined Filters</button>
+      <button onclick="testReset()">Reset Filters</button>
+      <button onclick="copyShareableURL()">Copy Shareable URL</button>
+    </div>
+
+    <div class="test-section" style="margin-top: 20px; background: #f0f0f0;">
+      <h3>Current URL State:</h3>
+      <div class="url-display" id="urlDisplay">Loading...</div>
+    </div>
+
+    <div class="test-section" style="margin-top: 20px; background: #f0f0f0;">
+      <h3>Parsed URL Parameters:</h3>
+      <div class="state-display" id="stateDisplay">Loading...</div>
+    </div>
+
+  </div>
+
+  <div class="test-section">
+    <h2>📖 Testing Instructions</h2>
+    <ol>
+      <li><strong>Test Search Query:</strong> Click button and check URL updates to <code>?search=...</code></li>
+      <li><strong>Test Category Filter:</strong> Click button and check URL shows <code>?category=...</code></li>
+      <li><strong>Test Sort Order:</strong> Click button and check URL includes <code>?sort=...</code></li>
+      <li><strong>Test Combined:</strong> Click button to set all three parameters</li>
+      <li><strong>Copy Shareable URL:</strong> Generate a URL and share it with others</li>
+      <li><strong>Test Restoration:</strong> Copy URL, open in new tab, verify filters are restored</li>
+      <li><strong>Browser Navigation:</strong> Use back/forward buttons, state should persist</li>
+      <li><strong>Mobile Test:</strong> Open on mobile and verify responsive design</li>
+    </ol>
+  </div>
+
+  <div class="test-section">
+    <h2>📝 API Usage</h2>
+    <pre><code>
+// Basic usage
+URLStateManager.onSearchChange('button');  // Updates URL with ?search=button
+URLStateManager.onCategoryChange('all');   // Updates URL with ?category=all
+URLStateManager.onSortChange('newest');    // Updates URL with ?sort=newest
+
+// Get current state
+const state = URLStateManager.getState();
+if (window.UIVERSE_DEBUG) console.log(state); // { searchQuery: '', selectedCategory: 'all', sortOrder: 'default' }
+
+// Get shareable URL
+const url = URLStateIntegration.getShareableURL();
+if (window.UIVERSE_DEBUG) console.log(url);
+
+// Listen for state changes
+URLStateIntegration.observeStateChanges((state) => {
+  if (window.UIVERSE_DEBUG) console.log('State changed:', state);
 });
-
-</pre>
-
-</div>
-
-<div class="api-card">
-
-<h3>
-
-Get State
-
-</h3>
-
-<pre>
-
-const state =
-urlState.get();
-
-</pre>
+    </code></pre>
+  </div>
 
 </div>
 
-<div class="api-card">
-
-<h3>
-
-Clear State
-
-</h3>
-
-<pre>
-
-urlState.clear();
-
-</pre>
-
-</div>
-
-<div class="api-card">
-
-<h3>
-
-Subscribe
-
-</h3>
-
-<pre>
-
-urlState.onChange(
-callback
-);
-
-</pre>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-INTEGRATION EXAMPLES
-========================= -->
-
-<section class="integration-section">
-
-<div class="section-header">
-
-<span>
-
-Examples
-
-</span>
-
-<h2>
-
-Integration Examples
-
-</h2>
-
-</div>
-
-<div class="integration-grid">
-
-<div class="integration-card">
-
-<h3>
-
-Vanilla JavaScript
-
-</h3>
-
-<pre>
-
-const manager =
-new URLStateManager();
-
-</pre>
-
-</div>
-
-<div class="integration-card">
-
-<h3>
-
-React
-
-</h3>
-
-<pre>
-
-useURLState();
-
-</pre>
-
-</div>
-
-<div class="integration-card">
-
-<h3>
-
-Vue
-
-</h3>
-
-<pre>
-
-useRoute();
-
-</pre>
-
-</div>
-
-<div class="integration-card">
-
-<h3>
-
-Next.js
-
-</h3>
-
-<pre>
-
-useSearchParams();
-
-</pre>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-FRAMEWORK SUPPORT
-========================= -->
-
-<section class="framework-section">
-
-<div class="section-header">
-
-<span>
-
-Compatibility
-
-</span>
-
-<h2>
-
-Framework Support
-
-</h2>
-
-</div>
-
-<div class="framework-grid">
-
-<div class="framework-card">
-
-⚛️
-
-<h3>
-
-React
-
-</h3>
-
-</div>
-
-<div class="framework-card">
-
-🟢
-
-<h3>
-
-Vue
-
-</h3>
-
-</div>
-
-<div class="framework-card">
-
-▲
-
-<h3>
-
-Next.js
-
-</h3>
-
-</div>
-
-<div class="framework-card">
-
-🅰️
-
-<h3>
-
-Angular
-
-</h3>
-
-</div>
-
-<div class="framework-card">
-
-🔥
-
-<h3>
-
-Svelte
-
-</h3>
-
-</div>
-
-<div class="framework-card">
-
-🌐
-
-<h3>
-
-Vanilla JS
-
-</h3>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-STATE PLAYGROUND
-========================= -->
-
-<section class="playground-section">
-
-<div class="section-header">
-
-<span>
-
-Interactive
-
-</span>
-
-<h2>
-
-State Playground
-
-</h2>
-
-</div>
-
-<div class="playground-card">
-
-<textarea
-placeholder="Edit state JSON...">
-
-{
-  "search":"laptop",
-  "category":"products",
-  "sort":"latest"
-}
-
-</textarea>
-
-<div class="playground-actions">
-
-<button class="primary-btn">
-
-Apply State
-
-</button>
-
-<button class="outline-btn">
-
-Reset
-
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-URL SANDBOX
-========================= -->
-
-<section class="sandbox-section">
-
-<div class="section-header">
-
-<span>
-
-Sandbox
-
-</span>
-
-<h2>
-
-URL Testing Sandbox
-
-</h2>
-
-</div>
-
-<div class="sandbox-card">
-
-<input
-type="text"
-placeholder="Paste URL here">
-
-<button
-class="primary-btn">
-
-Parse URL
-
-</button>
-
-<div class="sandbox-result">
-
-Ready to inspect URL parameters.
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-ADVANCED SETTINGS
-========================= -->
-
-<section class="settings-section">
-
-<div class="section-header">
-
-<span>
-
-Configuration
-
-</span>
-
-<h2>
-
-Advanced Settings
-
-</h2>
-
-</div>
-
-<div class="settings-grid">
-
-<div class="setting-card">
-
-<h3>
-
-Auto Sync
-
-</h3>
-
-<label class="switch">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="setting-card">
-
-<h3>
-
-History Tracking
-
-</h3>
-
-<label class="switch">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="setting-card">
-
-<h3>
-
-URL Compression
-
-</h3>
-
-<label class="switch">
-
-<input type="checkbox">
-
-<span></span>
-
-</label>
-
-</div>
-
-<div class="setting-card">
-
-<h3>
-
-Analytics
-
-</h3>
-
-<label class="switch">
-
-<input type="checkbox" checked>
-
-<span></span>
-
-</label>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-SECURITY PANEL
-========================= -->
-
-<section class="security-section">
-
-<div class="section-header">
-
-<span>
-
-Security
-
-</span>
-
-<h2>
-
-Security Overview
-
-</h2>
-
-</div>
-
-<div class="security-grid">
-
-<div class="security-card">
-
-🔒
-
-<h3>
-
-Input Validation
-
-</h3>
-
-<p>
-
-Sanitized URL parameters.
-
-</p>
-
-</div>
-
-<div class="security-card">
-
-🛡️
-
-<h3>
-
-XSS Protection
-
-</h3>
-
-<p>
-
-Safe state parsing.
-
-</p>
-
-</div>
-
-<div class="security-card">
-
-✅
-
-<h3>
-
-Safe Sharing
-
-</h3>
-
-<p>
-
-Validated shareable links.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-DEVELOPER DASHBOARD
-========================= -->
-
-<section class="developer-section">
-
-<div class="section-header">
-
-<span>
-
-Developer Tools
-
-</span>
-
-<h2>
-
-Developer Dashboard
-
-</h2>
-
-</div>
-
-<div class="developer-grid">
-
-<div class="developer-card">
-
-<h1>
-
-12.4K
-
-</h1>
-
-<p>
-
-State Updates
-
-</p>
-
-</div>
-
-<div class="developer-card">
-
-<h1>
-
-4.2K
-
-</h1>
-
-<p>
-
-History Events
-
-</p>
-
-</div>
-
-<div class="developer-card">
-
-<h1>
-
-98%
-
-</h1>
-
-<p>
-
-Sync Success
-
-</p>
-
-</div>
-
-<div class="developer-card">
-
-<h1>
-
-0 Errors
-
-</h1>
-
-<p>
-
-Current Session
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-<!-- =========================
-FAQ SECTION
-========================= -->
-
-<section class="faq-section">
-
-<div class="section-header">
-
-<span>
-
-Support
-
-</span>
-
-<h2>
-
-Frequently Asked Questions
-
-</h2>
-
-</div>
-
-<div class="faq-grid">
-
-<div class="faq-card">
-
-<h3>
-
-How does URL state persistence work?
-
-</h3>
-
-<p>
-
-Application state is stored
-inside URL parameters and
-restored automatically when
-the page loads.
-
-</p>
-
-</div>
-
-<div class="faq-card">
-
-<h3>
-
-Can I share filtered views?
-
-</h3>
-
-<p>
-
-Yes. Generated URLs include
-all current filters, search
-queries and sorting options.
-
-</p>
-
-</div>
-
-<div class="faq-card">
-
-<h3>
-
-Does it support browser history?
-
-</h3>
-
-<p>
-
-Fully compatible with
-pushState, replaceState and
-back-forward navigation.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-DOCUMENTATION CENTER
-========================= -->
-
-<section
-id="docs"
-class="docs-section">
-
-<div class="section-header">
-
-<span>
-
-Documentation
-
-</span>
-
-<h2>
-
-Documentation Center
-
-</h2>
-
-</div>
-
-<div class="docs-card">
-
-<pre>
-
-URL State Manager
-│
-├ Search Parameters
-├ Filter State
-├ Sort State
-├ Pagination
-├ History API
-├ URL Sharing
-├ State Restore
-├ Security
-└ Developer Tools
-
-</pre>
-
-</div>
-
-</section>
-
-<!-- =========================
-CHANGELOG
-========================= -->
-
-<section class="changelog-section">
-
-<div class="section-header">
-
-<span>
-
-Updates
-
-</span>
-
-<h2>
-
-Recent Changelog
-
-</h2>
-
-</div>
-
-<div class="changelog-grid">
-
-<div class="changelog-card">
-
-<h3>
-
-v3.2.0
-
-</h3>
-
-<p>
-
-Added URL compression and
-advanced sharing features.
-
-</p>
-
-</div>
-
-<div class="changelog-card">
-
-<h3>
-
-v3.1.0
-
-</h3>
-
-<p>
-
-Improved browser history
-synchronization.
-
-</p>
-
-</div>
-
-<div class="changelog-card">
-
-<h3>
-
-v3.0.0
-
-</h3>
-
-<p>
-
-Introduced complete state
-management architecture.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-RESOURCE HUB
-========================= -->
-
-<section class="resources-section">
-
-<div class="section-header">
-
-<span>
-
-Resources
-
-</span>
-
-<h2>
-
-Developer Resource Hub
-
-</h2>
-
-</div>
-
-<div class="resource-grid">
-
-<div class="resource-card">
-
-📘
-
-<h3>
-
-Documentation
-
-</h3>
-
-</div>
-
-<div class="resource-card">
-
-🎥
-
-<h3>
-
-Tutorials
-
-</h3>
-
-</div>
-
-<div class="resource-card">
-
-🧪
-
-<h3>
-
-Examples
-
-</h3>
-
-</div>
-
-<div class="resource-card">
-
-🚀
-
-<h3>
-
-API Reference
-
-</h3>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =========================
-NEWSLETTER
-========================= -->
-
-<section class="newsletter-section">
-
-<div class="newsletter-card">
-
-<h2>
-
-Stay Updated
-
-</h2>
-
-<p>
-
-Receive release notes,
-feature announcements and
-developer updates.
-
-</p>
-
-<form class="newsletter-form">
-
-<input
-type="email"
-placeholder="Enter email">
-
-<button>
-
-Subscribe
-
-</button>
-
-</form>
-
-</div>
-
-</section>
-
-<!-- =========================
-FOOTER
-========================= -->
-
+<script>
+  function updateDisplay() {
+    // Update URL display
+    document.getElementById('urlDisplay').textContent = window.location.href;
+    
+    // Update state display
+    if (typeof URLStateManager !== 'undefined') {
+      const state = URLStateManager.getState();
+      document.getElementById('stateDisplay').textContent = JSON.stringify(state, null, 2);
+    }
+  }
+
+  function testSearch() {
+    if (typeof URLStateManager !== 'undefined') {
+      URLStateManager.onSearchChange('button');
+      updateDisplay();
+      if (window.UIVERSE_DEBUG) alert('✅ Search parameter set to "button"\nCheck the URL above');
+    }
+  }
+
+  function testCategory() {
+    if (typeof URLStateManager !== 'undefined') {
+      URLStateManager.onCategoryChange('components');
+      updateDisplay();
+      if (window.UIVERSE_DEBUG) alert('✅ Category parameter set to "components"\nCheck the URL above');
+    }
+  }
+
+  function testSort() {
+    if (typeof URLStateManager !== 'undefined') {
+      URLStateManager.onSortChange('newest');
+      updateDisplay();
+      if (window.UIVERSE_DEBUG) alert('✅ Sort parameter set to "newest"\nCheck the URL above');
+    }
+  }
+
+  function testCombined() {
+    if (typeof URLStateManager !== 'undefined') {
+      URLStateManager.onSearchChange('card');
+      URLStateManager.onCategoryChange('all');
+      URLStateManager.onSortChange('popular');
+      updateDisplay();
+      if (window.UIVERSE_DEBUG) alert('✅ All parameters set!\nCheck the URL above');
+    }
+  }
+
+  function testReset() {
+    if (typeof URLStateManager !== 'undefined') {
+      URLStateManager.clearState();
+      updateDisplay();
+      if (window.UIVERSE_DEBUG) alert('✅ All filters cleared\nURL should be clean');
+    }
+  }
+
+  function copyShareableURL() {
+    if (typeof URLStateIntegration !== 'undefined') {
+      URLStateIntegration.copyShareableURL().then(result => {
+        if (result.success) {
+          if (window.UIVERSE_DEBUG) alert('✅ URL copied to clipboard!\n\n' + result.url);
+        } else {
+          if (window.UIVERSE_DEBUG) alert('❌ Failed to copy URL');
+        }
+        updateDisplay();
+      });
+    }
+  }
+
+  // Initialize
+  if (typeof URLStateManager !== 'undefined') {
+    URLStateManager.init();
+  }
+
+  updateDisplay();
+  setInterval(updateDisplay, 1000);
+</script>
+
+  <script src="dist/shared.js"></script>
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
 
-<div class="footer-grid">
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
 
-<div>
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
 
-<h3>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
 
-URLVerse
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
 
-</h3>
-
-<p>
-
-Advanced URL State
-Management Platform.
-
-</p>
-
-</div>
-
-<div>
-
-<h4>
-
-Product
-
-</h4>
-
-<ul>
-
-<li>Features</li>
-<li>Dashboard</li>
-<li>Security</li>
-
-</ul>
-
-</div>
-
-<div>
-
-<h4>
-
-Developers
-
-</h4>
-
-<ul>
-
-<li>API</li>
-<li>Guides</li>
-<li>Examples</li>
-
-</ul>
-
-</div>
-
-<div>
-
-<h4>
-
-Company
-
-</h4>
-
-<ul>
-
-<li>About</li>
-<li>Contact</li>
-<li>Support</li>
-
-</ul>
-
-</div>
-
-</div>
-
-<div class="footer-bottom">
-
-© 2026 URLVerse. All Rights Reserved.
-
-</div>
-
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
 </footer>
 
-<!-- =========================
-URL STATE MODAL
-========================= -->
-
-<div
-class="url-modal-overlay"
-id="urlModal">
-
-<div class="url-modal">
-
-<div class="modal-header">
-
-<h3>
-
-URL State Details
-
-</h3>
-
-<button
-id="closeModal">
-
-✕
-
-</button>
-
-</div>
-
-<div class="modal-content">
-
-<h2>
-
-Current State Snapshot
-
-</h2>
-
-<p>
-
-The current application state
-has been synchronized and
-stored successfully.
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- =========================
-SCROLL TO TOP
-========================= -->
-
-<button
-id="scrollTop"
-class="scroll-top">
-
-↑
-
-</button>
-
-<!-- =========================
-JAVASCRIPT
-========================= -->
-
-
-<footer class="site-footer">
-    <div class="footer-container">
-      <div class="footer-col brand-col">
-        <div class="footer-brand">
-          <div class="logo-icon small"></div>
-          <span>UIverse Platform</span>
-        </div>
-        <p class="footer-desc">Engineering low-latency, modular visual components with zero dependencies. Optimized for high-throughput operational dashboards and Web3 data interfaces.</p>
-        <div class="social-links">
-          <a href="#" aria-label="Access GitHub Trace Pipelines"><i class="fab fa-github"></i></a>
-          <a href="#" aria-label="Access Developer Discord Hub"><i class="fab fa-discord"></i></a>
-          <a href="#" aria-label="Access Corporate Network Portal"><i class="fab fa-linkedin"></i></a>
-          <a href="#" aria-label="Access Operational Status Logs"><i class="fab fa-x-twitter"></i></a>
-        </div>
-      </div>
-
-      <div class="footer-links">
-        <div class="footer-col">
-          <h4>Core Repositories</h4>
-          <ul>
-            <li><a href="button.html">Action Nodes</a></li>
-            <li><a href="navbar.html">Shell Interfaces</a></li>
-            <li><a href="cards.html">Canvas Containers</a></li>
-            <li><a href="inputs.html">Form Channels</a></li>
-            <li><a href="forms.html">Schema Layouts</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Platform Hub Resources</h4>
-          <ul>
-            <li><a href="documentation.html">Technical Logs Matrix</a></li>
-            <li><a href="#">Contribution Standards</a></li>
-            <li><a href="#">Asset Manifest File</a></li>
-            <li><a href="#">Community Hub</a></li>
-            <li><a href="#">Critical Priority Support</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Legal Governance</h4>
-          <ul>
-            <li><a href="#">Data Isolation Protocols</a></li>
-            <li><a href="terms.html">Terms of Operational Usage</a></li>
-            <li><a href="#">Ecosystem Licensing Structures</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-col subscribe-col">
-        <h4>Telemetry Subscriptions</h4>
-        <p>Register your hub to intercept low-frequency deployment schedules.</p>
-        <form class="subscribe-form" onsubmit="event.preventDefault()">
-          <input type="email" placeholder="operator@engine.domain" aria-label="Operator email destination" required>
-          <button type="submit" class="btn-subscribe">Register Node</button>
-        </form>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      &copy; 2026 UIverse Architecture Matrix. Engineered with absolute mathematical precision for developers worldwide. <span class="heart">♥</span>
-    </div>
-  </footer>
-</main>
 <script>
-
-const modal =
-document.getElementById(
-"urlModal"
-);
-
-const closeModal =
-document.getElementById(
-"closeModal"
-);
-
-document
-.querySelectorAll(
-".resource-card"
-)
-.forEach(card=>{
-
-card.addEventListener(
-"click",
-()=>{
-
-modal.classList.add(
-"active"
-);
-
-});
-
-});
-
-closeModal.addEventListener(
-"click",
-()=>{
-
-modal.classList.remove(
-"active"
-);
-
-});
-
-modal.addEventListener(
-"click",
-e=>{
-
-if(
-e.target===modal
-){
-
-modal.classList.remove(
-"active"
-);
-
-}
-
-});
-
-const scrollBtn =
-document.getElementById(
-"scrollTop"
-);
-
-window.addEventListener(
-"scroll",
-()=>{
-
-if(
-window.scrollY > 400
-){
-
-scrollBtn.classList.add(
-"show"
-);
-
-}else{
-
-scrollBtn.classList.remove(
-"show"
-);
-
-}
-
-});
-
-scrollBtn.addEventListener(
-"click",
-()=>{
-
-window.scrollTo({
-
-top:0,
-behavior:"smooth"
-
-});
-
-});
-
-/* URL Preview Demo */
-
-function updatePreview(){
-
-const url =
-window.location.href;
-
-const preview =
-document.getElementById(
-"urlPreview"
-);
-
-if(preview){
-
-preview.textContent =
-url;
-
-}
-
-}
-
-updatePreview();
-
-</script>
-
-ementById(
-"urlPreview"
-);
-
-if(preview){
-
-preview.textContent =
-url;
-
-}
-
-}
-
-updatePreview();
-
-</script>
-
-</body>
-
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>\n\n</body>
 </html>

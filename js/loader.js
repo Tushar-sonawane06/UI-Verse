@@ -31,6 +31,7 @@ const defaultFeatures = [
   'js/features/command-palette.js',
   'js/features/url-state.js',
   'js/features/url-state-integration.js',
+
 ];
 
 const pageMap = {

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8" />
 
   <!-- Improved CSP -->
-  <meta http-equiv="Content-Security-Policy" content="
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="
       default-src 'self';
       base-uri 'self';
       frame-ancestors 'none';
@@ -16,16 +17,21 @@
       font-src 'self' https: data:;
       style-src 'self' 'unsafe-inline' https:;
       script-src 'self' 'unsafe-inline' https:;
-    " />
+    "
+  />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Welcome • UI-Verse</title>
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
     integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
 
   <!-- Main CSS -->
   <style>
@@ -44,15 +50,14 @@
       --border: #e5e7eb;
       --muted: #6b7280;
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      --accent: #eb6835;
     }
 
     body.dark {
       --bg: #0f172a;
-      --text: #ffffff;
+      --text: #f8fafc;
       --card: #1e293b;
-      --border: #475569;
-      --muted: #e2e8f0;
+      --border: #334155;
+      --muted: #cbd5e1;
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     }
 
@@ -104,22 +109,16 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding-top: 100px;
     }
 
     /* Navbar */
     .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: var(--bg);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 8%;
-      box-shadow: var(--shadow);
-      z-index: 999;
+      margin-bottom: 60px;
+      flex-wrap: wrap;
+      gap: 20px;
     }
 
     .logo {
@@ -138,22 +137,6 @@
     .nav-links a {
       font-weight: 500;
       transition: 0.3s;
-      position: relative;
-    }
-
-    .nav-links a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -4px;
-      width: 0;
-      height: 2px;
-      background: var(--primary);
-      transition: width 0.3s ease;
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
     }
 
     .nav-links a:hover {
@@ -179,9 +162,7 @@
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       align-items: center;
       gap: 60px;
-      background: linear-gradient(135deg, #f9fafb 0%, #eef2ff 100%);
-      border-radius: 20px;
-      padding: 60px;
+      padding: 40px 0;
     }
 
     .hero-text h1 {
@@ -195,19 +176,6 @@
       max-width: 550px;
       margin-bottom: 30px;
       font-size: 1.05rem;
-    }
-
-    .card,
-    .small-card {
-      background: var(--card);
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      transition: transform 0.3s ease;
-    }
-
-    .card:hover,
-    .small-card:hover {
-      transform: translateY(-6px);
     }
 
     .buttons {
@@ -226,10 +194,7 @@
 
     .primary-btn {
       background: var(--primary);
-      color: #fff;
-      padding: 14px 28px;
-      border-radius: 10px;
-      font-weight: 600;
+      color: white;
     }
 
     .primary-btn:hover {
@@ -241,16 +206,12 @@
       background: transparent;
       border: 2px solid var(--primary);
       color: var(--primary);
-      padding: 14px 28px;
-      border-radius: 10px;
-      font-weight: 600;
     }
 
     .secondary-btn:hover {
       background: var(--primary);
-      color: #fff;
+      color: white;
     }
-
 
     /* Hero Image */
     .hero-image {
@@ -288,180 +249,85 @@
       position: absolute;
       bottom: 20px;
       right: 20px;
-      background: linear-gradient(135deg,
-          var(--primary),
-          var(--secondary));
+      background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+      );
       color: white;
       padding: 16px 24px;
       border-radius: 16px;
       box-shadow: var(--shadow);
     }
 
+    /* Footer */
     .footer {
-      background: var(--bg);
-      padding: 80px 40px 40px;
+      background: var(--card);
       border-top: 1px solid var(--border);
-      position: relative;
-      overflow: hidden;
-    }
-
-
-    .footer::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgb(235 104 53 / 20%), transparent);
+      margin-top: 80px;
     }
 
     .footer-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 60px 8%;
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 40px;
-      max-width: 1400px;
-      margin: 0 auto;
     }
 
-    .footer-logo {
-      font-size: 24px;
-      font-family: var(--font-heading);
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, var(--accent), #ff8e53);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .footer h2,
+    .footer h3 {
       margin-bottom: 16px;
     }
 
-
-
-
-
-    .footer-col p {
-      color: #8a9bc0;
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .footer-col h3 {
-      font-family: var(--font-heading);
-      font-size: 15px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #111827;
-      margin-bottom: 24px;
-    }
-
-    .footer-col ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .footer-col ul li {
-      margin-bottom: 12px;
-    }
-
-    .footer-col ul li a {
-      color: #8a9bc0;
-      text-decoration: none;
-      font-size: 14px;
-      transition: all 0.3s ease;
-    }
-
-    .footer-col ul li a:hover {
-      color: var(--accent);
-      padding-left: 4px;
-    }
-
-    .footer-col.newsletter .newsletter-form {
-      display: flex;
-      gap: 8px;
-      margin-top: 16px;
-    }
-
-    .footer-col.newsletter input[type="email"] {
-      flex: 1;
-      padding: 10px 16px;
-      border-radius: var(--radius-sm);
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text);
-      outline: none;
-      font-size: 13px;
-      transition: all 0.3s ease;
-    }
-
-    .footer-col.newsletter input[type="email"]::placeholder {
+    .footer p,
+    .footer li {
       color: var(--muted);
     }
 
-
-
-
-    .footer-col.newsletter input[type="email"]:focus {
-      border-color: var(--accent);
-      background: #fff;
-      box-shadow: 0 0 10px rgb(235 104 53 / 20%);
+    .footer ul {
+      list-style: none;
     }
 
-
-    .footer-col.newsletter button {
-      padding: 10px 20px;
-      border-radius: var(--radius-sm);
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      transition: all 0.3s ease;
+    .footer ul li {
+      margin-bottom: 10px;
     }
 
-    .footer-col.newsletter button:hover {
-      background: #d45c28;
-      box-shadow: 0 4px 12px rgb(235 104 53 / 30%);
+    .footer ul li a:hover {
+      color: var(--primary);
     }
 
-    .socials {
+    .social-icons {
       display: flex;
-      gap: 12px;
+      gap: 15px;
+      margin-top: 10px;
     }
 
-    .socials a {
+    .social-icons a {
+      width: 42px;
+      height: 42px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
       border-radius: 50%;
-      background: rgb(255 255 255 / 3%);
-      border: 1px solid rgb(255 255 255 / 6%);
-      color: #8a9bc0;
-      transition: all 0.3s ease;
+      background: var(--bg);
+      transition: 0.3s ease;
+      font-size: 1.1rem;
     }
 
-    .socials a:hover {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-      transform: translateY(-2px);
+    .social-icons a:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-3px);
     }
 
     .footer-bottom {
-      border-top: 1px solid rgb(255 255 255 / 4%);
-      margin-top: 60px;
-      padding-top: 24px;
       text-align: center;
-    }
-
-    .footer-bottom p {
-      color: #6a7a94;
-      font-size: 13px;
+      padding: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.95rem;
     }
 
     /* Responsive */
@@ -495,2037 +361,244 @@
         right: 10px;
       }
     }
-
-    .features{
-  padding:100px 8%;
-}
-
-.section-title{
-  text-align:center;
-  margin-bottom:60px;
-}
-
-.section-title h2{
-  font-size:2.8rem;
-  margin-bottom:10px;
-}
-
-.section-title p{
-  color:var(--muted);
-}
-
-.feature-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:30px;
-}
-
-.feature-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:35px;
-  text-align:center;
-  transition:.35s;
-  box-shadow:var(--shadow);
-}
-
-.feature-card:hover{
-  transform:translateY(-10px);
-}
-
-.feature-card i{
-  font-size:2rem;
-  color:var(--primary);
-  margin-bottom:20px;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:25px;
-  padding:60px 8%;
-}
-
-.stat{
-  text-align:center;
-  padding:30px;
-  background:var(--card);
-  border-radius:18px;
-  box-shadow:var(--shadow);
-}
-
-.stat h2{
-  color:var(--primary);
-  font-size:2.5rem;
-}
-
-.testimonial-card{
-  background:var(--card);
-  border-radius:20px;
-  padding:30px;
-  border:1px solid var(--border);
-  box-shadow:var(--shadow);
-  position:relative;
-}
-
-.testimonial-card::before{
-  content:"❝";
-  position:absolute;
-  top:10px;
-  left:20px;
-  font-size:3rem;
-  opacity:.15;
-}
-.hero-text h1 span{
-  display:block;
-  background:linear-gradient(
-      135deg,
-      #4f46e5,
-      #7c3aed
-  );
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
   </style>
-  </head>
-
-<meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-lSXYCde1woVVWnb6WuqMCrM8H7eJG/WoLNs/1c1kVqw='; script-src-attr 'unsafe-hashes' 'sha256-lSXYCde1woVVWnb6WuqMCrM8H7eJG/WoLNs/1c1kVqw='; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>
-
-Welcome • UIverse
-
-</title>
-
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap"
-rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-<link rel="stylesheet"
-href="welcome.css">
-
-</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
 
-<!-- ==================================
-BACKGROUND EFFECTS
-================================== -->
-
-<div class="bg-blob blob-1"></div>
-<div class="bg-blob blob-2"></div>
-<div class="bg-blob blob-3"></div>
-
-<!-- ==================================
-NAVBAR
-================================== -->
-
-<header class="navbar">
-
-<div class="nav-container">
-
-<div class="logo">
-
-<div class="logo-icon">
-
-⬡
-
-</div>
-
-<span>
-
-UIverse
-
-</span>
-
-</div>
-
-<nav class="nav-links">
-
-<a href="index.html"
-class="active">
-
-Home
-
-</a>
-
-<a href="components.html">
-
-Components
-
-</a>
-
-<a href="widgets.html">
-
-Widgets
-
-</a>
-
-<a href="pricing.html">
-
-Pricing
-
-</a>
-
-<a href="contact.html">
-
-Contact
-
-</a>
-
-</nav>
-
-<div class="nav-actions">
-
-<button class="theme-btn">
-
-<i class="fa-solid fa-moon"></i>
-
-</button>
-
-<a href="#components"
-class="primary-btn">
-
-Get Started
-
-</a>
-
-</div>
-
-</div>
-
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
 </header>
 
-<!-- ==================================
-HERO SECTION
-================================== -->
-
-<section class="hero">
-
-<div class="hero-content">
-
-<div class="hero-badge">
-
-🚀 500+ Premium UI Components
-
-</div>
-
-<h1>
-
-Build Modern
-
-<span>
-
-Interfaces
-
-</span>
-
-Without Starting
-From Scratch
-
-</h1>
-
-<p>
-
-Discover beautifully crafted UI
-components, dashboards, widgets,
-cards and landing pages designed
-for modern web applications.
-
-</p>
-
-<div class="hero-buttons">
-
-<a href="#components"
-class="primary-btn">
-
-Explore Components
-
-</a>
-
-<a href="#showcase"
-class="secondary-btn">
-
-Live Preview
-
-</a>
-
-</div>
-
-<div class="hero-stats">
-
-<div class="hero-stat">
-
-<h3>
-
-500+
-
-</h3>
-
-<p>
-
-Components
-
-</p>
-
-</div>
-
-<div class="hero-stat">
-
-<h3>
-
-50K+
-
-</h3>
-
-<p>
-
-Developers
-
-</p>
-
-</div>
-
-<div class="hero-stat">
-
-<h3>
-
-100%
-
-</h3>
-
-<p>
-
-Responsive
-
-</p>
-
-</div>
-
-<div class="hero-stat">
-
-<h3>
-
-24/7
-
-</h3>
-
-<p>
-
-Updates
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="hero-visual">
-
-<div class="dashboard-preview">
-
-<div class="preview-header">
-
-<div class="dots">
-
-<span></span>
-<span></span>
-<span></span>
-
-</div>
-
-<span>
-
-Dashboard Preview
-
-</span>
-
-</div>
-
-<div class="preview-body">
-
-<div class="preview-card large">
-
-<h3>
-
-Analytics
-
-</h3>
-
-<h2>
-
-$48.2K
-
-</h2>
-
-<div class="mini-chart">
-
-<div class="bar"></div>
-<div class="bar"></div>
-<div class="bar"></div>
-<div class="bar"></div>
-<div class="bar"></div>
-
-</div>
-
-</div>
-
-<div class="preview-grid">
-
-<div class="preview-card">
-
-<i class="fa-solid fa-chart-line"></i>
-
-<h4>
-
-Growth
-
-</h4>
-
-</div>
-
-<div class="preview-card">
-
-<i class="fa-solid fa-users"></i>
-
-<h4>
-
-Users
-
-</h4>
-
-</div>
-
-<div class="preview-card">
-
-<i class="fa-solid fa-layer-group"></i>
-
-<h4>
-
-Components
-
-</h4>
-
-</div>
-
-<div class="preview-card">
-
-<i class="fa-solid fa-bolt"></i>
-
-<h4>
-
-Performance
-
-</h4>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-<!-- ==================================
-TRUSTED BY
-================================== -->
-
-<section class="trusted-section">
-
-<p class="trusted-title">
-
-Trusted by developers from
-
-</p>
-
-<div class="trusted-grid">
-
-<div class="trusted-item">
-
-<i class="fab fa-google"></i>
-
-<span>
-
-Google
-
-</span>
-
-</div>
-
-<div class="trusted-item">
-
-<i class="fab fa-microsoft"></i>
-
-<span>
-
-Microsoft
-
-</span>
-
-</div>
-
-<div class="trusted-item">
-
-<i class="fab fa-github"></i>
-
-<span>
-
-GitHub
-
-</span>
-
-</div>
-
-<div class="trusted-item">
-
-<i class="fab fa-figma"></i>
-
-<span>
-
-Figma
-
-</span>
-
-</div>
-
-<div class="trusted-item">
-
-<i class="fab fa-discord"></i>
-
-<span>
-
-Discord
-
-</span>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-FEATURES
-================================== -->
-
-<section
-class="features-section"
-id="components">
-
-<div class="section-header">
-
-<span>
-
-Why UIverse
-
-</span>
-
-<h2>
-
-Everything You Need
-To Build Faster
-
-</h2>
-
-<p>
-
-Professional UI resources for
-developers, startups and SaaS
-products.
-
-</p>
-
-</div>
-
-<div class="features-grid">
-
-<div class="feature-card">
-
-<div class="feature-icon">
-
-<i class="fa-solid fa-layer-group"></i>
-
-</div>
-
-<h3>
-
-Reusable Components
-
-</h3>
-
-<p>
-
-Build applications faster using
-ready-made responsive components.
-
-</p>
-
-</div>
-
-<div class="feature-card">
-
-<div class="feature-icon">
-
-<i class="fa-solid fa-bolt"></i>
-
-</div>
-
-<h3>
-
-Lightning Fast
-
-</h3>
-
-<p>
-
-Optimized layouts and clean code
-focused on performance.
-
-</p>
-
-</div>
-
-<div class="feature-card">
-
-<div class="feature-icon">
-
-<i class="fa-solid fa-mobile-screen"></i>
-
-</div>
-
-<h3>
-
-Fully Responsive
-
-</h3>
-
-<p>
-
-Looks beautiful on desktop,
-tablet and mobile devices.
-
-</p>
-
-</div>
-
-<div class="feature-card">
-
-<div class="feature-icon">
-
-<i class="fa-solid fa-palette"></i>
-
-</div>
-
-<h3>
-
-Modern Design
-
-</h3>
-
-<p>
-
-Inspired by modern SaaS and
-startup design systems.
-
-</p>
-
-</div>
-
-<div class="feature-card">
-
-<div class="feature-icon">
-
-<i class="fa-solid fa-brain"></i>
-
-</div>
-
-<h3>
-
-AI Ready
-
-</h3>
-
-<p>
-
-Widgets and dashboards designed
-for AI-powered applications.
-
-</p>
-
-</div>
-
-<div class="feature-card">
-
-<div class="feature-icon">
-
-<i class="fa-solid fa-code"></i>
-
-</div>
-
-<h3>
-
-Developer Friendly
-
-</h3>
-
-<p>
-
-Clean structure and easy
-customization.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-STATISTICS
-================================== -->
-
-<section class="stats-section">
-
-<div class="stat-card">
-
-<h2>
-
-500+
-
-</h2>
-
-<p>
-
-Premium Components
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h2>
-
-50K+
-
-</h2>
-
-<p>
-
-Developers Worldwide
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h2>
-
-120+
-
-</h2>
-
-<p>
-
-Dashboard Widgets
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h2>
-
-99.9%
-
-</h2>
-
-<p>
-
-Uptime
-
-</p>
-
-</div>
-
-</section>
-<!-- ==================================
-SHOWCASE BENTO GRID
-================================== -->
-
-<section
-class="showcase-section"
-id="showcase">
-
-<div class="section-header">
-
-<span>
-
-Showcase
-
-</span>
-
-<h2>
-
-Explore Beautiful
-UI Collections
-
-</h2>
-
-<p>
-
-Handcrafted layouts inspired by
-modern startups, SaaS products
-and premium design systems.
-
-</p>
-
-</div>
-
-<div class="bento-grid">
-
-<!-- LARGE CARD -->
-
-<div class="bento-card large-card">
-
-<div class="bento-content">
-
-<span>
-
-Featured Collection
-
-</span>
-
-<h3>
-
-Premium Dashboard
-Components
-
-</h3>
-
-<p>
-
-Analytics, admin panels,
-charts and productivity tools.
-
-</p>
-
-<a href="#">
-
-Explore Collection
-
-</a>
-
-</div>
-
-</div>
-
-<!-- CARD -->
-
-<div class="bento-card">
-
-<i class="fa-solid fa-chart-line"></i>
-
-<h3>
-
-Analytics
-
-</h3>
-
-<p>
-
-Modern charts and data
-visualization widgets.
-
-</p>
-
-</div>
-
-<!-- CARD -->
-
-<div class="bento-card">
-
-<i class="fa-solid fa-calendar"></i>
-
-<h3>
-
-Calendars
-
-</h3>
-
-<p>
-
-Scheduling, planning and
-productivity components.
-
-</p>
-
-</div>
-
-<!-- WIDE CARD -->
-
-<div class="bento-card wide-card">
-
-<h3>
-
-Developer Widgets
-
-</h3>
-
-<p>
-
-Terminal, GitHub, AI,
-system monitoring and
-code snippets.
-
-</p>
-
-<div class="widget-icons">
-
-<i class="fab fa-github"></i>
-<i class="fa-solid fa-terminal"></i>
-<i class="fa-solid fa-brain"></i>
-<i class="fa-solid fa-code"></i>
-
-</div>
-
-</div>
-
-<!-- CARD -->
-
-<div class="bento-card">
-
-<i class="fa-solid fa-layer-group"></i>
-
-<h3>
-
-Cards
-
-</h3>
-
-<p>
-
-Pricing cards, profile cards,
-feature cards and more.
-
-</p>
-
-</div>
-
-<!-- CARD -->
-
-<div class="bento-card">
-
-<i class="fa-solid fa-wand-magic-sparkles"></i>
-
-<h3>
-
-Landing Pages
-
-</h3>
-
-<p>
-
-Modern hero sections and
-marketing layouts.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-POPULAR CATEGORIES
-================================== -->
-
-<section class="categories-section">
-
-<div class="section-header">
-
-<span>
-
-Categories
-
-</span>
-
-<h2>
-
-Popular UI Categories
-
-</h2>
-
-</div>
-
-<div class="categories-grid">
-
-<div class="category-card">
-
-<i class="fa-solid fa-table-cells-large"></i>
-
-<h3>
-
-Dashboards
-
-</h3>
-
-<span>
-
-120 Components
-
-</span>
-
-</div>
-
-<div class="category-card">
-
-<i class="fa-solid fa-window-maximize"></i>
-
-<h3>
-
-Widgets
-
-</h3>
-
-<span>
-
-80 Components
-
-</span>
-
-</div>
-
-<div class="category-card">
-
-<i class="fa-solid fa-credit-card"></i>
-
-<h3>
-
-Cards
-
-</h3>
-
-<span>
-
-95 Components
-
-</span>
-
-</div>
-
-<div class="category-card">
-
-<i class="fa-solid fa-calendar-days"></i>
-
-<h3>
-
-Calendars
-
-</h3>
-
-<span>
-
-45 Components
-
-</span>
-
-</div>
-
-<div class="category-card">
-
-<i class="fa-solid fa-blog"></i>
-
-<h3>
-
-Blogs
-
-</h3>
-
-<span>
-
-40 Components
-
-</span>
-
-</div>
-
-<div class="category-card">
-
-<i class="fa-solid fa-robot"></i>
-
-<h3>
-
-AI UI
-
-</h3>
-
-<span>
-
-60 Components
-
-</span>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-FEATURED COMPONENTS
-================================== -->
-
-<section class="featured-section">
-
-<div class="section-header">
-
-<span>
-
-Featured
-
-</span>
-
-<h2>
-
-Trending Components
-
-</h2>
-
-</div>
-
-<div class="featured-grid">
-
-<div class="featured-card">
-
-<div class="featured-top">
-
-🔥
-
-</div>
-
-<h3>
-
-AI Dashboard
-
-</h3>
-
-<p>
-
-Modern analytics dashboard
-for AI products.
-
-</p>
-
-<a href="#">
-
-View Component
-
-</a>
-
-</div>
-
-<div class="featured-card">
-
-<div class="featured-top">
-
-⚡
-
-</div>
-
-<h3>
-
-Widget Collection
-
-</h3>
-
-<p>
-
-Developer focused widgets
-and monitoring tools.
-
-</p>
-
-<a href="#">
-
-View Component
-
-</a>
-
-</div>
-
-<div class="featured-card">
-
-<div class="featured-top">
-
-🚀
-
-</div>
-
-<h3>
-
-SaaS Landing Page
-
-</h3>
-
-<p>
-
-Premium startup landing
-page design.
-
-</p>
-
-<a href="#">
-
-View Component
-
-</a>
-
-</div>
-
-</div>
-
-</section>
-<!-- ==================================
-TESTIMONIALS
-================================== -->
-
-<section class="testimonials-section">
-
-<div class="section-header">
-
-<span>
-
-Testimonials
-
-</span>
-
-<h2>
-
-Loved By Developers
-Worldwide
-
-</h2>
-
-<p>
-
-Thousands of developers use
-UIverse to build modern products.
-
-</p>
-
-</div>
-
-<div class="testimonials-grid">
-
-<div class="testimonial-card">
-
-<div class="quote">
-
-★★★★★
-
-</div>
-
-<p>
-
-"UIverse helped me create
-beautiful dashboards in a
-fraction of the usual time."
-
-</p>
-
-<div class="author">
-
-<div class="avatar">
-
-A
-
-</div>
-
-<div>
-
-<h4>
-
-Alex Carter
-
-</h4>
-
-<span>
-
-Frontend Developer
-
-</span>
-
-</div>
-
-
-  <section class="features">
-
-  <div class="section-title">
-    <h2>Why Developers Love UI-Verse</h2>
-    <p>Everything you need to build beautiful interfaces.</p>
+  <!-- Theme Toggle -->
+  <div class="theme-toggle">
+    <button id="themeBtn" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
   </div>
 
-  <section class="stats">
-
-  <div class="stat">
-    <h2>150+</h2>
-    <span>Components</span>
-  </div>
-
-  <div class="stat">
-    <h2>25K+</h2>
-    <span>Developers</span>
-  </div>
-
-  <div class="stat">
-    <h2>98%</h2>
-    <span>Satisfaction</span>
-  </div>
-
-  <div class="stat">
-    <h2>40+</h2>
-    <span>Categories</span>
-  </div>
-
-</section>
-
-
-<section class="showcase">
-
-  <div class="section-title">
-    <h2>Popular Components</h2>
-  </div>
-
-  <div class="showcase-grid">
-
-    <div class="show-card">
-      <i class="fa-solid fa-window-maximize"></i>
-      <h3>Modern Dashboards</h3>
-    </div>
-
-    <div class="show-card">
-      <i class="fa-solid fa-bars"></i>
-      <h3>Navigation Bars</h3>
-    </div>
-
-    <div class="show-card">
-      <i class="fa-solid fa-credit-card"></i>
-      <h3>Cards & Widgets</h3>
-    </div>
-
-    <div class="show-card">
-      <i class="fa-solid fa-table"></i>
-      <h3>Data Tables</h3>
-    </div>
-
-  </div>
-
-</section>
-  <div class="feature-grid">
-
-    <article class="feature-card">
-      <i class="fa-solid fa-layer-group"></i>
-      <h3>Reusable Components</h3>
-      <p>Production-ready UI elements designed for scalability.</p>
-    </article>
-
-    <article class="feature-card">
-      <i class="fa-solid fa-bolt"></i>
-      <h3>Lightning Fast</h3>
-      <p>Optimized code with excellent performance.</p>
-    </article>
-
-    <article class="feature-card">
-      <i class="fa-solid fa-mobile-screen"></i>
-      <h3>Fully Responsive</h3>
-      <p>Looks great on desktop, tablet, and mobile.</p>
-    </article>
-
-  </div>
-
-</section>
   <!-- Welcome Section -->
   <section class="welcome">
-</div>
 
-</div>
+  <!-- Header & Navbar -->
+  <header>
+    <nav class="navbar">
 
-<div class="testimonial-card">
+      <h2 class="logo">UI-Verse</h2>
 
-<div class="quote">
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Components</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
 
-★★★★★
+      <button class="nav-btn">Login</button>
 
-</div>
+    </nav>
+  </header>
 
-<p>
+  <!-- Welcome Main Content -->
+  <main class="welcome">
 
-"The design quality feels like
-something from a premium SaaS
-startup."
+    <!-- Hero -->
+    <section class="hero">
 
-</p>
+      <div class="hero-text">
 
-<div class="author">
+        <h1>Build Beautiful UI Faster</h1>
 
-<div class="avatar">
+        <p>
+          Explore modern UI components, templates,
+          and creative designs for your next project.
+        </p>
 
-S
+        <div class="buttons">
+          <button class="primary-btn">Get Started</button>
+          <button class="secondary-btn">Explore UI</button>
+        </div>
 
-</div>
+      </div>
 
-<div>
+      <div class="hero-image">
 
-<h4>
+        <div class="card">
+          <h3>Modern Dashboard</h3>
+          <p>
+            Clean, responsive, and visually polished
+            interfaces for developers and designers.
+          </p>
+        </div>
 
-Sarah Wilson
+        <div class="small-card">
+          <h4>20+ Components</h4>
+        </div>
 
-</h4>
+      </div>
 
-<span>
+    </section>
 
-UI Designer
+  </main>
 
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="testimonial-card">
-
-<div class="quote">
-
-★★★★★
-
-</div>
-
-<p>
-
-"The widgets and dashboards are
-clean, modern and extremely
-easy to customize."
-
-</p>
-
-<div class="author">
-
-<div class="avatar">
-
-J
-
-</div>
-
-<div>
-
-<h4>
-
-John Lee
-
-</h4>
-
-<span>
-
-Full Stack Developer
-
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-PRICING PREVIEW
-================================== -->
-
-<section class="pricing-section">
-
-<div class="section-header">
-
-<span>
-
-Pricing
-
-</span>
-
-<h2>
-
-Simple Plans
-For Everyone
-
-</h2>
-
-</div>
-
-<div class="pricing-grid">
-
-<div class="pricing-card">
-
-<h3>
-
-Starter
-
-</h3>
-
-<h2>
-
-$0
-
-</h2>
-
-<p>
-
-Perfect for beginners.
-
-</p>
-
-<ul>
-
-<li>✓ Basic Components</li>
-<li>✓ Responsive Layouts</li>
-<li>✓ Community Access</li>
-
-</ul>
-
-<button class="secondary-btn">
-
-Get Started
-
-</button>
-
-</div>
-
-<div class="pricing-card featured-plan">
-
-<div class="plan-badge">
-
-Most Popular
-
-</div>
-
-<h3>
-
-Pro
-
-</h3>
-
-<h2>
-
-$19
-
-<span>
-
-/month</span>
-
-</h2>
-
-<p>
-
-Everything you need.
-
-</p>
-
-<ul>
-
-<li>✓ Premium Components</li>
-<li>✓ Dashboard Templates</li>
-<li>✓ Widgets Library</li>
-<li>✓ Priority Support</li>
-
-</ul>
-
-<button class="primary-btn">
-
-Start Pro
-
-</button>
-
-</div>
-
-<div class="pricing-card">
-
-<h3>
-
-Enterprise
-
-</h3>
-
-<h2>
-
-Custom
-
-</h2>
-
-<p>
-
-For large teams.
-
-</p>
-
-<ul>
-
-<li>✓ Unlimited Access</li>
-<li>✓ Team Collaboration</li>
-<li>✓ Dedicated Support</li>
-
-</ul>
-
-<button class="secondary-btn">
-
-Contact Sales
-
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-COMMUNITY
-================================== -->
-
-<section class="community-section">
-
-<div class="community-card">
-
-<h2>
-
-Join The UIverse Community
-
-</h2>
-
-<p>
-
-Connect with designers and
-developers building modern
-interfaces every day.
-
-</p>
-
-<div class="community-stats">
-
-<div>
-
-<h3>
-
-50K+
-
-</h3>
-
-<span>
-
-Members
-
-</span>
-
-</div>
-
-<div>
-
-<h3>
-
-500+
-
-</h3>
-
-<span>
-
-Components
-
-</span>
-
-</div>
-
-<div>
-
-<h3>
-
-24/7
-
-</h3>
-
-<span>
-
-Support
-
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ==================================
-NEWSLETTER
-================================== -->
-
-<section class="newsletter-section">
-
-<div class="newsletter-card">
-
-<h2>
-
-Stay Updated
-
-</h2>
-
-<p>
-
-Get the latest components,
-widgets and design resources
-delivered directly to your inbox.
-
-</p>
-
-<form class="newsletter-form">
-
-<input
-type="email"
-placeholder="Enter your email">
-
-<button
-type="submit">
-
-Subscribe
-
-</button>
-
-</form>
-
-</div>
-
-</section>
-<!-- ==================================
-PREMIUM FOOTER
-================================== -->
-
+  <!-- ================= FOOTER ================= -->
 <footer class="footer">
-
-<div class="footer-container">
-
-<div class="footer-brand">
-
-<div class="footer-logo">
-
-⬡ UIverse
-
-</div>
-
-<p>
-
-Build beautiful interfaces
-faster with premium UI
-components, widgets and
-modern design systems.
-
-</p>
-
-<div class="social-links">
-
-<a href="#">
-
-<i class="fab fa-github"></i>
-
-</a>
-
-<a href="#">
-
-<i class="fab fa-discord"></i>
-
-</a>
-
-<a href="#">
-
-<i class="fab fa-linkedin"></i>
-
-</a>
-
-<a href="#">
-
-<i class="fab fa-x-twitter"></i>
-
-</a>
-
-</div>
-
-</div>
-
-<div class="footer-column">
-
-<h3>
-
-Components
-
-</h3>
-
-<ul>
-
-<li><a href="#">Cards</a></li>
-<li><a href="#">Buttons</a></li>
-<li><a href="#">Forms</a></li>
-<li><a href="#">Widgets</a></li>
-<li><a href="#">Calendars</a></li>
-
-</ul>
-
-</div>
-
-<div class="footer-column">
-
-<h3>
-
-Resources
-
-</h3>
-
-<ul>
-
-<li><a href="#">Documentation</a></li>
-<li><a href="#">Templates</a></li>
-<li><a href="#">Showcase</a></li>
-<li><a href="#">Community</a></li>
-<li><a href="#">Support</a></li>
-
-</ul>
-
-</div>
-
-<div class="footer-column">
-
-<h3>
-
-Company
-
-</h3>
-
-<ul>
-
-<li><a href="#">About</a></li>
-<li><a href="#">Careers</a></li>
-<li><a href="#">Blog</a></li>
-<li><a href="#">Contact</a></li>
-
-</ul>
-
-</div>
-
-<div class="footer-column">
-
-<h3>
-
-Newsletter
-
-</h3>
-
-<p>
-
-Get updates about new
-components and UI releases.
-
-</p>
-
-<form class="footer-form">
-
-<input
-type="email"
-placeholder="your@email.com">
-
-<button>
-
-Join
-
-</button>
-
-</form>
-
-</div>
-
-</div>
-
-<div class="footer-bottom">
-
-<p>
-
-© 2026 UIverse.
-Built for developers worldwide.
-
-</p>
-
-</div>
-
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
 </footer>
 
-<!-- ==================================
-FLOATING ACTIONS
-================================== -->
-
-<button class="scroll-top">
-
-<i class="fa-solid fa-arrow-up"></i>
-
-</button>
-
-<!-- ==================================
-SCRIPT
-================================== -->
-
 <script>
-
-/* Theme Toggle */
-
-const themeBtn =
-document.querySelector(
-".theme-btn"
-);
-
-themeBtn.addEventListener(
-"click",
-()=>{
-
-document.body.classList.toggle(
-"dark"
-);
-
-if(
-document.body.classList.contains(
-"dark"
-)
-){
-
-themeBtn.innerHTML =
-'<i class="fa-solid fa-sun"></i>';
-
-}else{
-
-themeBtn.innerHTML =
-'<i class="fa-solid fa-moon"></i>';
-
-}
-
-});
-
-/* Scroll Top */
-
-const scrollBtn =
-document.querySelector(
-".scroll-top"
-);
-
-window.addEventListener(
-"scroll",
-()=>{
-
-if(window.scrollY > 500){
-
-scrollBtn.classList.add(
-"show"
-);
-
-}else{
-
-scrollBtn.classList.remove(
-"show"
-);
-
-}
-
-});
-
-scrollBtn.addEventListener(
-"click",
-()=>{
-
-window.scrollTo({
-
-top:0,
-
-behavior:"smooth"
-
-});
-
-});
-
-/* Reveal Animation */
-
-const reveals =
-document.querySelectorAll(
-".feature-card,.stat-card,.bento-card,.category-card,.featured-card,.testimonial-card,.pricing-card"
-);
-
-const observer =
-new IntersectionObserver(
-entries=>{
-
-entries.forEach(
-entry=>{
-
-if(
-entry.isIntersecting
-){
-
-entry.target.classList.add(
-"visible"
-);
-
-}
-
-});
-
-},
-{
-threshold:0.15
-}
-);
-
-reveals.forEach(
-item=>{
-
-observer.observe(
-item
-);
-
-});
-
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
 </script>
 
-</body>
+  <!-- Theme Script -->
+  <script>
+    const themeBtn = document.getElementById("themeBtn");
 
+    themeBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+
+      if (document.body.classList.contains("dark")) {
+        themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+      } else {
+        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+      }
+    });
+  </script>
+
+  <script src="dist/shared.js"></script>
+</body>
 </html>
