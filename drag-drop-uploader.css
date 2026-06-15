@@ -1,0 +1,884 @@
+/* ==========================================================================
+   1. DESIGN SYSTEM SYSTEM & INTERFACE UTILITY VARIABLE MAPS
+   ========================================================================== */
+:root {
+    /* Color Palette Configuration Matrix - Indigo Base */
+    --primary-hsl: 239, 84%, 66%;
+    --primary: hsl(var(--primary-hsl));
+    --primary-hover: hsl(239, 84%, 58%);
+    --primary-light: hsla(var(--primary-hsl), 0.08);
+    --primary-solid-light: #e0e7ff;
+    --primary-accent: #a855f7;
+    
+    /* Semantic Status Design Mappings */
+    --success: #10b981;
+    --success-hover: #059669;
+    --success-light: rgba(16, 185, 129, 0.08);
+    --success-border: rgba(16, 185, 129, 0.25);
+    
+    --warning: #f59e0b;
+    --warning-hover: #d97706;
+    --warning-light: rgba(245, 158, 11, 0.08);
+    --warning-border: rgba(245, 158, 11, 0.2);
+    
+    --danger: #ef4444;
+    --danger-hover: #dc2626;
+    --danger-light: rgba(239, 68, 68, 0.08);
+    --danger-border: rgba(239, 68, 68, 0.2);
+    
+    --info: #06b6d4;
+    --info-light: rgba(6, 182, 212, 0.08);
+    --info-border: rgba(6, 182, 212, 0.2);
+    
+    /* Light Mode Interface Surface Core Coordinates */
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-sidebar: #0f172a;
+    --border-color: #e2e8f0;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --text-on-sidebar: #94a3b8;
+    --code-bg: #1e1e2e;
+    
+    /* Layout Density Proportions */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-round: 9999px;
+    
+    /* Volumetric Drop Shadow Elevation System */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Component Specific Parameters Tokens */
+    --dropzone-border-color: #cbd5e1;
+    --dropzone-bg: #ffffff;
+    --dropzone-icon-color: #94a3b8;
+    
+    /* Dynamic Kinetics Curve Transitions */
+    --transition-fast: 0.15s;
+    --transition-normal: 0.3s;
+    --transition-slow: 0.5s;
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ==========================================================================
+   2. HIGH-DENSITY LUMINANCE DARK MODE OVERRIDES ([data-theme="dark"])
+   ========================================================================== */
+[data-theme="dark"] {
+    --bg-main: #090d16;
+    --bg-card: #131b2e;
+    --border-color: #22314d;
+    --text-main: #f1f5f9;
+    --text-muted: #8495aa;
+    --primary-light: hsla(var(--primary-hsl), 0.16);
+    
+    /* Dark Surface Custom Specific Parameters Adjustments */
+    --dropzone-border-color: #2c3f63;
+    --dropzone-bg: #16223b;
+    --dropzone-icon-color: #4a618c;
+    --primary-solid-light: #1e294b;
+    
+    /* Deepened Dark Shadow Maps */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.25), 0 2px 4px -2px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.35), 0 8px 10px -6px rgba(0, 0, 0, 0.35);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.45), 0 10px 10px -5px rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================================================================
+   3. PROJECT DOM GLOBAL RESET UTILITIES
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+    scroll-behavior: smooth;
+    text-size-adjust: 100%;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.5;
+    overflow-x: hidden;
+    transition: background-color var(--transition-normal) var(--ease-smooth), 
+                color var(--transition-normal) var(--ease-smooth);
+}
+
+/* Interactive Focus Boundary Resets */
+:focus-visible {
+    outline: 2px dashed var(--primary);
+    outline-offset: 4px;
+}
+
+/* Base Scrollbar Elements Optimization */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: var(--radius-round);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ==========================================================================
+   4. CENTRAL CONTAINER APPARATUS LAYOUT FRAMEWORK
+   ========================================================================== */
+.app-wrapper {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Control Center Sidebar Layer Layout */
+.app-sidebar {
+    width: 280px;
+    background-color: var(--bg-sidebar);
+    color: #ffffff;
+    padding: 2.5rem 1.5rem;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform var(--transition-normal) var(--ease-smooth);
+}
+
+.app-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+
+.app-brand i {
+    background: linear-gradient(135deg, var(--primary), var(--primary-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.75rem;
+}
+
+.sidebar-segment {
+    margin-top: 2.5rem;
+}
+
+.sidebar-heading {
+    font-size: 0.725rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: rgba(255, 255, 255, 0.28);
+    margin-bottom: 1rem;
+    font-weight: 700;
+    padding-left: 0.75rem;
+}
+
+.sidebar-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.15rem;
+    color: var(--text-on-sidebar);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transition-fast) var(--ease-smooth);
+}
+
+.sidebar-link-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.sidebar-link-inner i {
+    width: 20px;
+    font-size: 1.1rem;
+    text-align: center;
+    transition: color var(--transition-fast);
+}
+
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: #ffffff;
+}
+
+.sidebar-link.active {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.sidebar-link.active i {
+    color: var(--primary);
+}
+
+.menu-count-badge {
+    font-size: 0.725rem;
+    background-color: rgba(255, 255, 255, 0.06);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+}
+
+/* Workspace Runtime Segment Track */
+.app-main {
+    flex: 1;
+    margin-left: 280px;
+    padding: 2.5rem 4rem;
+    max-width: 1500px;
+    width: calc(100% - 280px);
+    transition: margin var(--transition-normal) var(--ease-smooth);
+}
+
+/* ==========================================================================
+   5. WORKSPACE HUB HEADERS & CONFIGURATION LAYER CONTROLS
+   ========================================================================== */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-title h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.75px;
+}
+
+.header-title p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-top: 0.35rem;
+}
+
+.theme-toggle-trigger {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    border-radius: var(--radius-round);
+    cursor: pointer;
+    color: var(--text-main);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-fast) var(--ease-smooth);
+}
+
+.theme-toggle-trigger:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: scale(1.05);
+}
+
+/* ==========================================================================
+   6. TWO-COLUMN BLUEPRINT GRIDS & CONTAINER INTERNALS
+   ========================================================================== */
+.sandbox-workspace-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 2.75rem;
+    align-items: start;
+}
+
+.workspace-block-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color var(--transition-normal) var(--ease-smooth),
+                box-shadow var(--transition-normal) var(--ease-smooth);
+}
+
+.workspace-block-card:hover {
+    border-color: hsla(var(--primary-hsl), 0.2);
+    box-shadow: var(--shadow-md);
+}
+
+.block-header-bar {
+    padding: 1.25rem 1.75rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.005);
+}
+
+.block-heading-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.block-badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.block-body-canvas {
+    padding: 2.5rem;
+}
+
+/* ==========================================================================
+   7. INTERACTIVE STAGING DROP-ZONE COMPONENT HOOK
+   ========================================================================== */
+.uv-dropzone-container {
+    border: 2px dashed var(--dropzone-border-color);
+    background-color: var(--dropzone-bg);
+    border-radius: var(--radius-lg);
+    padding: 4.5rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    outline: none;
+    user-select: none;
+    transition: border-color var(--transition-normal) var(--ease-smooth), 
+                background-color var(--transition-normal) var(--ease-smooth), 
+                transform var(--transition-fast) var(--ease-smooth),
+                box-shadow var(--transition-normal) var(--ease-smooth);
+}
+
+.uv-dropzone-container:hover {
+    border-color: var(--primary);
+    background-color: rgba(99, 102, 241, 0.01);
+}
+
+.uv-dropzone-container:focus-visible {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-light);
+}
+
+/* Draged Active Acceleration Frame Mappings Triggered via JS Hooks */
+.uv-dropzone-container.drag-over-active {
+    border-color: var(--primary);
+    background-color: var(--primary-light);
+    transform: scale(0.985);
+    box-shadow: inset 0 4px 20px 0 rgba(99, 102, 241, 0.04);
+}
+
+.uv-dropzone-icon-housing {
+    width: 76px;
+    height: 76px;
+    border-radius: var(--radius-round);
+    background-color: var(--bg-main);
+    color: var(--dropzone-icon-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.75rem;
+    font-size: 2rem;
+    border: 1px solid var(--border-color);
+    transition: transform var(--transition-normal) var(--ease-bounce),
+                background-color var(--transition-normal),
+                color var(--transition-normal);
+}
+
+.uv-dropzone-container:hover .uv-dropzone-icon-housing {
+    color: var(--primary);
+    border-color: hsla(var(--primary-hsl), 0.2);
+}
+
+.uv-dropzone-container.drag-over-active .uv-dropzone-icon-housing {
+    background-color: var(--primary-solid-light);
+    color: var(--primary);
+    transform: translateY(-6px) scale(1.08);
+}
+
+.uv-dropzone-primary-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.25px;
+}
+
+.uv-dropzone-primary-text span {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.uv-dropzone-container:hover .uv-dropzone-primary-text span {
+    color: var(--primary-hover);
+}
+
+.uv-dropzone-secondary-text {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+.uv-dropzone-limit-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.45rem 1rem;
+    border-radius: var(--radius-round);
+    background-color: var(--bg-main);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-fast);
+}
+
+.uv-dropzone-container:hover .uv-dropzone-limit-tag {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+}
+
+/* ==========================================================================
+   8. PIPELINE STREAM QUEUE MONITOR LISTS ARCHITECTURE
+   ========================================================================== */
+.pipeline-empty-state {
+    text-align: center;
+    padding: 4.5rem 2rem;
+    color: var(--text-muted);
+}
+
+.pipeline-empty-state i {
+    font-size: 2.75rem;
+    color: var(--border-color);
+    margin-bottom: 1.25rem;
+}
+
+.pipeline-empty-state p {
+    font-size: 0.95rem;
+    font-weight: 500;
+    max-width: 260px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.uv-pipeline-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    max-height: 520px;
+    overflow-y: auto;
+    padding-right: 0.4rem;
+}
+
+/* Individual File Entry Row Item Layout */
+.uv-pipeline-item {
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    display: flex;
+    gap: 1.15rem;
+    align-items: flex-start;
+    position: relative;
+    transition: border-color var(--transition-normal), background-color var(--transition-normal);
+}
+
+.file-type-icon-box {
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-md);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    position: relative;
+    flex-shrink: 0;
+    transition: transform var(--transition-fast);
+}
+
+.uv-pipeline-item:hover .file-type-icon-box {
+    transform: scale(1.02);
+}
+
+/* File Categorization Color Channels */
+.type-image { color: var(--primary); background-color: var(--primary-light); }
+.type-video { color: var(--primary-accent); background-color: rgba(168, 85, 247, 0.06); }
+.type-audio { color: var(--info); background-color: var(--info-light); }
+.type-document { color: var(--warning); background-color: var(--warning-light); }
+.type-archive { color: var(--danger); background-color: var(--danger-light); }
+
+.file-item-workspace-core {
+    flex: 1;
+    min-width: 0; /* Defends against structural text overflow grid blowout */
+}
+
+.file-meta-row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    gap: 0.75rem;
+}
+
+.file-name-string {
+    font-size: 0.925rem;
+    font-weight: 600;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-size-string {
+    font-size: 0.775rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+/* Internal Row Segment Progress Track Lines */
+.file-progress-track-shell {
+    height: 6px;
+    background-color: var(--border-color);
+    border-radius: var(--radius-round);
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+.file-progress-fill-node {
+    height: 100%;
+    width: 0%;
+    background-color: var(--primary);
+    border-radius: var(--radius-round);
+}
+
+.file-meta-row-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.775rem;
+    font-weight: 600;
+}
+
+.upload-status-label {
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.upload-percentage-string {
+    color: var(--text-main);
+}
+
+/* Operational Internal Line Row Modifiers */
+.item-action-trigger-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast) var(--ease-smooth);
+    flex-shrink: 0;
+    margin-top: -0.25rem;
+}
+
+.item-action-trigger-btn:hover {
+    background-color: var(--border-color);
+    color: var(--danger);
+    transform: scale(1.05);
+}
+
+/* Complete Validation Structural Mappings */
+.uv-pipeline-item.state-complete {
+    border-color: var(--success-border);
+    background-color: rgba(16, 185, 129, 0.005);
+}
+
+.uv-pipeline-item.state-complete .item-action-trigger-btn:hover {
+    background-color: var(--danger-light);
+}
+
+/* ==========================================================================
+   9. SIDEBAR PERIPHERAL ALLOCATION METRICS DISPLAY HOOKS
+   ========================================================================== */
+.sidebar-storage-widget {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+    padding: 1.35rem;
+    margin-top: auto;
+    box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.2);
+}
+
+.storage-widget-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.825rem;
+    color: var(--text-on-sidebar);
+    margin-bottom: 0.65rem;
+    font-weight: 500;
+}
+
+.storage-track-line {
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-round);
+    overflow: hidden;
+    margin-bottom: 0.65rem;
+}
+
+.storage-fill-line {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary), var(--info));
+    border-radius: var(--radius-round);
+}
+
+/* ==========================================================================
+   10. LIVE CODE CODE BUILD EXTRACTOR DRAWER STYLES
+   ========================================================================== */
+.inspector-control-housing {
+    margin-top: 3.5rem;
+}
+
+.inspector-action-bar {
+    padding: 0.85rem 1.75rem;
+    display: flex;
+    justify-content: flex-end;
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    background-color: rgba(0, 0, 0, 0.005);
+    border-top-left-radius: var(--radius-md);
+    border-top-right-radius: var(--radius-md);
+}
+
+.code-toggle-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition-fast) var(--ease-smooth);
+}
+
+.code-toggle-btn:hover, .code-toggle-btn.active {
+    border-color: var(--primary);
+    color: var(--primary);
+    background-color: var(--primary-light);
+}
+
+.code-drawer-housing {
+    max-height: 0;
+    overflow: hidden;
+    background-color: var(--code-bg);
+    border-bottom-left-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+    transition: max-height var(--transition-normal) cubic-bezier(0, 1, 0, 1);
+}
+
+.code-drawer-housing.open {
+    max-height: 2000px;
+    border: 1px solid var(--code-bg);
+    transition: max-height var(--transition-slow) cubic-bezier(1, 0, 1, 0);
+}
+
+.code-block-wrapper {
+    padding: 1.75rem;
+    position: relative;
+}
+
+.code-block-wrapper pre {
+    margin: 0;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.85rem;
+    color: #a9b1d6;
+    line-height: 1.6;
+}
+
+.copy-floating-trigger {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    padding: 0.45rem 0.95rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast) var(--ease-smooth);
+}
+
+.copy-floating-trigger:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   11. FIXED DISPLAY OVERLAY TOAST INJECTOR HOUSING GRIDS
+   ========================================================================== */
+.toast-system-overlay-hub {
+    position: fixed;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    z-index: 99999;
+    pointer-events: none;
+}
+
+.toast-popup-node {
+    pointer-events: auto;
+    background-color: var(--bg-sidebar);
+    color: #ffffff;
+    padding: 1.1rem 1.6rem;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 0.925rem;
+    font-weight: 500;
+    min-width: 320px;
+    max-width: 480px;
+    border-left: 4px solid var(--primary);
+    transform: translateY(120px) scale(0.9);
+    opacity: 0;
+    animation: pushToastStateIn 0.38s forwards var(--ease-bounce);
+}
+
+@keyframes pushToastStateIn {
+    to { 
+        transform: translateY(0) scale(1); 
+        opacity: 1; 
+    }
+}
+
+/* ==========================================================================
+   12. DEVICE COMPATIBILITY PLATFORM ADAPTER RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 1300px) {
+    .sandbox-workspace-grid {
+        gap: 2rem;
+    }
+    .app-main {
+        padding: 2.5rem 2.5rem;
+    }
+}
+
+@media (max-width: 1150px) {
+    .sandbox-workspace-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .app-sidebar {
+        transform: translateX(-280px);
+    }
+    /* Hook points for programmatic responsive interaction drawer toggles */
+    .app-sidebar.mobile-open {
+        transform: translateX(0);
+    }
+    .app-main {
+        margin-left: 0;
+        width: 100%;
+        padding: 2rem 2rem;
+    }
+    .app-header {
+        margin-bottom: 3rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .app-main {
+        padding: 1.5rem 1.25rem;
+    }
+    .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    .theme-toggle-trigger {
+        align-self: flex-end;
+    }
+    .block-body-canvas {
+        padding: 1.5rem 1.25rem;
+    }
+    .uv-dropzone-container {
+        padding: 3rem 1rem;
+    }
+    .uv-dropzone-primary-text {
+        font-size: 1.05rem;
+    }
+    .toast-system-overlay-hub {
+        left: 1.25rem;
+        right: 1.25rem;
+        bottom: 1.25rem;
+    }
+    .toast-popup-node {
+        min-width: 100%;
+    }
+}
+/* ==========================================================================
+   END OF CORE STYLE BUILD - UI-VERSE 2026
+   ========================================================================== */
