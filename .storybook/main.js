@@ -7,7 +7,6 @@ const config = {
     options: {},
   },
   staticDirs: [
-    { from: '../stories/public', to: '/' },
     { from: '../Animation-Library', to: '/Animation-Library' },
     { from: '../components', to: '/components' },
     { from: '../css', to: '/css' },

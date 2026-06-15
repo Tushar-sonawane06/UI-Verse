@@ -1,841 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
-
-
-<title>Offline — UIverse</title>
-
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-:root{
-  --blue:#3b82f6;
-  --purple:#8b5cf6;
-  --green:#22c55e;
-  --bg1:#020617;
-  --bg2:#0f172a;
-  --card:rgba(255,255,255,.08);
-  --border:rgba(255,255,255,.12);
-}
-
-body{
-  min-height:100vh;
-  font-family:
-    Inter,
-    system-ui,
-    sans-serif;
-  background: radial-gradient(circle at top left,#1e293b,var(--bg1));
-  color:white;
-  position:relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.offline-wrapper {
-  margin-left: 260px;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  padding: 120px 24px;
-}
-
-/* Animated background blobs */
-
-body::before,
-body::after{
-  content:"";
-  position:absolute;
-  width:500px;
-  height:500px;
-  border-radius:50%;
-  filter:blur(100px);
-  opacity:.25;
-  animation:blob 12s ease-in-out infinite;
-}
-
-body::before{
-  background:var(--blue);
-  top:-180px;
-  left:-180px;
-}
-
-body::after{
-  background:var(--purple);
-  bottom:-180px;
-  right:-180px;
-  animation-delay:4s;
-}
-
-@keyframes blob{
-  0%,100%{
-    transform:translateY(0);
-  }
-  50%{
-    transform:translateY(40px);
-  }
-}
-
-/* Floating particles */
-
-.particles{
-  position:absolute;
-  inset:0;
-  overflow:hidden;
-}
-
-.particles span{
-  position:absolute;
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:rgba(255,255,255,.25);
-  animation:particle 15s linear infinite;
-}
-
-.particles span:nth-child(1){
-  left:10%;
-  animation-delay:0s;
-}
-
-.particles span:nth-child(2){
-  left:30%;
-  animation-delay:2s;
-}
-
-.particles span:nth-child(3){
-  left:50%;
-  animation-delay:5s;
-}
-
-.particles span:nth-child(4){
-  left:70%;
-  animation-delay:7s;
-}
-
-.particles span:nth-child(5){
-  left:90%;
-  animation-delay:10s;
-}
-
-@keyframes particle{
-  from{
-    transform:translateY(100vh);
-    opacity:0;
-  }
-
-  15%{
-    opacity:1;
-  }
-
-  to{
-    transform:translateY(-120px);
-    opacity:0;
-  }
-}
-
-/* Card */
-
-.card{
-  width:100%;
-  max-width:560px;
-
-  position:relative;
-  z-index:10;
-
-  padding:48px 36px;
-
-  text-align:center;
-
-  border-radius:32px;
-
-  background:var(--card);
-
-  backdrop-filter:blur(24px);
-
-  border:1px solid var(--border);
-
-  box-shadow:
-    0 25px 60px rgba(0,0,0,.45);
-}
-
-.card::before{
-  content:"";
-  position:absolute;
-  inset:0;
-
-  border-radius:inherit;
-
-  padding:1px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(59,130,246,.8),
-      rgba(139,92,246,.8)
-    );
-
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-
-  -webkit-mask-composite:xor;
-
-  mask-composite:exclude;
-}
-
-/* Icon */
-
-.icon{
-  width:100px;
-  height:100px;
-
-  margin:0 auto 24px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-radius:50%;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--blue),
-      var(--purple)
-    );
-
-  position:relative;
-
-  box-shadow:
-    0 10px 40px rgba(59,130,246,.4);
-}
-
-.icon::before,
-.icon::after{
-  content:"";
-  position:absolute;
-  inset:-10px;
-
-  border-radius:50%;
-
-  border:2px solid rgba(59,130,246,.3);
-
-  animation:ping 3s infinite;
-}
-
-.icon::after{
-  animation-delay:1.5s;
-}
-
-@keyframes ping{
-  from{
-    transform:scale(.9);
-    opacity:1;
-  }
-
-  to{
-    transform:scale(1.6);
-    opacity:0;
-  }
-}
-
-.icon svg{
-  width:48px;
-  height:48px;
-}
-
-/* Signal bars */
-
-.signal-bars{
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;
-  gap:6px;
-  margin-bottom:24px;
-}
-
-.signal-bars span{
-  width:8px;
-  border-radius:999px;
-}
-
-.signal-bars span:nth-child(1){
-  height:12px;
-  background:var(--green);
-}
-
-.signal-bars span:nth-child(2){
-  height:20px;
-  background:var(--green);
-}
-
-.signal-bars span:nth-child(3){
-  height:28px;
-  background:var(--green);
-}
-
-.signal-bars span:nth-child(4){
-  height:36px;
-  background:#ef4444;
-  animation:blink 1.2s infinite;
-}
-
-@keyframes blink{
-  50%{
-    opacity:.3;
-  }
-}
-
-h1{
-  font-size:2.5rem;
-  line-height:1.1;
-  margin-bottom:18px;
-  font-weight:800;
-}
-
-h1 span{
-  display:block;
-
-  background:
-    linear-gradient(
-      135deg,
-      #60a5fa,
-      #a78bfa
-    );
-
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-p{
-  color:rgba(255,255,255,.8);
-  line-height:1.8;
-  margin-bottom:14px;
-}
-
-.offline-note{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-
-  padding:12px 18px;
-  margin-top:12px;
-
-  border-radius:999px;
-
-  background:rgba(255,255,255,.08);
-
-  border:1px solid rgba(255,255,255,.08);
-
-  color:#cbd5e1;
-}
-
-.dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-
-  background:var(--green);
-
-  box-shadow:
-    0 0 12px var(--green);
-}
-
-.reload-btn{
-  margin-top:28px;
-
-  border:none;
-
-  cursor:pointer;
-
-  color:white;
-
-  font-size:1rem;
-  font-weight:700;
-
-  padding:14px 28px;
-
-  border-radius:14px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #2563eb,
-      #7c3aed
-    );
-
-  transition:
-    transform .25s ease,
-    box-shadow .25s ease;
-}
-
-.reload-btn:hover{
-  transform:translateY(-3px);
-
-  box-shadow:
-    0 10px 30px rgba(59,130,246,.35);
-}
-
-.reload-btn:active{
-  transform:scale(.98);
-}
-
-.status{
-  margin-top:18px;
-  font-size:.95rem;
-  color:#94a3b8;
-}
-
-@media (max-width:900px){
-  .offline-wrapper {
-    margin-left: 0;
-  }
-}
-
-@media (max-width:600px){
-
-  .card{
-    padding:36px 24px;
-  }
-
-  h1{
-    font-size:2rem;
-  }
-
-  p{
-    font-size:.95rem;
-  }
-}
-</style>
-  <link rel="stylesheet" href="shared-sidebar.css">
-  <script src="js/loader.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Offline / 404 — UI-Verse</title>
+
+  <style>
+    :root{
+      --bg1:#0f172a;
+      --bg2:#1e293b;
+      --card:#111827cc;
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --accent:#38bdf8;
+      --danger:#fb7185;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    }
+
+    body{
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+      color:var(--text);
+      overflow:hidden;
+    }
+
+    .wrapper{
+      text-align:center;
+      padding:20px;
+    }
+
+    .card{
+      width:min(520px,90vw);
+      padding:40px 30px;
+      border-radius:18px;
+      background:var(--card);
+      backdrop-filter: blur(12px);
+      box-shadow:0 10px 40px rgba(0,0,0,0.4);
+      border:1px solid rgba(255,255,255,0.08);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float{
+      0%,100%{transform:translateY(0px);}
+      50%{transform:translateY(-10px);}
+    }
+
+    .error-code{
+      font-size:90px;
+      font-weight:800;
+      letter-spacing:4px;
+      color:var(--danger);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse{
+      0%,100%{opacity:1;}
+      50%{opacity:0.5;}
+    }
+
+    h1{
+      margin-top:10px;
+      font-size:26px;
+    }
+
+    p{
+      margin-top:10px;
+      color:var(--muted);
+      line-height:1.5;
+    }
+
+    .status{
+      margin-top:15px;
+      font-size:14px;
+      padding:6px 12px;
+      display:inline-block;
+      border-radius:20px;
+      background:rgba(248,113,113,0.1);
+      color:var(--danger);
+    }
+
+    .online{
+      background:rgba(34,197,94,0.15);
+      color:#22c55e;
+    }
+
+    .btn{
+      margin-top:20px;
+      padding:10px 18px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      background:var(--accent);
+      color:#001018;
+      font-weight:600;
+      transition:0.3s;
+    }
+
+    .btn:hover{
+      transform:scale(1.05);
+      background:#0ea5e9;
+    }
+
+    .dots{
+      margin-top:15px;
+      font-size:14px;
+      color:var(--muted);
+    }
+  </style>
 </head>
 
 <body>
-
-<!-- ================= SIDEBAR ================= -->
-<aside class="sidebar" id="sidebar" aria-label="Site navigation">
-  <div class="sidebar-brand">
-    <a href="index.html" style="text-decoration:none;display:flex;align-items:center;gap:8px;">
-      <span class="brand-icon" aria-hidden="true">&#x2B21;</span>
-      <span class="brand-text">UIverse <span style="font-size:9px;background:linear-gradient(135deg,#eb6835,#7b61ff);color:#fff;padding:1px 6px;border-radius:10px;font-weight:800;margin-left:4px;letter-spacing:.5px;vertical-align:middle;box-shadow:0 0 8px rgba(235,104,53,.3)">V2</span></span>
-    </a>
-  </div>
-  <nav class="sidebar-nav" aria-label="Component categories">
-    <ul>
-      <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
-      <li><a href="Welcome.html"><i class="fa-solid fa-door-open"></i><span>Welcome</span></a></li>
-      <li><a href="component-discovery.html"><i class="fa-solid fa-compass"></i><span>Explore All</span></a></li>
-      <li><a href="leaderboard-components.html"><i class="fa-solid fa-ranking-star"></i><span>Leaderboards</span></a></li>
-      <li><a href="button.html"><i class="fa-solid fa-hand-pointer"></i><span>Buttons</span></a></li>
-      <li><a href="buttons.html"><i class="fa-solid fa-computer-mouse"></i><span>Buttons V2</span></a></li>
-      <li><a href="cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Cards</span></a></li>
-      <li><a href="flipcards.html"><i class="fa-solid fa-clone"></i><span>3D Cards</span></a></li>
-      <li><a href="navbar.html"><i class="fa-solid fa-bars"></i><span>Navbar</span></a></li>
-      <li><a href="dropdown-components.html"><i class="fa-solid fa-caret-down"></i><span>Dropdowns</span></a></li>
-      <li><a href="inputs.html"><i class="fa-solid fa-keyboard"></i><span>Inputs</span></a></li>
-      <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><span>Forms</span></a></li>
-      <li><a href="profile-components.html"><i class="fa-solid fa-user"></i><span>Profiles</span></a></li>
-      <li><a href="badges.html"><i class="fa-solid fa-award"></i><span>Badges</span></a></li>
-      <li><a href="alerts.html"><i class="fa-solid fa-triangle-exclamation"></i><span>Alerts</span></a></li>
-      <li><a href="loaders.html"><i class="fa-solid fa-spinner"></i><span>Loaders</span></a></li>
-      <li><a href="tabs.html"><i class="fa-solid fa-table-columns"></i><span>Tabs</span></a></li>
-      <li><a href="tabs-components.html"><i class="fa-solid fa-layer-group"></i><span>Tabs V2</span></a></li>
-      <li><a href="toggles.html"><i class="fa-solid fa-toggle-on"></i><span>Toggles</span></a></li>
-      <li><a href="switches.html"><i class="fa-solid fa-toggle-on"></i><span>Switches</span></a></li>
-      <li><a href="checkbox.html"><i class="fa-solid fa-square-check"></i><span>Checkboxes</span></a></li>
-      <li><a href="radiobutton.html"><i class="fa-solid fa-circle-dot"></i><span>Radio Buttons</span></a></li>
-      <li><a href="range-slider.html"><i class="fa-solid fa-sliders"></i><span>Range Slider</span></a></li>
-      <li><a href="tooltip.html"><i class="fa-solid fa-comment-dots"></i><span>Tooltips</span></a></li>
-      <li><a href="Popovers.html"><i class="fa-solid fa-message"></i><span>Popovers</span></a></li>
-      <li><a href="menu.html"><i class="fa-solid fa-bars-staggered"></i><span>Menu</span></a></li>
-      <li><a href="breadcrumbs.html"><i class="fa-solid fa-chevron-right"></i><span>Breadcrumbs</span></a></li>
-      <li><a href="docks.html"><i class="fa-solid fa-grip"></i><span>Docks</span></a></li>
-      <li><a href="floating-nav.html"><i class="fa-solid fa-satellite"></i><span>Floating Nav</span></a></li>
-      <li><a href="Spotlightui.html"><i class="fa-solid fa-crosshairs"></i><span>Spotlight</span></a></li>
-      <li><a href="Kanbanui.html"><i class="fa-solid fa-columns-3"></i><span>Kanban</span></a></li>
-      <li><a href="Accordionsui.html"><i class="fa-solid fa-angles-down"></i><span>Accordions</span></a></li>
-      <li><a href="command-palette.html"><i class="fa-solid fa-terminal"></i><span>Command Palette</span></a></li>
-      <li><a href="step-indicators.html"><i class="fa-solid fa-list-check"></i><span>Steppers</span></a></li>
-      <li><a href="table.html"><i class="fa-solid fa-table"></i><span>Tables</span></a></li>
-      <li><a href="charts.html"><i class="fa-solid fa-chart-pie"></i><span>Charts</span></a></li>
-      <li><a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a></li>
-      <li><a href="admin-panel.html"><i class="fa-solid fa-gauge-high"></i><span>Admin Panel</span></a></li>
-      <li><a href="Statistics.html"><i class="fa-solid fa-chart-bar"></i><span>Statistics</span></a></li>
-      <li><a href="stats-cards.html"><i class="fa-solid fa-chart-line"></i><span>Stats Cards</span></a></li>
-      <li><a href="analysis-card.html"><i class="fa-solid fa-magnifying-glass-chart"></i><span>Analysis Cards</span></a></li>
-      <li><a href="comparison-tables.html"><i class="fa-solid fa-table-list"></i><span>Comparison Tables</span></a></li>
-      <li><a href="timeline.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Timeline</span></a></li>
-      <li><a href="progresspage.html"><i class="fa-solid fa-bars-progress"></i><span>Progress</span></a></li>
-      <li><a href="progress-premium.html"><i class="fa-solid fa-bars-progress"></i><span>Progress V2</span></a></li>
-      <li><a href="ratingpage.html"><i class="fa-solid fa-star"></i><span>Ratings</span></a></li>
-      <li><a href="ratings-premium.html"><i class="fa-solid fa-star"></i><span>Ratings V2</span></a></li>
-      <li><a href="toasts.html"><i class="fa-solid fa-bell"></i><span>Toasts</span></a></li>
-      <li><a href="notification.html"><i class="fa-solid fa-bell"></i><span>Notifications</span></a></li>
-      <li><a href="notifications-premium.html"><i class="fa-solid fa-bell"></i><span>Notifications V2</span></a></li>
-      <li><a href="snackbar.html"><i class="fa-solid fa-comment"></i><span>Snackbars</span></a></li>
-      <li><a href="skeletons.html"><i class="fa-solid fa-rectangle-xmark"></i><span>Skeletons</span></a></li>
-      <li><a href="empty-state.html"><i class="fa-solid fa-box-open"></i><span>Empty States</span></a></li>
-      <li><a href="animate-loaders.html"><i class="fa-solid fa-circle-notch"></i><span>Animated Loaders</span></a></li>
-      <li><a href="gallery.html"><i class="fa-solid fa-images"></i><span>Gallery</span></a></li>
-      <li><a href="carousel.html"><i class="fa-solid fa-film"></i><span>Carousel</span></a></li>
-      <li><a href="image-carousel.html"><i class="fa-solid fa-photo-film"></i><span>Image Carousel</span></a></li>
-      <li><a href="image-slider.html"><i class="fa-solid fa-images"></i><span>Image Slider</span></a></li>
-      <li><a href="blog.html"><i class="fa-solid fa-blog"></i><span>Blog</span></a></li>
-      <li><a href="article.html"><i class="fa-solid fa-newspaper"></i><span>Articles</span></a></li>
-      <li><a href="notes-components.html"><i class="fa-solid fa-sticky-note"></i><span>Notes</span></a></li>
-      <li><a href="story.html"><i class="fa-solid fa-book-open"></i><span>Story</span></a></li>
-      <li><a href="activity-feed.html"><i class="fa-solid fa-rss"></i><span>Activity Feed</span></a></li>
-      <li><a href="testimonials.html"><i class="fa-solid fa-comments"></i><span>Testimonials</span></a></li>
-      <li><a href="chatui.html"><i class="fa-solid fa-comment-dots"></i><span>Chat UI</span></a></li>
-      <li><a href="musicicon.html"><i class="fa-solid fa-music"></i><span>Music</span></a></li>
-      <li><a href="hero.html"><i class="fa-solid fa-star"></i><span>Hero Sections</span></a></li>
-      <li><a href="section.html"><i class="fa-solid fa-rectangle-list"></i><span>Sections</span></a></li>
-      <li><a href="div.html"><i class="fa-solid fa-square"></i><span>DIV</span></a></li>
-      <li><a href="span.html"><i class="fa-solid fa-code"></i><span>Span</span></a></li>
-      <li><a href="bent-grid.html"><i class="fa-solid fa-border-all"></i><span>Bent Grid</span></a></li>
-      <li><a href="footer.html"><i class="fa-solid fa-shoe-prints"></i><span>Footer</span></a></li>
-      <li><a href="patterns.html"><i class="fa-solid fa-border-style"></i><span>Patterns</span></a></li>
-      <li><a href="icon.html"><i class="fa-solid fa-icons"></i><span>Icons</span></a></li>
-      <li><a href="hover.html"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Hover Effects</span></a></li>
-      <li><a href="color.html"><i class="fa-solid fa-palette"></i><span>Colors</span></a></li>
-      <li><a href="retroui.html"><i class="fa-solid fa-gamepad"></i><span>RetroUI</span></a></li>
-      <li><a href="ai-components.html"><i class="fa-solid fa-robot"></i><span>AI Components</span></a></li>
-      <li><a href="divider-component.html"><i class="fa-solid fa-minus"></i><span>Dividers</span></a></li>
-      <li><a href="chip-components.html"><i class="fa-solid fa-tag"></i><span>Chips</span></a></li>
-      <li><a href="slider-components.html"><i class="fa-solid fa-sliders"></i><span>Sliders</span></a></li>
-      <li><a href="widgets.html"><i class="fa-solid fa-layer-group"></i><span>Widgets</span></a></li>
-      <li><a href="search.html"><i class="fa-solid fa-magnifying-glass"></i><span>Search Bars</span></a></li>
-      <li><a href="filters-premium.html"><i class="fa-solid fa-filter"></i><span>Filters</span></a></li>
-      <li><a href="map.html"><i class="fa-solid fa-map-location-dot"></i><span>Maps</span></a></li>
-      <li><a href="calendar.html"><i class="fa-solid fa-calendar"></i><span>Calendar</span></a></li>
-      <li><a href="calendarcomponent.html"><i class="fa-solid fa-calendar-days"></i><span>Calendar V2</span></a></li>
-      <li><a href="otp.html"><i class="fa-solid fa-lock"></i><span>OTP Input</span></a></li>
-      <li><a href="fileuploadui.html"><i class="fa-solid fa-upload"></i><span>File Upload</span></a></li>
-      <li><a href="files.html"><i class="fa-solid fa-file-arrow-up"></i><span>Drag &amp; Drop</span></a></li>
-      <li><a href="multi-step-form.html"><i class="fa-solid fa-stairs"></i><span>Multi-step Form</span></a></li>
-      <li><a href="cookies.html"><i class="fa-solid fa-cookie-bite"></i><span>Cookies</span></a></li>
-      <li><a href="water-reminder.html"><i class="fa-solid fa-droplet"></i><span>Water Reminder</span></a></li>
-      <li><a href="ecommerce.html"><i class="fa-solid fa-cart-shopping"></i><span>E-commerce</span></a></li>
-      <li><a href="pricing.html"><i class="fa-solid fa-tags"></i><span>Pricing</span></a></li>
-      <li><a href="subscription.html"><i class="fa-solid fa-credit-card"></i><span>Subscription</span></a></li>
-      <li><a href="product.html"><i class="fa-solid fa-box"></i><span>Product Page</span></a></li>
-      <li><a href="product-slider.html"><i class="fa-solid fa-box-open"></i><span>Product Slider</span></a></li>
-      <li><a href="newsletter-components.html"><i class="fa-solid fa-envelope"></i><span>Newsletter</span></a></li>
-      <li><a href="call-to-action.html"><i class="fa-solid fa-bullhorn"></i><span>Call to Action</span></a></li>
-      <li><a href="team-collaboration.html"><i class="fa-solid fa-users"></i><span>Team Collab</span></a></li>
-      <li><a href="auth.html"><i class="fa-solid fa-user-shield"></i><span>Authentication</span></a></li>
-      <li><a href="recovery.html"><i class="fa-solid fa-key"></i><span>Password Recovery</span></a></li>
-      <li><a href="settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a></li>
-      <li><a href="profile.html"><i class="fa-solid fa-id-card"></i><span>Profile</span></a></li>
-      <li><a href="about.html"><i class="fa-solid fa-circle-info"></i><span>About</span></a></li>
-      <li><a href="documentation.html"><i class="fa-solid fa-book"></i><span>Documentation</span></a></li>
-      <li><a href="guidelines.html"><i class="fa-solid fa-scale-balanced"></i><span>Guidelines</span></a></li>
-      <li><a href="howtocontribute.html"><i class="fa-solid fa-code-branch"></i><span>How to Contribute</span></a></li>
-      <li><a href="contributors.html"><i class="fa-solid fa-users"></i><span>Contributors</span></a></li>
-      <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i><span>FAQ</span></a></li>
-      <li><a href="contact.html"><i class="fa-regular fa-envelope"></i><span>Contact Us</span></a></li>
-      <li><a href="privacypolicy.html"><i class="fa-solid fa-shield-halved"></i><span>Privacy Policy</span></a></li>
-      <li><a href="terms.html"><i class="fa-solid fa-file-contract"></i><span>Terms</span></a></li>
-      <li><a href="license.html"><i class="fa-solid fa-certificate"></i><span>License</span></a></li>
-      <li><a href="MyCollection.html"><i class="fa-solid fa-bookmark"></i><span>My Collection</span></a></li>
-      <li><a href="error.html"><i class="fa-solid fa-circle-exclamation"></i><span>Error Pages</span></a></li>
-      <li><a href="maintenance.html"><i class="fa-solid fa-wrench"></i><span>Maintenance</span></a></li>
-      <li><a href="offline.html"><i class="fa-solid fa-wifi"></i><span>Offline</span></a></li>
-    </ul>
-  </nav>
-  <div class="sidebar-footer">
-    <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
-    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-    <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
-  </div>
-</aside>
-<!-- ================= SIDEBAR BACKDROP ================= -->
-<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()" aria-hidden="true"></div>
-
-<!-- ================= NAVBAR ================= -->
-<!-- ================= NAVBAR ================= -->
-<!-- ================= NAVBAR ================= -->
-<!-- ================= NAVBAR ================= -->
-<header class="navbar" id="navbar">
-  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
-    <i class="fa-solid fa-bars"></i>
-  </button>
-  <div class="navbar-brand">
-    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
-    </svg>
-    <span class="brand-text">Uiverse</span>
-  </div>
-  <div class="navbar-divider"></div>
-  <div class="search-bar">
-    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
-  </div>
-  <div class="nav-right">
-    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
-    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
-    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
-      <i class="fa-solid fa-moon"></i>
-    </button>
-  </div>
-  <script>
-    (function() {
-      // Search input enter key redirect
-      const navSearch = document.getElementById('searchInput');
-      if (navSearch) {
-        navSearch.addEventListener('keydown', function(e) {
-          if (e.key === 'Enter' && this.value.trim()) {
-            const q = encodeURIComponent(this.value.trim());
-            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
-          }
-        });
-      }
+  <div class="wrapper">
+    <div class="card">
       
-      // Fallback toggleDarkMode function if not defined globally by the page script
-      const toggleBtn = document.getElementById('darkModeToggle');
-      if (toggleBtn) {
-        if (typeof window.toggleDarkMode !== 'function') {
-          window.toggleDarkMode = function() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            const icon = toggleBtn.querySelector('i');
-            if (icon) {
-              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-            }
-          };
-        }
-        
-        // Match initial theme icon class
-        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
-        const icon = toggleBtn.querySelector('i');
-        if (icon && isDark) {
-          icon.className = 'fa-solid fa-sun';
-        }
-      }
-    })();
-  </script>
-</header>
+      <div class="error-code">404</div>
 
-<div class="offline-wrapper">
-<div class="particles">
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-</div>
+      <h1 id="title">You're Offline</h1>
 
-<main class="card">
+      <p id="msg">
+        It looks like your internet connection is lost or the page is unavailable.
+      </p>
 
-  <div class="icon">
+      <div id="status" class="status">Checking connection...</div>
 
-    <svg
-      fill="none"
-      stroke="white"
-      stroke-width="1.8"
-      viewBox="0 0 24 24"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M2.25 12.75l2.25 2.25m0 0L6.75 12.75m-2.25 2.25V9a6 6 0 0111.456-2.472M21.75 11.25L19.5 9m0 0l-2.25 2.25M19.5 9v6a6 6 0 01-11.456 2.472"
-      />
-    </svg>
+      <br>
 
-  </div>
+      <button class="btn" onclick="location.reload()">
+        Retry Connection
+      </button>
 
-  <div class="signal-bars">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-
-  <h1>
-    Offline,
-    <span>but not unavailable</span>
-  </h1>
-
-  <p>
-    No internet connection detected.
-    Cached content and essential resources
-    remain available while offline.
-  </p>
-
-  <p>
-    As soon as a connection is restored,
-    UIverse can automatically reload and
-    synchronize the latest content.
-  </p>
-
-  <div
-    class="offline-note"
-    id="statusBadge"
-  >
-    <span class="dot"></span>
-    Offline mode active
-  </div>
-
-  <br>
-
-  <button
-    class="reload-btn"
-    id="reloadBtn"
-    type="button"
-  >
-    Reload Page
-  </button>
-
-  <div
-    class="status"
-    id="networkStatus"
-  >
-    Waiting for connection...
-  </div>
-
-</main>
-</div>
-
-<script>
-const reloadBtn =
-  document.getElementById("reloadBtn");
-
-const badge =
-  document.getElementById("statusBadge");
-
-const statusText =
-  document.getElementById("networkStatus");
-
-reloadBtn.addEventListener(
-  "click",
-  () => location.reload()
-);
-
-window.addEventListener(
-  "online",
-  () => {
-    badge.innerHTML =
-      "<span class='dot'></span> Connection restored";
-
-    statusText.textContent =
-      "Network available. Reloading...";
-
-    setTimeout(
-      () => location.reload(),
-      1500
-    );
-  }
-);
-
-window.addEventListener(
-  "offline",
-  () => {
-    badge.innerHTML =
-      "<span class='dot'></span> Offline mode active";
-
-    statusText.textContent =
-      "Waiting for internet connection...";
-  }
-);
-</script>
-
-<!-- ================= FOOTER ================= -->
-<footer class="footer">
-  <div class="footer-container">
-    <div class="footer-col brand">
-      <h2 class="footer-logo">⬡ UIverse</h2>
-      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
-      <div class="socials">
-        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
-          <i class="fab fa-github" aria-hidden="true"></i>
-        </a>
-        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
-          <i class="fab fa-linkedin" aria-hidden="true"></i>
-        </a>
-        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
-          <i class="fab fa-x-twitter" aria-hidden="true"></i>
-        </a>
-      </div>
-    </div>
-
-    <div class="footer-col">
-      <h3>Explore</h3>
-      <ul>
-        <li><a href="button.html">Buttons</a></li>
-        <li><a href="navbar.html">Navbars</a></li>
-        <li><a href="cards.html">Cards</a></li>
-        <li><a href="inputs.html">Inputs</a></li>
-        <li><a href="forms.html">Forms</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h3>Resources</h3>
-      <ul>
-        <li><a href="documentation.html">Documentation</a></li>
-        <li><a href="howtocontribute.html">Contribute</a></li>
-        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
-        <li><a href="MyCollection.html">My Collection</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h3>Legal</h3>
-      <ul>
-        <li><a href="privacypolicy.html">Privacy Policy</a></li>
-        <li><a href="terms.html">Terms of Service</a></li>
-        <li><a href="license.html">License</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col newsletter">
-      <h3>Stay Updated</h3>
-      <p>Get notified when new components drop.</p>
-      <div class="newsletter-form">
-        <label for="newsletterEmail" class="sr-only">Email address</label>
-        <input
-          id="newsletterEmail"
-          type="email"
-          placeholder="your@email.com"
-          autocomplete="email"
-          aria-label="Email address for newsletter"
-        />
-        <button type="button" onclick="subscribe()">Subscribe</button>
-      </div>
+      <div class="dots">Tip: cached pages may still work offline</div>
     </div>
   </div>
 
-  <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
-  </div>
-</footer>
+  <script>
+    function updateStatus(){
+      const status = document.getElementById("status");
+      const title = document.getElementById("title");
+      const msg = document.getElementById("msg");
 
-<script>
-  if (typeof subscribe !== 'function') {
-    function subscribe() {
-      const emailInput = document.getElementById("newsletterEmail");
-      if (emailInput && emailInput.value.trim()) {
-        alert("Thanks for subscribing with: " + emailInput.value.trim());
-        emailInput.value = "";
+      if(navigator.onLine){
+        status.textContent = "You are back online";
+        status.classList.add("online");
+
+        title.textContent = "All Good!";
+        msg.textContent = "Connection restored. You can continue browsing.";
       } else {
-        alert("Please enter a valid email address.");
+        status.textContent = "No internet connection";
+        status.classList.remove("online");
+
+        title.textContent = "You're Offline";
+        msg.textContent = "It looks like your internet connection is lost or the page is unavailable.";
       }
     }
-  }
-</script>\n\n</body>
+
+    window.addEventListener("online", updateStatus);
+    window.addEventListener("offline", updateStatus);
+    updateStatus();
+  </script>
+</body>
 </html>
