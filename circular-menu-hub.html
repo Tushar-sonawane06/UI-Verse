@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI-Verse - Circular FAB Menu Wheel Sandbox Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ==========================================================================
+           1. DESIGN TOKENS, CORE CONFIGURATIONS & SYSTEM VARIABLES
+           ========================================================================== */
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: rgba(99, 102, 241, 0.1);
+            --accent-pink: #ec4899;
+            --accent-purple: #a855f7;
+            --accent-cyan: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            
+            /* Workspace Colors - Light Layout Core */
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-sidebar: #0f172a;
+            --border-color: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-on-sidebar: #94a3b8;
+            --code-bg: #1e1e2e;
+            
+            /* Border Profiles & Elevation Depth Mapping */
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-round: 9999px;
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05);
+            --shadow-fab: 0 8px 32px rgba(99, 102, 241, 0.35);
+            
+            /* Mechanical Animation Kinetics Curves */
+            --transition-normal: 0.3s;
+            --ease-spring: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Dark Mode Matrix Overrides */
+        [data-theme="dark"] {
+            --bg-main: #090d16;
+            --bg-card: #131b2e;
+            --border-color: #1f2b44;
+            --text-main: #f1f5f9;
+            --text-muted: #8898aa;
+            --shadow-fab: 0 8px 32px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Basic Resets */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* ==========================================================================
+           2. APPARATUS PLATFORM LAYOUT FRAMEWORK
+           ========================================================================== */
+        .hub-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Blueprint Navigation */
+        .hub-sidebar {
+            width: 270px;
+            background-color: var(--bg-sidebar);
+            color: #ffffff;
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .hub-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .hub-brand i {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.85rem 1.15rem;
+            color: var(--text-on-sidebar);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            transition: all 0.2s var(--ease-smooth);
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+        }
+
+        .sidebar-link.active i {
+            color: var(--primary);
+        }
+
+        /* Dashboard Space Body Canvas */
+        .hub-main {
+            flex: 1;
+            margin-left: 270px;
+            padding: 2.5rem 3.5rem;
+            max-width: 1500px;
+            width: calc(100% - 270px);
+        }
+
+        .hub-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-meta h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header-meta p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        .theme-toggle-trigger {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-round);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s var(--ease-smooth);
+        }
+
+        .theme-toggle-trigger:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Sandbox Display Segment Grid Structural Core */
+        .sandbox-section {
+            margin-bottom: 4.5rem;
+            scroll-margin-top: 2rem;
+        }
+
+        .section-title-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .section-title-bar i {
+            color: var(--primary);
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .showcase-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .showcase-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: hsla(239, 84%, 66%, 0.2);
+        }
+
+        .card-top-bar {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.005);
+        }
+
+        .card-heading-title {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .card-badge-tag {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* Target Core Canvas Frame Window Area */
+        .card-viewport-stage {
+            padding: 4rem 2rem;
+            min-height: 320px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background-image: radial-gradient(var(--border-color) 1.2px, transparent 1.2px);
+            background-size: 20px 20px;
+            flex: 1;
+        }
+
+        .card-actions-panel {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            background: rgba(0,0,0,0.005);
+        }
+
+        .explorer-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1.15rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .explorer-btn:hover, .explorer-btn.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        /* Source Inspector Engine Drawer */
+        .drawer-code-container {
+            max-height: 0;
+            overflow: hidden;
+            background-color: var(--code-bg);
+            transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+        }
+
+        .drawer-code-container.expanded {
+            max-height: 1500px;
+            transition: max-height 0.4s cubic-bezier(1, 0, 1, 0);
+        }
+
+        .code-shell-wrapper {
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .code-shell-wrapper pre {
+            margin: 0;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #a9b1d6;
+            line-height: 1.5;
+        }
+
+        .copy-absolute-trigger {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-absolute-trigger:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* ==========================================================================
+           3. ATOMIC COMPONENT SPECIFICATIONS: STAGED VARIATIONS
+           ========================================================================== */
+
+        /* --- BASE STYLING COMMON GRAPHICAL ANCHORS --- */
+        .uv-fab-base {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-round);
+            background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+            border: none;
+            color: white;
+            font-size: 1.35rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-fab);
+            position: relative;
+            z-index: 10;
+            transition: transform 0.25s var(--ease-spring), background 0.3s;
+        }
+
+        .uv-fab-item-node {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-round);
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+            position: absolute;
+            z-index: 5;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.4);
+            transition: transform 0.35s var(--ease-spring), opacity 0.25s var(--ease-smooth);
+        }
+
+        .uv-fab-item-node:hover {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.15) !important;
+        }
+
+        .uv-speed-dial-housing {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --------------------------------------------------------------------------
+           VARIATION 1: NORTH QUARTER ARC CASADE ($90^\circ$ SPAN SHIFT)
+           -------------------------------------------------------------------------- */
+        .dial-v1-housing.active .uv-fab-base {
+            transform: rotate(135deg);
+            background: linear-gradient(135deg, var(--danger), #f43f5e);
+        }
+
+        /* Active expansion node structural arrays */
+        .dial-v1-housing.active .node-v1-1 { opacity: 1; pointer-events: auto; transform: translate(0px, -75px) scale(1); }
+        .dial-v1-housing.active .node-v1-2 { opacity: 1; pointer-events: auto; transform: translate(53px, -53px) scale(1); }
+        .dial-v1-housing.active .node-v1-3 { opacity: 1; pointer-events: auto; transform: translate(75px, 0px) scale(1); }
+
+        /* --------------------------------------------------------------------------
+           VARIATION 2: LINEAR VERTICAL COLUMN STACK TRACKER
+           -------------------------------------------------------------------------- */
+        .dial-v2-housing { flex-direction: column-reverse; gap: 0; }
+        .dial-v2-housing .uv-fab-item-node { position: relative; margin-bottom: 0; transform: translateY(20px) scale(0.6); }
+        
+        .dial-v2-housing.active .uv-fab-base {
+            transform: rotate(45deg);
+        }
+        
+        .dial-v2-housing.active .uv-fab-item-node {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0) scale(1);
+            margin-bottom: 14px;
+        }
+        /* Cascading item transition delays natively mapped */
+        .dial-v2-housing .node-v2-1 { transition-delay: 0.02s; }
+        .dial-v2-housing .node-v2-2 { transition-delay: 0.07s; }
+        .dial-v2-housing .node-v2-3 { transition-delay: 0.12s; }
+
+        /* --------------------------------------------------------------------------
+           VARIATION 3: FULL HORIZONTAl SEMI-CIRCLE ARC ($180^\circ$)
+           -------------------------------------------------------------------------- */
+        .dial-v3-housing.active .uv-fab-base { transform: scale(0.9); background: #1e293b; }
+        .dial-v3-housing.active .node-v3-1 { opacity: 1; pointer-events: auto; transform: translate(-80px, 0px) scale(1); }
+        .dial-v3-housing.active .node-v3-2 { opacity: 1; pointer-events: auto; transform: translate(-56px, -56px) scale(1); }
+        .dial-v3-housing.active .node-v3-3 { opacity: 1; pointer-events: auto; transform: translate(0px, -80px) scale(1); }
+        .dial-v3-housing.active .node-v3-4 { opacity: 1; pointer-events: auto; transform: translate(56px, -56px) scale(1); }
+        .dial-v3-housing.active .node-v3-5 { opacity: 1; pointer-events: auto; transform: translate(80px, 0px) scale(1); }
+
+        /* --------------------------------------------------------------------------
+           VARIATION 4: FULL $360^\circ$ RADIAL FLUID CONSTELLATION WHEEL
+           -------------------------------------------------------------------------- */
+        .dial-v4-housing.active .uv-fab-base { background: var(--accent-cyan); transform: rotate(360deg); }
+        .dial-v4-housing.active .node-v4-1 { opacity: 1; pointer-events: auto; transform: translate(0px, -85px) scale(1); }
+        .dial-v4-housing.active .node-v4-2 { opacity: 1; pointer-events: auto; transform: translate(60px, -60px) scale(1); }
+        .dial-v4-housing.active .node-v4-3 { opacity: 1; pointer-events: auto; transform: translate(85px, 0px) scale(1); }
+        .dial-v4-housing.active .node-v4-4 { opacity: 1; pointer-events: auto; transform: translate(60px, 60px) scale(1); }
+        .dial-v4-housing.active .node-v4-5 { opacity: 1; pointer-events: auto; transform: translate(0px, 85px) scale(1); }
+        .dial-v4-housing.active .node-v4-6 { opacity: 1; pointer-events: auto; transform: translate(-60px, 60px) scale(1); }
+        .dial-v4-housing.active .node-v4-7 { opacity: 1; pointer-events: auto; transform: translate(-85px, 0px) scale(1); }
+        .dial-v4-housing.active .node-v4-8 { opacity: 1; pointer-events: auto; transform: translate(-60px, -60px) scale(1); }
+
+        /* --------------------------------------------------------------------------
+           VARIATION 5: NEUMORPHIC SOFT SPEED SELECTION DIAL
+           -------------------------------------------------------------------------- */
+        .uv-fab-neu-base {
+            width: 58px;
+            height: 58px;
+            border-radius: var(--radius-round);
+            background: #e0e0e0;
+            border: none;
+            color: #4a5568;
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 6px 6px 12px #bebebe, -6px -6px 12px #ffffff;
+            position: relative;
+            z-index: 10;
+            transition: all 0.3s var(--ease-spring);
+        }
+
+        .uv-fab-neu-node {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-round);
+            background: #e0e0e0;
+            border: none;
+            color: #4a5568;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
+            position: absolute;
+            z-index: 5;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.5);
+            transition: all 0.3s var(--ease-spring);
+        }
+
+        .dial-v5-housing.active .uv-fab-neu-base {
+            box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+            color: var(--primary);
+        }
+
+        .dial-v5-housing.active .node-v5-1 { opacity: 1; pointer-events: auto; transform: translate(-75px, -30px) scale(1); }
+        .dial-v5-housing.active .node-v5-2 { opacity: 1; pointer-events: auto; transform: translate(-50px, -70px) scale(1); }
+        .dial-v5-housing.active .node-v5-3 { opacity: 1; pointer-events: auto; transform: translate(0px, -85px) scale(1); }
+
+        /* --------------------------------------------------------------------------
+           VARIATION 6: STAIR-STEPPING LINEAR CHIPS WIDGET
+           -------------------------------------------------------------------------- */
+        .dial-v6-housing { flex-direction: column-reverse; align-items: flex-end; }
+        .uv-fab-chip-node {
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(15px);
+            transition: all 0.25s var(--ease-smooth);
+            white-space: nowrap;
+            margin-bottom: 0;
+        }
+
+        .dial-v6-housing.active .uv-fab-base { background: var(--text-main); transform: rotate(90deg); }
+        .dial-v6-housing.active .uv-fab-chip-node {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+            margin-bottom: 10px;
+        }
+        .dial-v6-housing .node-v6-1 { transition-delay: 0.05s; }
+        .dial-v6-housing .node-v6-2 { transition-delay: 0.1s; }
+        .dial-v6-housing .node-v6-3 { transition-delay: 0.15s; }
+
+        /* --------------------------------------------------------------------------
+           VARIATION 7: GLASSMORPHISM BLUR ARC LAYER
+           -------------------------------------------------------------------------- */
+        .uv-fab-glass-node {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-round);
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #000000;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(0, 0) scale(0.2);
+            transition: all 0.3s var(--ease-spring);
+        }
+        
+        .dial-v7-housing.active .uv-fab-base { background: linear-gradient(135deg, #10b981, #059669); }
+        .dial-v7-housing.active .node-v7-1 { opacity: 1; pointer-events: auto; transform: translate(-70px, -40px) scale(1); }
+        .dial-v7-housing.active .node-v7-2 { opacity: 1; pointer-events: auto; transform: translate(-40px, -70px) scale(1); }
+
+        /* --------------------------------------------------------------------------
+           VARIATION 8: STRETCHING ELASTIC OVERLAY EXPANSION
+           -------------------------------------------------------------------------- */
+        .dial-v8-housing .uv-fab-item-node {
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.5), opacity 0.3s ease;
+        }
+        .dial-v8-housing.active .node-v8-1 { opacity: 1; pointer-events: auto; transform: translate(0px, -95px) scale(1); }
+        .dial-v8-housing.active .node-v8-2 { opacity: 1; pointer-events: auto; transform: translate(95px, 0px) scale(1); }
+
+        /* ==========================================================================
+           4. PERSISTENT SYSTEM OVERLAY NOTIFICATIONS & GLOBAL ALERTS
+           ========================================================================== */
+        .toast-pipeline-housing {
+            position: fixed;
+            bottom: 2.5rem;
+            right: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            z-index: 99999;
+            pointer-events: none;
+        }
+
+        .toast-popup-card {
+            pointer-events: auto;
+            background-color: var(--bg-sidebar);
+            color: white;
+            padding: 1.1rem 1.6rem;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            min-width: 320px;
+            border-left: 4px solid var(--primary);
+            transform: translateY(100px);
+            opacity: 0;
+            animation: pushToastState 0.35s forwards var(--ease-spring);
+        }
+
+        @keyframes pushToastState {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Responsive Breakpoint Matrix */
+        @media (max-width: 992px) {
+            .hub-sidebar { transform: translateX(-270px); }
+            .hub-main { margin-left: 0; width: 100%; padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hub-wrapper">
+        <aside class="hub-sidebar">
+            <a href="#" class="hub-brand">
+                <i class="fa-solid fa-compass-drafting"></i>
+                <span>UI-Verse Dial Lab</span>
+            </a>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="#arc-clones" class="sidebar-link active"><i class="fa-solid fa-chart-pie"></i>Arc Distributions</a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#linear-clones" class="sidebar-link"><i class="fa-solid fa-list-ul"></i>Linear Columns</a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#experimental-clones" class="sidebar-link"><i class="fa-solid fa-flask"></i>Experimental Layouts</a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="hub-main">
+            <header class="hub-header">
+                <div class="header-meta">
+                    <h1>Circular FAB Menu Speed Dials</h1>
+                    <p>Advanced interactive floating trigger arrays for micro-action execution maps.</p>
+                </div>
+                <button class="theme-toggle-trigger" id="workspaceThemeTrigger" title="Invert Platform Layout Canvas">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </header>
+
+            <section class="sandbox-section" id="arc-clones">
+                <div class="section-title-bar">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <h2>Arc & Angular Polar Spans</h2>
+                </div>
+                
+                <div class="showcase-grid">
+                    
+                    <div class="showcase-card">
+                        <div class="card-top-bar">
+                            <span class="card-heading-title">North-East $90^\circ$ Angular Arc</span>
+                            <span class="card-badge-tag">JS Reactive</span>
+                        </div>
+                        <div class="card-viewport-stage">
+                            <div class="uv-speed-dial-housing dial-v1-housing">
+                                <button class="uv-fab-base" aria-label="Expand actions menu" aria-expanded="false"><i class="fa-solid fa-plus"></i></button>
+                                <button class="uv-fab-item-node node-v1-1" title="Launch File Link"><i class="fa-solid fa-file-lines"></i></button>
+                                <button class="uv-fab-item-node node-v1-2" title="Broadcast Data stream"><i class="fa-solid fa-tower-broadcast"></i></button>
+                                <button class="uv-fab-item-node node-v1-3" title="Sync local cache store"><i class="fa-solid fa-rotate"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-actions-panel">
+                            <button class="explorer-btn code-inspect-trigger"><i class="fa-solid fa-code"></i> Code</button>
+                        </div>
+                        <div class="drawer-code-container">
+                            <div class="code-shell-wrapper">
+                                <button class="copy-absolute-trigger">Copy Code</button>
+                                <pre><code>&lt;div class="uv-speed-dial-housing dial-v1-housing"&gt;\n  &lt;button class="uv-fab-base"&gt;&lt;i class="fa-solid fa-plus"&gt;&lt;/i&gt;&lt;/button&gt;\n  &lt;button class="uv-fab-item-node node-v1-1"&gt;&lt;i class="fa-solid fa-file-lines"&gt;&lt;/i&gt;&lt;/button&gt;\n&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="showcase-card">
+                        <div class="card-top-bar">
+                            <span class="card-heading-title">Upper Panoramic $180^\circ$ Horizon</span>
+                            <span class="card-badge-tag">JS Reactive</span>
+                        </div>
+                        <div class="card-viewport-stage">
+                            <div class="uv-speed-dial-housing dial-v3-housing" style="margin-top: 50px;">
+                                <button class="uv-fab-base" aria-label="Expand actions menu" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i></button>
+                                <button class="uv-fab-item-node node-v3-1" title="Option A"><i class="fa-solid fa-bolt"></i></button>
+                                <button class="uv-fab-item-node node-v3-2" title="Option B"><i class="fa-solid fa-shield-halved"></i></button>
+                                <button class="uv-fab-item-node node-v3-3" title="Option C"><i class="fa-solid fa-heart"></i></button>
+                                <button class="uv-fab-item-node node-v3-4" title="Option D"><i class="fa-solid fa-envelope"></i></button>
+                                <button class="uv-fab-item-node node-v3-5" title="Option E"><i class="fa-solid fa-gear"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-actions-panel">
+                            <button class="explorer-btn code-inspect-trigger"><i class="fa-solid fa-code"></i> Code</button>
+                        </div>
+                        <div class="drawer-code-container">
+                            <div class="code-shell-wrapper">
+                                <button class="copy-absolute-trigger">Copy Code</button>
+                                <pre><code>&lt;!-- Panoramic 180 Degree Expansion Blueprint Array --&gt;\n&lt;div class="uv-speed-dial-housing dial-v3-housing"&gt;\n  &lt;button class="uv-fab-base"&gt;&lt;i class="fa-solid fa-ellipsis"&gt;&lt;/i&gt;&lt;/button&gt;\n&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="showcase-card">
+                        <div class="card-top-bar">
+                            <span class="card-heading-title">Full $360^\circ$ Constellation Orbit</span>
+                            <span class="card-badge-tag">JS Reactive</span>
+                        </div>
+                        <div class="card-viewport-stage">
+                            <div class="uv-speed-dial-housing dial-v4-housing">
+                                <button class="uv-fab-base" aria-label="Expand actions menu" aria-expanded="false"><i class="fa-solid fa-eye"></i></button>
+                                <button class="uv-fab-item-node node-v4-1"><i class="fa-solid fa-cloud"></i></button>
+                                <button class="uv-fab-item-node node-v4-2"><i class="fa-solid fa-terminal"></i></button>
+                                <button class="uv-fab-item-node node-v4-3"><i class="fa-solid fa-code-branch"></i></button>
+                                <button class="uv-fab-item-node node-v4-4"><i class="fa-solid fa-database"></i></button>
+                                <button class="uv-fab-item-node node-v4-5"><i class="fa-solid fa-server"></i></button>
+                                <button class="uv-fab-item-node node-v4-6"><i class="fa-solid fa-filter"></i></button>
+                                <button class="uv-fab-item-node node-v4-7"><i class="fa-solid fa-key"></i></button>
+                                <button class="uv-fab-item-node node-v4-8"><i class="fa-solid fa-bug"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-actions-panel">
+                            <button class="explorer-btn code-inspect-trigger"><i class="fa-solid fa-code"></i> Code</button>
+                        </div>
+                        <div class="drawer-code-container">
+                            <div class="code-shell-wrapper">
+                                <button class="copy-absolute-trigger">Copy Code</button>
+                                <pre><code>&lt;!-- Full Radial 360 Degree Orbit Matrix --&gt;\n&lt;div class="uv-speed-dial-housing dial-v4-housing"&gt;\n  &lt;button class="uv-fab-base"&gt;&lt;i class="fa-solid fa-eye"&gt;&lt;/i&gt;&lt;/button&gt;\n&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="sandbox-section" id="linear-clones">
+                <div class="section-title-bar">
+                    <i class="fa-solid fa-list-ul"></i>
+                    <h2>Linear & Tabular Column Nodes</h2>
+                </div>
+                
+                <div class="showcase-grid">
+
+                    <div class="showcase-card">
+                        <div class="card-top-bar">
+                            <span class="card-heading-title">Vertical Linear Cascade Stack</span>
+                            <span class="card-badge-tag">Stair-Step Delay</span>
+                        </div>
+                        <div class="card-viewport-stage" style="align-items: flex-end; padding-bottom: 2rem;">
+                            <div class="uv-speed-dial-housing dial-v2-housing">
+                                <button class="uv-fab-base" aria-label="Expand actions menu" aria-expanded="false"><i class="fa-solid fa-paper-plane"></i></button>
+                                <button class="uv-fab-item-node node-v2-1" title="Send SMS Channel Link"><i class="fa-solid fa-comment-sms"></i></button>
+                                <button class="uv-fab-item-node node-v2-2" title="Forward via secure Email"><i class="fa-solid fa-share-nodes"></i></button>
+                                <button class="uv-fab-item-node node-v2-3" title="Generate raw text print stream"><i class="fa-solid fa-print"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-actions-panel">
+                            <button class="explorer-btn code-inspect-trigger"><i class="fa-solid fa-code"></i> Code</button>
+                        </div>
+                        <div class="drawer-code-container">
+                            <div class="code-shell-wrapper">
+                                <button class="copy-absolute-trigger">Copy Code</button>
+                                <pre><code>&lt;div class="uv-speed-dial-housing dial-v2-housing"&gt;\n  &lt;button class="uv-fab-base"&gt;&lt;i class="fa-solid fa-paper-plane"&gt;&lt;/i&gt;&lt;/button&gt;\n  &lt;button class="uv-fab-item-node node-v2-1"&gt;&lt;/i&gt;&lt;/button&gt;\n&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="showcase-card">
+                        <div class="card-top-bar">
+                            <span class="card-heading-title">Stair-Step Linear Text Chip Panels</span>
+                            <span class="card-badge-tag">Informative Text Labels</span>
+                        </div>
+                        <div class="card-viewport-stage" style="align-items: flex-end; justify-content: flex-end; padding: 2rem;">
+                            <div class="uv-speed-dial-housing dial-v6-housing">
+                                <button class="uv-fab-base" aria-label="Expand actions menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+                                <div class="uv-fab-chip-node node-v6-1"><i class="fa-solid fa-user-plus"></i> Invite User Token</div>
+                                <div class="uv-fab-chip-node node-v6-2"><i class="fa-solid fa-folder-plus"></i> Initialize Folder Space</div>
+                                <div class="uv-fab-chip-node node-v6-3"><i class="fa-solid fa-sliders"></i> Adjust Workspace Layout</div>
+                            </div>
+                        </div>
+                        <div class="card-actions-panel">
+                            <button class="explorer-btn code-inspect-trigger"><i class="fa-solid fa-code"></i> Code</button>
+                        </div>
+                        <div class="drawer-code-container">
+                            <div class="code-shell-wrapper">
+                                <button class="copy-absolute-trigger">Copy Code</button>
+                                <pre><code>&lt;div class="uv-speed-dial-housing dial-v6-housing"&gt;\n  &lt;button class="uv-fab-base"&gt;&lt;i class="fa-solid fa-bars"&gt;&lt;/i&gt;&lt;/button&gt;\n  &lt;div class="uv-fab-chip-node node-v6-1"&gt;Invite User Token&lt;/div&gt;\n&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="sandbox-section" id="experimental-clones">
+                <div class="section-title-bar">
+                    <i class="fa-solid fa-flask"></i>
+                    <h2>Experimental Morphing Surfaces</h2>
+                </div>
+                
+                <div class="showcase-grid">
+
+                    <div class="showcase-card">
+                        <div class="card-top-bar">
+                            <span class="card-heading-title">Neumorphic Soft-Shadow Spring</span>
+                            <span class="card-badge-tag">Soft UI Design</span>
+                        </div>
+                        <div class="card-viewport-stage" style="background: #e0e0e0;">
+                            <div class="uv-speed-dial-housing dial-v5-housing" style="margin-top: 40px; margin-left: 60px;">
+                                <button class="uv-fab-neu-base" aria-label="Expand actions menu" aria-expanded="false"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+                                <button class="uv-fab-neu-node node-v5-1"><i class="fa-solid fa-palette"></i></button>
+                                <button class="uv-fab-neu-node node-v5-2"><i class="fa-solid fa-crop-simple"></i></button>
+                                <button class="uv-fab-neu-node node-v5-3"><i class="fa-solid fa-wand-magic"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-actions-panel">
+                            <button class="explorer-btn code-inspect-trigger"><i class="fa-solid fa-code"></i> Code</button>
+                        </div>
+                        <div class="drawer-code-container">
+                            <div class="code-shell-wrapper">
+                                <button class="copy-absolute-trigger">Copy Code</button>
+                                <pre><code>&lt;!-- Soft Neumorphic Configuration Core Block --&gt;\n&lt;div class="uv-speed-dial-housing dial-v5-housing"&gt;\n  &lt;button class="uv-fab-neu-base"&gt;&lt;i class="fa-solid fa-wand-magic-sparkles"&gt;&lt;/i&gt;&lt;/button&gt;\n&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="showcase-card">
+                        <div class="card-top-bar">
+                            <span class="card-heading-title">Glassmorphism Backdrop Blur Arc</span>
+                            <span class="card-badge-tag">Frosted Material</span>
+                        </div>
+                        <div class="card-viewport-stage" style="background: linear-gradient(45deg, #111827 0%, #312e81 100%);">
+                            <div class="uv-speed-dial-housing dial-v7-housing" style="margin-top: 40px; margin-left: 40px;">
+                                <button class="uv-fab-base" aria-label="Expand actions menu" aria-expanded="false"><i class="fa-solid fa-droplet"></i></button>
+                                <button class="uv-fab-glass-node node-v7-1" style="color:white;"><i class="fa-solid fa-palette"></i></button>
+                                <button class="uv-fab-glass-node node-v7-2" style="color:white;"><i class="fa-solid fa-brush"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-actions-panel">
+                            <button class="explorer-btn code-inspect-trigger"><i class="fa-solid fa-code"></i> Code</button>
+                        </div>
+                        <div class="drawer-code-container">
+                            <div class="code-shell-wrapper">
+                                <button class="copy-absolute-trigger">Copy Code</button>
+                                <pre><code>&lt;!-- Translucent Backdrop blur Filter Specification --&gt;\n&lt;button class="uv-fab-glass-node"&gt;&lt;i class="fa-solid fa-palette"&gt;&lt;/i&gt;&lt;/button&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="showcase-card">
+                        <div class="card-top-bar">
+                            <span class="card-heading-title">Elastic Mechanical Stretching</span>
+                            <span class="card-badge-tag">High Velocity Springs</span>
+                        </div>
+                        <div class="card-viewport-stage" style="justify-content: flex-start; align-items: flex-end; padding: 3rem;">
+                            <div class="uv-speed-dial-housing dial-v8-housing">
+                                <button class="uv-fab-base" aria-label="Expand actions menu" aria-expanded="false"><i class="fa-solid fa-expand"></i></button>
+                                <button class="uv-fab-item-node node-v8-1"><i class="fa-solid fa-anchor"></i></button>
+                                <button class="uv-fab-item-node node-v8-2"><i class="fa-solid fa-magnet"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-actions-panel">
+                            <button class="explorer-btn code-inspect-trigger"><i class="fa-solid fa-code"></i> Code</button>
+                        </div>
+                        <div class="drawer-code-container">
+                            <div class="code-shell-wrapper">
+                                <button class="copy-absolute-trigger">Copy Code</button>
+                                <pre><code>&lt;!-- Elastic Kinetic Speed Displacement parameters mapping --&gt;\n&lt;div class="uv-speed-dial-housing dial-v8-housing"&gt;&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="toast-pipeline-housing" id="appNotificationHub"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Core Action Module: Open/Close Drawer Panels
+            const codeButtons = document.querySelectorAll('.code-inspect-trigger');
+            codeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const primaryCard = btn.closest('.showcase-card');
+                    const drawerCode = primaryCard.querySelector('.drawer-code-container');
+                    
+                    drawerCode.classList.toggle('expanded');
+                    btn.classList.toggle('active');
+                    
+                    const isExpandedState = drawerCode.classList.contains('expanded');
+                    btn.innerHTML = isExpandedState ? 
+                        `<i class="fa-solid fa-folder-open"></i> Hide Spec` : 
+                        `<i class="fa-solid fa-code"></i> Code`;
+                });
+            });
+
+            // Core Action Module: Clipboard Capture Pipeline Engine
+            const copyButtons = document.querySelectorAll('.copy-absolute-trigger');
+            copyButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetSnippet = btn.nextElementSibling.querySelector('code');
+                    let targetTextString = targetSnippet.innerText.replace(/\\n/g, '\n');
+                    
+                    navigator.clipboard.writeText(targetTextString).then(() => {
+                        const previousLabel = btn.textContent;
+                        btn.textContent = 'Copied text!';
+                        btn.style.backgroundColor = 'var(--success)';
+                        dispatchStatusToastAlert('Component asset template copied onto system active clipboard frames.');
+                        
+                        setTimeout(() => {
+                            btn.textContent = previousLabel;
+                            btn.style.backgroundColor = '';
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('System error encountered during clipboard extraction sequence execution:', err);
+                    });
+                });
+            });
+
+            // Core Speed Dial Global Toggling Mechanism Processing Engine Loop
+            const structuralFabs = document.querySelectorAll('.uv-fab-base, .uv-fab-neu-base');
+            structuralFabs.forEach(fab => {
+                fab.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const processingContainer = fab.closest('.uv-speed-dial-housing');
+                    if(!processingContainer) return;
+
+                    processingContainer.classList.toggle('active');
+                    const isActive = processingContainer.classList.contains('active');
+                    fab.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+
+                    if(isActive) {
+                        dispatchStatusToastAlert('Radial Action Speed Dial expanded. Trigger matrix accessible.');
+                    }
+                });
+            });
+
+            // Intercept node clicks to fire notifications and prevent event loss
+            const subActionNodes = document.querySelectorAll('.uv-fab-item-node, .uv-fab-neu-node, .uv-fab-chip-node, .uv-fab-glass-node');
+            subActionNodes.forEach(node => {
+                node.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const descriptiveTitle = node.getAttribute('title') || 'Sub-action item node';
+                    dispatchStatusToastAlert(`Operational Action Dispatched: ${descriptiveTitle}`);
+                    
+                    // Automatically minimize parents block sequence frames
+                    const activeHousing = node.closest('.uv-speed-dial-housing');
+                    if(activeHousing) activeHousing.classList.remove('active');
+                });
+            });
+
+            // Close all open menus when users hit background layout canvas boundaries
+            document.addEventListener('click', () => {
+                const activeMenus = document.querySelectorAll('.uv-speed-dial-housing.active');
+                activeMenus.forEach(menu => {
+                    menu.classList.remove('active');
+                    const primaryBtn = menu.querySelector('.uv-fab-base, .uv-fab-neu-base');
+                    if(primaryBtn) primaryBtn.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            // Global System Messaging Alert Injection Pipe
+            const notificationChannelHub = document.getElementById('appNotificationHub');
+            function dispatchStatusToastAlert(textMessageContent) {
+                if(!notificationChannelHub) return;
+                
+                const toastNodeElement = document.createElement('div');
+                toastNodeElement.className = 'toast-popup-card';
+                toastNodeElement.innerHTML = `<i class="fa-solid fa-circle-check" style="color:var(--primary)"></i> <span>${textMessageContent}</span>`;
+                
+                notificationChannelHub.appendChild(toastNodeElement);
+                
+                setTimeout(() => {
+                    toastNodeElement.style.opacity = '0';
+                    toastNodeElement.style.transform = 'translateY(15px)';
+                    toastNodeElement.style.transition = 'all 0.3s var(--ease-smooth)';
+                    setTimeout(() => { toastNodeElement.remove(); }, 350);
+                }, 3500);
+            }
+
+            // Dark Mode Schema Switch Toggling Controller Connection Interface
+            const interfaceThemeTrigger = document.getElementById('workspaceThemeTrigger');
+            if(interfaceThemeTrigger) {
+                interfaceThemeTrigger.addEventListener('click', () => {
+                    const currentSelectedTheme = document.body.getAttribute('data-theme');
+                    if(currentSelectedTheme === 'dark') {
+                        document.body.removeAttribute('data-theme');
+                        interfaceThemeTrigger.innerHTML = `<i class="fa-solid fa-moon"></i>`;
+                        dispatchStatusToastAlert('Interface design engine updated to standard Light Schema layers.');
+                    } else {
+                        document.body.setAttribute('data-theme', 'dark');
+                        interfaceThemeTrigger.innerHTML = `<i class="fa-solid fa-sun"></i>`;
+                        dispatchStatusToastAlert('Interface design engine updated to high-density Dark Contrast configurations.');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
