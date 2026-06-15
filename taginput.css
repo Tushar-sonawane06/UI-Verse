@@ -1,88 +1,695 @@
-body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #f9f9f9, #ececec);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+
+:root {
+  /* Core Brand Spectrum Matrix */
+  --tag-bg-rgb: 5, 8, 22;
+  --tag-surface-rgb: 15, 23, 42;
+  --tag-card-rgb: 13, 18, 36;
+  --tag-primary-rgb: 235, 104, 53;      /* Premium Core Orange Accent */
+  --tag-secondary-rgb: 108, 92, 231;   /* Modern Indigo Purple Accent */
+  --tag-accent-rgb: 0, 184, 148;       /* Mint Success Variant */
+  --tag-danger-rgb: 239, 68, 68;       /* Validation Crimson Alert */
+  --tag-warning-rgb: 241, 196, 15;     /* Warning Amber Alert */
+  --tag-info-rgb: 9, 132, 227;         /* Info Cyan Diagnostic Alert */
+  --tag-text-rgb: 248, 250, 252;
+  --tag-muted-rgb: 148, 163, 184;
+
+  /* Semantic Interface Contextual Mappings */
+  --tag-bg: rgb(var(--tag-bg-rgb));
+  --tag-surface: rgb(var(--tag-surface-rgb));
+  --tag-card: rgb(var(--tag-card-rgb));
+  --tag-primary: rgb(var(--tag-primary-rgb));
+  --tag-secondary: rgb(var(--tag-secondary-rgb));
+  --tag-accent: rgb(var(--tag-accent-rgb));
+  --tag-danger: rgb(var(--tag-danger-rgb));
+  --tag-warning: rgb(var(--tag-warning-rgb));
+  --tag-info: rgb(var(--tag-info-rgb));
+  --tag-text: var(--tag-text-rgb);
+  --tag-muted: rgb(var(--tag-muted-rgb));
+
+  /* Fluid Typography Hierarchies */
+  --tag-font-display: 'Syne', system-ui, -apple-system, sans-serif;
+  --tag-font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+
+  /* Explicit Geometric Boundary Parameters */
+  --tag-border: rgba(255, 255, 255, 0.06);
+  --tag-border-hover: rgba(255, 255, 255, 0.15);
+  --tag-border-focus: rgba(var(--tag-primary-rgb), 0.5);
+  --tag-border-glow: rgba(var(--tag-primary-rgb), 0.15);
+  --tag-glass-blur: blur(16px);
+  
+  /* Layout Radius Constants */
+  --tag-radius-xl: 24px;
+  --tag-radius-lg: 16px;
+  --tag-radius-md: 10px;
+  --tag-radius-sm: 6px;
+  --tag-radius-circle: 50%;
+
+  /* High Performance Depth Elevations Matrix */
+  --tag-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --tag-shadow-md: 0 12px 32px -4px rgba(0, 0, 0, 0.4);
+  --tag-shadow-lg: 0 24px 64px -12px rgba(0, 0, 0, 0.6);
+  --tag-shadow-glow: 0 0 20px rgba(var(--tag-primary-rgb), 0.2);
+
+  /* Linear Interpolation Acceleration Timings */
+  --tag-transition-fast: all 0.15s ease;
+  --tag-transition-normal: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --tag-transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --tag-transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==========================================================================
+   2. BOX REALM SYSTEM INITIALIZATION PASS
+   ========================================================================== */
+*,
+*::before,
+*::after {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--tag-font-body);
+  background-color: var(--tag-bg);
+  color: rgb(248, 250, 252);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+/* Custom Scrollbar Infrastructure across suggestions items panel blocks */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--tag-primary-rgb), 0.4);
+}
+
+/* ==========================================================================
+   3. BACKGROUND AMBIENT SPACE MESH CHANNELS
+   ========================================================================== */
+body::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  right: 10%;
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(var(--tag-primary-rgb), 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(40px);
+}
+
+body::after {
+  content: '';
+  position: absolute;
+  bottom: -5%;
+  left: 5%;
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(var(--tag-secondary-rgb), 0.03) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(40px);
+}
+
+/* ==========================================================================
+   4. APPARATUS MAIN HOUSING FRAME (.CONTAINER)
+   ========================================================================== */
 .container {
-  background: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  max-width: 600px;
+  background: rgba(var(--tag-card-rgb), 0.45);
+  backdrop-filter: var(--tag-glass-blur);
+  -webkit-backdrop-filter: var(--tag-glass-blur);
+  border: 1px solid var(--tag-border);
+  padding: 56px 48px;
+  border-radius: var(--tag-radius-xl);
   width: 100%;
-  text-align: center;
+  max-width: 660px;
+  box-shadow: var(--tag-shadow-lg);
+  position: relative;
+  z-index: 1;
+  transition: var(--tag-transition-smooth);
+  overflow: hidden;
 }
 
+.container:hover {
+  border-color: rgba(var(--tag-primary-rgb), 0.18);
+  box-shadow: var(--tag-shadow-lg), 
+              inset 0 0 32px rgba(var(--tag-primary-rgb), 0.01);
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   5. HEADER HERO SEGMENT TYPOGRAPHY
+   ========================================================================== */
 .title {
-  font-size: 28px;
-  color: #ff6600;
-  margin-bottom: 10px;
+  font-family: var(--tag-font-display);
+  font-size: clamp(1.85rem, 4.5vw, 2.35rem);
+  font-weight: 800;
+  letter-spacing: -1.8px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #ffffff 30%, rgba(var(--tag-primary-rgb), 0.80) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.15;
+  display: inline-block;
 }
 
 .subtitle {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 25px;
+  color: var(--tag-muted);
+  font-size: clamp(0.88rem, 2vw, 0.95rem);
+  margin-bottom: 36px;
+  line-height: 1.65;
+  font-weight: 400;
 }
 
-.tag-input {
+.subtitle strong {
+  color: var(--tag-primary);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   6. INTERACTIVE CHIPS INPUT HOUSING OUTER CASE (.TAG-INPUT-WRAPPER)
+   ========================================================================== */
+.tag-input-wrapper {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--tag-border);
+  border-radius: var(--tag-radius-lg);
+  padding: 12px 16px;
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
   align-items: center;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  padding: 8px;
-  gap: 6px;
-  transition: border-color 0.3s ease;
+  cursor: text;
+  transition: var(--tag-transition-normal);
+  position: relative;
+  min-height: 64px;
 }
 
-.tag-input:focus-within {
-  border-color: #ff6600;
+/* Focused UI Presentation Layer state changes rules */
+.tag-input-wrapper.focused {
+  border-color: var(--tag-primary);
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 4px rgba(var(--tag-primary-rgb), 0.15);
 }
 
-.tag-input input {
-  border: none;
-  outline: none;
-  flex: 1;
-  min-width: 120px;
-  font-size: 14px;
+/* Form validation validation client failure states overrides rules */
+.tag-input-wrapper.has-error {
+  border-color: var(--tag-danger) !important;
+  box-shadow: 0 0 0 4px rgba(var(--tag-danger-rgb), 0.12) !important;
+  background: rgba(var(--tag-danger-rgb), 0.02);
 }
 
-.tag {
-  background: #ff6600;
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 20px;
+/* State when max tag limit bounds configuration cap executes metrics locks */
+.tag-input-wrapper.limit-locked {
+  border-color: rgba(var(--tag-primary-rgb), 0.4);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================
+   7. CHIPS INTERIOR DECK ROW PLACEMENT HOLDER (.TAGS-CONTAINER)
+   ========================================================================== */
+.tags-container {
   display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  transition: var(--tag-transition-normal);
+}
+
+/* ==========================================================================
+   8. INDIVIDUAL CHIP LAYOUT MODULE PACKS COMPONENTS (.CHIP-NODE)
+   ========================================================================== */
+.chip-node {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
+  background: rgba(var(--tag-primary-rgb), 0.08);
+  color: var(--tag-primary);
+  border: 1px solid rgba(var(--tag-primary-rgb), 0.18);
+  padding: 6px 14px;
+  border-radius: var(--tag-radius-md);
   font-size: 14px;
-  animation: fadeIn 0.3s ease;
+  font-weight: 600;
+  user-select: none;
+  animation: chipPop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  transition: var(--tag-transition-fast);
+  cursor: grab;
+  position: relative;
 }
 
-.tag .remove {
+.chip-node:hover {
+  background: rgba(var(--tag-primary-rgb), 0.15);
+  border-color: rgba(var(--tag-primary-rgb), 0.32);
+  transform: translateY(-1px);
+}
+
+/* Keyboard Navigation Mode Selected Focus Indication Parameters rules */
+.chip-node:focus-visible,
+.chip-node.keyboard-focused {
+  outline: none;
+  background: var(--tag-primary);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: var(--tag-shadow-glow), 0 4px 12px rgba(var(--tag-primary-rgb), 0.2);
+}
+
+/* HTML5 active spatial displacement loops status anchors */
+.chip-node.is-dragging {
+  opacity: 0.35;
+  cursor: grabbing;
+  border-style: dashed;
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Drag spatial spacer indication box node elements layout rules */
+.drag-spacer-node {
+  width: 4px;
+  height: 28px;
+  background-color: var(--tag-primary);
+  border-radius: 2px;
+  box-shadow: var(--tag-shadow-glow);
+  animation: spacerPulse 1s infinite alternate ease-in-out;
+}
+
+/* ==========================================================================
+   9. INDIVIDUAL CHIP REMOVAL ACTIONABLE LINK ANCHOR (.CHIP-REMOVE-BTN)
+   ========================================================================== */
+.chip-remove-btn {
   cursor: pointer;
-  font-weight: bold;
-  transition: color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--tag-radius-circle);
+  font-size: 11px;
+  color: rgba(var(--tag-primary-rgb), 0.55);
+  transition: var(--tag-transition-fast);
+  position: relative;
+  z-index: 2;
 }
 
-.tag .remove:hover {
-  color: #222;
+.chip-node:hover .chip-remove-btn {
+  color: var(--tag-primary);
+  background: rgba(var(--tag-primary-rgb), 0.1);
 }
 
-.error-msg {
-  color: red;
+.chip-node.keyboard-focused .chip-remove-btn {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.chip-remove-btn:hover {
+  background: var(--tag-danger) !important;
+  color: #ffffff !important;
+  transform: scale(1.1);
+}
+
+.chip-remove-btn:active {
+  transform: scale(0.9);
+}
+
+/* ==========================================================================
+   10. TERMINAL DATA INPUT ENTRY ELEMENT FIELD (.TAG-INPUT-FIELD)
+   ========================================================================== */
+.tag-input-field {
+  flex: 1;
+  min-width: 160px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: var(--tag-font-body);
   font-size: 14px;
-  margin-top: 10px;
-  min-height: 18px;
+  font-weight: 500;
+  padding: 6px 0;
+  transition: var(--tag-transition-fast);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
+.tag-input-field::placeholder {
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.tag-input-field:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+/* ==========================================================================
+   11. DATA ARRAYS DIAGNOSTICS DECK HEADS HUD (.META-METRICS-HUD)
+   ========================================================================== */
+.meta-metrics-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  min-height: 26px;
+  padding: 0 4px;
+}
+
+.error-msg-node {
+  color: var(--tag-danger);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: var(--tag-transition-normal);
+  pointer-events: none;
+}
+
+.error-msg-node.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.error-msg-node i {
+  font-size: 12px;
+}
+
+.count-indicator {
+  font-size: 12px;
+  color: var(--tag-muted);
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin-left: auto;
+  transition: var(--tag-transition-fast);
+}
+
+.count-indicator.limit-reached {
+  color: var(--tag-primary);
+  text-shadow: 0 0 10px rgba(var(--tag-primary-rgb), 0.25);
+}
+
+/* ==========================================================================
+   12. ABSOLUTE AUTOCOMPLETE SEARCH MATRIX SLIDER DROPDOWN PANEL
+   ========================================================================== */
+.autocomplete-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: rgb(21, 29, 47);
+  border: 1px solid var(--tag-border);
+  border-radius: var(--tag-radius-md);
+  box-shadow: var(--tag-shadow-lg);
+  z-index: 100;
+  max-height: 210px;
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: var(--tag-transition-normal);
+  padding: 6px;
+}
+
+.autocomplete-panel.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.suggestion-item {
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--tag-muted);
+  cursor: pointer;
+  border-radius: var(--tag-radius-sm);
+  transition: var(--tag-transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.suggestion-item::after {
+  content: '+';
+  font-size: 12px;
+  opacity: 0;
+  transform: translateX(4px);
+  transition: var(--tag-transition-fast);
+}
+
+.suggestion-item:hover,
+.suggestion-item.highlighted {
+  background: rgba(var(--tag-primary-rgb), 0.06);
+  color: var(--tag-primary);
+}
+
+.suggestion-item:hover::after,
+.suggestion-item.highlighted::after {
+  opacity: 0.6;
+  transform: translateX(0);
+}
+
+/* ==========================================================================
+   13. OPERATIONS PACK FOOTER SYSTEM OVERLAYS COMMANDS LINK
+   ========================================================================== */
+.action-panel-footer {
+  margin-top: 36px;
+  display: flex;
+  gap: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 26px;
+}
+
+.btn {
+  background: var(--tag-primary);
+  color: #ffffff;
+  border: 1px solid transparent;
+  padding: 14px 28px;
+  border-radius: var(--tag-radius-md);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--tag-transition-normal);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.2px;
+  box-shadow: 0 4px 14px rgba(var(--tag-primary-rgb), 0.2);
+}
+
+.btn:hover {
+  background: #ff7640;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(var(--tag-primary-rgb), 0.35);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn i {
+  font-size: 13px;
+  transition: var(--tag-transition-fast);
+}
+
+.btn:hover i {
+  transform: scale(1.1);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--tag-border);
+  color: var(--tag-muted);
+  box-shadow: none;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   14. SYSTEM TIMELINES ANIMATION ENGINE KEYFRAMES
+   ========================================================================== */
+@keyframes chipPop {
+  0% {
+    transform: scale(0.72);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes spacerPulse {
+  0% {
+    opacity: 0.4;
+    box-shadow: 0 0 4px rgba(var(--tag-primary-rgb), 0.1);
+  }
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 16px rgba(var(--tag-primary-rgb), 0.4);
+  }
+}
+
+/* ==========================================================================
+   15. ADAPTIVE PLATFORM VIEWPORTS BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 680px) {
+  .container {
+    padding: 44px 28px;
+    border-radius: var(--tag-radius-lg);
+  }
+
+  .title {
+    font-size: 1.9rem;
+    letter-spacing: -1.2px;
+  }
+
+  .tag-input-wrapper {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .chip-node {
+    padding: 5px 12px;
+    font-size: 13px;
+  }
+
+  .action-panel-footer {
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 22px;
+    margin-top: 28px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 12px 24px;
+  }
+}
+
+@media (max-width: 420px) {
+  body {
+    padding: 16px;
+  }
+
+  .container {
+    padding: 36px 16px;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .tag-input-field {
+    min-width: 100%;
+    margin-top: 4px;
+    padding-left: 2px;
+  }
+}
+
+/* ==========================================================================
+   16. REDUCED HARDWARE OVERRIDES & ACCESSIBILITY FILTERS
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .chip-node {
+    animation: none !important;
+  }
+}
+
+/* High Contrast mode accessibility optimizations rules */
+@media (forced-colors: active) {
+  .tag-input-wrapper.focused {
+    border: 2px solid SelectedItem !important;
+  }
+  .chip-node.keyboard-focused {
+    background: SelectedItem !important;
+    color: SelectedItemText !important;
+  }
+  .btn {
+    border: 1px solid ButtonText !important;
+  }
+}
+
+/* ==========================================================================
+   17. ENVIRONMENT STYLES OVERRIDES FOR RAW SYSTEM PRINTS
+   ========================================================================== */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .container {
+    box-shadow: none !important;
+    border: 1px solid #000000 !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  .tag-input-wrapper {
+    background: transparent !important;
+    border: 1px solid #000000 !important;
+  }
+
+  .chip-node {
+    background: transparent !important;
+    border: 1px solid #000000 !important;
+    color: #000000 !important;
+    page-break-inside: avoid;
+  }
+
+  .chip-remove-btn,
+  .autocomplete-panel,
+  .action-panel-footer,
+  body::before,
+  body::after {
+    display: none !important;
+  }
 }
