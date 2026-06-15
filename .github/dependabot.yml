@@ -1,0 +1,62 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: UTC
+    versioning-strategy: increase
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - automated
+    reviewers:
+      - Tushar-sonawane06
+    commit-message:
+      prefix: chore
+      prefix-development: chore
+      include: scope
+    groups:
+      storybook:
+        patterns:
+          - "@storybook/*"
+          - storybook
+        update-types:
+          - minor
+          - patch
+      playwright:
+        patterns:
+          - "@playwright/*"
+          - playwright
+        update-types:
+          - minor
+          - patch
+      rollup:
+        patterns:
+          - "rollup"
+          - "@rollup/*"
+        update-types:
+          - minor
+          - patch
+    ignore:
+      - dependency-name: "typescript"
+        versions: [">=6.0.0"]
+      - dependency-name: "eslint"
+        versions: [">=9.0.0"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: UTC
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - github-actions
+    commit-message:
+      prefix: chore
+      include: scope
