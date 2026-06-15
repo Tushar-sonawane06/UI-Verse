@@ -454,70 +454,383 @@
 
   <div class="container">
     <h1 class="title">⭐ Star Rating Component</h1>
-    <p class="subtitle">Hover to preview, click to lock your rating. Supports half-stars!</p>
+    <p class="subtitle">Hover seamlessly to preview, click to lock your evaluation framework. Full mobile adaptive gesture support.</p>
 
-    <!-- Component -->
-    <div class="star-rating" id="starRating">
-      <span class="star" data-value="0.5">★</span>
-      <span class="star" data-value="1">★</span>
-      <span class="star" data-value="1.5">★</span>
-      <span class="star" data-value="2">★</span>
-      <span class="star" data-value="2.5">★</span>
-      <span class="star" data-value="3">★</span>
-      <span class="star" data-value="3.5">★</span>
-      <span class="star" data-value="4">★</span>
-      <span class="star" data-value="4.5">★</span>
-      <span class="star" data-value="5">★</span>
+    <div class="star-rating-engine" id="starRatingEngine" role="slider" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" aria-valuetext="No rating selected" tabindex="0">
+      
+      <div class="star-cell" data-index="1">
+        <div class="star-vector-backdrop"><i class="fa-solid fa-star"></i></div>
+        <div class="star-vector-foreground"><i class="fa-solid fa-star"></i></div>
+        <div class="fractional-trigger-zone left-half" data-fraction="0.5"></div>
+        <div class="fractional-trigger-zone right-full" data-fraction="1.0"></div>
+      </div>
+
+      <div class="star-cell" data-index="2">
+        <div class="star-vector-backdrop"><i class="fa-solid fa-star"></i></div>
+        <div class="star-vector-foreground"><i class="fa-solid fa-star"></i></div>
+        <div class="fractional-trigger-zone left-half" data-fraction="1.5"></div>
+        <div class="fractional-trigger-zone right-full" data-fraction="2.0"></div>
+      </div>
+
+      <div class="star-cell" data-index="3">
+        <div class="star-vector-backdrop"><i class="fa-solid fa-star"></i></div>
+        <div class="star-vector-foreground"><i class="fa-solid fa-star"></i></div>
+        <div class="fractional-trigger-zone left-half" data-fraction="2.5"></div>
+        <div class="fractional-trigger-zone right-full" data-fraction="3.0"></div>
+      </div>
+
+      <div class="star-cell" data-index="4">
+        <div class="star-vector-backdrop"><i class="fa-solid fa-star"></i></div>
+        <div class="star-vector-foreground"><i class="fa-solid fa-star"></i></div>
+        <div class="fractional-trigger-zone left-half" data-fraction="3.5"></div>
+        <div class="fractional-trigger-zone right-full" data-fraction="4.0"></div>
+      </div>
+
+      <div class="star-cell" data-index="5">
+        <div class="star-vector-backdrop"><i class="fa-solid fa-star"></i></div>
+        <div class="star-vector-foreground"><i class="fa-solid fa-star"></i></div>
+        <div class="fractional-trigger-zone left-half" data-fraction="4.5"></div>
+        <div class="fractional-trigger-zone right-full" data-fraction="5.0"></div>
+      </div>
+
     </div>
 
-    <!-- Label -->
-    <p id="ratingLabel" class="rating-label">No rating selected</p>
+    <div class="rating-label-wrapper">
+      <p id="ratingLabel" class="rating-label">No rating selected</p>
+      <span id="ratingDescription" class="rating-description">Sub-par selection</span>
+    </div>
+
+    <div class="feedback-input-box" id="feedbackInputBox">
+      <label for="reviewComments">Tell us more about your experience (Optional)</label>
+      <textarea id="reviewComments" placeholder="Provide extra contextual notes to back your score details..."></textarea>
+      <div class="action-row">
+        <button class="btn btn-secondary" id="clearFormBtn">Reset</button>
+        <button class="btn" id="submitFormBtn">Submit Review</button>
+      </div>
+    </div>
+
+    <div class="success-alert-overlay" id="successAlertOverlay">
+      <i class="fa-solid fa-circle-check"></i>
+      <h2 style="font-family: var(--font-display); font-weight: 800; letter-spacing: -1px;">Review Transmitted</h2>
+      <p style="color: var(--muted); font-size: 14px;">Your evaluations parameters have successfully tracked and hard locked into persistence storage nodes.</p>
+      <button class="btn btn-secondary" id="restartWorkflowBtn" style="margin-top: 12px; padding: 10px 20px;">Review Again</button>
+    </div>
+
   </div>
 
   <script>
-    const stars = document.querySelectorAll(".star");
-const ratingLabel = document.getElementById("ratingLabel");
+    "use strict";
 
-let currentRating = 0;
+    (function(window, document) {
 
-// Highlight stars up to hovered value
-function highlightStars(value) {
-  stars.forEach(star => {
-    const starValue = parseFloat(star.dataset.value);
-    star.classList.toggle("active", starValue <= value);
-  });
-}
+      /**
+       * Fixed Lexical Dictionary Mappings
+       * @type {Object.<number, string>}
+       */
+      const ADJECTIVE_MAP = {
+        0.5: "Terrible Experience",
+        1.0: "Very Disappointing",
+        1.5: "Poor Performance",
+        2.0: "Below Expectations",
+        2.5: "Mediocre Quality",
+        3.0: "Average & Standard",
+        3.5: "Good & Decent",
+        4.0: "Highly Satisfactory",
+        4.5: "Excellent Execution",
+        5.0: "Masterpiece Standard"
+      };
 
-// Update label
-function updateLabel(value) {
-  if (value === 0) {
-    ratingLabel.textContent = "No rating selected";
-  } else {
-    ratingLabel.textContent = `${value} out of 5`;
-  }
-}
+      /**
+       * Unified Memory Data State Machine
+       */
+      const ComponentState = {
+        lockedScore: 0.0,
+        activePreviewScore: 0.0,
+        keyboardPointerContext: 0.0,
+        isInteractiveLockout: false
+      };
 
-// Hover preview
-stars.forEach(star => {
-  star.addEventListener("mouseenter", () => {
-    const value = parseFloat(star.dataset.value);
-    highlightStars(value);
-    updateLabel(value);
-  });
+      /**
+       * Cached View Structural Registry Nodes Engine
+       */
+      const UI = {
+        engine: document.getElementById("starRatingEngine"),
+        label: document.getElementById("ratingLabel"),
+        desc: document.getElementById("ratingDescription"),
+        feedbackBox: document.getElementById("feedbackInputBox"),
+        commentInput: document.getElementById("reviewComments"),
+        submitBtn: document.getElementById("submitFormBtn"),
+        clearBtn: document.getElementById("clearFormBtn"),
+        successOverlay: document.getElementById("successAlertOverlay"),
+        restartBtn: document.getElementById("restartWorkflowBtn"),
+        cells: document.querySelectorAll(".star-cell")
+      };
 
-  star.addEventListener("mouseleave", () => {
-    highlightStars(currentRating);
-    updateLabel(currentRating);
-  });
+      /**
+       * Core Render Manipulation Engines
+       */
+      const VisualPipeline = {
+        /**
+         * Orchestrates target widths configurations inside absolute paths
+         * @param {number} value score boundary reference
+         */
+        drawScore(value) {
+          UI.cells.forEach(cell => {
+            const cellIndex = parseInt(cell.dataset.index, 10);
+            const foregroundMask = cell.querySelector(".star-vector-foreground");
+            
+            if (!foregroundMask) return;
 
-  // Click to lock rating
-  star.addEventListener("click", () => {
-    currentRating = parseFloat(star.dataset.value);
-    highlightStars(currentRating);
-    updateLabel(currentRating);
-  });
-});
+            // Compute percentage filled bounds matching split variables
+            if (value >= cellIndex) {
+              foregroundMask.style.width = "100%";
+            } else if (value === cellIndex - 0.5) {
+              foregroundMask.style.width = "50%";
+            } else {
+              foregroundMask.style.width = "0%";
+            }
+          });
 
+          this.updateTextOutputs(value);
+        },
+
+        /**
+         * Handles content rendering changes inside dynamic DOM strings
+         */
+        updateTextOutputs(value) {
+          if (value === 0) {
+            UI.label.textContent = "No rating selected";
+            UI.desc.classList.remove("visible");
+            UI.engine.setAttribute("aria-valuenow", "0");
+            UI.engine.setAttribute("aria-valuetext", "No rating selected");
+          } else {
+            UI.label.textContent = `${value.toFixed(1)} out of 5.0`;
+            
+            if (ADJECTIVE_MAP[value]) {
+              UI.desc.textContent = ADJECTIVE_MAP[value];
+              UI.desc.classList.add("visible");
+            }
+            
+            UI.engine.setAttribute("aria-valuenow", value.toString());
+            UI.engine.setAttribute("aria-valuetext", `${value} Stars - ${ADJECTIVE_MAP[value]}`);
+          }
+        },
+
+        /**
+         * Evaluates visibility states around data submission sections
+         */
+        evaluateFormAvailability(value) {
+          if (value > 0) {
+            UI.feedbackBox.classList.add("activated");
+          } else {
+            UI.feedbackBox.classList.remove("activated");
+            UI.commentInput.value = "";
+          }
+        }
+      };
+
+      /**
+       * Operational Logic Aggregator Events Handlers Modules
+       */
+      const EventOrchestrator = {
+        init() {
+          this.bindMousePreviews();
+          this.bindTouchGestures();
+          this.bindAccessibilityKeyboardChannels();
+          this.bindTransactionalFormActions();
+          this.hydrateInitialStatesFromStorage();
+        },
+
+        bindMousePreviews() {
+          UI.cells.forEach(cell => {
+            const triggerZones = cell.querySelectorAll(".fractional-trigger-zone");
+
+            triggerZones.forEach(zone => {
+              // Mousemove coordinates mapping paths inside triggers
+              zone.addEventListener("mouseenter", () => {
+                if (ComponentState.isInteractiveLockout) return;
+                
+                const targetValue = parseFloat(zone.dataset.fraction);
+                ComponentState.activePreviewScore = targetValue;
+                VisualPipeline.drawScore(targetValue);
+              });
+
+              // Click executions commitments routes
+              zone.addEventListener("click", () => {
+                if (ComponentState.isInteractiveLockout) return;
+
+                const targetValue = parseFloat(zone.dataset.fraction);
+                ComponentState.lockedScore = targetValue;
+                
+                // Fire tactile spring animations vectors across the cell parent container
+                cell.classList.remove("spring-animate");
+                void cell.offsetWidth; // Repaint trigger anchor
+                cell.classList.add("spring-animate");
+
+                VisualPipeline.drawScore(targetValue);
+                VisualPipeline.evaluateFormAvailability(targetValue);
+                
+                this.persistStateLocally(targetValue);
+              });
+            });
+
+            // Restore engine tracks back to hard locks on system exits
+            cell.addEventListener("mouseleave", () => {
+              if (ComponentState.isInteractiveLockout) return;
+              ComponentState.activePreviewScore = 0.0;
+              VisualPipeline.drawScore(ComponentState.lockedScore);
+            });
+          });
+        },
+
+        bindTouchGestures() {
+          // Deliver responsive touch handling parameters for mobile layers
+          UI.engine.addEventListener("touchmove", (e) => {
+            if (ComponentState.isInteractiveLockout || e.touches.length === 0) return;
+            
+            const touchToken = e.touches[0];
+            const clientTargetElement = document.elementFromPoint(touchToken.clientX, touchToken.clientY);
+            
+            if (!clientTargetElement) return;
+
+            const proxyZone = clientTargetElement.closest(".fractional-trigger-zone");
+            if (proxyZone) {
+              e.preventDefault(); // Suspend window scroll behaviors during active scrubbing routes
+              const contextualTouchValue = parseFloat(proxyZone.dataset.fraction);
+              ComponentState.activePreviewScore = contextualTouchValue;
+              VisualPipeline.drawScore(contextualTouchValue);
+            }
+          }, { passive: false });
+
+          UI.engine.addEventListener("touchend", (e) => {
+            if (ComponentState.isInteractiveLockout) return;
+            
+            if (ComponentState.activePreviewScore > 0.0) {
+              ComponentState.lockedScore = ComponentState.activePreviewScore;
+              VisualPipeline.drawScore(ComponentState.lockedScore);
+              VisualPipeline.evaluateFormAvailability(ComponentState.lockedScore);
+              this.persistStateLocally(ComponentState.lockedScore);
+            }
+          });
+        },
+
+        bindAccessibilityKeyboardChannels() {
+          // Synchronize standard WAI-ARIA slider keystroke events to support screen readers natively
+          UI.engine.addEventListener("keydown", (e) => {
+            if (ComponentState.isInteractiveLockout) return;
+
+            let step = 0.5;
+            let current = ComponentState.lockedScore;
+
+            switch (e.key) {
+              case "ArrowRight":
+              case "ArrowUp":
+                current = Math.min(5.0, current + step);
+                break;
+              case "ArrowLeft":
+              case "ArrowDown":
+                current = Math.max(0.0, current - step);
+                break;
+              case "Home":
+                current = 0.0;
+                break;
+              case "End":
+                current = 5.0;
+                break;
+              default:
+                return; // Structural escape path for unrelated actions
+            }
+
+            e.preventDefault();
+            ComponentState.lockedScore = current;
+            VisualPipeline.drawScore(current);
+            VisualPipeline.evaluateFormAvailability(current);
+            this.persistStateLocally(current);
+          });
+        },
+
+        bindTransactionalFormActions() {
+          UI.submitBtn.addEventListener("click", async (e) => {
+            e.preventDefault();
+            if (ComponentState.lockedScore === 0.0 || ComponentState.isInteractiveLockout) return;
+
+            ComponentState.isInteractiveLockout = true;
+            UI.submitBtn.textContent = "Transmitting Data...";
+            UI.submitBtn.disabled = true;
+
+            // Simulate server network pipeline delays
+            await new Promise(resolve => setTimeout(resolve, 1200));
+
+            UI.successOverlay.classList.add("active");
+          });
+
+          UI.clearBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (ComponentState.isInteractiveLockout) return;
+
+            ComponentState.lockedScore = 0.0;
+            ComponentState.activePreviewScore = 0.0;
+            
+            VisualPipeline.drawScore(0.0);
+            VisualPipeline.evaluateFormAvailability(0.0);
+            localStorage.removeItem("uiverse_locked_score");
+          });
+
+          UI.restartBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            
+            // Revert state variables to clean states
+            ComponentState.lockedScore = 0.0;
+            ComponentState.activePreviewScore = 0.0;
+            ComponentState.isInteractiveLockout = false;
+
+            UI.submitBtn.textContent = "Submit Review";
+            UI.submitBtn.disabled = false;
+            UI.successOverlay.classList.remove("active");
+            
+            VisualPipeline.drawScore(0.0);
+            VisualPipeline.evaluateFormAvailability(0.0);
+            localStorage.removeItem("uiverse_locked_score");
+          });
+        },
+
+        persistStateLocally(score) {
+          try {
+            localStorage.setItem("uiverse_locked_score", score.toString());
+          } catch (err) {
+            console.warn("Storage write failure due to restricted privacy sandboxes: ", err);
+          }
+        },
+
+        hydrateInitialStatesFromStorage() {
+          try {
+            const cachedValue = localStorage.getItem("uiverse_locked_score");
+            if (cachedValue) {
+              const numericValue = parseFloat(cachedValue);
+              ComponentState.lockedScore = numericValue;
+              VisualPipeline.drawScore(numericValue);
+              VisualPipeline.evaluateFormAvailability(numericValue);
+            }
+          } catch (err) {
+            console.warn("Storage hydration bypassed: ", err);
+          }
+        }
+      };
+
+      /**
+       * Master Execution Entry Gate
+       */
+      function bootloadRatingSystemContext() {
+        EventOrchestrator.init();
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", bootloadRatingSystemContext);
+      } else {
+        bootloadRatingSystemContext();
+      }
+
+    })(window, document);
   </script>
 </body>
 </html>

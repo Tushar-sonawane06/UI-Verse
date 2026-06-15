@@ -1,58 +1,579 @@
-body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #f9f9f9, #ececec);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
+/* ==========================================================================
+   1. UTILITY TOKEN ENGINE & STRUCTURAL VARIABLE REGISTRY
+   ========================================================================== */
+:root {
+  /* Brand Master Spectrum Architecture */
+  --rating-bg-rgb: 5, 8, 22;
+  --rating-surface-rgb: 15, 23, 42;
+  --rating-card-rgb: 13, 18, 36;
+  --rating-primary-rgb: 235, 104, 53;      /* Premium Orange Accent */
+  --rating-secondary-rgb: 108, 92, 231;   /* Tech Purple Hue */
+  --rating-star-active-rgb: 241, 196, 15;  /* Star Core Gold */
+  --rating-star-empty-rgb: 255, 255, 255;  /* Vector Base Mask */
+  --rating-danger-rgb: 239, 68, 68;       /* System Validation Red */
+  --rating-success-rgb: 16, 185, 129;     /* Confirmation Green */
+
+  /* Semantic Dynamic Assignments Mapping */
+  --rating-bg: rgb(var(--rating-bg-rgb));
+  --rating-surface: rgb(var(--rating-surface-rgb));
+  --rating-card: rgb(var(--rating-card-rgb));
+  --rating-primary: rgb(var(--rating-primary-rgb));
+  --rating-secondary: rgb(var(--rating-secondary-rgb));
+  --rating-star-active: rgb(var(--rating-star-active-rgb));
+  --rating-danger: rgb(var(--rating-danger-rgb));
+  --rating-success: rgb(var(--rating-success-rgb));
+
+  /* Fluid Metric Typography Systems */
+  --rating-font-display: 'Syne', system-ui, -apple-system, sans-serif;
+  --rating-font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+
+  /* Explicit Geometric Boundary Parameters */
+  --rating-border: rgba(255, 255, 255, 0.06);
+  --rating-border-focus: rgba(var(--rating-primary-rgb), 0.4);
+  --rating-glass-blur: blur(16px);
+  --rating-radius-xl: 32px;
+  --rating-radius-lg: 24px;
+  --rating-radius-md: 14px;
+  --rating-radius-sm: 8px;
+  --rating-radius-circle: 50%;
+
+  /* High Performance Hardware Accelerated Depth Vectors */
+  --rating-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --rating-shadow-md: 0 12px 32px -4px rgba(0, 0, 0, 0.4);
+  --rating-shadow-lg: 0 24px 64px -12px rgba(0, 0, 0, 0.6);
+
+  /* Linear Interpolation Animation Vectors */
+  --rating-transition-fast: all 0.15s ease;
+  --rating-transition-normal: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --rating-transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --rating-transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* ==========================================================================
+   2. BOX REALM BOX-SIZING RESET OPTIMIZATIONS
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--rating-font-body);
+  background-color: var(--rating-bg);
+  color: rgb(248, 250, 252);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+/* ==========================================================================
+   3. BACKGROUND ENVIRONMENT LAYER DECORATORS
+   ========================================================================== */
+body::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: 15%;
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(var(--rating-primary-rgb), 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(40px);
+}
+
+body::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  right: 5%;
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(var(--rating-secondary-rgb), 0.04) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(40px);
+}
+
+/* ==========================================================================
+   4. APPARATUS PANEL MAIN CASING ARCHITECTURE (.CONTAINER)
+   ========================================================================== */
 .container {
-  background: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  background: rgba(var(--rating-card-rgb), 0.45);
+  backdrop-filter: var(--rating-glass-blur);
+  -webkit-backdrop-filter: var(--rating-glass-blur);
+  border: 1px solid var(--rating-border);
+  padding: 64px 56px;
+  border-radius: var(--rating-radius-xl);
+  width: 100%;
   max-width: 600px;
+  box-shadow: var(--rating-shadow-lg);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  transition: var(--rating-transition-smooth);
+  overflow: hidden;
+}
+
+.container:hover {
+  border-color: rgba(var(--rating-primary-rgb), 0.2);
+  box-shadow: var(--rating-shadow-lg), 
+              inset 0 0 32px rgba(var(--rating-primary-rgb), 0.02);
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   5. HEADER HERO SEGMENT TYPOGRAPHY
+   ========================================================================== */
+.title {
+  font-family: var(--rating-font-display);
+  font-size: clamp(1.85rem, 4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -1.8px;
+  margin-bottom: 14px;
+  line-height: 1.15;
+  background: linear-gradient(135deg, #ffffff 20%, rgba(var(--rating-primary-rgb), 0.75) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.subtitle {
+  color: rgb(148, 163, 184);
+  font-size: clamp(0.85rem, 2vw, 0.98rem);
+  max-width: 440px;
+  margin: 0 auto 48px;
+  line-height: 1.65;
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   6. RATING ENGINE GRID LAYER (.STAR-RATING-ENGINE)
+   ========================================================================== */
+.star-rating-engine {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  position: relative;
+  padding: 8px 16px;
+  border-radius: var(--rating-radius-md);
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  transition: var(--rating-transition-normal);
+}
+
+.star-rating-engine:focus-visible {
+  outline: none;
+  border-color: var(--rating-primary);
+  box-shadow: 0 0 0 4px rgba(var(--rating-primary-rgb), 0.18);
+}
+
+/* ==========================================================================
+   7. INDIVIDUAL CELL TRACKERS ENGINE LABELS (.STAR-CELL)
+   ========================================================================== */
+.star-cell {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: var(--rating-transition-normal);
+}
+
+/* Base Backdrop Shape Vector Rendering Rules */
+.star-vector-backdrop {
+  font-size: 46px;
+  color: rgba(var(--rating-star-empty-rgb), 0.08);
+  transition: var(--rating-transition-bounce);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* Highlight Mask Overlay Geometric Structures */
+.star-vector-foreground {
+  font-size: 46px;
+  color: var(--rating-star-active);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 0%; /* Altered programmatically by application controller algorithms */
+  transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-shadow: 0 0 20px rgba(var(--rating-star-active-rgb), 0.35);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.star-vector-foreground i {
   width: 100%;
   text-align: center;
 }
 
-.title {
-  font-size: 28px;
-  color: #ff6600;
-  margin-bottom: 10px;
+/* Container Interaction Level Tracking Hooks */
+.star-cell:hover .star-vector-backdrop {
+  transform: scale(1.15);
+  color: rgba(var(--rating-star-empty-rgb), 0.15);
 }
 
-.subtitle {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 25px;
+/* ==========================================================================
+   8. SPATIAL FRACTIONAL OVERLAY SPLIT HITBOXES
+   ========================================================================== */
+.fractional-trigger-zone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  z-index: 5;
 }
 
-.star-rating {
-  display: inline-flex;
+.fractional-trigger-zone.left-half {
+  left: 0;
+}
+
+.fractional-trigger-zone.right-full {
+  right: 0;
+}
+
+/* Dynamic Spring Class Injection Rules */
+.spring-animate {
+  animation: starBounce 0.48s var(--rating-transition-bounce);
+}
+
+@keyframes starBounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.28);
+  }
+}
+
+/* ==========================================================================
+   9. DYNAMIC EVALUATION OUTPUT METADATA GRAPHICS
+   ========================================================================== */
+.rating-label-wrapper {
+  margin-bottom: 36px;
+  min-height: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 6px;
-  font-size: 32px;
-  cursor: pointer;
-}
-
-.star {
-  color: #ccc;
-  transition: color 0.3s ease, transform 0.2s ease;
-}
-
-.star:hover {
-  transform: scale(1.2);
-}
-
-.star.active {
-  color: #ffcc00;
 }
 
 .rating-label {
-  margin-top: 20px;
-  font-size: 18px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.4px;
+  transition: var(--rating-transition-fast);
+}
+
+.rating-description {
+  font-size: 0.82rem;
+  color: var(--rating-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: var(--rating-transition-normal);
+}
+
+.rating-description.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   10. FEEDBACK COLLAPSIBLE INTERFACE LAYOUTS (.FEEDBACK-INPUT-BOX)
+   ========================================================================== */
+.feedback-input-box {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: var(--rating-transition-smooth);
+  max-height: 0;
+  overflow: hidden;
+}
+
+.feedback-input-box.activated {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+  max-height: 320px;
+  margin-top: 12px;
+}
+
+.feedback-input-box label {
+  font-size: 13px;
+  color: rgb(148, 163, 184);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding-left: 2px;
+}
+
+.feedback-input-box textarea {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--rating-border);
+  padding: 16px 20px;
+  border-radius: var(--rating-radius-md);
+  color: #ffffff;
+  font-family: var(--rating-font-body);
+  font-size: 14px;
   font-weight: 500;
-  color: #333;
+  resize: none;
+  height: 110px;
+  transition: var(--rating-transition-normal);
+  width: 100%;
+}
+
+.feedback-input-box textarea:focus {
+  outline: none;
+  border-color: var(--rating-primary);
+  box-shadow: 0 0 0 4px rgba(var(--rating-primary-rgb), 0.15);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.feedback-input-box textarea::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* ==========================================================================
+   11. TRANSACTIONAL OPERATIONS TRIGGER HUDS (.BTN)
+   ========================================================================== */
+.action-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.btn {
+  background: var(--rating-primary);
+  color: #ffffff;
+  border: 1px solid transparent;
+  padding: 14px 28px;
+  border-radius: var(--rating-radius-md);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--rating-transition-normal);
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 14px rgba(var(--rating-primary-rgb), 0.2);
+}
+
+.btn:hover {
+  background: #ff7640;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(var(--rating-primary-rgb), 0.35);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  background: rgb(71, 85, 105);
+  color: rgb(148, 163, 184);
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+  opacity: 0.6;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--rating-border);
+  color: rgb(148, 163, 184);
+  box-shadow: none;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.03);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* ==========================================================================
+   12. PERSISTENCE TRANSACTIONAL SCREEN OVERLAYS
+   ========================================================================== */
+.success-alert-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgb(11, 16, 30);
+  border-radius: var(--rating-radius-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.94);
+  transition: var(--rating-transition-smooth);
+  z-index: 10;
+  padding: 48px;
+}
+
+.success-alert-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: scale(1);
+}
+
+.success-alert-overlay i {
+  font-size: 56px;
+  color: var(--rating-primary);
+  text-shadow: 0 0 24px rgba(var(--rating-primary-rgb), 0.3);
+}
+
+/* ==========================================================================
+   13. ADAPTIVE RESPONSION MATRIX ENGINEERING INTERFACES
+   ========================================================================== */
+@media (max-width: 640px) {
+  .container {
+    padding: 48px 32px;
+    border-radius: var(--rating-radius-lg);
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .star-rating-engine {
+    gap: 10px;
+    padding: 6px 12px;
+  }
+
+  .star-cell {
+    width: 44px;
+    height: 44px;
+  }
+
+  .star-vector-backdrop,
+  .star-vector-foreground {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 16px;
+  }
+
+  .container {
+    padding: 40px 20px;
+    border-radius: var(--rating-radius-md);
+  }
+
+  .title {
+    font-size: 1.65rem;
+    letter-spacing: -1.2px;
+  }
+
+  .subtitle {
+    margin-bottom: 36px;
+  }
+
+  .star-rating-engine {
+    gap: 6px;
+    padding: 4px 8px;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .star-cell {
+    width: 38px;
+    height: 38px;
+  }
+
+  .star-vector-backdrop,
+  .star-vector-foreground {
+    font-size: 32px;
+  }
+
+  .action-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 12px 20px;
+  }
+}
+
+/* ==========================================================================
+   14. PERFORMANCE DEGRADATION ARCHITECTURE & ASSISTIVE MEDIA HOOKS
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .star-vector-foreground {
+    transition: width 0s !important;
+  }
+}
+
+/* Support high contrast filters accessibility overrides */
+@media (forced-colors: active) {
+  .star-vector-foreground {
+    color: SelectedItem !important;
+  }
+  .btn {
+    border: 2px solid ButtonText !important;
+  }
 }
