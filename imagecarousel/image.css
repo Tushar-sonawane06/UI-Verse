@@ -91,3 +91,286 @@ body{
     font-size:28px;
   }
 }
+
+/* image.css */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:"DM Sans",sans-serif;
+  background:#050816;
+  color:white;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.carousel-section{
+  width:100%;
+  padding:40px;
+}
+
+.carousel-container{
+  position:relative;
+  width:100%;
+  max-width:1300px;
+  height:700px;
+  margin:auto;
+  border-radius:30px;
+  overflow:hidden;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.5),
+    0 0 50px rgba(78, 120, 255, 0.2);
+}
+
+.carousel-track{
+  width:100%;
+  height:100%;
+  position:relative;
+}
+
+.slide{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transform:scale(1.08);
+  transition:
+    opacity 1s ease,
+    transform 6s ease;
+}
+
+.slide.active{
+  opacity:1;
+  transform:scale(1);
+  z-index:1;
+}
+
+.overlay{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,0.75) 0%,
+      rgba(0,0,0,0.35) 45%,
+      rgba(0,0,0,0.2) 100%
+    );
+}
+
+.content{
+  position:absolute;
+  z-index:2;
+  top:50%;
+  left:80px;
+  transform:translateY(-50%);
+  max-width:620px;
+}
+
+.tag{
+  display:inline-block;
+  padding:10px 18px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(10px);
+  font-size:14px;
+  letter-spacing:1px;
+  margin-bottom:20px;
+}
+
+.content h1{
+  font-family:"Syne",sans-serif;
+  font-size:72px;
+  line-height:1.1;
+  margin-bottom:22px;
+  font-weight:800;
+}
+
+.content p{
+  font-size:18px;
+  line-height:1.8;
+  color:#d8d8d8;
+  margin-bottom:35px;
+}
+
+.buttons{
+  display:flex;
+  gap:18px;
+}
+
+.primary-btn,
+.secondary-btn{
+  border:none;
+  cursor:pointer;
+  padding:16px 28px;
+  border-radius:16px;
+  font-size:16px;
+  font-weight:700;
+  transition:0.35s ease;
+}
+
+.primary-btn{
+  background:white;
+  color:#111;
+}
+
+.primary-btn:hover{
+  transform:translateY(-3px);
+}
+
+.secondary-btn{
+  background:rgba(255,255,255,0.1);
+  color:white;
+  border:1px solid rgba(255,255,255,0.25);
+  backdrop-filter:blur(10px);
+}
+
+.secondary-btn:hover{
+  background:rgba(255,255,255,0.2);
+}
+
+.nav-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:58px;
+  height:58px;
+  border:none;
+  border-radius:50%;
+  cursor:pointer;
+  z-index:5;
+
+  background:rgba(255,255,255,0.12);
+  color:white;
+  font-size:24px;
+
+  backdrop-filter:blur(12px);
+
+  transition:0.3s ease;
+}
+
+.nav-btn:hover{
+  background:white;
+  color:black;
+  transform:translateY(-50%) scale(1.08);
+}
+
+.prev{
+  left:25px;
+}
+
+.next{
+  right:25px;
+}
+
+.dots{
+  position:absolute;
+  bottom:35px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:12px;
+  z-index:10;
+}
+
+.dot{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.35);
+  cursor:pointer;
+  transition:0.3s ease;
+}
+
+.active-dot{
+  width:40px;
+  border-radius:20px;
+  background:white;
+}
+
+.progress-bar{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:5px;
+  background:rgba(255,255,255,0.15);
+  z-index:10;
+}
+
+.progress{
+  width:0%;
+  height:100%;
+  background:white;
+  animation:progress 5s linear infinite;
+}
+
+@keyframes progress{
+  from{
+    width:0%;
+  }
+  to{
+    width:100%;
+  }
+}
+
+@media(max-width:900px){
+
+  .carousel-container{
+    height:600px;
+  }
+
+  .content{
+    left:40px;
+    right:40px;
+  }
+
+  .content h1{
+    font-size:52px;
+  }
+
+}
+
+@media(max-width:600px){
+
+  .carousel-section{
+    padding:15px;
+  }
+
+  .carousel-container{
+    height:540px;
+    border-radius:24px;
+  }
+
+  .content{
+    left:25px;
+    right:25px;
+  }
+
+  .content h1{
+    font-size:38px;
+  }
+
+  .content p{
+    font-size:15px;
+  }
+
+  .buttons{
+    flex-direction:column;
+  }
+
+  .nav-btn{
+    width:48px;
+    height:48px;
+    font-size:20px;
+  }
+
+}

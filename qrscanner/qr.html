@@ -1,34 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="../dist/shared.css">
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes' 'sha256-aqNNdDLnnrDOnTNdkJpYlAxKVJtLt9CtFLklmInuUAE='; style-src-attr 'unsafe-hashes' 'sha256-aqNNdDLnnrDOnTNdkJpYlAxKVJtLt9CtFLklmInuUAE='">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QR Scanner UI</title>
   <link rel="stylesheet" href="qr.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
 </head>
+
 <body>
+  <!-- Background Effects -->
+  <div class="bg-grid"></div>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
 
-  <div class="scanner-container">
+  <!-- Main Container -->
+  <main class="scanner-container">
 
-    <h1>QR Scanner</h1>
+    <!-- Header -->
+    <section class="hero-section">
+
+      <div class="logo-badge">
+        <span>◉</span>
+      </div>
+
+      <h1>
+        NeoScan
+      </h1>
+
+      <p>
+        Fast • Secure • Smart QR Detection
+      </p>
+
+    </section>
 
     <div class="scanner-box">
 
-      <div class="scanner-frame">
+  <video id="qr-video" autoplay playsinline></video>
 
-        <div class="scan-line"></div>
+  <div class="scanner-overlay"></div>
+
+  <span class="corner top-left"></span>
+  <span class="corner top-right"></span>
+  <span class="corner bottom-left"></span>
+  <span class="corner bottom-right"></span>
+
+  <div class="scan-line"></div>
+
+  <div class="scan-status" id="scanStatus">
+    Ready to Scan
+  </div>
+
+</div>
+
+    <!-- Scanner Card -->
+    <section class="scanner-card">
+      <!-- Info -->
+      <div class="scanner-info">
+
+        <div class="info-card">
+          <h3><i class="ti ti-bolt"></i> Instant Scan</h3>
+          <p>Detect QR codes within milliseconds.</p>
+        </div>
+
+        <div class="info-card">
+          <h3><i class="ti ti-lock"></i> Safe & Secure</h3>
+          <p>All scans stay protected and private.</p>
+        </div>
+
+        <div class="info-card">
+          <h3><i class="ti ti-device-mobile"></i> Mobile Friendly</h3>
+          <p>Fully responsive futuristic experience.</p>
+        </div>
 
       </div>
 
-    </div>
+      <!-- Buttons -->
+      <div class="btn-group">
+        <button type="button" id="scanBtn" class="primary-btn">
+          <i class="ti ti-upload"></i>
+          <span>Upload QR</span>
+        </button>
+        <input type="file" id="fileInput" accept="image/*" style="display:none">
+      </div>
 
-    <button id="scanBtn">
-      Start Scan
-    </button>
+    </section>
 
-  </div>
+  </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
   <script src="qr.js"></script>
+  <script src="../dist/shared.js"></script>
 </body>
 </html>

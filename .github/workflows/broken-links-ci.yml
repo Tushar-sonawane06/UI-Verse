@@ -1,0 +1,27 @@
+name: Broken Links and Assets Validator
+
+on:
+  pull_request:
+    paths:
+      - '**/*.html'
+      - 'scripts/link-asset-validation.js'
+      - 'package.json'
+
+jobs:
+  links-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate Links and Assets
+        run: npm run validate:links-and-assets

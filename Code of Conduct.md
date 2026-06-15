@@ -22,56 +22,48 @@ We are committed to creating a welcoming environment regardless of:
 
 ### Examples of positive behavior
 
-- Being respectful and kind in communication
-- Welcoming new contributors and beginners
-- Giving constructive feedback
-- Accepting responsibility for mistakes
-- Focusing on what is best for the community
+- Being respectful, encouraging, and kind in all communication
+- Welcoming and guiding new contributors and beginners
+- Giving constructive, polite, and actionable feedback
+- Gracefully accepting responsibility and apologizing for mistakes
+- Focusing on what is best for the overall community
 
 ### Examples of unacceptable behavior
 
-- Harassment, trolling, or insulting comments
-- Discrimination in any form
+- Harassment, trolling, insulting comments, or personal attacks
+- Discrimination, bias, or exclusionary behavior in any form
 - Personal or political attacks
-- Publishing private information without permission
-- Any conduct that is inappropriate in a professional setting
+- Publishing private information without explicit permission (doxing)
+- Any conduct that is inappropriate or unprofessional in a technical setting
 
 ## Scope
 
 This Code of Conduct applies to all project spaces, including:
 
-- GitHub repositories
-- Issues and pull requests
-- Discussions and community forums
-- Social media interactions related to the project
+- GitHub repositories, pull requests, issues, and discussions
+- Discussions and community forums (e.g. Discord, Slack)
+- Social media interactions and events related to the project
 
-## Enforcement
+## Enforcement & Reporting
 
-Project maintainers are responsible for:
+Project maintainers are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate, fair, and prompt action in response to any behavior they deem inappropriate.
 
-- Clarifying standards of acceptable behavior
-- Taking appropriate action in response to violations
-
-Actions may include:
-
-- Warning the contributor
-- Removing inappropriate content
-- Temporary or permanent ban from the project
-
-## Reporting Issues
+### Reporting Issues
 
 If you experience or witness unacceptable behavior, please report it by:
 
-- Opening a private issue
-- Contacting the maintainers directly
+- **Confidential Email Reporting:** Send a detailed report to security@uiverse.org or the lead maintainer's email.
+- **Direct GitHub Contact:** Contact the repository maintainers via private channels.
 
-All reports will be handled confidentially.
+All reports will be reviewed and investigated promptly, and will result in a response that is deemed necessary and appropriate to the circumstances. The project team pledges to maintain confidentiality with regard to the reporter of an incident.
+
+### Enforcement Guidelines
+
+1. **Correction:** A private, written warning with details and explanation.
+2. **Warning:** A formal warning with explicit warnings about future behavior.
+3. **Temporary Ban:** A temporary suspension from the project and community space.
+4. **Permanent Ban:** A permanent ban from all project spaces.
 
 ## Attribution
 
 This Code of Conduct is adapted from the [Contributor Covenant (version 2.1)](https://www.contributor-covenant.org/).
-
-## Final Note
-
-UIverse is built for learning, collaboration, and growth.
-Let us keep it friendly, respectful, and inclusive for everyone.

@@ -39,3 +39,33 @@ navButtons.forEach(button => {
   });
 
 });
+
+// exm.js
+
+let time = 30 * 60;
+
+const timer = document.getElementById("timer");
+
+const countdown = setInterval(() => {
+
+  let minutes = Math.floor(time / 60);
+  let seconds = time % 60;
+
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+
+  timer.innerHTML = `${minutes}:${seconds}`;
+
+  if (time <= 0) {
+
+    clearInterval(countdown);
+
+    timer.innerHTML = "00:00";
+
+    alert("Time is up! Exam submitted.");
+
+  }
+
+  time--;
+
+}, 1000);

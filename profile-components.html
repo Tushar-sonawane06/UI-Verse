@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Profile Components — UIverse</title>
@@ -8,12 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="home.css">
-  <link rel="stylesheet" href="shared-page.css">
-  <link rel="stylesheet" href="shared-sidebar.css" />
   <link rel="stylesheet" href="profile-components.css" />
-</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 <body>
 <!-- ================= SIDEBAR ================= -->
 <aside class="sidebar" id="sidebar">
@@ -28,6 +25,12 @@
         <a href="index.html">
           <i class="fa-solid fa-house"></i>
           <span>Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="leaderboard-components.html">
+          <i class="fa-solid fa-ranking-star"></i>
+          <span>Leaderboards</span>
         </a>
       </li>
       <li>
@@ -323,33 +326,70 @@
 
 <div class="main-content">
 
-  <header class="navbar" id="navbar">
-    <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
-      <i class="fa-solid fa-bars"></i>
+  <!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
     </button>
-
-    <div class="logo">UIverse</div>
-
-    <div class="search-bar">
-      <i class="fa-solid fa-magnifying-glass search-icon"></i>
-      <input type="text" id="searchInput" placeholder="Search components..." />
-      <kbd class="search-kbd">⌘K</kbd>
-    </div>
-
-    <div class="nav-right">
-      <button class="nav-btn outline-nav-btn">
-        <i class="fa-solid fa-plus"></i> Add Component
-      </button>
-      <a href="contributorss.html">
-        <button class="nav-btn primary-nav-btn">
-          Contributors
-        </button>
-      </a>
-      <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme">
-        <i class="fa-solid fa-moon"></i>
-      </button>
-    </div>
-  </header>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
 
   <!-- HERO -->
   <div class="page-hero">
@@ -907,21 +947,207 @@
 &lt;/div&gt;</code></pre>
       </div>
     </div>
+
+    <!-- CARD 11 (NEW): Minimal Outline Profile -->
+    <div class="upload-card profile-card-v2" data-name="minimal outline profile clean compact" data-cat="developers">
+      <div class="card-preview">
+        <div class="profile-card outline-card">
+          <div class="avatar">MO</div>
+          <h2>Max Owens</h2>
+          <p>Software Engineer</p>
+          <div class="outline-meta">
+            <span>Available</span>
+            <span>Remote</span>
+          </div>
+          <button type="button">View</button>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Minimal Outline</h3>
+          <span class="card-tag tag-essential">Simple</span>
+        </div>
+        <p>Clean, minimal profile with subtle outline and meta chips for compact lists.</p>
+        <div class="actions">
+          <button type="button" class="action-btn view-btn" onclick="toggleCode('code-outline-card', this)">
+            <i class="fa-solid fa-code"></i> View Code
+          </button>
+          <button type="button" class="action-btn copy-btn" onclick="copyCode('code-outline-card', this)">
+            <i class="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+        <pre class="code-block" id="code-outline-card"><code>&lt;div class="profile-card outline-card"&gt;
+  &lt;div class="avatar"&gt;MO&lt;/div&gt;
+  &lt;h2&gt;Max Owens&lt;/h2&gt;
+  &lt;p&gt;Software Engineer&lt;/p&gt;
+  &lt;div class="outline-meta"&gt;&lt;span&gt;Available&lt;/span&gt;&lt;span&gt;Remote&lt;/span&gt;&lt;/div&gt;
+  &lt;button&gt;View&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- CARD 12 (NEW): Contact Stack Profile -->
+    <div class="upload-card profile-card-v2" data-name="contact stack profile contact details phone email links" data-cat="interactive">
+      <div class="card-preview">
+        <div class="contact-card">
+          <div class="avatar">CR</div>
+          <h2>Casey Rivers</h2>
+          <p>Developer Advocate</p>
+          <div class="contact-list">
+            <a href="#"><i class="fa-regular fa-envelope"></i> Email</a>
+            <a href="#"><i class="fa-solid fa-phone"></i> Call</a>
+            <a href="#"><i class="fa-brands fa-linkedin"></i> Connect</a>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Contact Stack</h3>
+          <span class="card-tag tag-trending">Interactive</span>
+        </div>
+        <p>Vertical contact actions ideal for developer directories and quick outreach.</p>
+        <div class="actions">
+          <button type="button" class="action-btn view-btn" onclick="toggleCode('code-contact-card', this)">
+            <i class="fa-solid fa-code"></i> View Code
+          </button>
+          <button type="button" class="action-btn copy-btn" onclick="copyCode('code-contact-card', this)">
+            <i class="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+        <pre class="code-block" id="code-contact-card"><code>&lt;div class="contact-card"&gt;
+  &lt;div class="avatar"&gt;CR&lt;/div&gt;
+  &lt;h2&gt;Casey Rivers&lt;/h2&gt;
+  &lt;p&gt;Developer Advocate&lt;/p&gt;
+  &lt;div class="contact-list"&gt;&lt;a href="#"&gt;Email&lt;/a&gt;&lt;a href="#"&gt;Call&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- CARD 13 (NEW): Portfolio Showcase -->
+    <div class="upload-card profile-card-v2" data-name="portfolio showcase profile works project thumbnails" data-cat="creators">
+      <div class="card-preview">
+        <div class="portfolio-card">
+          <div class="avatar">PV</div>
+          <h2>Priya Venk</h2>
+          <p>Product Designer</p>
+          <div class="thumbs">
+            <div class="thumb"></div>
+            <div class="thumb"></div>
+            <div class="thumb"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Portfolio Showcase</h3>
+          <span class="card-tag tag-essential">Gallery</span>
+        </div>
+        <p>Small thumbnail gallery beneath profile for quick portfolio previews.</p>
+        <div class="actions">
+          <button type="button" class="action-btn view-btn" onclick="toggleCode('code-portfolio-card', this)">
+            <i class="fa-solid fa-code"></i> View Code
+          </button>
+          <button type="button" class="action-btn copy-btn" onclick="copyCode('code-portfolio-card', this)">
+            <i class="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+        <pre class="code-block" id="code-portfolio-card"><code>&lt;div class="portfolio-card"&gt;
+  &lt;div class="avatar"&gt;PV&lt;/div&gt;
+  &lt;h2&gt;Priya Venk&lt;/h2&gt;
+  &lt;p&gt;Product Designer&lt;/p&gt;
+  &lt;div class="thumbs"&gt;&lt;div class="thumb"&gt;&lt;/div&gt;&lt;div class="thumb"&gt;&lt;/div&gt;&lt;div class="thumb"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- CARD 14 (NEW): Circular Badge Profile -->
+    <div class="upload-card profile-card-v2" data-name="circular badge profile compact badge reputation rating" data-cat="developers">
+      <div class="card-preview">
+        <div class="badge-card">
+          <div class="badge-wrap">
+            <div class="avatar">BG</div>
+            <div class="badge">PRO</div>
+          </div>
+          <h2>Brynn Gale</h2>
+          <p>DevOps</p>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Badge Circle</h3>
+          <span class="card-tag tag-essential">Compact</span>
+        </div>
+        <p>Compact circular badge overlay used to surface reputation or membership levels.</p>
+        <div class="actions">
+          <button type="button" class="action-btn view-btn" onclick="toggleCode('code-badge-card', this)">
+            <i class="fa-solid fa-code"></i> View Code
+          </button>
+          <button type="button" class="action-btn copy-btn" onclick="copyCode('code-badge-card', this)">
+            <i class="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+        <pre class="code-block" id="code-badge-card"><code>&lt;div class="badge-card"&gt;
+  &lt;div class="badge-wrap"&gt;&lt;div class="avatar"&gt;BG&lt;/div&gt;&lt;div class="badge"&gt;PRO&lt;/div&gt;&lt;/div&gt;
+  &lt;h2&gt;Brynn Gale&lt;/h2&gt;
+  &lt;p&gt;DevOps&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- CARD 15 (NEW): Compact Mini Profile -->
+    <div class="upload-card profile-card-v2" data-name="compact mini profile small list item" data-cat="developers">
+      <div class="card-preview">
+        <div class="compact-card">
+          <div class="avatar">CM</div>
+          <div class="compact-info">
+            <h3>Cam Morin</h3>
+            <p class="muted">Mobile Engineer</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Compact Mini</h3>
+          <span class="card-tag tag-essential">List</span>
+        </div>
+        <p>Very small profile row suitable for lists, mentions, and compact UIs.</p>
+        <div class="actions">
+          <button type="button" class="action-btn view-btn" onclick="toggleCode('code-compact-card', this)">
+            <i class="fa-solid fa-code"></i> View Code
+          </button>
+          <button type="button" class="action-btn copy-btn" onclick="copyCode('code-compact-card', this)">
+            <i class="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+        <pre class="code-block" id="code-compact-card"><code>&lt;div class="compact-card"&gt;
+  &lt;div class="avatar"&gt;CM&lt;/div&gt;
+  &lt;div class="compact-info"&gt;&lt;h3&gt;Cam Morin&lt;/h3&gt;&lt;p&gt;Mobile Engineer&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
   </section>
 
 </div>
 
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
     <div class="footer-col brand">
       <h2 class="footer-logo">⬡ UIverse</h2>
       <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
       <div class="socials">
-        <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
-        <a href="https://twitter.com" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
+
     <div class="footer-col">
       <h3>Explore</h3>
       <ul>
@@ -932,34 +1158,61 @@
         <li><a href="forms.html">Forms</a></li>
       </ul>
     </div>
+
     <div class="footer-col">
       <h3>Resources</h3>
       <ul>
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">GitHub Repo</a></li>
-        <li><a href="#">Community</a></li>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
     </div>
+
     <div class="footer-col">
       <h3>Legal</h3>
       <ul>
         <li><a href="privacypolicy.html">Privacy Policy</a></li>
         <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
       </ul>
     </div>
+
     <div class="footer-col newsletter">
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
-        <button type="button">Subscribe</button>
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
   </div>
+
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
 
 <script>
   /* ---------- Dark Mode Toggle ---------- */
@@ -1042,5 +1295,6 @@
     }
   }
 </script>
+  <script src="dist/shared.js"></script>
 </body>
 </html>

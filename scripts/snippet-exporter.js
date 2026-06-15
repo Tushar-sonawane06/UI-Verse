@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const ROOT = process.cwd();
 const COMPONENTS_FILE = path.join(ROOT, 'data', 'components.json');
@@ -36,7 +37,19 @@ function toJSX(html){
   return jsx;
 }
 
+function computeHash(s){ return crypto.createHash('sha1').update(s, 'utf8').digest('hex'); }
+
 function writeFilesFor(component){
+
+function extractHTMLDependencies(htmlContent) {
+  const links = [];
+  const match = htmlContent.match(/href=["']([^"']+\.css)["']/gi);
+  if (match) {
+    match.forEach(m => links.push(m.replace(/href=["']|["']/g, '')));
+  }
+  return links;
+}
+    
   const id = component.id || path.basename(component.path || component.title || 'component', '.html');
   const outDir = path.join(OUT_DIR, id);
   ensureDir(outDir);
@@ -56,13 +69,20 @@ function writeFilesFor(component){
 
   // 2) React JSX component (functional)
   const jsxContent = `import React from 'react';\n\nexport default function ${camelCase(id)}(){\n  return (\n    <>\n${indent(toJSX(snippet), 6)}\n    </>\n  );\n}\n`;
-  fs.writeFileSync(path.join(outDir, `${id}.jsx`), jsxContent, 'utf8');
+  const jsxPath = path.join(outDir, `${id}.jsx`);
+  fs.writeFileSync(jsxPath, jsxContent, 'utf8');
 
   // 3) Vue SFC
   const vueContent = `<template>\n${snippet}\n</template>\n\n<script>\nexport default { name: '${pascalCase(id)}' }\n</script>\n`;
-  fs.writeFileSync(path.join(outDir, `${id}.vue`), vueContent, 'utf8');
+  const vuePath = path.join(outDir, `${id}.vue`);
+  fs.writeFileSync(vuePath, vueContent, 'utf8');
 
-  return { id, htmlFile, jsx: path.join(outDir, `${id}.jsx`), vue: path.join(outDir, `${id}.vue`) };
+  const relHtml = path.relative(ROOT, htmlFile).replace(/\\/g, '/');
+  const relJsx = path.relative(ROOT, jsxPath).replace(/\\/g, '/');
+  const relVue = path.relative(ROOT, vuePath).replace(/\\/g, '/');
+  const hash = computeHash(snippet);
+
+  return { id, html: relHtml, jsx: relJsx, vue: relVue, hash };
 }
 
 function indent(s, n){ return s.split('\n').map(l=> ' '.repeat(n) + l).join('\n'); }
@@ -78,6 +98,7 @@ function main(){
     const res = writeFilesFor(c);
     if(res) index.push(res);
   }
+  // Write manifest with relative paths and checksum
   fs.writeFileSync(path.join(OUT_DIR, 'index.json'), JSON.stringify(index, null, 2) + '\n', 'utf8');
   console.log(`Exported ${index.length} component snippet sets to ${OUT_DIR}`);
 }

@@ -100,6 +100,28 @@ manageButtons.forEach(btn => {
 
 });
 
+document.querySelectorAll(".stat-card h2").forEach(counter => {
+
+  const target = parseInt(counter.innerText);
+  let current = 0;
+
+  const update = () => {
+
+    current += target / 40;
+
+    if(current < target){
+      counter.innerText = Math.floor(current);
+      requestAnimationFrame(update);
+    }else{
+      counter.innerText = target;
+    }
+
+  };
+
+  update();
+
+});
+
 /* OPEN APPOINTMENT */
 
 const joinButtons =
@@ -159,4 +181,11 @@ doctorCards.forEach(card => {
 
   });
 
+});
+
+const toggle = document.getElementById("menuToggle");
+const sidebar = document.getElementById("sidebar");
+
+toggle.addEventListener("click", () => {
+  sidebar.classList.toggle("active");
 });

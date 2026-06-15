@@ -6,6 +6,7 @@
   box-sizing:border-box;
 }
 
+
 body{
   font-family:"DM Sans",sans-serif;
   background:#0b1120;
@@ -717,6 +718,425 @@ body{
   }
 }
 
+/* ===================================================
+   EXTRA IMAGE GRID COMPONENTS
+=================================================== */
+
+.collage-grid,
+.diagonal-gallery,
+.hover-reveal-grid,
+.travel-gallery,
+.photo-wall,
+.zoom-gallery,
+.lookbook-gallery,
+.drag-stack,
+.spotlight-gallery,
+.panorama-slider,
+.photo-reel,
+.mosaic-grid,
+.wave-gallery,
+.dual-focus,
+.catalog-grid,
+.frame-collage,
+.exposure-stack,
+.lightbox-gallery,
+.grid-slider,
+.marquee-gallery {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(99,102,241,.15),
+    rgba(236,72,153,.15)
+  );
+}
+
+/* ================= COLLAGE ================= */
+
+.collage-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 8px;
+  padding: 10px;
+}
+
+.collage-item {
+  border-radius: 12px;
+  background: linear-gradient(135deg,#6366f1,#8b5cf6);
+}
+
+.collage-item.large {
+  grid-row: span 2;
+}
+
+/* ================= DIAGONAL ================= */
+
+.diagonal-gallery {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+}
+
+.diag-item{
+  width:70px;
+  height:140px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#06b6d4,#3b82f6);
+  transform:rotate(-12deg);
+}
+
+.diag-item:nth-child(2){
+  transform:rotate(0deg);
+}
+
+.diag-item:nth-child(3){
+  transform:rotate(12deg);
+}
+
+/* ================= HOVER REVEAL ================= */
+
+.reveal-image{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,#f97316,#ec4899);
+}
+
+.reveal-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  opacity:0;
+  transition:.3s;
+}
+
+.hover-reveal-grid:hover .reveal-overlay{
+  opacity:1;
+}
+
+/* ================= TRAVEL ================= */
+
+.travel-gallery{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+}
+
+.travel-card{
+  width:65px;
+  height:140px;
+  border-radius:16px;
+  background:linear-gradient(180deg,#22c55e,#0ea5e9);
+}
+
+/* ================= PHOTO WALL ================= */
+
+.photo-wall{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  padding:10px;
+}
+
+.wall-item{
+  min-height:60px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+}
+
+/* ================= ZOOM ================= */
+
+.zoom-image{
+  position:absolute;
+  inset:15px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#0ea5e9,#6366f1);
+  transition:.4s;
+}
+
+.zoom-gallery:hover .zoom-image{
+  transform:scale(1.08);
+}
+
+/* ================= LOOKBOOK ================= */
+
+.lookbook-main{
+  position:absolute;
+  inset:12px 12px 60px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#ec4899,#f97316);
+}
+
+.lookbook-thumbs{
+  position:absolute;
+  bottom:12px;
+  left:12px;
+  right:12px;
+  display:flex;
+  gap:8px;
+}
+
+.lookbook-thumbs span{
+  flex:1;
+  height:34px;
+  border-radius:10px;
+  background:#fff3;
+}
+
+/* ================= DRAG STACK ================= */
+
+.drag-stack{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.drag-card{
+  position:absolute;
+  width:120px;
+  height:150px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+}
+
+.drag-card:nth-child(1){transform:rotate(-12deg);}
+.drag-card:nth-child(2){transform:rotate(0);}
+.drag-card:nth-child(3){transform:rotate(12deg);}
+
+/* ================= SPOTLIGHT ================= */
+
+.spotlight-image{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,#06b6d4,#8b5cf6);
+}
+
+.spotlight-effect{
+  position:absolute;
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  background:rgba(255,255,255,.15);
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  backdrop-filter:blur(6px);
+}
+
+/* ================= PANORAMA ================= */
+
+.panorama-track{
+  position:absolute;
+  width:180%;
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    #06b6d4,
+    #6366f1,
+    #ec4899,
+    #f97316
+  );
+  animation:panoramaMove 12s linear infinite;
+}
+
+@keyframes panoramaMove{
+  from{transform:translateX(0);}
+  to{transform:translateX(-35%);}
+}
+
+/* ================= PHOTO REEL ================= */
+
+.photo-reel{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+
+.reel-item{
+  width:60px;
+  height:140px;
+  border-radius:12px;
+  background:linear-gradient(180deg,#f97316,#ec4899);
+}
+
+/* ================= MOSAIC ================= */
+
+.mosaic-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  padding:10px;
+}
+
+.mosaic{
+  min-height:60px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#14b8a6,#3b82f6);
+}
+
+.mosaic.big{
+  grid-column:span 2;
+  min-height:130px;
+}
+
+/* ================= WAVE ================= */
+
+.wave-image{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,#0ea5e9,#8b5cf6);
+}
+
+.wave-gallery::after{
+  content:"";
+  position:absolute;
+  inset:auto 0 0;
+  height:50px;
+  background:rgba(255,255,255,.15);
+  border-radius:100% 100% 0 0;
+}
+
+/* ================= DUAL ================= */
+
+.dual-focus{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+
+.focus-left{
+  background:linear-gradient(135deg,#ec4899,#8b5cf6);
+}
+
+.focus-right{
+  background:linear-gradient(135deg,#06b6d4,#22c55e);
+}
+
+/* ================= CATALOG ================= */
+
+.catalog-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  padding:12px;
+}
+
+.catalog-item{
+  border-radius:12px;
+  background:linear-gradient(135deg,#6366f1,#3b82f6);
+}
+
+/* ================= FRAME COLLAGE ================= */
+
+.frame-collage{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+}
+
+.frame-card{
+  width:70px;
+  height:110px;
+  padding:6px;
+  border-radius:10px;
+  background:white;
+}
+
+.frame-card::before{
+  content:"";
+  display:block;
+  width:100%;
+  height:100%;
+  border-radius:6px;
+  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+}
+
+/* ================= EXPOSURE STACK ================= */
+
+.exposure-card{
+  position:absolute;
+  width:120px;
+  height:150px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#22c55e,#06b6d4);
+}
+
+.exposure-card:nth-child(1){transform:translateX(-20px);}
+.exposure-card:nth-child(2){transform:translateX(0);}
+.exposure-card:nth-child(3){transform:translateX(20px);}
+
+/* ================= LIGHTBOX ================= */
+
+.lightbox-image{
+  position:absolute;
+  inset:12px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#f97316,#ec4899);
+}
+
+.lightbox-icon{
+  position:absolute;
+  right:18px;
+  top:18px;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ================= GRID SLIDER ================= */
+
+.grid-slider{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  padding:10px;
+}
+
+.grid-slide{
+  border-radius:12px;
+  background:linear-gradient(135deg,#06b6d4,#6366f1);
+}
+
+/* ================= MARQUEE ================= */
+
+.marquee-track{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:max-content;
+  padding:30px;
+  animation:marqueeMove 10s linear infinite;
+}
+
+.marquee-item{
+  width:90px;
+  height:140px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#ec4899,#8b5cf6);
+}
+
+@keyframes marqueeMove{
+  from{
+    transform:translateX(0);
+  }
+  to{
+    transform:translateX(-50%);
+  }
+}
+
 /* ================= NEW PROFESSIONAL CAROUSELS ================= */
 
 /* Netflix Carousel */
@@ -798,6 +1218,8 @@ body{
     0 0 25px #00f7ff,
     inset 0 0 15px rgba(0,247,255,.4);
 }
+
+
 
 .neon-dots{
   margin-top:18px;
@@ -984,4 +1406,885 @@ body{
   50%{
     transform:translateY(-12px);
   }
+}
+
+/* ================= CYBERPUNK ================= */
+.cyberpunk-carousel {
+  position: relative;
+  overflow: hidden;
+  background: #0f172a;
+}
+
+.cyberpunk-image {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,#00f5ff,#ff00c8);
+  opacity: 0.9;
+}
+
+.cyberpunk-overlay {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.cyberpunk-lines::before,
+.cyberpunk-lines::after {
+  content: "";
+  position: absolute;
+  width: 120%;
+  height: 2px;
+  background: rgba(255,255,255,.2);
+  left: -10%;
+}
+
+.cyberpunk-lines::before {
+  top: 30%;
+}
+
+.cyberpunk-lines::after {
+  top: 60%;
+}
+
+/* ================= CUBE ================= */
+.cube-carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+}
+
+.cube {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  transform-style: preserve-3d;
+  animation: rotateCube 8s infinite linear;
+}
+
+.cube-face {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg,#6366f1,#8b5cf6);
+  border-radius: 18px;
+}
+
+.front { transform: translateZ(50px); }
+.back { transform: rotateY(180deg) translateZ(50px); }
+.left { transform: rotateY(-90deg) translateZ(50px); }
+.right { transform: rotateY(90deg) translateZ(50px); }
+
+@keyframes rotateCube {
+  100% {
+    transform: rotateY(360deg) rotateX(360deg);
+  }
+}
+
+/* ================= LIQUID ================= */
+.liquid-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.liquid-image {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,#3b82f6,#06b6d4);
+}
+
+.liquid-wave {
+  position: absolute;
+  bottom: -30px;
+  width: 200%;
+  height: 60px;
+  background: rgba(255,255,255,.25);
+  border-radius: 50%;
+  animation: waveMove 6s infinite linear;
+}
+
+@keyframes waveMove {
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ================= HEXAGON ================= */
+.hexagon-gallery {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.hex {
+  width: 70px;
+  height: 80px;
+  background: linear-gradient(135deg,#ec4899,#8b5cf6);
+  clip-path: polygon(
+    25% 6%, 75% 6%,
+    100% 50%, 75% 94%,
+    25% 94%, 0% 50%
+  );
+}
+
+/* ================= STORY ================= */
+.story-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.story-frame {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,#fb7185,#f59e0b);
+}
+
+.story-progress {
+  position: absolute;
+  top: 12px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  gap: 6px;
+}
+
+.story-progress span {
+  flex: 1;
+  height: 4px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.3);
+}
+
+.story-progress .active {
+  background: #fff;
+}
+
+/* ================= MAGAZINE ================= */
+.magazine-carousel {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
+}
+
+.mag-main,
+.mag-side div {
+  border-radius: 18px;
+  background: linear-gradient(135deg,#4f46e5,#06b6d4);
+}
+
+.mag-main {
+  height: 180px;
+}
+
+.mag-side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mag-side div {
+  flex: 1;
+}
+
+/* ================= CIRCULAR ================= */
+.circular-carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle-track {
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+
+.circle-item {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg,#14b8a6,#0ea5e9);
+  border-radius: 50%;
+}
+
+.circle-item:nth-child(1) {
+  top: 0;
+  left: 60px;
+}
+
+.circle-item:nth-child(2) {
+  top: 60px;
+  right: 0;
+}
+
+.circle-item:nth-child(3) {
+  bottom: 0;
+  left: 60px;
+}
+
+.circle-item:nth-child(4) {
+  top: 60px;
+  left: 0;
+}
+
+/* ==========================================
+   SHARED PREVIEW STYLES
+========================================== */
+
+.image-preview {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  min-height: 220px;
+}
+
+/* ==========================================
+   INFINITE LOOP CAROUSEL
+========================================== */
+
+.infinite-carousel {
+  background: linear-gradient(135deg,#6366f1,#8b5cf6);
+  display:flex;
+  align-items:center;
+}
+
+.infinite-track{
+  display:flex;
+  gap:12px;
+  padding:20px;
+  animation:scrollLoop 12s linear infinite;
+}
+
+.slide{
+  width:90px;
+  height:140px;
+  border-radius:16px;
+  background:rgba(255,255,255,.2);
+  backdrop-filter:blur(10px);
+}
+
+@keyframes scrollLoop{
+  from{transform:translateX(0);}
+  to{transform:translateX(-120px);}
+}
+
+/* ==========================================
+   PERSPECTIVE CAROUSEL
+========================================== */
+
+.perspective-carousel{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  background:#111827;
+}
+
+.perspective-item{
+  width:80px;
+  height:140px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#06b6d4,#3b82f6);
+}
+
+.perspective-item.left{
+  transform:rotateY(45deg) scale(.8);
+}
+
+.perspective-item.right{
+  transform:rotateY(-45deg) scale(.8);
+}
+
+.perspective-item.center{
+  transform:scale(1.05);
+}
+
+/* ==========================================
+   BENTO GALLERY
+========================================== */
+
+.bento-carousel{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  grid-template-rows:1fr 1fr;
+  gap:10px;
+  padding:12px;
+}
+
+.bento{
+  background:linear-gradient(135deg,#14b8a6,#22c55e);
+  border-radius:16px;
+}
+
+.bento.large{
+  grid-row:span 2;
+}
+
+.bento.wide{
+  grid-column:span 2;
+  height:60px;
+}
+
+/* ==========================================
+   EXPANDING CARDS
+========================================== */
+
+.expansion-carousel{
+  display:flex;
+  gap:10px;
+  padding:15px;
+}
+
+.expand-card{
+  flex:1;
+  height:180px;
+  border-radius:18px;
+  background:#4f46e5;
+  transition:.4s;
+}
+
+.expand-card.active{
+  flex:2.5;
+}
+
+/* ==========================================
+   MAC DOCK
+========================================== */
+
+.dock-carousel{
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  gap:12px;
+  height:100%;
+}
+
+.dock-item{
+  width:55px;
+  height:55px;
+  border-radius:14px;
+  background:#3b82f6;
+  transition:.3s;
+}
+
+.dock-item.active{
+  transform:translateY(-15px) scale(1.5);
+}
+
+/* ==========================================
+   FILM STRIP
+========================================== */
+
+.filmstrip-carousel{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  align-items:center;
+  background:#111;
+}
+
+.film-frame{
+  width:70px;
+  height:150px;
+  border:6px solid #fff;
+  border-radius:10px;
+  background:#374151;
+}
+
+/* ==========================================
+   FLIP CARD
+========================================== */
+
+.flip-carousel{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  perspective:1000px;
+}
+
+.flip-card{
+  width:120px;
+  height:160px;
+  position:relative;
+  transform-style:preserve-3d;
+  animation:flipRotate 6s infinite;
+}
+
+.flip-card div{
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  backface-visibility:hidden;
+}
+
+.front{
+  background:#6366f1;
+}
+
+.back{
+  background:#ec4899;
+  transform:rotateY(180deg);
+}
+
+@keyframes flipRotate{
+  50%{transform:rotateY(180deg);}
+  100%{transform:rotateY(360deg);}
+}
+
+/* ==========================================
+   ORBIT CAROUSEL
+========================================== */
+
+.orbit-carousel{
+  position:relative;
+}
+
+.orbit-center{
+  width:70px;
+  height:70px;
+  background:white;
+  border-radius:50%;
+  position:absolute;
+  inset:0;
+  margin:auto;
+}
+
+.orbit-item{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:#3b82f6;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform-origin:-80px center;
+  animation:orbit 8s linear infinite;
+}
+
+.orbit-item:nth-child(2){animation-delay:0s;}
+.orbit-item:nth-child(3){animation-delay:-2s;}
+.orbit-item:nth-child(4){animation-delay:-4s;}
+
+@keyframes orbit{
+  from{transform:rotate(0deg) translateX(80px);}
+  to{transform:rotate(360deg) translateX(80px);}
+}
+
+/* ==========================================
+   GALLERY WALL
+========================================== */
+
+.wall-carousel{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  padding:14px;
+}
+
+.wall-photo{
+  height:80px;
+  border-radius:14px;
+  background:#6d28d9;
+  transform:rotate(calc(var(--r,1) * 2deg));
+}
+
+/* ==========================================
+   FLOATING POLAROID
+========================================== */
+
+.floating-polaroid{
+  position:relative;
+}
+
+.polaroid-card{
+  width:100px;
+  height:120px;
+  background:white;
+  border-radius:10px;
+  position:absolute;
+  top:40px;
+  left:50%;
+  margin-left:-50px;
+  animation:floatCard 4s ease-in-out infinite;
+}
+
+.polaroid-card:nth-child(2){
+  transform:rotate(-12deg);
+}
+
+.polaroid-card:nth-child(3){
+  transform:rotate(12deg);
+}
+
+@keyframes floatCard{
+  50%{transform:translateY(-10px);}
+}
+
+/* ==========================================
+   ACCORDION CAROUSEL
+========================================== */
+
+.accordion-carousel{
+  display:flex;
+  gap:8px;
+  padding:10px;
+}
+
+.accordion-item{
+  flex:1;
+  border-radius:16px;
+  background:#2563eb;
+  transition:.4s;
+}
+
+.accordion-item:hover{
+  flex:4;
+}
+
+/* ==========================================
+   BOOK FLIP
+========================================== */
+
+.book-carousel{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.book-page{
+  width:130px;
+  height:170px;
+  background:white;
+  border-radius:8px;
+  transform-origin:left;
+  animation:pageFlip 5s infinite;
+}
+
+@keyframes pageFlip{
+  50%{transform:rotateY(-160deg);}
+}
+
+/* ==========================================
+   ISOMETRIC
+========================================== */
+
+.isometric-carousel{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.iso-card{
+  width:120px;
+  height:160px;
+  background:#10b981;
+  border-radius:18px;
+  transform:rotateX(55deg) rotateZ(-40deg);
+}
+
+/* ==========================================
+   GLASS STACK
+========================================== */
+
+.glass-stack{
+  position:relative;
+}
+
+.glass-stack .glass{
+  position:absolute;
+  inset:0;
+  margin:auto;
+  width:130px;
+  height:160px;
+  border-radius:20px;
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(12px);
+}
+
+.glass:nth-child(2){
+  transform:translate(15px,15px);
+}
+
+.glass:nth-child(3){
+  transform:translate(30px,30px);
+}
+
+/* ==========================================
+   LUXURY SHOWCASE
+========================================== */
+
+.luxury-carousel{
+  background:#111;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.luxury-frame{
+  width:140px;
+  height:180px;
+  border:2px solid gold;
+  border-radius:20px;
+}
+
+/* ==========================================
+   BEFORE AFTER
+========================================== */
+
+.compare-carousel{
+  position:relative;
+}
+
+.before,
+.after{
+  position:absolute;
+  inset:0;
+}
+
+.before{
+  background:#2563eb;
+}
+
+.after{
+  background:#f59e0b;
+  width:50%;
+}
+
+/* ==========================================
+   SPIRAL CAROUSEL
+========================================== */
+
+.spiral-carousel{
+  position:relative;
+}
+
+.spiral-item{
+  position:absolute;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:#8b5cf6;
+}
+
+/* ==========================================
+   DNA HELIX
+========================================== */
+
+.dna-carousel{
+  position:relative;
+}
+
+.dna-node{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:#06b6d4;
+  animation:dnaMove 3s infinite alternate;
+}
+
+@keyframes dnaMove{
+  from{transform:translateX(-40px);}
+  to{transform:translateX(40px);}
+}
+
+/* ==========================================
+   HOLOGRAPHIC
+========================================== */
+
+.holographic-carousel{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.holo-card{
+  width:140px;
+  height:180px;
+  border-radius:20px;
+  background:
+  linear-gradient(
+    135deg,
+    rgba(255,0,255,.4),
+    rgba(0,255,255,.4),
+    rgba(255,255,255,.4)
+  );
+  backdrop-filter:blur(20px);
+}
+
+/* ==========================================
+   PARTICLE CAROUSEL
+========================================== */
+
+.particle-carousel{
+  position:relative;
+}
+
+.particle{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:white;
+  position:absolute;
+  animation:particles 3s infinite;
+}
+
+@keyframes particles{
+  50%{
+    transform:translateY(-30px);
+    opacity:.4;
+  }
+}
+
+/* ==========================================
+   SPATIAL / VISION PRO
+========================================== */
+
+.spatial-carousel{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  perspective:1200px;
+}
+
+.spatial-card{
+  width:140px;
+  height:180px;
+  border-radius:24px;
+  background:rgba(255,255,255,.2);
+  backdrop-filter:blur(20px);
+  transform:
+    rotateX(15deg)
+    rotateY(-15deg);
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.25);
+}
+
+/* ================= MORPH ================= */
+.morph-gallery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.morph-image {
+  width: 150px;
+  height: 150px;
+  background: linear-gradient(135deg,#a855f7,#ec4899);
+  animation: morph 6s infinite ease-in-out;
+}
+
+@keyframes morph {
+  0%,100% {
+    border-radius: 30% 70% 70% 30%;
+  }
+  50% {
+    border-radius: 70% 30% 30% 70%;
+  }
+}
+
+/* ================= FRAME ================= */
+.frame-slider {
+  position: relative;
+}
+
+.frame-image {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,#0ea5e9,#2563eb);
+}
+
+.frame-border {
+  position: absolute;
+  inset: 12px;
+  border: 3px solid rgba(255,255,255,.5);
+  border-radius: 20px;
+}
+
+/* ================= VHS ================= */
+.retro-vhs {
+  position: relative;
+  overflow: hidden;
+  background: #111;
+}
+
+.vhs-image {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,#22c55e,#0ea5e9);
+  filter: contrast(1.2);
+}
+
+.vhs-noise {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,.05),
+    rgba(255,255,255,.05) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.vhs-text {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+/* ================= FROSTED ================= */
+.frosted-gallery {
+  position: relative;
+  overflow: hidden;
+}
+
+.frosted-img {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,#06b6d4,#6366f1);
+}
+
+.frost-overlay {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(8px);
+  background: rgba(255,255,255,.08);
+}
+
+/* ================= TIMELINE ================= */
+.timeline-carousel {
+  position: relative;
+}
+
+.timeline-image {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,#f97316,#ef4444);
+}
+
+.timeline-bar {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  display: flex;
+  gap: 6px;
+}
+
+.timeline-bar span {
+  flex: 1;
+  height: 5px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.25);
+}
+
+.timeline-bar .active {
+  background: #fff;
 }

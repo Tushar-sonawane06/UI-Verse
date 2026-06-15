@@ -81,3 +81,180 @@ if (document.readyState === "loading") {
 } else {
   BrowserTabs.init();
 }
+
+const tabsHeader = document.getElementById("tabsHeader");
+const addTabBtn = document.getElementById("addTabBtn");
+
+let tabCount = 6;
+
+const tabNames = [
+  "Design",
+  "Settings",
+  "Portfolio",
+  "Reports",
+  "Studio",
+  "Tasks",
+  "Music",
+  "Gallery"
+];
+
+const icons = [
+  "fa-palette",
+  "fa-gear",
+  "fa-briefcase",
+  "fa-chart-pie",
+  "fa-laptop-code",
+  "fa-list-check",
+  "fa-music",
+  "fa-image"
+];
+
+/* ADD TAB */
+
+addTabBtn.addEventListener("click", () => {
+
+  const randomName =
+    tabNames[Math.floor(Math.random() * tabNames.length)];
+
+  const randomIcon =
+    icons[Math.floor(Math.random() * icons.length)];
+
+  const tab = document.createElement("div");
+
+  tab.classList.add("tab");
+
+  tab.innerHTML = `
+  
+    <div class="tab-left">
+
+      <div class="tab-icon">
+        <i class="fa-solid ${randomIcon}"></i>
+      </div>
+
+      <span class="tab-title">
+        ${randomName}
+      </span>
+
+    </div>
+
+    <button class="close-btn">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  
+  `;
+
+  tabsHeader.insertBefore(tab, addTabBtn);
+
+  setActiveTab(tab);
+
+  attachClose(tab);
+
+  attachActive(tab);
+
+  tab.animate(
+    [
+      {
+        opacity:0,
+        transform:"translateY(20px)"
+      },
+
+      {
+        opacity:1,
+        transform:"translateY(0)"
+      }
+    ],
+    {
+      duration:400,
+      easing:"ease"
+    }
+  );
+
+  tabCount++;
+});
+
+/* ACTIVE TAB */
+
+function setActiveTab(selectedTab){
+
+  const allTabs = document.querySelectorAll(".tab");
+
+  allTabs.forEach(tab => {
+    tab.classList.remove("active");
+  });
+
+  selectedTab.classList.add("active");
+}
+
+/* ATTACH ACTIVE EVENT */
+
+function attachActive(tab){
+
+  tab.addEventListener("click", (e) => {
+
+    if(e.target.closest(".close-btn")) return;
+
+    setActiveTab(tab);
+  });
+}
+
+/* CLOSE TAB */
+
+function attachClose(tab){
+
+  const closeBtn = tab.querySelector(".close-btn");
+
+  closeBtn.addEventListener("click", (e) => {
+
+    e.stopPropagation();
+
+    tab.animate(
+      [
+        {
+          opacity:1,
+          transform:"scale(1)"
+        },
+
+        {
+          opacity:0,
+          transform:"scale(0.8)"
+        }
+      ],
+      {
+        duration:250,
+        easing:"ease"
+      }
+    );
+
+    setTimeout(() => {
+
+      const wasActive =
+        tab.classList.contains("active");
+
+      tab.remove();
+
+      if(wasActive){
+
+        const remainingTabs =
+          document.querySelectorAll(".tab");
+
+        if(remainingTabs.length > 0){
+
+          remainingTabs[0]
+            .classList.add("active");
+        }
+      }
+
+    },250);
+
+  });
+}
+
+/* INITIAL EVENTS */
+
+document.querySelectorAll(".tab").forEach(tab => {
+
+  attachActive(tab);
+
+  attachClose(tab);
+
+});

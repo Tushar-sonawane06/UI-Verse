@@ -5,6 +5,7 @@
  * Usage: node scripts/version-manager.js [major|minor|patch]
  */
 
+
 const fs = require('fs');
 const path = require('path');
 

@@ -1,0 +1,534 @@
+<template>
+<main class="main-home">
+
+  <header class="page-header">
+    <h1>Error Components</h1>
+    <p>Responsive modern error layouts, status screens, and application fallback pages.</p>
+  </header>
+
+  <!-- SEARCH + SORT TOOLBAR -->
+  <div class="toolbar">
+    <div class="toolbar-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="componentSearch" placeholder="Filter error components..." autocomplete="off">
+    </div>
+
+    <div class="sort-dropdown-wrapper" id="sortWrapper">
+      <button class="sort-trigger" id="sortTrigger" onclick="toggleSortMenu()">
+        <i class="fa-solid fa-arrow-up-arrow-down"></i>
+        <span id="sortLabel">Order</span>
+        <i class="fa-solid fa-chevron-down sort-chevron" id="sortChevron"></i>
+      </button>
+      <div class="sort-menu" id="sortMenu">
+        <label class="sort-option">
+          <span>Default</span>
+          <input type="radio" name="sort" value="default" checked onchange="sortCards('default')">
+          <span class="radio-dot"></span>
+        </label>
+        <label class="sort-option">
+          <span>A → Z</span>
+          <input type="radio" name="sort" value="az" onchange="sortCards('az')">
+          <span class="radio-dot"></span>
+        </label>
+        <label class="sort-option">
+          <span>Z → A</span>
+          <input type="radio" name="sort" value="za" onchange="sortCards('za')">
+          <span class="radio-dot"></span>
+        </label>
+      </div>
+    </div>
+
+    <span class="results-count" id="resultsCount">18 components</span>
+  </div>
+
+  <section class="error-grid">
+
+    <!-- 1. 404 ERROR PAGE -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>404 Error Page</h2>
+        <p>A classic "Page Not Found" layout with a floating animation.</p>
+      </div>
+      <div class="component-preview" id="preview-1">
+        <div class="error-screen err-404">
+          <div class="error-code">404</div>
+          <div class="error-title">Page Not Found</div>
+          <div class="error-desc">The page you are looking for doesn't exist or has been moved.</div>
+          <button class="error-btn">Go Back Home</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-1">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. 500 SERVER ERROR PAGE -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>500 Server Error</h2>
+        <p>Internal server error screen with a stylized offset shadow.</p>
+      </div>
+      <div class="component-preview" id="preview-2">
+        <div class="error-screen err-500">
+          <div class="error-code">500</div>
+          <div class="error-title">Internal Server Error</div>
+          <div class="error-desc">Oops, something went wrong on our end. We are working to fix it.</div>
+          <button class="error-btn">Try Again</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-2">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 3. MAINTENANCE PAGE -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Maintenance Page</h2>
+        <p>Scheduled maintenance screen with an animated progress bar.</p>
+      </div>
+      <div class="component-preview" id="preview-3">
+        <div class="error-screen err-maint">
+          <div class="icon-wrap"><i class="fa-solid fa-gear"></i></div>
+          <div class="error-title">Under Maintenance</div>
+          <div class="error-desc">We're upgrading our systems. Be right back!</div>
+          <div class="progress-bar"><div class="progress-fill"></div></div>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-3">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 4. ACCESS DENIED PAGE -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Access Denied</h2>
+        <p>A 403 Forbidden page for restricted areas.</p>
+      </div>
+      <div class="component-preview" id="preview-4">
+        <div class="error-screen err-403">
+          <div class="icon-wrap"><i class="fa-solid fa-lock"></i></div>
+          <div class="error-code" style="font-size:32px;">403</div>
+          <div class="error-title">Access Denied</div>
+          <div class="error-desc">You do not have permission to view this directory or page.</div>
+          <button class="error-btn">Request Access</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-4">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 5. NETWORK ERROR SCREEN -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Network Error</h2>
+        <p>A connection failure state for offline applications.</p>
+      </div>
+      <div class="component-preview" id="preview-5">
+        <div class="error-screen err-net">
+          <div class="icon-wrap"><i class="fa-solid fa-wifi"></i></div>
+          <div class="error-title">No Connection</div>
+          <div class="error-desc">Please check your internet connection and try again.</div>
+          <button class="error-btn">Retry Connection</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-5">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 6. SESSION EXPIRED SCREEN -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Session Expired Screen</h2>
+        <p>A secure checkout or session expiry notification layout with an hourglass indicator.</p>
+      </div>
+      <div class="component-preview" id="preview-6">
+        <div class="error-screen err-session">
+          <div class="icon-wrap"><i class="fa-solid fa-hourglass-end"></i></div>
+          <div class="error-title">Session Expired</div>
+          <div class="error-desc">For your security, your session has timed out due to inactivity.</div>
+          <button class="error-btn">Log In Again</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-6">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 7. PAYMENT FAILED ERROR PAGE -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Payment Failed Page</h2>
+        <p>Red-accented transaction failure page with glowing warning indicators and dual action CTA.</p>
+      </div>
+      <div class="component-preview" id="preview-7">
+        <div class="error-screen err-payment">
+          <div class="icon-wrap"><i class="fa-solid fa-circle-exclamation"></i></div>
+          <div class="error-title">Payment Failed</div>
+          <div class="error-desc">Your transaction could not be processed. Please check your card details or try again.</div>
+          <div class="btn-group">
+            <button class="error-btn btn-retry">Retry Payment</button>
+            <button class="error-btn btn-cancel">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-7">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 8. EMPTY SEARCH RESULT PAGE -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Empty Search Result</h2>
+        <p>A warm empty-state screen with search suggestions and an interactive reset option.</p>
+      </div>
+      <div class="component-preview" id="preview-8">
+        <div class="error-screen err-empty-search">
+          <div class="icon-wrap"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <div class="error-title">No Results Found</div>
+          <div class="error-desc">We couldn't find any matches. Try using more general keywords or checking spelling.</div>
+          <button class="error-btn">Clear Search</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-8">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 9. UNAUTHORIZED ACCESS SCREEN -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Unauthorized Access</h2>
+        <p>Futuristic cyber-security restriction page with gold-shield warning tones.</p>
+      </div>
+      <div class="component-preview" id="preview-9">
+        <div class="error-screen err-unauthorized">
+          <div class="icon-wrap"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="error-title">Access Restricted</div>
+          <div class="error-desc">This directory requires elevated credentials. Please sign in with an admin account.</div>
+          <button class="error-btn">Request Access</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-9">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 10. OFFLINE / NO INTERNET PAGE -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Offline State Screen</h2>
+        <p>Playful, modern disconnect layout featuring pulsing network cloud status indicators.</p>
+      </div>
+      <div class="component-preview" id="preview-10">
+        <div class="error-screen err-offline">
+          <div class="icon-wrap"><i class="fa-solid fa-cloud-bolt"></i></div>
+          <div class="error-title">You're Offline</div>
+          <div class="error-desc">It looks like you've lost connection. Check your local connection or try reloading.</div>
+          <button class="error-btn">Retry Connection</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-10">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 11. 429 TOO MANY REQUESTS -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>429 Too Many Requests</h2>
+        <p>Rate-limit screen with throttle animation and cooldown badges.</p>
+      </div>
+      <div class="component-preview" id="preview-11">
+        <div class="error-screen err-429">
+          <div class="error-icon-code">
+            <div class="icon-wrap"><i class="fa-solid fa-gauge-high"></i></div>
+            <div class="error-code" style="font-size:48px;">429</div>
+          </div>
+          <div class="error-title">Too Many Requests</div>
+          <div class="rate-badges">
+            <span class="badge active">Rate Limited</span>
+            <span class="badge">Cooldown Active</span>
+          </div>
+          <div class="error-desc">You've sent too many requests in a short time. Please wait a moment before trying again.</div>
+          <button class="error-btn"><i class="fa-solid fa-rotate-right"></i> Retry Later</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-11">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 12. LOCATION ACCESS DENIED -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Location Access Denied</h2>
+        <p>Geo-permission blocked state with a redacted coordinates display.</p>
+      </div>
+      <div class="component-preview" id="preview-12">
+        <div class="error-screen err-location">
+          <div class="icon-wrap"><i class="fa-solid fa-location-dot"></i></div>
+          <div class="error-title">Location Access Denied</div>
+          <div class="coords"><span>LAT</span> ██.████  <span>LNG</span> ██.████</div>
+          <div class="error-desc">Your browser has blocked location access. Enable permissions to use location-based features.</div>
+          <button class="error-btn">Enable Location</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-12">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 13. 410 LINK / TOKEN EXPIRED -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Link / Token Expired</h2>
+        <p>Amber-toned expiry page with a decaying token visualizer and flicker animation.</p>
+      </div>
+      <div class="component-preview" id="preview-13">
+        <div class="error-screen err-410">
+          <div class="error-icon-code">
+            <div class="icon-wrap"><i class="fa-solid fa-link-slash"></i></div>
+            <div class="error-code" style="font-size:48px; color:#92400e;">410</div>
+          </div>
+          <div class="error-title">Link Expired</div>
+          <div class="token-row">
+            <div class="token-seg"></div>
+            <div class="token-seg"></div>
+            <div class="token-seg gone"></div>
+            <div class="token-seg"></div>
+          </div>
+          <div class="token-label">TOKEN EXPIRED</div>
+          <div class="error-desc">This link is no longer valid. It may have expired or already been used.</div>
+          <button class="error-btn">Request New Link</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-13">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- 14. ACCOUNT SUSPENDED -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Account Suspended</h2>
+        <p>Suspension notice page with red-bar indicator and support contact option.</p>
+      </div>
+      <div class="component-preview" id="preview-14">
+        <div class="error-screen err-suspended">
+          <div class="icon-wrap"><i class="fa-solid fa-ban"></i></div>
+          <div class="error-title">Account Suspended</div>
+          <div class="suspended-bar">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="error-desc">Your account has been suspended due to a policy violation. Contact support to appeal.</div>
+          <button class="error-btn">Contact Support</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-14">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 15. STORAGE FULL -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Storage Full</h2>
+        <p>Disk capacity exceeded screen with a glowing fill-bar and upgrade CTA.</p>
+      </div>
+      <div class="component-preview" id="preview-15">
+        <div class="error-screen err-storage">
+          <div class="icon-wrap"><i class="fa-solid fa-hard-drive"></i></div>
+          <div class="error-title">Storage Full</div>
+          <div class="storage-meter">
+            <div class="storage-fill"></div>
+            <span class="storage-pct">100%</span>
+          </div>
+          <div class="error-desc">You've used all available storage. Delete files or upgrade your plan to continue.</div>
+          <button class="error-btn">Upgrade Plan</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-15">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 16. REGION BLOCKED -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Region Blocked</h2>
+        <p>Geo-restriction error with animated globe and country-code badge.</p>
+      </div>
+      <div class="component-preview" id="preview-16">
+        <div class="error-screen err-region">
+          <div class="icon-wrap"><i class="fa-solid fa-globe"></i></div>
+          <div class="region-badge">
+            <span class="region-code">IN</span>
+            <i class="fa-solid fa-xmark"></i>
+          </div>
+          <div class="error-title">Content Not Available</div>
+          <div class="error-desc">This service is not available in your region due to licensing restrictions.</div>
+          <button class="error-btn">Use a VPN</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-16">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 17. UNDER CONSTRUCTION -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Under Construction</h2>
+        <p>Fun coming-soon state with blinking cursor and countdown placeholder.</p>
+      </div>
+      <div class="component-preview" id="preview-17">
+        <div class="error-screen err-construction">
+          <div class="icon-wrap"><i class="fa-solid fa-helmet-safety"></i></div>
+          <div class="error-title">We're Building Something<span class="blink-cursor">|</span></div>
+          <div class="construction-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="error-desc">This page is under construction. Check back soon — something great is on the way.</div>
+          <button class="error-btn">Notify Me</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-17">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 18. UPLOAD FAILED -->
+    <div class="error-card">
+      <div class="error-info">
+        <h2>Upload Failed</h2>
+        <p>File upload failure state with a broken upload icon and retry controls.</p>
+      </div>
+      <div class="component-preview" id="preview-18">
+        <div class="error-screen err-upload">
+          <div class="icon-wrap"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+          <div class="upload-x"><i class="fa-solid fa-xmark"></i></div>
+          <div class="error-title">Upload Failed</div>
+          <div class="upload-meta">
+            <span class="upload-tag">document.pdf</span>
+            <span class="upload-tag err">4.2 MB · Timed out</span>
+          </div>
+          <div class="error-desc">Your file could not be uploaded. Check your connection and file size, then try again.</div>
+          <button class="error-btn"><i class="fa-solid fa-rotate-right"></i> Retry Upload</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="copy-btn" data-target="preview-18">
+          <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <i class="fa-solid fa-hexagon-nodes"></i>
+          <span>UIverse</span>
+        </div>
+        <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+        <div class="footer-socials">
+          <a href="#"><i class="fa-brands fa-github"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="button.html">Buttons</a></li>
+          <li><a href="navbar.html">Navbars</a></li>
+          <li><a href="cards.html">Cards</a></li>
+          <li><a href="inputs.html">Inputs</a></li>
+          <li><a href="forms.html">Forms</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Contribute</a></li>
+          <li><a href="#">GitHub Repo</a></li>
+          <li><a href="#">Community</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">License</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-newsletter">
+        <h4>Stay Updated</h4>
+        <p>Get notified when new components drop.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="your@email.com" />
+          <button type="button">Subscribe</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2026 UIverse. Made with <i class="fa-solid fa-heart heart"></i> for developers worldwide.</p>
+    </div>
+  </footer>
+
+</main>
+</template>
+
+<script>
+export default { name: 'Error' }
+</script>

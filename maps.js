@@ -44,6 +44,74 @@ L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 ).addTo(map3);
 
+/* FOURTH MAP - MINI MARKER */
+
+const map4 =
+  L.map('map4').setView(
+    [13.0827,80.2707],
+    12
+  );
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+).addTo(map4);
+
+L.marker([13.0827,80.2707])
+  .addTo(map4)
+  .bindPopup('Mini Marker - Chennai')
+  .openPopup();
+
+/* FIFTH MAP - ROUTE / POLYLINE */
+
+const map5 =
+  L.map('map5').setView(
+    [12.9716,77.5946],
+    6
+  );
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+).addTo(map5);
+
+const route = [
+  [12.9716,77.5946],
+  [13.0827,80.2707],
+  [19.0760,72.8777]
+];
+
+L.polyline(route, { color: '#ff7a3d', weight: 4 }).addTo(map5);
+
+map5.fitBounds(route);
+
+/* SIXTH MAP - HOTSPOTS (simple heat effect using circles) */
+
+const map6 =
+  L.map('map6').setView(
+    [21.1458,79.0882],
+    5
+  );
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+).addTo(map6);
+
+const hotspots = [
+  [19.0760,72.8777,20000],
+  [22.5726,88.3639,20000],
+  [28.7041,77.1025,20000],
+  [13.0827,80.2707,20000]
+];
+
+hotspots.forEach(h => {
+  L.circle([h[0], h[1]], {
+    radius: h[2],
+    color: '#7b61ff',
+    fillColor: '#7b61ff',
+    fillOpacity: 0.12,
+    weight: 0
+  }).addTo(map6);
+});
+
 /* =====================================================
 SEARCH DEMO
 ===================================================== */

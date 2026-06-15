@@ -1,0 +1,315 @@
+{
+  "apiVersion": "1.0.0",
+  "title": "Localization Endpoints API Contract",
+  "description": "HTTP endpoints for component localization with language selection, fallback behavior, and locale discovery",
+  "baseUrl": "/api",
+  "endpoints": [
+    {
+      "path": "/components/{componentName}/localize",
+      "method": "GET",
+      "operationId": "localizeComponent",
+      "summary": "Get component localization with language selection",
+      "description": "Returns component metadata in requested language with fallback behavior documentation",
+      "parameters": [
+        {
+          "name": "componentName",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" },
+          "description": "Component identifier"
+        },
+        {
+          "name": "language",
+          "in": "query",
+          "required": false,
+          "schema": { "type": "string" },
+          "description": "Requested language code (e.g., 'es', 'en-US'). Query param takes precedence over Accept-Language header"
+        },
+        {
+          "name": "format",
+          "in": "query",
+          "required": false,
+          "schema": { "type": "string", "enum": ["json", "xml", "html"] },
+          "description": "Response format"
+        },
+        {
+          "name": "includeRequirements",
+          "in": "query",
+          "required": false,
+          "schema": { "type": "boolean", "default": false },
+          "description": "Include locale-specific requirements"
+        }
+      ],
+      "requestHeaders": [
+        {
+          "name": "Accept-Language",
+          "description": "Fallback language selection if query parameter not provided"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Component localization successful",
+          "headers": [
+            {
+              "name": "Content-Language",
+              "description": "Language of returned content"
+            },
+            {
+              "name": "X-Fallback-Used",
+              "description": "Whether fallback language was used (true/false)"
+            },
+            {
+              "name": "X-Cache",
+              "description": "Cache status (HIT/MISS)"
+            }
+          ],
+          "schema": {
+            "$ref": "#/components/schemas/LocalizationResponse"
+          }
+        },
+        "404": {
+          "description": "Component not found",
+          "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    {
+      "path": "/locales",
+      "method": "GET",
+      "operationId": "getAvailableLocales",
+      "summary": "Get available locales and their requirements",
+      "description": "Lists all supported locales with optional detailed requirements",
+      "parameters": [
+        {
+          "name": "includeRequirements",
+          "in": "query",
+          "required": false,
+          "schema": { "type": "boolean", "default": false },
+          "description": "Include locale-specific requirements for each"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Locales retrieved successfully",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "locales": {
+                "type": "array",
+                "items": { "$ref": "#/components/schemas/LocaleInfo" }
+              },
+              "total": { "type": "integer" },
+              "timestamp": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "path": "/locales/{language}/requirements",
+      "method": "GET",
+      "operationId": "getLocaleRequirements",
+      "summary": "Get locale-specific requirements",
+      "description": "Returns format, currency, timezone, and other locale-specific requirements",
+      "parameters": [
+        {
+          "name": "language",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" },
+          "description": "Language code (e.g., 'es', 'fr')"
+        },
+        {
+          "name": "detailed",
+          "in": "query",
+          "required": false,
+          "schema": { "type": "boolean", "default": false },
+          "description": "Include detailed metadata"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Requirements retrieved",
+          "schema": { "$ref": "#/components/schemas/LocaleRequirements" }
+        },
+        "404": {
+          "description": "Locale not supported",
+          "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    {
+      "path": "/locales/{language}/fallback-behavior",
+      "method": "GET",
+      "operationId": "getFallbackBehavior",
+      "summary": "Get fallback behavior documentation for locale",
+      "description": "Returns documented fallback chains, strategy, and examples for language",
+      "parameters": [
+        {
+          "name": "language",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" }
+        },
+        {
+          "name": "component",
+          "in": "query",
+          "required": false,
+          "schema": { "type": "string" },
+          "description": "Component name for component-specific fallback behavior"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Fallback behavior documentation",
+          "schema": { "$ref": "#/components/schemas/FallbackBehavior" }
+        }
+      }
+    }
+  ],
+  "components": {
+    "schemas": {
+      "LocalizationResponse": {
+        "type": "object",
+        "properties": {
+          "component": { "type": "string" },
+          "language": { "type": "string" },
+          "requestedLanguage": { "type": ["string", "null"] },
+          "fallbackUsed": { "type": "boolean" },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "description": { "type": "string" },
+              "category": { "type": "string" },
+              "tags": { "type": "array", "items": { "type": "string" } },
+              "usage": { "type": "string" },
+              "examples": { "type": "array" },
+              "notes": { "type": "string" }
+            }
+          },
+          "languageSupport": {
+            "type": "object",
+            "properties": {
+              "supportedLanguages": { "type": "array", "items": { "type": "string" } },
+              "completeness": { "type": "string" },
+              "availableLanguages": { "type": "array", "items": { "type": "string" } },
+              "defaultLanguage": { "type": "string" },
+              "fallbackLanguage": { "type": "string" }
+            }
+          },
+          "fallbackBehavior": { "$ref": "#/components/schemas/FallbackBehavior" },
+          "localeRequirements": { "$ref": "#/components/schemas/LocaleRequirements" },
+          "timestamp": { "type": "integer" }
+        }
+      },
+      "LocaleInfo": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string" },
+          "name": { "type": "string" },
+          "nativeName": { "type": "string" },
+          "requirements": { "$ref": "#/components/schemas/LocaleRequirements" }
+        }
+      },
+      "LocaleRequirements": {
+        "type": "object",
+        "properties": {
+          "dateFormat": { "type": "string", "example": "MM/DD/YYYY" },
+          "timeFormat": { "type": "string", "example": "h:mm AM/PM" },
+          "decimalSeparator": { "type": "string" },
+          "thousandsSeparator": { "type": "string" },
+          "currency": { "type": "string" },
+          "currencySymbol": { "type": "string" },
+          "direction": { "type": "string", "enum": ["ltr", "rtl"] },
+          "weekStart": { "type": "integer", "minimum": 0, "maximum": 6 },
+          "timezone": { "type": "string" }
+        }
+      },
+      "FallbackBehavior": {
+        "type": "object",
+        "properties": {
+          "requestedLanguage": { "type": "string" },
+          "availableLanguages": { "type": "array", "items": { "type": "string" } },
+          "fallbackChain": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Order of languages tried"
+          },
+          "strategy": {
+            "type": "string",
+            "enum": ["strict", "intelligent", "permissive"]
+          },
+          "behavior": {
+            "type": "object",
+            "properties": {
+              "exact": { "type": "string" },
+              "partial": { "type": "string" },
+              "fallback": { "type": "string" },
+              "missing": { "type": "string" }
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string" },
+          "component": { "type": "string" },
+          "supportedLocales": { "type": "array", "items": { "type": "string" } },
+          "timestamp": { "type": "integer" }
+        }
+      }
+    }
+  },
+  "languageSelection": {
+    "priority": [
+      "Query parameter (?language=es)",
+      "Accept-Language header",
+      "Server default language"
+    ],
+    "languageCodes": {
+      "format": "ISO 639-1 with optional region (e.g., es, en-US, pt-BR)",
+      "supported": ["en", "es", "fr", "de", "ja", "zh", "pt", "ru", "ko", "it"]
+    }
+  },
+  "fallbackStrategy": {
+    "type": "intelligent",
+    "description": "Matches exact language, language family, then default with documented fallback chain",
+    "chain": [
+      "Exact match (es = es)",
+      "Language family (pt-BR falls back to pt)",
+      "Default language (falls back to en)",
+      "Key name as last resort"
+    ],
+    "documentation": "All fallback behavior is discoverable via /api/locales/{language}/fallback-behavior endpoint"
+  },
+  "localeDiscovery": {
+    "localesEndpoint": "GET /api/locales",
+    "requirementsEndpoint": "GET /api/locales/{language}/requirements",
+    "fallbackBehaviorEndpoint": "GET /api/locales/{language}/fallback-behavior",
+    "discoverableData": [
+      "Date/time formats per locale",
+      "Number formatting (decimal, thousands separators)",
+      "Currency information",
+      "Text direction (LTR/RTL)",
+      "Week start day",
+      "Timezone defaults",
+      "Fallback chain documentation",
+      "Regional variants"
+    ]
+  },
+  "caching": {
+    "enabled": true,
+    "strategy": "LRU",
+    "defaultTTL": 3600,
+    "maxEntries": 1000,
+    "varyHeaders": ["Accept-Language"],
+    "cacheHeaders": ["X-Cache"]
+  },
+  "performance": {
+    "averageResponseTime": "50-100ms (cached)",
+    "maxResponseTime": "200-500ms (uncached)",
+    "cacheHitRate": "Expected 70-85%"
+  }
+}

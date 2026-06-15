@@ -3,15 +3,15 @@
 Component ID: cards
 
 - Path: cards.html
-- Version: 0.1.0
+- Version: 0.1.1
 - Documentation score: 100/100
-- Tags: layout, components
+- Tags: layout, components, panels
 - Description: Card layouts and content blocks
 
 ## Assets
 
-- CSS: cards.css, command-palette.css, css/main.css, css/url-state.css, home.css, https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css, playground.css, shared-page.css, style.css
-- JS: js/bootstrap.js, js/core/utils.js, js/features/accessibility.js, js/features/alerts.js, js/features/code-tools.js, js/features/command-palette.js, js/features/popup.js, js/features/sandbox.js, js/features/scroll.js, js/features/search.js, js/features/sidebar.js, js/features/theme.js, js/features/toast.js, js/features/url-state-integration.js, js/features/url-state.js, playground.js
+- CSS: cards.css, dist/shared.css, https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css, playground.css
+- JS: dist/shared.js, js/bootstrap.js, js/features/a11y-checker.js, js/features/accessibility.js, js/features/alerts.js, js/features/code-tools.js, js/features/compare.js, js/features/device-preview.js, js/features/download.js, js/features/keyboard-shortcuts.js, js/features/popup.js, js/features/sandbox.js, js/features/scroll.js, js/features/sidebar.js, js/features/theme.js, js/features/toast.js, js/features/tutorial-mode-steps.js, js/features/tutorial-mode.js, js/loader.js, playground.js
 
 ## Headings
 
@@ -21,7 +21,7 @@ Component ID: cards
 - H4: Card Title
 - H4: Premium Headphones
 - H4: Pro Plan
-- H4: Basic Plan
+- H4: Scenic View
 - H4: Trial Plan
 
 ## Usage Snippet
@@ -46,14 +46,14 @@ Component ID: cards
       </div>
     </div>
     <div class="page-hero-right">
-      <div class="hero-card-preview">
-        <div class="mini-profile-card">
-          <div class="mini-avatar">LN</div>
-          <div>
-            <strong>Chinmay Munj</strong>
-            <span>Engineer · UIverse</span>
+        <article class="hero-card-preview">
+          <article class="mini-profile-card">
+            <div class="mini-avatar">ST</div>
+            <div>
+              <strong>saiteja</strong>
+              <span>Engineer · UIverse</span>
+            </div>
           </div>
-        </div>
         <div class="mini-stat-row">
           <div class="mini-stat"><span>120+</span><p>Cards</p></div>
           <div class="mini-stat"><span>9</span><p>Styles</p></div>
@@ -61,6 +61,13 @@ Component ID: cards
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Tutorial Mode entry -->
+  <div class="tutorial-mode-entry" style="margin: 14px 0; display:flex; justify-content:flex-end;">
+    <button id="startTutorialMode" type="button" class="nav-btn outline-nav-btn" style="padding: 10px 14px; cursor:pointer;">
+      <i class="fa-solid fa-graduation-cap"></i> Start tutorial
+    </button>
   </div>
 
   <!-- Filter Bar -->
@@ -77,10 +84,10 @@ Component ID: cards
   </div>
 
   <!-- Cards Grid -->
-  <div class="cards-grid" id="cardsGrid">
+  <article class="cards-grid" id="cardsGrid">
 
     <!-- Profile Card -->
-    <div class="component-card" data-name="profile card hover avatar" data-cat="profile">
+    <article class="component-card" data-name="profile card hover avatar" data-cat="profile">
       <div class="card-top">
         <span class="card-label">Profile Card</span>
         <span class="card-tag tag-popular">Popular</span>
@@ -101,7 +108,6 @@ Component ID: cards
         <button class="action-btn copy-btn" onclick="copyCode('c1', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
-        <button onclick="addToCollection('Profile Card')">Add to My Collection</button>
       </div>
       <pre id="c1" class="code-block"><code>&lt;div class="profile-card"&gt;
   &lt;div class="profile-avatar"&gt;LN&lt;/div&gt;
@@ -133,7 +139,7 @@ Component ID: cards
     </div>
 
     <!-- Student Card -->
-    <div class="component-card" data-name="student card connect profile" data-cat="profile">
+    <article class="component-card" data-name="student card connect profile" data-cat="profile">
       <div class="card-top">
         <span class="card-label">Student Card</span>
         <span class="card-tag tag-essential">Essential</span>
@@ -154,7 +160,6 @@ Component ID: cards
         <button class="action-btn copy-btn" onclick="copyCode('c2', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
-        <button onclick="addToCollection('Student Card')">Add to My Collection</button>
       </div>
       <pre id="c2" class="code-block"><code>&lt;div class="profile-card student-card"&gt;
   &lt;div class="profile-avatar"&gt;AP&lt;/div&gt;
@@ -179,7 +184,7 @@ Component ID: cards
     </div>
 
     <!-- Simple Card -->
-    <div class="component-card" data-name="simple card basic clean" data-cat="content">
+    <article class="component-card" data-name="simple card basic clean" data-cat="content">
       <div class="card-top">
         <span class="card-label">Simple Card</span>
         <span class="card-tag tag-essential">Essential</span>
@@ -199,7 +204,6 @@ Component ID: cards
         <button class="action-btn copy-btn" onclick="copyCode('c3', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
-        <button onclick="addToCollection('Simple Card')">Add to My Collection</button>
       </div>
       <pre id="c3" class="code-block"><code>&lt;div class="simple-card"&gt;
   &lt;h4&gt;Card Title&lt;/h4&gt;
@@ -222,7 +226,7 @@ Component ID: cards
     </div>
 
     <!-- Product Card -->
-    <div class="component-card" data-name="product card price add to cart" data-cat="commerce">
+    <article class="component-card" data-name="product card price add to cart" data-cat="commerce">
       <div class="card-top">
         <span class="card-label">Product Card</span>
         <span class="card-tag tag-trending">Trending</span>
@@ -245,7 +249,6 @@ Component ID: cards
         <button class="action-btn copy-btn" onclick="copyCode('c4', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
-        <button onclick="addToCollection('Product Card')">Add to My Collection</button>
       </div>
       <pre id="c4" class="code-block"><code>&lt;div class="product-card"&gt;
   &lt;div class="product-badge"&gt;New&lt;/div&gt;
@@ -271,8 +274,7 @@ Component ID: cards
     </div>
 
     <!-- Pricing Card -->
-
-    <div class="component-card" data-name="pricing card plan subscription" data-cat="commerce">
+    <article class="component-card" data-name="pricing card plan subscription" data-cat="commerce">
       <div class="card-top">
         <span class="card-label">Pricing Card</span>
         <span class="card-tag tag-popular">Popular</span>
@@ -298,7 +300,6 @@ Component ID: cards
         <button class="action-btn copy-btn" onclick="copyCode('c5', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
-        <button onclick="addToCollection('Pricing Card')">Add to My Collection</button>
       </div>
       <pre id="c5" class="code-block"><code>&lt;div class="pricing-card"&gt;
   &lt;div class="pricing-badge"&gt;Most Popular&lt;/div&gt;
@@ -323,66 +324,52 @@ Component ID: cards
   transition: transform 0.3s, box-shadow 0.3s;
 }
 .pricing-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 20px 50px rgba(108,92,231,0.3); }</code></pre>
+    </div>
 
-    </div>
-    <!-- =============================================
-     FREE / BASIC PLAN CARD
-     ============================================= -->
-<div class="component-card" data-name="free basic plan card pricing" data-cat="commerce">
-  <div class="card-top">
-    <span class="card-label">Free / Basic Plan</span>
-    <span class="card-tag tag-popular">Free</span>
-  </div>
-  <div class="card-preview">
-    <div class="basic-card">
-      <div class="basic-badge">Free Forever</div>
-      <div class="basic-icon">🌿</div>
-      <h4>Basic Plan</h4>
-      <p class="basic-price">$0<span>/mo</span></p>
-      <p class="basic-desc">Perfect for individuals just getting started.</p>
-      <ul class="basic-features">
-        <li><span class="feat-check">✓</span> 5 projects</li>
-        <li><span class="feat-check">✓</span> 1 GB storage</li>
-        <li><span class="feat-check">✓</span> Community support</li>
-        
-      </ul>
-      <button class="basic-btn">Get Started Free</button>
-    </div>
-  </div>
-  <p class="card-desc">A clean free-tier card with feature list, $0 price, and a soft green CTA button.</p>
-  <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c-basic', this)">
-      <i class="fa-solid fa-code"></i> View Code
-    </button>
-    <button class="action-btn copy-btn" onclick="copyCode('c-basic', this)">
-      <i class="fa-solid fa-copy"></i> Copy
-    </button>
-    <button onclick="addToCollection('Free Basic Plan Card')">Add to My Collection</button>
-  </div>
-  <pre id="c-basic" class="code-block"><code>&lt;div class="basic-card"&gt;
-  &lt;div class="basic-badge"&gt;Free Forever&lt;/div&gt;
-  &lt;div class="basic-icon"&gt;🌿&lt;/div&gt;
-  &lt;h4&gt;Basic Plan&lt;/h4&gt;
-  &lt;p class="basic-price"&gt;$0&lt;span&gt;/mo&lt;/span&gt;&lt;/p&gt;
-  &lt;p&gt;Perfect for individuals just getting started.&lt;/p&gt;
-  &lt;ul class="basic-features"&gt;
-    &lt;li&gt;&lt;span class="feat-check"&gt;✓&lt;/span&gt; 5 projects&lt;/li&gt;
-    &lt;li&gt;&lt;span class="feat-check"&gt;✓&lt;/span&gt; 1 GB storage&lt;/li&gt;
-    &lt;li&gt;&lt;span class="feat-check"&gt;✓&lt;/span&gt; Community support&lt;/li&gt;
-    &lt;li&gt;&lt;span class="feat-cross"&gt;✗&lt;/span&gt; Custom domain&lt;/li&gt;
-    &lt;li&gt;&lt;span class="feat-cross"&gt;✗&lt;/span&gt; Analytics&lt;/li&gt;
-  &lt;/ul&gt;
-  &lt;button class="basic-btn"&gt;Get Started Free&lt;/button&gt;
+    <!-- Image Card -->
+    <article class="component-card" data-name="image card photo media" data-cat="content">
+      <div class="card-top">
+        <span class="card-label">Image Card</span>
+        <span class="card-tag tag-essential">Essential</span>
+      </div>
+      <div class="card-preview">
+        <div class="image-card">
+          <article class="image-card-thumb">
+            <div class="image-placeholder"><i class="fa-solid fa-image"></i></div>
+          </div>
+          <article class="image-card-body">
+            <span class="image-tag">Nature</span>
+            <h4>Scenic View</h4>
+            <p>Beautiful scenic card design for nature and travel content.</p>
+            <a href="#" class="image-card-link">Read More <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">A media card with a thumbnail area, category tag, title, and a read more link.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('c6', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('c6', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="c6" class="code-block"><code>&lt;div class="image-card"&gt;
+  &lt;img src="your-image.jpg" alt="..."&gt;
+  &lt;div class="image-card-body"&gt;
+    &lt;span class="tag"&gt;Nature&lt;/span&gt;
+    &lt;h4&gt;Scenic View&lt;/h4&gt;
+    &lt;p&gt;Beautiful scenic card design.&lt;/p&gt;
+    &lt;a href="#"&gt;Read More →&lt;/a&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 
-.basic-card {
+.image-card {
   background: #fff;
-  border: 1px solid #ebebeb;
   border-radius: 16px;
-  padding: 24px;
-  text-align: center;
-  max-width: 240px;
-  position: relative;
+  overflow: hidden;
+  max-width: 280px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
   transition: transform 0.3s, box-shadow 0.3s;
 }
 .basic-card:hover { transform: translateY(-6px); box-shadow: 0 16px 36px rgba(0,0,0,0.1); }
@@ -429,9 +416,9 @@ Component ID: cards
 
 
 <!-- =============================================
-     TRIAL PLAN CARD
-     ============================================= -->
-<div class="component-card" data-name="trial plan card pricing 14 day" data-cat="commerce">
+  TRIAL PLAN CARD
+  ============================================= -->
+<article class="component-card" data-name="trial plan card pricing 14 day" data-cat="commerce">
   <div class="card-top">
     <span class="card-label">Trial Plan</span>
     <span class="card-tag tag-trending">Trial</span>
@@ -532,17 +519,156 @@ Component ID: cards
 .trial-btn:hover { background: #ffe5b0; transform: translateY(-2px); }</code></pre>
 </div>
 
+<!-- =============================================
+     GLASSMORPHISM PROFILE CARD
+     ============================================= -->
+<article class="component-card" data-name="glass profile modern card ui" data-cat="profile">
+  <article class="card-top">
+    <span class="card-label">Glass Profile Card</span>
+    <span class="card-tag tag-trending">Modern</span>
+  </div>
+
+  <article class="card-preview dark-preview">
+    <article class="glass-card">
+      <div class="glass-avatar">DP</div>
+
+      <h4>Dipanita Mondal</h4>
+
+      <p>Frontend Developer</p>
+
+      <div class="glass-stats">
+        <div>
+          <strong>24K</strong>
+          <span>Followers</span>
+        </div>
+
+        <div>
+          <strong>182</strong>
+          <span>Projects</span>
+        </div>
+      </div>
+
+      <button class="glass-btn">View Profile</button>
+    </div>
+  </div>
+
+  <p class="card-desc">
+    A futuristic glassmorphism profile card with blur effects
+    and gradients.
+  </p>
+
+  <div class="actions">
+    <button class="action-btn view-btn">
+      <i class="fa-solid fa-code"></i>
+      View Code
+    </button>
+
+    <button class="action-btn copy-btn">
+      <i class="fa-solid fa-copy"></i>
+      Copy
+    </button>
+  </div>
+</div>
+
+<!-- =============================================
+     NEUMORPHISM CARD
+     ============================================= -->
+<article class="component-card" data-name="neomorphism soft ui card" data-cat="content">
+  <article class="card-top">
+    <span class="card-label">Neumorphism Card</span>
+    <span class="card-tag tag-essential">Soft UI</span>
+  </div>
+
+  <article class="card-preview">
+    <article class="neo-card">
+      <div class="neo-icon">
+        <i class="fa-solid fa-layer-group"></i>
+      </div>
+
+      <h4>Design System</h4>
+
+      <p>
+        Build reusable interfaces using clean and scalable
+        UI patterns.
+      </p>
+
+      <button class="neo-btn">Explore</button>
+    </div>
+  </div>
+
+  <p class="card-desc">
+    A soft neumorphic card with elegant shadows and
+    tactile interactions.
+  </p>
+
+  <div class="actions">
+    <button class="action-btn view-btn">
+      <i class="fa-solid fa-code"></i>
+      View Code
+    </button>
+
+    <button class="action-btn copy-btn">
+      <i class="fa-solid fa-copy"></i>
+      Copy
+    </button>
+  </div>
+</div>
+
+<!-- =============================================
+     CYBERPUNK CARD
+     ============================================= -->
+<article class="component-card" data-name="cyberpunk neon futuristic card" data-cat="social">
+  <article class="card-top">
+    <span class="card-label">Cyberpunk Card</span>
+    <span class="card-tag tag-trending">Futuristic</span>
+  </div>
+
+  <article class="card-preview dark-preview">
+    <article class="cyber-card">
+      <span class="cyber-badge">LIVE</span>
+
+      <h3>Cyber Dashboard</h3>
+
+      <p>
+        Futuristic neon dashboard card with glowing
+        effects and dark aesthetics.
+      </p>
+
+      <div class="cyber-actions">
+        <button>Launch</button>
+        <button>Preview</button>
+      </div>
+    </div>
+  </div>
+
+  <p class="card-desc">
+    A glowing cyberpunk-inspired UI card with neon borders
+    and hover animations.
+  </p>
+
+  <div class="actions">
+    <button class="action-btn view-btn">
+      <i class="fa-solid fa-code"></i>
+      View Code
+    </button>
+
+    <button class="action-btn copy-btn">
+      <i class="fa-solid fa-copy"></i>
+      Copy
+    </button>
+  </div>
+</div>
 
 <!-- =============================================
      PREMIUM PLAN CARD
      ============================================= -->
-<div class="component-card" data-name="premium plan card pricing popular" data-cat="commerce">
-  <div class="card-top">
+<article class="component-card" data-name="premium plan card pricing popular" data-cat="commerce">
+  <article class="card-top">
     <span class="card-label">Premium Plan</span>
     <span class="card-tag tag-popular">Popular</span>
   </div>
-  <div class="card-preview dark-preview">
-    <div class="premium-card">
+  <article class="card-preview dark-preview">
+    <article class="premium-card">
       <div class="premium-badge">Most Popular</div>
       <div class="premium-icon">⭐</div>
       <h4>Premium Plan</h4>
@@ -649,15 +775,15 @@ Component ID: cards
 <!-- =============================================
      ADVANCED PLAN CARD
      ============================================= -->
-<div class="component-card" data-name="advanced plan card pricing enterprise" data-cat="commerce">
-  <div class="card-top">
+<article class="component-card" data-name="advanced plan card pricing enterprise" data-cat="commerce">
+  <article class="card-top">
     <span class="card-label">Advanced Plan</span>
     <span class="card-tag tag-trending">Advanced</span>
   </div>
-  <div class="card-preview dark-preview">
-    <div class="advanced-card">
+  <article class="card-preview dark-preview">
+    <article class="advanced-card">
       <div class="advanced-badge">Enterprise</div>
-      <div class="advanced-icon">🚀</div>
+      <div class="advanced-icon"><i class="fa-solid fa-rocket"></i></div>
       <h4>Advanced Plan</h4>
       <p class="advanced-price">$<span class="advanced-amount">49</span><span class="advanced-period">/mo</span></p>
       <p class="advanced-desc">For power users, agencies & enterprises.</p>
@@ -683,7 +809,7 @@ Component ID: cards
   </div>
   <pre id="c-advanced" class="code-block"><code>&lt;div class="advanced-card"&gt;
   &lt;div class="advanced-badge"&gt;Enterprise&lt;/div&gt;
-  &lt;div class="advanced-icon"&gt;🚀&lt;/div&gt;
+  &lt;div class="advanced-icon"&gt;<i class="fa-solid fa-rocket"></i>&lt;/div&gt;
   &lt;h4&gt;Advanced Plan&lt;/h4&gt;
   &lt;p class="advanced-price"&gt;$&lt;span&gt;49&lt;/span&gt;&lt;span&gt;/mo&lt;/span&gt;&lt;/p&gt;
   &lt;p&gt;For power users, agencies and enterprises.&lt;/p&gt;
@@ -760,17 +886,17 @@ Component ID: cards
     
 
     <!-- Image Card -->
-    <div class="component-card" data-name="image card photo media" data-cat="content">
-      <div class="card-top">
+    <article class="component-card" data-name="image card photo media" data-cat="content">
+      <article class="card-top">
         <span class="card-label">Image Card</span>
         <span class="card-tag tag-essential">Essential</span>
       </div>
-      <div class="card-preview">
-        <div class="image-card">
-          <div class="image-card-thumb">
+      <article class="card-preview">
+        <article class="image-card">
+          <article class="image-card-thumb">
             <div class="image-placeholder"><i class="fa-solid fa-image"></i></div>
           </div>
-          <div class="image-card-body">
+          <article class="image-card-body">
             <span class="image-tag">Nature</span>
             <h4>Scenic View</h4>
             <p>Beautiful scenic card design for nature and travel content.</p>
@@ -810,13 +936,13 @@ Component ID: cards
     </div>
 
     <!-- Blog Card -->
-    <div class="component-card" data-name="blog card article post" data-cat="content">
-      <div class="card-top">
+    <article class="component-card" data-name="blog card article post" data-cat="content">
+      <article class="card-top">
         <span class="card-label">Blog Card</span>
         <span class="card-tag tag-trending">Trending</span>
       </div>
-      <div class="card-preview">
-        <div class="blog-card">
+      <article class="card-preview">
+        <article class="blog-card">
           <div class="blog-thumb">
             <div class="blog-thumb-inner"></div>
             <span class="blog-cat">Design</span>
@@ -846,7 +972,6 @@ Component ID: cards
         <button class="action-btn copy-btn" onclick="copyCode('c7', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
-        <button onclick="addToCollection('Blog Card')">Add to My Collection</button>
       </div>
       <pre id="c7" class="code-block"><code>&lt;div class="blog-card"&gt;
   &lt;div class="blog-thumb"&gt;
@@ -876,30 +1001,30 @@ Component ID: cards
     </div>
 
     <!-- Notification Card -->
-    <div class="component-card" data-name="notification card alert message" data-cat="social">
-      <div class="card-top">
+    <article class="component-card" data-name="notification card alert message" data-cat="social">
+      <article class="card-top">
         <span class="card-label">Notification Card</span>
         <span class="card-tag tag-popular">Popular</span>
       </div>
-      <div class="card-preview">
+      <article class="card-preview">
         <div class="notif-stack">
-          <div class="notif-card notif-purple">
+          <article class="notif-card notif-purple">
             <div class="notif-icon"><i class="fa-solid fa-bell"></i></div>
             <div class="notif-body">
               <h4>New Message</h4>
               <p>You have received a new message from Alex.</p>
               <span class="notif-time">2 min ago</span>
             </div>
-            <button class="notif-close"><i class="fa-solid fa-xmark"></i></button>
+            <button class="notif-close" aria-label="Dismiss notification" type="button"><i class="fa-solid fa-xmark"></i></button>
           </div>
-          <div class="notif-card notif-green">
+          <article class="notif-card notif-green">
             <div class="notif-icon notif-icon-green"><i class="fa-solid fa-check"></i></div>
             <div class="notif-body">
               <h4>Upload Complete</h4>
               <p>Your file has been successfully uploaded.</p>
               <span class="notif-time">Just now</span>
             </div>
-            <button class="notif-close"><i class="fa-solid fa-xmark"></i></button>
+            <button class="notif-close" aria-label="Dismiss notification" type="button"><i class="fa-solid fa-xmark"></i></button>
           </div>
         </div>
       </div>
@@ -911,7 +1036,6 @@ Component ID: cards
         <button class="action-btn copy-btn" onclick="copyCode('c8', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
-        <button onclick="addToCollection('Notification Card')">Add to My Collection</button>
       </div>
       <pre id="c8" class="code-block"><code>&lt;div class="notif-card"&gt;
   &lt;div class="notif-icon"&gt;🔔&lt;/div&gt;
@@ -938,13 +1062,13 @@ Component ID: cards
     </div>
 
     <!-- Social Media Card -->
-    <div class="component-card" data-name="social media card tweet post" data-cat="social">
-      <div class="card-top">
+    <article class="component-card" data-name="social media card tweet post" data-cat="social">
+      <article class="card-top">
         <span class="card-label">Social Card</span>
         <span class="card-tag tag-trending">Trending</span>
       </div>
-      <div class="card-preview">
-        <div class="social-card">
+      <article class="card-preview">
+        <article class="social-card">
           <div class="social-header">
             <div class="social-avatar">JD</div>
             <div class="social-user">
@@ -953,7 +1077,7 @@ Component ID: cards
             </div>
             <div class="social-platform"><i class="fab fa-x-twitter"></i></div>
           </div>
-          <p class="social-text">Just launched my new UI component library! Check it out and let me know what you think. 🚀</p>
+          <p class="social-text">Just launched my new UI component library! Check it out and let me know what you think. <i class="fa-solid fa-rocket"></i></p>
           <div class="social-actions">
             <button class="social-btn"><i class="fa-regular fa-heart"></i> 42</button>
             <button class="social-btn"><i class="fa-regular fa-comment"></i> 12</button>
@@ -970,7 +1094,6 @@ Component ID: cards
         <button class="action-btn copy-btn" onclick="copyCode('c9', this)">
           <i class="fa-solid fa-copy"></i> Copy
         </button>
-        <button onclick="addToCollection('Social Media Card')">Add to My Collection</button>
       </div>
       <pre id="c9" class="code-block"><code>&lt;div class="social-card"&gt;
   &lt;div class="social-header"&gt;
@@ -980,7 +1103,7 @@ Component ID: cards
       &lt;span&gt;@johndoe · 2h&lt;/span&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-  &lt;p&gt;Just launched my new UI library! 🚀&lt;/p&gt;
+  &lt;p&gt;Just launched my new UI library! <i class="fa-solid fa-rocket"></i>&lt;/p&gt;
   &lt;div class="social-actions"&gt;
     &lt;button&gt;♥ 42&lt;/button&gt;
     &lt;button&gt;💬 12&lt;/button&gt;
@@ -999,311 +1122,376 @@ Component ID: cards
 .social-card:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.1); }</code></pre>
     </div>
 
-   
-<!-- Glassmorphism Card -->
-<div class="component-card" data-name="glassmorphism modern blur card" data-cat="content">
-  <div class="card-top">
-    <span class="card-label">Glass Card</span>
-    <span class="card-tag tag-trending">Modern</span>
-  </div>
-
-  <div class="card-preview dark-preview">
-    <div class="glass-card">
-      <div class="glass-icon">
-        <i class="fa-solid fa-gem"></i>
+    <!-- 10. GLASSMORPHISM PROFILE CARD -->
+    <article class="component-card" data-name="glassmorphic profile card glass blur astronaut" data-cat="profile">
+      <article class="card-top">
+        <span class="card-label">Glassmorphic Profile</span>
+        <span class="card-tag tag-new">New</span>
       </div>
-
-      <h4>Glass UI</h4>
-
-      <p>
-        Beautiful frosted glass effect with modern gradients.
-      </p>
-
-      <button class="glass-btn">
-        Explore
-      </button>
-    </div>
-  </div>
-
-  <p class="card-desc">
-    Modern glassmorphism card with blur and hover effects.
-  </p>
-
-  <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c10', this)">
-      <i class="fa-solid fa-code"></i>
-      View Code
-    </button>
-
-    <button class="action-btn copy-btn" onclick="copyCode('c10', this)">
-      <i class="fa-solid fa-copy"></i>
-      Copy
-    </button>
-  </div>
-
-  <pre id="c10" class="code-block"><code>&lt;div class="glass-card"&gt;
-  &lt;div class="glass-icon"&gt;
-    &lt;i class="fa-solid fa-gem"&gt;&lt;/i&gt;
-  &lt;/div&gt;
-
-  &lt;h4&gt;Glass UI&lt;/h4&gt;
-
-  &lt;p&gt;
-    Beautiful frosted glass effect with modern gradients.
-  &lt;/p&gt;
-
-  &lt;button class="glass-btn"&gt;
-    Explore
-  &lt;/button&gt;
-&lt;/div&gt;</code></pre>
-</div>
-
-<!-- Stats Card -->
-<div class="component-card" data-name="analytics stats dashboard card" data-cat="content">
-  <div class="card-top">
-    <span class="card-label">Stats Card</span>
-    <span class="card-tag tag-popular">Popular</span>
-  </div>
-
-  <div class="card-preview">
-    <div class="stats-card">
-      <div class="stats-icon">
-        <i class="fa-solid fa-chart-line"></i>
-      </div>
-
-      <div class="stats-info">
-        <h3>24.8K</h3>
-        <p>Total Visitors</p>
-      </div>
-
-      <span class="stats-growth">
-        +12%
-      </span>
-    </div>
-  </div>
-
-  <p class="card-desc">
-    Dashboard analytics card with live growth indicator.
-  </p>
-
-  <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c11', this)">
-      <i class="fa-solid fa-code"></i>
-      View Code
-    </button>
-
-    <button class="action-btn copy-btn" onclick="copyCode('c11', this)">
-      <i class="fa-solid fa-copy"></i>
-      Copy
-    </button>
-  </div>
-
-  <pre id="c11" class="code-block"><code>&lt;div class="stats-card"&gt;
-  &lt;div class="stats-icon"&gt;
-    &lt;i class="fa-solid fa-chart-line"&gt;&lt;/i&gt;
-  &lt;/div&gt;
-
-  &lt;div class="stats-info"&gt;
-    &lt;h3&gt;24.8K&lt;/h3&gt;
-    &lt;p&gt;Total Visitors&lt;/p&gt;
-  &lt;/div&gt;
-
-  &lt;span class="stats-growth"&gt;
-    +12%
-  &lt;/span&gt;
-&lt;/div&gt;</code></pre>
-</div>
-
-<!-- Testimonial Card -->
-<div class="component-card" data-name="testimonial review customer feedback card" data-cat="social">
-  <div class="card-top">
-    <span class="card-label">Testimonial Card</span>
-    <span class="card-tag tag-essential">Essential</span>
-  </div>
-
-  <div class="card-preview">
-    <div class="testimonial-card">
-
-      <div class="testimonial-stars">
-        <i class="fa-solid fa-star"></i>
-        <i class="fa-solid fa-star"></i>
-        <i class="fa-solid fa-star"></i>
-        <i class="fa-solid fa-star"></i>
-        <i class="fa-solid fa-star"></i>
-      </div>
-
-      <p class="testimonial-text">
-        “UIverse has completely improved my workflow. Amazing components!”
-      </p>
-
-      <div class="testimonial-user">
-
-        <div class="testimonial-avatar">
-          EM
+      <article class="card-preview dark-preview">
+        <article class="glass-profile-card">
+          <div class="glass-avatar"><i class="fa-solid fa-user-astronaut"></i></div>
+          <h3 class="glass-name">Nova Vance</h3>
+          <p class="glass-role">UX Researcher · Spatial UI</p>
+          <div class="glass-social-row">
+            <a href="#"><i class="fa-brands fa-github"></i></a>
+            <a href="#"><i class="fa-brands fa-figma"></i></a>
+            <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          </div>
         </div>
+      </div>
+      <p class="card-desc">A premium translucent profile card featuring ultra-smooth backdrop blur and hover transformations.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('c10', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('c10', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="c10" class="code-block"><code>&lt;div class="glass-profile-card"&gt;
+  &lt;div class="glass-avatar"&gt;&lt;i class="fa-solid fa-user-astronaut"&gt;&lt;/i&gt;&lt;/div&gt;
+  &lt;h3 class="glass-name"&gt;Nova Vance&lt;/h3&gt;
+  &lt;p class="glass-role"&gt;UX Researcher · Spatial UI&lt;/p&gt;
+  &lt;div class="glass-social-row"&gt;
+    &lt;a href="#"&gt;&lt;i class="fa-brands fa-github"&gt;&lt;/i&gt;&lt;/a&gt;
+    &lt;a href="#"&gt;&lt;i class="fa-brands fa-figma"&gt;&lt;/i&gt;&lt;/a&gt;
+    &lt;a href="#"&gt;&lt;i class="fa-brands fa-linkedin-in"&gt;&lt;/i&gt;&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
 
-        <div>
-          <strong>Emma Wilson</strong>
-          <span>Frontend Developer</span>
+.glass-profile-card {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
+  padding: 30px 24px;
+  text-align: center;
+  width: 250px;
+  transition: all 0.3s ease;
+}
+.glass-profile-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
+}</code></pre>
+    </div>
+
+    <!-- 11. EXPANDABLE INFORMATION CARD -->
+    <article class="component-card" data-name="expandable information card telemetry metric" data-cat="content">
+      <article class="card-top">
+        <span class="card-label">Expandable Info Card</span>
+        <span class="card-tag tag-new">New</span>
+      </div>
+      <article class="card-preview">
+        <article class="expandable-info-card">
+          <article class="card-header-icon"><i class="fa-solid fa-folder-open"></i></div>
+          <h3 class="info-title">System Metrics</h3>
+          <p class="info-desc">Real-time node cluster telemetry and latency monitoring dashboard.</p>
+          <div class="expand-details">
+            <div class="detail-row"><span>Latency</span><strong>24ms</strong></div>
+            <div class="detail-row"><span>Uptime</span><strong>99.98%</strong></div>
+            <div class="detail-row"><span>Active Nodes</span><strong>14 / 16</strong></div>
+          </div>
         </div>
-
       </div>
-
-    </div>
-  </div>
-
-  <p class="card-desc">
-    Customer review card with star ratings and profile section.
-  </p>
-
-  <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c12', this)">
-      <i class="fa-solid fa-code"></i>
-      View Code
-    </button>
-
-    <button class="action-btn copy-btn" onclick="copyCode('c12', this)">
-      <i class="fa-solid fa-copy"></i>
-      Copy
-    </button>
-  </div>
-
-  <pre id="c12" class="code-block"><code>&lt;div class="testimonial-card"&gt;
-  &lt;p&gt;
-    Amazing UI components and smooth experience.
-  &lt;/p&gt;
-&lt;/div&gt;</code></pre>
-</div>
-
-<!-- Music Player Card -->
-<div class="component-card" data-name="music player audio media card" data-cat="content">
-  <div class="card-top">
-    <span class="card-label">Music Card</span>
-    <span class="card-tag tag-trending">Trending</span>
-  </div>
-
-  <div class="card-preview dark-preview">
-
-    <div class="music-card">
-
-      <div class="music-cover">
-        <i class="fa-solid fa-music"></i>
+      <p class="card-desc">An interactive metrics index-tab card that unfolds beautifully to reveal detail telemetry stats on hover.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('c11', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('c11', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
       </div>
+      <pre id="c11" class="code-block"><code>&lt;div class="expandable-info-card"&gt;
+  &lt;div class="card-header-icon"&gt;&lt;i class="fa-solid fa-folder-open"&gt;&lt;/i&gt;&lt;/div&gt;
+  &lt;h3 class="info-title"&gt;System Metrics&lt;/h3&gt;
+  &lt;p class="info-desc"&gt;Real-time node cluster telemetry and latency monitoring.&lt;/p&gt;
+  &lt;div class="expand-details"&gt;
+    &lt;div class="detail-row"&gt;&lt;span&gt;Latency&lt;/span&gt;&lt;strong&gt;24ms&lt;/strong&gt;&lt;/div&gt;
+    &lt;div class="detail-row"&gt;&lt;span&gt;Uptime&lt;/span&gt;&lt;strong&gt;99.98%&lt;/strong&gt;&lt;/div&gt;
+    &lt;div class="detail-row"&gt;&lt;span&gt;Active Nodes&lt;/span&gt;&lt;strong&gt;14 / 16&lt;/strong&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
 
-      <h4>Night Vibes</h4>
-
-      <p>Lofi Chill Mix</p>
-
-      <div class="music-controls">
-
-        <button>
-          <i class="fa-solid fa-backward"></i>
-        </button>
-
-        <button class="play-btn">
-          <i class="fa-solid fa-play"></i>
-        </button>
-
-        <button>
-          <i class="fa-solid fa-forward"></i>
-        </button>
-
-      </div>
-
+.expandable-info-card {
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+  border-radius: 20px;
+  padding: 24px;
+  width: 260px;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+}
+.expandable-info-card:hover .expand-details {
+  max-height: 120px;
+  opacity: 1;
+}</code></pre>
     </div>
 
-  </div>
-
-  <p class="card-desc">
-    Music streaming inspired UI card with controls.
-  </p>
-
-  <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c13', this)">
-      <i class="fa-solid fa-code"></i>
-      View Code
-    </button>
-
-    <button class="action-btn copy-btn" onclick="copyCode('c13', this)">
-      <i class="fa-solid fa-copy"></i>
-      Copy
-    </button>
-  </div>
-
-  <pre id="c13" class="code-block"><code>&lt;div class="music-card"&gt;
-  &lt;h4&gt;Night Vibes&lt;/h4&gt;
-&lt;/div&gt;</code></pre>
-</div>
-
-<!-- Team Member Card -->
-<div class="component-card" data-name="team member company profile card" data-cat="profile">
-
-  <div class="card-top">
-    <span class="card-label">Team Card</span>
-    <span class="card-tag tag-popular">Popular</span>
-  </div>
-
-  <div class="card-preview">
-
-    <div class="team-card">
-
-      <div class="team-cover"></div>
-
-      <div class="team-avatar">
-        SK
+    <!-- 12. PRODUCT SHOWCASE CARD -->
+    <article class="component-card" data-name="product showcase card watch commerce pricing" data-cat="commerce">
+      <article class="card-top">
+        <span class="card-label">Product Showcase</span>
+        <span class="card-tag tag-new">New</span>
       </div>
-
-      <div class="team-body">
-
-        <h4>Sneha Kapoor</h4>
-
-        <p>UI/UX Designer</p>
-
-        <div class="team-socials">
-
-          <a href="#">
-            <i class="fab fa-dribbble"></i>
-          </a>
-
-          <a href="#">
-            <i class="fab fa-linkedin"></i>
-          </a>
-
-          <a href="#">
-            <i class="fab fa-github"></i>
-          </a>
-
+      <article class="card-preview">
+        <article class="product-showcase-card">
+          <span class="showcase-badge">Premium</span>
+          <div class="showcase-visual"><i class="fa-solid fa-clock"></i></div>
+          <h3 class="showcase-name">Aero Chrono</h3>
+          <div class="showcase-rating">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star-half-stroke"></i>
+          </div>
+          <div class="showcase-footer">
+            <span class="showcase-price">$349</span>
+            <button class="showcase-btn">Buy Now</button>
+          </div>
         </div>
-
       </div>
+      <p class="card-desc">High-end e-commerce card offering product badge labels, animated star ratings, and scaling visual assets.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('c12', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('c12', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="c12" class="code-block"><code>&lt;div class="product-showcase-card"&gt;
+  &lt;span class="showcase-badge"&gt;Premium&lt;/span&gt;
+  &lt;div class="showcase-visual"&gt;&lt;i class="fa-solid fa-clock"&gt;&lt;/i&gt;&lt;/div&gt;
+  &lt;h3 class="showcase-name"&gt;Aero Chrono&lt;/h3&gt;
+  &lt;div class="showcase-rating"&gt;
+    &lt;i class="fa-solid fa-star"&gt;&lt;/i&gt;
+    &lt;i class="fa-solid fa-star"&gt;&lt;/i&gt;
+    &lt;i class="fa-solid fa-star"&gt;&lt;/i&gt;
+    &lt;i class="fa-solid fa-star"&gt;&lt;/i&gt;
+    &lt;i class="fa-solid fa-star-half-stroke"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;div class="showcase-footer"&gt;
+    &lt;span class="showcase-price"&gt;$349&lt;/span&gt;
+    &lt;button class="showcase-btn"&gt;Buy Now&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
 
+.product-showcase-card {
+  background: #0f172a !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 20px;
+  padding: 24px;
+  width: 250px;
+  position: relative;
+  transition: all 0.3s;
+}
+.product-showcase-card:hover {
+  transform: translateY(-8px);
+  border-color: #ec4899 !important;
+}</code></pre>
     </div>
 
-  </div>
+    <!-- 13. STATISTICS DASHBOARD CARD -->
+    <article class="component-card" data-name="statistics dashboard card revenue telemetry" data-cat="content">
+      <article class="card-top">
+        <span class="card-label">Dashboard Stat Card</span>
+        <span class="card-tag tag-new">New</span>
+      </div>
+      <article class="card-preview">
+        <article class="stat-dashboard-card">
+          <div class="stat-header">
+            <div class="stat-icon-wrap"><i class="fa-solid fa-chart-line"></i></div>
+            <span class="stat-trend"><i class="fa-solid fa-arrow-trend-up"></i> +14.8%</span>
+          </div>
+          <div class="stat-value">$24,892.40</div>
+          <div class="stat-label">Active Sales Revenue</div>
+          <div class="stat-footer-bar">
+            <div class="stat-progress-bg"><div class="stat-progress-fill"></div></div>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Minimalist dashboard stat card featuring dynamic progress-bar filling and upward active trend indicator.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('c13', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('c13', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="c13" class="code-block"><code>&lt;div class="stat-dashboard-card"&gt;
+  &lt;div class="stat-header"&gt;
+    &lt;div class="stat-icon-wrap"&gt;&lt;i class="fa-solid fa-chart-line"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;span class="stat-trend"&gt;&lt;i class="fa-solid fa-arrow-trend-up"&gt;&lt;/i&gt; +14.8%&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="stat-value"&gt;$24,892.40&lt;/div&gt;
+  &lt;div class="stat-label"&gt;Active Sales Revenue&lt;/div&gt;
+  &lt;div class="stat-footer-bar"&gt;
+    &lt;div class="stat-progress-bg"&gt;&lt;div class="stat-progress-fill"&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
 
-  <p class="card-desc">
-    Professional team member profile card with social links.
-  </p>
+.stat-dashboard-card {
+  background: #111827 !important;
+  border: 1px solid #1f2937 !important;
+  border-radius: 20px;
+  padding: 24px;
+  width: 250px;
+  transition: all 0.3s;
+}
+.stat-dashboard-card:hover {
+  transform: translateY(-6px);
+  border-color: #3b82f6 !important;
+}</code></pre>
+    </div>
 
-  <div class="actions">
-    <button class="action-btn view-btn" onclick="toggleCode('c14', this)">
-      <i class="fa-solid fa-code"></i>
-      View Code
-    </button>
+    <!-- 14. GRADIENT HOVER CARD -->
+    <article class="component-card" data-name="gradient hover card glow cyberpunk" data-cat="content">
+      <article class="card-top">
+        <span class="card-label">Gradient Hover Card</span>
+        <span class="card-tag tag-new">New</span>
+      </div>
+      <article class="card-preview">
+        <article class="gradient-hover-card">
+          <div class="glow-bg"></div>
+          <article class="card-inner">
+            <div class="gradient-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            <h3 class="gradient-card-title">Quantum Engine</h3>
+            <p class="gradient-card-desc">Interactive physics render rendering node with GPU clusters.</p>
+          </div>
+        </div>
+      </div>
+      <p class="card-desc">Premium cyberpunk layout that unleashes a gorgeous glowing neon border gradient backdrop blur on hover.</p>
+      <div class="actions">
+        <button class="action-btn view-btn" onclick="toggleCode('c14', this)">
+          <i class="fa-solid fa-code"></i> View Code
+        </button>
+        <button class="action-btn copy-btn" onclick="copyCode('c14', this)">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre id="c14" class="code-block"><code>&lt;div class="gradient-hover-card"&gt;
+  &lt;div class="glow-bg"&gt;&lt;/div&gt;
+  &lt;div class="card-inner"&gt;
+    &lt;div class="gradient-icon"&gt;&lt;i class="fa-solid fa-wand-magic-sparkles"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;h3 class="gradient-card-title"&gt;Quantum Engine&lt;/h3&gt;
+    &lt;p class="gradient-card-desc"&gt;Interactive physics render rendering node with GPU clusters.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
 
-    <button class="action-btn copy-btn" onclick="copyCode('c14', this)">
-      <i class="fa-solid fa-copy"></i>
-      Copy
-    </button>
-  </div>
-
-  <pre id="c14" class="code-block"><code>&lt;div class="team-card"&gt;
-  &lt;h4&gt;Sneha Kapoor&lt;/h4&gt;
-&lt;/div&gt;</code></pre>
-
-</div>
+.gradient-hover-card {
+  position: relative;
+  width: 250px;
+  border-radius: 20px;
+  padding: 1px;
+  background: rgba(255,255,255,0.05);
+  transition: all 0.3s;
+}
+.gradient-hover-card:hover {
+  transform: translateY(-6px);
+  background: linear-gradient(135deg, #f43f5e, #a855f7);
+}</code></pre>
+    </div>
 
   </div><!-- /cards-grid -->
+
+  <script>
+  (function(){
+    // Centralized card metadata
+    const CARDS = [
+      {
+        id: 'c1', name: 'Profile Card', tag: 'Popular', tagClass: 'tag-popular', cat: 'profile',
+        preview: { type: 'profile', initials: 'LN', name: 'Likhitha Nagraj', role: 'Embedded Systems Engineer', btnText: 'Follow' },
+        desc: 'A centered profile card with avatar, name, role, and a follow button. Lifts on hover.',
+        code: `<div class="profile-card">\n  <div class="profile-avatar">LN</div>\n  <h3 class="profile-name">Likhitha Nagraj</h3>\n  <p class="profile-role">Embedded Systems Engineer</p>\n  <button class="profile-btn">Follow</button>\n</div>\n\n.profile-card {\n  background: #fff;\n  border-radius: 16px;\n  padding: 28px 24px;\n  text-align: center;\n  max-width: 240px;\n  box-shadow: 0 4px 20px rgba(0,0,0,0.08);\n  transition: transform 0.3s, box-shadow 0.3s;\n}\n.profile-card:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 16px 40px rgba(108,92,231,0.18);\n}\n.profile-avatar {\n  width: 64px; height: 64px; border-radius: 50%;\n  background: linear-gradient(135deg, #6c5ce7, #a29bfe);\n  color: #fff; font-size: 20px; font-weight: 700;\n  display: flex; align-items: center; justify-content: center;\n  margin: 0 auto 12px;\n}` },
+
+      {
+        id: 'c2', name: 'Student Card', tag: 'Essential', tagClass: 'tag-essential', cat: 'profile',
+        preview: { type: 'profile', initials: 'AP', name: 'Ankit Pardeshi', role: 'AI & Data Science Student', btnText: 'Connect', bg: 'linear-gradient(135deg, #eb6835, #fdcb6e)' , variant: 'student-card' },
+        desc: 'A variant of the profile card with a warm gradient and a connect CTA — perfect for student or developer portfolios.',
+        code: `<div class="profile-card student-card">\n  <div class="profile-avatar">AP</div>\n  <h3 class="profile-name">Ankit Pardeshi</h3>\n  <p class="profile-role">AI &amp; Data Science Student</p>\n  <button class="profile-btn connect-btn">Connect</button>\n</div>\n\n/* Same .profile-card base styles as above */\n.student-card .profile-avatar {\n  background: linear-gradient(135deg, #eb6835, #fdcb6e);\n}\n.connect-btn {\n  background: linear-gradient(90deg, #eb6835, #fdcb6e);\n  color: #fff;\n  border: none;\n  padding: 8px 20px;\n  border-radius: 999px;\n  font-weight: 600;\n  cursor: pointer;\n}` },
+
+      {
+        id: 'c3', name: 'Simple Card', tag: 'Essential', tagClass: 'tag-essential', cat: 'content',
+        preview: { type: 'simple', title: 'Card Title', text: 'This is a simple card component with a clean, minimal design.', btnText: 'Learn More' },
+        desc: 'A minimal content card — the building block for most UI layouts.',
+        code: `<div class="simple-card">\n  <h4>Card Title</h4>\n  <p>Card description goes here.</p>\n  <button>Learn More</button>\n</div>\n\n.simple-card {\n  background: #fff;\n  border: 1px solid #ebebeb;\n  border-radius: 14px;\n  padding: 24px;\n  max-width: 280px;\n  transition: transform 0.3s, box-shadow 0.3s;\n}` },
+
+      {
+        id: 'c4', name: 'Product Card', tag: 'Trending', tagClass: 'tag-trending', cat: 'commerce',
+        preview: { type: 'product', badge: 'New', icon: '🎧', title: 'Premium Headphones', price: '$49.99', desc: 'High-quality audio with noise cancellation.', btnText: 'Add to Cart' },
+        desc: 'An e-commerce product card with badge, price highlight, and a cart CTA button.',
+        code: `<div class="product-card">\n  <div class="product-badge">New</div>\n  <div class="product-icon">🎧</div>\n  <h4>Premium Headphones</h4>\n  <p class="product-price">$49.99</p>\n  <p class="product-desc">High-quality audio with noise cancellation.</p>\n  <button class="product-btn">Add to Cart</button>\n</div>` },
+
+      {
+        id: 'c5', name: 'Pricing Card', tag: 'Popular', tagClass: 'tag-popular', cat: 'commerce',
+        preview: { type: 'pricing', badge: 'Most Popular', title: 'Pro Plan', currency: '$', amount: '19', period: '/mo', features: ['Unlimited components','Priority support','Custom themes'], btnText: 'Choose Plan' },
+        desc: 'A premium pricing card with feature list, price, and a highlighted CTA button.',
+        code: `<div class="pricing-card">\n  <div class="pricing-badge">Most Popular</div>\n  <h4>Pro Plan</h4>\n  <div class="pricing-price"><span class="pricing-currency">$</span>19<span class="pricing-period">/mo</span></div>\n  <ul class="pricing-features">\n    <li>Unlimited components</li>\n    <li>Priority support</li>\n    <li>Custom themes</li>\n  </ul>\n  <button class="pricing-btn">Choose Plan</button>\n</div>` }
+    ];
+
+    function escapeHtml(s){ return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    function actionButtons(codeId){
+      return ` <div class="actions">\n        <button class="action-btn view-btn" onclick="toggleCode('${codeId}', this)">\n          <i class="fa-solid fa-code"></i> View Code\n        </button>\n        <button class="action-btn copy-btn" onclick="copyCode('${codeId}', this)">\n          <i class="fa-solid fa-copy"></i> Copy\n        </button>\n      </div>`;
+    }
+
+    window.toggleCode = function(id, btn){
+      const pre = document.getElementById(id);
+      if(!pre) return;
+      const isShown = pre.style.display === 'block';
+      pre.style.display = isShown ? 'none' : 'block';
+      btn.classList.toggle('active', !isShown);
+    };
+
+    window.copyCode = function(id, btn){
+      const pre = document.getElementById(id);
+      if(!pre) return;
+      const text = pre.innerText || pre.textContent;
+      if(navigator.clipboard){
+        navigator.clipboard.writeText(text).then(()=>{
+          const old = btn.innerHTML;
+          btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+          setTimeout(()=> btn.innerHTML = old, 1200);
+        }).catch(()=> alert('Copy failed'));
+      } else { alert('Clipboard not supported'); }
+    };
+
+    function renderPreview(p){
+      if(!p) return '';
+      if(p.type === 'profile'){
+        const bg = p.bg ? `style="background:${p.bg}"` : '';
+        return `<div class="card-preview"><div class="profile-card ${p.variant||''}">\n            <div class="profile-avatar" ${bg}>${p.initials}</div>\n            <h3 class="profile-name">${escapeHtml(p.name)}</h3>\n            <p class="profile-role">${escapeHtml(p.role)}</p>\n            <button class="profile-btn">${escapeHtml(p.btnText)}</button>\n          </div></div>`;
+      }
+      if(p.type === 'simple'){
+        return `<div class="card-preview"><div class="simple-card">\n            <h4>${escapeHtml(p.title)}</h4>\n            <p>${escapeHtml(p.text)}</p>\n            <button class="simple-card-btn">${escapeHtml(p.btnText)}</button>\n          </div></div>`;
+      }
+      if(p.type === 'product'){
+        return `<div class="card-preview"><div class="product-card">\n            <div class="product-badge">${escapeHtml(p.badge)}</div>\n            <div class="product-icon">${escapeHtml(p.icon)}</div>\n            <h4>${escapeHtml(p.title)}</h4>\n            <p class="product-price">${escapeHtml(p.price)}</p>\n            <p class="product-desc">${escapeHtml(p.desc)}</p>\n            <button class="product-btn">${escapeHtml(p.btnText)}</button>\n          </div></div>`;
+      }
+      if(p.type === 'pricing'){
+        const features = (p.features||[]).map(f=>`<li><i class="fa-solid fa-check"></i> ${escapeHtml(f)}</li>`).join('');
+        return `<div class="card-preview dark-preview"><div class="pricing-card">\n            <div class="pricing-badge">${escapeHtml(p.badge)}</div>\n            <h4>${escapeHtml(p.title)}</h4>\n            <div class="pricing-price"><span class="pricing-currency">${escapeHtml(p.currency)}</span>${escapeHtml(p.amount)}<span class="pricing-period">${escapeHtml(p.period)}</span></div>\n            <ul class="pricing-features">${features}</ul>\n            <button class="pricing-btn">${escapeHtml(p.btnText)}</button>\n          </div></div>`;
+      }
+      return '';
+    }
+
+    function renderCard(card){
+      return `<article class="component-card" data-name="${escapeHtml(card.name)}" data-cat="${escapeHtml(card.cat)}">\n        <div class="card-top">\n          <span class="card-label">${escapeHtml(card.name)}</span>\n          ${card.tag?`<span class="card-tag ${escapeHtml(card.tagClass||'')}">${escapeHtml(card.tag)}</span>`:''}\n        </div>\n        ${renderPreview(card.preview)}\n        <p class="card-desc">${escapeHtml(card.desc)}</p>\n        ${actionButtons(card.id)}\n        <pre id="${escapeHtml(card.id)}" class="code-block" style="display:none"><code>${escapeHtml(card.code)}</code></pre>\n      </article>`;
+    }
+
+    function renderCards(){
+      const grid = document.getElementById('cardsGrid');
+      if(!grid) return;
+      grid.innerHTML = CARDS.map(renderCard).join('\n');
+    }
+
+    document.addEventListener('DOMContentLoaded', renderCards);
+  })();
+  </script>
 
 </main>
 ```

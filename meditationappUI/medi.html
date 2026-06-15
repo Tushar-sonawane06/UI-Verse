@@ -1,56 +1,106 @@
+# Fixed Meditation Session UI
+
+## index.html
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8" />
+
+  <!-- Improved CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="../dist/shared.css">
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meditation Session UI</title>
-  <link rel="stylesheet" href="medi.css">
+
+  <!-- Google Font -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  />
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="medi.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <div class="container">
 
-    <div class="meditation-card">
+  <main class="container">
+
+    <section class="meditation-card">
 
       <h1>Meditation Session</h1>
 
-      <p>
+      <p class="subtitle">
         Relax your mind and focus on your breathing.
       </p>
 
-      <div class="breathing-circle">
-        <span>Breathe</span>
+      <div class="breathing-circle" id="breathingCircle">
+        <span id="breathText">Breathe In</span>
       </div>
 
-      <div class="timer" id="timer">
+      <div
+        class="timer"
+        id="timer"
+        aria-live="polite"
+      >
         05:00
       </div>
 
       <div class="controls">
 
-        <button id="startBtn">
+        <button id="startBtn" type="button">
           Start
         </button>
 
-        <button id="pauseBtn">
+        <button id="pauseBtn" type="button">
           Pause
+        </button>
+
+        <button id="resetBtn" type="button">
+          Reset
         </button>
 
       </div>
 
       <div class="modes">
 
-        <button>Focus</button>
-        <button>Relax</button>
-        <button>Sleep</button>
+        <button class="mode-btn active" type="button" data-time="300">
+          Focus
+        </button>
+
+        <button class="mode-btn" type="button" data-time="600">
+          Relax
+        </button>
+
+        <button class="mode-btn" type="button" data-time="900">
+          Sleep
+        </button>
 
       </div>
 
-    </div>
+    </section>
 
-  </div>
+  </main>
 
   <script src="medi.js"></script>
+      <script src="../dist/shared.js"></script>
 </body>
 </html>

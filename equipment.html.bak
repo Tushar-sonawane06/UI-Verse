@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="dist/shared.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' http://127.0.0.1:5000 http://localhost:5000 https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-inline'; style-src 'self' https: 'unsafe-inline'">
+  <title>Equipment Marketplace — UI-Verse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="equipment.css">
+</head>
+<body>
+  <main class="equipment-shell">
+    <section class="hero-panel">
+      <div class="hero-copy">
+        <span class="eyebrow">Peer-to-peer equipment sharing</span>
+        <h1>Rent idle tractors and machinery to nearby farms.</h1>
+        <p>List equipment for rent, match by pincode, and send farmers to a dedicated booking page with blocked rental dates and automated notifications.</p>
+      </div>
+      <div class="hero-actions">
+        <a href="notifications.html" class="ghost-link">Open notifications</a>
+        <a href="index.html" class="ghost-link secondary">Back to UIverse</a>
+      </div>
+    </section>
+
+    <section class="grid-layout">
+      <form id="listingForm" class="panel form-panel">
+        <div class="panel-heading">
+          <h2>List equipment</h2>
+          <p>Upload a photo and add the rental details.</p>
+        </div>
+
+        <div class="field-grid">
+          <label>
+            Equipment name
+            <input name="name" type="text" placeholder="Compact Tractor 45HP" required>
+          </label>
+          <label>
+            Daily rate
+            <input name="daily_rate" type="number" min="1" step="1" placeholder="180" required>
+          </label>
+          <label>
+            Owner ID
+            <input name="owner_id" type="text" placeholder="FARM-010" required>
+          </label>
+          <label>
+            Owner name
+            <input name="owner_name" type="text" placeholder="Asha Patel" required>
+          </label>
+          <label>
+            Pincode
+            <input name="pin_code" type="text" inputmode="numeric" placeholder="560001" required>
+          </label>
+          <label>
+            Status
+            <select name="status">
+              <option value="available">Available</option>
+              <option value="maintenance">Maintenance</option>
+              <option value="reserved">Reserved</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="full-width">
+          Description
+          <textarea name="description" rows="4" placeholder="Add a short description of the machinery and attachments." required></textarea>
+        </label>
+
+        <label class="full-width file-picker">
+          Upload photo
+          <input name="photo" type="file" accept="image/*">
+        </label>
+
+        <div class="preview-wrap">
+          <img id="photoPreview" alt="Selected equipment preview" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'%3E%3Crect width='800' height='500' rx='36' fill='%23226b47'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='white' font-family='Manrope, Arial, sans-serif' font-size='32' font-weight='800'%3EUpload a photo preview%3C/text%3E%3C/svg%3E">
+        </div>
+
+        <button type="submit" class="primary-btn">Publish listing</button>
+        <p id="listingStatus" class="status" aria-live="polite"></p>
+      </form>
+
+      <section class="panel marketplace-panel">
+        <div class="panel-heading">
+          <h2>Marketplace</h2>
+          <p>Search by name and pincode to find nearby equipment.</p>
+        </div>
+
+        <div class="search-row">
+          <label>
+            Search
+            <input id="searchInput" type="search" placeholder="Tractor, sprayer, harvester...">
+          </label>
+          <label>
+            Nearby pincode
+            <input id="pinInput" type="text" inputmode="numeric" value="560001" placeholder="560001">
+          </label>
+          <button id="searchBtn" type="button" class="secondary-btn">Find nearby</button>
+        </div>
+
+        <div class="marketplace-toolbar">
+          <span id="resultMeta">Loading available equipment…</span>
+          <a href="notifications.html">Booking alerts →</a>
+        </div>
+
+        <div id="marketplaceGrid" class="marketplace-grid"></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="js/features/equipment-marketplace.js"></script>
+  <script src="dist/shared.js"></script>
+</body>
+</html>

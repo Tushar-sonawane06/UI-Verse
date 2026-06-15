@@ -1,0 +1,187 @@
+/* ==========================================================================
+   GRID-UTILITIES.CSS — Centralized responsive CSS Grid + Flexbox Fallback System
+   Compatible with centralized breakpoint design tokens:
+   --breakpoint-sm: 640px
+   --breakpoint-md: 768px
+   --breakpoint-lg: 1024px
+   --breakpoint-xl: 1280px
+   ========================================================================== */
+
+/* Fallback: Flexbox layout for legacy/non-grid environments */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -12px;
+  margin-right: -12px;
+  box-sizing: border-box;
+}
+
+.grid > * {
+  box-sizing: border-box;
+  padding-left: 12px;
+  padding-right: 12px;
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+/* Gap fallback values */
+.grid.gap-sm {
+  margin-left: -6px;
+  margin-right: -6px;
+}
+
+.grid.gap-sm > * {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.grid.gap-md {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.grid.gap-md > * {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.grid.gap-lg {
+  margin-left: -12px;
+  margin-right: -12px;
+}
+
+.grid.gap-lg > * {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* Flexbox Column Fallbacks */
+.grid-cols-1 > * { flex: 0 0 100%; max-width: 100%; }
+.grid-cols-2 > * { flex: 0 0 50%; max-width: 50%; }
+.grid-cols-3 > * { flex: 0 0 33.3333%; max-width: 33.3333%; }
+.grid-cols-4 > * { flex: 0 0 25%; max-width: 25%; }
+.grid-cols-12 > * { flex: 0 0 8.3333%; max-width: 8.3333%; }
+
+/* Column spans fallback (flexbox) */
+.col-span-1 { flex: 0 0 8.3333%; max-width: 8.3333%; }
+.col-span-2 { flex: 0 0 16.6667%; max-width: 16.6667%; }
+.col-span-3 { flex: 0 0 25%; max-width: 25%; }
+.col-span-4 { flex: 0 0 33.3333%; max-width: 33.3333%; }
+.col-span-5 { flex: 0 0 41.6667%; max-width: 41.6667%; }
+.col-span-6 { flex: 0 0 50%; max-width: 50%; }
+.col-span-7 { flex: 0 0 58.3333%; max-width: 58.3333%; }
+.col-span-8 { flex: 0 0 66.6667%; max-width: 66.6667%; }
+.col-span-9 { flex: 0 0 75%; max-width: 75%; }
+.col-span-10 { flex: 0 0 83.3333%; max-width: 83.3333%; }
+.col-span-11 { flex: 0 0 91.6667%; max-width: 91.6667%; }
+.col-span-12 { flex: 0 0 100%; max-width: 100%; }
+
+/* Modern CSS Grid via @supports */
+@supports (display: grid) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    margin-left: 0;
+    margin-right: 0;
+    gap: 24px;
+  }
+
+  .grid > * {
+    padding-left: 0;
+    padding-right: 0;
+    flex: none;
+    max-width: none;
+  }
+
+  /* Gaps */
+  .grid.gap-sm { gap: 12px; margin: 0; }
+  .grid.gap-md { gap: 20px; margin: 0; }
+  .grid.gap-lg { gap: 24px; margin: 0; }
+
+  /* Columns utility */
+  .grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+  .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid-cols-12 { grid-template-columns: repeat(12, 1fr); }
+
+  /* Column spans */
+  .col-span-1 { grid-column: span 1; }
+  .col-span-2 { grid-column: span 2; }
+  .col-span-3 { grid-column: span 3; }
+  .col-span-4 { grid-column: span 4; }
+  .col-span-5 { grid-column: span 5; }
+  .col-span-6 { grid-column: span 6; }
+  .col-span-7 { grid-column: span 7; }
+  .col-span-8 { grid-column: span 8; }
+  .col-span-9 { grid-column: span 9; }
+  .col-span-10 { grid-column: span 10; }
+  .col-span-11 { grid-column: span 11; }
+  .col-span-12 { grid-column: span 12; }
+
+  /* Row spans */
+  .row-span-1 { grid-row: span 1; }
+  .row-span-2 { grid-row: span 2; }
+  .row-span-3 { grid-row: span 3; }
+  .row-span-4 { grid-row: span 4; }
+}
+
+/* ==========================================================================
+   Responsive Overrides
+   - Aligned with centralized breakpoints
+   ========================================================================== */
+
+/* Medium/Tablet Viewport (max-width: 1024px) */
+@media (max-width: 1024px) {
+  @supports (display: grid) {
+    .grid-cols-3 { grid-template-columns: repeat(2, 1fr); }
+    .grid-cols-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-cols-12 { grid-template-columns: repeat(6, 1fr); }
+  }
+  
+  .grid-cols-3 > * { flex: 0 0 50%; max-width: 50%; }
+  .grid-cols-4 > * { flex: 0 0 50%; max-width: 50%; }
+  .grid-cols-12 > * { flex: 0 0 16.6667%; max-width: 16.6667%; }
+}
+
+/* Small/Mobile Viewport (max-width: 768px) */
+@media (max-width: 768px) {
+  @supports (display: grid) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    
+    .grid-cols-2,
+    .grid-cols-3,
+    .grid-cols-4,
+    .grid-cols-12 {
+      grid-template-columns: 1fr;
+    }
+
+    .col-span-1, .col-span-2, .col-span-3, .col-span-4,
+    .col-span-5, .col-span-6, .col-span-7, .col-span-8,
+    .col-span-9, .col-span-10, .col-span-11, .col-span-12 {
+      grid-column: span 1;
+    }
+
+    .row-span-1, .row-span-2, .row-span-3, .row-span-4 {
+      grid-row: span 1;
+    }
+  }
+
+  .grid-cols-2 > *,
+  .grid-cols-3 > *,
+  .grid-cols-4 > *,
+  .grid-cols-12 > * {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .col-span-1, .col-span-2, .col-span-3, .col-span-4,
+  .col-span-5, .col-span-6, .col-span-7, .col-span-8,
+  .col-span-9, .col-span-10, .col-span-11, .col-span-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

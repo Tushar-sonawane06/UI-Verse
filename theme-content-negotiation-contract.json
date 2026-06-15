@@ -1,0 +1,386 @@
+{
+  "apiVersion": "1.0.0",
+  "title": "Theme HTTP Content Negotiation API",
+  "description": "Backend API contract for content negotiation in theme delivery workflows",
+  "baseUrl": "/api/v1/themes",
+  "contentNegotiation": {
+    "enabled": true,
+    "strategy": "quality-based",
+    "fallbackType": "application/json"
+  },
+  "endpoints": [
+    {
+      "path": "/get/{themeName}",
+      "method": "GET",
+      "operationId": "getTheme",
+      "summary": "Get theme with content negotiation",
+      "description": "Returns theme in requested format based on Accept header",
+      "parameters": [
+        {
+          "name": "themeName",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" },
+          "description": "Name or ID of the theme"
+        },
+        {
+          "name": "pretty",
+          "in": "query",
+          "required": false,
+          "schema": { "type": "boolean", "default": true },
+          "description": "Pretty-print output (applicable to JSON, YAML, XML)"
+        },
+        {
+          "name": "inline",
+          "in": "query",
+          "required": false,
+          "schema": { "type": "boolean", "default": false },
+          "description": "Inline external resources"
+        }
+      ],
+      "requestHeaders": [
+        {
+          "name": "Accept",
+          "required": false,
+          "default": "application/json",
+          "schema": { "type": "string" },
+          "description": "Desired response format(s)"
+        },
+        {
+          "name": "Accept-Encoding",
+          "required": false,
+          "schema": { "type": "string" },
+          "description": "Acceptable compression encodings"
+        },
+        {
+          "name": "Accept-Language",
+          "required": false,
+          "schema": { "type": "string" },
+          "description": "Preferred language"
+        },
+        {
+          "name": "Accept-Charset",
+          "required": false,
+          "default": "utf-8",
+          "schema": { "type": "string" },
+          "description": "Preferred character encoding"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Theme retrieved successfully",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "negotiated"
+            },
+            {
+              "name": "Content-Encoding",
+              "value": "negotiated"
+            },
+            {
+              "name": "Vary",
+              "value": "Accept, Accept-Encoding, Accept-Language"
+            }
+          ],
+          "schema": {
+            "$ref": "#/components/schemas/ThemeResponse"
+          }
+        },
+        "406": {
+          "description": "Not Acceptable - No supported format available",
+          "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+        },
+        "404": {
+          "description": "Theme not found",
+          "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    {
+      "path": "/negotiate",
+      "method": "POST",
+      "operationId": "performNegotiation",
+      "summary": "Perform content negotiation analysis",
+      "description": "Analyzes Accept headers and returns negotiation result",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "accept": {
+                  "type": "string",
+                  "example": "application/json, text/css;q=0.9, */*;q=0.1"
+                },
+                "acceptEncoding": {
+                  "type": "string",
+                  "example": "gzip, deflate, br"
+                },
+                "acceptLanguage": {
+                  "type": "string",
+                  "example": "en-US, en;q=0.9, es;q=0.8"
+                },
+                "acceptCharset": {
+                  "type": "string",
+                  "example": "utf-8, iso-8859-1;q=0.5"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Negotiation successful",
+          "schema": { "$ref": "#/components/schemas/NegotiationResult" }
+        }
+      }
+    },
+    {
+      "path": "/formats",
+      "method": "GET",
+      "operationId": "getAvailableFormats",
+      "summary": "Get available formats",
+      "description": "Returns list of supported content types and formats",
+      "responses": {
+        "200": {
+          "description": "Formats retrieved",
+          "schema": { "$ref": "#/components/schemas/AvailableFormats" }
+        }
+      }
+    }
+  ],
+  "supportedContentTypes": [
+    {
+      "mimeType": "application/json",
+      "extension": ".json",
+      "priority": 1.0,
+      "description": "JSON format (default)"
+    },
+    {
+      "mimeType": "text/css",
+      "extension": ".css",
+      "priority": 0.9,
+      "description": "CSS Custom Properties"
+    },
+    {
+      "mimeType": "application/x-scss",
+      "extension": ".scss",
+      "priority": 0.8,
+      "description": "SCSS/SASS format"
+    },
+    {
+      "mimeType": "application/javascript",
+      "extension": ".js",
+      "priority": 0.7,
+      "description": "JavaScript ES6 module"
+    },
+    {
+      "mimeType": "text/plain",
+      "extension": ".txt",
+      "priority": 0.6,
+      "description": "Plain text format"
+    },
+    {
+      "mimeType": "application/xml",
+      "extension": ".xml",
+      "priority": 0.5,
+      "description": "XML format"
+    },
+    {
+      "mimeType": "application/yaml",
+      "extension": ".yaml",
+      "priority": 0.4,
+      "description": "YAML format"
+    },
+    {
+      "mimeType": "application/x-ndjson",
+      "extension": ".ndjson",
+      "priority": 0.3,
+      "description": "Newline-Delimited JSON"
+    },
+    {
+      "mimeType": "text/html",
+      "extension": ".html",
+      "priority": 0.2,
+      "description": "HTML format"
+    }
+  ],
+  "supportedEncodings": [
+    {
+      "encoding": "gzip",
+      "priority": 1.0,
+      "compressionLevel": 6
+    },
+    {
+      "encoding": "br",
+      "priority": 0.9,
+      "compressionLevel": 4
+    },
+    {
+      "encoding": "deflate",
+      "priority": 0.8,
+      "compressionLevel": 6
+    },
+    {
+      "encoding": "identity",
+      "priority": 0.5,
+      "compressionLevel": 0
+    }
+  ],
+  "supportedLanguages": [
+    { "language": "en", "priority": 1.0 },
+    { "language": "en-US", "priority": 0.9 },
+    { "language": "es", "priority": 0.8 },
+    { "language": "fr", "priority": 0.7 },
+    { "language": "de", "priority": 0.6 }
+  ],
+  "supportedCharsets": [
+    { "charset": "utf-8", "priority": 1.0 },
+    { "charset": "utf-16", "priority": 0.5 },
+    { "charset": "iso-8859-1", "priority": 0.3 }
+  ],
+  "components": {
+    "schemas": {
+      "ThemeResponse": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "data": { "type": "object" },
+          "format": { "type": "string" },
+          "encoding": { "type": "string" },
+          "language": { "type": "string" },
+          "charset": { "type": "string" }
+        }
+      },
+      "NegotiationResult": {
+        "type": "object",
+        "properties": {
+          "contentType": {
+            "type": "string",
+            "description": "Selected content type"
+          },
+          "contentQuality": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "encoding": { "type": "string" },
+          "encodingQuality": { "type": "number" },
+          "language": { "type": "string" },
+          "languageQuality": { "type": "number" },
+          "charset": { "type": "string" },
+          "charsetQuality": { "type": "number" },
+          "isAcceptable": { "type": "boolean" },
+          "timestamp": { "type": "integer" }
+        }
+      },
+      "AvailableFormats": {
+        "type": "object",
+        "properties": {
+          "contentTypes": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ContentTypeInfo" }
+          },
+          "encodings": { "type": "array", "items": { "type": "string" } },
+          "languages": { "type": "array", "items": { "type": "string" } },
+          "charsets": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "ContentTypeInfo": {
+        "type": "object",
+        "properties": {
+          "mimeType": { "type": "string" },
+          "extension": { "type": "string" },
+          "priority": { "type": "number" },
+          "description": { "type": "string" }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string" },
+          "errorCode": { "type": "string" },
+          "acceptable": { "type": "array", "items": { "type": "string" } },
+          "timestamp": { "type": "integer" }
+        }
+      }
+    }
+  },
+  "httpHeaders": {
+    "request": [
+      {
+        "name": "Accept",
+        "format": "media-type-list",
+        "example": "application/json, text/css;q=0.9, */*;q=0.1"
+      },
+      {
+        "name": "Accept-Encoding",
+        "format": "encoding-list",
+        "example": "gzip, deflate, br"
+      },
+      {
+        "name": "Accept-Language",
+        "format": "language-list",
+        "example": "en-US, en;q=0.9"
+      },
+      {
+        "name": "Accept-Charset",
+        "format": "charset-list",
+        "example": "utf-8, iso-8859-1;q=0.5"
+      }
+    ],
+    "response": [
+      {
+        "name": "Content-Type",
+        "description": "Negotiated content type"
+      },
+      {
+        "name": "Content-Encoding",
+        "description": "Applied encoding"
+      },
+      {
+        "name": "Content-Language",
+        "description": "Content language"
+      },
+      {
+        "name": "Vary",
+        "description": "List of headers affecting response"
+      }
+    ]
+  },
+  "qualityFactors": {
+    "description": "Quality factor (q value) usage",
+    "range": "0.0 to 1.0",
+    "default": 1.0,
+    "syntax": "type;q=0.8",
+    "ordering": "Lower order = higher quality",
+    "example": "text/html;q=0.9, application/xhtml+xml;q=0.9, */*;q=0.8"
+  },
+  "caching": {
+    "enabled": true,
+    "strategy": "LRU",
+    "maxEntries": 100,
+    "ttl": 3600
+  },
+  "errorCodes": {
+    "NOT_ACCEPTABLE": {
+      "status": 406,
+      "message": "No supported format available for requested Accept headers"
+    },
+    "UNSUPPORTED_FORMAT": {
+      "status": 415,
+      "message": "Unsupported content type"
+    },
+    "THEME_NOT_FOUND": {
+      "status": 404,
+      "message": "Theme not found"
+    },
+    "NEGOTIATION_FAILED": {
+      "status": 500,
+      "message": "Content negotiation failed"
+    }
+  }
+}

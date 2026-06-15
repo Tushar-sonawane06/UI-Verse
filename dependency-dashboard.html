@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Component Dependency Analysis Dashboard</title>
@@ -22,9 +23,80 @@
     .timestamp { font-size: 12px; color: #999; }
     .graph-node { display: inline-block; background: #dbeafe; padding: 8px 12px; margin: 4px; border-radius: 4px; font-size: 12px; }
     .graph-arrow { color: #999; margin: 0 4px; }
+    .graph-column { margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #e5e7eb; }
+    .graph-title { font-weight: 700; margin-bottom: 6px; color: #111827; }
+    .graph-meta { color: #6b7280; font-size: 12px; margin-bottom: 8px; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; margin-left: 8px; vertical-align: middle; }
+    .badge.ok { background: #dcfce7; color: #166534; }
+    .badge.warn { background: #fee2e2; color: #991b1b; }
   </style>
-</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 <body>
+
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
   <div class="container">
     <h1>📊 Component Dependency Analysis</h1>
     
@@ -52,6 +124,15 @@
           <h3>⚠️ Unused Imports</h3>
           <div class="value" id="unusedCount">-</div>
         </div>
+        <div class="card" id="dependencyValidityCard">
+          <h3>Dependency Graph</h3>
+          <div class="value" id="dependencyValidity">-</div>
+        </div>
+      </div>
+
+      <div class="section" id="dependencySummarySection">
+        <h2>Transitive Dependency Summary</h2>
+        <div id="dependencySummaryList"></div>
       </div>
 
       <div class="section" id="circularSection" style="display: none;">
@@ -94,6 +175,18 @@
       document.getElementById('importCount').textContent = report.totalImports;
       document.getElementById('circularCount').textContent = report.summary.circularDepCount;
       document.getElementById('unusedCount').textContent = report.summary.totalUnusedImports;
+      document.getElementById('dependencyValidity').textContent = report.summary.dependencyValid ? 'Valid' : 'Invalid';
+      document.getElementById('dependencyValidityCard').classList.toggle('warning', !report.summary.dependencyValid);
+
+      // Transitive dependency summary
+      const dependencySummaryList = document.getElementById('dependencySummaryList');
+      const transitive = (report.dependencyGraph && report.dependencyGraph.transitiveSummary) || [];
+      dependencySummaryList.innerHTML = transitive.length > 0
+        ? transitive.slice(0, 10).map((entry) => {
+            const badgeClass = entry.depth > 1 ? 'warn' : 'ok';
+            return `<div class="list-item"><strong>${entry.name}</strong><span class="badge ${badgeClass}">${entry.depth} transitive</span><div class="graph-meta">Direct: ${entry.dependencies.length} | Dependents: ${entry.dependents.length}</div><div>${entry.transitiveDependencies.slice(0, 6).map((dep) => `<span class="graph-node">${dep}</span>`).join('<span class="graph-arrow">→</span>')}</div></div>`;
+          }).join('')
+        : '<p>No transitive dependency data found</p>';
 
       // Circular dependencies
       if (report.circularDependencies.length > 0) {
@@ -121,23 +214,105 @@
 
       // Graph visualization (sample)
       const graphDiv = document.getElementById('graphVisualization');
-      const sampleFiles = Object.keys(report.graph).slice(0, 5);
-      let html = '';
-      sampleFiles.forEach(file => {
-        const deps = report.graph[file];
-        if (deps.length > 0) {
-          html += `<div>${file}<br>`;
-          deps.slice(0, 3).forEach(dep => {
-            html += `<span class="graph-node">${dep.split('/').pop()}</span>`;
-          });
-          if (deps.length > 3) html += `<span class="graph-node">+${deps.length - 3} more</span>`;
-          html += `</div><br>`;
-        }
-      });
-      graphDiv.innerHTML = html || '<p>No dependencies found</p>';
+      const graphEntries = (report.dependencyGraph && report.dependencyGraph.visualization) || [];
+      graphDiv.innerHTML = graphEntries.length > 0
+        ? graphEntries.slice(0, 12).map((entry) => {
+            const direct = entry.dependencies.length > 0
+              ? entry.dependencies.map((dep) => `<span class="graph-node">${dep}</span>`).join(' <span class="graph-arrow">→</span> ')
+              : '<span class="graph-node">No direct deps</span>';
+            const transitive = entry.transitiveDependencies.length > entry.dependencies.length
+              ? ` <div class="graph-meta">Transitive: ${entry.transitiveDependencies.join(', ')}</div>`
+              : '';
+            return `<div class="graph-column"><div class="graph-title">${entry.name}</div><div>${direct}</div>${transitive}</div>`;
+          }).join('')
+        : '<p>No dependencies found</p>';
     }
 
     loadDashboard();
   </script>
-</body>
+  <script src="dist/shared.js"></script>
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="navbar.html">Navbars</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+        <li><a href="forms.html">Forms</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="license.html">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+      <p>Get notified when new components drop.</p>
+      <div class="newsletter-form">
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
+        <button type="button" onclick="subscribe()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
+  </div>
+</footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>\n\n</body>
 </html>

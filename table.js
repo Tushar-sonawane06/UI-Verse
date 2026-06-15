@@ -204,3 +204,100 @@ window.addEventListener(
 
   }
 );
+
+/* ================= SEARCHABLE TABLE ================= */
+
+const searchInputs = document.querySelectorAll(".search-bar input");
+
+searchInputs.forEach(input => {
+  input.addEventListener("keyup", () => {
+
+    const filter = input.value.toLowerCase();
+
+    const table =
+      input.closest(".table-card")
+      ?.querySelector("table");
+
+    if (!table) return;
+
+    const rows = table.querySelectorAll("tbody tr");
+
+    rows.forEach(row => {
+
+      const text =
+        row.innerText.toLowerCase();
+
+      row.style.display =
+        text.includes(filter)
+        ? ""
+        : "none";
+
+    });
+
+  });
+});
+
+/* ================= SORTABLE TABLE ================= */
+
+document.querySelectorAll(".sortable-table th")
+.forEach((header, index) => {
+
+  header.addEventListener("click", () => {
+
+    const table =
+      header.closest("table");
+
+    const tbody =
+      table.querySelector("tbody");
+
+    const rows =
+      [...tbody.querySelectorAll("tr")];
+
+    const sortedRows = rows.sort((a, b) => {
+
+      const aText =
+        a.children[index].innerText;
+
+      const bText =
+        b.children[index].innerText;
+
+      return aText.localeCompare(
+        bText,
+        undefined,
+        { numeric: true }
+      );
+
+    });
+
+    tbody.innerHTML = "";
+
+    sortedRows.forEach(row =>
+      tbody.appendChild(row)
+    );
+
+  });
+
+});
+
+/* ================= TABLE ANIMATIONS ================= */
+
+const animatedRows =
+  document.querySelectorAll(".ui-table tbody tr");
+
+animatedRows.forEach((row, index) => {
+
+  row.style.opacity = "0";
+  row.style.transform = "translateY(20px)";
+
+  setTimeout(() => {
+
+    row.style.transition =
+      "all 0.5s ease";
+
+    row.style.opacity = "1";
+    row.style.transform =
+      "translateY(0)";
+
+  }, index * 80);
+
+});

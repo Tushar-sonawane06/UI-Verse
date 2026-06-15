@@ -14,6 +14,7 @@
     linear-gradient(135deg, #ffffff 55%, #fff5ef 100%);
   border: 1px solid var(--card-border);
   text-align: center;
+  color: #fff;
 }
 
 body.dark-mode .license-hero {
@@ -370,6 +371,18 @@ body.dark-mode .license-card:hover {
 
 }
 
+
+.cta-glow{
+  position:absolute;
+  inset:auto;
+  width:300px;
+  height:300px;
+  background:rgba(99,102,241,.3);
+  filter:blur(120px);
+}
+
+
+
 /* ========== GLOBAL ENHANCEMENTS ========== */
 html {
   scroll-behavior: smooth;
@@ -398,99 +411,163 @@ body {
   animation: fadeUp 0.8s ease both;
 }
 
-/* ========== HERO IMPROVEMENT ========== */
+/* HERO SECTION */
 .license-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 70px 60px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, #ffffff 55%, #fff5ef 100%);
+  border: 1px solid var(--card-border);
   text-align: center;
-  padding: 80px 20px 50px;
-  max-width: 900px;
-  margin: auto;
+  color: #111; /* fallback for light mode */
+}
+
+body.dark-mode .license-hero {
+  background: linear-gradient(135deg, #1a1a1e 55%, #1e1714 100%);
+  color: #fff; /* ensure text visible */
+}
+
+.license-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 40px;
+  background: rgba(235,104,53,0.08);
+  border: 1px solid rgba(235,104,53,0.2);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 26px;
 }
 
 .license-title {
-  font-size: 3rem;
+  font-size: clamp(42px, 6vw, 68px);
   font-weight: 800;
-  margin: 15px 0;
+  line-height: 1.05;
+  letter-spacing: -3px;
+  margin-bottom: 18px;
+  color: var(--text-primary, #fff); /* fallback white */
+  text-shadow: 0 0 6px rgba(255,255,255,0.6); /* glow for visibility */
 }
 
 .license-title span {
-  background: linear-gradient(90deg, #6c63ff, #00d4ff);
+  background: linear-gradient(90deg, var(--accent), #ff9b73);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .license-desc {
-  max-width: 650px;
-  margin: auto;
-  opacity: 0.85;
+  max-width: 720px;
+  margin: 0 auto;
+  color: var(--text-secondary, #e0e0e0); /* fallback light gray */
+  font-size: 16px;
+  line-height: 1.8;
 }
 
-/* mini cards */
+/* HERO MINI CARDS */
 .hero-license-cards {
+  margin-top: 42px;
   display: flex;
-  gap: 12px;
   justify-content: center;
+  gap: 18px;
   flex-wrap: wrap;
-  margin-top: 25px;
 }
 
 .hero-mini-card {
-  padding: 10px 14px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
   display: flex;
-  gap: 8px;
   align-items: center;
-  font-size: 0.9rem;
+  gap: 10px;
+  padding: 16px 22px;
+  border-radius: 18px;
+  background: var(--card-bg, #2a2a2a); /* fallback dark gray */
+  border: 1px solid var(--card-border, #444);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #fff);
+  transition: all var(--transition);
 }
 
-/* ========== LICENSE GRID ========== */
+.hero-mini-card i {
+  color: #00b894;
+}
+
+.hero-mini-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(235,104,53,0.25);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.2);
+}
+
+/* LICENSE GRID */
 .license-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 25px;
-  padding: 60px 20px;
-  max-width: 1100px;
-  margin: auto;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
 }
 
 .license-card {
-  border-radius: 16px;
-  padding: 25px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: 0.3s ease;
+  background: var(--card-bg, #2a2a2a);
+  border: 1px solid var(--card-border, #444);
+  border-radius: 24px;
+  padding: 30px;
+  transition: all var(--transition);
+  color: var(--text-primary, #fff);
 }
 
 .license-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 0 18px 34px rgba(0,0,0,0.25);
 }
 
-.license-card-top {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  margin-bottom: 20px;
+.license-card-top h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  color: var(--text-primary, #fff);
 }
 
-.license-icon {
-  font-size: 1.5rem;
-}
-
-/* list cleanup */
-.license-list {
-  list-style: none;
-  padding: 0;
+.license-card-top p {
+  color: var(--text-secondary, #e0e0e0);
+  font-size: 14px;
+  margin: 0;
 }
 
 .license-list li {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 10px 0;
-  font-size: 0.95rem;
+  gap: 14px;
+  font-size: 15px;
+  color: var(--text-primary, #f5f5f5);
 }
+
+/* RESPONSIVE FIXES */
+@media (max-width: 992px) {
+  .license-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-license-cards {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-mini-card {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .license-title {
+    font-size: 1.8rem;
+  }
+  .license-desc {
+    font-size: 1rem;
+  }
+  .license-card {
+    padding: 20px;
+  }
+}
+
 
 /* ========== DETAILS BOX ========== */
 .license-details {
@@ -593,4 +670,74 @@ body {
 .footer-col ul li a:hover {
   opacity: 1;
   padding-left: 5px;
+}
+
+.faq-section {
+  margin: 3rem auto;
+  max-width: 800px;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.6); /* darker base for clarity */
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  color: #fff;
+}
+
+.faq-section h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #00e0ff;
+  text-shadow: 0 0 8px rgba(0,224,255,0.7); /* glow for visibility */
+}
+
+.faq-item {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 1rem;
+}
+
+.faq-question {
+  width: 100%;
+  text-align: left;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  color: #ffffff; /* pure white */
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  position: relative;
+  text-shadow: 0 0 6px rgba(255,255,255,0.6); /* glow for visibility */
+}
+
+.faq-question:hover {
+  background: rgba(0, 224, 255, 0.25);
+  color: #00e0ff;
+}
+
+.faq-question::after {
+  content: "▼";
+  position: absolute;
+  right: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.faq-question.active::after {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  padding: 0 1rem;
+}
+
+.faq-answer p {
+  margin: 0.8rem 0;
+  font-size: 1rem;
+  color: #f5f5f5; /* brighter gray */
+  line-height: 1.5;
 }

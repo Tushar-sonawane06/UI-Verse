@@ -182,3 +182,10 @@ window.addEventListener(
 
   }
 );
+
+  /* ---------- Scroll Top ---------- */
+  function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  window.addEventListener('scroll', () => {
+    document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 400);
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+  });

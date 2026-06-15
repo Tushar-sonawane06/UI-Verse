@@ -177,3 +177,71 @@ teamCards.forEach(card => {
   });
 
 });
+
+// LIVE CLOCK
+
+function updateClock() {
+
+  const now = new Date();
+
+  const time = now.toLocaleTimeString();
+
+  document.getElementById("liveClock").textContent = time;
+
+}
+
+setInterval(updateClock, 1000);
+
+updateClock();
+
+// THEME TOGGLE
+
+const themeToggle = document.querySelector(".theme-toggle");
+
+let darkMode = true;
+
+themeToggle.addEventListener("click", () => {
+
+  darkMode = !darkMode;
+
+  if (!darkMode) {
+
+    document.documentElement.style.setProperty("--bg", "#f1f5f9");
+    document.documentElement.style.setProperty("--text", "#0f172a");
+    document.documentElement.style.setProperty("--surface", "rgba(15,23,42,0.08)");
+
+    themeToggle.innerHTML =
+      '<i class="fa-solid fa-sun"></i>';
+
+  } else {
+
+    document.documentElement.style.setProperty("--bg", "#0f172a");
+    document.documentElement.style.setProperty("--text", "#ffffff");
+    document.documentElement.style.setProperty("--surface", "rgba(255,255,255,0.08)");
+
+    themeToggle.innerHTML =
+      '<i class="fa-solid fa-moon"></i>';
+
+  }
+
+});
+
+// BUTTON CLICK EFFECT
+
+const buttons = document.querySelectorAll("button");
+
+buttons.forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    button.style.transform = "scale(0.96)";
+
+    setTimeout(() => {
+
+      button.style.transform = "scale(1)";
+
+    }, 150);
+
+  });
+
+});

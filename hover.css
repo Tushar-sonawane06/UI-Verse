@@ -5,6 +5,7 @@
    RESET & BASE
 ========================================================= */
 
+
 *{
   margin:0;
   padding:0;
@@ -1050,6 +1051,559 @@ body{
 }
 
 /* =========================================================
+   15. Neon Sweep Card
+========================================================= */
+.neon-sweep-card {
+  position: relative;
+  width: min(260px, 100%);
+  height: 170px;
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(145deg, #0f172a 0%, #111827 55%, #1f2937 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+}
+
+.neon-sweep-card::before {
+  content: '';
+  position: absolute;
+  inset: -60%;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.08) 42%, rgba(255,255,255,0.55) 50%, transparent 58%);
+  transform: translateX(-65%) rotate(12deg);
+  transition: transform 0.75s ease;
+  pointer-events: none;
+}
+
+.hover-card:hover .neon-sweep-card::before {
+  transform: translateX(65%) rotate(12deg);
+}
+
+.sweep-tag {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  padding: 5px 10px;
+  border-radius: 99px;
+  background: rgba(168, 85, 247, 0.16);
+  color: #c084fc;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  z-index: 1;
+}
+
+.neon-sweep-card h3,
+.neon-sweep-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.neon-sweep-card h3 {
+  font-size: 18px;
+  font-family: "Syne", sans-serif;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.neon-sweep-card p {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   16. Slide Reveal Card
+========================================================= */
+.slide-reveal-card {
+  position: relative;
+  width: min(250px, 100%);
+  height: 170px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0f172a, #111827);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.28);
+}
+
+.slide-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.55s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.55s;
+}
+
+.slide-front {
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(168,85,247,0.15), rgba(15,23,42,0.95));
+}
+
+.slide-front i {
+  font-size: 28px;
+  color: #a855f7;
+  margin-bottom: 12px;
+}
+
+.slide-front h3 {
+  font-size: 17px;
+  font-family: "Syne", sans-serif;
+  margin-bottom: 4px;
+}
+
+.slide-front p {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.slide-back {
+  z-index: 1;
+  background: linear-gradient(135deg, rgba(6,182,212,0.16), rgba(16,185,129,0.16));
+  transform: translateY(100%);
+}
+
+.slide-stat {
+  font-size: 2rem;
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.slide-back p {
+  font-size: 12px;
+  color: #d1fae5;
+}
+
+.hover-card:hover .slide-front {
+  transform: translateY(-100%);
+}
+
+.hover-card:hover .slide-back {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   17. Prism Glow Button
+========================================================= */
+.prism-btn {
+  position: relative;
+  width: min(220px, 100%);
+  height: 64px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #111827, #1f2937);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.prism-btn::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(168,85,247,0.14), rgba(6,182,212,0.14));
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.prism-btn-text,
+.prism-btn-ripple {
+  position: relative;
+  z-index: 1;
+}
+
+.prism-btn-ripple {
+  position: absolute;
+  inset: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168,85,247,0.5), transparent 70%);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: width 0.55s ease, height 0.55s ease, opacity 0.4s ease;
+}
+
+.prism-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 32px rgba(168,85,247,0.2);
+}
+
+.prism-btn:hover::before {
+  opacity: 1;
+}
+
+.prism-btn:hover .prism-btn-ripple {
+  width: 260px;
+  height: 260px;
+  opacity: 1;
+}
+
+/* =========================================================
+   18. Orbit Hover Tile
+========================================================= */
+.orbit-tile {
+  position: relative;
+  width: min(230px, 100%);
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orbit-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: transform 0.7s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.orbit-ring-one {
+  width: 110px;
+  height: 110px;
+}
+
+.orbit-ring-two {
+  width: 160px;
+  height: 160px;
+}
+
+.orbit-core {
+  position: relative;
+  z-index: 2;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.orbit-core i {
+  font-size: 24px;
+  color: #06b6d4;
+}
+
+.orbit-core span {
+  font-size: 12px;
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.hover-card:hover .orbit-ring-one {
+  transform: rotate(180deg) scale(1.05);
+  border-color: rgba(6,182,212,0.35);
+  box-shadow: 0 0 24px rgba(6,182,212,0.15);
+}
+
+.hover-card:hover .orbit-ring-two {
+  transform: rotate(-180deg) scale(1.08);
+  border-color: rgba(168,85,247,0.35);
+  box-shadow: 0 0 28px rgba(168,85,247,0.12);
+}
+
+/* =========================================================
+   19. Corner Ribbon Card
+========================================================= */
+.ribbon-card {
+  position: relative;
+  width: min(250px, 100%);
+  height: 160px;
+  padding: 24px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  transition: transform 0.35s ease, border-color 0.35s ease;
+}
+
+.ribbon-card::after {
+  content: '';
+  position: absolute;
+  right: -30px;
+  bottom: 18px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(235,104,53,0.35), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.ribbon-tag {
+  position: absolute;
+  top: 18px;
+  right: -30px;
+  transform: rotate(45deg);
+  background: linear-gradient(135deg, #eb6835, #f59e0b);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  padding: 6px 36px;
+  box-shadow: 0 8px 20px rgba(235,104,53,0.28);
+  z-index: 1;
+}
+
+.ribbon-copy {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.ribbon-copy h3 {
+  font-size: 18px;
+  font-family: "Syne", sans-serif;
+  color: #fff;
+}
+
+.ribbon-copy p {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.ribbon-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  border-color: rgba(235,104,53,0.3);
+}
+
+.ribbon-card:hover::after {
+  opacity: 1;
+}
+
+/* =========================================================
+   20. Glow Pill Tag
+========================================================= */
+.glow-pill {
+  position: relative;
+  padding: 14px 28px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #e2e8f0;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  overflow: hidden;
+}
+
+.glow-pill::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.45), transparent 60%);
+  opacity: 0;
+  transform: translateX(-30%);
+  transition: opacity 0.4s ease, transform 0.6s ease;
+}
+
+.hover-card:hover .glow-pill::after {
+  opacity: 1;
+  transform: translateX(30%);
+}
+
+.glow-pill span {
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   21. Flip Icon Tile
+========================================================= */
+.flip-tile {
+  width: 150px;
+  height: 150px;
+  perspective: 800px;
+}
+
+.flip-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.hover-card:hover .flip-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: #1e293b;
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  backface-visibility: hidden;
+}
+
+.flip-front i {
+  font-size: 32px;
+  color: #38bdf8;
+}
+
+.flip-front span {
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.flip-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(6,182,212,0.2));
+}
+
+.flip-back span {
+  color: #e2e8f0;
+  font-weight: 700;
+}
+
+/* =========================================================
+   22. Shimmer Info Card
+========================================================= */
+.shimmer-card {
+  width: 240px;
+  height: 140px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #111827, #1f2937);
+  border: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.shimmer-card::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
+  transform: translateX(-60%);
+  transition: transform 0.7s ease;
+}
+
+.hover-card:hover .shimmer-card::before {
+  transform: translateX(60%);
+}
+
+.shimmer-card h3 {
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.shimmer-card p {
+  font-size: 12px;
+  color: #94a3b8;
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   23. Elastic Arrow Link
+========================================================= */
+.elastic-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #c084fc;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 16px;
+  position: relative;
+}
+
+.elastic-link i {
+  transition: transform 0.35s ease;
+}
+
+.hover-card:hover .elastic-link i {
+  transform: translateX(6px);
+}
+
+.elastic-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #a855f7, #06b6d4);
+  transition: width 0.35s ease;
+}
+
+.hover-card:hover .elastic-link::after {
+  width: 100%;
+}
+
+/* =========================================================
+   24. Wave Glow Button
+========================================================= */
+.wave-btn {
+  position: relative;
+  padding: 14px 28px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: #0f172a;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.wave-btn::before {
+  content: "";
+  position: absolute;
+  left: -30%;
+  top: -60%;
+  width: 160%;
+  height: 220%;
+  background: radial-gradient(circle, rgba(59,130,246,0.35), transparent 60%);
+  transform: translateX(-20%);
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.6s ease;
+}
+
+.hover-card:hover .wave-btn::before {
+  opacity: 1;
+  transform: translateX(20%);
+}
+
+.wave-btn span {
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
    RESPONSIVE
 ========================================================= */
 @media(max-width:1200px) {
@@ -1069,4 +1623,104 @@ body{
   .footer-top {
     grid-template-columns: 1fr;
   }
+}
+
+.hover-hero{
+  text-align:center;
+  padding:70px 20px;
+}
+
+.hero-badge{
+  display:inline-block;
+  padding:10px 18px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(20px);
+}
+
+.hover-hero h1{
+  font-size:clamp(3rem,8vw,6rem);
+  margin:25px 0;
+  font-weight:800;
+}
+
+.hover-hero h1 span{
+  background:linear-gradient(
+  135deg,#eb6835,#7b61ff);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.hover-card{
+  position:relative;
+  overflow:hidden;
+
+  background:
+  linear-gradient(
+  145deg,
+  rgba(255,255,255,.06),
+  rgba(255,255,255,.02));
+
+  border:1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(30px);
+
+  border-radius:28px;
+
+  transition:.45s;
+}
+
+.hover-card:hover{
+  transform:translateY(-10px);
+  border-color:rgba(123,97,255,.4);
+
+  box-shadow:
+  0 30px 80px rgba(0,0,0,.35),
+  0 0 40px rgba(123,97,255,.15);
+}
+
+.hover-card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+
+  background:
+  linear-gradient(
+  90deg,
+  #eb6835,
+  #7b61ff,
+  #00d4ff,
+  #eb6835);
+
+  background-size:300% 100%;
+
+  border-radius:inherit;
+
+  opacity:0;
+  z-index:-1;
+
+  animation:borderMove 6s linear infinite;
+}
+
+.hover-card:hover::before{
+  opacity:1;
+}
+
+@keyframes borderMove{
+  from{
+    background-position:0%;
+  }
+  to{
+    background-position:300%;
+  }
+}
+
+.hover-grid{
+  columns:3 320px;
+  column-gap:25px;
+}
+
+.hover-card{
+  break-inside:avoid;
+  margin-bottom:25px;
 }

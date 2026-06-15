@@ -197,3 +197,170 @@ setInterval(() => {
   `In ${minutes} minutes`;
 
 },60000);
+
+const goal = 2500;
+
+let currentWater =
+Number(localStorage.getItem("waterAmount")) || 0;
+
+const progressFill =
+document.getElementById("progressFill");
+
+const currentWaterText =
+document.getElementById("currentWater");
+
+const waterLevel =
+document.getElementById("waterLevel");
+
+const waterPercent =
+document.getElementById("waterPercent");
+
+const cupsCount =
+document.getElementById("cupsCount");
+
+const timeline =
+document.getElementById("timeline");
+
+const resetBtn =
+document.getElementById("resetBtn");
+
+const nextReminder =
+document.getElementById("nextReminder");
+
+const buttons =
+document.querySelectorAll(".water-btn");
+
+/* =========================
+   UPDATE UI
+========================= */
+
+function updateUI(){
+
+  if(currentWater > goal){
+    currentWater = goal;
+  }
+
+  const percent =
+  Math.round((currentWater / goal) * 100);
+
+  progressFill.style.width =
+  percent + "%";
+
+  waterLevel.style.height =
+  percent + "%";
+
+  waterPercent.innerText =
+  percent + "%";
+
+  currentWaterText.innerText =
+  currentWater + " ml";
+
+  cupsCount.innerText =
+  Math.floor(currentWater / 250);
+
+  localStorage.setItem(
+    "waterAmount",
+    currentWater
+  );
+
+}
+
+/* =========================
+   ADD WATER
+========================= */
+
+buttons.forEach(button=>{
+
+  button.addEventListener("click",()=>{
+
+    const amount =
+    Number(button.dataset.amount);
+
+    currentWater += amount;
+
+    if(currentWater > goal){
+      currentWater = goal;
+    }
+
+    addTimeline(amount);
+
+    updateUI();
+
+  });
+
+});
+
+/* =========================
+   TIMELINE
+========================= */
+
+function addTimeline(amount){
+
+  const now = new Date();
+
+  const time =
+  now.toLocaleTimeString([],{
+    hour:'2-digit',
+    minute:'2-digit'
+  });
+
+  const item =
+  document.createElement("div");
+
+  item.classList.add("timeline-item");
+
+  item.innerHTML = `
+    <span>${time}</span>
+    <p>${amount} ml consumed</p>
+  `;
+
+  timeline.prepend(item);
+
+}
+
+/* =========================
+   RESET
+========================= */
+
+resetBtn.addEventListener("click",()=>{
+
+  currentWater = 0;
+
+  localStorage.removeItem(
+    "waterAmount"
+  );
+
+  timeline.innerHTML = "";
+
+  updateUI();
+
+});
+
+/* =========================
+   REMINDER TIMER
+========================= */
+
+let reminderMinutes = 45;
+
+function updateReminder(){
+
+  nextReminder.innerText =
+  `In ${reminderMinutes} minutes`;
+
+  reminderMinutes--;
+
+  if(reminderMinutes < 0){
+    reminderMinutes = 45;
+  }
+
+}
+
+setInterval(updateReminder,60000);
+
+updateReminder();
+
+/* =========================
+   INIT
+========================= */
+
+updateUI();

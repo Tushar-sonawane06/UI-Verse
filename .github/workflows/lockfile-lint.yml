@@ -1,0 +1,36 @@
+name: CI - Lockfile Lint
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'package-lock.json'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'package-lock.json'
+  workflow_dispatch:
+
+jobs:
+  lockfile-lint:
+    name: Lockfile Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Lockfile Lint
+        uses: LitoMore/lockfile-lint-action@v3
+        with:
+          path: package-lock.json
+          type: npm
+          allowed-hosts: npmjs.org
+          validate: |
+            integrity
+            hosts
+            https

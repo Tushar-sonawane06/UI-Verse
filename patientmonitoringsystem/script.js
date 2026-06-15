@@ -24,3 +24,23 @@ setInterval(() => {
   }
 
 }, 3000);
+
+function updateVitals() {
+  let hr = Math.floor(70 + Math.random() * 30);
+  let oxygen = Math.floor(92 + Math.random() * 8);
+
+  document.getElementById("heartRate").textContent = hr;
+  document.getElementById("oxygenValue").textContent = oxygen;
+  document.getElementById("oxygenFill").style.width = oxygen + "%";
+
+  // Emergency condition
+  const alertBox = document.getElementById("alertBox");
+
+  if (hr > 100 || oxygen < 94) {
+    let li = document.createElement("li");
+    li.textContent = "⚠ Patient vitals abnormal detected!";
+    alertBox.appendChild(li);
+  }
+}
+
+setInterval(updateVitals, 3000);

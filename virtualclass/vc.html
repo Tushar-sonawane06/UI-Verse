@@ -2,111 +2,181 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes'; style-src-attr 'unsafe-hashes'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Virtual Classroom UI</title>
+  <title>EduClass – Live Classroom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
   <link rel="stylesheet" href="vc.css">
 </head>
 <body>
 
-  <div class="classroom-dashboard">
+<div class="classroom-dashboard">
 
-    <aside class="sidebar">
-
-      <h2>EduClass</h2>
-
-      <ul>
-        <li class="active">Live Class</li>
-        <li>Assignments</li>
-        <li>Schedule</li>
-        <li>Participants</li>
-        <li>Settings</li>
+  <!--  SIDEBAR  -->
+  <aside class="sidebar">
+    <div>
+      <div class="logo"><div class="logo-dot"></div>EduClass</div>
+      <ul class="menu">
+        <li class="active"><span class="icon"><i class="ti ti-video"></i></span>Live Class</li>
+        <li><span class="icon"><i class="ti ti-file-text"></i></span>Assignments</li>
+        <li><span class="icon"><i class="ti ti-calendar"></i></span>Schedule</li>
+        <li><span class="icon"><i class="ti ti-users"></i></span>Participants</li>
+        <li><span class="icon"><i class="ti ti-settings"></i></span>Settings</li>
       </ul>
+    </div>
+    <input
+  type="text"
+  id="chatInput"
+  placeholder="Message the class…"
+  autocomplete="off"
+  aria-label="Type a class message">
+    <div class="profile">
+      <div class="avatar"><i class="ti ti-user"></i></div>
+      <div class="profile-info">
+        <h4>Student Name</h4>
+        <p>Student</p>
+      </div>
+    </div>
+  </aside>
 
-    </aside>
+  <!--  MAIN  -->
+  <main class="main-content">
 
-    <main class="main-content">
+    <!-- Video -->
+    <section class="video-section">
+      <div class="video-screen">
 
-      <div class="video-section">
+        <div class="live-badge"><div class="live-dot"></div>LIVE</div>
 
-        <div class="video-screen">
+        <div class="session-timer" id="timer">00:00:00</div>
 
-          <h1>Web Development Class</h1>
-
-          <p>Live Session in Progress</p>
-
+        <div class="teacher-feed">
+          <div class="feed-avatar"><i class="ti ti-school"></i></div>
+          <span>Mentor</span>
         </div>
 
-        <div class="controls">
-
-          <button>🎤</button>
-          <button>📹</button>
-          <button class="leave-btn">Leave</button>
-
+        <div class="video-overlay">
+          <h1>Web <span>Development</span> Class</h1>
+          <p>Module 4 · HTML & CSS Layouts</p>
         </div>
 
       </div>
 
-      <div class="bottom-section">
+      <div class="controls">
+        <div class="ctrl-group">
+          <button type="button" class="control-btn" id="micBtn" title="Toggle Microphone"><i class="ti ti-microphone"></i></button>
+          <div class="control-label">Mic</div>
+        </div>
 
-        <div class="participants-card">
+        <div class="ctrl-group">
+          <button type="button" class="control-btn" id="camBtn" title="Toggle Camera"><i class="ti ti-camera"></i></button>
+          <div class="control-label">Camera</div>
+        </div>
 
+        <div class="ctrl-group">
+          <button type="button" class="control-btn" id="screenBtn" title="Share Screen"><i class="ti ti-screen-share"></i></button>
+          <div class="control-label">Screen</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <button type="button" class="leave-btn" id="leaveBtn" title="Leave Class"><i class="ti ti-phone-off"></i></button>
+      </div>
+    </section>
+
+    <!-- Bottom -->
+    <section class="bottom-section">
+
+      <!-- Participants -->
+      <div class="card">
+        <div class="card-header">
           <h2>Participants</h2>
+          <span class="count" id="participantCount">4</span>
+        </div>
+        <div class="participants-list" id="participantsList">
 
           <div class="participant">
-            <span>👨‍🎓 Saiteja</span>
-            <p>Online</p>
+            <div class="p-avatar"><i class="ti ti-user"></i></div>
+            <div class="p-info">
+              <div class="p-name">Saiteja</div>
+              <div class="p-role">Student</div>
+            </div>
+            <span class="status-badge online">Online</span>
           </div>
 
           <div class="participant">
-            <span>👩‍🎓 Rahul</span>
-            <p>Online</p>
+            <div class="p-avatar"><i class="ti ti-user"></i></div>
+            <div class="p-info">
+              <div class="p-name">Rahul</div>
+              <div class="p-role">Student</div>
+            </div>
+            <span class="status-badge online">Online</span>
           </div>
 
           <div class="participant">
-            <span>👨‍🏫 Mentor</span>
-            <p>Teaching</p>
+            <div class="p-avatar"><i class="ti ti-user"></i></div>
+            <div class="p-info">
+              <div class="p-name">Anubhav</div>
+              <div class="p-role">Student</div>
+            </div>
+            <span class="status-badge online">Online</span>
+          </div>
+
+          <div class="participant">
+            <div class="p-avatar"><i class="ti ti-school"></i></div>
+            <div class="p-info">
+              <div class="p-name">Mentor</div>
+              <div class="p-role">Instructor</div>
+            </div>
+            <span class="status-badge teaching">Teaching</span>
           </div>
 
         </div>
-
-        <div class="chat-card">
-
-          <h2>Class Chat</h2>
-
-          <div class="messages" id="messages">
-
-            <div class="message">
-              Mentor: Please submit the assignment today.
-            </div>
-
-            <div class="message student">
-              Rahul: Okay sir!
-            </div>
-
-          </div>
-
-          <div class="chat-input">
-
-            <input
-              type="text"
-              id="chatInput"
-              placeholder="Type message..."
-            >
-
-            <button id="sendBtn">
-              Send
-            </button>
-
-          </div>
-
-        </div>
-
       </div>
 
-    </main>
+      <!-- Chat -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Class Chat</h2>
+        </div>
+        <div class="messages" id="messages">
 
-  </div>
+          <div class="message">
+            <div class="sender">Mentor</div>
+            Please submit the assignment by 5 PM today.
+          </div>
 
-  <script src="vc.js"></script>
+          <div class="message">
+            <div class="sender">Saiteja</div>
+            Got it, sir! Working on it now.
+          </div>
+
+          <div class="message student">
+            <div class="sender">You</div>
+            Okay sir, will do!
+          </div>
+
+        </div>
+        <div class="chat-input">
+          <div class="input-grp">
+            <i class="ti ti-plus"></i>
+            <input type="text" id="chatInput" placeholder="Message the class…" autocomplete="off">
+          </div>
+          <button type="button" id="sendBtn" aria-label="Send message"><i class="ti ti-send-2"></i></button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="vc.js"></script>
 </body>
 </html>

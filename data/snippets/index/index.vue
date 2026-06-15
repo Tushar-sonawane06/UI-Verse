@@ -129,6 +129,58 @@
         <a href="alerts.html" class="feature-link">View <i class="fa-solid fa-arrow-right"></i></a>
       </div>
 
+      <div class="feature-card">
+        <div class="feature-icon-wrap" style="--icon-color: #4ecdc4;">🌾</div>
+        <div class="feature-card-body">
+          <h3>Crop ROI Lab</h3>
+          <p>Predict yield, revenue, and return on investment for the next harvest cycle.</p>
+          <div class="feature-tags">
+            <span class="tag tag-new">New</span>
+            <span class="tag tag-essential">Finance</span>
+          </div>
+        </div>
+        <a href="roi_dashboard.html" class="feature-link">View <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-wrap" style="--icon-color: #86c06a;">📦</div>
+        <div class="feature-card-body">
+          <h3>Produce Traceability</h3>
+          <p>Generate a QR code for each batch and verify the full farm-to-shelf timeline.</p>
+          <div class="feature-tags">
+            <span class="tag tag-new">New</span>
+            <span class="tag tag-essential">Supply Chain</span>
+          </div>
+        </div>
+        <a href="trace.html" class="feature-link">View <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-wrap" style="--icon-color: #2f6f9f;">📡</div>
+        <div class="feature-card-body">
+          <h3>IoT Sensor Hub</h3>
+          <p>Track moisture, temperature, humidity, and nutrient levels from connected farm sensors.</p>
+          <div class="feature-tags">
+            <span class="tag tag-new">New</span>
+            <span class="tag tag-essential">Realtime</span>
+          </div>
+        </div>
+        <a href="farm_dashboard.html" class="feature-link">View <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-wrap" style="--icon-color: #d97706;">🚜</div>
+        <div class="feature-card-body">
+          <h3>Equipment Marketplace</h3>
+          <p>Share tractors and heavy machinery with neighboring farms through a rental marketplace.</p>
+          <div class="feature-tags">
+            <span class="tag tag-new">New</span>
+            <span class="tag tag-essential">Sharing Economy</span>
+          </div>
+        </div>
+        <a href="equipment.html" class="feature-link">View <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
     </div>
   </section>
 
@@ -169,6 +221,30 @@
         <h3>Forms</h3>
         <p>Complete form templates</p>
         <span class="cat-count">10 items</span>
+      </a>
+      <a href="roi_dashboard.html" class="cat-card">
+        <div class="cat-icon">🌾</div>
+        <h3>Finance Tools</h3>
+        <p>Predict crop ROI and yield</p>
+        <span class="cat-count">1 dashboard</span>
+      </a>
+      <a href="trace.html" class="cat-card">
+        <div class="cat-icon">📦</div>
+        <h3>Traceability</h3>
+        <p>QR code and ledger verification</p>
+        <span class="cat-count">2 pages</span>
+      </a>
+      <a href="farm_dashboard.html" class="cat-card">
+        <div class="cat-icon">📡</div>
+        <h3>IoT Hub</h3>
+        <p>Realtime sensor telemetry</p>
+        <span class="cat-count">2 pages</span>
+      </a>
+      <a href="equipment.html" class="cat-card">
+        <div class="cat-icon">🚜</div>
+        <h3>Equipment</h3>
+        <p>Rental listings and booking</p>
+        <span class="cat-count">2 pages</span>
       </a>
       <a href="badges.html" class="cat-card">
         <div class="cat-icon">🏅</div>

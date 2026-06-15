@@ -3,163 +3,38 @@
 Component ID: testimonials
 
 - Path: testimonials.html
-- Version: 0.1.0
+- Version: 0.1.1
 - Documentation score: 100/100
-- Tags: content, components
-- Description: Testimonial components and examples
+- Tags: testimonials, reviews, quotes, content
+- Description: Testimonial and review UI components
 
 ## Assets
 
-- CSS: css/main.css, style.css, testimonials.css
-- JS: js/bootstrap.js, js/core/utils.js, js/features/accessibility.js, js/features/alerts.js, js/features/code-tools.js, js/features/popup.js, js/features/sandbox.js, js/features/scroll.js, js/features/search.js, js/features/sidebar.js, js/features/theme.js, js/features/toast.js
+- CSS: dist/shared.css, https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css, testimonials.css
+- JS: dist/shared.js
 
 ## Headings
 
+- H1: Social Proof Cards
+- H4: Absolute Production Masterclass
 - H2: UIverse
-- H1: Testimonials
-- H3: Customer Testimonial
-- H3: Quote Panel
-- H2: UIverse
-- H2: UIverse
-- H3: Pages
-- H3: Legal
+- H3: Explore Framework
+- H3: Platform Support
+- H3: Regulatory Compliance
+- H3: Continuous Integration Logs
 
 ## Usage Snippet
 
 ```html
-<main class="main">
-
-    <div class="page-header">
-
-      <h1>Testimonials</h1>
-
-      <p>
-        Beautiful modern testimonial cards designed with
-        glassmorphism, premium hover animations, gradient glow
-        effects, and elegant typography.
-      </p>
-
-    </div>
-
-    <!-- Testimonials -->
-
-    <div class="testimonial-grid">
-
-      <!-- Card 1 -->
-
-      <div class="component-card">
-
-        <h3>Customer Testimonial</h3>
-
-        <div class="testimonial-card">
-
-          <div class="blur-glow"></div>
-
-          <div class="quote-icon">❝</div>
-
-          <div class="stars">
-            <span>★</span>
-            <span>★</span>
-            <span>★</span>
-            <span>★</span>
-            <span>★</span>
-          </div>
-
-          <p>
-            “UIverse helped us launch faster with polished
-            UI components that were elegant, scalable,
-            and incredibly easy to customize.”
-          </p>
-
-          <div class="testimonial-meta">
-
-            <div class="avatar">
-              <img
-                src="https://i.pravatar.cc/100?img=5"
-                alt=""
-               srcset="https://i.pravatar.cc/40?img=5 40w, https://i.pravatar.cc/80?img=5 80w, https://i.pravatar.cc/150?img=5 150w, https://i.pravatar.cc/300?img=5 300w" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async">
-            </div>
-
-            <div class="user-info">
-              <strong>Maya Lee</strong>
-              <span>Product Designer</span>
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="actions">
-          <button class="action-btn view-btn" onclick="toggleCode('t1', this)"><i class="fa-solid fa-code"></i> View Code</button>
-          <button class="action-btn copy-btn" onclick="copyCode('t1', this)"><i class="fa-solid fa-copy"></i> Copy</button>
-        </div>
-
-<pre id="t1" class="code-block">
-&lt;div class="testimonial-card"&gt;
-  Modern glowing testimonial card
-&lt;/div&gt;
-</pre>
-
+<section class="testimonial-marquee">
+      <div class="marquee-track">
+        <div class="mini-review">★★★★★ Extreme Velocity Integration Node</div>
+        <div class="mini-review">★★★★★ Immersive Hardware Accelerated Fluid Animation</div>
+        <div class="mini-review">★★★★★ Clean Production Ready Layout Blueprints</div>
+        <div class="mini-review">★★★★★ Pure Semantic Modular Code Architecture</div>
+        <div class="mini-review">★★★★★ Low Latency Viewport Adaptability Spectrum</div>
+        <div class="mini-review">★★★★★ Pristine Micro Boundary Shadow Physics</div>
+        <div class="mini-review">★★★★★ Zero Overhead Third-Party Dependency Footprint</div>
       </div>
-
-      <!-- Card 2 -->
-
-      <div class="component-card">
-
-        <h3>Quote Panel</h3>
-
-        <div class="testimonial-card">
-
-          <div class="blur-glow"></div>
-
-          <div class="quote-icon">❝</div>
-
-          <div class="stars">
-            <span>★</span>
-            <span>★</span>
-            <span>★</span>
-            <span>★</span>
-            <span>★</span>
-          </div>
-
-          <p>
-            “The component library is beginner friendly
-            and made styling my app feel effortless,
-            modern, and professional.”
-          </p>
-
-          <div class="testimonial-meta">
-
-            <div class="avatar">
-              <img
-                src="https://i.pravatar.cc/100?img=12"
-                alt=""
-               srcset="https://i.pravatar.cc/40?img=12 40w, https://i.pravatar.cc/80?img=12 80w, https://i.pravatar.cc/150?img=12 150w, https://i.pravatar.cc/300?img=12 300w" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async">
-            </div>
-
-            <div class="user-info">
-              <strong>Alex Chen</strong>
-              <span>Frontend Developer</span>
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="actions">
-          <button class="action-btn view-btn" onclick="toggleCode('t2', this)"><i class="fa-solid fa-code"></i> View Code</button>
-          <button class="action-btn copy-btn" onclick="copyCode('t2', this)"><i class="fa-solid fa-copy"></i> Copy</button>
-        </div>
-
-<pre id="t2" class="code-block">
-&lt;div class="testimonial-card"&gt;
-  Premium quote testimonial
-&lt;/div&gt;
-</pre>
-
-      </div>
-
-    </div>
-
-  </main>
+    </section>
 ```

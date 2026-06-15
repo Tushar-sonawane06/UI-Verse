@@ -2,6 +2,8 @@
 
 This system provides centralized component discovery with filtering, ranking, and metadata-aware browsing.
 
+The discovery layer now treats `data/components.json` as the canonical source of truth and merges it with the documentation catalog so the searchable index stays aligned with the committed component manifest.
+
 ## What it does
 
 - Searches by title, alias, description, category, and tags.
@@ -39,3 +41,5 @@ npm run search:test
 ## Notes
 
 `js/core/component-index.js` now acts as a compatibility wrapper around the discovery engine so the existing navbar and command palette continue to work.
+
+When adding a new component, update `data/components.json` first. The discovery engine will merge that manifest with documentation metadata and page-level data automatically.

@@ -18,6 +18,9 @@ npx playwright install --with-deps
 # Run visual tests
 npm run test:visual
 
+# Run the focused core-page visual regression suite
+npm run test:visual:core
+
 # Update snapshots (after intentional UI changes)
 npm run test:visual:update
 
@@ -51,6 +54,13 @@ The project includes GitHub Actions workflows for automated visual testing:
 - Captures screenshots at two viewport sizes (desktop: 1280x800, mobile: 375x667)
 - Compares new screenshots against baseline snapshots
 - Fails if differences are detected
+
+The focused core-page suite keeps a smaller baseline set for the main entry points:
+
+- Home / showcase
+- Buttons
+- Navbar
+- Cards
 
 ## Updating Snapshots
 

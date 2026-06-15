@@ -1,0 +1,2029 @@
+<template>
+<main class="main-home">
+
+  <!-- HERO -->
+  <section class="div-hero">
+
+    <div class="hero-badge">
+      ✨ Modern Layout Components
+    </div>
+
+    .main-home {
+      margin-left: 280px;
+      min-height: 100vh;
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .div-hero {
+      position: relative;
+      overflow: hidden;
+
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 70px;
+
+      padding: 100px 7%;
+
+      background:
+        radial-gradient(circle at top left,
+          rgba(127, 92, 255, 0.22),
+          transparent 30%),
+        radial-gradient(circle at bottom right,
+          rgba(0, 212, 255, 0.18),
+          transparent 30%),
+        #080d1a;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+
+      background-size: 50px 50px;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 650px;
+    }
+
+    .hero-badge {
+      width: fit-content;
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 12px 20px;
+      border-radius: 999px;
+
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+
+      backdrop-filter: blur(18px);
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .badge-dot {
+      width: 10px;
+      height: 10px;
+
+      border-radius: 50%;
+      background: #00ffbf;
+
+      box-shadow: 0 0 15px #00ffbf;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 1;
+      font-weight: 800;
+
+      margin-bottom: 30px;
+
+      font-family: "Syne", sans-serif;
+    }
+
+    .hero-gradient {
+      background: linear-gradient(90deg,
+          #00d4ff,
+          #7f5cff,
+          #ff4fd8);
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.72);
+
+      margin-bottom: 40px;
+    }
+
+    /* =========================================================
+       BUTTONS
+    ========================================================= */
+
+    .hero-actions {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+
+      margin-bottom: 50px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 16px 28px;
+      border-radius: 18px;
+
+      font-weight: 700;
+
+      transition: 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg,
+          #7f5cff,
+          #00d4ff);
+
+      color: white;
+
+      box-shadow: 0 15px 40px rgba(0, 212, 255, 0.22);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-5px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+
+      backdrop-filter: blur(18px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    /* =========================================================
+       STATS
+    ========================================================= */
+
+    .hero-stats {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      min-width: 160px;
+
+      padding: 24px;
+      border-radius: 24px;
+
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+
+      backdrop-filter: blur(18px);
+    }
+
+    .stat-card h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .stat-card span {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* =========================================================
+       HERO PREVIEW
+    ========================================================= */
+
+    .hero-preview {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+
+      display: flex;
+      justify-content: center;
+    }
+
+    .preview-window {
+      width: 100%;
+      max-width: 520px;
+
+      border-radius: 30px;
+
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+
+      overflow: hidden;
+
+      backdrop-filter: blur(18px);
+
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    .preview-topbar {
+      display: flex;
+      gap: 10px;
+
+      padding: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .preview-topbar span {
+      width: 12px;
+      height: 12px;
+
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .preview-content {
+      display: grid;
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .mini-card {
+      padding: 28px;
+      border-radius: 22px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      transition: 0.3s ease;
+    }
+
+    .mini-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .mini-card i {
+      font-size: 1.4rem;
+    }
+
+    .gradient-card {
+      background: linear-gradient(135deg,
+          #7f5cff,
+          #00d4ff);
+    }
+
+    .glass-card-mini {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .neon-card {
+      background: #10172e;
+      border: 1px solid #00d4ff;
+
+      box-shadow: 0 0 25px rgba(0, 212, 255, 0.3);
+    }
+
+    /* =========================================================
+       FLOATING ORBS
+    ========================================================= */
+
+    .floating-shape {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: 1;
+    }
+
+    .shape-1 {
+      width: 260px;
+      height: 260px;
+
+      background: #7f5cff;
+
+      top: -80px;
+      left: -80px;
+    }
+
+    .shape-2 {
+      width: 220px;
+      height: 220px;
+
+      background: #00d4ff;
+
+      bottom: 40px;
+      right: 8%;
+    }
+
+    .shape-3 {
+      width: 180px;
+      height: 180px;
+
+      background: #ff4fd8;
+
+      top: 40%;
+      right: 0;
+    }
+
+    /* =========================================================
+       COMPONENT SECTION
+    ========================================================= */
+
+    .featured-section {
+      padding: 100px 7%;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-tag {
+      display: inline-block;
+
+      padding: 10px 18px;
+      border-radius: 999px;
+
+      background: rgba(255, 255, 255, 0.08);
+
+      margin-bottom: 20px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .section-title {
+      font-size: 3rem;
+      font-family: "Syne", sans-serif;
+
+      margin-bottom: 20px;
+    }
+
+    .section-subtitle {
+      color: rgba(255, 255, 255, 0.72);
+      max-width: 700px;
+      margin: auto;
+
+      line-height: 1.8;
+    }
+
+    /* =========================================================
+       GRID
+    ========================================================= */
+
+    .forms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .form-component-card {
+      background: rgba(255, 255, 255, 0.05);
+
+      border: 1px solid rgba(255, 255, 255, 0.08);
+
+      border-radius: 28px;
+
+      overflow: hidden;
+
+      backdrop-filter: blur(18px);
+
+      transition: 0.35s ease;
+    }
+
+    .form-component-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(0, 212, 255, 0.35);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 20px 24px;
+
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .card-label {
+      font-weight: 700;
+    }
+
+    .card-tag {
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .tag-popular {
+      background: rgba(127, 92, 255, 0.2);
+      color: #a995ff;
+    }
+
+    .tag-trending {
+      background: rgba(0, 212, 255, 0.15);
+      color: #00d4ff;
+    }
+
+    .tag-essential {
+      background: rgba(0, 255, 191, 0.15);
+      color: #00ffbf;
+    }
+
+    .tag-new {
+      background: rgba(255, 79, 216, 0.15);
+      color: #ff4fd8;
+    }
+
+    .form-preview {
+      padding: 40px 24px;
+    }
+
+    /* =========================================================
+       COMPONENT PREVIEW CARDS
+    ========================================================= */
+
+    .profile-card,
+    .stats-card,
+    .testimonial-card,
+    .pricing-card,
+    .chat-card,
+    .glass-card {
+      padding: 28px;
+      border-radius: 24px;
+
+      background: rgba(255, 255, 255, 0.06);
+
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .profile-card {
+      text-align: center;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+
+      margin: auto auto 18px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 50%;
+
+      background: linear-gradient(135deg,
+          #7f5cff,
+          #00d4ff);
+
+      font-size: 2rem;
+    }
+
+    .profile-card h3,
+    .pricing-card h3,
+    .stats-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+
+      margin-top: 25px;
+    }
+
+    .stats h2 {
+      margin-bottom: 8px;
+    }
+
+    .testimonial-card .quote {
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .pricing-card ul {
+      margin-top: 20px;
+    }
+
+    .pricing-card li {
+      margin-bottom: 14px;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .chat-card {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-size: 14px;
+    }
+
+    .left {
+      background: rgba(255, 255, 255, 0.08);
+      align-self: flex-start;
+    }
+
+    .right {
+      background: linear-gradient(135deg,
+          #7f5cff,
+          #00d4ff);
+
+      align-self: flex-end;
+    }
+
+    .glass-card {
+      backdrop-filter: blur(18px);
+    }
+
+    /* =========================================================
+       ACTION BUTTONS
+    ========================================================= */
+
+    .actions {
+      display: flex;
+      gap: 12px;
+
+      padding: 24px;
+    }
+
+    .action-btn {
+      flex: 1;
+
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+
+      font-weight: 700;
+      cursor: pointer;
+
+      transition: 0.3s ease;
+    }
+
+    .view-btn {
+      background: linear-gradient(135deg,
+          #7f5cff,
+          #00d4ff);
+
+      color: white;
+    }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-3px);
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    .footer {
+      margin-left: 280px;
+
+      padding: 80px 7% 30px;
+
+      background: #050913;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-logo {
+      font-family: "Syne", sans-serif;
+      margin-bottom: 20px;
+    }
+
+    .footer p,
+    .footer li {
+      color: rgba(255, 255, 255, 0.68);
+      line-height: 1.8;
+    }
+
+    .footer h3 {
+      margin-bottom: 20px;
+    }
+
+    .footer li {
+      margin-bottom: 12px;
+    }
+
+    .footer-bottom {
+      margin-top: 50px;
+      padding-top: 20px;
+
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+      text-align: center;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 1100px) {
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .main-home,
+      .footer {
+        margin-left: 0;
+      }
+
+      .div-hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 140px;
+      }
+
+      .hero-content {
+        max-width: 100%;
+      }
+
+      .hero-actions,
+      .hero-stats {
+        justify-content: center;
+      }
+
+    }
+
+    @media (max-width: 700px) {
+
+      .hero-title {
+        font-size: 3rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .forms-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stats {
+        flex-direction: column;
+      }
+
+    }
+  </style>
+
+  <link rel="stylesheet" href="shared-sidebar.css">
+</head>
+
+<body>
+
+  <!-- =========================================================
+       SIDEBAR
+  ========================================================= -->
+
+  <aside class="sidebar">
+
+    <div class="sidebar-brand">
+      <span class="brand-icon">⬡</span>
+      <span class="brand-text">UIverse</span>
+    </div>
+
+            <nav class="sidebar-nav">
+    <ul>
+      <li>
+        <a href="index.html">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="button.html">
+          <i class="fa-solid fa-hand-pointer"></i>
+          <span>Buttons</span>
+        </a>
+      </li>
+      <li>
+        <a href="navbar.html">
+          <i class="fa-solid fa-bars"></i>
+          <span>Navbar</span>
+        </a>
+      </li>
+      <li>
+        <a href="cards.html">
+          <i class="fa-solid fa-table-cells-large"></i>
+          <span>Cards</span>
+        </a>
+      </li>
+      <li>
+        <a href="flipcards.html">
+          <i class="fa-solid fa-clone"></i>
+          <span>3D Cards</span>
+        </a>
+      </li>
+      <li>
+        <a href="inputs.html">
+          <i class="fa-solid fa-keyboard"></i>
+          <span>Inputs</span>
+        </a>
+      </li>
+      <li>
+        <a href="forms.html">
+          <i class="fa-brands fa-wpforms"></i>
+          <span>Forms</span>
+        </a>
+      </li>
+      <li>
+        <a href="badges.html">
+          <i class="fa-solid fa-award"></i>
+          <span>Badges</span>
+        </a>
+      </li>
+      <li>
+        <a href="blog.html">
+          <i class="fa-solid fa-blog"></i>
+          <span>Blog</span>
+        </a>
+      </li>
+      <li>
+        <a href="article.html">
+          <i class="fa-solid fa-newspaper"></i>
+          <span>Articles</span>
+        </a>
+      </li>
+      <li>
+        <a href="alerts.html">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>Alerts</span>
+        </a>
+      </li>
+      <li>
+        <a href="color.html">
+          <i class="fa-solid fa-palette"></i>
+          <span>Colors</span>
+        </a>
+      </li>
+      <li>
+        <a href="charts.html">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Charts</span>
+        </a>
+      </li>
+      <li>
+        <a href="dashboard.html">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="active">
+        <a href="div.html">
+          <i class="fa-solid fa-square"></i>
+          <span>DIV</span>
+        </a>
+      </li>
+      <li>
+        <a href="widgets.html">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Widgets</span>
+        </a>
+      </li>
+      <li>
+        <a href="search.html">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Search Bars</span>
+        </a>
+      </li>
+      <li>
+        <a href="hover.html">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>Hover Effects</span>
+        </a>
+      </li>
+      <li>
+        <a href="error.html">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span>Error Pages</span>
+        </a>
+      </li>
+      <li>
+        <a href="ecommerce.html">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span>E-commerce</span>
+        </a>
+      </li>
+      <li>
+        <a href="files.html">
+          <i class="fa-solid fa-file-arrow-up"></i>
+          <span>Drag & Drop</span>
+        </a>
+      </li>
+      <li>
+        <a href="hero.html">
+          <i class="fa-solid fa-star"></i>
+          <span>Hero Sections</span>
+        </a>
+      </li>
+      <li>
+        <a href="loaders.html">
+          <i class="fa-solid fa-spinner"></i>
+          <span>Loaders</span>
+        </a>
+      </li>
+      <li>
+        <a href="timeline.html">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Timeline</span>
+        </a>
+      </li>
+      <li>
+        <a href="map.html">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Maps</span>
+        </a>
+      </li>
+      <li>
+        <a href="menu.html">
+          <i class="fa-solid fa-bars-staggered"></i>
+          <span>Menu</span>
+        </a>
+      </li>
+      <li>
+        <a href="pricing.html">
+          <i class="fa-solid fa-tags"></i>
+          <span>Pricing</span>
+        </a>
+      </li>
+      <li>
+        <a href="subscription.html">
+          <i class="fa-solid fa-credit-card"></i>
+          <span>Subscription</span>
+        </a>
+      </li>
+      <li>
+        <a href="auth.html">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Authentication</span>
+        </a>
+      </li>
+        <li>
+          <a href="recovery.html">
+            <i class="fa-solid fa-key" aria-hidden="true"></i>
+            <span>Password Recovery</span>
+          </a>
+        </li>
+      <li>
+        <a href="section.html">
+          <i class="fa-solid fa-rectangle-list"></i>
+          <span>Section</span>
+        </a>
+      </li>
+      <li>
+        <a href="span.html">
+          <i class="fa-solid fa-code"></i>
+          <span>Span</span>
+        </a>
+      </li>
+      <li>
+        <a href="table.html">
+          <i class="fa-solid fa-table"></i>
+          <span>Table</span>
+        </a>
+      </li>
+      <li>
+        <a href="tabs.html">
+          <i class="fa-solid fa-table-columns"></i>
+          <span>Tabs</span>
+        </a>
+      </li>
+      <li>
+        <a href="terms.html">
+          <i class="fa-solid fa-file-contract"></i>
+          <span>Terms</span>
+        </a>
+      </li>
+      <li>
+        <a href="testimonials.html">
+          <i class="fa-solid fa-comments"></i>
+          <span>Testimonials</span>
+        </a>
+      </li>
+      <li>
+        <a href="toggles.html">
+          <i class="fa-solid fa-toggle-on"></i>
+          <span>Toggle</span>
+        </a>
+      </li>
+      <li>
+        <a href="radiobutton.html">
+          <i class="fa-solid fa-circle-dot"></i>
+          <span>Radio Buttons</span>
+        </a>
+      </li>
+      <li>
+        <a href="checkbox.html">
+          <i class="fa-solid fa-square-check"></i>
+          <span>Checkboxes</span>
+        </a>
+      </li>
+      <li>
+        <a href="notifications-premium.html">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="step-indicators.html">
+          <i class="fa-solid fa-list-check"></i>
+          <span>Steppers</span>
+        </a>
+      </li>
+      <li>
+        <a href="progress-premium.html">
+          <i class="fa-solid fa-bars-progress"></i>
+          <span>Progress V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="ratings-premium.html">
+          <i class="fa-solid fa-star"></i>
+          <span>Ratings V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="filters-premium.html">
+          <i class="fa-solid fa-sliders"></i>
+          <span>Filters V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="admin-panel.html">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Admin Panel V2</span>
+        </a>
+      </li>
+<li>
+        <a href="about.html">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>About</span>
+        </a>
+      </li>
+      <li>
+        <a href="documentation.html">
+          <i class="fa-solid fa-book"></i>
+          <span>Documentation</span>
+        </a>
+      </li>
+      <li>
+        <a href="faq.html">
+          <i class="fa-solid fa-circle-question"></i>
+          <span>Faq</span>
+        </a>
+      </li>
+      <li>
+        <a href="contact.html">
+          <i class="fa-regular fa-envelope"></i>
+          <span>Contact Us</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+    <div class="sidebar-footer">
+
+      <a href="#">
+        <i class="fab fa-github"></i>
+      </a>
+
+      <a href="#">
+        <i class="fab fa-linkedin"></i>
+      </a>
+
+      <a href="#">
+        <i class="fab fa-x-twitter"></i>
+      </a>
+
+    </div>
+
+  </aside>
+
+  <!-- =========================================================
+       MAIN
+  ========================================================= -->
+
+  <main class="main-home">
+
+    <!-- HERO -->
+    <section class="div-hero">
+
+      <div class="hero-grid"></div>
+
+      <div class="floating-shape shape-1"></div>
+      <div class="floating-shape shape-2"></div>
+      <div class="floating-shape shape-3"></div>
+
+      <!-- CONTENT -->
+      <div class="hero-content">
+
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          Premium UI Components
+        </div>
+
+        <h1 class="hero-title">
+          Modern
+          <span class="hero-gradient">
+            Div Components
+          </span>
+          for Developers
+        </h1>
+
+        <p class="hero-desc">
+          Beautiful reusable layouts designed with modern UI trends,
+          glassmorphism, gradients and futuristic dashboard aesthetics.
+        </p>
+
+        <div class="hero-actions">
+
+          <a href="#components" class="btn-primary">
+            Explore Components
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+
+          <a href="#" class="btn-secondary">
+            <i class="fa-solid fa-play"></i>
+            Live Demo
+          </a>
+
+        </div>
+
+        <div class="hero-stats">
+
+          <div class="stat-card">
+            <h2>20+</h2>
+            <span>Components</span>
+          </div>
+
+          <div class="stat-card">
+            <h2>100%</h2>
+            <span>Responsive</span>
+          </div>
+
+          <div class="stat-card">
+            <h2>Modern</h2>
+            <span>UI Design</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- PREVIEW -->
+      <div class="hero-preview">
+
+        <div class="preview-window">
+
+          <div class="preview-topbar">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <div class="preview-content">
+
+            <div class="mini-card gradient-card">
+              <h3>Analytics UI</h3>
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+
+            <div class="mini-card glass-card-mini">
+              <h3>Glass Layout</h3>
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+
+            <div class="mini-card neon-card">
+              <h3>Fast Components</h3>
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+      
+
+    </section>
+
+    <!-- =========================================================
+         COMPONENTS
+    ========================================================= -->
+
+    <section class="featured-section" id="components">
+
+      <div class="section-header">
+
+        <span class="section-tag">
+          UI BLOCKS
+        </span>
+
+        <h2 class="section-title">
+          Popular Div Components
+        </h2>
+
+        <p class="section-subtitle">
+          Beautiful responsive layouts crafted for
+          dashboards, SaaS apps and modern websites.
+        </p>
+
+      </div>
+
+      <!-- GRID -->
+      <div class="forms-grid">
+
+        <!-- PROFILE -->
+        <div class="form-component-card">
+
+          <div class="card-top">
+
+            <span class="card-label">
+              Profile Card
+            </span>
+
+            <span class="card-tag tag-popular">
+              Popular
+            </span>
+
+          </div>
+
+          <div class="form-preview">
+
+            <div class="profile-card">
+
+              <div class="avatar">👩</div>
+
+              <h3>Jane Doe</h3>
+
+              <p>Frontend Developer</p>
+
+            </div>
+
+          </div>
+
+          <div class="actions">
+
+            <button class="action-btn view-btn">
+              View Code
+            </button>
+
+            <button class="action-btn copy-btn">
+              Copy
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- =========================================================
+     ADD THESE NEW PROFESSIONAL COMPONENTS
+     INSIDE .forms-grid
+========================================================= -->
+
+        <!-- PRICING CARD -->
+        <div class="form-component-card">
+
+          <div class="card-top">
+
+            <span class="card-label">
+              Pricing Card
+            </span>
+
+            <span class="card-tag tag-popular">
+              Premium
+            </span>
+
+          </div>
+
+          <div class="form-preview">
+
+            <div class="pricing-card premium-pricing">
+
+              <div class="pricing-badge">
+                MOST POPULAR
+              </div>
+
+              <h3>Pro Plan</h3>
+
+              <div class="pricing-price">
+                $29
+                <span>/month</span>
+              </div>
+
+              <ul>
+
+                <li>
+                  <i class="fa-solid fa-check"></i>
+                  Unlimited Components
+                </li>
+
+                <li>
+                  <i class="fa-solid fa-check"></i>
+                  Premium Templates
+                </li>
+
+                <li>
+                  <i class="fa-solid fa-check"></i>
+                  Lifetime Updates
+                </li>
+
+              </ul>
+
+              <button class="pricing-btn">
+                Get Started
+              </button>
+
+            </div>
+
+          </div>
+
+          <div class="actions">
+
+            <button class="action-btn view-btn">
+              View Code
+            </button>
+
+            <button class="action-btn copy-btn">
+              Copy
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- TEAM CARD -->
+        <div class="form-component-card">
+
+          <div class="card-top">
+
+            <span class="card-label">
+              Team Member
+            </span>
+
+            <span class="card-tag tag-trending">
+              Modern
+            </span>
+
+          </div>
+
+          <div class="form-preview">
+
+            <div class="team-card">
+
+              <div class="team-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop"
+                  alt="Team Member">
+              </div>
+
+              <h3>Sarah Williams</h3>
+
+              <p>Creative UI Designer</p>
+
+              <div class="team-socials">
+
+                <a href="#">
+                  <i class="fab fa-dribbble"></i>
+                </a>
+
+                <a href="#">
+                  <i class="fab fa-linkedin"></i>
+                </a>
+
+                <a href="#">
+                  <i class="fab fa-github"></i>
+                </a>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="actions">
+
+            <button class="action-btn view-btn">
+              View Code
+            </button>
+
+            <button class="action-btn copy-btn">
+              Copy
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- ANALYTICS CARD -->
+        <div class="form-component-card">
+
+          <div class="card-top">
+
+            <span class="card-label">
+              Analytics
+            </span>
+
+            <span class="card-tag tag-essential">
+              Dashboard
+            </span>
+
+          </div>
+
+          <div class="form-preview">
+
+            <div class="analytics-card">
+
+              <div class="analytics-top">
+
+                <div>
+                  <span>Total Revenue</span>
+                  <h2>$48.2K</h2>
+                </div>
+
+                <div class="analytics-icon">
+                  <i class="fa-solid fa-chart-pie"></i>
+                </div>
+
+              </div>
+
+              <div class="analytics-bar">
+
+                <span class="bar-fill"></span>
+
+              </div>
+
+              <div class="analytics-bottom">
+
+                <span>+18% Growth</span>
+
+                <span>Last 30 Days</span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="actions">
+
+            <button class="action-btn view-btn">
+              View Code
+            </button>
+
+            <button class="action-btn copy-btn">
+              Copy
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- NOTIFICATION CARD -->
+        <div class="form-component-card">
+
+          <div class="card-top">
+
+            <span class="card-label">
+              Notification
+            </span>
+
+            <span class="card-tag tag-new">
+              New
+            </span>
+
+          </div>
+
+          <div class="form-preview">
+
+            <div class="notification-card">
+
+              <div class="notification-icon">
+                <i class="fa-solid fa-bell"></i>
+              </div>
+
+              <div class="notification-content">
+
+                <h4>New Update Available</h4>
+
+                <p>
+                  UIverse v3.0 released with
+                  premium dashboard layouts.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="actions">
+
+            <button class="action-btn view-btn">
+              View Code
+            </button>
+
+            <button class="action-btn copy-btn">
+              Copy
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- TASK CARD -->
+        <div class="form-component-card">
+
+          <div class="card-top">
+
+            <span class="card-label">
+              Task Manager
+            </span>
+
+            <span class="card-tag tag-trending">
+              Productivity
+            </span>
+
+          </div>
+
+          <div class="form-preview">
+
+            <div class="task-card">
+
+              <div class="task-item">
+
+                <div class="task-check active"></div>
+
+                <span>Design Landing Page</span>
+
+              </div>
+
+              <div class="task-item">
+
+                <div class="task-check active"></div>
+
+                <span>Create Dashboard UI</span>
+
+              </div>
+
+              <div class="task-item">
+
+                <div class="task-check"></div>
+
+                <span>Deploy Production App</span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="actions">
+
+            <button class="action-btn view-btn">
+              View Code
+            </button>
+
+            <button class="action-btn copy-btn">
+              Copy
+            </button>
+
+          </div>
+
+        </div>
+
+<!-- =========================================================
+     ADD THIS CSS BELOW YOUR EXISTING CSS
+========================================================= -->
+
+<style>
+
+/* =========================================================
+   PROFESSIONAL COMPONENTS
+========================================================= */
+
+.premium-pricing{
+  position:relative;
+  overflow:hidden;
+}
+
+.pricing-badge{
+  position:absolute;
+  top:18px;
+  right:-35px;
+
+  background:linear-gradient(135deg,#ff4fd8,#7f5cff);
+
+  padding:8px 40px;
+  font-size:11px;
+  font-weight:700;
+
+  transform:rotate(35deg);
+}
+
+.pricing-price{
+  font-size:3rem;
+  font-weight:800;
+
+  margin:24px 0;
+
+  font-family:"Syne",sans-serif;
+}
+
+.pricing-price span{
+  font-size:1rem;
+  color:rgba(255,255,255,0.65);
+}
+
+.premium-pricing ul{
+  margin:30px 0;
+}
+
+      <span class="section-tag">
+        UI BLOCKS
+      </span>
+      <div>
+        <form class="scearch">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Filter Divs..." id="DivSearch">
+        </form>
+      </div>
+.premium-pricing li{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  margin-bottom:16px;
+  color:rgba(255,255,255,0.72);
+}
+
+.premium-pricing i{
+  color:#00ffbf;
+}
+
+.pricing-btn{
+  width:100%;
+  padding:16px;
+
+  border:none;
+  border-radius:16px;
+
+  background:linear-gradient(135deg,#7f5cff,#00d4ff);
+
+  color:white;
+  font-weight:700;
+
+  cursor:pointer;
+  transition:0.3s ease;
+}
+
+.pricing-btn:hover{
+  transform:translateY(-4px);
+}
+
+/* TEAM CARD */
+
+.team-card{
+  text-align:center;
+}
+
+.team-avatar{
+  width:110px;
+  height:110px;
+
+  margin:auto auto 20px;
+
+  border-radius:50%;
+  overflow:hidden;
+
+  border:4px solid rgba(255,255,255,0.1);
+}
+
+.team-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.team-card p{
+  color:rgba(255,255,255,0.68);
+  margin-top:8px;
+}
+
+.team-socials{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+
+  margin-top:24px;
+}
+
+.team-socials a{
+  width:42px;
+  height:42px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:14px;
+
+  background:rgba(255,255,255,0.08);
+
+  transition:0.3s ease;
+}
+
+.team-socials a:hover{
+  background:linear-gradient(135deg,#7f5cff,#00d4ff);
+  transform:translateY(-4px);
+}
+
+/* ANALYTICS */
+
+.analytics-card{
+  padding:28px;
+  border-radius:24px;
+
+  background:
+  linear-gradient(135deg,
+  rgba(127,92,255,0.16),
+  rgba(0,212,255,0.08));
+
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.analytics-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  margin-bottom:30px;
+}
+
+.analytics-top span{
+  color:rgba(255,255,255,0.65);
+}
+
+.analytics-top h2{
+  margin-top:10px;
+  font-size:2.4rem;
+}
+
+.analytics-icon{
+  width:65px;
+  height:65px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:18px;
+
+  background:linear-gradient(135deg,#7f5cff,#00d4ff);
+
+  font-size:1.5rem;
+}
+
+.analytics-bar{
+  width:100%;
+  height:14px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,0.08);
+
+  overflow:hidden;
+
+  margin-bottom:20px;
+}
+
+.bar-fill{
+  display:block;
+
+  width:78%;
+  height:100%;
+
+  border-radius:999px;
+
+  background:linear-gradient(90deg,#00d4ff,#7f5cff);
+}
+
+.analytics-bottom{
+  display:flex;
+  justify-content:space-between;
+
+  color:rgba(255,255,255,0.65);
+}
+
+/* NOTIFICATION */
+
+.notification-card{
+  display:flex;
+  gap:18px;
+  align-items:flex-start;
+
+  padding:24px;
+  border-radius:22px;
+
+  background:rgba(255,255,255,0.06);
+
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.notification-icon{
+  width:58px;
+  height:58px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:18px;
+
+  background:linear-gradient(135deg,#ff4fd8,#7f5cff);
+
+  font-size:1.2rem;
+}
+
+.notification-content h4{
+  margin-bottom:10px;
+}
+
+.notification-content p{
+  line-height:1.7;
+  color:rgba(255,255,255,0.68);
+}
+
+/* TASK CARD */
+
+.task-card{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.task-item{
+  display:flex;
+  align-items:center;
+  gap:16px;
+
+  padding:18px 20px;
+
+  border-radius:18px;
+
+  background:rgba(255,255,255,0.06);
+
+  border:1px solid rgba(255,255,255,0.06);
+}
+
+.task-check{
+  width:22px;
+  height:22px;
+
+  border-radius:50%;
+
+  border:2px solid rgba(255,255,255,0.35);
+}
+
+.task-check.active{
+  background:linear-gradient(135deg,#7f5cff,#00d4ff);
+  border:none;
+
+  box-shadow:0 0 18px rgba(0,212,255,0.45);
+}
+
+</style>
+
+        <!-- STATS -->
+        <div class="form-component-card">
+
+          <div class="card-top">
+
+            <span class="card-label">
+              Stats Widget
+            </span>
+
+            <span class="card-tag tag-trending">
+              Trending
+            </span>
+
+          </div>
+
+          <div class="form-preview">
+
+            <div class="stats-card">
+
+              <h3>Dashboard Stats</h3>
+
+              <div class="stats">
+
+                <div>
+                  <h2>120</h2>
+                  <p>Users</p>
+                </div>
+
+                <div>
+                  <h2>45</h2>
+                  <p>Projects</p>
+                </div>
+
+                <div>
+                  <h2>300</h2>
+                  <p>Tasks</p>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="actions">
+
+            <button class="action-btn view-btn">
+              View Code
+            </button>
+
+            <button class="action-btn copy-btn">
+              Copy
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- TESTIMONIAL -->
+        <div class="form-component-card">
+
+          <div class="card-top">
+
+            <span class="card-label">
+              Testimonial
+            </span>
+
+            <span class="card-tag tag-essential">
+              Essential
+            </span>
+
+          </div>
+
+          <div class="form-preview">
+
+            <div class="testimonial-card">
+
+              <p class="quote">
+                “UIverse helped us build premium
+                interfaces faster than ever.”
+              </p>
+
+              <div class="user-info">
+
+                <div class="avatar">👨‍💻</div>
+
+                <div>
+                  <h4>Alex Johnson</h4>
+                  <span>Product Designer</span>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="actions">
+
+            <button class="action-btn view-btn">
+              View Code
+            </button>
+
+            <button class="action-btn copy-btn">
+              Copy
+            </button>
+
+          </div>
+
+      </div>
+
+      <!-- BENTO GRID -->
+      <div class="form-component-card">
+        <div class="card-top">
+          <span class="card-label">
+            Bento Grid Layout
+          </span>
+          <span class="card-tag tag-new">
+            New
+          </span>
+        </div>
+        <div class="form-preview">
+          <div class="bento-grid">
+            <div class="bento-item bento-large"><h3>Main Feature</h3><p>Highlight area.</p></div>
+            <div class="bento-item bento-small"><i class="fa-solid fa-bolt"></i></div>
+            <div class="bento-item bento-small"><i class="fa-solid fa-star"></i></div>
+            <div class="bento-item bento-medium"><p>Analytics</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HOVER REVEAL CARD -->
+      <div class="form-component-card">
+        <div class="card-top">
+          <span class="card-label">
+            Hover Reveal Card
+          </span>
+          <span class="card-tag tag-essential">
+            Interactive
+          </span>
+        </div>
+        <div class="form-preview">
+          <div class="hover-reveal-card">
+            <div class="reveal-content-front">
+              <h3>Hover Me</h3>
+            </div>
+            <div class="reveal-content-back">
+              <p>Hidden details revealed with smooth animation.</p>
+              <button class="reveal-btn">Action</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPANDABLE INFO CARD -->
+      <div class="form-component-card">
+        <div class="card-top">
+          <span class="card-label">
+            Expandable Info Card
+          </span>
+          <span class="card-tag tag-popular">
+            Useful
+          </span>
+        </div>
+        <div class="form-preview">
+          <div class="expandable-card">
+            <div class="expand-header">
+              <h3>Quick View</h3>
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="expand-body">
+              <p>Extra details that expand smoothly when interacting with the card. Great for FAQs or extra data.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLOATING ACTION CARD -->
+      <div class="form-component-card">
+        <div class="card-top">
+          <span class="card-label">
+            Floating Action Card
+          </span>
+          <span class="card-tag tag-trending">
+            Trending
+          </span>
+        </div>
+        <div class="form-preview">
+          <div class="floating-action-card">
+            <div class="floating-icon">
+              <i class="fa-solid fa-rocket"></i>
+            </div>
+            <h3>Deploy App</h3>
+            <p>Push your changes live.</p>
+            <button class="float-btn">Deploy</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    </section>
+
+  </main>
+</template>
+
+<script>
+export default { name: 'Div' }
+</script>

@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Menus ? UIverse</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="menu.css" />
-  <link rel="stylesheet" href="shared-sidebar.css">
-</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 <body>
   <aside class="sidebar">
     <div class="sidebar-brand">
@@ -328,14 +327,70 @@
   </nav>
   </aside>
 
-  <header class="navbar">
-    <div class="logo">UIverse</div>
-    <div class="search-bar"><i class="fa-solid fa-magnifying-glass"></i><input placeholder="Search components..." /></div>
-    <div class="nav-actions">
-      <button class="outline-btn">Docs</button>
-      <button class="primary-btn">Add Component</button>
-    </div>
-  </header>
+  <!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
 
   <main class="main-home">
     <section class="hero-section">
@@ -640,31 +695,210 @@
         <p>A vertical dock structure displaying labels on trigger hover.</p>
         <div class="card-actions"><button class="view-btn">Preview</button><button class="copy-btn">Copy Code</button></div>
       </article>
+      <article class="menu-card">
+        <div class="card-top"><span class="card-label">Toolbar Menu</span><span class="card-tag blue">Editor</span></div>
+        <div class="card-preview">
+          <div class="toolbar-menu">
+            <button class="tool-btn"><i class="fa-solid fa-bold"></i></button>
+            <button class="tool-btn"><i class="fa-solid fa-italic"></i></button>
+            <button class="tool-btn"><i class="fa-solid fa-underline"></i></button>
+            <div class="divider"></div>
+            <div class="dropdown-demo">
+              <button class="tool-btn dropdown-trigger">Normal <i class="fa-solid fa-caret-down"></i></button>
+            </div>
+          </div>
+        </div>
+        <p>A compact rich text formatting toolbar menu.</p>
+        <div class="card-actions"><button class="view-btn">Preview</button><button class="copy-btn">Copy Code</button></div>
+      </article>
+
+      <article class="menu-card">
+        <div class="card-top"><span class="card-label">Slide-out Navigation</span><span class="card-tag purple">Mobile</span></div>
+        <div class="card-preview dark">
+          <div class="slideout-container">
+            <button class="slideout-trigger"><i class="fa-solid fa-bars"></i> Menu</button>
+            <div class="slideout-panel">
+              <div class="slideout-header">Menu <i class="fa-solid fa-xmark"></i></div>
+              <a href="#"><i class="fa-solid fa-house"></i> Home</a>
+              <a href="#"><i class="fa-solid fa-user"></i> Profile</a>
+              <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+            </div>
+          </div>
+        </div>
+        <p>A side-panel menu that slides in from the edge of the screen.</p>
+        <div class="card-actions"><button class="view-btn">Preview</button><button class="copy-btn">Copy Code</button></div>
+      </article>
+
+      <article class="menu-card">
+        <div class="card-top"><span class="card-label">App Drawer</span><span class="card-tag pink">Grid</span></div>
+        <div class="card-preview">
+          <div class="app-drawer-container">
+            <button class="app-drawer-btn"><i class="fa-solid fa-grip"></i></button>
+            <div class="app-drawer-grid">
+              <a href="#" class="app-icon"><div class="icon purple"><i class="fa-solid fa-envelope"></i></div><span>Mail</span></a>
+              <a href="#" class="app-icon"><div class="icon blue"><i class="fa-solid fa-calendar"></i></div><span>Calendar</span></a>
+              <a href="#" class="app-icon"><div class="icon yellow"><i class="fa-solid fa-camera"></i></div><span>Photos</span></a>
+              <a href="#" class="app-icon"><div class="icon pink"><i class="fa-solid fa-map"></i></div><span>Maps</span></a>
+            </div>
+          </div>
+        </div>
+        <p>A popover grid menu for launching applications or modules.</p>
+        <div class="card-actions"><button class="view-btn">Preview</button><button class="copy-btn">Copy Code</button></div>
+      </article>
+
+      <article class="menu-card">
+        <div class="card-top"><span class="card-label">Tree View Menu</span><span class="card-tag yellow">Data</span></div>
+        <div class="card-preview">
+          <ul class="tree-menu">
+            <li>
+              <details open>
+                <summary><i class="fa-solid fa-folder-open"></i> Project</summary>
+                <ul>
+                  <li><a href="#"><i class="fa-brands fa-html5"></i> index.html</a></li>
+                  <li><a href="#"><i class="fa-brands fa-css3-alt"></i> style.css</a></li>
+                  <li>
+                    <details>
+                      <summary><i class="fa-solid fa-folder"></i> src</summary>
+                      <ul>
+                        <li><a href="#"><i class="fa-brands fa-js"></i> app.js</a></li>
+                      </ul>
+                    </details>
+                  </li>
+                </ul>
+              </details>
+            </li>
+          </ul>
+        </div>
+        <p>A hierarchical collapsible menu for file systems or nested categories.</p>
+        <div class="card-actions"><button class="view-btn">Preview</button><button class="copy-btn">Copy Code</button></div>
+      </article>
+
+      <article class="menu-card">
+        <div class="card-top"><span class="card-label">Tabbed Dropdown</span><span class="card-tag blue">Complex</span></div>
+        <div class="card-preview">
+          <div class="tabbed-dropdown-container">
+            <button class="tab-trigger">Create New <i class="fa-solid fa-chevron-down"></i></button>
+            <div class="tabbed-dropdown">
+              <div class="tab-headers">
+                <button class="tab-btn active">Personal</button>
+                <button class="tab-btn">Team</button>
+              </div>
+              <div class="tab-content">
+                <a href="#"><i class="fa-solid fa-file-lines"></i> New Document</a>
+                <a href="#"><i class="fa-solid fa-folder"></i> New Folder</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p>A dropdown menu that incorporates tabs to organize complex options.</p>
+        <div class="card-actions"><button class="view-btn">Preview</button><button class="copy-btn">Copy Code</button></div>
+      </article>
+
+      <article class="menu-card">
+        <div class="card-top"><span class="card-label">Split Button Menu</span><span class="card-tag purple">Actions</span></div>
+        <div class="card-preview">
+          <div class="split-btn-group">
+            <button class="split-main">Publish Post</button>
+            <button class="split-caret"><i class="fa-solid fa-caret-down"></i></button>
+            <div class="split-menu">
+              <a href="#"><i class="fa-solid fa-clock"></i> Schedule</a>
+              <a href="#"><i class="fa-solid fa-file-pen"></i> Save Draft</a>
+            </div>
+          </div>
+        </div>
+        <p>A primary action button combined with a dropdown for alternate actions.</p>
+        <div class="card-actions"><button class="view-btn">Preview</button><button class="copy-btn">Copy Code</button></div>
+      </article>
+
+      <article class="menu-card">
+        <div class="card-top"><span class="card-label">Contextual Toolbar</span><span class="card-tag pink">Floating</span></div>
+        <div class="card-preview">
+          <div class="contextual-toolbar">
+            <button class="toolbar-btn"><i class="fa-solid fa-comment"></i></button>
+            <button class="toolbar-btn"><i class="fa-solid fa-highlighter"></i></button>
+            <button class="toolbar-btn"><i class="fa-solid fa-link"></i></button>
+            <button class="toolbar-btn danger"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+        <p>A floating menu bar that appears contextually near selected elements.</p>
+        <div class="card-actions"><button class="view-btn">Preview</button><button class="copy-btn">Copy Code</button></div>
+      </article>
+
+      <article class="menu-card">
+        <div class="card-top"><span class="card-label">Pie Menu</span><span class="card-tag yellow">Creative</span></div>
+        <div class="card-preview">
+          <div class="pie-menu-container">
+            <div class="pie-menu">
+              <div class="pie-slice" style="--i:0;"><a href="#"><i class="fa-solid fa-house"></i></a></div>
+              <div class="pie-slice" style="--i:1;"><a href="#"><i class="fa-solid fa-magnifying-glass"></i></a></div>
+              <div class="pie-slice" style="--i:2;"><a href="#"><i class="fa-solid fa-envelope"></i></a></div>
+              <div class="pie-slice" style="--i:3;"><a href="#"><i class="fa-solid fa-gear"></i></a></div>
+              <button class="pie-center"><i class="fa-solid fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
+        <p>A circular wedge-based menu for quick gestural selection.</p>
+        <div class="card-actions"><button class="view-btn">Preview</button><button class="copy-btn">Copy Code</button></div>
+      </article>
+
+      <article class="menu-card">
+        <div class="card-top"><span class="card-label">Floating Action Bar</span><span class="card-tag blue">Mobile</span></div>
+        <div class="card-preview dark">
+          <div class="fab-bar">
+            <a href="#" class="fab-item active"><i class="fa-solid fa-house"></i></a>
+            <a href="#" class="fab-item"><i class="fa-solid fa-compass"></i></a>
+            <a href="#" class="fab-item fab-primary"><i class="fa-solid fa-plus"></i></a>
+            <a href="#" class="fab-item"><i class="fa-solid fa-heart"></i></a>
+            <a href="#" class="fab-item"><i class="fa-solid fa-user"></i></a>
+          </div>
+        </div>
+        <p>A bottom-anchored horizontal navigation bar for mobile interfaces.</p>
+        <div class="card-actions"><button class="view-btn">Preview</button><button class="copy-btn">Copy Code</button></div>
+      </article>
+
+      <article class="menu-card">
+        <div class="card-top"><span class="card-label">Accordion Nav</span><span class="card-tag purple">Sidebar</span></div>
+        <div class="card-preview">
+          <div class="accordion-nav">
+            <details class="acc-item" open>
+              <summary class="acc-trigger"><i class="fa-solid fa-layer-group"></i> Dashboard <i class="fa-solid fa-chevron-down acc-arrow"></i></summary>
+              <div class="acc-content">
+                <a href="#">Analytics</a>
+                <a href="#">Reports</a>
+              </div>
+            </details>
+            <details class="acc-item">
+              <summary class="acc-trigger"><i class="fa-solid fa-users"></i> Audience <i class="fa-solid fa-chevron-down acc-arrow"></i></summary>
+              <div class="acc-content">
+                <a href="#">Subscribers</a>
+              </div>
+            </details>
+          </div>
+        </div>
+        <p>A collapsible vertical menu to organize dense navigation items.</p>
+        <div class="card-actions"><button class="view-btn">Preview</button><button class="copy-btn">Copy Code</button></div>
+      </article>
     </section>
   </main>
-
-
-
-
-
-
-
 
   <!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
-
-    <div class="socials">
-  <a href="https://github.com" target="_blank" title="GitHub">
-    <i class="fab fa-github"></i>
-  </a>
-  <a href="https://linkedin.com" target="_blank" title="LinkedIn">
-    <i class="fab fa-linkedin"></i>
-  </a>
-  <a href="https://twitter.com" target="_blank" title="Twitter">
-    <i class="fab fa-x-twitter"></i>
-  </a>
-</div>
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
 
     <div class="footer-col">
       <h3>Explore</h3>
@@ -681,10 +915,9 @@
       <h3>Resources</h3>
       <ul>
         <li><a href="documentation.html">Documentation</a></li>
-        <li><a href="contribute.html">Contribute</a></li>
-        <li><a href="https://github.com/uiverse/uiverse" target="_blank">GitHub Repo</a></li>
-        <li><a href="community.html">Community</a></li>
-        <li><a href="support.html">Support</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
     </div>
 
@@ -701,24 +934,37 @@
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
         <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
-
   </div>
 
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
 
-
-
-
-
-
-
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
 
   <script>
     // JS for dropdowns and command menu
@@ -795,5 +1041,6 @@
       }
     });
   </script>
+  <script src="dist/shared.js"></script>
 </body>
 </html>

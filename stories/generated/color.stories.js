@@ -1,0 +1,1589 @@
+import { createShadowRootStory } from '../storybook-utils.js';
+
+export default {
+  title: 'Components/Color System',
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+### Description
+Color palette and token usage
+
+### Info & Metadata
+- **Category**: Colors
+- **Tags**: <code>design</code>, <code>tokens</code>, <code>palette</code>, <code>theme</code>
+
+### Usage
+Embed the HTML markup inside your document and include the listed CSS styles.
+
+#### HTML Markup:
+\`\`\`html
+<main class="main-home">
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="page-hero-left">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Colors</span>
+      </div>
+      <h1 class="page-title">Color Library</h1>
+      <p class="page-desc">Discover beautiful individual colors, palettes, gradients, and themed color systems. Click any swatch to copy the HEX or RGB value instantly.</p>
+      <div class="page-meta">
+        <span class="meta-badge"><i class="fa-solid fa-droplet"></i> 20+ Colors</span>
+        <span class="meta-badge"><i class="fa-solid fa-swatchbook"></i> 5 Palettes</span>
+        <span class="meta-badge"><i class="fa-solid fa-copy"></i> Click to Copy</span>
+      </div>
+    </div>
+
+    <section class="color-section" data-section="tokens">
+  <div class="section-header-row">
+    <h2 class="color-section-title">🎯 Design Tokens</h2>
+    <span class="section-count">System Colors</span>
+  </div>
+
+  <div class="token-grid">
+
+    <div class="token-card">
+      <div class="token-color" style="background:#3b82f6;"></div>
+      <h3>Primary</h3>
+      <p>#3b82f6</p>
+    </div>
+
+    <div class="token-card">
+      <div class="token-color" style="background:#8b5cf6;"></div>
+      <h3>Secondary</h3>
+      <p>#8b5cf6</p>
+    </div>
+
+    <div class="token-card">
+      <div class="token-color" style="background:#22c55e;"></div>
+      <h3>Success</h3>
+      <p>#22c55e</p>
+    </div>
+
+    <div class="token-card">
+      <div class="token-color" style="background:#ef4444;"></div>
+      <h3>Error</h3>
+      <p>#ef4444</p>
+    </div>
+
+    <div class="token-card">
+      <div class="token-color" style="background:#f59e0b;"></div>
+      <h3>Warning</h3>
+      <p>#f59e0b</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="color-section">
+  <h2 class="color-section-title">🌈 Gradient Meshes</h2>
+
+  <div class="gradient-grid">
+
+    <div class="gradient-card">
+      <div class="gradient-swatch"
+      style="
+      background:
+      radial-gradient(circle at top left,#ff6b6b,transparent 40%),
+      radial-gradient(circle at bottom right,#5f27cd,transparent 40%),
+      #0f172a;">
+      </div>
+      <div class="gradient-info">
+        <h3>Cyber Mesh</h3>
+      </div>
+    </div>
+
+    <div class="gradient-card">
+      <div class="gradient-swatch"
+      style="
+      background:
+      radial-gradient(circle at top,#06b6d4,transparent 40%),
+      radial-gradient(circle at bottom,#8b5cf6,transparent 40%),
+      #111827;">
+      </div>
+      <div class="gradient-info">
+        <h3>Aurora Mesh</h3>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="palette-card">
+  <div class="palette-header">
+    <h3>Neutral System</h3>
+  </div>
+
+  <div class="palette-strip-row">
+    <div class="palette-swatch" style="background:#fafafa">50</div>
+    <div class="palette-swatch" style="background:#f4f4f5">100</div>
+    <div class="palette-swatch" style="background:#e4e4e7">200</div>
+    <div class="palette-swatch" style="background:#d4d4d8">300</div>
+    <div class="palette-swatch" style="background:#71717a">500</div>
+    <div class="palette-swatch" style="background:#27272a">800</div>
+    <div class="palette-swatch" style="background:#18181b">900</div>
+  </div>
+</div>
+    <div class="page-hero-right">
+      <div class="color-hero-swatches">
+        <div class="hero-swatch" style="background:#eb6835;"></div>
+        <div class="hero-swatch" style="background:#6c5ce7;"></div>
+        <div class="hero-swatch" style="background:#00b894;"></div>
+        <div class="hero-swatch" style="background:#0984e3;"></div>
+        <div class="hero-swatch" style="background:#d63031;"></div>
+        <div class="hero-swatch" style="background:#fdcb6e;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterSection('all', this)">All</button>
+    <button class="filter-btn" onclick="filterSection('trending', this)">Trending</button>
+    <button class="filter-btn" onclick="filterSection('gradients', this)">Gradients</button>
+    <button class="filter-btn" onclick="filterSection('palettes', this)">Palettes</button>
+    <button class="filter-btn" onclick="filterSection('themed', this)">Themed</button>
+    <button class="filter-btn" onclick="filterSection('social', this)">Social</button>
+    <button class="filter-btn" onclick="filterSection('glassmorphism', this)">Glass</button>
+    <div class="filter-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Filter colors..." oninput="liveFilter(this.value)" />
+    </div>
+  </div>
+
+  <!-- ===== CUSTOM COLOR CREATOR ===== -->
+  <section class="custom-creator-section">
+    <div class="section-header-row">
+      <h2 class="color-section-title">🎨 Custom Color Creator</h2>
+      <span class="section-count">Pick & Copy</span>
+    </div>
+
+    <div class="creator-wrapper">
+
+      <!-- LEFT CARD: picker + values -->
+      <div class="creator-card">
+        <div class="creator-left">
+          <div class="creator-preview" id="creatorPreview" style="background:#eb6835;"></div>
+          <input type="color" id="colorPicker" value="#eb6835">
+          <label for="colorPicker" class="picker-label">
+            <i class="fa-solid fa-pen-nib"></i> Open Picker
+          </label>
+          <button class="save-color-btn" onclick="saveToSessionPalette()">
+            <i class="fa-solid fa-plus"></i> Add to Palette
+          </button>
+        </div>
+
+        <div class="creator-right">
+          <div class="creator-val-row">
+            <span class="creator-val-label">Hex:</span>
+            <span class="creator-val-output" id="outHex">#eb6835</span>
+            <button class="creator-copy-btn" onclick="copyText(document.getElementById('outHex').textContent, this)">
+              <i class="fa-regular fa-copy"></i> Copy
+            </button>
+          </div>
+          <div class="creator-val-row">
+            <span class="creator-val-label">RGB:</span>
+            <span class="creator-val-output" id="outRgb">rgb(235, 104, 53)</span>
+            <button class="creator-copy-btn" onclick="copyText(document.getElementById('outRgb').textContent, this)">
+              <i class="fa-regular fa-copy"></i> Copy
+            </button>
+          </div>
+          <div class="creator-val-row">
+            <span class="creator-val-label">HSL:</span>
+            <span class="creator-val-output" id="outHsl">hsl(20, 82%, 56%)</span>
+            <button class="creator-copy-btn" onclick="copyText(document.getElementById('outHsl').textContent, this)">
+              <i class="fa-regular fa-copy"></i> Copy
+            </button>
+          </div>
+
+          <div class="contrast-row">
+            <span class="contrast-chip fail" id="contrastWhite">AA × on White</span>
+            <span class="contrast-chip pass" id="contrastBlack">AA ✓ on Black</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT CARD: palette -->
+      <div class="palette-panel" id="palettePanel">
+        <h3 class="palette-panel-title">Color Palette</h3>
+        <div class="session-palette" id="sessionPalette">
+          <div class="empty-palette-msg">No colors yet.<br>Pick one and click Add.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== TRENDING COLORS ===== -->
+  <section class="color-section" data-section="trending">
+    <div class="section-header-row">
+      <h2 class="color-section-title">🔥 Trending Colors</h2>
+      <span class="section-count">13 colors</span>
+    </div>
+    <div class="color-grid" id="colorGrid">
+
+      <div class="color-card" data-name="electric purple violet">
+        <div class="color-swatch" style="background:#8b5cf6;">
+          <span class="swatch-badge">Popular</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#8b5cf6', this)" title="Copy HEX" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(139,92,246)', this)" title="Copy RGB" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Electric Purple</h3>
+          <span class="hex-val">#8b5cf6</span>
+          <span class="rgb-val">rgb(139, 92, 246)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="ocean cyan blue">
+        <div class="color-swatch" style="background:#06b6d4;">
+          <span class="swatch-badge">New</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#06b6d4', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(6,182,212)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Ocean Cyan</h3>
+          <span class="hex-val">#06b6d4</span>
+          <span class="rgb-val">rgb(6, 182, 212)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="rose red hot pink">
+        <div class="color-swatch" style="background:#f43f5e;">
+          <span class="swatch-badge">Hot</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#f43f5e', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(244,63,94)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Rose Red</h3>
+          <span class="hex-val">#f43f5e</span>
+          <span class="rgb-val">rgb(244, 63, 94)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="accent orange uiverse brand">
+        <div class="color-swatch" style="background:#eb6835;">
+          <span class="swatch-badge">Brand</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#eb6835', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(235,104,53)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>UIverse Orange</h3>
+          <span class="hex-val">#eb6835</span>
+          <span class="rgb-val">rgb(235, 104, 53)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="mint green emerald">
+        <div class="color-swatch" style="background:#00b894;">
+          <span class="swatch-badge">Fresh</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#00b894', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(0,184,148)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Mint Green</h3>
+          <span class="hex-val">#00b894</span>
+          <span class="rgb-val">rgb(0, 184, 148)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="indigo blue deep">
+        <div class="color-swatch" style="background:#6c5ce7;">
+          <span class="swatch-badge">Classic</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#6c5ce7', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(108,92,231)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Deep Indigo</h3>
+          <span class="hex-val">#6c5ce7</span>
+          <span class="rgb-val">rgb(108, 92, 231)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="amber yellow gold">
+        <div class="color-swatch" style="background:#fdcb6e;">
+          <span class="swatch-badge">Warm</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#fdcb6e', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(253,203,110)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Amber Gold</h3>
+          <span class="hex-val">#fdcb6e</span>
+          <span class="rgb-val">rgb(253, 203, 110)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="sky blue azure">
+        <div class="color-swatch" style="background:#0984e3;">
+          <span class="swatch-badge">Clean</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#0984e3', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(9,132,227)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Sky Blue</h3>
+          <span class="hex-val">#0984e3</span>
+          <span class="rgb-val">rgb(9, 132, 227)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="sunset orange coral warm">
+        <div class="color-swatch" style="background:#ff7a3d;">
+          <span class="swatch-badge">Warm</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#ff7a3d', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(255,122,61)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Sunset Orange</h3>
+          <span class="hex-val">#ff7a3d</span>
+          <span class="rgb-val">rgb(255, 122, 61)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="mint green fresh teal">
+        <div class="color-swatch" style="background:#00b894;">
+          <span class="swatch-badge">Fresh</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#00b894', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(0,184,148)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Mint Green</h3>
+          <span class="hex-val">#00b894</span>
+          <span class="rgb-val">rgb(0, 184, 148)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="gold amber premium warm">
+        <div class="color-swatch" style="background:#f5c542;">
+          <span class="swatch-badge">Premium</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#f5c542', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(245,197,66)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Golden Hour</h3>
+          <span class="hex-val">#f5c542</span>
+          <span class="rgb-val">rgb(245, 197, 66)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="deep indigo violet night">
+        <div class="color-swatch" style="background:#3f37c9;">
+          <span class="swatch-badge">Bold</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#3f37c9', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(63,55,201)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Deep Indigo</h3>
+          <span class="hex-val">#3f37c9</span>
+          <span class="rgb-val">rgb(63, 55, 201)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="aurora teal cyan calm">
+        <div class="color-swatch" style="background:#14b8a6;">
+          <span class="swatch-badge">Calm</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#14b8a6', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(20,184,166)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Aurora Teal</h3>
+          <span class="hex-val">#14b8a6</span>
+          <span class="rgb-val">rgb(20, 184, 166)</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== GRADIENTS ===== -->
+  <section class="color-section" data-section="gradients">
+    <div class="section-header-row">
+      <h2 class="color-section-title">✨ Gradients</h2>
+      <span class="section-count">5 gradients</span>
+    </div>
+    <div class="gradient-grid">
+
+      <div class="gradient-card" data-name="sunset orange gradient">
+        <div class="gradient-swatch" style="background:linear-gradient(135deg,#eb6835,#fdcb6e);">
+          <div class="gradient-actions">
+            <button onclick="copyText('linear-gradient(135deg, #eb6835, #fdcb6e)', this)"><i class="fa-solid fa-copy"></i> Copy CSS</button>
+          </div>
+        </div>
+        <div class="gradient-info">
+          <h3>Sunset</h3>
+          <span>#eb6835 → #fdcb6e</span>
+        </div>
+      </div>
+
+      <div class="gradient-card" data-name="purple indigo violet gradient">
+        <div class="gradient-swatch" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe);">
+          <div class="gradient-actions">
+            <button onclick="copyText('linear-gradient(135deg, #6c5ce7, #a29bfe)', this)"><i class="fa-solid fa-copy"></i> Copy CSS</button>
+          </div>
+        </div>
+        <div class="gradient-info">
+          <h3>Purple Mist</h3>
+          <span>#6c5ce7 → #a29bfe</span>
+        </div>
+      </div>
+
+      <div class="gradient-card" data-name="ocean teal cyan gradient">
+        <div class="gradient-swatch" style="background:linear-gradient(135deg,#00b894,#06b6d4);">
+          <div class="gradient-actions">
+            <button onclick="copyText('linear-gradient(135deg, #00b894, #06b6d4)', this)"><i class="fa-solid fa-copy"></i> Copy CSS</button>
+          </div>
+        </div>
+        <div class="gradient-info">
+          <h3>Ocean Breeze</h3>
+          <span>#00b894 → #06b6d4</span>
+        </div>
+      </div>
+
+      <div class="gradient-card" data-name="fire red orange gradient hot">
+        <div class="gradient-swatch" style="background:linear-gradient(135deg,#d63031,#eb6835);">
+          <div class="gradient-actions">
+            <button onclick="copyText('linear-gradient(135deg, #d63031, #eb6835)', this)"><i class="fa-solid fa-copy"></i> Copy CSS</button>
+          </div>
+        </div>
+        <div class="gradient-info">
+          <h3>Firestorm</h3>
+          <span>#d63031 → #eb6835</span>
+        </div>
+      </div>
+
+      <div class="gradient-card" data-name="uiverse brand gradient orange purple">
+        <div class="gradient-swatch" style="background:linear-gradient(135deg,#eb6835,#6c5ce7);">
+          <div class="gradient-actions">
+            <button onclick="copyText('linear-gradient(135deg, #eb6835, #6c5ce7)', this)"><i class="fa-solid fa-copy"></i> Copy CSS</button>
+          </div>
+        </div>
+        <div class="gradient-info">
+          <h3>UIverse Brand</h3>
+          <span>#eb6835 → #6c5ce7</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== COLOR PALETTES ===== -->
+  <section class="color-section" data-section="palettes">
+    <div class="section-header-row">
+      <h2 class="color-section-title">🎨 Color Palettes</h2>
+      <span class="section-count">5 palettes</span>
+    </div>
+    <div class="palette-list">
+
+      <div class="palette-card" data-name="neon palette bright">
+        <div class="palette-header">
+          <h3>Neon Theme</h3>
+          <button class="palette-copy-btn" onclick="copyText('css: #ff00ff #00ffff #39ff14 #fffb00', this)"><i class="fa-solid fa-copy"></i> Copy All</button>
+        </div>
+        <div class="palette-strip-row">
+          <div class="palette-swatch" style="background:#ff00ff;" onclick="copyText('#ff00ff', this)" title="#ff00ff"><span>#ff00ff</span></div>
+          <div class="palette-swatch" style="background:#00ffff;" onclick="copyText('#00ffff', this)" title="#00ffff"><span>#00ffff</span></div>
+          <div class="palette-swatch" style="background:#39ff14;" onclick="copyText('#39ff14', this)" title="#39ff14"><span>#39ff14</span></div>
+          <div class="palette-swatch" style="background:#fffb00;" onclick="copyText('#fffb00', this)" title="#fffb00"><span style="color:#333;">#fffb00</span></div>
+          <div class="palette-swatch" style="background:#ff6600;" onclick="copyText('#ff6600', this)" title="#ff6600"><span>#ff6600</span></div>
+        </div>
+      </div>
+
+      <div class="palette-card" data-name="dark ui theme night">
+        <div class="palette-header">
+          <h3>Dark UI Theme</h3>
+          <button class="palette-copy-btn" onclick="copyText('css: #0f172a #1e293b #334155 #475569 #94a3b8', this)"><i class="fa-solid fa-copy"></i> Copy All</button>
+        </div>
+        <div class="palette-strip-row">
+          <div class="palette-swatch" style="background:#0f172a;" onclick="copyText('#0f172a', this)"><span>#0f172a</span></div>
+          <div class="palette-swatch" style="background:#1e293b;" onclick="copyText('#1e293b', this)"><span>#1e293b</span></div>
+          <div class="palette-swatch" style="background:#334155;" onclick="copyText('#334155', this)"><span>#334155</span></div>
+          <div class="palette-swatch" style="background:#475569;" onclick="copyText('#475569', this)"><span>#475569</span></div>
+          <div class="palette-swatch" style="background:#94a3b8;" onclick="copyText('#94a3b8', this)"><span style="color:#222;">#94a3b8</span></div>
+        </div>
+      </div>
+
+      <div class="palette-card" data-name="pastel soft light">
+        <div class="palette-header">
+          <h3>Pastel Theme</h3>
+          <button class="palette-copy-btn" onclick="copyText('css: #ffadad #ffd6a5 #fdffb6 #caffbf #a0c4ff', this)"><i class="fa-solid fa-copy"></i> Copy All</button>
+        </div>
+        <div class="palette-strip-row">
+          <div class="palette-swatch" style="background:#ffadad;" onclick="copyText('#ffadad', this)"><span style="color:#333;">#ffadad</span></div>
+          <div class="palette-swatch" style="background:#ffd6a5;" onclick="copyText('#ffd6a5', this)"><span style="color:#333;">#ffd6a5</span></div>
+          <div class="palette-swatch" style="background:#fdffb6;" onclick="copyText('#fdffb6', this)"><span style="color:#333;">#fdffb6</span></div>
+          <div class="palette-swatch" style="background:#caffbf;" onclick="copyText('#caffbf', this)"><span style="color:#333;">#caffbf</span></div>
+          <div class="palette-swatch" style="background:#a0c4ff;" onclick="copyText('#a0c4ff', this)"><span style="color:#333;">#a0c4ff</span></div>
+        </div>
+      </div>
+
+      <div class="palette-card" data-name="monochrome grey neutral">
+        <div class="palette-header">
+          <h3>Monochrome</h3>
+          <button class="palette-copy-btn" onclick="copyText('css: #111 #333 #666 #999 #ccc', this)"><i class="fa-solid fa-copy"></i> Copy All</button>
+        </div>
+        <div class="palette-strip-row">
+          <div class="palette-swatch" style="background:#111;" onclick="copyText('#111', this)"><span>#111</span></div>
+          <div class="palette-swatch" style="background:#333;" onclick="copyText('#333', this)"><span>#333</span></div>
+          <div class="palette-swatch" style="background:#666;" onclick="copyText('#666', this)"><span>#666</span></div>
+          <div class="palette-swatch" style="background:#999;" onclick="copyText('#999', this)"><span style="color:#333;">#999</span></div>
+          <div class="palette-swatch" style="background:#ccc;" onclick="copyText('#ccc', this)"><span style="color:#333;">#ccc</span></div>
+        </div>
+      </div>
+
+      <div class="palette-card" data-name="earth tones warm nature">
+        <div class="palette-header">
+          <h3>Earth Tones</h3>
+          <button class="palette-copy-btn" onclick="copyText('css: #6b4226 #a0522d #c68642 #d2a679 #f5deb3', this)"><i class="fa-solid fa-copy"></i> Copy All</button>
+        </div>
+        <div class="palette-strip-row">
+          <div class="palette-swatch" style="background:#6b4226;" onclick="copyText('#6b4226', this)"><span>#6b4226</span></div>
+          <div class="palette-swatch" style="background:#a0522d;" onclick="copyText('#a0522d', this)"><span>#a0522d</span></div>
+          <div class="palette-swatch" style="background:#c68642;" onclick="copyText('#c68642', this)"><span>#c68642</span></div>
+          <div class="palette-swatch" style="background:#d2a679;" onclick="copyText('#d2a679', this)"><span style="color:#333;">#d2a679</span></div>
+          <div class="palette-swatch" style="background:#f5deb3;" onclick="copyText('#f5deb3', this)"><span style="color:#333;">#f5deb3</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== THEMED COLORS ===== -->
+  <section class="color-section" data-section="themed">
+    <div class="section-header-row">
+      <h2 class="color-section-title">🎯 UI Themed Colors</h2>
+      <span class="section-count">Status + Brand</span>
+    </div>
+    <div class="themed-grid">
+
+      <div class="themed-card" data-name="success green status">
+        <div class="themed-swatch" style="background:#00b894;"></div>
+        <div class="themed-info">
+          <strong>Success</strong>
+          <span>#00b894</span>
+          <button onclick="copyText('#00b894', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="danger error red status">
+        <div class="themed-swatch" style="background:#d63031;"></div>
+        <div class="themed-info">
+          <strong>Danger</strong>
+          <span>#d63031</span>
+          <button onclick="copyText('#d63031', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="warning yellow amber status">
+        <div class="themed-swatch" style="background:#fdcb6e;"></div>
+        <div class="themed-info">
+          <strong>Warning</strong>
+          <span>#fdcb6e</span>
+          <button onclick="copyText('#fdcb6e', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="info blue status">
+        <div class="themed-swatch" style="background:#0984e3;"></div>
+        <div class="themed-info">
+          <strong>Info</strong>
+          <span>#0984e3</span>
+          <button onclick="copyText('#0984e3', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="primary brand accent">
+        <div class="themed-swatch" style="background:#eb6835;"></div>
+        <div class="themed-info">
+          <strong>Primary</strong>
+          <span>#eb6835</span>
+          <button onclick="copyText('#eb6835', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="secondary purple indigo">
+        <div class="themed-swatch" style="background:#6c5ce7;"></div>
+        <div class="themed-info">
+          <strong>Secondary</strong>
+          <span>#6c5ce7</span>
+          <button onclick="copyText('#6c5ce7', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="light grey background">
+        <div class="themed-swatch" style="background:#f5f4f2; border:1px solid #e0e0e0;"></div>
+        <div class="themed-info">
+          <strong>Light BG</strong>
+          <span>#f5f4f2</span>
+          <button onclick="copyText('#f5f4f2', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="dark background night">
+        <div class="themed-swatch" style="background:#0f0f12;"></div>
+        <div class="themed-info">
+          <strong>Dark BG</strong>
+          <span>#0f0f12</span>
+          <button onclick="copyText('#0f0f12', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== SOCIAL BRAND COLORS ===== -->
+  <section class="color-section" data-section="social">
+    <div class="section-header-row">
+      <h2 class="color-section-title">🌐 Social Brand Colors</h2>
+      <span class="section-count">6 brands</span>
+    </div>
+    <div class="themed-grid">
+
+      <div class="themed-card" data-name="twitter blue social">
+        <div class="themed-swatch" style="background:#1DA1F2;"></div>
+        <div class="themed-info">
+          <strong>Twitter</strong>
+          <span>#1DA1F2</span>
+          <button onclick="copyText('#1DA1F2', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="facebook blue social">
+        <div class="themed-swatch" style="background:#1877F2;"></div>
+        <div class="themed-info">
+          <strong>Facebook</strong>
+          <span>#1877F2</span>
+          <button onclick="copyText('#1877F2', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="instagram pink gradient social">
+        <div class="themed-swatch" style="background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"></div>
+        <div class="themed-info">
+          <strong>Instagram</strong>
+          <span>Gradient</span>
+          <button onclick="copyText('linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="github dark social">
+        <div class="themed-swatch" style="background:#181717;"></div>
+        <div class="themed-info">
+          <strong>GitHub</strong>
+          <span>#181717</span>
+          <button onclick="copyText('#181717', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="youtube red social">
+        <div class="themed-swatch" style="background:#FF0000;"></div>
+        <div class="themed-info">
+          <strong>YouTube</strong>
+          <span>#FF0000</span>
+          <button onclick="copyText('#FF0000', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="linkedin blue social">
+        <div class="themed-swatch" style="background:#0A66C2;"></div>
+        <div class="themed-info">
+          <strong>LinkedIn</strong>
+          <span>#0A66C2</span>
+          <button onclick="copyText('#0A66C2', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== GLASSMORPHISM COLORS ===== -->
+  <section class="color-section" data-section="glassmorphism">
+    <div class="section-header-row">
+      <h2 class="color-section-title">🧊 Glassmorphism</h2>
+      <span class="section-count">4 styles</span>
+    </div>
+    <div class="glass-grid">
+      
+      <div class="glass-card" data-name="glassmorphism pink purple">
+        <div class="glass-bg" style="background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);"></div>
+        <div class="glass-content">
+          <div class="glass-info">
+            <h3>Pink Frost</h3>
+            <span>rgba(255,255,255,0.2)</span>
+          </div>
+          <button class="glass-copy-btn" onclick="copyText('background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="glass-card" data-name="glassmorphism blue ocean">
+        <div class="glass-bg" style="background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);"></div>
+        <div class="glass-content">
+          <div class="glass-info">
+            <h3>Ocean Glass</h3>
+            <span>rgba(255,255,255,0.2)</span>
+          </div>
+          <button class="glass-copy-btn" onclick="copyText('background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="glass-card" data-name="glassmorphism dark night">
+        <div class="glass-bg" style="background: linear-gradient(to right, #434343 0%, black 100%);"></div>
+        <div class="glass-content" style="background: rgba(0,0,0,0.4); border-top-color: rgba(255,255,255,0.1);">
+          <div class="glass-info">
+            <h3>Dark Glass</h3>
+            <span>rgba(0,0,0,0.4)</span>
+          </div>
+          <button class="glass-copy-btn" onclick="copyText('background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px);', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="glass-card" data-name="glassmorphism gradient neon">
+        <div class="glass-bg" style="background: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);"></div>
+        <div class="glass-content">
+          <div class="glass-info">
+            <h3>Neon Blur</h3>
+            <span>rgba(255,255,255,0.25)</span>
+          </div>
+          <button class="glass-copy-btn" onclick="copyText('background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(12px);', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Toast notification -->
+  <div id="copyToast" class="copy-toast">
+    <i class="fa-solid fa-check"></i> Copied!
+  </div>
+
+</main>
+\`\`\`
+
+#### Style Sheets:
+- \`/design-tokens.css\`
+- \`/dist/shared.css\`
+- \`https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css\`
+- \`/colors.css\`
+
+#### JavaScript Scripts:
+- \`/dist/shared.js\`
+
+### Accessibility (a11y) Checklist
+
+- [x] Semantic HTML: appropriate tags are utilized.
+- [x] Focus states: interactive elements show native or custom focus styling.
+- [x] Color contrast: contrast ratios meet WCAG standard compliance.
+
+
+### Visual & Interactive Test Cases
+
+- [x] Render check: component layout presents visual elements clearly.
+- [x] Hover check: interactive elements trigger hover states and transitions.
+- [x] Responsive layout: scales and nests correctly across viewports.
+
+`
+      }
+    }
+  }
+};
+
+export const Default = {
+  render: () => createShadowRootStory({
+    title: 'Color System',
+    styles: ["/design-tokens.css","/dist/shared.css","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css","/colors.css"],
+    content: `<main class="main-home">
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="page-hero-left">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Colors</span>
+      </div>
+      <h1 class="page-title">Color Library</h1>
+      <p class="page-desc">Discover beautiful individual colors, palettes, gradients, and themed color systems. Click any swatch to copy the HEX or RGB value instantly.</p>
+      <div class="page-meta">
+        <span class="meta-badge"><i class="fa-solid fa-droplet"></i> 20+ Colors</span>
+        <span class="meta-badge"><i class="fa-solid fa-swatchbook"></i> 5 Palettes</span>
+        <span class="meta-badge"><i class="fa-solid fa-copy"></i> Click to Copy</span>
+      </div>
+    </div>
+
+    <section class="color-section" data-section="tokens">
+  <div class="section-header-row">
+    <h2 class="color-section-title">🎯 Design Tokens</h2>
+    <span class="section-count">System Colors</span>
+  </div>
+
+  <div class="token-grid">
+
+    <div class="token-card">
+      <div class="token-color" style="background:#3b82f6;"></div>
+      <h3>Primary</h3>
+      <p>#3b82f6</p>
+    </div>
+
+    <div class="token-card">
+      <div class="token-color" style="background:#8b5cf6;"></div>
+      <h3>Secondary</h3>
+      <p>#8b5cf6</p>
+    </div>
+
+    <div class="token-card">
+      <div class="token-color" style="background:#22c55e;"></div>
+      <h3>Success</h3>
+      <p>#22c55e</p>
+    </div>
+
+    <div class="token-card">
+      <div class="token-color" style="background:#ef4444;"></div>
+      <h3>Error</h3>
+      <p>#ef4444</p>
+    </div>
+
+    <div class="token-card">
+      <div class="token-color" style="background:#f59e0b;"></div>
+      <h3>Warning</h3>
+      <p>#f59e0b</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="color-section">
+  <h2 class="color-section-title">🌈 Gradient Meshes</h2>
+
+  <div class="gradient-grid">
+
+    <div class="gradient-card">
+      <div class="gradient-swatch"
+      style="
+      background:
+      radial-gradient(circle at top left,#ff6b6b,transparent 40%),
+      radial-gradient(circle at bottom right,#5f27cd,transparent 40%),
+      #0f172a;">
+      </div>
+      <div class="gradient-info">
+        <h3>Cyber Mesh</h3>
+      </div>
+    </div>
+
+    <div class="gradient-card">
+      <div class="gradient-swatch"
+      style="
+      background:
+      radial-gradient(circle at top,#06b6d4,transparent 40%),
+      radial-gradient(circle at bottom,#8b5cf6,transparent 40%),
+      #111827;">
+      </div>
+      <div class="gradient-info">
+        <h3>Aurora Mesh</h3>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="palette-card">
+  <div class="palette-header">
+    <h3>Neutral System</h3>
+  </div>
+
+  <div class="palette-strip-row">
+    <div class="palette-swatch" style="background:#fafafa">50</div>
+    <div class="palette-swatch" style="background:#f4f4f5">100</div>
+    <div class="palette-swatch" style="background:#e4e4e7">200</div>
+    <div class="palette-swatch" style="background:#d4d4d8">300</div>
+    <div class="palette-swatch" style="background:#71717a">500</div>
+    <div class="palette-swatch" style="background:#27272a">800</div>
+    <div class="palette-swatch" style="background:#18181b">900</div>
+  </div>
+</div>
+    <div class="page-hero-right">
+      <div class="color-hero-swatches">
+        <div class="hero-swatch" style="background:#eb6835;"></div>
+        <div class="hero-swatch" style="background:#6c5ce7;"></div>
+        <div class="hero-swatch" style="background:#00b894;"></div>
+        <div class="hero-swatch" style="background:#0984e3;"></div>
+        <div class="hero-swatch" style="background:#d63031;"></div>
+        <div class="hero-swatch" style="background:#fdcb6e;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterSection('all', this)">All</button>
+    <button class="filter-btn" onclick="filterSection('trending', this)">Trending</button>
+    <button class="filter-btn" onclick="filterSection('gradients', this)">Gradients</button>
+    <button class="filter-btn" onclick="filterSection('palettes', this)">Palettes</button>
+    <button class="filter-btn" onclick="filterSection('themed', this)">Themed</button>
+    <button class="filter-btn" onclick="filterSection('social', this)">Social</button>
+    <button class="filter-btn" onclick="filterSection('glassmorphism', this)">Glass</button>
+    <div class="filter-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Filter colors..." oninput="liveFilter(this.value)" />
+    </div>
+  </div>
+
+  <!-- ===== CUSTOM COLOR CREATOR ===== -->
+  <section class="custom-creator-section">
+    <div class="section-header-row">
+      <h2 class="color-section-title">🎨 Custom Color Creator</h2>
+      <span class="section-count">Pick & Copy</span>
+    </div>
+
+    <div class="creator-wrapper">
+
+      <!-- LEFT CARD: picker + values -->
+      <div class="creator-card">
+        <div class="creator-left">
+          <div class="creator-preview" id="creatorPreview" style="background:#eb6835;"></div>
+          <input type="color" id="colorPicker" value="#eb6835">
+          <label for="colorPicker" class="picker-label">
+            <i class="fa-solid fa-pen-nib"></i> Open Picker
+          </label>
+          <button class="save-color-btn" onclick="saveToSessionPalette()">
+            <i class="fa-solid fa-plus"></i> Add to Palette
+          </button>
+        </div>
+
+        <div class="creator-right">
+          <div class="creator-val-row">
+            <span class="creator-val-label">Hex:</span>
+            <span class="creator-val-output" id="outHex">#eb6835</span>
+            <button class="creator-copy-btn" onclick="copyText(document.getElementById('outHex').textContent, this)">
+              <i class="fa-regular fa-copy"></i> Copy
+            </button>
+          </div>
+          <div class="creator-val-row">
+            <span class="creator-val-label">RGB:</span>
+            <span class="creator-val-output" id="outRgb">rgb(235, 104, 53)</span>
+            <button class="creator-copy-btn" onclick="copyText(document.getElementById('outRgb').textContent, this)">
+              <i class="fa-regular fa-copy"></i> Copy
+            </button>
+          </div>
+          <div class="creator-val-row">
+            <span class="creator-val-label">HSL:</span>
+            <span class="creator-val-output" id="outHsl">hsl(20, 82%, 56%)</span>
+            <button class="creator-copy-btn" onclick="copyText(document.getElementById('outHsl').textContent, this)">
+              <i class="fa-regular fa-copy"></i> Copy
+            </button>
+          </div>
+
+          <div class="contrast-row">
+            <span class="contrast-chip fail" id="contrastWhite">AA × on White</span>
+            <span class="contrast-chip pass" id="contrastBlack">AA ✓ on Black</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT CARD: palette -->
+      <div class="palette-panel" id="palettePanel">
+        <h3 class="palette-panel-title">Color Palette</h3>
+        <div class="session-palette" id="sessionPalette">
+          <div class="empty-palette-msg">No colors yet.<br>Pick one and click Add.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== TRENDING COLORS ===== -->
+  <section class="color-section" data-section="trending">
+    <div class="section-header-row">
+      <h2 class="color-section-title">🔥 Trending Colors</h2>
+      <span class="section-count">13 colors</span>
+    </div>
+    <div class="color-grid" id="colorGrid">
+
+      <div class="color-card" data-name="electric purple violet">
+        <div class="color-swatch" style="background:#8b5cf6;">
+          <span class="swatch-badge">Popular</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#8b5cf6', this)" title="Copy HEX" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(139,92,246)', this)" title="Copy RGB" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Electric Purple</h3>
+          <span class="hex-val">#8b5cf6</span>
+          <span class="rgb-val">rgb(139, 92, 246)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="ocean cyan blue">
+        <div class="color-swatch" style="background:#06b6d4;">
+          <span class="swatch-badge">New</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#06b6d4', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(6,182,212)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Ocean Cyan</h3>
+          <span class="hex-val">#06b6d4</span>
+          <span class="rgb-val">rgb(6, 182, 212)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="rose red hot pink">
+        <div class="color-swatch" style="background:#f43f5e;">
+          <span class="swatch-badge">Hot</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#f43f5e', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(244,63,94)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Rose Red</h3>
+          <span class="hex-val">#f43f5e</span>
+          <span class="rgb-val">rgb(244, 63, 94)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="accent orange uiverse brand">
+        <div class="color-swatch" style="background:#eb6835;">
+          <span class="swatch-badge">Brand</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#eb6835', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(235,104,53)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>UIverse Orange</h3>
+          <span class="hex-val">#eb6835</span>
+          <span class="rgb-val">rgb(235, 104, 53)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="mint green emerald">
+        <div class="color-swatch" style="background:#00b894;">
+          <span class="swatch-badge">Fresh</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#00b894', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(0,184,148)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Mint Green</h3>
+          <span class="hex-val">#00b894</span>
+          <span class="rgb-val">rgb(0, 184, 148)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="indigo blue deep">
+        <div class="color-swatch" style="background:#6c5ce7;">
+          <span class="swatch-badge">Classic</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#6c5ce7', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(108,92,231)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Deep Indigo</h3>
+          <span class="hex-val">#6c5ce7</span>
+          <span class="rgb-val">rgb(108, 92, 231)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="amber yellow gold">
+        <div class="color-swatch" style="background:#fdcb6e;">
+          <span class="swatch-badge">Warm</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#fdcb6e', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(253,203,110)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Amber Gold</h3>
+          <span class="hex-val">#fdcb6e</span>
+          <span class="rgb-val">rgb(253, 203, 110)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="sky blue azure">
+        <div class="color-swatch" style="background:#0984e3;">
+          <span class="swatch-badge">Clean</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#0984e3', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(9,132,227)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Sky Blue</h3>
+          <span class="hex-val">#0984e3</span>
+          <span class="rgb-val">rgb(9, 132, 227)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="sunset orange coral warm">
+        <div class="color-swatch" style="background:#ff7a3d;">
+          <span class="swatch-badge">Warm</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#ff7a3d', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(255,122,61)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Sunset Orange</h3>
+          <span class="hex-val">#ff7a3d</span>
+          <span class="rgb-val">rgb(255, 122, 61)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="mint green fresh teal">
+        <div class="color-swatch" style="background:#00b894;">
+          <span class="swatch-badge">Fresh</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#00b894', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(0,184,148)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Mint Green</h3>
+          <span class="hex-val">#00b894</span>
+          <span class="rgb-val">rgb(0, 184, 148)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="gold amber premium warm">
+        <div class="color-swatch" style="background:#f5c542;">
+          <span class="swatch-badge">Premium</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#f5c542', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(245,197,66)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Golden Hour</h3>
+          <span class="hex-val">#f5c542</span>
+          <span class="rgb-val">rgb(245, 197, 66)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="deep indigo violet night">
+        <div class="color-swatch" style="background:#3f37c9;">
+          <span class="swatch-badge">Bold</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#3f37c9', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(63,55,201)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Deep Indigo</h3>
+          <span class="hex-val">#3f37c9</span>
+          <span class="rgb-val">rgb(63, 55, 201)</span>
+        </div>
+      </div>
+
+      <div class="color-card" data-name="aurora teal cyan calm">
+        <div class="color-swatch" style="background:#14b8a6;">
+          <span class="swatch-badge">Calm</span>
+          <div class="swatch-actions">
+            <button type="button" onclick="copyText('#14b8a6', this)" aria-label="Copy HEX"><i class="fa-solid fa-hashtag"></i></button>
+            <button type="button" onclick="copyText('rgb(20,184,166)', this)" aria-label="Copy RGB"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          </div>
+        </div>
+        <div class="color-info">
+          <h3>Aurora Teal</h3>
+          <span class="hex-val">#14b8a6</span>
+          <span class="rgb-val">rgb(20, 184, 166)</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== GRADIENTS ===== -->
+  <section class="color-section" data-section="gradients">
+    <div class="section-header-row">
+      <h2 class="color-section-title">✨ Gradients</h2>
+      <span class="section-count">5 gradients</span>
+    </div>
+    <div class="gradient-grid">
+
+      <div class="gradient-card" data-name="sunset orange gradient">
+        <div class="gradient-swatch" style="background:linear-gradient(135deg,#eb6835,#fdcb6e);">
+          <div class="gradient-actions">
+            <button onclick="copyText('linear-gradient(135deg, #eb6835, #fdcb6e)', this)"><i class="fa-solid fa-copy"></i> Copy CSS</button>
+          </div>
+        </div>
+        <div class="gradient-info">
+          <h3>Sunset</h3>
+          <span>#eb6835 → #fdcb6e</span>
+        </div>
+      </div>
+
+      <div class="gradient-card" data-name="purple indigo violet gradient">
+        <div class="gradient-swatch" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe);">
+          <div class="gradient-actions">
+            <button onclick="copyText('linear-gradient(135deg, #6c5ce7, #a29bfe)', this)"><i class="fa-solid fa-copy"></i> Copy CSS</button>
+          </div>
+        </div>
+        <div class="gradient-info">
+          <h3>Purple Mist</h3>
+          <span>#6c5ce7 → #a29bfe</span>
+        </div>
+      </div>
+
+      <div class="gradient-card" data-name="ocean teal cyan gradient">
+        <div class="gradient-swatch" style="background:linear-gradient(135deg,#00b894,#06b6d4);">
+          <div class="gradient-actions">
+            <button onclick="copyText('linear-gradient(135deg, #00b894, #06b6d4)', this)"><i class="fa-solid fa-copy"></i> Copy CSS</button>
+          </div>
+        </div>
+        <div class="gradient-info">
+          <h3>Ocean Breeze</h3>
+          <span>#00b894 → #06b6d4</span>
+        </div>
+      </div>
+
+      <div class="gradient-card" data-name="fire red orange gradient hot">
+        <div class="gradient-swatch" style="background:linear-gradient(135deg,#d63031,#eb6835);">
+          <div class="gradient-actions">
+            <button onclick="copyText('linear-gradient(135deg, #d63031, #eb6835)', this)"><i class="fa-solid fa-copy"></i> Copy CSS</button>
+          </div>
+        </div>
+        <div class="gradient-info">
+          <h3>Firestorm</h3>
+          <span>#d63031 → #eb6835</span>
+        </div>
+      </div>
+
+      <div class="gradient-card" data-name="uiverse brand gradient orange purple">
+        <div class="gradient-swatch" style="background:linear-gradient(135deg,#eb6835,#6c5ce7);">
+          <div class="gradient-actions">
+            <button onclick="copyText('linear-gradient(135deg, #eb6835, #6c5ce7)', this)"><i class="fa-solid fa-copy"></i> Copy CSS</button>
+          </div>
+        </div>
+        <div class="gradient-info">
+          <h3>UIverse Brand</h3>
+          <span>#eb6835 → #6c5ce7</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== COLOR PALETTES ===== -->
+  <section class="color-section" data-section="palettes">
+    <div class="section-header-row">
+      <h2 class="color-section-title">🎨 Color Palettes</h2>
+      <span class="section-count">5 palettes</span>
+    </div>
+    <div class="palette-list">
+
+      <div class="palette-card" data-name="neon palette bright">
+        <div class="palette-header">
+          <h3>Neon Theme</h3>
+          <button class="palette-copy-btn" onclick="copyText('css: #ff00ff #00ffff #39ff14 #fffb00', this)"><i class="fa-solid fa-copy"></i> Copy All</button>
+        </div>
+        <div class="palette-strip-row">
+          <div class="palette-swatch" style="background:#ff00ff;" onclick="copyText('#ff00ff', this)" title="#ff00ff"><span>#ff00ff</span></div>
+          <div class="palette-swatch" style="background:#00ffff;" onclick="copyText('#00ffff', this)" title="#00ffff"><span>#00ffff</span></div>
+          <div class="palette-swatch" style="background:#39ff14;" onclick="copyText('#39ff14', this)" title="#39ff14"><span>#39ff14</span></div>
+          <div class="palette-swatch" style="background:#fffb00;" onclick="copyText('#fffb00', this)" title="#fffb00"><span style="color:#333;">#fffb00</span></div>
+          <div class="palette-swatch" style="background:#ff6600;" onclick="copyText('#ff6600', this)" title="#ff6600"><span>#ff6600</span></div>
+        </div>
+      </div>
+
+      <div class="palette-card" data-name="dark ui theme night">
+        <div class="palette-header">
+          <h3>Dark UI Theme</h3>
+          <button class="palette-copy-btn" onclick="copyText('css: #0f172a #1e293b #334155 #475569 #94a3b8', this)"><i class="fa-solid fa-copy"></i> Copy All</button>
+        </div>
+        <div class="palette-strip-row">
+          <div class="palette-swatch" style="background:#0f172a;" onclick="copyText('#0f172a', this)"><span>#0f172a</span></div>
+          <div class="palette-swatch" style="background:#1e293b;" onclick="copyText('#1e293b', this)"><span>#1e293b</span></div>
+          <div class="palette-swatch" style="background:#334155;" onclick="copyText('#334155', this)"><span>#334155</span></div>
+          <div class="palette-swatch" style="background:#475569;" onclick="copyText('#475569', this)"><span>#475569</span></div>
+          <div class="palette-swatch" style="background:#94a3b8;" onclick="copyText('#94a3b8', this)"><span style="color:#222;">#94a3b8</span></div>
+        </div>
+      </div>
+
+      <div class="palette-card" data-name="pastel soft light">
+        <div class="palette-header">
+          <h3>Pastel Theme</h3>
+          <button class="palette-copy-btn" onclick="copyText('css: #ffadad #ffd6a5 #fdffb6 #caffbf #a0c4ff', this)"><i class="fa-solid fa-copy"></i> Copy All</button>
+        </div>
+        <div class="palette-strip-row">
+          <div class="palette-swatch" style="background:#ffadad;" onclick="copyText('#ffadad', this)"><span style="color:#333;">#ffadad</span></div>
+          <div class="palette-swatch" style="background:#ffd6a5;" onclick="copyText('#ffd6a5', this)"><span style="color:#333;">#ffd6a5</span></div>
+          <div class="palette-swatch" style="background:#fdffb6;" onclick="copyText('#fdffb6', this)"><span style="color:#333;">#fdffb6</span></div>
+          <div class="palette-swatch" style="background:#caffbf;" onclick="copyText('#caffbf', this)"><span style="color:#333;">#caffbf</span></div>
+          <div class="palette-swatch" style="background:#a0c4ff;" onclick="copyText('#a0c4ff', this)"><span style="color:#333;">#a0c4ff</span></div>
+        </div>
+      </div>
+
+      <div class="palette-card" data-name="monochrome grey neutral">
+        <div class="palette-header">
+          <h3>Monochrome</h3>
+          <button class="palette-copy-btn" onclick="copyText('css: #111 #333 #666 #999 #ccc', this)"><i class="fa-solid fa-copy"></i> Copy All</button>
+        </div>
+        <div class="palette-strip-row">
+          <div class="palette-swatch" style="background:#111;" onclick="copyText('#111', this)"><span>#111</span></div>
+          <div class="palette-swatch" style="background:#333;" onclick="copyText('#333', this)"><span>#333</span></div>
+          <div class="palette-swatch" style="background:#666;" onclick="copyText('#666', this)"><span>#666</span></div>
+          <div class="palette-swatch" style="background:#999;" onclick="copyText('#999', this)"><span style="color:#333;">#999</span></div>
+          <div class="palette-swatch" style="background:#ccc;" onclick="copyText('#ccc', this)"><span style="color:#333;">#ccc</span></div>
+        </div>
+      </div>
+
+      <div class="palette-card" data-name="earth tones warm nature">
+        <div class="palette-header">
+          <h3>Earth Tones</h3>
+          <button class="palette-copy-btn" onclick="copyText('css: #6b4226 #a0522d #c68642 #d2a679 #f5deb3', this)"><i class="fa-solid fa-copy"></i> Copy All</button>
+        </div>
+        <div class="palette-strip-row">
+          <div class="palette-swatch" style="background:#6b4226;" onclick="copyText('#6b4226', this)"><span>#6b4226</span></div>
+          <div class="palette-swatch" style="background:#a0522d;" onclick="copyText('#a0522d', this)"><span>#a0522d</span></div>
+          <div class="palette-swatch" style="background:#c68642;" onclick="copyText('#c68642', this)"><span>#c68642</span></div>
+          <div class="palette-swatch" style="background:#d2a679;" onclick="copyText('#d2a679', this)"><span style="color:#333;">#d2a679</span></div>
+          <div class="palette-swatch" style="background:#f5deb3;" onclick="copyText('#f5deb3', this)"><span style="color:#333;">#f5deb3</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== THEMED COLORS ===== -->
+  <section class="color-section" data-section="themed">
+    <div class="section-header-row">
+      <h2 class="color-section-title">🎯 UI Themed Colors</h2>
+      <span class="section-count">Status + Brand</span>
+    </div>
+    <div class="themed-grid">
+
+      <div class="themed-card" data-name="success green status">
+        <div class="themed-swatch" style="background:#00b894;"></div>
+        <div class="themed-info">
+          <strong>Success</strong>
+          <span>#00b894</span>
+          <button onclick="copyText('#00b894', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="danger error red status">
+        <div class="themed-swatch" style="background:#d63031;"></div>
+        <div class="themed-info">
+          <strong>Danger</strong>
+          <span>#d63031</span>
+          <button onclick="copyText('#d63031', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="warning yellow amber status">
+        <div class="themed-swatch" style="background:#fdcb6e;"></div>
+        <div class="themed-info">
+          <strong>Warning</strong>
+          <span>#fdcb6e</span>
+          <button onclick="copyText('#fdcb6e', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="info blue status">
+        <div class="themed-swatch" style="background:#0984e3;"></div>
+        <div class="themed-info">
+          <strong>Info</strong>
+          <span>#0984e3</span>
+          <button onclick="copyText('#0984e3', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="primary brand accent">
+        <div class="themed-swatch" style="background:#eb6835;"></div>
+        <div class="themed-info">
+          <strong>Primary</strong>
+          <span>#eb6835</span>
+          <button onclick="copyText('#eb6835', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="secondary purple indigo">
+        <div class="themed-swatch" style="background:#6c5ce7;"></div>
+        <div class="themed-info">
+          <strong>Secondary</strong>
+          <span>#6c5ce7</span>
+          <button onclick="copyText('#6c5ce7', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="light grey background">
+        <div class="themed-swatch" style="background:#f5f4f2; border:1px solid #e0e0e0;"></div>
+        <div class="themed-info">
+          <strong>Light BG</strong>
+          <span>#f5f4f2</span>
+          <button onclick="copyText('#f5f4f2', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="dark background night">
+        <div class="themed-swatch" style="background:#0f0f12;"></div>
+        <div class="themed-info">
+          <strong>Dark BG</strong>
+          <span>#0f0f12</span>
+          <button onclick="copyText('#0f0f12', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== SOCIAL BRAND COLORS ===== -->
+  <section class="color-section" data-section="social">
+    <div class="section-header-row">
+      <h2 class="color-section-title">🌐 Social Brand Colors</h2>
+      <span class="section-count">6 brands</span>
+    </div>
+    <div class="themed-grid">
+
+      <div class="themed-card" data-name="twitter blue social">
+        <div class="themed-swatch" style="background:#1DA1F2;"></div>
+        <div class="themed-info">
+          <strong>Twitter</strong>
+          <span>#1DA1F2</span>
+          <button onclick="copyText('#1DA1F2', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="facebook blue social">
+        <div class="themed-swatch" style="background:#1877F2;"></div>
+        <div class="themed-info">
+          <strong>Facebook</strong>
+          <span>#1877F2</span>
+          <button onclick="copyText('#1877F2', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="instagram pink gradient social">
+        <div class="themed-swatch" style="background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"></div>
+        <div class="themed-info">
+          <strong>Instagram</strong>
+          <span>Gradient</span>
+          <button onclick="copyText('linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="github dark social">
+        <div class="themed-swatch" style="background:#181717;"></div>
+        <div class="themed-info">
+          <strong>GitHub</strong>
+          <span>#181717</span>
+          <button onclick="copyText('#181717', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="youtube red social">
+        <div class="themed-swatch" style="background:#FF0000;"></div>
+        <div class="themed-info">
+          <strong>YouTube</strong>
+          <span>#FF0000</span>
+          <button onclick="copyText('#FF0000', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="themed-card" data-name="linkedin blue social">
+        <div class="themed-swatch" style="background:#0A66C2;"></div>
+        <div class="themed-info">
+          <strong>LinkedIn</strong>
+          <span>#0A66C2</span>
+          <button onclick="copyText('#0A66C2', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== GLASSMORPHISM COLORS ===== -->
+  <section class="color-section" data-section="glassmorphism">
+    <div class="section-header-row">
+      <h2 class="color-section-title">🧊 Glassmorphism</h2>
+      <span class="section-count">4 styles</span>
+    </div>
+    <div class="glass-grid">
+      
+      <div class="glass-card" data-name="glassmorphism pink purple">
+        <div class="glass-bg" style="background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);"></div>
+        <div class="glass-content">
+          <div class="glass-info">
+            <h3>Pink Frost</h3>
+            <span>rgba(255,255,255,0.2)</span>
+          </div>
+          <button class="glass-copy-btn" onclick="copyText('background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="glass-card" data-name="glassmorphism blue ocean">
+        <div class="glass-bg" style="background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);"></div>
+        <div class="glass-content">
+          <div class="glass-info">
+            <h3>Ocean Glass</h3>
+            <span>rgba(255,255,255,0.2)</span>
+          </div>
+          <button class="glass-copy-btn" onclick="copyText('background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="glass-card" data-name="glassmorphism dark night">
+        <div class="glass-bg" style="background: linear-gradient(to right, #434343 0%, black 100%);"></div>
+        <div class="glass-content" style="background: rgba(0,0,0,0.4); border-top-color: rgba(255,255,255,0.1);">
+          <div class="glass-info">
+            <h3>Dark Glass</h3>
+            <span>rgba(0,0,0,0.4)</span>
+          </div>
+          <button class="glass-copy-btn" onclick="copyText('background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px);', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="glass-card" data-name="glassmorphism gradient neon">
+        <div class="glass-bg" style="background: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);"></div>
+        <div class="glass-content">
+          <div class="glass-info">
+            <h3>Neon Blur</h3>
+            <span>rgba(255,255,255,0.25)</span>
+          </div>
+          <button class="glass-copy-btn" onclick="copyText('background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(12px);', this)"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Toast notification -->
+  <div id="copyToast" class="copy-toast">
+    <i class="fa-solid fa-check"></i> Copied!
+  </div>
+
+</main>`
+  })
+};

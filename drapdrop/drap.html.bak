@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8" />
+  
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self' https:; 
+    base-uri 'self'; 
+    frame-ancestors 'none'; 
+    object-src 'none'; 
+    connect-src 'self' https:; 
+    img-src 'self' data: https:; 
+    font-src 'self' data: https:; 
+    script-src 'self' https: 'unsafe-hashes'; 
+    script-src-attr 'unsafe-hashes'; 
+    style-src 'self' https: 'unsafe-hashes'; 
+    style-src-attr 'unsafe-hashes'"
+  />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Advanced File Upload UI</title>
+
+  <!-- GOOGLE FONT -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- ICONS -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
+
+  <link rel="stylesheet" href="drag.css" />
+</head>
+
+<body>
+
+  <div class="background-blur"></div>
+
+  <div class="upload-wrapper">
+
+    <!-- LEFT SIDE -->
+    <div class="upload-left">
+
+      <div class="logo">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <span>CloudDrop</span>
+      </div>
+
+      <h1>
+        Smart File <br />
+        Upload Dashboard
+      </h1>
+
+      <p class="subtitle">
+        Drag & drop your files with real-time preview,
+        progress tracking, categories, and modern glassmorphism UI.
+      </p>
+
+      <div class="feature-grid">
+
+        <div class="feature-card">
+          <i class="fa-solid fa-shield-halved"></i>
+          <h4>Secure Upload</h4>
+          <p>Protected cloud transfer system.</p>
+        </div>
+
+        <div class="feature-card">
+          <i class="fa-solid fa-bolt"></i>
+          <h4>Fast Sync</h4>
+          <p>Lightning-fast upload experience.</p>
+        </div>
+
+        <div class="feature-card">
+          <i class="fa-solid fa-image"></i>
+          <h4>Image Preview</h4>
+          <p>Instant preview before upload.</p>
+        </div>
+
+        <div class="feature-card">
+          <i class="fa-solid fa-folder-tree"></i>
+          <h4>Multi File Support</h4>
+          <p>Upload multiple files easily.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="upload-right">
+
+      <!-- TOP BAR -->
+      <div class="top-bar">
+
+        <div>
+          <h2>Upload Center</h2>
+          <p>Upload documents, videos, images & more</p>
+        </div>
+
+        <button class="theme-btn">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+
+      </div>
+
+      <!-- STORAGE -->
+      <div class="storage-card">
+
+        <div class="storage-info">
+          <h3>Storage Usage</h3>
+          <span>7.2 GB / 15 GB</span>
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+
+      </div>
+
+      <!-- DRAG AREA -->
+      <div class="upload-box" id="drop-area">
+
+        <input type="file" id="fileElem" multiple hidden />
+
+        <div class="upload-icon">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+        </div>
+
+        <h3>Drag & Drop Files Here</h3>
+
+        <p>
+          Supported: JPG, PNG, PDF, MP4, ZIP
+        </p>
+
+        <div class="upload-buttons">
+
+          <button id="browseBtn" class="primary-btn">
+            <i class="fa-solid fa-folder-open"></i>
+            Browse Files
+          </button>
+
+          <button class="secondary-btn">
+            <i class="fa-solid fa-link"></i>
+            Import URL
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- QUICK STATS -->
+      <div class="stats-grid">
+
+        <div class="stat-card">
+          <i class="fa-solid fa-file"></i>
+          <div>
+            <h4>124</h4>
+            <p>Files</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <i class="fa-solid fa-image"></i>
+          <div>
+            <h4>52</h4>
+            <p>Images</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <i class="fa-solid fa-video"></i>
+          <div>
+            <h4>18</h4>
+            <p>Videos</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <i class="fa-solid fa-file-pdf"></i>
+          <div>
+            <h4>34</h4>
+            <p>Documents</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- FILE FILTER -->
+      <div class="filter-row">
+
+        <button class="filter active">All</button>
+        <button class="filter">Images</button>
+        <button class="filter">Videos</button>
+        <button class="filter">Documents</button>
+
+      </div>
+
+      <!-- PREVIEW -->
+      <div id="preview" class="preview-grid">
+
+        <!-- SAMPLE CARD -->
+        <div class="file-card">
+
+          <div class="file-top">
+            <i class="fa-solid fa-file-image"></i>
+            <span>2.4 MB</span>
+          </div>
+
+          <h4>nature.jpg</h4>
+
+          <div class="mini-progress">
+            <div class="mini-fill"></div>
+          </div>
+
+          <div class="file-actions">
+            <button><i class="fa-solid fa-eye"></i></button>
+            <button><i class="fa-solid fa-trash"></i></button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="drag.js"></script>
+
+    <script src="../dist/shared.js"></script>
+</body>
+</html>

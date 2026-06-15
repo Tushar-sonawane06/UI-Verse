@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="dist/shared.css">
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Advanced Dropdown Components</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --border: rgba(255,255,255,0.08);
+      --text: #ffffff;
+      --muted: #94a3b8;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background:
+        radial-gradient(circle at top left, #1e293b 0%, transparent 30%),
+        radial-gradient(circle at bottom right, #312e81 0%, transparent 35%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 60px 24px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 70px;
+    }
+
+    .hero span {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 13px;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 7vw, 78px);
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: auto;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      overflow: hidden;
+      transition: 0.4s;
+      backdrop-filter: blur(10px);
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(255,255,255,0.15);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+
+    .preview {
+      min-height: 280px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content {
+      padding: 26px;
+    }
+
+    .content h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .content p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+    }
+
+    /* ========================= */
+    /* GLASSMORPHISM */
+    /* ========================= */
+
+    .glass-preview {
+      background:
+        linear-gradient(135deg,#1d4ed8,#7c3aed);
+    }
+
+    .glass-dropdown {
+      position: relative;
+    }
+
+    .glass-trigger {
+      width: 240px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: white;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    .glass-trigger:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.18);
+    }
+
+    .glass-menu {
+      position: absolute;
+      top: 78px;
+      width: 240px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .glass-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      transition: 0.3s;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .glass-item:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .react { background: #61dafb; }
+    .vue { background: #42b883; }
+    .angular { background: #ff3e55; }
+    .svelte { background: #ff6b00; }
+
+    /* ========================= */
+    /* NEON */
+    /* ========================= */
+
+    .neon-preview {
+      background: #020617;
+    }
+
+    .neon-dropdown {
+      position: relative;
+    }
+
+    .neon-trigger {
+      width: 240px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-radius: 14px;
+      background: #050816;
+      border: 2px solid #00f0ff;
+      color: #00f0ff;
+      box-shadow:
+        0 0 10px #00f0ff,
+        0 0 25px rgba(0,240,255,0.4);
+      transition: 0.3s;
+    }
+
+    .neon-trigger:hover {
+      transform: scale(1.03);
+    }
+
+    .neon-menu {
+      position: absolute;
+      top: 80px;
+      width: 240px;
+      border-radius: 18px;
+      background: #050816;
+      border: 1px solid #00f0ff;
+      overflow: hidden;
+      box-shadow:
+        0 0 20px rgba(0,240,255,0.35);
+    }
+
+    .neon-item {
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: 0.3s;
+      color: white;
+      cursor: pointer;
+    }
+
+    .neon-item:hover {
+      background: rgba(0,240,255,0.12);
+      color: #00f0ff;
+      padding-left: 26px;
+    }
+
+    .neon-item:last-child {
+      border-bottom: none;
+    }
+
+    /* ========================= */
+    /* FLOATING */
+    /* ========================= */
+
+    .floating-preview {
+      background:
+        linear-gradient(135deg,#0f172a,#111827);
+    }
+
+    .floating-dropdown {
+      position: relative;
+    }
+
+    .floating-trigger {
+      width: 240px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-radius: 999px;
+      background: white;
+      color: #111827;
+      font-weight: 600;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    }
+
+    .floating-menu {
+      position: absolute;
+      top: 84px;
+      width: 240px;
+      background: white;
+      border-radius: 24px;
+      padding: 10px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+    }
+
+    .floating-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 18px;
+      transition: 0.3s;
+      cursor: pointer;
+      color: #111827;
+      font-weight: 500;
+    }
+
+    .floating-item:hover {
+      background: #f3f4f6;
+      transform: translateX(6px);
+    }
+
+    .danger {
+      color: #ef4444;
+    }
+
+    /* ========================= */
+    /* 3D */
+    /* ========================= */
+
+    .threed-preview {
+      background:
+        linear-gradient(135deg,#0f172a,#312e81);
+      perspective: 1200px;
+    }
+
+    .threed-dropdown {
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    .threed-trigger {
+      width: 240px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 20px;
+      border-radius: 16px;
+      background:
+        linear-gradient(135deg,#4f46e5,#7c3aed);
+      color: white;
+      font-weight: 600;
+      transform:
+        rotateX(8deg)
+        rotateY(-8deg);
+      box-shadow:
+        0 20px 40px rgba(0,0,0,0.35);
+    }
+
+    .threed-menu {
+      position: absolute;
+      top: 90px;
+      width: 240px;
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      transform:
+        rotateX(12deg)
+        rotateY(-8deg);
+      box-shadow:
+        0 20px 50px rgba(0,0,0,0.35);
+    }
+
+    .threed-item {
+      padding: 16px 18px;
+      color: #111827;
+      transition: 0.3s;
+      cursor: pointer;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .threed-item:hover {
+      background: #f8fafc;
+      padding-left: 26px;
+    }
+
+    .threed-item:last-child {
+      border-bottom: none;
+    }
+
+    /* ========================= */
+    /* MINIMAL */
+    /* ========================= */
+
+    .minimal-preview {
+      background:
+        linear-gradient(135deg,#fafafa,#f1f5f9);
+    }
+
+    .minimal-dropdown {
+      position: relative;
+    }
+
+    .minimal-trigger {
+      width: 240px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 18px;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid #dbeafe;
+      color: #111827;
+      font-weight: 500;
+    }
+
+    .minimal-menu {
+      position: absolute;
+      top: 76px;
+      width: 240px;
+      background: white;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+    }
+
+    .minimal-item {
+      padding: 15px 18px;
+      transition: 0.3s;
+      cursor: pointer;
+      color: #334155;
+      font-size: 15px;
+    }
+
+    .minimal-item:hover {
+      background: #f8fafc;
+      color: #2563eb;
+    }
+
+    /* ========================= */
+    /* RESPONSIVE */
+    /* ========================= */
+
+    @media (max-width: 768px) {
+      body {
+        padding: 40px 18px;
+      }
+
+      .preview {
+        min-height: 250px;
+      }
+
+      .glass-trigger,
+      .glass-menu,
+      .neon-trigger,
+      .neon-menu,
+      .floating-trigger,
+      .floating-menu,
+      .threed-trigger,
+      .threed-menu,
+      .minimal-trigger,
+      .minimal-menu {
+        width: 210px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="hero">
+      <span>UIVERSE DROPDOWNS</span>
+      <h1>Advanced Dropdown Components</h1>
+      <p>
+        Premium modern dropdown components with glassmorphism,
+        neon effects, floating menus, 3D transforms,
+        and elegant minimal UI interactions.
+      </p>
+    </div>
+
+    <div class="grid">
+
+      <!-- GLASS -->
+      <div class="card">
+        <div class="preview glass-preview">
+
+          <div class="glass-dropdown">
+
+            <button class="glass-trigger">
+              <span>Select Framework</span>
+
+              <svg viewBox="0 0 24 24">
+                <path d="M7 10l5 5 5-5"></path>
+              </svg>
+            </button>
+
+            <div class="glass-menu">
+              <div class="glass-item">
+                <span class="dot react"></span>
+                React JS
+              </div>
+
+              <div class="glass-item">
+                <span class="dot vue"></span>
+                Vue JS
+              </div>
+
+              <div class="glass-item">
+                <span class="dot angular"></span>
+                Angular
+              </div>
+
+              <div class="glass-item">
+                <span class="dot svelte"></span>
+                Svelte
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="content">
+          <h3>Glassmorphism Dropdown</h3>
+          <p>
+            Frosted glass dropdown with blurred background
+            and premium transparent UI.
+          </p>
+        </div>
+      </div>
+
+      <!-- NEON -->
+      <div class="card">
+        <div class="preview neon-preview">
+
+          <div class="neon-dropdown">
+
+            <button class="neon-trigger">
+              <span>Gaming Menu</span>
+
+              <svg viewBox="0 0 24 24">
+                <path d="M7 10l5 5 5-5"></path>
+              </svg>
+            </button>
+
+            <div class="neon-menu">
+              <div class="neon-item">🎮 Dashboard</div>
+              <div class="neon-item">⚡ Players</div>
+              <div class="neon-item">🏆 Rankings</div>
+              <div class="neon-item">🔥 Events</div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="content">
+          <h3>Neon Gaming Dropdown</h3>
+          <p>
+            Futuristic glowing dropdown with cyberpunk
+            inspired neon lighting.
+          </p>
+        </div>
+      </div>
+
+      <!-- FLOATING -->
+      <div class="card">
+        <div class="preview floating-preview">
+
+          <div class="floating-dropdown">
+
+            <button class="floating-trigger">
+              <span>Quick Actions</span>
+
+              <svg viewBox="0 0 24 24">
+                <path d="M7 10l5 5 5-5"></path>
+              </svg>
+            </button>
+
+            <div class="floating-menu">
+
+              <div class="floating-item">
+                <span>📁</span>
+                New Project
+              </div>
+
+              <div class="floating-item">
+                <span>📤</span>
+                Export
+              </div>
+
+              <div class="floating-item">
+                <span>⚙️</span>
+                Settings
+              </div>
+
+              <div class="floating-item danger">
+                <span>🗑️</span>
+                Delete
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="content">
+          <h3>Floating Dropdown</h3>
+          <p>
+            Elegant floating action dropdown with smooth
+            premium hover effects.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3D -->
+      <div class="card">
+        <div class="preview threed-preview">
+
+          <div class="threed-dropdown">
+
+            <button class="threed-trigger">
+              <span>3D Menu</span>
+
+              <svg viewBox="0 0 24 24">
+                <path d="M7 10l5 5 5-5"></path>
+              </svg>
+            </button>
+
+            <div class="threed-menu">
+              <div class="threed-item">Profile</div>
+              <div class="threed-item">Analytics</div>
+              <div class="threed-item">Billing</div>
+              <div class="threed-item">Logout</div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="content">
+          <h3>3D Perspective Dropdown</h3>
+          <p>
+            Modern layered dropdown with immersive
+            3D perspective transforms.
+          </p>
+        </div>
+      </div>
+
+      <!-- MINIMAL -->
+      <div class="card">
+        <div class="preview minimal-preview">
+
+          <div class="minimal-dropdown">
+
+            <button class="minimal-trigger">
+              <span>Minimal Menu</span>
+
+              <svg viewBox="0 0 24 24">
+                <path d="M7 10l5 5 5-5"></path>
+              </svg>
+            </button>
+
+            <div class="minimal-menu">
+              <div class="minimal-item">Overview</div>
+              <div class="minimal-item">Products</div>
+              <div class="minimal-item">Customers</div>
+              <div class="minimal-item">Reports</div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="content">
+          <h3>Minimal Dropdown</h3>
+          <p>
+            Clean and lightweight dropdown perfect
+            for dashboards and SaaS apps.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="dist/shared.js"></script>
+</body>
+</html>

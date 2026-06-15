@@ -26,14 +26,22 @@ const Search = {
     const searchInput = getElement("searchInput");
     if (!searchInput) return;
 
-    const onKeyUp = (e) => {
+    const debounce = (func, wait) => {
+      let timeout;
+      return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    };
+
+    const onKeyUp = debounce((e) => {
       const value = e.target.value.toLowerCase().trim();
 
       document.querySelectorAll(".component-card").forEach((item) => {
         const text = (item.dataset.name || item.innerText).toLowerCase();
         item.style.display = text.includes(value) ? "block" : "none";
       });
-    };
+    }, 250);
 
     searchInput.addEventListener("keyup", onKeyUp);
     this._state.listener = { el: searchInput, event: "keyup", handler: onKeyUp };
@@ -152,20 +160,25 @@ const Search = {
   handleKeydown(event) {
     if (!this._state.dropdownVisible) return;
 
+    const contract = window.KeyboardContract || globalThis.KeyboardContract || null;
+
     switch (event.key) {
       case 'ArrowDown':
+        if (contract && typeof contract.isArrowKey === 'function' && !contract.isArrowKey(event)) break;
         event.preventDefault();
         this._state.selectedIndex = Math.min(this._state.selectedIndex + 1, this._state.results.length - 1);
         this.renderDropdownResults(this._state.results);
         break;
 
       case 'ArrowUp':
+        if (contract && typeof contract.isArrowKey === 'function' && !contract.isArrowKey(event)) break;
         event.preventDefault();
         this._state.selectedIndex = Math.max(this._state.selectedIndex - 1, 0);
         this.renderDropdownResults(this._state.results);
         break;
 
       case 'Enter':
+        if (contract && typeof contract.isEnterKey === 'function' && !contract.isEnterKey(event)) break;
         event.preventDefault();
         if (this._state.results[this._state.selectedIndex]) {
           window.location.href = this._state.results[this._state.selectedIndex].path;
@@ -173,6 +186,7 @@ const Search = {
         break;
 
       case 'Escape':
+        if (contract && typeof contract.isEscapeKey === 'function' && !contract.isEscapeKey(event)) break;
         event.preventDefault();
         this.hideDropdown();
         break;
@@ -287,3 +301,5 @@ const Search = {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = Search;
 }
+
+window.Search = Search;

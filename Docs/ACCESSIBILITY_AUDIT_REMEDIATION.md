@@ -16,17 +16,42 @@ This system scans UI-Verse pages for common accessibility issues and produces a 
 npm run a11y:remediate
 ```
 
+This now also writes a remediation pipeline summary at:
+
+- `reports/a11y/remediation-pipeline.json`
+
 ## Apply safe fixes
 
 ```bash
 npm run a11y:remediate:apply
 ```
 
+Run strict mode to fail the command when accessibility errors remain:
+
+```bash
+npm run a11y:remediate:strict
+```
+
 ## Outputs
 
 - `reports/a11y/audit-remediation-report.json`
 - `reports/a11y/audit-remediation-report.md`
+- `reports/a11y/remediation-pipeline.json`
 - `public/a11y-remediation-dashboard.html`
+
+## Baseline Gate
+
+The non-regression gate runs with:
+
+```bash
+npm run a11y:remediation:check
+```
+
+It compares the current audit against:
+
+- `reports/a11y/audit-remediation-baseline.json`
+
+and fails if errors, warnings, fixable issues, pass rate, or average score regress beyond tolerance.
 
 ## Safe fixes
 

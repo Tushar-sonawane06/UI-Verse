@@ -1,12 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="../dist/shared.css">
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes' 'sha256-0TNk83IyMkuEA5zhBK/k9n/s3b1Gs7H2MNO/qaC992k=' 'sha256-5xIDIkTIcKuaS00qhdKbjnluTexFCeWmnGQQJSzyg88=' 'sha256-Da/Lw/a446kX+lLrLBTLEiIiDfSW8PhQ52LF1rPLbbk=' 'sha256-Q1+Np5oY4mWhCoAK34JX8t+H6LJnUO1x9lONgDZcFVA=' 'sha256-U3MazMEJTiMsg4LapgdcItRUgVsNA5IPIzNPZlvg8TA=' 'sha256-iSmMul3Q8rM+0XUBhsRQj1ZNQNkySqLQccKauwcNuas=' 'sha256-zKBPoloeOI+p/S0tsVitgIgqOsjyrR58P7btyb7IFWA='; style-src-attr 'unsafe-hashes' 'sha256-0TNk83IyMkuEA5zhBK/k9n/s3b1Gs7H2MNO/qaC992k=' 'sha256-5xIDIkTIcKuaS00qhdKbjnluTexFCeWmnGQQJSzyg88=' 'sha256-Da/Lw/a446kX+lLrLBTLEiIiDfSW8PhQ52LF1rPLbbk=' 'sha256-Q1+Np5oY4mWhCoAK34JX8t+H6LJnUO1x9lONgDZcFVA=' 'sha256-U3MazMEJTiMsg4LapgdcItRUgVsNA5IPIzNPZlvg8TA=' 'sha256-iSmMul3Q8rM+0XUBhsRQj1ZNQNkySqLQccKauwcNuas=' 'sha256-zKBPoloeOI+p/S0tsVitgIgqOsjyrR58P7btyb7IFWA='">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sleep Tracking Dashboard</title>
   <link rel="stylesheet" href="st.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+<header class="hero">
+
+  <nav class="navbar">
+    <div class="logo">
+      🌙 SleepSync
+    </div>
+
+    <div class="nav-actions">
+      <button id="themeBtn">✨ Theme</button>
+      <button id="sleepMusicBtn">🎵 Sleep Sound</button>
+    </div>
+  </nav>
+
+  <div class="hero-content">
+
+    <div class="hero-left">
+
+      <span class="hero-badge">
+        😴 Smart Sleep Tracker
+      </span>
+
+      <h1>
+        Sleep Better.
+        <br>
+        Wake Stronger.
+      </h1>
+
+      <p>
+        Track your sleep quality, monitor recovery,
+        and build healthier sleeping habits with AI insights.
+      </p>
+
+      <div class="hero-buttons">
+        <button class="primary-btn">
+          View Analytics
+        </button>
+
+        <button class="secondary-btn">
+          Set Goal
+        </button>
+      </div>
+
+    </div>
+
+    <div class="hero-right">
+
+      <div class="hero-card">
+
+        <div class="moon"></div>
+
+        <h2>Today's Sleep Score</h2>
+
+        <div class="hero-score">
+          <span id="scoreCounter">0</span>
+        </div>
+
+        <p>Excellent Recovery</p>
+
+      </div>
+
+    </div>
+
+  </div>
+  <div class="sky-container">
+
+  <!-- Animated Stars -->
+  <div class="stars"></div>
+
+  <!-- Clouds -->
+  <div class="cloud cloud1"></div>
+  <div class="cloud cloud2"></div>
+  <div class="cloud cloud3"></div>
+
+  <!-- Moon Phase Widget -->
+  <div class="moon-phase-card">
+
+    <h2>🌙 Moon Phase</h2>
+
+    <div class="moon-widget">
+
+      <div class="moon-phase" id="moonPhase"></div>
+
+    </div>
+
+    <h3 id="phaseName">
+      Waxing Crescent
+    </h3>
+
+    <p>
+      Sleep quality often improves during calm moonlit nights.
+    </p>
+
+    <button id="changePhase">
+      Next Phase
+    </button>
+
+  </div>
+
+</div>
+
+</header>
 
   <div class="dashboard">
 
@@ -29,6 +133,26 @@
 
     </div>
 
+    <div class="card quality-card">
+  <h3>Sleep Quality</h3>
+
+  <div class="progress-ring">
+    <span>85%</span>
+  </div>
+
+  <p>Excellent Recovery</p>
+</div>
+
+<div class="card stats-card">
+  <h2>Sleep Insights</h2>
+
+  <ul>
+    <li>Average Sleep: 7h 32m</li>
+    <li>Deep Sleep: 2h 10m</li>
+    <li>REM Sleep: 1h 45m</li>
+    <li>Sleep Consistency: 92%</li>
+  </ul>
+</div>
     <div class="bottom-section">
 
       <div class="analytics-card">
@@ -77,7 +201,7 @@
           Set a reminder to maintain a healthy sleep routine.
         </p>
 
-        <input type="time" id="bedtimeInput">
+        <input type="time" id="bedtimeInput" data-a11y-remediation="label-needed">
 
         <button id="setReminderBtn">
           Set Reminder
@@ -90,7 +214,162 @@
     </div>
 
   </div>
+  <!-- Extra Dashboard Section -->
+<div class="extra-section">
+
+  <!-- Sleep Streak -->
+  <div class="card streak-card">
+    <h2>🔥 Sleep Streak</h2>
+    <div class="streak-number" id="streakCount">14</div>
+    <p>Days Consistent Sleep</p>
+  </div>
+
+  <!-- Goal Progress -->
+  <div class="card goal-card">
+    <h2>🎯 Sleep Goal</h2>
+
+    <div class="goal-progress">
+      <div class="goal-fill" id="goalFill"></div>
+    </div>
+
+    <h3 id="goalText">78%</h3>
+  </div>
+
+  <!-- Mood -->
+  <div class="card mood-card">
+    <h2>😊 Morning Mood</h2>
+
+    <div class="mood-buttons">
+      <button class="mood">😴</button>
+      <button class="mood">🙂</button>
+      <button class="mood">😁</button>
+    </div>
+
+    <p id="moodResult">Select your mood</p>
+  </div>
+
+  <!-- AI Insights -->
+  <div class="card ai-card">
+    <h2>🤖 AI Recommendation</h2>
+
+    <p id="aiTip">
+      Sleep 15 mins earlier tonight for better recovery.
+    </p>
+
+    <button id="newTip">
+      Generate Insight
+    </button>
+  </div>
+
+  <!-- Environment -->
+  <div class="card env-card">
+    <h2>🌙 Room Conditions</h2>
+
+    <div class="env-data">
+      <span>🌡️ 24°C</span>
+      <span>💧 52%</span>
+      <span>🔇 Quiet</span>
+    </div>
+  </div>
+
+  <!-- Water Tracker -->
+  <div class="card water-card">
+    <h2>💦 Water Intake</h2>
+
+    <h1 id="waterCount">0</h1>
+
+    <button id="addWater">
+      + Glass
+    </button>
+  </div>
+
+  <!-- Live Clock -->
+  <div class="card clock-card">
+    <h2>⏰ Current Time</h2>
+
+    <h1 id="clock"></h1>
+  </div>
+
+</div>
+<div class="card debt-card">
+  <h2>📉 Sleep Debt</h2>
+  <h1>1h 20m</h1>
+  <p>You need extra rest this week</p>
+</div>
+<div class="card debt-card">
+  <h2>📉 Sleep Debt</h2>
+  <h1>1h 20m</h1>
+  <p>You need extra rest this week</p>
+</div>
+<div class="card stress-card">
+  <h2>🧘 Recovery Score</h2>
+  <h1>84%</h1>
+  <p>Body recovered well overnight</p>
+</div>
+<div class="card heart-card">
+  <h2>❤️ Sleeping Heart Rate</h2>
+  <h1>58 BPM</h1>
+</div>
+<div class="card breathing-card">
+  <h2>🌬️ Breathing</h2>
+  <h1>Normal</h1>
+  <p>No interruptions detected</p>
+</div>
+<div class="card calories-card">
+  <h2>🔥 Recovery Energy</h2>
+  <h1>720 kcal</h1>
+</div>
+<div class="card timeline-card">
+  <h2>Sleep Stages</h2>
+
+  <div class="timeline">
+    <div class="deep"></div>
+    <div class="light"></div>
+    <div class="rem"></div>
+    <div class="awake"></div>
+  </div>
+</div>
+<div class="card screen-card">
+  <h2>📱 Screen Time</h2>
+  <h1>1h 12m</h1>
+  <p>Reduce usage before bedtime</p>
+</div>
+<div class="card energy-card">
+  <h2>⚡ Energy Level</h2>
+  <h1>88%</h1>
+</div>
+<div class="card sounds-card">
+  <h2>🎵 Sleep Sounds</h2>
+
+  <button>Rain</button>
+  <button>Ocean</button>
+  <button>Forest</button>
+</div>
+<div class="card tip-card">
+  <h2>💡 Daily Tip</h2>
+
+  <p id="sleepTip">
+    Avoid caffeine 6 hours before bed.
+  </p>
+</div>
+<div class="card weekly-card">
+  <h2>🎯 Weekly Goal</h2>
+
+  <h1>5 / 7</h1>
+
+  <p>Nights achieved target sleep</p>
+</div>
+<div class="card month-card">
+  <h2>📅 Monthly Overview</h2>
+
+  <ul>
+    <li>Average Sleep: 7h 40m</li>
+    <li>Best Night: 9h 10m</li>
+    <li>Worst Night: 5h 50m</li>
+  </ul>
+</div>
 
   <script src="st.js"></script>
+      <script src="../dist/shared.js"></script>
 </body>
 </html>

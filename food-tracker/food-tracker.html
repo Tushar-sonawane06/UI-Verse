@@ -1,453 +1,321 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
+  <link rel="stylesheet" href="../dist/shared.css">
   <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-5J8QIN0uHa3X4+TaUpRKBKn3pljcpBNl9MhDpDECP+U=' 'sha256-ycRdUmIVD/j9x37sKBO1O4jh2WsjCoYgjxSiMCXgKn4='; script-src-attr 'unsafe-hashes' 'sha256-5J8QIN0uHa3X4+TaUpRKBKn3pljcpBNl9MhDpDECP+U=' 'sha256-ycRdUmIVD/j9x37sKBO1O4jh2WsjCoYgjxSiMCXgKn4='; style-src 'self' https: 'unsafe-hashes' 'sha256-2gcpFB35SLtmFltnzzrpTL5k8mzWeaK1BZmYvhqbvXo=' 'sha256-3nQXB9BVtstV9Mu4nu0HJ1R97K06lV1NTzzS1YbFtfQ=' 'sha256-5yP4k0BTMnsr2231uvL6gmFkpMju/UlA8ugAmseB6Mk=' 'sha256-FyOLoMJoNNUDJDlTcb4TLOdsX6y32nWAXvm4IL8hfOE=' 'sha256-P37qcPMIEolQOUtgHwRfsx0rpWHKK9yZ2TuIbEgTuKo=' 'sha256-UNK/cTBxT4m8IhwIB58yKwcoJ21qJx1QlDIrssKqITU=' 'sha256-o2tk+3CNWXGusxguI0wikvY6DyndRuC/7KJ7du4/L+4=' 'sha256-yrfMfkpwKWDP1PBW5J6HLZ9+D0cVVVycOPxJE6tagSQ='; style-src-attr 'unsafe-hashes' 'sha256-2gcpFB35SLtmFltnzzrpTL5k8mzWeaK1BZmYvhqbvXo=' 'sha256-3nQXB9BVtstV9Mu4nu0HJ1R97K06lV1NTzzS1YbFtfQ=' 'sha256-5yP4k0BTMnsr2231uvL6gmFkpMju/UlA8ugAmseB6Mk=' 'sha256-FyOLoMJoNNUDJDlTcb4TLOdsX6y32nWAXvm4IL8hfOE=' 'sha256-P37qcPMIEolQOUtgHwRfsx0rpWHKK9yZ2TuIbEgTuKo=' 'sha256-UNK/cTBxT4m8IhwIB58yKwcoJ21qJx1QlDIrssKqITU=' 'sha256-o2tk+3CNWXGusxguI0wikvY6DyndRuC/7KJ7du4/L+4=' 'sha256-yrfMfkpwKWDP1PBW5J6HLZ9+D0cVVVycOPxJE6tagSQ='">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriTrack — Improved Dashboard</title>
 
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-  <title>NutriTrack — Food Tracking App</title>
+  <style>
+    :root{
+      --bg:#0f172a;
+      --panel:#111c33;
+      --card:#162447;
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --primary:#22c55e;
+      --accent:#38bdf8;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --radius:18px;
+    }
 
-  <!-- Fonts -->
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"DM Sans",sans-serif;}
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap"
-    rel="stylesheet">
+    body{
+      background:linear-gradient(120deg,#0f172a,#0b1220);
+      color:var(--text);
+      display:flex;
+      min-height:100vh;
+    }
 
-  <!-- Icons -->
+    /* SIDEBAR */
+    .sidebar{
+      width:260px;
+      background:rgba(17,28,51,0.9);
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+      border-right:1px solid rgba(255,255,255,0.05);
+    }
 
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    .logo{
+      font-size:20px;
+      font-weight:700;
+      color:var(--primary);
+    }
 
-  <!-- CSS -->
+    .sidebar a{
+      text-decoration:none;
+      color:var(--muted);
+      padding:10px;
+      border-radius:10px;
+      display:flex;
+      gap:10px;
+      transition:.3s;
+    }
 
-  <link rel="stylesheet"
-    href="food-tracker.css" />
+    .sidebar a:hover,
+    .sidebar a.active{
+      background:rgba(34,197,94,0.15);
+      color:var(--primary);
+    }
 
+    /* MAIN */
+    .main{
+      flex:1;
+      padding:20px;
+      overflow-y:auto;
+    }
+
+    /* TOPBAR */
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
+    }
+
+    .search{
+      background:var(--panel);
+      padding:10px 15px;
+      border-radius:12px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    .search input{
+      background:transparent;
+      border:none;
+      outline:none;
+      color:var(--text);
+    }
+
+    /* HERO */
+    .hero{
+      display:grid;
+      grid-template-columns:1.2fr 1fr;
+      gap:20px;
+      background:var(--panel);
+      padding:20px;
+      border-radius:var(--radius);
+      margin-bottom:20px;
+    }
+
+    .hero h1{font-size:32px;}
+    .hero p{color:var(--muted);margin:10px 0;}
+
+    .btn{
+      padding:10px 15px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      transition:.3s;
+    }
+
+    .primary{background:var(--primary);color:#000;}
+    .primary:hover{transform:scale(1.05);}
+
+    .secondary{background:transparent;border:1px solid var(--primary);color:var(--primary);}
+
+    /* STATS */
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:15px;
+      margin-bottom:20px;
+    }
+
+    .card{
+      background:var(--card);
+      padding:15px;
+      border-radius:var(--radius);
+      transition:.3s;
+    }
+
+    .card:hover{transform:translateY(-5px);}
+
+    .card h2{margin-top:10px;}
+
+    .muted{color:var(--muted);font-size:13px;}
+
+    /* MEALS */
+    .meals{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:15px;
+    }
+
+    .meal{
+      background:var(--card);
+      border-radius:var(--radius);
+      overflow:hidden;
+      transition:.3s;
+    }
+
+    .meal:hover{transform:translateY(-6px);}
+
+    .meal img{
+      width:100%;
+      height:150px;
+      object-fit:cover;
+    }
+
+    .meal-content{
+      padding:12px;
+    }
+
+    .tags span{
+      font-size:12px;
+      background:rgba(34,197,94,0.15);
+      padding:3px 8px;
+      border-radius:8px;
+      margin-right:5px;
+    }
+
+    /* DARK MODE */
+    body.light{
+      --bg:#f1f5f9;
+      --panel:#ffffff;
+      --card:#e2e8f0;
+      --text:#0f172a;
+      --muted:#475569;
+    }
+  </style>
 </head>
 
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <!-- ================= SIDEBAR ================= -->
 
   <aside class="sidebar">
+    <div class="logo">🥗 NutriTrack</div>
+    <a class="active"><i class="fa fa-chart-line"></i> Dashboard</a>
+    <a><i class="fa fa-utensils"></i> Meals</a>
+    <a><i class="fa fa-fire"></i> Calories</a>
+    <a><i class="fa fa-heart"></i> Nutrition</a>
+    <a><i class="fa fa-dumbbell"></i> Fitness</a>
 
-    <div class="logo">
-      🥗 NutriTrack
-    </div>
-
-    <nav class="sidebar-nav">
-
-      <a href="#" class="active">
-        <i class="fa-solid fa-chart-pie"></i>
-        Dashboard
-      </a>
-
-      <a href="#">
-        <i class="fa-solid fa-utensils"></i>
-        Meals
-      </a>
-
-      <a href="#">
-        <i class="fa-solid fa-fire"></i>
-        Calories
-      </a>
-
-      <a href="#">
-        <i class="fa-solid fa-heart-pulse"></i>
-        Nutrition
-      </a>
-
-      <a href="#">
-        <i class="fa-solid fa-dumbbell"></i>
-        Fitness
-      </a>
-
-      <a href="#">
-        <i class="fa-solid fa-chart-line"></i>
-        Progress
-      </a>
-
-      <a href="#">
-        <i class="fa-solid fa-gear"></i>
-        Settings
-      </a>
-
-    </nav>
-
-    <!-- PROFILE -->
-
-    <div class="profile-card">
-
-      <img
-        src="https://i.pravatar.cc/150?img=32"
-        alt="profile">
-
-      <h3>
-        Emily Carter
-      </h3>
-
-      <p>
-        Goal: Weight Loss 🔥
-      </p>
-
-      <button>
-        Upgrade Plan
-      </button>
-
-    </div>
-
+    <button class="btn secondary" onclick="toggleTheme()">Toggle Theme</button>
   </aside>
-
-  <!-- ================= MAIN ================= -->
 
   <main class="main">
 
-    <!-- TOPBAR -->
+    <div class="topbar">
+      <h2>Dashboard</h2>
 
-    <header class="topbar">
-
-      <div>
-
-        <h1>
-          Food Tracking Dashboard 🍎
-        </h1>
-
-        <p>
-          Track meals, calories and nutrition goals in real time.
-        </p>
-
+      <div class="search">
+        <i class="fa fa-search"></i>
+        <input placeholder="Search food..." / data-a11y-remediation="label-needed">
       </div>
-
-      <div class="top-actions">
-
-        <div class="search-box">
-
-          <i class="fa-solid fa-magnifying-glass"></i>
-
-          <input type="text"
-            placeholder="Search food..." />
-
-        </div>
-
-        <button class="notification-btn">
-          <i class="fa-solid fa-bell"></i>
-        </button>
-
-      </div>
-
-    </header>
-
-    <!-- HERO -->
+    </div>
 
     <section class="hero">
-
-      <div class="hero-content">
-
-        <span class="hero-badge">
-          Smart Nutrition AI
-        </span>
-
-        <h2>
-          Eat Better, <br>
-          Live Healthier 🥑
-        </h2>
-
-        <p>
-          Monitor daily calories, proteins,
-          carbohydrates and water intake
-          with a beautiful nutrition tracker UI.
-        </p>
-
-        <div class="hero-buttons">
-
-          <button class="primary-btn">
-            Add Meal
-          </button>
-
-          <button class="secondary-btn">
-            View Analytics
-          </button>
-
-        </div>
-
+      <div>
+        <h1>Eat Better, Live Healthier 🥑</h1>
+        <p>Track calories, macros, hydration and progress in real time.</p>
+        <button class="btn primary">+ Add Meal</button>
+        <button class="btn secondary">Analytics</button>
       </div>
 
-      <!-- VISUAL -->
-
-      <div class="hero-visual">
-
-        <div class="circle-progress">
-
-          <div class="circle-inner">
-
-            <h2>
-              1,850
-            </h2>
-
-            <p>
-              Calories
-            </p>
-
-          </div>
-
-        </div>
-
-        <div class="floating-card card1">
-          🍗 Protein Goal 82%
-        </div>
-
-        <div class="floating-card card2">
-          💧 Water Intake 6/8 Glasses
-        </div>
-
-        <div class="floating-card card3">
-          🥦 Healthy Meals Logged
-        </div>
-
+      <div>
+        <h3>Today Summary</h3>
+        <p class="muted">Calories</p>
+        <h2>1850 kcal</h2>
+        <p class="muted">Goal: 2200 kcal</p>
       </div>
-
     </section>
 
-    <!-- STATS -->
-
-    <section class="stats-grid">
-
-      <div class="stat-card green">
-
-        <h2>
-          82g
-        </h2>
-
-        <p>
-          Protein
-        </p>
-
+    <section class="stats">
+      <div class="card">
+        <p class="muted">Protein</p>
+        <h2>82g</h2>
+      </div>
+      <div class="card">
+        <p class="muted">Carbs</p>
+        <h2>210g</h2>
       </div>
 
-      <div class="stat-card orange">
+      <div class="progress-ring">
+  <svg width="120" height="120">
+    <circle cx="60" cy="60" r="50" class="bg-ring"></circle>
+    <circle cx="60" cy="60" r="50" class="progress"></circle>
+  </svg>
+  <div class="ring-text">
+    <h2>1850</h2>
+    <span>2200 kcal</span>
+  </div>
+</div>
+<div class="card hydration">
+  <h3>💧 Water Intake</h3>
+  <div class="water-bar">
+    <div class="water-fill"></div>
+  </div>
+  <p>6 / 8 Glasses</p>
+</div> 
 
-        <h2>
-          210g
-        </h2>
-
-        <p>
-          Carbs
-        </p>
-
+<div class="card">
+  <h3>Macro Split</h3>
+  <div class="macro-chart"></div>
+</div>
+      <div class="card">
+        <p class="muted">Fat</p>
+        <h2>56g</h2>
       </div>
-
-      <div class="stat-card pink">
-
-        <h2>
-          56g
-        </h2>
-
-        <p>
-          Fat Intake
-        </p>
-
+      <div class="card">
+        <p class="muted">Water</p>
+        <h2>6/8</h2>
       </div>
-
-      <div class="stat-card blue">
-
-        <h2>
-          6/8
-        </h2>
-
-        <p>
-          Water Glasses
-        </p>
-
-      </div>
-
     </section>
 
-    <!-- MEALS -->
-
-    <section class="meal-section">
-
-      <div class="section-header">
-
-        <h2>
-          🍽 Today's Meals
-        </h2>
-
-        <button>
-          View All
-        </button>
-
+    <section class="meals">
+      <div class="meal">
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" / alt="">
+        <div class="meal-content">
+          <h3>Avocado Salad</h3>
+          <p class="muted">420 kcal</p>
+          <div class="tags"><span>Healthy</span><span>Vegan</span></div>
+        </div>
       </div>
 
-      <div class="meal-grid">
-
-        <!-- CARD -->
-
-        <div class="meal-card">
-
-          <img
-            src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1200&auto=format&fit=crop"
-            alt="meal">
-
-          <div class="meal-content">
-
-            <h3>
-              Avocado Salad
-            </h3>
-
-            <p>
-              420 Calories
-            </p>
-
-            <div class="meal-tags">
-
-              <span>
-                Healthy
-              </span>
-
-              <span>
-                Vegan
-              </span>
-
-            </div>
-
-          </div>
-
+      <div class="meal">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd" / alt="">
+        <div class="meal-content">
+          <h3>Protein Bowl</h3>
+          <p class="muted">560 kcal</p>
+          <div class="tags"><span>Gym</span><span>Protein</span></div>
         </div>
-
-        <!-- CARD -->
-
-        <div class="meal-card">
-
-          <img
-            src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop"
-            alt="meal">
-
-          <div class="meal-content">
-
-            <h3>
-              Protein Bowl
-            </h3>
-
-            <p>
-              560 Calories
-            </p>
-
-            <div class="meal-tags">
-
-              <span>
-                Protein
-              </span>
-
-              <span>
-                Gym
-              </span>
-
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- CARD -->
-
-        <div class="meal-card">
-
-          <img
-            src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1200&auto=format&fit=crop"
-            alt="meal">
-
-          <div class="meal-content">
-
-            <h3>
-              Fruit Smoothie
-            </h3>
-
-            <p>
-              240 Calories
-            </p>
-
-            <div class="meal-tags">
-
-              <span>
-                Fresh
-              </span>
-
-              <span>
-                Detox
-              </span>
-
-            </div>
-
-          </div>
-
-        </div>
-
       </div>
-
     </section>
 
-    <!-- PROGRESS -->
+    <div class="card">
+  <h3>Weekly Calories</h3>
 
-    <section class="progress-section">
-
-      <div class="section-header">
-
-        <h2>
-          📈 Weekly Progress
-        </h2>
-
-      </div>
-
-      <div class="progress-chart">
-
-        <div class="bar">
-          <span style="height:70%"></span>
-          <p>Mon</p>
-        </div>
-
-        <div class="bar">
-          <span style="height:85%"></span>
-          <p>Tue</p>
-        </div>
-
-        <div class="bar">
-          <span style="height:60%"></span>
-          <p>Wed</p>
-        </div>
-
-        <div class="bar">
-          <span style="height:95%"></span>
-          <p>Thu</p>
-        </div>
-
-        <div class="bar">
-          <span style="height:78%"></span>
-          <p>Fri</p>
-        </div>
-
-        <div class="bar">
-          <span style="height:88%"></span>
-          <p>Sat</p>
-        </div>
-
-        <div class="bar">
-          <span style="height:92%"></span>
-          <p>Sun</p>
-        </div>
-
-      </div>
-
-    </section>
+  <div class="bars">
+    <div class="bar" style="height:50%"></div>
+    <div class="bar" style="height:80%"></div>
+    <div class="bar" style="height:70%"></div>
+    <div class="bar" style="height:95%"></div>
+    <div class="bar" style="height:65%"></div>
+    <div class="bar" style="height:85%"></div>
+    <div class="bar" style="height:75%"></div>
+  </div>
+</div>
 
   </main>
 
-  <!-- JS -->
+  <script>
+    function toggleTheme(){
+      document.body.classList.toggle("light");
+    }
+  </script>
 
-  <script src="food-tracker.js"></script>
-
+      <script src="../dist/shared.js"></script>
 </body>
-
 </html>

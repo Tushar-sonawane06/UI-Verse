@@ -1,0 +1,32 @@
+name: CI - Security Dependency Audit
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+  schedule:
+    - cron: '0 0 * * 1' # Run weekly on Mondays at midnight
+  workflow_dispatch:
+
+jobs:
+  audit:
+    name: Dependency Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run NPM Audit
+        run: npm audit --audit-level=high

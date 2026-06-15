@@ -28,6 +28,107 @@ filterBtns.forEach(btn=>{
 MARK AS READ
 ===================================================== */
 
+
+document.querySelectorAll(".mark-read").forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.closest(".activity-item").classList.remove("unread");
+    btn.textContent = "Done";
+    btn.disabled = true;
+    updateNotificationCount();
+  });
+});
+
+
+
+function updateCounter() {
+  const unread = document.querySelectorAll(
+    ".activity-item.unread"
+  ).length;
+
+  document.getElementById("counter").textContent = unread;
+}
+
+updateCounter();
+
+document.querySelectorAll(".mark-read")
+.forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    const item = button.closest(".activity-item");
+
+    item.classList.remove("unread");
+
+    button.textContent = "Done";
+    button.disabled = true;
+
+    updateCounter();
+
+  });
+
+});
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", () => {
+  const value = searchInput.value.toLowerCase();
+
+  document.querySelectorAll(".notification-card").forEach(card => {
+    card.style.display =
+      card.innerText.toLowerCase().includes(value)
+        ? ""
+        : "none";
+  });
+});
+
+const toastContainer =
+  document.getElementById("toastContainer");
+
+document.querySelectorAll(".toast-btn")
+  .forEach(button => {
+    button.addEventListener("click", () => {
+
+      const toast = document.createElement("div");
+
+      toast.className = "toast";
+
+      toast.innerHTML = `
+        <i class="fa-solid fa-bell"></i>
+        ${button.dataset.toast}
+      `;
+
+      toastContainer.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add("show");
+      }, 50);
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+
+        setTimeout(() => {
+          toast.remove();
+        }, 300);
+
+      }, 3000);
+
+    });
+});
+
+function subscribe() {
+
+  const email =
+    document.querySelector(
+      ".newsletter-form input"
+    ).value;
+
+  if (!email.trim()) {
+    alert("Please enter an email address.");
+    return;
+  }
+
+  alert("Subscribed successfully!");
+}
+
 const markBtns =
   document.querySelectorAll(
     ".mark-read"
@@ -210,3 +311,7 @@ window.addEventListener(
 
   }
 );
+
+function toggleSidebar() {
+  document.querySelector(".sidebar").classList.toggle("open");
+}

@@ -42,6 +42,10 @@ const Bootstrap = {
       UIverse.register('ComponentVersioning', ComponentVersioning, dependenciesFor('ComponentVersioning'));
     }
 
+    if (typeof KeyboardContract !== 'undefined') {
+      UIverse.register('KeyboardContract', KeyboardContract, dependenciesFor('KeyboardContract'));
+    }
+
     if (typeof ComponentsRegistry !== 'undefined') {
       UIverse.register('ComponentsRegistry', ComponentsRegistry, dependenciesFor('ComponentsRegistry'));
     }
@@ -52,6 +56,20 @@ const Bootstrap = {
 
     if (typeof ComponentIndex !== 'undefined') {
       UIverse.register('ComponentIndex', ComponentIndex, dependenciesFor('ComponentIndex'));
+    }
+    if (typeof NavigationShortcuts !== 'undefined') {
+  UIverse.register(
+    'NavigationShortcuts',
+    NavigationShortcuts
+  );
+}
+
+    if (typeof ComponentRecommendations !== 'undefined') {
+      UIverse.register('ComponentRecommendations', ComponentRecommendations, dependenciesFor('ComponentRecommendations'));
+    }
+
+    if (typeof RecommendationsUI !== 'undefined') {
+      UIverse.register('RecommendationsUI', RecommendationsUI, dependenciesFor('RecommendationsUI'), { domSelector: 'main.main-home' });
     }
 
     // Register feature modules (with optional conditional initialization)
@@ -68,7 +86,7 @@ const Bootstrap = {
     }
 
     if (typeof Sidebar !== 'undefined') {
-      UIverse.register('Sidebar', Sidebar);
+      UIverse.register('Sidebar', Sidebar, { domSelector: '.sidebar' });
     }
 
     if (typeof Search !== 'undefined') {
@@ -88,7 +106,7 @@ const Bootstrap = {
     }
 
     if (typeof Sandbox !== 'undefined') {
-      UIverse.register('Sandbox', Sandbox);
+      UIverse.register('Sandbox', Sandbox, { domSelector: '.component-card' });
     }
 
     if (typeof Accessibility !== 'undefined') {
@@ -103,17 +121,26 @@ const Bootstrap = {
     if (typeof CommandPalette !== 'undefined') {
       UIverse.register('CommandPalette', CommandPalette, dependenciesFor('CommandPalette'));
     }
+    if (
+  typeof PreviewZoom !==
+  'undefined'
+) {
+  UIverse.register(
+    'PreviewZoom',
+    PreviewZoom
+  );
+}
 
     if (typeof URLStateManager !== 'undefined') {
       UIverse.register('URLStateManager', URLStateManager);
     }
 
     if (typeof ProfileEditor !== 'undefined') {
-      UIverse.register('ProfileEditor', ProfileEditor);
+      UIverse.register('ProfileEditor', ProfileEditor, { domSelector: '.btnn' });
     }
 
     if (typeof ComponentGallery !== 'undefined') {
-      UIverse.register('ComponentGallery', ComponentGallery, dependenciesFor('ComponentGallery'));
+      UIverse.register('ComponentGallery', ComponentGallery, dependenciesFor('ComponentGallery'), { domSelector: '.component-card' });
     }
 
     if (typeof Favorites !== 'undefined') {
@@ -132,9 +159,37 @@ const Bootstrap = {
       UIverse.register('Download', Download);
     }
 
+    if (typeof BundleExporter !== 'undefined') {
+      UIverse.register('BundleExporter', BundleExporter, dependenciesFor('BundleExporter'));
+    }
+
+    if (typeof BundleExporterUI !== 'undefined') {
+      UIverse.register('BundleExporterUI', BundleExporterUI, dependenciesFor('BundleExporterUI'), { domSelector: '.component-card' });
+    }
+
+    if (typeof ComponentRatings !== 'undefined') {
+      UIverse.register('ComponentRatings', ComponentRatings, [], { domSelector: '.component-card' });
+    }
+
+    if (typeof MarketplaceFeeds !== 'undefined') {
+      UIverse.register('MarketplaceFeeds', MarketplaceFeeds);
+    }
+
+    if (typeof CreatorProfile !== 'undefined') {
+      UIverse.register('CreatorProfile', CreatorProfile, [], { domSelector: '.component-card' });
+    }
+
+    if (typeof SubmissionPortal !== 'undefined') {
+      UIverse.register('SubmissionPortal', SubmissionPortal);
+    }
+
     if (typeof Recent !== 'undefined') {
       UIverse.register('Recent', Recent);
     }
+
+    if (typeof TagFilter !== 'undefined') {
+  UIverse.register('TagFilter', TagFilter);
+}
 
     if (typeof TutorialMode !== 'undefined') {
       UIverse.register('TutorialMode', TutorialMode);
@@ -162,40 +217,24 @@ const Bootstrap = {
     // Register all modules
     this.registerModules();
 
-    // Initialize only modules with required DOM elements
-    this.initConditionalModules();
-
     // Initialize all registered modules (with dependencies handled by registry)
     const report = UIverse.initAll();
     
+    // Dynamically load CSS variable inspector if component previews are present
+    if (document.querySelector('.component-card, .preview-box, .card-preview, [class*="-preview"]')) {
+      const l = document.createElement('link');
+      l.rel = 'stylesheet';
+      l.href = 'css/css-variable-inspector.css';
+      document.head.appendChild(l);
+
+      const s = document.createElement('script');
+      s.src = 'js/features/css-variable-inspector.js';
+      s.async = true;
+      document.head.appendChild(s);
+    }
+
     this.initialized = true;
     this.logStatus(report);
-  },
-
-  /**
-   * Initialize only modules that have required DOM elements
-   * This prevents errors from modules expecting specific page elements
-   */
-  initConditionalModules() {
-    // Ensure TutorialMode exists even if feature ordering changes
-    if (typeof TutorialMode === 'undefined') {
-      // no-op
-    }
-    // Skip Sidebar if element not present
-    if (!document.querySelector(".sidebar")) {
-      UIverse.modules['Sidebar'] && (UIverse.modules['Sidebar'].module.init = () => {});
-    }
-
-    // Skip Sandbox if component cards not present
-    if (!document.querySelector(".component-card")) {
-      UIverse.modules['Sandbox'] && (UIverse.modules['Sandbox'].module.init = () => {});
-      UIverse.modules['ComponentGallery'] && (UIverse.modules['ComponentGallery'].module.init = () => {});
-    }
-
-    // Skip ProfileEditor if profile button not present
-    if (!document.querySelector('.btnn')) {
-      UIverse.modules['ProfileEditor'] && (UIverse.modules['ProfileEditor'].module.init = () => {});
-    }
   },
 
   /**

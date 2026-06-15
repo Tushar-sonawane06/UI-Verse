@@ -78,11 +78,11 @@ This creates a basic project structure with:
 
 ## Registry
 
-Components are defined in `data/registry.json`. You can add more components to this file to extend the CLI.
+Components are defined in `data/components.json`. The legacy `data/registry.json` file is generated from that manifest for compatibility.
 
 ## How it works
 
-1. The CLI reads the `registry.json` file to find component metadata
+1. The CLI reads `components.json` to find component metadata and falls back to the generated registry for older setups
 2. When you run `add`, it searches for the component files in:
    - Component folder (e.g., `button/`)
    - Root folder (e.g., `button.css`, `button.html`)

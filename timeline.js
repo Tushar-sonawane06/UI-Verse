@@ -213,3 +213,33 @@ window.handleSearch = function(event) {
     }
   }
 };
+
+/* ========================================= */
+/* Interactive Timeline Hover Effects */
+/* ========================================= */
+
+document.querySelectorAll(
+  '.career-content, .release-card, .zigzag-card, .funding-item, .roadmap-content'
+).forEach(card => {
+
+  card.addEventListener('mousemove', e => {
+
+    const rect = card.getBoundingClientRect();
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    card.style.background = `
+      radial-gradient(
+        circle at ${x}px ${y}px,
+        rgba(123,97,255,0.18),
+        rgba(17,24,39,1) 60%
+      )
+    `;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.background = '#111827';
+  });
+
+});

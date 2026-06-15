@@ -1,0 +1,37 @@
+name: CI - i18n Translation Sync Verification
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'locales/**'
+      - 'scripts/i18n-*.js'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'locales/**'
+      - 'scripts/i18n-*.js'
+  workflow_dispatch:
+
+jobs:
+  i18n-validate:
+    name: Validate i18n Translations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run i18n Locale Validation
+        run: npm run i18n:validate
+
+      - name: Run i18n Sync Check
+        run: npm run i18n:sync:check

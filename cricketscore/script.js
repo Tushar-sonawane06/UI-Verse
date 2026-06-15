@@ -4,6 +4,7 @@ const indiaScore = document.getElementById("indiaScore");
 
 let runs = 182;
 
+
 setInterval(() => {
   runs++;
 

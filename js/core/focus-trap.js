@@ -48,7 +48,9 @@ const FocusTrap = {
   },
 
   _handleKeyDown(event) {
-    if (event.key !== 'Tab') return;
+    const contract = window.KeyboardContract || globalThis.KeyboardContract || null;
+    if (contract && typeof contract.isTabKey === 'function' && !contract.isTabKey(event)) return;
+    if (!contract && event.key !== 'Tab') return;
 
     const trap = this.activeTrap;
     const focusables = Array.from(

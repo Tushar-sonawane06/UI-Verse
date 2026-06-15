@@ -1,27 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TODO</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes' 'sha256-1Qwh1pS3zZuMQN1FsOHStsiloDWWy5WcWzYcBYxY7UU=' 'sha256-AaQ37YHFDGLnNt5qiAgCvxDoJ5zUttdU/JKVAm0K6Gs=' 'sha256-Et7itMpk4y5/O4VwdQjco7K4OzSbIXzyU4H7iaCjq/M=' 'sha256-GbOd/IJFN/G+V/jD+q/uSAzXgy6rXpGt3ZcniIVaU7c=' 'sha256-NDSEiPHXu/v41NzO7o/iuUXO/623Hef+PlYmL2i4LxE=' 'sha256-SAna37QLNVeBfHFa9RLAzTvyBMaE77QU/Cm8PgNEHMs=' 'sha256-uJJbtHBtc62B5yg5vApdDVuEAl3ZbW94dv/7ZxXnotY=' 'sha256-y4PsiKA7LJy1wpIR6/po2vCHtN6wq/Ji7rnJH+92hR8='; script-src-attr 'unsafe-hashes' 'sha256-1Qwh1pS3zZuMQN1FsOHStsiloDWWy5WcWzYcBYxY7UU=' 'sha256-AaQ37YHFDGLnNt5qiAgCvxDoJ5zUttdU/JKVAm0K6Gs=' 'sha256-Et7itMpk4y5/O4VwdQjco7K4OzSbIXzyU4H7iaCjq/M=' 'sha256-GbOd/IJFN/G+V/jD+q/uSAzXgy6rXpGt3ZcniIVaU7c=' 'sha256-NDSEiPHXu/v41NzO7o/iuUXO/623Hef+PlYmL2i4LxE=' 'sha256-SAna37QLNVeBfHFa9RLAzTvyBMaE77QU/Cm8PgNEHMs=' 'sha256-uJJbtHBtc62B5yg5vApdDVuEAl3ZbW94dv/7ZxXnotY=' 'sha256-y4PsiKA7LJy1wpIR6/po2vCHtN6wq/Ji7rnJH+92hR8='; style-src 'self' https: 'unsafe-hashes' 'sha256-KADpeOCiSW5/CasCPBZ9du9dOtCn9b+7fHBlNFvz08Q='; style-src-attr 'unsafe-hashes' 'sha256-KADpeOCiSW5/CasCPBZ9du9dOtCn9b+7fHBlNFvz08Q='">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo App</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
 
-  <link rel="stylesheet" href="style.css">
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Poppins',sans-serif;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:linear-gradient(135deg,#4f46e5,#7c3aed);
+      padding:20px;
+    }
+
+    .todo-container{
+      width:100%;
+      max-width:500px;
+      background:#fff;
+      padding:30px;
+      border-radius:24px;
+      box-shadow:0 20px 50px rgba(0,0,0,0.2);
+    }
+
+    .title{
+      text-align:center;
+      margin-bottom:25px;
+      color:#111827;
+      font-size:32px;
+      font-weight:700;
+    }
+
+    .input-box{
+      display:flex;
+      gap:12px;
+      margin-bottom:20px;
+    }
+
+    .input-box input{
+      flex:1;
+      padding:14px 16px;
+      border:none;
+      outline:none;
+      border-radius:14px;
+      background:#f3f4f6;
+      font-size:16px;
+      transition:0.3s;
+    }
+
+    .input-box input:focus{
+      background:#e5e7eb;
+    }
+
+    .input-box button{
+      padding:14px 22px;
+      border:none;
+      border-radius:14px;
+      background:#4f46e5;
+      color:#fff;
+      font-size:15px;
+      font-weight:600;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .input-box button:hover{
+      background:#4338ca;
+      transform:translateY(-2px);
+    }
+
+    .stats{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:20px;
+      font-size:14px;
+      color:#6b7280;
+      font-weight:500;
+    }
+
+    .todo-list{
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .todo-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:#f9fafb;
+      padding:14px 16px;
+      border-radius:14px;
+      transition:0.3s;
+    }
+
+    .todo-item:hover{
+      transform:translateY(-2px);
+      box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    .task-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex:1;
+    }
+
+    .task-left input[type="checkbox"]{
+      width:18px;
+      height:18px;
+      accent-color:#4f46e5;
+      cursor:pointer;
+    }
+
+    .task-text{
+      font-size:15px;
+      color:#111827;
+      word-break:break-word;
+    }
+
+    .completed{
+      text-decoration:line-through;
+      color:#9ca3af;
+    }
+
+    .delete-btn{
+      background:#ef4444;
+      border:none;
+      color:#fff;
+      width:36px;
+      height:36px;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:16px;
+      transition:0.3s;
+    }
+
+    .delete-btn:hover{
+      background:#dc2626;
+    }
+
+    @media(max-width:500px){
+
+      .todo-container{
+        padding:22px;
+      }
+
+      .title{
+        font-size:28px;
+      }
+
+      .input-box{
+        flex-direction:column;
+      }
+
+      .input-box button{
+        width:100%;
+      }
+
+    }
+
+  </style>
 </head>
+
 <body>
-   
-    <div class="todo-container">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+  <div class="todo-container">
 
     <h1 class="title">Todo List</h1>
 
     <div class="input-box">
-      <input type="text" id="taskInput" placeholder="Add your task...">
-      <button onclick="addTask()">Add</button>
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="Add your task..."
+       data-a11y-remediation="label-needed">
+
+      <button onclick="addTask()">
+        Add
+      </button>
     </div>
+    <!-- Search -->
+<div class="search-box">
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Search tasks..."
+    onkeyup="renderTasks()"
+  >
+</div>
+
+<!-- Filters -->
+<div class="filters">
+  <button class="filter-btn active" onclick="setFilter('all',this)">
+    All
+  </button>
+
+  <button class="filter-btn" onclick="setFilter('active',this)">
+    Active
+  </button>
+
+  <button class="filter-btn" onclick="setFilter('completed',this)">
+    Completed
+  </button>
+</div>
+
+<!-- Progress -->
+<div class="progress-wrapper">
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+  <span id="progressText">0% Complete</span>
+</div>
+
+<!-- Task Details -->
+<div class="extra-inputs">
+
+  <select id="priority">
+    <option value="Low">Low Priority</option>
+    <option value="Medium">Medium Priority</option>
+    <option value="High">High Priority</option>
+  </select>
+
+  <input
+    type="date"
+    id="dueDate"
+  >
+
+</div>
 
     <div class="stats">
       <span id="totalTasks">Total: 0</span>
@@ -31,7 +260,132 @@
     <ul class="todo-list" id="todoList"></ul>
 
   </div>
-    
-    <script src="app.js"></script>
+  <div>
+  <span class="task-text ${task.completed ? "completed" : ""}">
+    ${task.text}
+  </span>
+
+  <div class="task-meta">
+
+    <span class="priority ${task.priority.toLowerCase()}">
+      ${task.priority}
+    </span>
+
+    <small>
+      📅 ${task.dueDate || "No Date"}
+    </small>
+
+  </div>
+</div>
+
+  <script>
+
+    const taskInput = document.getElementById("taskInput");
+    const todoList = document.getElementById("todoList");
+    const totalTasks = document.getElementById("totalTasks");
+    const completedTasks = document.getElementById("completedTasks");
+
+    let tasks = [];
+
+    function updateStats(){
+
+      const total = tasks.length;
+
+      const completed = tasks.filter(task => task.completed).length;
+
+      totalTasks.textContent = `Total: ${total}`;
+
+      completedTasks.textContent = `Completed: ${completed}`;
+
+    }
+
+    function renderTasks(){
+
+      todoList.innerHTML = "";
+
+      tasks.forEach((task,index)=>{
+
+        const li = document.createElement("li");
+
+        li.className = "todo-item";
+
+        li.innerHTML = `
+          <div class="task-left">
+            <input
+              type="checkbox"
+              ${task.completed ? "checked" : ""}
+              onchange="toggleTask(${index})"
+            >
+
+            <span class="task-text ${task.completed ? "completed" : ""}">
+              ${task.text}
+            </span>
+          </div>
+
+          <button class="delete-btn" onclick="deleteTask(${index})">
+            ✕
+          </button>
+        `;
+
+        todoList.appendChild(li);
+
+      });
+
+      updateStats();
+
+    }
+
+    function addTask(){
+
+      const text = taskInput.value.trim();
+
+      if(text === ""){
+
+        alert("Please enter a task!");
+
+        return;
+
+      }
+
+      tasks.push({
+        text:text,
+        completed:false
+      });
+
+      taskInput.value = "";
+
+      renderTasks();
+
+    }
+
+    function toggleTask(index){
+
+      tasks[index].completed = !tasks[index].completed;
+
+      renderTasks();
+
+    }
+
+    function deleteTask(index){
+
+      tasks.splice(index,1);
+
+      renderTasks();
+
+    }
+
+    taskInput.addEventListener("keypress",(e)=>{
+
+      if(e.key === "Enter"){
+
+        addTask();
+
+      }
+
+    });
+
+  </script>
+
+      <script src="../dist/shared.js"></script>
 </body>
 </html>

@@ -1,91 +1,20 @@
 # Security Policy
 
-## Project
-
-**UIverse – Frontend Component Hub**
-Part of *Nexus Spring of Code*
-
 ## Supported Versions
 
-We actively maintain and provide security updates for:
+We actively maintain and support the following versions of the UI-Verse library/quality tooling:
 
-| Version | Supported |
-| --- | --- |
-| Latest (main branch) | ✅ Yes |
-| Older versions | ❌ No |
-
-We recommend always using the **latest version** of UIverse.
+| Version | Supported          |
+| ------- | ------------------ |
+| 1.x     | :white_check_mark: |
+| < 1.0   | :x:                |
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in UIverse, please report it responsibly.
+We take security issues seriously. If you discover a vulnerability or potential security risk in our components, build pipeline, or hosting configurations:
 
-### Contact
+1. **Do not** open a public issue.
+2. Email reports to the security maintainers at `security@uiverse.org`.
+3. Provide a detailed summary containing reproduction steps, potential impact, and system parameters.
 
-- GitHub Issues (preferred): Open a **private/security issue** if available
-- Maintainer: **Tushar Sonawane**
-- Repository: [UI-Verse](https://github.com/Tushar-sonawane06/UI-Verse)
-
-## What to Include
-
-Please include the following details:
-
-- Description of the vulnerability
-- Steps to reproduce
-- Expected vs actual behavior
-- Possible impact (low, medium, high)
-- Screenshots or code snippets, if applicable
-
-## Responsible Disclosure
-
-We follow responsible disclosure practices:
-
-- Do not publicly disclose vulnerabilities before they are fixed
-- Allow maintainers reasonable time to respond and patch
-- Avoid exploiting vulnerabilities beyond proof of concept
-
-## Security Guidelines for Contributors
-
-Since UIverse is a frontend-focused project (HTML, CSS, JavaScript), contributors should follow these best practices:
-
-### Do
-
-- Sanitize user inputs, if any dynamic input is added
-- Use safe DOM manipulation methods
-- Keep external libraries updated
-- Write clean and readable code
-
-### Avoid
-
-- Using `eval()` or unsafe JavaScript execution
-- Injecting raw HTML without validation
-- Exposing sensitive data such as API keys or tokens
-- Adding untrusted third-party scripts
-
-## Dependencies & Assets
-
-- Use trusted CDNs, for example Font Awesome
-- Avoid outdated or vulnerable libraries
-- Prefer lightweight and secure resources
-
-## Scope of Security
-
-This project mainly includes:
-
-- Static UI components
-- Client-side JavaScript
-- No backend or database
-
-Therefore, most risks are related to:
-
-- XSS (Cross-Site Scripting)
-- Unsafe DOM handling
-- Malicious external scripts
-
-## Acknowledgements
-
-We appreciate contributors who responsibly report vulnerabilities and help improve the safety of UIverse 💙
-
-## Updates
-
-This security policy may evolve as the project grows and new features are added.
+We will acknowledge receipt within 48 hours and work with you to patch the issue before making a public advisory.

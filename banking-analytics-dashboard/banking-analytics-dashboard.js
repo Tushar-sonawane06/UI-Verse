@@ -167,3 +167,44 @@ premiumBtn.addEventListener(
   );
 
 });
+
+const notificationBtn = document.querySelector(".notification-btn");
+
+notificationBtn.addEventListener("click", () => {
+  alert("You have 3 new banking notifications.");
+});
+
+const statCards = document.querySelectorAll(".stat-card");
+
+statCards.forEach((card) => {
+
+  card.addEventListener("mouseenter", () => {
+    card.style.transform = "translateY(-5px)";
+    card.style.transition = "0.3s";
+  });
+
+  card.addEventListener("mouseleave", () => {
+    card.style.transform = "translateY(0)";
+  });
+
+});
+
+const bars = document.querySelectorAll(".bar");
+
+bars.forEach((bar, index) => {
+
+  bar.style.animation = `grow 1s ease ${index * 0.1}s forwards`;
+
+});
+
+const style = document.createElement("style");
+
+style.innerHTML = `
+@keyframes grow {
+  from {
+    height: 0;
+  }
+}
+`;
+
+document.head.appendChild(style);

@@ -1,0 +1,161 @@
+{
+  "title": "Component Internationalization Metadata Schema",
+  "description": "JSON Schema for component metadata with internationalization support and RTL directionality",
+  "version": "1.0.1",
+  "type": "object",
+  "properties": {
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Component identifier"
+          },
+          "defaultLanguage": {
+            "type": "string",
+            "enum": ["en", "es", "fr", "de", "ja", "zh", "pt", "ru", "ko", "it", "ar", "he", "fa"]
+          },
+          "supportedLanguages": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1,
+            "description": "Languages supported by component"
+          },
+          "fallbackLanguage": {
+            "type": "string",
+            "description": "Fallback language when requested language unavailable"
+          },
+          "translations": {
+            "type": "object",
+            "description": "Translations organized by language code with directionality metadata",
+            "patternProperties": {
+              "^[a-z]{2}(-[A-Z]{2})?$": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "description": { "type": "string" },
+                  "category": { "type": "string" },
+                  "tags": { "type": "array", "items": { "type": "string" } },
+                  "usage": { "type": "string" },
+                  "examples": { "type": "array" },
+                  "notes": { "type": "string" },
+                  "deprecationNote": { "type": ["string", "null"] },
+                  "textDirection": {
+                    "type": "string",
+                    "enum": ["ltr", "rtl", "auto"],
+                    "default": "ltr",
+                    "description": "Text directionality for language (LTR, RTL, or auto-detect)"
+                  },
+                  "scriptCode": {
+                    "type": "string",
+                    "description": "ISO 15924 script code (e.g., Arab for Arabic, Hebr for Hebrew, Cyrl for Cyrillic)"
+                  }
+                },
+                "required": ["name", "description"]
+              }
+            }
+          },
+          "languageMetadata": {
+            "type": "object",
+            "description": "Per-language directionality and script information",
+            "patternProperties": {
+              "^[a-z]{2}(-[A-Z]{2})?$": {
+                "type": "object",
+                "properties": {
+                  "textDirection": {
+                    "type": "string",
+                    "enum": ["ltr", "rtl"],
+                    "description": "Text directionality"
+                  },
+                  "scriptCode": {
+                    "type": "string",
+                    "description": "ISO 15924 script code"
+                  },
+                  "scriptDirection": {
+                    "type": "string",
+                    "enum": ["ltr", "rtl", "mixed"],
+                    "description": "Script-level directionality"
+                  },
+                  "biDiRequired": {
+                    "type": "boolean",
+                    "description": "Whether BiDi control characters needed"
+                  }
+                }
+              }
+            }
+          },
+          "pluralForms": {
+            "type": "object",
+            "description": "Plural form definitions per language"
+          },
+          "contextualHelp": {
+            "type": "object",
+            "description": "Context-specific help text per language"
+          },
+          "dateFormats": {
+            "type": "object",
+            "description": "Date format preferences per language"
+          },
+          "numberFormats": {
+            "type": "object",
+            "description": "Number format preferences per language"
+          },
+          "culturalAdaptations": {
+            "type": "object",
+            "description": "Culture-specific adaptations per language"
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "author": { "type": "string" },
+              "version": { "type": "string" },
+              "lastUpdated": { "type": "integer" },
+              "completeness": { "type": "string" },
+              "reviewer": { "type": "string" },
+              "status": {
+                "type": "string",
+                "enum": ["draft", "review", "approved", "published"]
+              }
+            }
+          }
+        },
+        "required": ["name", "supportedLanguages", "translations"]
+      }
+    },
+    "globalSettings": {
+      "type": "object",
+      "properties": {
+        "defaultLanguage": { "type": "string" },
+        "fallbackLanguage": { "type": "string" },
+        "supportedLanguages": { "type": "array", "items": { "type": "string" } },
+        "enableAutoTranslation": { "type": "boolean" },
+        "translationMemoryURL": { "type": "string" },
+        "contributionGuidelines": { "type": "string" },
+        "rtlLanguages": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["ar", "he", "fa", "ur"],
+          "description": "List of RTL language codes"
+        }
+      }
+    },
+    "directionalityMap": {
+      "type": "object",
+      "description": "Global mapping of language codes to directionality",
+      "properties": {
+        "rtl": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Right-to-left languages"
+        },
+        "ltr": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Left-to-right languages"
+        }
+      }
+    }
+  }
+}

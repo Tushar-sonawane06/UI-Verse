@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Premium Step Indicators — UIverse</title>
@@ -13,25 +14,77 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
   <link rel="stylesheet" href="step-indicators.css">
-  <link rel="stylesheet" href="shared-sidebar.css">
-</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
 
 <body>
 
 <div class="main-content">
 
   <!-- TOPBAR -->
-  <header class="topbar">
-    <div class="search-box">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" placeholder="Search stepper components..." id="searchInput">
-    </div>
-    <div class="topbar-actions">
-      <button class="add-btn" onclick="advanceAllSteps()"><i class="fa-solid fa-play"></i> Advance All</button>
-      <button class="collection-btn" onclick="resetAllSteps()"><i class="fa-solid fa-rotate-left"></i> Reset All</button>
-      <button class="theme-btn"><i class="fa-solid fa-moon"></i></button>
-    </div>
-  </header>
+  <!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="navbar-brand">
+    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7V17L12 22L22 17V7L12 2z" stroke="#eb6835"></path>
+    </svg>
+    <span class="brand-text">Uiverse</span>
+  </div>
+  <div class="navbar-divider"></div>
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search components..." aria-label="Search components">
+  </div>
+  <div class="nav-right">
+    <a href="documentation.html" class="nav-btn docs-btn">Docs</a>
+    <a href="contribute.html" class="nav-btn add-btn">Add Component</a>
+    <button id="darkModeToggle" class="theme-toggle" title="Toggle Theme" onclick="toggleDarkMode()">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+  <script>
+    (function() {
+      // Search input enter key redirect
+      const navSearch = document.getElementById('searchInput');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim()) {
+            const q = encodeURIComponent(this.value.trim());
+            window.location.href = 'components/Discovery/component-discovery.html?q=' + q;
+          }
+        });
+      }
+      
+      // Fallback toggleDarkMode function if not defined globally by the page script
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (toggleBtn) {
+        if (typeof window.toggleDarkMode !== 'function') {
+          window.toggleDarkMode = function() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+              icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+          };
+        }
+        
+        // Match initial theme icon class
+        const isDark = localStorage.getItem('theme') === 'dark' || document.body.classList.contains('dark-mode');
+        const icon = toggleBtn.querySelector('i');
+        if (icon && isDark) {
+          icon.className = 'fa-solid fa-sun';
+        }
+      }
+    })();
+  </script>
+</header>
 
   <!-- HERO -->
   <section class="hero">
@@ -754,6 +807,217 @@
 &lt;/div&gt;</code></pre>
     </div>
 
+    <!-- 11. DOTTED PATH STEPPER -->
+    <div class="component-card" data-category="horizontal">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="premium-dotted-stepper">
+            <div class="dot-step active">
+              <div class="dot-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+              <span>Cart</span>
+            </div>
+            <div class="dot-line active"></div>
+            <div class="dot-step active">
+              <div class="dot-icon"><i class="fa-solid fa-credit-card"></i></div>
+              <span>Pay</span>
+            </div>
+            <div class="dot-line"></div>
+            <div class="dot-step">
+              <div class="dot-icon"><i class="fa-solid fa-box-open"></i></div>
+              <span>Done</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Dotted Path Stepper</h3>
+          <span>Horizontal</span>
+        </div>
+        <p>A minimalist horizontal stepper with connected dashed lines and icon-based step indicators.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('codeDot', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeDot', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codeDot" style="display:none;"><code>&lt;div class="premium-dotted-stepper"&gt;
+  &lt;div class="dot-step active"&gt;
+    &lt;div class="dot-icon"&gt;&lt;i class="fa-solid fa-cart-shopping"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;span&gt;Cart&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="dot-line active"&gt;&lt;/div&gt;
+  &lt;!-- More steps... --&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 12. MINIMAL TEXT STEPPER -->
+    <div class="component-card" data-category="vertical">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="premium-text-stepper">
+            <div class="text-step completed">
+              <span class="t-step-num">01</span>
+              <span class="t-step-label">Account Setup</span>
+            </div>
+            <div class="text-step active">
+              <span class="t-step-num">02</span>
+              <span class="t-step-label">Profile Details</span>
+            </div>
+            <div class="text-step">
+              <span class="t-step-num">03</span>
+              <span class="t-step-label">Verification</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Minimal Text Stepper</h3>
+          <span>Vertical</span>
+        </div>
+        <p>A sleek, typography-focused vertical stepper relying on opacity and clean spacing to indicate progress.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('codeText', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeText', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codeText" style="display:none;"><code>&lt;div class="premium-text-stepper"&gt;
+  &lt;div class="text-step active"&gt;
+    &lt;span class="t-step-num"&gt;02&lt;/span&gt;
+    &lt;span class="t-step-label"&gt;Profile Details&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 13. CARD-BASED STEPPER -->
+    <div class="component-card" data-category="horizontal">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="premium-card-stepper">
+            <div class="card-step completed">
+              <i class="fa-solid fa-check"></i>
+              <span>Plan</span>
+            </div>
+            <div class="card-step active">
+              <i class="fa-solid fa-pen-nib"></i>
+              <span>Design</span>
+            </div>
+            <div class="card-step">
+              <i class="fa-solid fa-code"></i>
+              <span>Build</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Card-Based Stepper</h3>
+          <span>Horizontal</span>
+        </div>
+        <p>A modern segmented control style stepper using distinct interactive cards with dynamic glow effects.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('codeCardStep', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeCardStep', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codeCardStep" style="display:none;"><code>&lt;div class="premium-card-stepper"&gt;
+  &lt;div class="card-step active"&gt;
+    &lt;i class="fa-solid fa-pen-nib"&gt;&lt;/i&gt;
+    &lt;span&gt;Design&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 14. NEON PROGRESS STEPPER -->
+    <div class="component-card" data-category="animated">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="premium-neon-stepper">
+            <div class="neon-track">
+              <div class="neon-fill" style="width: 50%;"></div>
+            </div>
+            <div class="neon-nodes">
+              <div class="neon-node active"></div>
+              <div class="neon-node active"></div>
+              <div class="neon-node"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Neon Progress Stepper</h3>
+          <span>Animated</span>
+        </div>
+        <p>A bright, glowing neon progress bar with pulsating active nodes for a futuristic, cyberpunk aesthetic.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('codeNeon', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeNeon', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codeNeon" style="display:none;"><code>&lt;div class="premium-neon-stepper"&gt;
+  &lt;div class="neon-track"&gt;
+    &lt;div class="neon-fill" style="width: 50%;"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="neon-nodes"&gt;
+    &lt;div class="neon-node active"&gt;&lt;/div&gt;
+    &lt;div class="neon-node active"&gt;&lt;/div&gt;
+    &lt;div class="neon-node"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- 15. TIMELINE STEPS -->
+    <div class="component-card" data-category="vertical">
+      <div class="card-preview">
+        <div class="card-interactive-area full-width">
+          <div class="premium-timeline-stepper">
+            <div class="timeline-step completed">
+              <div class="t-dot"></div>
+              <div class="t-content">
+                <h5>Order Placed</h5>
+                <p>Dec 12, 10:00 AM</p>
+              </div>
+            </div>
+            <div class="timeline-step active">
+              <div class="t-dot"></div>
+              <div class="t-content">
+                <h5>Processing</h5>
+                <p>Dec 13, 02:30 PM</p>
+              </div>
+            </div>
+            <div class="timeline-step">
+              <div class="t-dot"></div>
+              <div class="t-content">
+                <h5>Delivered</h5>
+                <p>Pending</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Timeline Steps</h3>
+          <span>Vertical</span>
+        </div>
+        <p>An elegant vertical timeline stepper ideal for order tracking, complete with descriptive meta data.</p>
+        <div class="card-actions">
+          <button onclick="toggleCode('codeTimeline', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button onclick="copyCode('codeTimeline', this)"><i class="fa-solid fa-copy"></i> Copy HTML</button>
+        </div>
+      </div>
+      <pre class="code-block" id="codeTimeline" style="display:none;"><code>&lt;div class="premium-timeline-stepper"&gt;
+  &lt;div class="timeline-step active"&gt;
+    &lt;div class="t-dot"&gt;&lt;/div&gt;
+    &lt;div class="t-content"&gt;
+      &lt;h5&gt;Processing&lt;/h5&gt;
+      &lt;p&gt;Dec 13, 02:30 PM&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
   </div>
 
 </div>
@@ -833,21 +1097,24 @@
     </ul>
   </nav>
 </aside>
-  <!-- ================= FOOTER ================= -->
+ <!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
-
-    <div class="socials">
-  <a href="https://github.com" target="_blank" title="GitHub">
-    <i class="fab fa-github"></i>
-  </a>
-  <a href="https://linkedin.com" target="_blank" title="LinkedIn">
-    <i class="fab fa-linkedin"></i>
-  </a>
-  <a href="https://twitter.com" target="_blank" title="Twitter">
-    <i class="fab fa-x-twitter"></i>
-  </a>
-</div>
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+      <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+      <div class="socials">
+        <a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener" aria-label="UIverse on GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="#" aria-label="UIverse on X (Twitter)" title="X / Twitter">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
 
     <div class="footer-col">
       <h3>Explore</h3>
@@ -864,10 +1131,9 @@
       <h3>Resources</h3>
       <ul>
         <li><a href="documentation.html">Documentation</a></li>
-        <li><a href="contribute.html">Contribute</a></li>
-        <li><a href="https://github.com/uiverse/uiverse" target="_blank">GitHub Repo</a></li>
-        <li><a href="community.html">Community</a></li>
-        <li><a href="support.html">Support</a></li>
+        <li><a href="howtocontribute.html">Contribute</a></li>
+        <li><a href="https://github.com/tushar-sonawane06/UI-Verse" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+        <li><a href="MyCollection.html">My Collection</a></li>
       </ul>
     </div>
 
@@ -884,17 +1150,38 @@
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
       <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
+        <label for="newsletterEmail" class="sr-only">Email address</label>
+        <input
+          id="newsletterEmail"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          aria-label="Email address for newsletter"
+        />
         <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
     </div>
-
   </div>
 
   <div class="footer-bottom">
-    <p>© 2026 UIverse. Made with ❤️ for developers worldwide.</p>
+    <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
+
+<script>
+  if (typeof subscribe !== 'function') {
+    function subscribe() {
+      const emailInput = document.getElementById("newsletterEmail");
+      if (emailInput && emailInput.value.trim()) {
+        alert("Thanks for subscribing with: " + emailInput.value.trim());
+        emailInput.value = "";
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    }
+  }
+</script>
+
 
 
 <script>
@@ -1259,5 +1546,6 @@
   }
 </script>
 
+  <script src="dist/shared.js"></script>
 </body>
 </html>

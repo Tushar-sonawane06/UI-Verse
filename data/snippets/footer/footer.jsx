@@ -37,6 +37,14 @@ export default function footer(){
       
         </section>
       
+        <div>
+          <form>
+            <i className="fa-solid fa-magnifying-glass"></i>
+            <input type="text" name="" placeholder="Filter footers..." id="Scearch" onkeyup="SCEARCH()" />
+          </form>
+        </div>
+      
+      
         {/* GRID */}
         <div className="footer-grid">
           {/* =========================================================

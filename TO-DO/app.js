@@ -92,3 +92,84 @@ taskInput.addEventListener("keypress", function(e){
   }
 
 });
+
+let currentFilter = "all";
+
+loadTasks();
+
+function setFilter(filter,btn){
+
+  currentFilter = filter;
+
+  document
+    .querySelectorAll(".filter-btn")
+    .forEach(b=>b.classList.remove("active"));
+
+  btn.classList.add("active");
+
+  renderTasks();
+
+}
+
+function updateProgress(){
+
+  const completed =
+    tasks.filter(t=>t.completed).length;
+
+  const percentage =
+    tasks.length
+      ? Math.round(
+          (completed/tasks.length)*100
+        )
+      : 0;
+
+  document.getElementById(
+    "progressFill"
+  ).style.width = percentage + "%";
+
+  document.getElementById(
+    "progressText"
+  ).textContent =
+    percentage + "% Complete";
+}
+
+const search =
+  document
+  .getElementById("searchInput")
+  .value
+  .toLowerCase();
+
+let filtered = tasks.filter(task=>{
+
+  const matchesSearch =
+    task.text.toLowerCase().includes(search);
+
+  if(currentFilter==="active")
+    return !task.completed && matchesSearch;
+
+  if(currentFilter==="completed")
+    return task.completed && matchesSearch;
+
+  return matchesSearch;
+
+});
+
+function editTask(index){
+
+  const updated =
+    prompt(
+      "Edit Task",
+      tasks[index].text
+    );
+
+  if(updated){
+
+    tasks[index].text = updated;
+
+    saveTasks();
+
+    renderTasks();
+
+  }
+
+}

@@ -47,4 +47,15 @@ test.describe('Accessibility remediation system', () => {
     expect(report.totals.pages).toBeGreaterThan(0);
     expect(report.totals.fixable).toBeGreaterThan(0);
   });
+
+  test('produces remediation pipeline summary and baseline gate outputs', async () => {
+    const engine = require('../../scripts/a11y-remediation');
+    const result = engine.runPipeline({ apply: false });
+
+    expect(fs.existsSync(result.pipelinePath)).toBeTruthy();
+    expect(result.pipeline.before.pages).toBeGreaterThan(0);
+    expect(result.pipeline.after.pages).toBeGreaterThan(0);
+    expect(typeof result.delta.errors).toBe('number');
+    expect(typeof result.remediation.filesChanged).toBe('number');
+  });
 });

@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../dist/shared.css">
+  <meta charset="UTF-8" />
+
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-inline'; style-src 'self' https: 'unsafe-inline';"
+  />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Modern E-Commerce Product Page</title>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  />
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Poppins',sans-serif;
+      background:#f4f7fb;
+      color:#111827;
+      line-height:1.6;
+    }
+
+    img{
+      width:100%;
+      display:block;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    /* NAVBAR */
+
+    .navbar{
+      background:#ffffff;
+      padding:18px 8%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow:0 4px 20px rgba(0,0,0,0.05);
+      position:sticky;
+      top:0;
+      z-index:1000;
+    }
+
+    .logo{
+      font-size:1.8rem;
+      font-weight:700;
+      color:#2563eb;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:30px;
+    }
+
+    .nav-links a{
+      font-weight:500;
+      transition:0.3s;
+    }
+
+    .nav-links a:hover{
+      color:#2563eb;
+    }
+
+    .nav-icons{
+      display:flex;
+      gap:20px;
+      font-size:1.1rem;
+      cursor:pointer;
+    }
+
+    /* HERO */
+
+    .hero{
+      background:linear-gradient(135deg,#2563eb,#1d4ed8);
+      color:#fff;
+      padding:80px 8%;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      align-items:center;
+      gap:50px;
+    }
+
+    .hero-text h1{
+      font-size:3.5rem;
+      line-height:1.2;
+      margin-bottom:20px;
+    }
+
+    .hero-text p{
+      margin-bottom:30px;
+      max-width:550px;
+    }
+
+    .hero-btn{
+      display:inline-block;
+      padding:14px 30px;
+      background:#fff;
+      color:#2563eb;
+      border-radius:50px;
+      font-weight:600;
+      transition:0.3s;
+    }
+
+    .hero-btn:hover{
+      transform:translateY(-3px);
+    }
+
+    .hero-image img{
+      border-radius:30px;
+      box-shadow:0 20px 40px rgba(0,0,0,0.25);
+    }
+
+    /* PRODUCT SECTION */
+
+    .container{
+      width:90%;
+      max-width:1200px;
+      margin:80px auto;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:60px;
+      align-items:center;
+    }
+
+    .product-image{
+      background:#fff;
+      padding:30px;
+      border-radius:25px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    .product-image img{
+      height:520px;
+      object-fit:cover;
+      border-radius:20px;
+    }
+
+    .thumbnail-row{
+      display:flex;
+      gap:15px;
+      margin-top:20px;
+    }
+
+    .thumbnail-row img{
+      width:90px;
+      height:90px;
+      object-fit:cover;
+      border-radius:12px;
+      cursor:pointer;
+      border:3px solid transparent;
+      transition:0.3s;
+    }
+
+    .thumbnail-row img:hover{
+      border-color:#2563eb;
+    }
+
+    .product-details h1{
+      font-size:3rem;
+      margin-bottom:15px;
+    }
+
+    .rating{
+      color:#f59e0b;
+      margin-bottom:15px;
+      font-size:1.1rem;
+    }
+
+    .price{
+      display:flex;
+      gap:15px;
+      align-items:center;
+      margin-bottom:25px;
+    }
+
+    .new-price{
+      font-size:2rem;
+      font-weight:700;
+      color:#2563eb;
+    }
+
+    .old-price{
+      text-decoration:line-through;
+      color:#9ca3af;
+    }
+
+    .description{
+      color:#4b5563;
+      margin-bottom:30px;
+    }
+
+    .section-title{
+      font-weight:600;
+      margin-bottom:12px;
+    }
+
+    .sizes{
+      display:flex;
+      gap:10px;
+      margin-bottom:25px;
+      flex-wrap:wrap;
+    }
+
+    .sizes button{
+      padding:10px 18px;
+      border:none;
+      background:#fff;
+      border:1px solid #d1d5db;
+      border-radius:10px;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .sizes button:hover{
+      background:#2563eb;
+      color:#fff;
+      border-color:#2563eb;
+    }
+
+    .colors{
+      display:flex;
+      gap:15px;
+      margin-bottom:35px;
+    }
+
+    .color{
+      width:35px;
+      height:35px;
+      border-radius:50%;
+      cursor:pointer;
+      border:3px solid #fff;
+      box-shadow:0 0 0 1px #d1d5db;
+    }
+
+    .black{
+      background:#111827;
+    }
+
+    .red{
+      background:#dc2626;
+    }
+
+    .blue{
+      background:#2563eb;
+    }
+
+    .buttons{
+      display:flex;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:15px 30px;
+      border:none;
+      border-radius:14px;
+      font-weight:600;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .cart-btn{
+      background:#2563eb;
+      color:#fff;
+    }
+
+    .cart-btn:hover{
+      background:#1d4ed8;
+      transform:translateY(-3px);
+    }
+
+    .wishlist-btn{
+      background:#fff;
+      border:1px solid #d1d5db;
+    }
+
+    .wishlist-btn:hover{
+      background:#f3f4f6;
+    }
+
+    /* FEATURES */
+
+    .features{
+      width:90%;
+      max-width:1200px;
+      margin:0 auto 80px;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:25px;
+    }
+
+    .feature-card{
+      background:#fff;
+      padding:30px;
+      border-radius:20px;
+      text-align:center;
+      box-shadow:0 10px 25px rgba(0,0,0,0.05);
+    }
+
+    .feature-card i{
+      font-size:2rem;
+      color:#2563eb;
+      margin-bottom:15px;
+    }
+
+    /* RELATED PRODUCTS */
+
+    .related-products{
+      padding:80px 8%;
+    }
+
+    .section-heading{
+      text-align:center;
+      margin-bottom:50px;
+    }
+
+    .section-heading h2{
+      font-size:2.5rem;
+      margin-bottom:10px;
+    }
+
+    .products-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:30px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow:0 10px 25px rgba(0,0,0,0.05);
+      transition:0.3s;
+    }
+
+    .card:hover{
+      transform:translateY(-8px);
+    }
+
+    .card img{
+      height:260px;
+      object-fit:cover;
+    }
+
+    .card-content{
+      padding:20px;
+    }
+
+    .card-content h3{
+      margin-bottom:10px;
+    }
+
+    .product-bottom{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:15px;
+    }
+
+    .small-btn{
+      background:#2563eb;
+      color:#fff;
+      border:none;
+      padding:10px 16px;
+      border-radius:10px;
+      cursor:pointer;
+    }
+
+    /* OFFER */
+
+    .offer-banner{
+      width:90%;
+      max-width:1200px;
+      margin:0 auto 80px;
+      background:linear-gradient(135deg,#111827,#1f2937);
+      color:#fff;
+      padding:60px 40px;
+      border-radius:30px;
+      text-align:center;
+    }
+
+    .offer-banner h2{
+      font-size:2.5rem;
+      margin-bottom:15px;
+    }
+
+    .offer-banner p{
+      margin-bottom:25px;
+    }
+
+    .offer-btn{
+      display:inline-block;
+      background:#2563eb;
+      color:#fff;
+      padding:14px 28px;
+      border-radius:12px;
+      font-weight:600;
+    }
+
+    /* REVIEWS */
+
+    .reviews{
+      width:90%;
+      max-width:1200px;
+      margin:0 auto 80px;
+    }
+
+    .reviews h2{
+      text-align:center;
+      margin-bottom:40px;
+      font-size:2.5rem;
+    }
+
+    .review-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:25px;
+    }
+
+    .review-card{
+      background:#fff;
+      padding:30px;
+      border-radius:20px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.05);
+    }
+
+    .review-card h3{
+      margin-bottom:10px;
+    }
+
+    .stars{
+      color:#f59e0b;
+      margin-bottom:15px;
+    }
+
+    /* NEWSLETTER */
+
+    .newsletter{
+      width:90%;
+      max-width:1200px;
+      margin:0 auto 80px;
+      background:#2563eb;
+      color:#fff;
+      padding:60px 40px;
+      border-radius:30px;
+      text-align:center;
+    }
+
+    .newsletter h2{
+      font-size:2.5rem;
+      margin-bottom:15px;
+    }
+
+    .newsletter p{
+      margin-bottom:30px;
+    }
+
+    .newsletter-form{
+      display:flex;
+      justify-content:center;
+      gap:15px;
+      flex-wrap:wrap;
+    }
+
+    .newsletter-form input{
+      width:350px;
+      max-width:100%;
+      padding:16px;
+      border:none;
+      border-radius:12px;
+      outline:none;
+    }
+
+    .newsletter-form button{
+      padding:16px 28px;
+      border:none;
+      background:#111827;
+      color:#fff;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    /* FOOTER */
+
+    footer{
+      background:#111827;
+      color:#d1d5db;
+      padding:60px 8%;
+    }
+
+    .footer-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:40px;
+    }
+
+    .footer-column h3{
+      color:#fff;
+      margin-bottom:20px;
+    }
+
+    .footer-column p,
+    .footer-column a{
+      display:block;
+      margin-bottom:12px;
+    }
+
+    .socials{
+      display:flex;
+      gap:15px;
+      margin-top:15px;
+    }
+
+    .socials i{
+      font-size:1.2rem;
+      cursor:pointer;
+    }
+
+    .copyright{
+      text-align:center;
+      margin-top:40px;
+      border-top:1px solid rgba(255,255,255,0.1);
+      padding-top:20px;
+      color:#9ca3af;
+    }
+
+    /* RESPONSIVE */
+
+    @media(max-width:900px){
+
+      .hero,
+      .container{
+        grid-template-columns:1fr;
+      }
+
+      .hero-text{
+        text-align:center;
+      }
+
+      .hero-text h1{
+        font-size:2.5rem;
+      }
+
+      .product-details h1{
+        font-size:2.2rem;
+      }
+
+      .nav-links{
+        display:none;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+
+  <nav class="navbar">
+
+    <div class="logo">
+      UrbanKicks
+    </div>
+
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">Men</a>
+      <a href="#">Women</a>
+      <a href="#">Contact</a>
+    </div>
+
+    <div class="nav-icons">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <i class="fa-regular fa-heart"></i>
+      <i class="fa-solid fa-cart-shopping"></i>
+    </div>
+
+  </nav>
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="hero-text">
+
+      <h1>
+        Discover Premium Sneakers Collection
+      </h1>
+
+      <p>
+        Explore stylish, lightweight, and comfortable shoes
+        designed for sports, gym, and everyday fashion.
+      </p>
+
+      <a href="#" class="hero-btn">
+        Shop Now
+      </a>
+
+    </div>
+
+    <div class="hero-image">
+
+      <img
+        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+        alt="Hero Shoe"
+      />
+
+    </div>
+
+  </section>
+
+  <!-- PRODUCT -->
+
+  <div class="container">
+
+    <div class="product-image">
+
+      <img
+        id="mainImage"
+        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+        alt="Running Shoes"
+      />
+
+      <div class="thumbnail-row">
+
+        <img
+          src="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+          alt=""
+          onclick="changeImage(this)"
+        />
+
+        <img
+          src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519"
+          alt=""
+          onclick="changeImage(this)"
+        />
+
+        <img
+          src="https://images.unsplash.com/photo-1549298916-b41d501d3772"
+          alt=""
+          onclick="changeImage(this)"
+        />
+
+      </div>
+
+    </div>
+
+    <div class="product-details">
+
+      <h1>Running Shoes</h1>
+
+      <div class="rating">
+        ★★★★☆ (4.5 Reviews)
+      </div>
+
+      <div class="price">
+        <span class="new-price">$89.99</span>
+        <span class="old-price">$129.99</span>
+      </div>
+
+      <p class="description">
+        Comfortable and stylish running shoes designed for
+        everyday use and sports activities. Lightweight,
+        breathable, and perfect for all-day comfort.
+      </p>
+
+      <p class="section-title">
+        Select Size
+      </p>
+
+      <div class="sizes">
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <button>10</button>
+        <button>11</button>
+      </div>
+
+      <p class="section-title">
+        Select Color
+      </p>
+
+      <div class="colors">
+        <div class="color black"></div>
+        <div class="color red"></div>
+        <div class="color blue"></div>
+      </div>
+
+      <div class="buttons">
+
+        <button class="btn cart-btn">
+          Add to Cart
+        </button>
+
+        <button class="btn wishlist-btn">
+          Wishlist
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FEATURES -->
+
+  <section class="features">
+
+    <div class="feature-card">
+      <i class="fa-solid fa-truck-fast"></i>
+      <h3>Free Shipping</h3>
+      <p>Fast and secure delivery worldwide.</p>
+    </div>
+
+    <div class="feature-card">
+      <i class="fa-solid fa-shield"></i>
+      <h3>Secure Payment</h3>
+      <p>100% safe and trusted payment options.</p>
+    </div>
+
+    <div class="feature-card">
+      <i class="fa-solid fa-rotate-left"></i>
+      <h3>Easy Returns</h3>
+      <p>Quick and simple 7-day return policy.</p>
+    </div>
+
+    <div class="feature-card">
+      <i class="fa-solid fa-headset"></i>
+      <h3>24/7 Support</h3>
+      <p>Friendly customer support anytime.</p>
+    </div>
+
+  </section>
+
+  <!-- RELATED PRODUCTS -->
+
+  <section class="related-products">
+
+    <div class="section-heading">
+      <h2>Related Products</h2>
+      <p>Discover more stylish sneakers</p>
+    </div>
+
+    <div class="products-grid">
+
+      <div class="card">
+
+        <img
+          src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77"
+          alt="Sports Shoes"
+        />
+
+        <div class="card-content">
+
+          <h3>Sports Shoes</h3>
+
+          <p>
+            Lightweight running shoes with modern design.
+          </p>
+
+          <div class="product-bottom">
+            <strong>$69.99</strong>
+            <button class="small-btn">
+              Buy
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="card">
+
+        <img
+          src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519"
+          alt="Casual Sneakers"
+        />
+
+        <div class="card-content">
+
+          <h3>Casual Sneakers</h3>
+
+          <p>
+            Trendy sneakers perfect for everyday wear.
+          </p>
+
+          <div class="product-bottom">
+            <strong>$79.99</strong>
+            <button class="small-btn">
+              Buy
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="card">
+
+        <img
+          src="https://images.unsplash.com/photo-1549298916-b41d501d3772"
+          alt="White Sneakers"
+        />
+
+        <div class="card-content">
+
+          <h3>White Sneakers</h3>
+
+          <p>
+            Stylish white sneakers with premium comfort.
+          </p>
+
+          <div class="product-bottom">
+            <strong>$59.99</strong>
+            <button class="small-btn">
+              Buy
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- OFFER -->
+
+  <section class="offer-banner">
+
+    <h2>
+      50% OFF Summer Sale
+    </h2>
+
+    <p>
+      Limited time offer on selected sneaker collections.
+    </p>
+
+    <a href="#" class="offer-btn">
+      Grab Offer
+    </a>
+
+  </section>
+
+  <!-- REVIEWS -->
+
+  <section class="reviews">
+
+    <h2>
+      Customer Reviews
+    </h2>
+
+    <div class="review-grid">
+
+      <div class="review-card">
+
+        <div class="stars">
+          ★★★★★
+        </div>
+
+        <h3>Rahul Sharma</h3>
+
+        <p>
+          Amazing quality and very comfortable shoes.
+          Perfect for daily jogging.
+        </p>
+
+      </div>
+
+      <div class="review-card">
+
+        <div class="stars">
+          ★★★★☆
+        </div>
+
+        <h3>Priya Das</h3>
+
+        <p>
+          Stylish and lightweight sneakers.
+          Delivery was very fast.
+        </p>
+
+      </div>
+
+      <div class="review-card">
+
+        <div class="stars">
+          ★★★★★
+        </div>
+
+        <h3>Aman Roy</h3>
+
+        <p>
+          Great fitting and premium look.
+          Worth the price.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- NEWSLETTER -->
+
+  <section class="newsletter">
+
+    <h2>
+      Subscribe to Newsletter
+    </h2>
+
+    <p>
+      Get latest offers and new arrivals directly in your inbox.
+    </p>
+
+    <form class="newsletter-form">
+
+      <input
+        type="email"
+        placeholder="Enter your email"
+      />
+
+      <button type="submit">
+        Subscribe
+      </button>
+
+    </form>
+
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="footer-grid">
+
+      <div class="footer-column">
+
+        <h3>UrbanKicks</h3>
+
+        <p>
+          Premium sneakers and fashion footwear for everyone.
+        </p>
+
+        <div class="socials">
+          <i class="fa-brands fa-facebook"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-twitter"></i>
+          <i class="fa-brands fa-youtube"></i>
+        </div>
+
+      </div>
+
+      <div class="footer-column">
+
+        <h3>Quick Links</h3>
+
+        <a href="#">Home</a>
+        <a href="#">Shop</a>
+        <a href="#">Collections</a>
+        <a href="#">Contact</a>
+
+      </div>
+
+      <div class="footer-column">
+
+        <h3>Customer Service</h3>
+
+        <a href="#">FAQs</a>
+        <a href="#">Shipping</a>
+        <a href="#">Returns</a>
+        <a href="#">Support</a>
+
+      </div>
+
+      <div class="footer-column">
+
+        <h3>Contact</h3>
+
+        <p>Email: support@urbankicks.com</p>
+        <p>Phone: +91 9876543210</p>
+        <p>Kolkata, India</p>
+
+      </div>
+
+    </div>
+
+    <div class="copyright">
+      © 2026 UrbanKicks. All Rights Reserved.
+    </div>
+
+  </footer>
+
+  <script>
+
+    function changeImage(image){
+      document.getElementById("mainImage").src = image.src;
+    }
+
+    
+
+  </script>
+
+    <script src="../dist/shared.js"></script>
+</body>
+</html>

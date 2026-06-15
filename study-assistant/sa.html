@@ -1,89 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="../dist/shared.css">
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; connect-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; script-src 'self' https: 'unsafe-hashes'; script-src-attr 'unsafe-hashes'; style-src 'self' https: 'unsafe-hashes' 'sha256-1pmwUKnoHUJSi0UKDcwrqZ6aJ7nAD92vw50zMCh5Yz0=' 'sha256-3nQXB9BVtstV9Mu4nu0HJ1R97K06lV1NTzzS1YbFtfQ=' 'sha256-CZaDuwMSsspb3e3YDd5z3dU3/oM7DpI4HyRFD7B/dq0=' 'sha256-Juy/dqDy1gy1mQy4F6mUri5UHx+atHEcvCxdvfnDs2w=' 'sha256-SkXmi9K9w88T7cz2Un0jdN1+0q8eZsdBDTT+N5w9miA='; style-src-attr 'unsafe-hashes' 'sha256-1pmwUKnoHUJSi0UKDcwrqZ6aJ7nAD92vw50zMCh5Yz0=' 'sha256-3nQXB9BVtstV9Mu4nu0HJ1R97K06lV1NTzzS1YbFtfQ=' 'sha256-CZaDuwMSsspb3e3YDd5z3dU3/oM7DpI4HyRFD7B/dq0=' 'sha256-Juy/dqDy1gy1mQy4F6mUri5UHx+atHEcvCxdvfnDs2w=' 'sha256-SkXmi9K9w88T7cz2Un0jdN1+0q8eZsdBDTT+N5w9miA='">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Study Assistant UI</title>
   <link rel="stylesheet" href="sa.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="hero">
 
-  <div class="assistant-dashboard">
+    <nav class="navbar">
+
+        <div class="logo">
+            🤖 StudyAI
+        </div>
+
+        <div class="nav-links">
+            <a href="#">Dashboard</a>
+            <a href="#">Tasks</a>
+            <a href="#">Analytics</a>
+            <a href="#">Notes</a>
+        </div>
+
+        <button class="premium-btn">
+            Upgrade Pro
+        </button>
+
+    </nav>
+
+    <div class="hero-content">
+
+        <div class="hero-left">
+
+            <span class="hero-tag">
+                ✨ AI Powered Learning
+            </span>
+
+            <h1>
+                Learn Smarter,
+                <span>Not Harder</span>
+            </h1>
+
+            <p>
+                Personal AI study assistant that helps you
+                manage tasks, track progress, generate
+                flashcards and boost productivity.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button class="start-btn">
+                    Start Studying
+                </button>
+
+                <button class="demo-btn">
+                    View Analytics
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="hero-right">
+
+            <div class="floating-card card-1">
+                <h3>📚 Study Hours</h3>
+                <h1>42h</h1>
+            </div>
+
+            <div class="floating-card card-2">
+                <h3>🔥 Streak</h3>
+                <h1>17 Days</h1>
+            </div>
+
+            <div class="floating-card card-3">
+                <h3>🎯 Tasks</h3>
+                <h1>84%</h1>
+            </div>
+
+            <div class="floating-card card-4">
+                <h3>🧠 Focus Score</h3>
+                <h1>92%</h1>
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+ 
+  <div class="container">
 
     <aside class="sidebar">
+        <h2>StudyAI</h2>
 
-      <h2>StudyAI</h2>
-
-      <ul>
-        <li class="active">Dashboard</li>
-        <li>Tasks</li>
-        <li>Notes</li>
-        <li>Reminders</li>
-        <li>Settings</li>
-      </ul>
-
+        <ul>
+            <li class="active">Dashboard</li>
+            <li>Tasks</li>
+            <li>Notes</li>
+            <li>Flashcards</li>
+            <li>Settings</li>
+        </ul>
+      
+        <div class="streak-card">
+            🔥 Study Streak
+            <h3 id="streak">7 Days</h3>
+        </div>
     </aside>
 
-    <main class="main-content">
+    <main>
 
-      <div class="top-section">
+        <div class="top-grid">
+         <div class="quote-card">
+   <h3>Daily Motivation</h3>
+   <p id="quoteText"></p>
+</div>
+            <div class="card">
+                <h3>Study Recommendation</h3>
+                <p id="recommendation">
+                    Focus on JavaScript DOM today.
+                </p>
+            </div>
 
-        <div class="recommendation-card">
+            <div class="card">
+                <h3>Daily Progress</h3>
+                <div class="progress-bar">
+                    <div id="progressFill"></div>
+                </div>
+                <span id="progressText">0%</span>
+            </div>
 
-          <h2>Study Recommendation</h2>
+            <div class="card timer-card">
+                <h3>Pomodoro Timer</h3>
 
-          <p>
-            Focus on JavaScript DOM concepts for 2 hours today.
-          </p>
+                <div id="timer">25:00</div>
 
-        </div>
-
-        <div class="task-card">
-
-          <h2>Today's Tasks</h2>
-
-          <ul>
-            <li>Complete HTML practice</li>
-            <li>Revise CSS Grid</li>
-            <li>Solve JavaScript problems</li>
-          </ul>
-
-        </div>
-
-      </div>
-
-      <div class="chat-section">
-
-        <h2>AI Study Chat</h2>
-
-        <div class="messages" id="messages">
-
-          <div class="message ai">
-            AI: What topic do you want to study today?
-          </div>
+                <button >Start</button>
+                <button>Reset</button>
+            </div>
 
         </div>
 
-        <div class="chat-input">
+        <div class="middle-grid">
 
-          <input
-            type="text"
-            id="userInput"
-            placeholder="Ask your study question..."
-          >
+            <div class="card">
+                <h3>Today's Tasks</h3>
 
-          <button id="sendBtn">
-            Send
-          </button>
+                <div class="task-input">
+                    <input type="text" id="taskInput" placeholder="Add Task">
+                    <button>+</button>
+                </div>
+
+                <ul id="taskList"></ul>
+            </div>
+
+            <div class="card">
+                <h3>Quick Notes</h3>
+
+                <textarea
+                    id="notes"
+                    placeholder="Write notes here..."
+                ></textarea>
+
+                <button>
+                    Save Notes
+                </button>
+            </div>
 
         </div>
 
-      </div>
+        <div class="card flashcard-card">
+
+            <h3>AI Flashcards</h3>
+
+            <div id="flashcard">
+                What does DOM stand for?
+            </div>
+
+            <button>
+                Next Flashcard
+            </button>
+
+        </div>
+
+        <div class="card chat-card">
+
+            <h3>AI Study Chat</h3>
+
+            <div id="messages">
+                <div class="ai-msg">
+                    Hello 👋 What do you want to learn today?
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <input
+                    type="text"
+                    id="userInput"
+                    placeholder="Ask a study question..."
+                >
+                <button id="sendBtn">Send</button>
+            </div>
+
+        </div>
+        <div class="goal-card">
+  <div class="goal-icon">🎯</div>
+  <h3>Today's Goal</h3>
+  <h2 id="goalCount">0/5</h2>
+  <p>Tasks Completed</p>
+</div>
+<div class="badge-card">
+   <div class="badge">🏆</div>
+   <h3>Achievement</h3>
+   <p id="achievementText">Complete 5 Tasks</p>
+</div>
+<div class="analytics-card">
+   <h3>Weekly Study Hours</h3>
+
+   <div class="bars">
+      <div class="bar" style="height:60%"></div>
+      <div class="bar" style="height:90%"></div>
+      <div class="bar" style="height:40%"></div>
+      <div class="bar" style="height:100%"></div>
+      <div class="bar" style="height:75%"></div>
+   </div>
+</div>
+<div class="knowledge-card">
+  <div class="circle">
+      <span id="knowledgeValue">75%</span>
+  </div>
+  <h3>Knowledge Level</h3>
+</div>
+<div class="streak-live-card">
+  <h3>Current Streak</h3>
+  <div id="streakCounter">7</div>
+  <p>Days</p>
+</div>
+
+<div class="dashboard-grid">
+
+   Goal Card
+   Achievement Card
+   Analytics Card
+
+   Knowledge Meter
+   XP Card
+   AI Status
+
+   Study Streak
+   Quote Card
+
+</div>
+<div class="cursor-glow"></div>
 
     </main>
 
-  </div>
+</div>
+
 
   <script src="sa.js"></script>
+  
 </body>
 </html>

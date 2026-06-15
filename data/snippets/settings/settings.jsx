@@ -3,37 +3,140 @@ import React from 'react';
 export default function settings(){
   return (
     <>
-      <main className="main-home">
+      <i className="fa-solid fa-bars menu-toggle" id="menuToggle"></i>
+          <aside className="sidebar">
+            <h2>UIverse</h2>
+            <ul>
       
+<<<<<<< HEAD
+              <li><a href="profile.html"><i className="fa-regular fa-circle-user"></i><p>Profile</p></a></li>
+              <li>
+                <a href="index.html"
+                  ><i className="fa-solid fa-house"></i>
+                  <p>Home</p></a
+                >
+              </li>
+              <li>
+                <a href="button.html"
+                  ><i className="fa-solid fa-mobile-button"></i>
+                  <p>Butttons</p></a
+                >
+              </li>
+              <li>
+                <a href="navbar.html"
+                  ><i className="fa-solid fa-bars"></i>
+                  <p>Navbar</p></a
+                >
+              </li>
+              <li>
+                <a href="contact.html"
+                  ><i className="fa-regular fa-user"></i>
+                  <p>Contact Us</p></a
+                >
+              </li>
+              <li>
+                <a href="forms.html"
+                  ><i className="fa-brands fa-wpforms"></i>
+                  <p>Forms</p></a
+                >
+              </li>
+              <li>
+                <a href="badges.html"
+                  ><i className="fa-solid fa-award"></i>
+                  <p>Badges</p></a
+                >
+              </li>
+              <li>
+                <a href="about.html"
+                  ><i className="fa-solid fa-mobile-button"></i>
+                  <p>About</p></a
+                >
+              </li>
+              <li>
+                <a href="settings.html"
+                  ><i className="fa-solid fa-gear"></i>
+                  <p>Settings</p></a
+                >
+              </li>
+            </ul>
+          </aside>
+      
+          <div className="settings-container">
+            <h1>Settings</h1>
+=======
         {/* HERO */}
-      
         <section className="hero-section">
+>>>>>>> e2f342d ([Feature]: Create a snippet export pipeline that keeps HTML, JSX, and Vue examples in sync)
       
-          <div className="hero-badge">
-            ✦ Dashboard Preferences
+            <div className="settings-card">
+              <h2>Profile</h2>
+              <label>Name</label>
+              <input type="text" id="name" placeholder="Enter your name" />
+      
+              <label>Email</label>
+              <input type="email" id="email" placeholder="Enter your email" />
+      
+              <button id="saveBtn">Save Changes</button>
+            </div>
+      
+            <div className="settings-card">
+              <h2>Password</h2>
+              <label>Current Password</label>
+              <input type="password" id="currentPass" placeholder="Enter current password" autocomplete="off"/>
+      
+              <label>New Password</label>
+              <input type="password" id="newPass" placeholder="Enter new password" autocomplete="off" />
+      
+              <button id="passBtn">Password update</button>
+            </div>
+      
+            <div className="settings-card">
+              <h2>Preferences</h2>
+      
+              <div className="toggle">
+                <span>Dark Mode</span>
+                <input type="checkbox" id="dark-Toggle"/>
+              </div>
+      
+              <div className="toggle">
+                <span>Email</span>
+                <input type="checkbox" id="emailToggle"/>
+              </div>
+            </div>
           </div>
       
+<<<<<<< HEAD
+          {/* UIverse Modular Scripts */}
+          <script src="js/core/utils.js"></script>
+          <script src="js/features/toast.js"></script>
+          <script src="js/features/popup.js"></script>
+          <script src="js/features/code-tools.js"></script>
+          <script src="js/features/sidebar.js"></script>
+          <script src="js/features/search.js"></script>
+          <script src="js/features/theme.js"></script>
+          <script src="js/features/scroll.js"></script>
+          <script src="js/features/alerts.js"></script>
+          <script src="js/features/sandbox.js"></script>
+          <script src="js/features/accessibility.js"></script>
+      <script src="js/bootstrap.js"></script>
+=======
           <h1>
             Account <span>Settings</span>
           </h1>
       
           <p>
-      
             Customize your workspace,
             profile, notifications and
             appearance with premium
             settings components.
-      
           </p>
       
         </section>
       
         {/* SETTINGS GRID */}
-      
         <section className="settings-grid">
       
           {/* PROFILE */}
-      
           <div className="settings-card large-card">
       
             <div className="card-header">
@@ -58,10 +161,10 @@ export default function settings(){
       
                 <img
                   src="https://i.pravatar.cc/200?img=12"
-                  alt=""
-                 />
+                  alt="Alex Carter Profile Picture"
+                />
       
-                <button>
+                <button type="button">
                   Change
                 </button>
       
@@ -71,40 +174,43 @@ export default function settings(){
       
                 <div className="input-group">
       
-                  <label>
+                  <label for="fullName">
                     Full Name
                   </label>
       
                   <input
+                    id="fullName"
                     type="text"
                     value="Alex Carter"
-                   />
+                  />
       
                 </div>
       
                 <div className="input-group">
       
-                  <label>
+                  <label for="emailAddress">
                     Email Address
                   </label>
       
                   <input
+                    id="emailAddress"
                     type="email"
                     value="alex@uiverse.io"
-                   />
+                  />
       
                 </div>
       
                 <div className="input-group">
       
-                  <label>
+                  <label for="username">
                     Username
                   </label>
       
                   <input
+                    id="username"
                     type="text"
                     value="@alexdev"
-                   />
+                  />
       
                 </div>
       
@@ -115,7 +221,6 @@ export default function settings(){
           </div>
       
           {/* APPEARANCE */}
-      
           <div className="settings-card">
       
             <div className="card-header">
@@ -171,7 +276,6 @@ export default function settings(){
           </div>
       
           {/* NOTIFICATIONS */}
-      
           <div className="settings-card">
       
             <div className="card-header">
@@ -206,12 +310,15 @@ export default function settings(){
       
                 </div>
       
-                <label className="switch">
+                <label
+                  className="switch"
+                  aria-label="Toggle Push Notifications"
+                >
       
                   <input
                     type="checkbox"
                     checked
-                   />
+                  />
       
                   <span className="slider"></span>
       
@@ -233,12 +340,15 @@ export default function settings(){
       
                 </div>
       
-                <label className="switch">
+                <label
+                  className="switch"
+                  aria-label="Toggle Email Alerts"
+                >
       
                   <input
                     type="checkbox"
                     checked
-                   />
+                  />
       
                   <span className="slider"></span>
       
@@ -260,7 +370,10 @@ export default function settings(){
       
                 </div>
       
-                <label className="switch">
+                <label
+                  className="switch"
+                  aria-label="Toggle Mention Alerts"
+                >
       
                   <input type="checkbox" />
       
@@ -275,7 +388,6 @@ export default function settings(){
           </div>
       
           {/* SECURITY */}
-      
           <div className="settings-card">
       
             <div className="card-header">
@@ -296,25 +408,43 @@ export default function settings(){
       
             <div className="security-list">
       
-              <button className="security-btn">
+              <button
+                type="button"
+                className="security-btn"
+              >
       
-                <i className="fa-solid fa-lock"></i>
+                <i
+                  className="fa-solid fa-lock"
+                  aria-hidden="true"
+                ></i>
       
                 Change Password
       
               </button>
       
-              <button className="security-btn">
+              <button
+                type="button"
+                className="security-btn"
+              >
       
-                <i className="fa-solid fa-shield"></i>
+                <i
+                  className="fa-solid fa-shield"
+                  aria-hidden="true"
+                ></i>
       
                 Enable 2FA
       
               </button>
       
-              <button className="security-btn">
+              <button
+                type="button"
+                className="security-btn"
+              >
       
-                <i className="fa-solid fa-laptop"></i>
+                <i
+                  className="fa-solid fa-laptop"
+                  aria-hidden="true"
+                ></i>
       
                 Manage Devices
       
@@ -325,7 +455,6 @@ export default function settings(){
           </div>
       
           {/* STORAGE */}
-      
           <div className="settings-card">
       
             <div className="card-header">
@@ -358,13 +487,19 @@ export default function settings(){
       
               </div>
       
-              <div className="progress-bar">
+              <div
+                className="progress-bar"
+                aria-label="Storage Usage"
+              >
       
                 <div className="progress-fill"></div>
       
               </div>
       
-              <button className="upgrade-btn">
+              <button
+                type="button"
+                className="upgrade-btn"
+              >
                 Upgrade Plan
               </button>
       
@@ -373,7 +508,6 @@ export default function settings(){
           </div>
       
           {/* DANGER */}
-      
           <div className="settings-card danger-card">
       
             <div className="card-header">
@@ -393,13 +527,14 @@ export default function settings(){
             </div>
       
             <p>
-      
               Permanently delete your
               account and all data.
-      
             </p>
       
-            <button className="danger-btn">
+            <button
+              type="button"
+              className="danger-btn"
+            >
               Delete Account
             </button>
       
@@ -408,6 +543,7 @@ export default function settings(){
         </section>
       
       </main>
+>>>>>>> e2f342d ([Feature]: Create a snippet export pipeline that keeps HTML, JSX, and Vue examples in sync)
     </>
   );
 }
