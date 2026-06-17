@@ -131,6 +131,7 @@ const Bootstrap = {
   );
 }
 
+
     if (typeof URLStateManager !== 'undefined') {
       UIverse.register('URLStateManager', URLStateManager);
     }
