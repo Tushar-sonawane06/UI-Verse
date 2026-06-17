@@ -39,7 +39,50 @@
     href="switches.css"
   >
 
-  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
+</head>
 
 <body>
 <!-- ================= SIDEBAR ================= -->
@@ -47,7 +90,11 @@
   <div class="sidebar-brand">
     <span class="brand-icon">⬡</span>
     <span class="brand-text">UIverse <span style="font-size: 9px; background: linear-gradient(135deg, #eb6835, #7b61ff); color: white; padding: 1px 6px; border-radius: 10px; font-weight: 800; margin-left: 4px; letter-spacing: 0.5px; vertical-align: middle; box-shadow: 0 0 8px rgba(235,104,53,0.3);">V2</span></span>
-  </div>
+  
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    </div>
 
           <nav class="sidebar-nav">
     <ul>
@@ -580,6 +627,7 @@ MAIN
 
     </div>
 
+
     <!-- IOS -->
 
     <div class="switch-card">
@@ -625,6 +673,184 @@ MAIN
     </div>
 
     <!-- SETTINGS -->
+     <!-- GRADIENT SWITCH -->
+    <div class="switch-card">
+      <div class="card-top">
+        <span class="card-label">GRADIENT</span>
+        <div class="card-icon purple-gradient">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </div>
+      </div>
+      <h2>Gradient Switch</h2>
+      <p>Vibrant gradient toggle with elastic bounce thumb and glowing active state.</p>
+      <div class="switch-demo">
+        <label class="gradient-switch">
+          <input type="checkbox" checked>
+          <span class="gradient-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- NEON GLOW SWITCH -->
+    <div class="switch-card">
+      <div class="card-top">
+        <span class="card-label">NEON</span>
+        <div class="card-icon cyan-gradient">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+      </div>
+      <h2>Neon Glow Switch</h2>
+      <p>Futuristic cyan neon switch with glowing orb and photon-trail animation on toggle.</p>
+      <div class="switch-demo">
+        <label class="neon-switch">
+          <input type="checkbox" checked>
+          <span class="neon-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- POWER SWITCH -->
+    <div class="switch-card">
+      <div class="card-top">
+        <span class="card-label">POWER</span>
+        <div class="card-icon red-gradient">
+          <i class="fa-solid fa-power-off"></i>
+        </div>
+      </div>
+      <h2>Power Switch</h2>
+      <p>Bold on/off power toggle transitioning from danger-red to success-green with icon thumb.</p>
+      <div class="switch-demo">
+        <label class="power-switch">
+          <input type="checkbox">
+          <span class="power-slider">
+            <i class="fa-solid fa-power-off"></i>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ON/OFF LABEL SWITCH -->
+    <div class="switch-card">
+      <div class="card-top">
+        <span class="card-label">LABELED</span>
+        <div class="card-icon green-gradient">
+          <i class="fa-solid fa-circle-half-stroke"></i>
+        </div>
+      </div>
+      <h2>ON / OFF Label Switch</h2>
+      <p>Multi-state label switch displaying readable ON/OFF text inside the track for clarity.</p>
+      <div class="switch-demo">
+        <label class="status-switch">
+          <input type="checkbox" checked>
+          <span class="status-slider">
+            <span class="status-text on">ON</span>
+            <span class="status-text off">OFF</span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ICON THEME SWITCH -->
+    <div class="switch-card">
+      <div class="card-top">
+        <span class="card-label">THEME</span>
+        <div class="card-icon orange-gradient">
+          <i class="fa-solid fa-sun"></i>
+        </div>
+      </div>
+      <h2>Icon Theme Switch</h2>
+      <p>Advanced sun/moon icon switch with gradient thumb and smooth icon opacity transitions.</p>
+      <div class="switch-demo">
+        <label class="modern-icon-switch">
+          <input type="checkbox">
+          <span class="modern-icon-slider">
+            <i class="fa-solid fa-sun icon-sun"></i>
+            <i class="fa-solid fa-moon icon-moon"></i>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ELASTIC iOS SWITCH -->
+    <div class="switch-card">
+      <div class="card-top">
+        <span class="card-label">ELASTIC iOS</span>
+        <div class="card-icon blue-gradient">
+          <i class="fa-solid fa-mobile-retro"></i>
+        </div>
+      </div>
+      <h2>Elastic Bounce Switch</h2>
+      <p>Satisfying spring-physics elastic animation mimicking native iOS toggle behavior.</p>
+      <div class="switch-demo">
+        <div style="display:flex;gap:20px;align-items:center;">
+          <label class="elastic-ios-switch">
+            <input type="checkbox" checked>
+            <span class="elastic-ios-slider"></span>
+          </label>
+          <label class="elastic-ios-switch">
+            <input type="checkbox">
+            <span class="elastic-ios-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIVACY SETTINGS PANEL (wide) -->
+    <div class="switch-card large-card">
+      <div class="card-top">
+        <span class="card-label">PRIVACY PANEL</span>
+        <div class="card-icon pink-gradient">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+      </div>
+      <h2>Privacy &amp; Security Settings</h2>
+      <p>Contextual privacy controls using labeled and gradient switches in a real-world panel.</p>
+      <div class="settings-list">
+        <div class="setting-item">
+          <div>
+            <strong>Location Tracking</strong>
+            <span>Allow apps to access your location</span>
+          </div>
+          <label class="status-switch">
+            <input type="checkbox">
+            <span class="status-slider">
+              <span class="status-text on">ON</span>
+              <span class="status-text off">OFF</span>
+            </span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <div>
+            <strong>Cookie Consent</strong>
+            <span>Enable 3rd-party analytics cookies</span>
+          </div>
+          <label class="gradient-switch">
+            <input type="checkbox" checked>
+            <span class="gradient-slider"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <div>
+            <strong>Two-Factor Auth</strong>
+            <span>Secure your account with 2FA</span>
+          </div>
+          <label class="neon-switch">
+            <input type="checkbox" checked>
+            <span class="neon-slider"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <div>
+            <strong>Ad Personalization</strong>
+            <span>Receive targeted ads based on usage</span>
+          </div>
+          <label class="elastic-ios-switch">
+            <input type="checkbox">
+            <span class="elastic-ios-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
 
     <div class="switch-card large-card">
 

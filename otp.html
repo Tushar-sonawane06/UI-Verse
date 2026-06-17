@@ -17,7 +17,50 @@
 
   <link rel="stylesheet" href="otp.css">
   
-    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
+</head>
 
 <body>
 <!-- ================= SIDEBAR ================= -->
@@ -25,7 +68,11 @@
   <div class="sidebar-brand">
     <span class="brand-icon">⬡</span>
     <span class="brand-text">UIverse</span>
-  </div>
+  
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    </div>
 
           <nav class="sidebar-nav">
     <ul>
@@ -624,9 +671,138 @@
 
 </div>
 
+<!-- Rounded OTP -->
+<div class="otp-card">
+  <span class="otp-badge">Rounded</span>
+  <h2>Rounded OTP</h2>
+  <p>Fully rounded circular OTP inputs.</p>
+  <div class="otp-group rounded-otp">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+  </div>
+</div>
 
+<!-- Dashed OTP -->
+<div class="otp-card">
+  <span class="otp-badge">Dashed</span>
+  <h2>Dashed Border OTP</h2>
+  <p>OTP inputs with a dashed border style.</p>
+  <div class="otp-group dashed-otp">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+  </div>
+</div>
 
+<!-- Solid Square OTP -->
+<div class="otp-card">
+  <span class="otp-badge">Solid</span>
+  <h2>Solid Square OTP</h2>
+  <p>Sharp edges with a solid background.</p>
+  <div class="otp-group square-solid-otp">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+  </div>
+</div>
 
+<!-- Soft Shadow OTP -->
+<div class="otp-card">
+  <span class="otp-badge">Shadow</span>
+  <h2>Soft Shadow OTP</h2>
+  <p>Neumorphic-inspired soft shadow inputs.</p>
+  <div class="otp-group soft-shadow-otp">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+  </div>
+</div>
+
+<!-- Thick Border OTP -->
+<div class="otp-card">
+  <span class="otp-badge">Bold</span>
+  <h2>Thick Border OTP</h2>
+  <p>Bold styling with thick borders.</p>
+  <div class="otp-group thick-border-otp">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+  </div>
+</div>
+
+<!-- Ghost OTP -->
+<div class="otp-card">
+  <span class="otp-badge">Ghost</span>
+  <h2>Ghost OTP</h2>
+  <p>Transparent inputs with hover borders.</p>
+  <div class="otp-group ghost-otp">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+  </div>
+</div>
+
+<!-- Split Dash OTP -->
+<div class="otp-card">
+  <span class="otp-badge">Split</span>
+  <h2>Split Dash OTP</h2>
+  <p>Two groups separated by a dash.</p>
+  <div class="otp-group split-dash-otp">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <span class="separator">-</span>
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+  </div>
+</div>
+
+<!-- Outline Glow OTP -->
+<div class="otp-card">
+  <span class="otp-badge">Glow</span>
+  <h2>Outline Glow OTP</h2>
+  <p>Subtle glowing outline on focus.</p>
+  <div class="otp-group outline-glow-otp">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+  </div>
+</div>
+
+<!-- Minimal Box OTP -->
+<div class="otp-card">
+  <span class="otp-badge">Minimal</span>
+  <h2>Minimal Box OTP</h2>
+  <p>Very thin borders, elegant typography.</p>
+  <div class="otp-group minimal-box-otp">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+  </div>
+</div>
+
+<!-- Two-Tone OTP -->
+<div class="otp-card">
+  <span class="otp-badge">Two-Tone</span>
+  <h2>Two-Tone OTP</h2>
+  <p>Dual-colored background for modern look.</p>
+  <div class="otp-group two-tone-otp">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+    <input type="text" maxlength="1">
+  </div>
+</div>
 
 </div>
 
@@ -753,6 +929,6 @@ document.querySelectorAll(
 });
 
 </script>
-  <script src="dist/shared.js"></script>
+  <script src="otp.js"></script>
 </body>
 </html>

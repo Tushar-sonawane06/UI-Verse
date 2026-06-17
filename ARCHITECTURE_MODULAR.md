@@ -192,6 +192,10 @@ Each HTML file includes all modular scripts in the head:
 - All feature modules are independent and can be enhanced separately
 - Bootstrap process ensures features initialize in logical order
 
+## Component Isolation & Standalone Behavior
+
+While simple components (like buttons and badges) remain standalone and only require base CSS/JS, **advanced components** (such as Dashboards, Analysis Cards, and Interactive Forms) now require shared managers—specifically `theme-manager.js` and `state-manager.js`—to function correctly. This ensures consistent theme propagation and state synchronization across complex UI patterns.
+
 ## CSS Modularization & Styling Conventions
 
 To maintain visual consistency and prevent selector collisions across our modular layout, the project implements strict styling conventions:

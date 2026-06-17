@@ -62,4 +62,4 @@ const pageMap = {
     'js/features/theme.js',
     'js/features/scroll.js',
     'js/features/sandbox.js',
-    'js/features/command-palette.js',
+

@@ -130,6 +130,7 @@ class FormManager {
         UIVerseStateManager.setState(`forms.${formId}.errors`, errors);
       }
     } catch (error) {
+      console.error('Network request failed:', error);
       UIVerseStateManager.setState(`forms.${formId}.errors`, {
         submit: error.message
       });
@@ -327,6 +328,7 @@ class SearchComponent {
         'search.error': null
       });
     } catch (error) {
+      console.error('Network request failed:', error);
       UIVerseStateManager.setState('search.error', error.message);
     } finally {
       UIVerseStateManager.setState('search.loading', false);
@@ -453,7 +455,7 @@ class MultiStepForm {
         UIVerseStateManager.setState('form.multiStep.completed', true);
       }
     } catch (error) {
-      console.error('Submit failed:', error);
+      console.error('Network request failed:', error);
     }
   }
 }

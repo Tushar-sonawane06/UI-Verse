@@ -2395,568 +2395,289 @@ kbd{
     gap: 20px;
   }
 }
+/* ============================================================
+   THEME STYLING OVERRIDES
+   Navbar, Sidebar, and Footer theme colors:
+   - Light Mode: White background, dark text/icons
+   - Dark Mode: Black background, light/white text/icons
+   ============================================================ */
 
-/* =========================================================
-   TOOLBAR MENU
-========================================================= */
-.toolbar-menu {
-  display: flex;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 4px;
-  gap: 4px;
-  align-items: center;
-}
-.tool-btn {
-  background: transparent;
-  border: none;
-  color: var(--muted);
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.tool-btn:hover {
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-}
-.tool-btn.dropdown-trigger {
-  width: auto;
-  padding: 0 12px;
-  gap: 8px;
-}
-.toolbar-menu .divider {
-  width: 1px;
-  height: 20px;
-  background: var(--border);
-  margin: 0 4px;
+/* ==========================================
+   1. LIGHT MODE SPECIFIC (body:not(.dark-mode))
+   ========================================== */
+body:not(.dark-mode) .navbar,
+body:not(.dark-mode) header.navbar,
+body:not(.dark-mode) nav.navbar,
+body:not(.dark-mode) .sidebar,
+body:not(.dark-mode) aside.sidebar,
+body:not(.dark-mode) .footer,
+body:not(.dark-mode) footer.footer {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
 }
 
-/* =========================================================
-   SLIDE-OUT NAVIGATION
-========================================================= */
-.slideout-container {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 200px;
-  background: #0f1117;
-  border-radius: 12px;
-}
-.slideout-trigger {
-  background: var(--accent);
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  color: #fff;
-  cursor: pointer;
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.slideout-panel {
-  position: absolute;
-  top: 0;
-  left: -200px;
-  width: 200px;
-  height: 100%;
-  background: var(--card);
-  border-right: 1px solid var(--border);
-  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  z-index: 20;
-}
-.slideout-container:hover .slideout-panel {
-  left: 0;
-}
-.slideout-header {
-  padding: 16px;
-  font-weight: 700;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.slideout-panel a {
-  padding: 12px 16px;
-  color: var(--muted);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  transition: var(--transition);
-}
-.slideout-panel a:hover {
-  background: rgba(255,255,255,0.05);
-  color: #fff;
+/* Ensure text, icons, links inside these components are dark */
+body:not(.dark-mode) .navbar *,
+body:not(.dark-mode) header.navbar *,
+body:not(.dark-mode) nav.navbar *,
+body:not(.dark-mode) .sidebar *,
+body:not(.dark-mode) aside.sidebar *,
+body:not(.dark-mode) .footer *,
+body:not(.dark-mode) footer.footer * {
+  color: #334155 !important;
 }
 
-/* =========================================================
-   APP DRAWER
-========================================================= */
-.app-drawer-container {
-  position: relative;
-}
-.app-drawer-btn {
-  background: var(--card);
-  border: 1px solid var(--border);
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  transition: var(--transition);
-}
-.app-drawer-btn:hover {
-  background: rgba(255,255,255,0.1);
-}
-.app-drawer-grid {
-  position: absolute;
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 16px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  opacity: 0;
-  visibility: hidden;
-  transition: 0.2s;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-.app-drawer-container:hover .app-drawer-grid {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-}
-.app-icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 12px;
-}
-.app-icon .icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  color: #fff;
-  transition: var(--transition);
-}
-.app-icon:hover .icon {
-  transform: scale(1.1);
-}
-.app-icon .icon.purple { background: linear-gradient(135deg, #a855f7, #7e22ce); }
-.app-icon .icon.blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
-.app-icon .icon.yellow { background: linear-gradient(135deg, #eab308, #a16207); }
-.app-icon .icon.pink { background: linear-gradient(135deg, #ec4899, #be185d); }
-
-/* =========================================================
-   TREE VIEW MENU
-========================================================= */
-.tree-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  text-align: left;
-}
-.tree-menu ul {
-  list-style: none;
-  padding-left: 20px;
-  margin-top: 4px;
-  border-left: 1px dashed var(--border);
-  margin-left: 10px;
-}
-.tree-menu li {
-  margin-bottom: 4px;
-}
-.tree-menu summary {
-  cursor: pointer;
-  padding: 6px 8px;
-  border-radius: 6px;
-  color: #fff;
-  font-weight: 500;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.tree-menu summary:hover {
-  background: rgba(255,255,255,0.05);
-}
-.tree-menu summary::marker {
-  content: "";
-}
-.tree-menu a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 8px;
-  color: var(--muted);
-  text-decoration: none;
-  border-radius: 6px;
-  transition: var(--transition);
-}
-.tree-menu a:hover {
-  background: rgba(255,255,255,0.05);
-  color: #fff;
-}
-.tree-menu i {
-  width: 16px;
-  text-align: center;
-  color: var(--accent);
+/* Titles and major headings */
+body:not(.dark-mode) .navbar .logo,
+body:not(.dark-mode) .sidebar .sidebar-brand,
+body:not(.dark-mode) .sidebar h2,
+body:not(.dark-mode) .sidebar .brand-text,
+body:not(.dark-mode) .footer h2,
+body:not(.dark-mode) .footer h3,
+body:not(.dark-mode) .footer-logo {
+  color: #0f172a !important;
 }
 
-/* =========================================================
-   TABBED DROPDOWN
-========================================================= */
-.tabbed-dropdown-container {
-  position: relative;
-}
-.tab-trigger {
-  background: var(--card);
-  border: 1px solid var(--border);
-  padding: 10px 16px;
-  border-radius: 8px;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.tabbed-dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  width: 240px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: 0.2s;
-  overflow: hidden;
-}
-.tabbed-dropdown-container:hover .tabbed-dropdown {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-.tab-headers {
-  display: flex;
-  border-bottom: 1px solid var(--border);
-}
-.tab-btn {
-  flex: 1;
-  background: transparent;
-  border: none;
-  padding: 10px;
-  color: var(--muted);
-  cursor: pointer;
-  font-weight: 500;
-  border-bottom: 2px solid transparent;
-}
-.tab-btn.active {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
-  background: rgba(255,255,255,0.02);
-}
-.tab-content {
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-}
-.tab-content a {
-  padding: 10px 12px;
-  color: var(--muted);
-  text-decoration: none;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.tab-content a:hover {
-  background: rgba(255,255,255,0.05);
-  color: #fff;
+/* Sidebar navigation links */
+body:not(.dark-mode) .sidebar-nav li a,
+body:not(.dark-mode) .sidebar ul li a,
+body:not(.dark-mode) .sidebar a {
+  background: transparent !important;
+  color: #475569 !important;
 }
 
-/* =========================================================
-   SPLIT BUTTON MENU
-========================================================= */
-.split-btn-group {
-  display: flex;
-  position: relative;
-}
-.split-main {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px 0 0 8px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.split-main:hover {
-  filter: brightness(1.1);
-}
-.split-caret {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-left: 1px solid rgba(255,255,255,0.2);
-  padding: 10px 12px;
-  border-radius: 0 8px 8px 0;
-  cursor: pointer;
-}
-.split-caret:hover {
-  filter: brightness(1.1);
-}
-.split-menu {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px;
-  min-width: 150px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: 0.2s;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  display: flex;
-  flex-direction: column;
-}
-.split-btn-group:hover .split-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-.split-menu a {
-  padding: 8px 12px;
-  color: var(--muted);
-  text-decoration: none;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.split-menu a:hover {
-  background: rgba(255,255,255,0.05);
-  color: #fff;
+/* Sidebar active link and hover states */
+body:not(.dark-mode) .sidebar-nav li.active a,
+body:not(.dark-mode) .sidebar-nav li a:hover,
+body:not(.dark-mode) .sidebar ul li.active a,
+body:not(.dark-mode) .sidebar ul li a:hover,
+body:not(.dark-mode) .sidebar a:hover,
+body:not(.dark-mode) .sidebar .active a {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
 }
 
-/* =========================================================
-   CONTEXTUAL TOOLBAR
-========================================================= */
-.contextual-toolbar {
-  display: inline-flex;
-  background: #1f2937;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 4px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-}
-.contextual-toolbar .toolbar-btn {
-  background: transparent;
-  border: none;
-  color: #d1d5db;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.contextual-toolbar .toolbar-btn:hover {
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-}
-.contextual-toolbar .toolbar-btn.danger:hover {
-  background: rgba(239, 68, 68, 0.2);
-  color: #ef4444;
+body:not(.dark-mode) .sidebar-nav li.active a *,
+body:not(.dark-mode) .sidebar-nav li a:hover *,
+body:not(.dark-mode) .sidebar ul li.active a *,
+body:not(.dark-mode) .sidebar ul li a:hover *,
+body:not(.dark-mode) .sidebar a:hover *,
+body:not(.dark-mode) .sidebar .active a * {
+  color: #0f172a !important;
 }
 
-/* =========================================================
-   PIE MENU
-========================================================= */
-.pie-menu-container {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.pie-menu {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.pie-center {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  z-index: 10;
-  transition: 0.3s;
-}
-.pie-menu-container:hover .pie-center {
-  transform: scale(0.9) rotate(45deg);
-}
-.pie-slice {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 40px;
-  height: 40px;
-  margin-top: -20px;
-  margin-left: -20px;
-  opacity: 0;
-  transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  transform: rotate(calc(var(--i) * 90deg)) translateY(0);
-}
-.pie-menu-container:hover .pie-slice {
-  opacity: 1;
-  transform: rotate(calc(var(--i) * 90deg)) translateY(-60px);
-}
-.pie-slice a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: var(--card);
-  border: 1px solid var(--border);
-  color: #fff;
-  text-decoration: none;
-  transform: rotate(calc(var(--i) * -90deg));
-  transition: 0.2s;
-}
-.pie-slice a:hover {
-  background: rgba(255,255,255,0.1);
-  transform: rotate(calc(var(--i) * -90deg)) scale(1.1);
+/* Footer links hover */
+body:not(.dark-mode) .footer a:hover,
+body:not(.dark-mode) footer.footer a:hover {
+  color: #4f46e5 !important; /* Premium brand indigo */
 }
 
-/* =========================================================
-   FLOATING ACTION BAR
-========================================================= */
-.fab-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(15, 17, 23, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 8px 16px;
-  width: 100%;
-  max-width: 300px;
-  margin: 0 auto;
+/* Search bar inside navbar */
+body:not(.dark-mode) .search-bar input {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
 }
-.fab-item {
-  color: var(--muted);
-  font-size: 20px;
-  text-decoration: none;
-  transition: 0.2s;
-  padding: 8px;
-}
-.fab-item:hover, .fab-item.active {
-  color: #fff;
-}
-.fab-primary {
-  background: var(--accent);
-  color: #fff !important;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(-20px);
-  box-shadow: 0 10px 20px rgba(235, 104, 53, 0.3);
-}
-.fab-primary:hover {
-  transform: translateY(-25px);
+body:not(.dark-mode) .search-bar input::placeholder {
+  color: #64748b !important;
 }
 
-/* =========================================================
-   ACCORDION NAV
-========================================================= */
-.accordion-nav {
-  width: 100%;
-  max-width: 250px;
-  text-align: left;
+/* Outline and secondary buttons inside light navbar/sidebar */
+body:not(.dark-mode) .navbar .nav-btn.outline-nav-btn,
+body:not(.dark-mode) .navbar .outline-btn {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
 }
-.acc-item {
-  border-bottom: 1px solid var(--border);
-}
-.acc-item:last-child {
-  border-bottom: none;
-}
-.acc-trigger {
-  padding: 12px 8px;
-  color: #fff;
-  font-weight: 500;
-  cursor: pointer;
-  list-style: none;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.acc-trigger::-webkit-details-marker {
-  display: none;
-}
-.acc-arrow {
-  margin-left: auto;
-  transition: 0.3s;
-}
-.acc-item[open] .acc-arrow {
-  transform: rotate(180deg);
-}
-.acc-content {
-  display: flex;
-  flex-direction: column;
-  padding: 0 8px 12px 34px;
-  gap: 8px;
-}
-.acc-content a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 14px;
-  transition: 0.2s;
-}
-.acc-content a:hover {
-  color: var(--accent);
+body:not(.dark-mode) .navbar .nav-btn.outline-nav-btn:hover,
+body:not(.dark-mode) .navbar .outline-btn:hover {
+  background-color: #f1f5f9 !important;
 }
 
+
+/* ==========================================
+   2. DARK MODE SPECIFIC (body.dark-mode)
+   ========================================== */
+body.dark-mode .navbar,
+body.dark-mode header.navbar,
+body.dark-mode nav.navbar,
+body.dark-mode .sidebar,
+body.dark-mode aside.sidebar,
+body.dark-mode .footer,
+body.dark-mode footer.footer {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #f8fafc !important;
+  border-color: #1e293b !important;
+  box-shadow: none !important;
+}
+
+/* Ensure text, icons, links inside these components are light */
+body.dark-mode .navbar *,
+body.dark-mode header.navbar *,
+body.dark-mode nav.navbar *,
+body.dark-mode .sidebar *,
+body.dark-mode aside.sidebar *,
+body.dark-mode .footer *,
+body.dark-mode footer.footer * {
+  color: #cbd5e1 !important; /* slate-300 */
+}
+
+/* Titles and major headings */
+body.dark-mode .navbar .logo,
+body.dark-mode .sidebar .sidebar-brand,
+body.dark-mode .sidebar h2,
+body.dark-mode .sidebar .brand-text,
+body.dark-mode .footer h2,
+body.dark-mode .footer h3,
+body.dark-mode .footer-logo {
+  color: #ffffff !important;
+}
+
+/* Sidebar navigation links */
+body.dark-mode .sidebar-nav li a,
+body.dark-mode .sidebar ul li a,
+body.dark-mode .sidebar a {
+  background: transparent !important;
+  color: #94a3b8 !important;
+}
+
+/* Sidebar active link and hover states */
+body.dark-mode .sidebar-nav li.active a,
+body.dark-mode .sidebar-nav li a:hover,
+body.dark-mode .sidebar ul li.active a,
+body.dark-mode .sidebar ul li a:hover,
+body.dark-mode .sidebar a:hover,
+body.dark-mode .sidebar .active a {
+  background-color: #1e293b !important; /* slate-800 */
+  color: #ffffff !important;
+}
+
+body.dark-mode .sidebar-nav li.active a *,
+body.dark-mode .sidebar-nav li a:hover *,
+body.dark-mode .sidebar ul li.active a *,
+body.dark-mode .sidebar ul li a:hover *,
+body.dark-mode .sidebar a:hover *,
+body.dark-mode .sidebar .active a * {
+  color: #ffffff !important;
+}
+
+/* Footer links hover */
+body.dark-mode .footer a:hover,
+body.dark-mode footer.footer a:hover {
+  color: #818cf8 !important; /* Indigo-400 */
+}
+
+/* Search bar inside navbar */
+body.dark-mode .search-bar input {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+  border: 1px solid #1e293b !important;
+}
+body.dark-mode .search-bar input::placeholder {
+  color: #475569 !important;
+}
+
+/* Secondary/outline buttons in dark navbar */
+body.dark-mode .navbar .nav-btn.outline-nav-btn,
+body.dark-mode .navbar .outline-btn {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #334155 !important;
+}
+body.dark-mode .navbar .nav-btn.outline-nav-btn:hover,
+body.dark-mode .navbar .outline-btn:hover {
+  background-color: #0f172a !important;
+}
+
+
+/* ==========================================
+   3. THEME TOGGLE BUTTON STYLING (GLOBAL)
+   ========================================== */
+.theme-toggle,
+#darkModeToggle,
+#theme-toggle {
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-size: 1.15rem !important;
+  padding: 8px 12px !important;
+  border-radius: 9999px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+
+body:not(.dark-mode) .theme-toggle,
+body:not(.dark-mode) #darkModeToggle,
+body:not(.dark-mode) #theme-toggle {
+  color: #475569 !important;
+  background-color: #f1f5f9 !important;
+}
+body:not(.dark-mode) .theme-toggle:hover,
+body:not(.dark-mode) #darkModeToggle:hover,
+body:not(.dark-mode) #theme-toggle:hover {
+  color: #0f172a !important;
+  background-color: #e2e8f0 !important;
+  transform: scale(1.05);
+}
+
+body.dark-mode .theme-toggle,
+body.dark-mode #darkModeToggle,
+body.dark-mode #theme-toggle {
+  color: #e2e8f0 !important;
+  background-color: #1e293b !important;
+}
+body.dark-mode .theme-toggle:hover,
+body.dark-mode #darkModeToggle:hover,
+body.dark-mode #theme-toggle:hover {
+  color: #ffffff !important;
+  background-color: #334155 !important;
+  transform: scale(1.05);
+}
+
+/* Floating theme toggle button (for pages without navbar/sidebar) */
+.theme-toggle-floating {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  z-index: 9999 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+body.dark-mode .theme-toggle-floating {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+}
+
+/* Sidebar list item toggle button */
+.sidebar .theme-toggle-sidebar {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 10px 16px !important;
+  width: calc(100% - 32px) !important;
+  margin: 10px 16px !important;
+  border-radius: 8px !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+body:not(.dark-mode) .sidebar .theme-toggle-sidebar {
+  color: #475569 !important;
+  background-color: #f1f5f9 !important;
+}
+body:not(.dark-mode) .sidebar .theme-toggle-sidebar:hover {
+  color: #0f172a !important;
+  background-color: #e2e8f0 !important;
+}
+body.dark-mode .sidebar .theme-toggle-sidebar {
+  color: #cbd5e1 !important;
+  background-color: #1e293b !important;
+}
+body.dark-mode .sidebar .theme-toggle-sidebar:hover {
+  color: #ffffff !important;
+  background-color: #334155 !important;
+}

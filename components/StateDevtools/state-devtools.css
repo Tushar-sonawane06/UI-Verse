@@ -1,0 +1,654 @@
+/* State DevTools Component Styles */
+
+.state-devtools {
+  --devtools-bg: #1e1e1e;
+  --devtools-surface: #252526;
+  --devtools-surface-hover: #2a2d2e;
+  --devtools-border: #3c3c3c;
+  --devtools-text: #cccccc;
+  --devtools-text-muted: #858585;
+  --devtools-primary: #4ec9b0;
+  --devtools-accent: #569cd6;
+  --devtools-warning: #dcdcaa;
+  --devtools-danger: #f14c4c;
+  --devtools-success: #6a9955;
+  --devtools-added: #4ec9b0;
+  --devtools-removed: #f14c4c;
+  --devtools-changed: #dcdcaa;
+  
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  background: var(--devtools-bg);
+  color: var(--devtools-text);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 600px;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Docked mode */
+.state-devtools.docked {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10000;
+  max-height: 70vh;
+}
+
+/* Undocked (floating) mode */
+.state-devtools.undocked {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+}
+
+/* Hidden mode */
+.state-devtools.hidden {
+  display: none;
+}
+
+/* Header */
+.devtools-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--devtools-surface);
+  border-bottom: 1px solid var(--devtools-border);
+}
+
+.devtools-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--devtools-primary);
+}
+
+.devtools-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.devtools-btn {
+  background: transparent;
+  border: none;
+  color: var(--devtools-text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.devtools-btn:hover {
+  background: var(--devtools-surface-hover);
+  color: var(--devtools-text);
+}
+
+/* Tabs */
+.devtools-tabs {
+  display: flex;
+  background: var(--devtools-surface);
+  border-bottom: 1px solid var(--devtools-border);
+  padding: 0 8px;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--devtools-text-muted);
+  cursor: pointer;
+  padding: 10px 16px;
+  font-size: 13px;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover {
+  color: var(--devtools-text);
+}
+
+.tab-btn.active {
+  color: var(--devtools-primary);
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--devtools-primary);
+}
+
+/* Content */
+.devtools-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-panel {
+  display: none;
+  flex: 1;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.tab-panel.active {
+  display: flex;
+}
+
+/* Timeline Tab */
+.slider-section {
+  padding: 16px;
+  border-bottom: 1px solid var(--devtools-border);
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.slider-label {
+  font-weight: 500;
+  color: var(--devtools-text);
+}
+
+.slider-info {
+  color: var(--devtools-text-muted);
+  font-size: 12px;
+  font-family: monospace;
+}
+
+.history-slider {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--devtools-border);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+
+.history-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--devtools-primary);
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.history-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.history-slider:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.slider-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--devtools-surface);
+  border: 1px solid var(--devtools-border);
+  color: var(--devtools-text);
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+  flex: 1;
+  justify-content: center;
+}
+
+.control-btn:hover:not(:disabled) {
+  background: var(--devtools-surface-hover);
+  border-color: var(--devtools-primary);
+}
+
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Action Log */
+.action-log-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 16px;
+}
+
+.section-title {
+  margin: 0 0 12px 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--devtools-text-muted);
+}
+
+.action-log-container {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid var(--devtools-border);
+  border-radius: 4px;
+}
+
+.action-log-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.action-log-table th {
+  position: sticky;
+  top: 0;
+  background: var(--devtools-surface);
+  text-align: left;
+  padding: 8px 12px;
+  font-weight: 600;
+  color: var(--devtools-text-muted);
+  border-bottom: 1px solid var(--devtools-border);
+}
+
+.action-log-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--devtools-border);
+  font-family: monospace;
+}
+
+.action-log-table tr:hover {
+  background: var(--devtools-surface-hover);
+}
+
+.action-log-table tr.current {
+  background: rgba(78, 201, 176, 0.15);
+}
+
+.action-log-table tr.current td:first-child::before {
+  content: '→';
+  color: var(--devtools-primary);
+  margin-right: 4px;
+}
+
+.action-type {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.action-type.SET { background: var(--devtools-accent); color: #fff; }
+.action-type.RESET { background: var(--devtools-warning); color: #000; }
+.action-type.INIT { background: var(--devtools-text-muted); color: #fff; }
+
+.action-path {
+  color: var(--devtools-primary);
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.action-value {
+  color: var(--devtools-warning);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.action-time {
+  color: var(--devtools-text-muted);
+  font-size: 11px;
+}
+
+/* State Viewer */
+.state-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.state-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.devtools-btn-small {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--devtools-surface);
+  border: 1px solid var(--devtools-border);
+  color: var(--devtools-text);
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.devtools-btn-small:hover {
+  background: var(--devtools-surface-hover);
+  border-color: var(--devtools-primary);
+}
+
+.state-viewer {
+  flex: 1;
+  margin: 0;
+  padding: 12px;
+  background: var(--devtools-surface);
+  border: 1px solid var(--devtools-border);
+  border-radius: 4px;
+  overflow: auto;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Diff Viewer */
+.diff-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.diff-header {
+  margin-bottom: 12px;
+}
+
+.diff-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.diff-select {
+  background: var(--devtools-surface);
+  border: 1px solid var(--devtools-border);
+  color: var(--devtools-text);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  min-width: 120px;
+}
+
+.diff-arrow {
+  color: var(--devtools-text-muted);
+}
+
+.diff-viewer {
+  flex: 1;
+  background: var(--devtools-surface);
+  border: 1px solid var(--devtools-border);
+  border-radius: 4px;
+  padding: 12px;
+  overflow: auto;
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.diff-placeholder {
+  color: var(--devtools-text-muted);
+  text-align: center;
+  padding: 40px;
+}
+
+.diff-added {
+  background: rgba(78, 201, 176, 0.2);
+  color: var(--devtools-added);
+}
+
+.diff-removed {
+  background: rgba(241, 76, 76, 0.2);
+  color: var(--devtools-removed);
+  text-decoration: line-through;
+}
+
+.diff-changed {
+  background: rgba(220, 220, 170, 0.2);
+  color: var(--devtools-changed);
+}
+
+.diff-line {
+  padding: 2px 4px;
+  border-radius: 2px;
+  margin: 2px 0;
+}
+
+/* Export Tab */
+.export-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow: auto;
+  gap: 20px;
+}
+
+.export-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.export-label {
+  font-weight: 500;
+  color: var(--devtools-text);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--devtools-surface);
+  border: 1px solid var(--devtools-border);
+  color: var(--devtools-text);
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.export-btn:hover {
+  background: var(--devtools-surface-hover);
+  border-color: var(--devtools-primary);
+}
+
+.export-btn.primary {
+  background: var(--devtools-primary);
+  border-color: var(--devtools-primary);
+  color: #000;
+}
+
+.export-btn.primary:hover {
+  background: #5fd9c0;
+}
+
+.import-textarea {
+  width: 100%;
+  min-height: 100px;
+  background: var(--devtools-surface);
+  border: 1px solid var(--devtools-border);
+  color: var(--devtools-text);
+  padding: 10px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+  resize: vertical;
+}
+
+.import-textarea:focus {
+  outline: none;
+  border-color: var(--devtools-primary);
+}
+
+.import-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.quick-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  background: var(--devtools-surface);
+  border: 1px solid var(--devtools-border);
+  color: var(--devtools-text);
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  background: var(--devtools-surface-hover);
+}
+
+.action-btn.danger {
+  border-color: var(--devtools-danger);
+  color: var(--devtools-danger);
+}
+
+.action-btn.danger:hover {
+  background: var(--devtools-danger);
+  color: #fff;
+}
+
+/* Status Bar */
+.devtools-status {
+  display: flex;
+  gap: 16px;
+  padding: 8px 16px;
+  background: var(--devtools-surface);
+  border-top: 1px solid var(--devtools-border);
+  font-size: 11px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--devtools-success);
+}
+
+.status-dot.inactive {
+  background: var(--devtools-text-muted);
+}
+
+.status-dot.paused {
+  background: var(--devtools-warning);
+}
+
+/* Floating Toggle Button */
+.devtools-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--devtools-primary);
+  border: none;
+  color: #000;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: all 0.2s;
+}
+
+.devtools-toggle:hover {
+  transform: scale(1.1);
+}
+
+.toggle-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--devtools-danger);
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--devtools-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--devtools-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--devtools-text-muted);
+}

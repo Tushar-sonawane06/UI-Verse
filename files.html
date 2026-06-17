@@ -17,7 +17,50 @@
   <meta name="title" content="File Upload Components — UIverse">
   <meta name="description" content="Modern drag-and-drop upload components with clean layouts, smooth interactions, and responsive design.">
   <meta name="author" content="UIverse Community">
-  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
+</head>
 <body>
 
 <div class="main-content">
@@ -124,7 +167,11 @@
   <div class="sidebar-brand">
     <span class="brand-icon">⬡</span>
     <span class="brand-text">UIverse <span style="font-size: 9px; background: linear-gradient(135deg, #eb6835, #7b61ff); color: white; padding: 1px 6px; border-radius: 10px; font-weight: 800; margin-left: 4px; letter-spacing: 0.5px; vertical-align: middle; box-shadow: 0 0 8px rgba(235,104,53,0.3);">V2</span></span>
-  </div>
+  
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    </div>
 
           <nav class="sidebar-nav">
     <ul>
@@ -1049,6 +1096,329 @@
 
     </div>
   
+    <!-- CARD 13: Circular Cloud Dropzone -->
+    <div class="upload-card" data-name="circular cloud dropzone minimal round" data-cat="simple">
+      <div class="card-preview">
+        <div class="upload-box circular-upload">
+          <div class="circle-drop">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+          </div>
+          <p>Drop here</p>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Circular Dropzone</h3>
+          <span class="card-tag tag-essential">Clean</span>
+        </div>
+        <p>A perfectly circular drag-and-drop zone for a modern and minimal look.</p>
+        <div class="actions">
+          <button class="action-btn view-btn" onclick="toggleCode('code-circular-upload', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button class="action-btn copy-btn" onclick="copyCode('code-circular-upload', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre class="code-block" id="code-circular-upload"><code>&lt;div class="upload-box circular-upload"&gt;
+  &lt;div class="circle-drop"&gt;
+    &lt;i class="fa-solid fa-cloud-arrow-up"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;p&gt;Drop here&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- CARD 14: Dashboard Panel Upload -->
+    <div class="upload-card" data-name="dashboard panel data files system admin" data-cat="premium">
+      <div class="card-preview">
+        <div class="upload-box panel-upload">
+          <div class="panel-header">
+            <span>Data Import</span>
+            <i class="fa-solid fa-ellipsis"></i>
+          </div>
+          <div class="panel-body">
+            <i class="fa-solid fa-file-csv fa-2x"></i>
+            <h4>Upload CSV/Excel</h4>
+            <button class="panel-btn">Browse</button>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Dashboard Panel</h3>
+          <span class="card-tag tag-trending">Admin</span>
+        </div>
+        <p>Structured panel style upload tailored for data-heavy dashboard interfaces.</p>
+        <div class="actions">
+          <button class="action-btn view-btn" onclick="toggleCode('code-panel-upload', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button class="action-btn copy-btn" onclick="copyCode('code-panel-upload', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre class="code-block" id="code-panel-upload"><code>&lt;div class="upload-box panel-upload"&gt;
+  &lt;div class="panel-header"&gt;
+    &lt;span&gt;Data Import&lt;/span&gt;
+    &lt;i class="fa-solid fa-ellipsis"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;div class="panel-body"&gt;
+    &lt;i class="fa-solid fa-file-csv fa-2x"&gt;&lt;/i&gt;
+    &lt;h4&gt;Upload CSV/Excel&lt;/h4&gt;
+    &lt;button class="panel-btn"&gt;Browse&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- CARD 15: Floating Multi-File Picker -->
+    <div class="upload-card" data-name="floating picker multi multiple select files" data-cat="simple">
+      <div class="card-preview">
+        <div class="upload-box multi-picker-upload">
+          <div class="picker-btn">
+            <i class="fa-solid fa-plus"></i> Add Files
+          </div>
+          <div class="picker-avatars">
+            <span class="p-av">📄</span>
+            <span class="p-av">🖼️</span>
+            <span class="p-av">+3</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Multi Picker</h3>
+          <span class="card-tag tag-new">Compact</span>
+        </div>
+        <p>A compact pill-shaped button that expands to show recently picked file icons.</p>
+        <div class="actions">
+          <button class="action-btn view-btn" onclick="toggleCode('code-multi-picker', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button class="action-btn copy-btn" onclick="copyCode('code-multi-picker', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre class="code-block" id="code-multi-picker"><code>&lt;div class="upload-box multi-picker-upload"&gt;
+  &lt;div class="picker-btn"&gt;
+    &lt;i class="fa-solid fa-plus"&gt;&lt;/i&gt; Add Files
+  &lt;/div&gt;
+  &lt;div class="picker-avatars"&gt;
+    &lt;span class="p-av"&gt;📄&lt;/span&gt;
+    &lt;span class="p-av"&gt;🖼️&lt;/span&gt;
+    &lt;span class="p-av"&gt;+3&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- CARD 16: Document Scanner UI -->
+    <div class="upload-card" data-name="document scanner scan camera mobile" data-cat="premium">
+      <div class="card-preview">
+        <div class="upload-box scanner-upload">
+          <div class="scanner-frame">
+            <div class="scan-line"></div>
+            <i class="fa-regular fa-file-lines doc-icon"></i>
+          </div>
+          <p>Scan Document</p>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Scanner UI</h3>
+          <span class="card-tag tag-trending">Mobile</span>
+        </div>
+        <p>A document scanner simulation with an animated scanning laser line.</p>
+        <div class="actions">
+          <button class="action-btn view-btn" onclick="toggleCode('code-scanner-upload', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button class="action-btn copy-btn" onclick="copyCode('code-scanner-upload', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre class="code-block" id="code-scanner-upload"><code>&lt;div class="upload-box scanner-upload"&gt;
+  &lt;div class="scanner-frame"&gt;
+    &lt;div class="scan-line"&gt;&lt;/div&gt;
+    &lt;i class="fa-regular fa-file-lines doc-icon"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;p&gt;Scan Document&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- CARD 17: Code Snippet/File Uploader -->
+    <div class="upload-card" data-name="code snippet developer dev syntax" data-cat="premium">
+      <div class="card-preview">
+        <div class="upload-box code-upload">
+          <div class="code-header">
+            <span class="mac-btn red"></span><span class="mac-btn yellow"></span><span class="mac-btn green"></span>
+            <span class="code-title">upload.js</span>
+          </div>
+          <div class="code-body">
+            <code><span class="kw">import</span> { upload } <span class="kw">from</span> 'fs';<br>
+            <span class="cmt">// Drop dev files here</span><br>
+            <span class="fn">initUpload</span>();</code>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Dev Snippet</h3>
+          <span class="card-tag tag-new">Dev</span>
+        </div>
+        <p>A sleek IDE-style window for developers to upload code files or snippets.</p>
+        <div class="actions">
+          <button class="action-btn view-btn" onclick="toggleCode('code-snippet-upload', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button class="action-btn copy-btn" onclick="copyCode('code-snippet-upload', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre class="code-block" id="code-snippet-upload"><code>&lt;div class="upload-box code-upload"&gt;
+  &lt;div class="code-header"&gt;
+    &lt;span class="mac-btn red"&gt;&lt;/span&gt;&lt;span class="mac-btn yellow"&gt;&lt;/span&gt;&lt;span class="mac-btn green"&gt;&lt;/span&gt;
+    &lt;span class="code-title"&gt;upload.js&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="code-body"&gt;
+    &lt;code&gt;&lt;span class="kw"&gt;import&lt;/span&gt; { upload } &lt;span class="kw"&gt;from&lt;/span&gt; 'fs';&lt;br&gt;
+    &lt;span class="cmt"&gt;// Drop dev files here&lt;/span&gt;&lt;br&gt;
+    &lt;span class="fn"&gt;initUpload&lt;/span&gt;();&lt;/code&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- CARD 18: Cyber Hexagon Upload -->
+    <div class="upload-card" data-name="cyber hexagon geometric gaming sci-fi" data-cat="gradient">
+      <div class="card-preview">
+        <div class="upload-box hex-upload">
+          <div class="hex-shape">
+            <div class="hex-inner">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Cyber Hexagon</h3>
+          <span class="card-tag tag-trending">Sci-Fi</span>
+        </div>
+        <p>A hexagonal dropzone perfect for gaming or tech-focused applications.</p>
+        <div class="actions">
+          <button class="action-btn view-btn" onclick="toggleCode('code-hex-upload', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button class="action-btn copy-btn" onclick="copyCode('code-hex-upload', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre class="code-block" id="code-hex-upload"><code>&lt;div class="upload-box hex-upload"&gt;
+  &lt;div class="hex-shape"&gt;
+    &lt;div class="hex-inner"&gt;
+      &lt;i class="fa-solid fa-cloud-arrow-up"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- CARD 19: Media Library Dropzone -->
+    <div class="upload-card" data-name="media library photos videos grid album" data-cat="simple">
+      <div class="card-preview">
+        <div class="upload-box media-upload">
+          <div class="media-grid">
+            <div class="m-box"><i class="fa-solid fa-image"></i></div>
+            <div class="m-box"><i class="fa-solid fa-video"></i></div>
+            <div class="m-box"><i class="fa-solid fa-music"></i></div>
+            <div class="m-box active-drop"><i class="fa-solid fa-plus"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Media Library</h3>
+          <span class="card-tag tag-essential">Gallery</span>
+        </div>
+        <p>A grid layout dropzone mimicking a media album interface.</p>
+        <div class="actions">
+          <button class="action-btn view-btn" onclick="toggleCode('code-media-upload', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button class="action-btn copy-btn" onclick="copyCode('code-media-upload', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre class="code-block" id="code-media-upload"><code>&lt;div class="upload-box media-upload"&gt;
+  &lt;div class="media-grid"&gt;
+    &lt;div class="m-box"&gt;&lt;i class="fa-solid fa-image"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;div class="m-box"&gt;&lt;i class="fa-solid fa-video"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;div class="m-box"&gt;&lt;i class="fa-solid fa-music"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;div class="m-box active-drop"&gt;&lt;i class="fa-solid fa-plus"&gt;&lt;/i&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- CARD 20: Blueprint Schematic Upload -->
+    <div class="upload-card" data-name="blueprint schematic engineering grid technical" data-cat="premium">
+      <div class="card-preview">
+        <div class="upload-box blueprint-upload">
+          <div class="blueprint-grid"></div>
+          <div class="blueprint-content">
+            <i class="fa-solid fa-compass-drafting"></i>
+            <span>Upload CAD/Blueprints</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Blueprint UI</h3>
+          <span class="card-tag tag-new">Technical</span>
+        </div>
+        <p>An engineering-style blueprint dropzone with grid lines.</p>
+        <div class="actions">
+          <button class="action-btn view-btn" onclick="toggleCode('code-blueprint-upload', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button class="action-btn copy-btn" onclick="copyCode('code-blueprint-upload', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre class="code-block" id="code-blueprint-upload"><code>&lt;div class="upload-box blueprint-upload"&gt;
+  &lt;div class="blueprint-grid"&gt;&lt;/div&gt;
+  &lt;div class="blueprint-content"&gt;
+    &lt;i class="fa-solid fa-compass-drafting"&gt;&lt;/i&gt;
+    &lt;span&gt;Upload CAD/Blueprints&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- CARD 21: Folder Tree Upload -->
+    <div class="upload-card" data-name="folder tree directory hierarchy" data-cat="simple">
+      <div class="card-preview">
+        <div class="upload-box folder-tree-upload">
+          <div class="tree-item"><i class="fa-solid fa-folder-open text-folder"></i> /root</div>
+          <div class="tree-item sub"><i class="fa-solid fa-folder text-folder"></i> /assets</div>
+          <div class="tree-dropzone">Drop files to /assets</div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Folder Tree</h3>
+          <span class="card-tag tag-essential">Utility</span>
+        </div>
+        <p>A directory tree structure highlighting the active drop destination.</p>
+        <div class="actions">
+          <button class="action-btn view-btn" onclick="toggleCode('code-folder-tree', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button class="action-btn copy-btn" onclick="copyCode('code-folder-tree', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre class="code-block" id="code-folder-tree"><code>&lt;div class="upload-box folder-tree-upload"&gt;
+  &lt;div class="tree-item"&gt;&lt;i class="fa-solid fa-folder-open text-folder"&gt;&lt;/i&gt; /root&lt;/div&gt;
+  &lt;div class="tree-item sub"&gt;&lt;i class="fa-solid fa-folder text-folder"&gt;&lt;/i&gt; /assets&lt;/div&gt;
+  &lt;div class="tree-dropzone"&gt;Drop files to /assets&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- CARD 22: Compact Strip Upload -->
+    <div class="upload-card" data-name="compact strip inline horizontal bar" data-cat="simple">
+      <div class="card-preview">
+        <div class="upload-box strip-upload">
+          <i class="fa-solid fa-cloud-arrow-up strip-icon"></i>
+          <span class="strip-text">Drag files or Browse</span>
+          <button class="strip-btn">Upload</button>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>Compact Strip</h3>
+          <span class="card-tag tag-new">Inline</span>
+        </div>
+        <p>A very slim horizontal upload bar suitable for tight UI spaces.</p>
+        <div class="actions">
+          <button class="action-btn view-btn" onclick="toggleCode('code-strip-upload', this)"><i class="fa-solid fa-code"></i> View Code</button>
+          <button class="action-btn copy-btn" onclick="copyCode('code-strip-upload', this)"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        <pre class="code-block" id="code-strip-upload"><code>&lt;div class="upload-box strip-upload"&gt;
+  &lt;i class="fa-solid fa-cloud-arrow-up strip-icon"&gt;&lt;/i&gt;
+  &lt;span class="strip-text"&gt;Drag files or Browse&lt;/span&gt;
+  &lt;button class="strip-btn"&gt;Upload&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
   </section>
 
 </div>

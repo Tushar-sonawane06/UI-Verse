@@ -32,7 +32,6 @@ class ManifestValidator {
     try {
       const content = fs.readFileSync(this.manifestPath, 'utf8');
       this.manifest = JSON.parse(content);
-      console.log('✓ Manifest file loaded successfully');
       return true;
     } catch (error) {
       this.errors.push(`Failed to load manifest: ${error.message}`);
@@ -68,10 +67,6 @@ class ManifestValidator {
         this.errors.push(`Missing required field: ${field}`);
       }
     });
-
-    if (this.errors.length === 0) {
-      console.log('✓ All required root fields present');
-    }
   }
 
   /**
@@ -96,8 +91,6 @@ class ManifestValidator {
     if (metadata.totalCategories && typeof metadata.totalCategories !== 'number') {
       this.errors.push('totalCategories must be a number');
     }
-
-    console.log('✓ Metadata section validated');
   }
 
   /**
@@ -162,8 +155,6 @@ class ManifestValidator {
         this.errors.push(`Component "${key}" has invalid difficulty: ${category.difficulty}`);
       }
     });
-
-    console.log('✓ Components section validated');
   }
 
   /**
@@ -191,8 +182,6 @@ class ManifestValidator {
     if (resources.javascript && !Array.isArray(resources.javascript.global)) {
       this.errors.push('resources.javascript.global must be an array');
     }
-
-    console.log('✓ Resources section validated');
   }
 
   /**
@@ -222,8 +211,6 @@ class ManifestValidator {
         );
       }
     }
-
-    console.log('✓ Pagination section validated');
   }
 
   /**
@@ -263,8 +250,6 @@ class ManifestValidator {
         `Category count mismatch: expected ${categoryCount}, got ${metadata.totalCategories}`
       );
     }
-
-    console.log('✓ Cross-section consistency validated');
   }
 
   /**
@@ -286,8 +271,6 @@ class ManifestValidator {
         this.errors.push(`files.${category} must be an array`);
       }
     });
-
-    console.log('✓ Files section validated');
   }
 
   /**
@@ -307,16 +290,12 @@ class ManifestValidator {
         this.warnings.push(`Missing stats.${field}`);
       }
     });
-
-    console.log('✓ Stats section validated');
   }
 
   /**
    * Run all validations
    */
   validate() {
-    console.log('\n📋 Starting Manifest Validation...\n');
-
     if (!this.load()) {
       return false;
     }
@@ -337,31 +316,6 @@ class ManifestValidator {
    * Generate validation report
    */
   report() {
-    console.log('\n' + '='.repeat(60));
-    console.log('📊 VALIDATION REPORT');
-    console.log('='.repeat(60));
-
-    if (this.errors.length === 0 && this.warnings.length === 0) {
-      console.log('\n✅ Manifest is valid!\n');
-      return true;
-    }
-
-    if (this.errors.length > 0) {
-      console.log(`\n❌ ERRORS (${this.errors.length}):`);
-      this.errors.forEach((error, i) => {
-        console.log(`  ${i + 1}. ${error}`);
-      });
-    }
-
-    if (this.warnings.length > 0) {
-      console.log(`\n⚠️  WARNINGS (${this.warnings.length}):`);
-      this.warnings.forEach((warning, i) => {
-        console.log(`  ${i + 1}. ${warning}`);
-      });
-    }
-
-    console.log('\n' + '='.repeat(60) + '\n');
-
     return this.errors.length === 0;
   }
 }

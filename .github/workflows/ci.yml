@@ -9,8 +9,12 @@ on:
 
 jobs:
   verify:
-    name: Lint and Test
-    runs-on: ubuntu-latest
+    name: Lint and Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+      fail-fast: false
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -85,15 +89,32 @@ jobs:
         run: npm run test:a11y:remediation:check
 
       - name: Install Playwright browsers
+        if: matrix.os == 'ubuntu-latest'
         run: npx playwright install --with-deps
 
       - name: Visual regression tests
+        if: matrix.os == 'ubuntu-latest'
         run: npm run test:visual
+
+  visual-regression:
+    name: Visual Regression
+    runs-on: ubuntu-latest
+    needs: verify
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps
+      - run: npm run test:visual
 
   deploy-preview:
     name: Deploy Preview
     runs-on: ubuntu-latest
-    needs: verify
+    needs: [verify, visual-regression]
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout repository

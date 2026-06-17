@@ -2568,6 +2568,240 @@ body {
 .cyber-red { border-color: rgba(255,0,60,.4); color: #ff003c; }
 .cyber-red.on { background: rgba(255,0,60,.1); box-shadow: 0 0 8px rgba(255,0,60,.2); }
 
+/* =========================================================
+   1. NEUMORPHIC RANGE SLIDER
+========================================================= */
+.neumorphic-filter {
+  padding: 20px;
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 8px 8px 16px rgba(0,0,0,0.3), -8px -8px 16px rgba(255,255,255,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 250px;
+}
+.neu-title {
+  margin: 0; font-size: 14px; color: var(--text-heading); text-align: center;
+}
+.neu-range-wrap {
+  width: 100%;
+  height: 12px;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: inset 4px 4px 8px rgba(0,0,0,0.4), inset -4px -4px 8px rgba(255,255,255,0.05);
+  display: flex; align-items: center; padding: 0 4px;
+}
+.neu-range {
+  width: 100%;
+  -webkit-appearance: none;
+  background: transparent;
+  outline: none;
+}
+.neu-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 10px var(--primary-glow);
+  cursor: pointer;
+}
+.neu-value {
+  text-align: center; font-size: 16px; font-weight: 800; color: var(--primary);
+}
+
+/* =========================================================
+   2. CIRCULAR COLOR SWATCHES
+========================================================= */
+.circ-color-filter {
+  display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%;
+}
+.circ-color-filter h4 { margin: 0; font-size: 14px; }
+.circ-colors {
+  display: flex; gap: 10px;
+}
+.circ-swatch {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--c);
+  cursor: pointer;
+  position: relative;
+  transition: 0.3s;
+}
+.circ-swatch::after {
+  content: ''; position: absolute; inset: -4px; border-radius: 50%;
+  border: 2px solid var(--c); opacity: 0; transform: scale(0.8); transition: 0.3s;
+}
+.circ-swatch.active { transform: scale(0.9); }
+.circ-swatch.active::after { opacity: 1; transform: scale(1); }
+
+/* =========================================================
+   3. GLASSMORPHIC PILL TAGS
+========================================================= */
+.glass-tags-wrap {
+  display: flex; flex-wrap: wrap; gap: 10px; padding: 10px; justify-content: center;
+}
+.glass-tag {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: 0.3s;
+}
+.glass-tag:hover { background: rgba(255,255,255,0.2); }
+.glass-tag.active {
+  background: rgba(255,255,255,0.3); border-color: #fff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* =========================================================
+   4. GRADIENT RANGE SELECTION
+========================================================= */
+.grad-range-filter {
+  width: 100%; max-width: 250px; text-align: center;
+}
+.grad-range-filter h4 { margin: 0 0 15px; font-size: 14px; }
+.grad-range {
+  width: 100%; -webkit-appearance: none; appearance: none;
+  height: 8px; border-radius: 4px;
+  background: linear-gradient(90deg, #ff007a, #7928ca);
+  --val: 50%;
+  mask-image: linear-gradient(to right, #000 var(--val), rgba(0,0,0,0.2) var(--val));
+  -webkit-mask-image: linear-gradient(to right, #000 var(--val), rgba(0,0,0,0.2) var(--val));
+  cursor: pointer;
+}
+.grad-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px; background: #fff; border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* =========================================================
+   5. 3D TOGGLE LIST
+========================================================= */
+.toggle-3d-list {
+  display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 200px;
+}
+.toggle-3d {
+  display: flex; align-items: center; gap: 12px; cursor: pointer;
+}
+.toggle-3d input { display: none; }
+.t-slider {
+  width: 48px; height: 24px; border-radius: 12px;
+  background: #333; position: relative;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); transition: 0.3s;
+}
+.t-slider::before {
+  content: ''; position: absolute; left: 2px; top: 2px;
+  width: 20px; height: 20px; border-radius: 50%; background: #ddd;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3); transition: 0.3s;
+}
+.toggle-3d input:checked + .t-slider { background: #10b981; }
+.toggle-3d input:checked + .t-slider::before { transform: translateX(24px); background: #fff; }
+.t-label { font-size: 14px; font-weight: 600; color: var(--text-heading); }
+
+/* =========================================================
+   6. GLOWING CHECKBOX TREE
+========================================================= */
+.glow-check-tree {
+  display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 200px;
+}
+.glow-check {
+  display: flex; align-items: center; gap: 10px; cursor: pointer; color: #fff; font-size: 14px;
+}
+.glow-check input { display: none; }
+.g-box {
+  width: 18px; height: 18px; border: 2px solid #333; border-radius: 4px;
+  transition: 0.3s; position: relative;
+}
+.glow-check input:checked + .g-box {
+  border-color: #06b6d4; background: rgba(6,182,212,0.2); box-shadow: 0 0 10px #06b6d4;
+}
+.glow-check input:checked + .g-box::after {
+  content: '✓'; position: absolute; color: #06b6d4; font-size: 12px;
+  left: 3px; top: -1px; font-weight: 900;
+}
+.glow-check-sub {
+  margin-left: 28px; display: flex; flex-direction: column; gap: 8px; margin-top: 4px;
+  border-left: 1px dashed #333; padding-left: 10px;
+}
+
+/* =========================================================
+   7. PRICING TIERS FILTER
+========================================================= */
+.tier-filter-wrap {
+  display: flex; gap: 10px; width: 100%; max-width: 280px; justify-content: center;
+}
+.tier-card {
+  flex: 1; text-align: center; background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border); border-radius: 12px; padding: 12px 0;
+  cursor: pointer; transition: 0.3s; font-size: 12px; font-weight: 600; color: var(--text-muted);
+}
+.tier-card span { display: block; font-size: 18px; font-weight: 800; color: #fff; margin-top: 4px; }
+.tier-card:hover { background: rgba(255,255,255,0.1); }
+.tier-card.active {
+  background: var(--primary); border-color: var(--primary); color: #000; box-shadow: 0 4px 15px var(--primary-glow);
+}
+.tier-card.active span { color: #000; }
+
+/* =========================================================
+   8. EXPANDING RADIAL MENU
+========================================================= */
+.radial-filter {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 50px; height: 50px;
+}
+.rad-btn {
+  position: absolute; top: 0; left: 0; width: 50px; height: 50px; border-radius: 50%;
+  border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: var(--surface); color: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 16px;
+}
+.main-rad { z-index: 10; background: var(--primary); color: #000; font-size: 20px; }
+.radial-filter.open .main-rad { transform: rotate(180deg); }
+.radial-filter.open .r1 { transform: translateY(-60px); }
+.radial-filter.open .r2 { transform: translateX(60px); }
+.radial-filter.open .r3 { transform: translateY(60px); }
+.radial-filter.open .r4 { transform: translateX(-60px); }
+.item-rad:hover { background: rgba(255,255,255,0.1); color: var(--primary); }
+
+/* =========================================================
+   9. MINIMALIST SLIDING TABS
+========================================================= */
+.min-sliding-tabs {
+  display: flex; position: relative; background: rgba(0,0,0,0.2);
+  border-radius: 20px; padding: 4px; width: 100%; max-width: 240px;
+}
+.min-tab {
+  flex: 1; border: none; background: transparent; color: var(--text-muted);
+  font-size: 13px; font-weight: 600; padding: 8px 0; cursor: pointer; z-index: 2; transition: 0.3s;
+}
+.min-tab.active { color: #fff; }
+.min-tab-bg {
+  position: absolute; top: 4px; left: 4px; bottom: 4px; width: calc(33.333% - 2.66px);
+  background: var(--primary); border-radius: 16px; z-index: 1; transition: 0.3s;
+}
+
+/* =========================================================
+   10. POLAROID IMAGE FILTER
+========================================================= */
+.polaroid-filter-wrap {
+  display: flex; gap: 15px; width: 100%; justify-content: center;
+}
+.pol-card {
+  background: #fff; padding: 6px 6px 16px 6px; border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; transition: 0.3s; transform: rotate(-5deg);
+}
+.pol-card:nth-child(2) { transform: rotate(2deg) translateY(5px); }
+.pol-card:nth-child(3) { transform: rotate(6deg); }
+.pol-card:hover { transform: translateY(-10px) rotate(0deg); z-index: 2; }
+.pol-img { width: 50px; height: 50px; border-radius: 2px; }
+.pol-card span { display: block; text-align: center; margin-top: 8px; font-family: 'Caveat', cursive; color: #000; font-size: 14px; font-weight: 700; }
+.pol-card.active { border: 2px solid var(--primary); transform: translateY(-5px) scale(1.05); z-index: 3; }
+
 /* ---- RESPONSIVE MEDIA QUERIES ---- */
 @media (max-width: 1200px) {
   .footer-grid {

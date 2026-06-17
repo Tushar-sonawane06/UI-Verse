@@ -280,6 +280,19 @@ For issues or suggestions regarding dark mode:
 3. Test with localStorage cleared
 4. Report with browser and OS details
 
+## CSS Variables Glossary
+
+| Variable Name | Light Mode (Hex) | Dark Mode (Hex) |
+| :--- | :--- | :--- |
+| `--bg-primary` | `#f3f4f7` | `#0f172a` |
+| `--bg-secondary` | `#ffffff` | `#1a1f2e` |
+| `--text-primary` | `#000000` | `#e5e7eb` |
+| `--text-secondary` | `#1e1d1d9a` | `#cbd5e1` |
+| `--text-tertiary` | `#666666` | `#94a3b8` |
+| `--card-bg` | `#ffffff` | `#1e293b` |
+| `--button-bg` | `#883f12` | `#475569` |
+| `--input-bg` | `#ffffff` | `#1e293b` |
+
 ---
 
 **Dark Mode Implementation Status: ✅ Complete**

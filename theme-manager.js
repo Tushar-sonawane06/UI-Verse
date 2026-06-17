@@ -60,7 +60,7 @@ class ThemeManager {
       
       return this.config;
     } catch (error) {
-      console.error('Failed to load theme config:', error);
+      console.error('Network request failed:', error);
       return null;
     }
   }

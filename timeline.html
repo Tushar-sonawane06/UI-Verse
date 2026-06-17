@@ -16,7 +16,50 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="timeline.css" />
-    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
+</head>
 
 <body>
 
@@ -28,6 +71,10 @@
     <div class="sidebar-brand">
       <span class="brand-icon">⬡</span>
       <span class="brand-text">UIverse <span style="font-size: 9px; background: linear-gradient(135deg, #eb6835, #7b61ff); color: white; padding: 1px 6px; border-radius: 10px; font-weight: 800; margin-left: 4px; letter-spacing: 0.5px; vertical-align: middle; box-shadow: 0 0 8px rgba(235,104,53,0.3);">V2</span></span>
+    
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
     </div>
 
             <nav class="sidebar-nav">
@@ -493,6 +540,473 @@
     </div>
   </div>
 </div>
+<!-- ========================= -->
+      <!-- 21. Skill Progress Timeline -->
+      <!-- ========================= -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>Skill Progress Timeline</h3>
+          <p>Animated skill growth bars across career milestones with gradient progress indicators.</p>
+        </div>
+        <div class="preview-box">
+          <div class="skill-timeline">
+            <div class="skill-tl-item">
+              <div class="skill-tl-year">
+                <span>2021</span>
+                <div class="skill-tl-dot"></div>
+              </div>
+              <div class="skill-tl-content">
+                <h4>HTML &amp; CSS Mastery</h4>
+                <div class="skill-bar-wrap">
+                  <div class="skill-bar" style="width: 95%; --skill-color: #3b82f6;"></div>
+                  <span>95%</span>
+                </div>
+              </div>
+            </div>
+            <div class="skill-tl-item">
+              <div class="skill-tl-year">
+                <span>2022</span>
+                <div class="skill-tl-dot"></div>
+              </div>
+              <div class="skill-tl-content">
+                <h4>JavaScript &amp; React</h4>
+                <div class="skill-bar-wrap">
+                  <div class="skill-bar" style="width: 82%; --skill-color: #8b5cf6;"></div>
+                  <span>82%</span>
+                </div>
+              </div>
+            </div>
+            <div class="skill-tl-item">
+              <div class="skill-tl-year">
+                <span>2023</span>
+                <div class="skill-tl-dot"></div>
+              </div>
+              <div class="skill-tl-content">
+                <h4>Node.js &amp; APIs</h4>
+                <div class="skill-bar-wrap">
+                  <div class="skill-bar" style="width: 70%; --skill-color: #10b981;"></div>
+                  <span>70%</span>
+                </div>
+              </div>
+            </div>
+            <div class="skill-tl-item">
+              <div class="skill-tl-year">
+                <span>2024</span>
+                <div class="skill-tl-dot"></div>
+              </div>
+              <div class="skill-tl-content">
+                <h4>Cloud &amp; DevOps</h4>
+                <div class="skill-bar-wrap">
+                  <div class="skill-bar" style="width: 58%; --skill-color: #f59e0b;"></div>
+                  <span>58%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-code" onclick="toggleCode('code-skill')">
+            <i class="fa-solid fa-code"></i> View Code
+          </button>
+          <button class="btn btn-copy" onclick="copyCode('code-skill-pre', this)">
+            <i class="fa-regular fa-copy"></i> Copy
+          </button>
+        </div>
+        <div class="code-snippet" id="code-skill">
+          <pre id="code-skill-pre"><code>&lt;div class="skill-timeline"&gt;
+  &lt;div class="skill-tl-item"&gt;
+    &lt;div class="skill-tl-year"&gt;
+      &lt;span&gt;2022&lt;/span&gt;
+      &lt;div class="skill-tl-dot"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="skill-tl-content"&gt;
+      &lt;h4&gt;JavaScript &amp; React&lt;/h4&gt;
+      &lt;div class="skill-bar-wrap"&gt;
+        &lt;div class="skill-bar" style="width:82%;--skill-color:#8b5cf6"&gt;&lt;/div&gt;
+        &lt;span&gt;82%&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+
+      <!-- ========================= -->
+      <!-- 22. Price Journey Timeline -->
+      <!-- ========================= -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>Price Journey Timeline</h3>
+          <p>Compact crypto/stock price milestone tracker with trend indicators and delta badges.</p>
+        </div>
+        <div class="preview-box">
+          <div class="price-timeline">
+            <div class="price-tl-track"></div>
+            <div class="price-tl-item up">
+              <div class="price-tl-node"><i class="fa-solid fa-arrow-trend-up"></i></div>
+              <div class="price-tl-card">
+                <div class="price-tl-top">
+                  <span class="price-tl-label">Jan 2024</span>
+                  <span class="price-delta up">+12.4%</span>
+                </div>
+                <div class="price-tl-value">$42,800</div>
+                <p>All-time high after ETF approval wave.</p>
+              </div>
+            </div>
+            <div class="price-tl-item down">
+              <div class="price-tl-node"><i class="fa-solid fa-arrow-trend-down"></i></div>
+              <div class="price-tl-card">
+                <div class="price-tl-top">
+                  <span class="price-tl-label">Apr 2024</span>
+                  <span class="price-delta down">-18.3%</span>
+                </div>
+                <div class="price-tl-value">$28,100</div>
+                <p>Market correction after macro rate hike.</p>
+              </div>
+            </div>
+            <div class="price-tl-item up">
+              <div class="price-tl-node"><i class="fa-solid fa-rocket"></i></div>
+              <div class="price-tl-card">
+                <div class="price-tl-top">
+                  <span class="price-tl-label">Nov 2024</span>
+                  <span class="price-delta up">+38.7%</span>
+                </div>
+                <div class="price-tl-value">$68,500</div>
+                <p>Bull cycle breakout — new ATH territory.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-code" onclick="toggleCode('code-price')">
+            <i class="fa-solid fa-code"></i> View Code
+          </button>
+          <button class="btn btn-copy" onclick="copyCode('code-price-pre', this)">
+            <i class="fa-regular fa-copy"></i> Copy
+          </button>
+        </div>
+        <div class="code-snippet" id="code-price">
+          <pre id="code-price-pre"><code>&lt;div class="price-timeline"&gt;
+  &lt;div class="price-tl-track"&gt;&lt;/div&gt;
+  &lt;div class="price-tl-item up"&gt;
+    &lt;div class="price-tl-node"&gt;&lt;i class="fa-solid fa-arrow-trend-up"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;div class="price-tl-card"&gt;
+      &lt;div class="price-tl-top"&gt;
+        &lt;span class="price-tl-label"&gt;Jan 2024&lt;/span&gt;
+        &lt;span class="price-delta up"&gt;+12.4%&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class="price-tl-value"&gt;$42,800&lt;/div&gt;
+      &lt;p&gt;All-time high after ETF approval wave.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+
+      <!-- ========================= -->
+      <!-- 23. Neon Pulse Activity Feed -->
+      <!-- ========================= -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>Neon Pulse Activity Feed</h3>
+          <p>Futuristic dark-glass timeline with vivid neon glow dots and animated ring pulses.</p>
+        </div>
+        <div class="preview-box" style="background: #070b14; border-radius: 18px;">
+          <div class="neon-feed">
+            <div class="nf-item nf-purple">
+              <div class="nf-ring"></div>
+              <div class="nf-dot"></div>
+              <div class="nf-line"></div>
+              <div class="nf-card">
+                <div class="nf-header">
+                  <i class="fa-solid fa-shield-halved"></i>
+                  <strong>Security Patch Applied</strong>
+                  <span class="nf-time">2m ago</span>
+                </div>
+                <p>CVE-2026-0412 vulnerability patched across all nodes.</p>
+                <div class="nf-tags">
+                  <span class="nf-tag">Critical</span>
+                  <span class="nf-tag">Auto-deploy</span>
+                </div>
+              </div>
+            </div>
+            <div class="nf-item nf-cyan">
+              <div class="nf-ring"></div>
+              <div class="nf-dot"></div>
+              <div class="nf-line"></div>
+              <div class="nf-card">
+                <div class="nf-header">
+                  <i class="fa-solid fa-database"></i>
+                  <strong>Cache Invalidated</strong>
+                  <span class="nf-time">18m ago</span>
+                </div>
+                <p>Redis cluster flushed and re-seeded with fresh data layers.</p>
+                <div class="nf-tags">
+                  <span class="nf-tag">Redis</span>
+                  <span class="nf-tag">Backend</span>
+                </div>
+              </div>
+            </div>
+            <div class="nf-item nf-green">
+              <div class="nf-ring"></div>
+              <div class="nf-dot"></div>
+              <div class="nf-card">
+                <div class="nf-header">
+                  <i class="fa-solid fa-circle-check"></i>
+                  <strong>Build #2048 Passed</strong>
+                  <span class="nf-time">1h ago</span>
+                </div>
+                <p>All 312 unit tests passed. Coverage at 94.7%.</p>
+                <div class="nf-tags">
+                  <span class="nf-tag">CI/CD</span>
+                  <span class="nf-tag">Tests</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-code" onclick="toggleCode('code-neon')">
+            <i class="fa-solid fa-code"></i> View Code
+          </button>
+          <button class="btn btn-copy" onclick="copyCode('code-neon-pre', this)">
+            <i class="fa-regular fa-copy"></i> Copy
+          </button>
+        </div>
+        <div class="code-snippet" id="code-neon">
+          <pre id="code-neon-pre"><code>&lt;div class="neon-feed"&gt;
+  &lt;div class="nf-item nf-purple"&gt;
+    &lt;div class="nf-ring"&gt;&lt;/div&gt;
+    &lt;div class="nf-dot"&gt;&lt;/div&gt;
+    &lt;div class="nf-line"&gt;&lt;/div&gt;
+    &lt;div class="nf-card"&gt;
+      &lt;div class="nf-header"&gt;
+        &lt;i class="fa-solid fa-shield-halved"&gt;&lt;/i&gt;
+        &lt;strong&gt;Security Patch Applied&lt;/strong&gt;
+        &lt;span class="nf-time"&gt;2m ago&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;p&gt;CVE-2026-0412 patched across all nodes.&lt;/p&gt;
+      &lt;div class="nf-tags"&gt;
+        &lt;span class="nf-tag"&gt;Critical&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+
+      <!-- ========================= -->
+      <!-- 24. Social Media Growth Timeline -->
+      <!-- ========================= -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>Social Media Growth Timeline</h3>
+          <p>Stat-card driven milestones tracking follower growth, reach and engagement over time.</p>
+        </div>
+        <div class="preview-box">
+          <div class="social-timeline">
+            <div class="social-tl-track"></div>
+            <div class="social-tl-item">
+              <div class="social-tl-icon" style="background: linear-gradient(135deg,#e91e63,#f48fb1);">
+                <i class="fa-brands fa-instagram"></i>
+              </div>
+              <div class="social-tl-card">
+                <span class="social-tl-date">Jan 2024</span>
+                <h4>10K Followers</h4>
+                <div class="social-stats-row">
+                  <div class="social-stat">
+                    <span class="social-stat-val">10K</span>
+                    <span class="social-stat-lbl">Followers</span>
+                  </div>
+                  <div class="social-stat">
+                    <span class="social-stat-val">4.2%</span>
+                    <span class="social-stat-lbl">Engagement</span>
+                  </div>
+                  <div class="social-stat">
+                    <span class="social-stat-val">52K</span>
+                    <span class="social-stat-lbl">Reach</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="social-tl-item">
+              <div class="social-tl-icon" style="background: linear-gradient(135deg,#1da1f2,#63c1f5);">
+                <i class="fa-brands fa-x-twitter"></i>
+              </div>
+              <div class="social-tl-card">
+                <span class="social-tl-date">Jun 2024</span>
+                <h4>Viral Thread — 50K Impressions</h4>
+                <div class="social-stats-row">
+                  <div class="social-stat">
+                    <span class="social-stat-val">50K</span>
+                    <span class="social-stat-lbl">Impressions</span>
+                  </div>
+                  <div class="social-stat">
+                    <span class="social-stat-val">2.8K</span>
+                    <span class="social-stat-lbl">Retweets</span>
+                  </div>
+                  <div class="social-stat">
+                    <span class="social-stat-val">+890</span>
+                    <span class="social-stat-lbl">New Follows</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="social-tl-item">
+              <div class="social-tl-icon" style="background: linear-gradient(135deg,#ff0000,#ff6b6b);">
+                <i class="fa-brands fa-youtube"></i>
+              </div>
+              <div class="social-tl-card">
+                <span class="social-tl-date">Dec 2024</span>
+                <h4>100K YouTube Subscribers</h4>
+                <div class="social-stats-row">
+                  <div class="social-stat">
+                    <span class="social-stat-val">100K</span>
+                    <span class="social-stat-lbl">Subscribers</span>
+                  </div>
+                  <div class="social-stat">
+                    <span class="social-stat-val">1.2M</span>
+                    <span class="social-stat-lbl">Views</span>
+                  </div>
+                  <div class="social-stat">
+                    <span class="social-stat-val">8.1%</span>
+                    <span class="social-stat-lbl">CTR</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-code" onclick="toggleCode('code-social')">
+            <i class="fa-solid fa-code"></i> View Code
+          </button>
+          <button class="btn btn-copy" onclick="copyCode('code-social-pre', this)">
+            <i class="fa-regular fa-copy"></i> Copy
+          </button>
+        </div>
+        <div class="code-snippet" id="code-social">
+          <pre id="code-social-pre"><code>&lt;div class="social-timeline"&gt;
+  &lt;div class="social-tl-track"&gt;&lt;/div&gt;
+  &lt;div class="social-tl-item"&gt;
+    &lt;div class="social-tl-icon" style="background:linear-gradient(135deg,#e91e63,#f48fb1);"&gt;
+      &lt;i class="fa-brands fa-instagram"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;div class="social-tl-card"&gt;
+      &lt;span class="social-tl-date"&gt;Jan 2024&lt;/span&gt;
+      &lt;h4&gt;10K Followers&lt;/h4&gt;
+      &lt;div class="social-stats-row"&gt;
+        &lt;div class="social-stat"&gt;
+          &lt;span class="social-stat-val"&gt;10K&lt;/span&gt;
+          &lt;span class="social-stat-lbl"&gt;Followers&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+
+      <!-- ========================= -->
+      <!-- 25. Launch Countdown Timeline -->
+      <!-- ========================= -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>Launch Countdown Timeline</h3>
+          <p>Pre-launch phase tracker with countdown segments, status badges, and vibrant progress arcs.</p>
+        </div>
+        <div class="preview-box">
+          <div class="launch-timeline">
+            <div class="launch-tl-header">
+              <div class="launch-logo"><i class="fa-solid fa-satellite-dish"></i></div>
+              <div>
+                <h4 class="launch-title">Product Launch — Jul 2026</h4>
+                <p class="launch-sub">43 days remaining to liftoff</p>
+              </div>
+            </div>
+            <div class="launch-tl-phases">
+              <div class="launch-phase done">
+                <div class="launch-phase-icon"><i class="fa-solid fa-check"></i></div>
+                <div class="launch-phase-body">
+                  <div class="launch-phase-top">
+                    <strong>Strategy &amp; Research</strong>
+                    <span class="launch-badge done">Done</span>
+                  </div>
+                  <div class="launch-phase-bar"><div class="launch-bar-fill" style="width:100%; background: #10b981;"></div></div>
+                  <span class="launch-phase-date">Completed · Mar 2026</span>
+                </div>
+              </div>
+              <div class="launch-phase active">
+                <div class="launch-phase-icon pulse-icon"><i class="fa-solid fa-bolt"></i></div>
+                <div class="launch-phase-body">
+                  <div class="launch-phase-top">
+                    <strong>Development Sprint</strong>
+                    <span class="launch-badge active">Active</span>
+                  </div>
+                  <div class="launch-phase-bar"><div class="launch-bar-fill" style="width:68%; background: linear-gradient(90deg,#3b82f6,#8b5cf6);"></div></div>
+                  <span class="launch-phase-date">68% complete · Due Jun 20</span>
+                </div>
+              </div>
+              <div class="launch-phase pending">
+                <div class="launch-phase-icon"><i class="fa-solid fa-flask"></i></div>
+                <div class="launch-phase-body">
+                  <div class="launch-phase-top">
+                    <strong>Beta Testing</strong>
+                    <span class="launch-badge pending">Upcoming</span>
+                  </div>
+                  <div class="launch-phase-bar"><div class="launch-bar-fill" style="width:0%;"></div></div>
+                  <span class="launch-phase-date">Starts Jun 21 · 2 weeks</span>
+                </div>
+              </div>
+              <div class="launch-phase pending">
+                <div class="launch-phase-icon"><i class="fa-solid fa-rocket"></i></div>
+                <div class="launch-phase-body">
+                  <div class="launch-phase-top">
+                    <strong>Public Launch</strong>
+                    <span class="launch-badge pending">Upcoming</span>
+                  </div>
+                  <div class="launch-phase-bar"><div class="launch-bar-fill" style="width:0%;"></div></div>
+                  <span class="launch-phase-date">Target · Jul 5, 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-code" onclick="toggleCode('code-launch')">
+            <i class="fa-solid fa-code"></i> View Code
+          </button>
+          <button class="btn btn-copy" onclick="copyCode('code-launch-pre', this)">
+            <i class="fa-regular fa-copy"></i> Copy
+          </button>
+        </div>
+        <div class="code-snippet" id="code-launch">
+          <pre id="code-launch-pre"><code>&lt;div class="launch-timeline"&gt;
+  &lt;div class="launch-tl-header"&gt;
+    &lt;div class="launch-logo"&gt;&lt;i class="fa-solid fa-satellite-dish"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;div&gt;
+      &lt;h4 class="launch-title"&gt;Product Launch — Jul 2026&lt;/h4&gt;
+      &lt;p class="launch-sub"&gt;43 days remaining to liftoff&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="launch-tl-phases"&gt;
+    &lt;div class="launch-phase active"&gt;
+      &lt;div class="launch-phase-icon pulse-icon"&gt;&lt;i class="fa-solid fa-bolt"&gt;&lt;/i&gt;&lt;/div&gt;
+      &lt;div class="launch-phase-body"&gt;
+        &lt;div class="launch-phase-top"&gt;
+          &lt;strong&gt;Development Sprint&lt;/strong&gt;
+          &lt;span class="launch-badge active"&gt;Active&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="launch-phase-bar"&gt;
+          &lt;div class="launch-bar-fill" style="width:68%;background:linear-gradient(90deg,#3b82f6,#8b5cf6);"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;span class="launch-phase-date"&gt;68% complete · Due Jun 20&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
 
 <!-- ========================= -->
 <!-- 7. SaaS Release Timeline -->
@@ -1141,6 +1655,306 @@
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
+        </div>
+      </div>
+
+      <!-- 11. E-Commerce Order Tracking -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>Order Tracking Timeline</h3>
+          <p>Vertical activity feed for order status updates.</p>
+        </div>
+        <div class="preview-box">
+          <div class="activity-timeline">
+            <div class="act-timeline-item success">
+              <div class="act-timeline-icon"><i class="fa-solid fa-box"></i></div>
+              <div class="act-timeline-info">
+                <div class="act-timeline-title">
+                  <strong>Order Delivered</strong>
+                  <span class="act-time">Just now</span>
+                </div>
+                <p>Package dropped off at front porch.</p>
+              </div>
+            </div>
+            <div class="act-timeline-item info">
+              <div class="act-timeline-icon"><i class="fa-solid fa-truck"></i></div>
+              <div class="act-timeline-info">
+                <div class="act-timeline-title">
+                  <strong>Out for Delivery</strong>
+                  <span class="act-time">2h ago</span>
+                </div>
+                <p>Driver is approaching your location.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12. Onboarding Steps -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>Onboarding Process</h3>
+          <p>Horizontal steps for user onboarding.</p>
+        </div>
+        <div class="preview-box">
+          <div class="timeline-horizontal">
+            <div class="h-timeline-progress">
+              <div class="h-timeline-bar" style="width: 33%"></div>
+            </div>
+            <div class="h-timeline-step completed">
+              <div class="h-timeline-node"><i class="fa-solid fa-check"></i></div>
+              <div class="h-timeline-meta">
+                <h5>Account</h5>
+                <span>Created</span>
+              </div>
+            </div>
+            <div class="h-timeline-step active">
+              <div class="h-timeline-node">2</div>
+              <div class="h-timeline-meta">
+                <h5>Profile</h5>
+                <span>Setup</span>
+              </div>
+            </div>
+            <div class="h-timeline-step">
+              <div class="h-timeline-node">3</div>
+              <div class="h-timeline-meta">
+                <h5>Connect</h5>
+                <span>Friends</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 13. Freelance Journey -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>Freelance Journey</h3>
+          <p>Neon career timeline adapted for a freelancer.</p>
+        </div>
+        <div class="preview-box">
+          <div class="career-timeline">
+            <div class="career-item">
+              <div class="career-icon"><i class="fa-solid fa-pen"></i></div>
+              <div class="career-content">
+                <span class="career-date">2020</span>
+                <h4>First Client</h4>
+                <p>Landed the first gig on Upwork.</p>
+              </div>
+            </div>
+            <div class="career-item">
+              <div class="career-icon"><i class="fa-solid fa-briefcase"></i></div>
+              <div class="career-content">
+                <span class="career-date">2022</span>
+                <h4>Agency Partner</h4>
+                <p>Collaborated with top-tier agencies.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 14. App Updates -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>App Update Log</h3>
+          <p>Release timeline for mobile application versions.</p>
+        </div>
+        <div class="preview-box">
+          <div class="release-timeline">
+            <div class="release-card active">
+              <div class="release-version">v4.5.1</div>
+              <div class="release-body">
+                <h4>Performance Patch</h4>
+                <p>Squashed bugs and improved load times by 20%.</p>
+              </div>
+            </div>
+            <div class="release-card">
+              <div class="release-version">v4.5.0</div>
+              <div class="release-body">
+                <h4>Dark Mode</h4>
+                <p>Introduced global dark mode support.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 15. Company Milestones -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>Company Milestones</h3>
+          <p>Zigzag layout for key company events.</p>
+        </div>
+        <div class="preview-box">
+          <div class="zigzag-timeline">
+            <div class="zigzag-item left">
+              <div class="zigzag-dot"></div>
+              <div class="zigzag-card">
+                <span>Q1 2026</span>
+                <h4>1M ARR Reached</h4>
+                <p>Achieved a major revenue milestone.</p>
+              </div>
+            </div>
+            <div class="zigzag-item right">
+              <div class="zigzag-dot"></div>
+              <div class="zigzag-card">
+                <span>Q2 2026</span>
+                <h4>European Expansion</h4>
+                <p>Opened a new office in Berlin.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 16. Marketing Campaigns -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>Campaign Tracking</h3>
+          <p>Funding timeline style repurposed for marketing budgets.</p>
+        </div>
+        <div class="preview-box">
+          <div class="funding-timeline">
+            <div class="funding-item">
+              <div class="funding-amount">$5K</div>
+              <div class="funding-info">
+                <h4>Social Ads</h4>
+                <p>Initial Facebook and Instagram boost.</p>
+              </div>
+            </div>
+            <div class="funding-item">
+              <div class="funding-amount">$20K</div>
+              <div class="funding-info">
+                <h4>Influencer Push</h4>
+                <p>Sponsored YouTube content.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 17. Open Source Project -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>Open Source Roadmap</h3>
+          <p>Animated roadmap for GitHub project phases.</p>
+        </div>
+        <div class="preview-box">
+          <div class="roadmap-timeline">
+            <div class="roadmap-line"></div>
+            <div class="roadmap-step done">
+              <div class="roadmap-node"><i class="fa-solid fa-code-branch"></i></div>
+              <div class="roadmap-content">
+                <h4>v1.0 Core</h4>
+                <p>Basic features published to NPM.</p>
+              </div>
+            </div>
+            <div class="roadmap-step active">
+              <div class="roadmap-node"><i class="fa-solid fa-users"></i></div>
+              <div class="roadmap-content">
+                <h4>Community Growth</h4>
+                <p>Expanding documentation and accepting PRs.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 18. DevOps Logs -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>DevOps Incident Logs</h3>
+          <p>Server activity feed for monitoring.</p>
+        </div>
+        <div class="preview-box">
+          <div class="activity-timeline">
+            <div class="act-timeline-item warning">
+              <div class="act-timeline-icon"><i class="fa-solid fa-fire"></i></div>
+              <div class="act-timeline-info">
+                <div class="act-timeline-title">
+                  <strong>High CPU Usage</strong>
+                  <span class="act-time">10m ago</span>
+                </div>
+                <p>Database server CPU spiked to 95%.</p>
+              </div>
+            </div>
+            <div class="act-timeline-item success">
+              <div class="act-timeline-icon"><i class="fa-solid fa-check-double"></i></div>
+              <div class="act-timeline-info">
+                <div class="act-timeline-title">
+                  <strong>Auto-scaling Triggered</strong>
+                  <span class="act-time">5m ago</span>
+                </div>
+                <p>Added 2 read replicas successfully.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 19. Education History -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>Education History</h3>
+          <p>Vertical alternating timeline for academics.</p>
+        </div>
+        <div class="preview-box">
+          <div class="timeline-vertical">
+            <div class="v-timeline-track"></div>
+            <div class="v-timeline-item left">
+              <div class="v-timeline-dot"><i class="fa-solid fa-graduation-cap"></i></div>
+              <div class="v-timeline-card">
+                <span class="v-timeline-date">2018 - 2022</span>
+                <h4>B.S. Computer Science</h4>
+                <p>Graduated with honors from Tech University.</p>
+              </div>
+            </div>
+            <div class="v-timeline-item right">
+              <div class="v-timeline-dot"><i class="fa-solid fa-certificate"></i></div>
+              <div class="v-timeline-card">
+                <span class="v-timeline-date">2023</span>
+                <h4>AWS Certified</h4>
+                <p>Achieved Solutions Architect certification.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 20. Deployment Pipeline -->
+      <div class="component-card">
+        <div class="card-header">
+          <h3>Deployment Pipeline</h3>
+          <p>Horizontal progress steps for CI/CD.</p>
+        </div>
+        <div class="preview-box">
+          <div class="timeline-horizontal">
+            <div class="h-timeline-progress">
+              <div class="h-timeline-bar" style="width: 75%"></div>
+            </div>
+            <div class="h-timeline-step completed">
+              <div class="h-timeline-node"><i class="fa-solid fa-check"></i></div>
+              <div class="h-timeline-meta">
+                <h5>Build</h5>
+                <span>Success</span>
+              </div>
+            </div>
+            <div class="h-timeline-step completed">
+              <div class="h-timeline-node"><i class="fa-solid fa-check"></i></div>
+              <div class="h-timeline-meta">
+                <h5>Test</h5>
+                <span>Passed</span>
+              </div>
+            </div>
+            <div class="h-timeline-step active">
+              <div class="h-timeline-node"><i class="fa-solid fa-spinner fa-spin"></i></div>
+              <div class="h-timeline-meta">
+                <h5>Deploy</h5>
+                <span>In Progress</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

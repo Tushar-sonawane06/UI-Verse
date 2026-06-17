@@ -13,7 +13,50 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <link rel="stylesheet" href="table.css">
-  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
+</head>
 
 <body>
 
@@ -41,30 +84,78 @@
 <section class="section">
   <h2>👨‍💼 Employee Directory</h2>
 
-  <div class="table-wrapper">
-    <table class="ui-table">
-      <thead>
-        <tr>
-          <th>ID</th><th>Name</th><th>Role</th><th>Dept</th><th>Status</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr><td>01</td><td>Arjun Mehta</td><td>Frontend Dev</td><td>Eng</td><td>Active</td></tr>
-        <tr><td>02</td><td>Meera Das</td><td>UI Designer</td><td>Design</td><td>Active</td></tr>
-        <tr><td>03</td><td>Rahul Sharma</td><td>Backend Dev</td><td>Eng</td><td>Active</td></tr>
-        <tr><td>04</td><td>Sneha Roy</td><td>PM</td><td>Product</td><td>Active</td></tr>
-        <tr><td>05</td><td>Vikram Singh</td><td>DevOps</td><td>Infra</td><td>Inactive</td></tr>
-        <tr><td>06</td><td>Ishita Jain</td><td>Analyst</td><td>Data</td><td>Active</td></tr>
-        <tr><td>07</td><td>Karan Mehta</td><td>ML Eng</td><td>AI</td><td>Active</td></tr>
-      </tbody>
-    </table>
+  <div class="export-buttons">
+    <button onclick="exportTable(this, 'csv')">Export CSV</button>
+    <button onclick="exportTable(this, 'excel')">Export Excel</button>
+    <button onclick="exportTable(this, 'pdf')">Export PDF</button>
   </div>
+
+  <!-- Search bar -->
+<input type="text" id="tableSearch" placeholder="Search table..." />
+
+<!-- Filter dropdowns -->
+<select id="roleFilter">
+  <option value="">All Roles</option>
+  <option value="Frontend Dev">Frontend Dev</option>
+  <option value="Backend Dev">Backend Dev</option>
+  <option value="UI Designer">UI Designer</option>
+</select>
+
+<select id="statusFilter">
+  <option value="">All Status</option>
+  <option value="Active">Active</option>
+  <option value="Inactive">Inactive</option>
+</select>
+
+<div class="table-wrapper">
+  <table class="ui-table" id="employeeTable">
+    <thead>
+      <tr>
+        <th onclick="sortTable(0)">ID ⬍</th>
+        <th onclick="sortTable(1)">Name ⬍</th>
+        <th onclick="sortTable(2)">Role ⬍</th>
+        <th onclick="sortTable(3)">Dept ⬍</th>
+        <th onclick="sortTable(4)">Status ⬍</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>01</td><td>Arjun Mehta</td><td>Frontend Dev</td><td>Eng</td><td>Active</td></tr>
+      <tr><td>02</td><td>Meera Das</td><td>UI Designer</td><td>Design</td><td>Active</td></tr>
+  <div class="table-wrapper">
+  <table class="ui-table" role="table" aria-label="Employee Directory">
+    <thead>
+      <tr role="row">
+        <th scope="col" role="columnheader">ID</th>
+        <th scope="col" role="columnheader">Name</th>
+        <th scope="col" role="columnheader">Role</th>
+        <th scope="col" role="columnheader">Dept</th>
+        <th scope="col" role="columnheader">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr role="row">
+        <td role="cell">01</td>
+        <td role="cell">Arjun Mehta</td>
+        <td role="cell">Frontend Dev</td>
+        <td role="cell">Eng</td>
+        <td role="cell">Active</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
 </section>
 
 <!-- ================= TABLE 2 ================= -->
 <section class="section">
   <h2>🧑‍💻 User Management</h2>
+
+  <div class="export-buttons">
+    <button onclick="exportTable(this, 'csv')">Export CSV</button>
+    <button onclick="exportTable(this, 'excel')">Export Excel</button>
+    <button onclick="exportTable(this, 'pdf')">Export PDF</button>
+  </div>
 
   <div class="table-wrapper">
     <table class="ui-table">
@@ -90,6 +181,12 @@
 <section class="section">
   <h2>📊 Analytics Team</h2>
 
+  <div class="export-buttons">
+    <button onclick="exportTable(this, 'csv')">Export CSV</button>
+    <button onclick="exportTable(this, 'excel')">Export Excel</button>
+    <button onclick="exportTable(this, 'pdf')">Export PDF</button>
+  </div>
+
   <div class="table-wrapper">
     <table class="ui-table">
       <thead>
@@ -114,6 +211,12 @@
 <section class="section">
   <h2>💰 Payroll System</h2>
 
+  <div class="export-buttons">
+    <button onclick="exportTable(this, 'csv')">Export CSV</button>
+    <button onclick="exportTable(this, 'excel')">Export Excel</button>
+    <button onclick="exportTable(this, 'pdf')">Export PDF</button>
+  </div>
+
   <div class="table-wrapper">
     <table class="ui-table">
       <thead>
@@ -137,6 +240,12 @@
 <section class="section">
   <h2>📁 Project Tracker</h2>
 
+  <div class="export-buttons">
+    <button onclick="exportTable(this, 'csv')">Export CSV</button>
+    <button onclick="exportTable(this, 'excel')">Export Excel</button>
+    <button onclick="exportTable(this, 'pdf')">Export PDF</button>
+  </div>
+
   <div class="table-wrapper">
     <table class="ui-table">
       <thead>
@@ -159,6 +268,12 @@
 <!-- ================= TABLE 6 ================= -->
 <section class="section">
   <h2>💳 Transactions</h2>
+
+  <div class="export-buttons">
+    <button onclick="exportTable(this, 'csv')">Export CSV</button>
+    <button onclick="exportTable(this, 'excel')">Export Excel</button>
+    <button onclick="exportTable(this, 'pdf')">Export PDF</button>
+  </div>
 
   <div class="table-wrapper">
     <table class="ui-table">
@@ -448,6 +563,13 @@
 <section class="section">
   <h2>🎧 Support Tickets</h2>
 
+  <div class="export-buttons">
+    <button onclick="exportTable(this, 'csv')">Export CSV</button>
+    <button onclick="exportTable(this, 'excel')">Export Excel</button>
+    <button onclick="exportTable(this, 'pdf')">Export PDF</button>
+  </div>
+
+  
   <div class="table-wrapper">
     <table class="ui-table">
       <thead>
@@ -511,7 +633,11 @@
   <div class="sidebar-brand">
     <span class="brand-icon">⬡</span>
     <span class="brand-text">UIverse</span>
-  </div>
+  
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    </div>
 
           <nav class="sidebar-nav">
     <ul>
@@ -823,16 +949,57 @@
       </li>
     </ul>
   </nav>
-
-  <div class="sidebar-footer">
-    <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
-    <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-    <a href="#" title="Twitter"><i class="fab fa-x-twitter"></i></a>
-  </div>
 </aside>
 
 <!-- ================= SIDEBAR BACKDROP ================= -->
 <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+<!-- =====================================================
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <i class="fa-solid fa-hexagon-nodes"></i>
+          <span>UIverse</span>
+        </div>
+        <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
+        <div class="footer-socials">
+          <a href="#">
+            <i class="fa-brands fa-github">
+            </i>
+          </a>
+          <a href="#">
+            <i class="fa-brands fa-linkedin-in">
+            </i>
+          </a>
+          <a href="#">
+            <i class="fa-brands fa-x-twitter">
+          </i>
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Explore</h4>
+        <ul>
+          <li>
+            <a href="button.html">Buttons</a>
+          </li>
+          <li>
+            <a href="navbar.html">Navbars</a>
+          </li>
+          <li>
+            
+            <a href="cards.html">Cards</a>
+          </li>
+          <li>
+            <a href="inputs.html">Inputs</a>
+          </li>
+          <li>
+            <a href="forms.html">Forms</a>
+          </li>
+        </ul>
 
 <!-- ================= NAVBAR ================= -->
 <!-- ================= NAVBAR ================= -->
@@ -918,6 +1085,23 @@
       </div>
     </div>
 
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <ul>
+          <li>
+            <a href="#">Documentation</a>
+          </li>
+          <li>
+            <a href="#">Contribute</a>
+          </li>
+          <li>
+            <a href="#">GitHub Repo</a>
+          </li>
+          <li>
+            <a href="#">Community</a>
+          </li>
+        </ul>
+      </div>
     <div class="footer-col">
       <h3>Explore</h3>
       <ul>
@@ -987,7 +1171,8 @@
 </main>
 
 <script src="table.js"></script>
+<button id="scrollTopBtn" aria-label="Back to top">⬆</button>
 
-  <script src="dist/shared.js"></script>
+  <script src="table.js"></script>
 </body>
 </html>

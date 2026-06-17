@@ -12,6 +12,9 @@
 │  script.js (Core JavaScript Utilities)                         │
 │  └─ Used by interactive components                            │
 │                                                                 │
+│  component-i18n-manager.js (I18n Management)                    │
+│  └─ Core dependency for all components                         │
+│                                                                 │
 │  Google Fonts (Typography)                                     │
 │  └─ Used on all pages                                         │
 │                                                                 │

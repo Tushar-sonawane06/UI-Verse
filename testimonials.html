@@ -12,13 +12,60 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- -->
   <link rel="stylesheet" href="testimonials.css">
-    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
+</head>
 <body>
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
     <span class="brand-icon">⬡</span>
     <span class="brand-text">UIverse</span>
-  </div>
+  
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    </div>
   <nav class="sidebar-nav">
     <ul>
       <li>
@@ -389,7 +436,9 @@
       Discover premium, responsive testimonial card layouts styled with advanced glassmorphism, glowing borders, neo-brutalism, interactive 3D transforms, and minimalist elegance.
     </p>
   </div>
-  <div class="testimonial-grid">
+  <div class="testimonial-carousel">
+   <div class="carousel-track">
+    <div class="carousel-slide active">
     <div class="component-card">
       <h3>Glassmorphism Glow Card</h3>
       <div class="t-card-glass">
@@ -443,6 +492,7 @@
   &lt;/div&gt;
 &lt;/div&gt;</pre>
     </div>
+    <div class="carousel-slide">
     <div class="component-card">
       <h3>Gradient Border Card</h3>
       <div class="t-card-gradient">
@@ -494,6 +544,7 @@
   &lt;/div&gt;
 &lt;/div&gt;</pre>
     </div>
+    <div class="carousel-slide">
 
 
     <div class="component-card">
@@ -547,6 +598,7 @@
   &lt;/div&gt;
 &lt;/div&gt;</pre>
     </div>
+    <div class="carousel-slide">
     <div class="component-card">
       <h3>Avatar Pop Card</h3>
       <div class="t-card-pop">
@@ -598,6 +650,7 @@
   &lt;/div&gt;
 &lt;/div&gt;</pre>
     </div>
+    <div class="carousel-slide">
     <div class="component-card">
       <h3>3D Perspective Card</h3>
       <div class="t-card-skew">
@@ -651,6 +704,7 @@
   &lt;/div&gt;
 &lt;/div&gt;</pre>
     </div>
+    <div class="carousel-slide">
     <div class="component-card">
       <h3>Minimal Premium Card</h3>
       <div class="t-card-minimal">
@@ -1018,7 +1072,16 @@
 &lt;/div&gt;</pre>
     </div>
   </div>
+  </div>
 </main>
+
+<div class="carousel-nav">
+    <button class="prev-btn">❮</button>
+    <div class="dots"></div>
+    <button class="next-btn">❯</button>
+  </div>
+</section>
+
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
@@ -1091,6 +1154,64 @@
 </footer>
 
 <script>
+  const slides = document.querySelectorAll(".carousel-slide");
+const prevBtn = document.querySelector(".prev-btn");
+const nextBtn = document.querySelector(".next-btn");
+const dotsContainer = document.querySelector(".dots");
+
+let currentIndex = 0;
+let autoSlideInterval;
+
+// Create dots
+slides.forEach((_, i) => {
+  const dot = document.createElement("button");
+  if (i === 0) dot.classList.add("active");
+  dot.addEventListener("click", () => goToSlide(i));
+  dotsContainer.appendChild(dot);
+});
+
+function updateSlides() {
+  slides.forEach((slide, i) => {
+    slide.classList.toggle("active", i === currentIndex);
+  });
+  dotsContainer.querySelectorAll("button").forEach((dot, i) => {
+    dot.classList.toggle("active", i === currentIndex);
+  });
+}
+
+function goToSlide(index) {
+  currentIndex = index;
+  updateSlides();
+}
+
+function nextSlide() {
+  currentIndex = (currentIndex + 1) % slides.length;
+  updateSlides();
+}
+
+function prevSlide() {
+  currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+  updateSlides();
+}
+
+nextBtn.addEventListener("click", nextSlide);
+prevBtn.addEventListener("click", prevSlide);
+
+// Auto-slide every 4s
+function startAutoSlide() {
+  autoSlideInterval = setInterval(nextSlide, 4000);
+}
+function stopAutoSlide() {
+  clearInterval(autoSlideInterval);
+}
+
+document.querySelector(".testimonial-carousel").addEventListener("mouseenter", stopAutoSlide);
+document.querySelector(".testimonial-carousel").addEventListener("mouseleave", startAutoSlide);
+
+startAutoSlide();
+
+</script>
+<script src="js/core/utils.js"></script>
   if (typeof subscribe !== 'function') {
     function subscribe() {
       const emailInput = document.getElementById("newsletterEmail");

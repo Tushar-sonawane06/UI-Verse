@@ -11,7 +11,51 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- UIverse Modular CSS Architecture -->
   <link rel="stylesheet" href="license.css">
-    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n  <script src="js/loader.js" defer></script>
+<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
+</head>
 
 <body>
 
@@ -20,7 +64,11 @@
   <div class="sidebar-brand">
     <span class="brand-icon">⬡</span>
     <span class="brand-text">UIverse</span>
-  </div>
+  
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    </div>
 
           <nav class="sidebar-nav">
     <ul>
@@ -556,6 +604,159 @@
 
   </section>
 
+  <!-- LICENSE COMPONENTS -->
+  <section class="license-components-section">
+    <div class="details-header">
+      <span class="section-tag">UI COMPONENTS</span>
+      <h2>License Badges & Snippets</h2>
+    </div>
+    <div class="license-components-grid">
+      <!-- Component 1 -->
+      <div class="component-card">
+        <h3>MIT License Badge</h3>
+        <div class="loader-demo-box">
+          <div class="badge-mit">MIT Licensed</div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('lic1')">View Code</button>
+          <button onclick="copyCode('lic1')">Copy</button>
+        </div>
+        <pre id="lic1" class="code-block">&lt;div class="badge-mit"&gt;MIT Licensed&lt;/div&gt;</pre>
+      </div>
+
+      <!-- Component 2 -->
+      <div class="component-card">
+        <h3>GPL Notice</h3>
+        <div class="loader-demo-box">
+          <div class="badge-gpl">GPL v3</div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('lic2')">View Code</button>
+          <button onclick="copyCode('lic2')">Copy</button>
+        </div>
+        <pre id="lic2" class="code-block">&lt;div class="badge-gpl"&gt;GPL v3&lt;/div&gt;</pre>
+      </div>
+
+      <!-- Component 3 -->
+      <div class="component-card">
+        <h3>Pro License Card</h3>
+        <div class="loader-demo-box">
+          <div class="pro-license-card">PRO</div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('lic3')">View Code</button>
+          <button onclick="copyCode('lic3')">Copy</button>
+        </div>
+        <pre id="lic3" class="code-block">&lt;div class="pro-license-card"&gt;PRO&lt;/div&gt;</pre>
+      </div>
+
+      <!-- Component 4 -->
+      <div class="component-card">
+        <h3>Open Source Icon</h3>
+        <div class="loader-demo-box">
+          <div class="os-icon"><i class="fa-solid fa-code-branch"></i> OSS</div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('lic4')">View Code</button>
+          <button onclick="copyCode('lic4')">Copy</button>
+        </div>
+        <pre id="lic4" class="code-block">&lt;div class="os-icon"&gt;&lt;i class="fa-solid fa-code-branch"&gt;&lt;/i&gt; OSS&lt;/div&gt;</pre>
+      </div>
+
+      <!-- Component 5 -->
+      <div class="component-card">
+        <h3>EULA Checkbox</h3>
+        <div class="loader-demo-box">
+          <label class="eula-checkbox"><input type="checkbox"> I agree to the EULA</label>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('lic5')">View Code</button>
+          <button onclick="copyCode('lic5')">Copy</button>
+        </div>
+        <pre id="lic5" class="code-block">&lt;label class="eula-checkbox"&gt;&lt;input type="checkbox"&gt; I agree to the EULA&lt;/label&gt;</pre>
+      </div>
+
+      <!-- Component 6 -->
+      <div class="component-card">
+        <h3>Copyright Footer</h3>
+        <div class="loader-demo-box">
+          <div class="copy-footer">© 2026 UIverse. All rights reserved.</div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('lic6')">View Code</button>
+          <button onclick="copyCode('lic6')">Copy</button>
+        </div>
+        <pre id="lic6" class="code-block">&lt;div class="copy-footer"&gt;© 2026 UIverse. All rights reserved.&lt;/div&gt;</pre>
+      </div>
+
+      <!-- Component 7 -->
+      <div class="component-card">
+        <h3>Commercial License Tag</h3>
+        <div class="loader-demo-box">
+          <div class="badge-commercial">Commercial</div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('lic7')">View Code</button>
+          <button onclick="copyCode('lic7')">Copy</button>
+        </div>
+        <pre id="lic7" class="code-block">&lt;div class="badge-commercial"&gt;Commercial&lt;/div&gt;</pre>
+      </div>
+
+      <!-- Component 8 -->
+      <div class="component-card">
+        <h3>Apache 2.0 Banner</h3>
+        <div class="loader-demo-box">
+          <div class="badge-apache">Apache 2.0</div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('lic8')">View Code</button>
+          <button onclick="copyCode('lic8')">Copy</button>
+        </div>
+        <pre id="lic8" class="code-block">&lt;div class="badge-apache"&gt;Apache 2.0&lt;/div&gt;</pre>
+      </div>
+
+      <!-- Component 9 -->
+      <div class="component-card">
+        <h3>License Status Active</h3>
+        <div class="loader-demo-box">
+          <div class="status-active"><i class="fa-solid fa-circle-check"></i> License Active</div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('lic9')">View Code</button>
+          <button onclick="copyCode('lic9')">Copy</button>
+        </div>
+        <pre id="lic9" class="code-block">&lt;div class="status-active"&gt;&lt;i class="fa-solid fa-circle-check"&gt;&lt;/i&gt; License Active&lt;/div&gt;</pre>
+      </div>
+
+      <!-- Component 10 -->
+      <div class="component-card">
+        <h3>License Expired Alert</h3>
+        <div class="loader-demo-box">
+          <div class="status-expired"><i class="fa-solid fa-triangle-exclamation"></i> Expired</div>
+        </div>
+        <div class="actions">
+          <button onclick="toggleCode('lic10')">View Code</button>
+          <button onclick="copyCode('lic10')">Copy</button>
+        </div>
+        <pre id="lic10" class="code-block">&lt;div class="status-expired"&gt;&lt;i class="fa-solid fa-triangle-exclamation"&gt;&lt;/i&gt; Expired&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function toggleCode(id) {
+      document.getElementById(id).classList.toggle('show');
+    }
+    function copyCode(id) {
+      const code = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        alert('Code copied successfully!');
+      }).catch(() => {
+        alert('Copy failed!');
+      });
+    }
+  </script>
+
   <!-- CTA -->
   <section class="license-cta">
 
@@ -698,6 +899,6 @@ window.addEventListener('scroll', () => {
 
 </script>
 
-  <script src="dist/shared.js"></script>
+  <script src="licence.js"></script>
 </body>
 </html>

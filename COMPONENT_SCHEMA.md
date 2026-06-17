@@ -59,7 +59,7 @@ High-level registry for component organization, pagination, and build dependenci
 | `id`              | string  | Unique identifier (kebab-case)       |
 | `name`            | string  | Human-readable component name        |
 | `description`     | string  | Short description (1-2 sentences)    |
-| `file`            | string  | HTML file containing the component   |
+| `file`            | string  | HTML file containing the component. MUST conform to `kebab-case.html`. (Good: `analysis-card.html`, Bad: `Accordionsui.html` or `AnalysisCard.html`) |
 | `tags`            | array   | Search and categorization tags       |
 | `dependencies`    | array   | Required CSS/JS files                |
 | `sharedUtilities` | array   | Reference to shared utility names    |

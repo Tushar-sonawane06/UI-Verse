@@ -117,3 +117,278 @@ body {
 .flip-card-back button:hover {
   transform: scale(1.05);
 }
+
+/* ============================================================
+   NEW FLIP CARDS 20–24
+   ============================================================ */
+
+/* Shared flip mechanics for all new cards */
+.space-flip-card, .dev-flip-card, .fit-flip-card,
+.travel-flip-card, .ai-flip-card {
+  width: 170px;
+  height: 200px;
+  perspective: 1200px;
+}
+
+.space-flip-inner, .dev-flip-inner, .fit-flip-inner,
+.travel-flip-inner, .ai-flip-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.space-flip-card:hover .space-flip-inner,
+.dev-flip-card:hover .dev-flip-inner,
+.fit-flip-card:hover .fit-flip-inner,
+.travel-flip-card:hover .travel-flip-inner,
+.ai-flip-card:hover .ai-flip-inner {
+  transform: rotateY(180deg);
+}
+
+.space-flip-front, .space-flip-back,
+.dev-flip-front, .dev-flip-back,
+.fit-flip-front, .fit-flip-back,
+.travel-flip-front, .travel-flip-back,
+.ai-flip-front, .ai-flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  text-align: center;
+}
+
+.space-flip-back, .dev-flip-back, .fit-flip-back,
+.travel-flip-back, .ai-flip-back {
+  transform: rotateY(180deg);
+}
+
+/* ---- 20. Space Explorer ---- */
+.space-flip-front {
+  background: radial-gradient(ellipse at 30% 20%, #1e1b4b, #000012);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: white;
+  overflow: hidden;
+}
+.space-flip-front::before {
+  content: '✦ · ✧ · ✦ ✧ · ✦ · ✧ ✦ · ✧ · ✦';
+  position: absolute;
+  font-size: 8px;
+  color: rgba(255,255,255,0.15);
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  line-height: 1.8;
+  text-align: justify;
+  pointer-events: none;
+}
+.space-flip-front .space-icon {
+  font-size: 34px;
+  color: #a78bfa;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.6));
+  animation: rocketFloat 3s ease-in-out infinite;
+}
+@keyframes rocketFloat {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50%       { transform: translateY(-6px) rotate(5deg); }
+}
+.space-flip-front h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.space-tag {
+  font-size: 9px; font-weight: 800; letter-spacing: 1px;
+  background: rgba(167,139,250,0.15); color: #a78bfa;
+  border: 1px solid rgba(167,139,250,0.3); padding: 2px 8px; border-radius: 4px;
+}
+.space-flip-back {
+  background: #0a0a1a;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: white;
+  justify-content: space-between;
+}
+.space-flip-back h5 { font-size: 11px; text-transform: uppercase; color: #a78bfa; margin-top: 4px; }
+.space-stats { display: flex; flex-direction: column; gap: 8px; width: 100%; margin: 4px 0; }
+.space-stats div {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 10px; color: #e2e8f0;
+  background: rgba(139,92,246,0.08); padding: 4px 8px; border-radius: 6px;
+}
+.space-stats div span { font-size: 9px; color: #6d7baa; }
+.space-btn {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  border: none; border-radius: 8px; color: white;
+  font-size: 10px; font-weight: 700; padding: 7px 14px;
+  cursor: pointer; width: 100%; transition: all 0.3s;
+}
+.space-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(168,85,247,0.3); }
+
+/* ---- 21. Developer Stats ---- */
+.dev-flip-front {
+  background: #0d1117;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: white;
+  font-family: 'Courier New', monospace;
+}
+.dev-avatar {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: rgba(16,185,129,0.1); border: 2px solid #10b981;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; color: #10b981; margin-bottom: 10px;
+}
+.dev-flip-front h4 { font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #f0f6fc; }
+.dev-badge {
+  font-size: 9px; font-weight: 700; background: rgba(16,185,129,0.12);
+  color: #10b981; border: 1px solid rgba(16,185,129,0.3); padding: 2px 8px; border-radius: 4px;
+}
+.dev-flip-back {
+  background: #161b22;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: white; justify-content: space-between;
+}
+.dev-flip-back h5 { font-size: 11px; text-transform: uppercase; color: #8b949e; margin-top: 4px; }
+.dev-stats-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px; width: 100%;
+}
+.dev-stats-grid div {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px; padding: 6px; font-size: 9px; color: #8b949e; text-align: center;
+}
+.dev-stats-grid div span {
+  display: block; font-size: 14px; font-weight: 800; color: #f0f6fc; margin-bottom: 1px;
+}
+.dev-btn {
+  background: #238636; border: 1px solid #2ea043; border-radius: 8px;
+  color: white; font-size: 10px; font-weight: 700; padding: 7px 12px;
+  cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: all 0.3s;
+}
+.dev-btn:hover { background: #2ea043; }
+
+/* ---- 22. Fitness Tracker ---- */
+.fit-flip-front {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: white;
+}
+.fit-ring {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: conic-gradient(#ef4444 0% 74%, rgba(255,255,255,0.08) 74% 100%);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 12px; box-shadow: 0 0 16px rgba(239,68,68,0.3);
+  position: relative;
+}
+.fit-ring::before {
+  content: '';
+  position: absolute;
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  background: #0f172a;
+}
+.fit-pct {
+  position: relative; z-index: 1; font-size: 13px; font-weight: 800; color: #ef4444;
+}
+.fit-flip-front h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.fit-flip-front p { font-size: 10px; color: #94a3b8; margin: 0; }
+.fit-flip-back {
+  background: #0f172a;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: white; justify-content: space-between;
+}
+.fit-flip-back h5 { font-size: 11px; text-transform: uppercase; color: #94a3b8; margin-top: 4px; }
+.fit-metrics { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+.fit-metrics div {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.04); padding: 6px 10px; border-radius: 8px;
+  font-size: 10px; color: #94a3b8;
+}
+.fit-metrics div i { font-size: 11px; color: #ef4444; width: 12px; }
+.fit-metrics div span { font-size: 13px; font-weight: 800; color: white; margin-left: auto; }
+.fit-btn {
+  background: #ef4444; border: none; border-radius: 8px;
+  color: white; font-size: 10px; font-weight: 700; padding: 7px 14px;
+  cursor: pointer; width: 100%; transition: all 0.3s;
+}
+.fit-btn:hover { background: #dc2626; transform: translateY(-1px); }
+
+/* ---- 23. Travel Destination ---- */
+.travel-flip-front {
+  background: linear-gradient(145deg, #0369a1, #0284c7, #38bdf8);
+  border: 1px solid rgba(186, 230, 253, 0.3);
+  color: white;
+}
+.travel-flag { font-size: 38px; margin-bottom: 10px; }
+.travel-flip-front h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.travel-rating { font-size: 14px; color: #fbbf24; letter-spacing: 2px; }
+.travel-flip-back {
+  background: #075985;
+  border: 1px solid rgba(186, 230, 253, 0.3);
+  color: white; justify-content: space-between;
+}
+.travel-flip-back h5 { font-size: 11px; text-transform: uppercase; color: #bae6fd; margin-top: 4px; }
+.travel-info { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+.travel-info div {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 9px; color: #e0f2fe;
+  background: rgba(255,255,255,0.08); padding: 5px 8px; border-radius: 6px;
+}
+.travel-info div i { color: #7dd3fc; font-size: 10px; }
+.travel-btn {
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  border: none; border-radius: 8px; color: white;
+  font-size: 10px; font-weight: 700; padding: 7px 14px;
+  cursor: pointer; width: 100%; transition: all 0.3s;
+}
+.travel-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14,165,233,0.3); }
+
+/* ---- 24. AI Chatbot ---- */
+.ai-flip-front {
+  background: radial-gradient(ellipse at center, #1a0533, #070012);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  color: white;
+}
+.ai-orb {
+  width: 54px; height: 54px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #c084fc, #7c3aed, #4c1d95);
+  margin-bottom: 12px;
+  box-shadow: 0 0 0 8px rgba(168,85,247,0.1), 0 0 20px rgba(168,85,247,0.4), 0 0 40px rgba(168,85,247,0.2);
+  animation: aiOrbPulse 2.5s ease-in-out infinite;
+}
+@keyframes aiOrbPulse {
+  0%, 100% { box-shadow: 0 0 0 8px rgba(168,85,247,0.1), 0 0 20px rgba(168,85,247,0.4), 0 0 40px rgba(168,85,247,0.2); }
+  50%       { box-shadow: 0 0 0 14px rgba(168,85,247,0.05), 0 0 30px rgba(168,85,247,0.6), 0 0 60px rgba(168,85,247,0.3); }
+}
+.ai-flip-front h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.ai-status { font-size: 10px; color: #10b981; font-weight: 600; }
+.ai-flip-back {
+  background: #0d001a;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  color: white; justify-content: space-between;
+}
+.ai-flip-back h5 { font-size: 11px; text-transform: uppercase; color: #9333ea; margin-top: 4px; }
+.ai-caps {
+  list-style: none; padding: 0; margin: 4px 0;
+  width: 100%; text-align: left;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.ai-caps li {
+  font-size: 10px; color: #e9d5ff;
+  display: flex; align-items: center; gap: 7px;
+  background: rgba(168,85,247,0.07); padding: 5px 8px; border-radius: 6px;
+}
+.ai-caps li i { color: #a855f7; font-size: 9px; }
+.ai-btn {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  border: none; border-radius: 8px; color: white;
+  font-size: 10px; font-weight: 700; padding: 7px 14px;
+  cursor: pointer; width: 100%; transition: all 0.3s;
+}
+.ai-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(168,85,247,0.4);
+}

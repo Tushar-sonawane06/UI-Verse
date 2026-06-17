@@ -42,12 +42,386 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="playground.css">
   <link rel="stylesheet" href="faq.css">
-  <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+  <link rel="stylesheet" href="shared-sidebar.css">\n  <script src="js/loader.js" defer></script>
+<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
+</head>
 
 <body>
 
   <div class="container">
-    <!-- ================= NAVBAR ================= -->
+ 
+<!-- ================= SIDEBAR ================= -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-icon">⬡</span>
+    <span class="brand-text">UIverse <span style="font-size: 9px; background: linear-gradient(135deg, #eb6835, #7b61ff); color: white; padding: 1px 6px; border-radius: 10px; font-weight: 800; margin-left: 4px; letter-spacing: 0.5px; vertical-align: middle; box-shadow: 0 0 8px rgba(235,104,53,0.3);">V2</span></span>
+  
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    </div>
+
+          <nav class="sidebar-nav">
+    <ul>
+      <li>
+        <a href="index.html">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="button.html">
+          <i class="fa-solid fa-hand-pointer"></i>
+          <span>Buttons</span>
+        </a>
+      </li>
+            <li>
+        <a href="dropdown-components.html">
+          <i class="fa-solid fa-caret-down"></i>
+          <span>Dropdowns</span>
+        </a>
+      </li>
+      <li>
+        <a href="profile-components.html">
+          <i class="fa-solid fa-user"></i>
+          <span>Profiles</span>
+        </a>
+      </li>
+<li>
+        <a href="navbar.html">
+          <i class="fa-solid fa-bars"></i>
+          <span>Navbar</span>
+        </a>
+      </li>
+      <li>
+        <a href="cards.html">
+          <i class="fa-solid fa-table-cells-large"></i>
+          <span>Cards</span>
+        </a>
+      </li>
+      <li>
+        <a href="flipcards.html">
+          <i class="fa-solid fa-clone"></i>
+          <span>3D Cards</span>
+        </a>
+      </li>
+      <li>
+        <a href="inputs.html">
+          <i class="fa-solid fa-keyboard"></i>
+          <span>Inputs</span>
+        </a>
+      </li>
+      <li>
+        <a href="forms.html">
+          <i class="fa-brands fa-wpforms"></i>
+          <span>Forms</span>
+        </a>
+      </li>
+      <li>
+        <a href="badges.html">
+          <i class="fa-solid fa-award"></i>
+          <span>Badges</span>
+        </a>
+      </li>
+      <li>
+        <a href="blog.html">
+          <i class="fa-solid fa-blog"></i>
+          <span>Blog</span>
+        </a>
+      </li>
+      <li>
+        <a href="article.html">
+          <i class="fa-solid fa-newspaper"></i>
+          <span>Articles</span>
+        </a>
+      </li>
+      <li>
+        <a href="alerts.html">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>Alerts</span>
+        </a>
+      </li>
+      <li>
+        <a href="color.html">
+          <i class="fa-solid fa-palette"></i>
+          <span>Colors</span>
+        </a>
+      </li>
+      <li>
+        <a href="charts.html">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Charts</span>
+        </a>
+      </li>
+      <li>
+        <a href="dashboard.html">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="div.html">
+          <i class="fa-solid fa-square"></i>
+          <span>DIV</span>
+        </a>
+      </li>
+      <li>
+        <a href="widgets.html">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Widgets</span>
+        </a>
+      </li>
+      <li>
+        <a href="search.html">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Search Bars</span>
+        </a>
+      </li>
+      <li>
+        <a href="hover.html">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>Hover Effects</span>
+        </a>
+      </li>
+      <li>
+        <a href="error.html">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span>Error Pages</span>
+        </a>
+      </li>
+      <li class="active">
+        <a href="ecommerce.html">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span>E-commerce</span>
+        </a>
+      </li>
+      <li>
+        <a href="files.html">
+          <i class="fa-solid fa-file-arrow-up"></i>
+          <span>Drag & Drop</span>
+        </a>
+      </li>
+      <li>
+        <a href="hero.html">
+          <i class="fa-solid fa-star"></i>
+          <span>Hero Sections</span>
+        </a>
+      </li>
+      <li>
+        <a href="loaders.html">
+          <i class="fa-solid fa-spinner"></i>
+          <span>Loaders</span>
+        </a>
+      </li>
+      <li>
+        <a href="timeline.html">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Timeline</span>
+        </a>
+      </li>
+      <li>
+        <a href="map.html">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Maps</span>
+        </a>
+      </li>
+      <li>
+        <a href="menu.html">
+          <i class="fa-solid fa-bars-staggered"></i>
+          <span>Menu</span>
+        </a>
+      </li>
+      <li>
+        <a href="pricing.html">
+          <i class="fa-solid fa-tags"></i>
+          <span>Pricing</span>
+        </a>
+      </li>
+      <li>
+        <a href="subscription.html">
+          <i class="fa-solid fa-credit-card"></i>
+          <span>Subscription</span>
+        </a>
+      </li>
+      <li>
+        <a href="auth.html">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Authentication</span>
+        </a>
+      </li>
+        <li>
+          <a href="recovery.html">
+            <i class="fa-solid fa-key" aria-hidden="true"></i>
+            <span>Password Recovery</span>
+          </a>
+        </li>
+      <li>
+        <a href="section.html">
+          <i class="fa-solid fa-rectangle-list"></i>
+          <span>Section</span>
+        </a>
+      </li>
+      <li>
+        <a href="span.html">
+          <i class="fa-solid fa-code"></i>
+          <span>Span</span>
+        </a>
+      </li>
+      <li>
+        <a href="table.html">
+          <i class="fa-solid fa-table"></i>
+          <span>Table</span>
+        </a>
+      </li>
+      <li>
+        <a href="tabs.html">
+          <i class="fa-solid fa-table-columns"></i>
+          <span>Tabs</span>
+        </a>
+      </li>
+      <li>
+        <a href="terms.html">
+          <i class="fa-solid fa-file-contract"></i>
+          <span>Terms</span>
+        </a>
+      </li>
+      <li>
+        <a href="testimonials.html">
+          <i class="fa-solid fa-comments"></i>
+          <span>Testimonials</span>
+        </a>
+      </li>
+      <li>
+        <a href="toggles.html">
+          <i class="fa-solid fa-toggle-on"></i>
+          <span>Toggle</span>
+        </a>
+      </li>
+      <li>
+        <a href="radiobutton.html">
+          <i class="fa-solid fa-circle-dot"></i>
+          <span>Radio Buttons</span>
+        </a>
+      </li>
+      <li>
+        <a href="checkbox.html">
+          <i class="fa-solid fa-square-check"></i>
+          <span>Checkboxes</span>
+        </a>
+      </li>
+      <li>
+        <a href="notifications-premium.html">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="step-indicators.html">
+          <i class="fa-solid fa-list-check"></i>
+          <span>Steppers</span>
+        </a>
+      </li>
+      <li>
+        <a href="progress-premium.html">
+          <i class="fa-solid fa-bars-progress"></i>
+          <span>Progress V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="ratings-premium.html">
+          <i class="fa-solid fa-star"></i>
+          <span>Ratings V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="filters-premium.html">
+          <i class="fa-solid fa-sliders"></i>
+          <span>Filters V2</span>
+        </a>
+      </li>
+      <li>
+        <a href="admin-panel.html">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Admin Panel V2</span>
+        </a>
+      </li>
+<li>
+        <a href="about.html">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>About</span>
+        </a>
+      </li>
+      <li>
+        <a href="documentation.html">
+          <i class="fa-solid fa-book"></i>
+          <span>Documentation</span>
+        </a>
+      </li>
+      <li>
+        <a href="faq.html">
+          <i class="fa-solid fa-circle-question"></i>
+          <span>Faq</span>
+        </a>
+      </li>
+      <li>
+        <a href="contact.html">
+          <i class="fa-regular fa-envelope"></i>
+          <span>Contact Us</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+    <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+    <a href="#" title="Twitter"><i class="fab fa-x-twitter"></i></a>
+  </div>
+</aside>
+
+<!-- ================= NAVBAR ================= -->
 <!-- ================= NAVBAR ================= -->
 <!-- ================= NAVBAR ================= -->
 <!-- ================= NAVBAR ================= -->
@@ -499,7 +873,7 @@
               educational, and commercial projects.
             </p>
           </div>
-        </div>
+        </details>
 
         <details class="faq-item">
           <div class="faq-question">
@@ -637,6 +1011,166 @@
             </p>
           </div>
         </div>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-11" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-11">
+                How often are new components added?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-11" class="faq-answer" role="region" aria-labelledby="faq-question-11" aria-hidden="true">
+            <p>
+              We add new components regularly! Our community and core team are always working on fresh designs. Check back often or subscribe to updates.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-12" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-12">
+                Can I request a specific component?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-12" class="faq-answer" role="region" aria-labelledby="faq-question-12" aria-hidden="true">
+            <p>
+              Yes! You can request new components by opening an issue on our GitHub repository. We prioritize requests based on community demand.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-13" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-13">
+                Are there dark mode versions?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-13" class="faq-answer" role="region" aria-labelledby="faq-question-13" aria-hidden="true">
+            <p>
+              Most of our components come with dark mode support out of the box, or use CSS variables that easily adapt to dark themes.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-14" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-14">
+                What browsers are supported?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-14" class="faq-answer" role="region" aria-labelledby="faq-question-14" aria-hidden="true">
+            <p>
+              UIverse supports all modern browsers including Chrome, Firefox, Safari, and Edge. We aim for graceful degradation on older browsers.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-15" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-15">
+                Is there a Tailwind CSS version?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-15" class="faq-answer" role="region" aria-labelledby="faq-question-15" aria-hidden="true">
+            <p>
+              While UIverse uses vanilla CSS by default to ensure no dependencies, many components have community-contributed Tailwind CSS versions available in our snippets library.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-16" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-16">
+                How do I report a bug?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-16" class="faq-answer" role="region" aria-labelledby="faq-question-16" aria-hidden="true">
+            <p>
+              You can report bugs by creating an issue on our GitHub page. Please include browser details and steps to reproduce the issue.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-17" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-17">
+                Are there premium components?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-17" class="faq-answer" role="region" aria-labelledby="faq-question-17" aria-hidden="true">
+            <p>
+              Currently, all components are 100% free. In the future, we may offer premium UI kits, but the core library will always remain free.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-18" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-18">
+                How do I copy the code?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-18" class="faq-answer" role="region" aria-labelledby="faq-question-18" aria-hidden="true">
+            <p>
+              Each component has a "View Code" and "Copy Code" button. Simply click to copy the HTML and CSS directly to your clipboard.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-19" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-19">
+                Can I use it in commercial projects?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-19" class="faq-answer" role="region" aria-labelledby="faq-question-19" aria-hidden="true">
+            <p>
+              Yes! UIverse is licensed under MIT, which means you are free to use, modify, and distribute it in both personal and commercial projects.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <div class="faq-question">
+            <h3>
+              <button id="faq-question-20" class="faq-question-button" type="button" aria-expanded="false" aria-controls="faq-answer-20">
+                Do I need to give attribution?
+                <i class="fa-solid fa-chevron-down faq-question-icon" aria-hidden="true"></i>
+              </button>
+            </h3>
+          </div>
+          <div id="faq-answer-20" class="faq-answer" role="region" aria-labelledby="faq-question-20" aria-hidden="true">
+            <p>
+              While attribution is not legally required under our license, we deeply appreciate it if you link back to UIverse or mention us!
+            </p>
+          </div>
+        </details>
 
       </section>
 
@@ -781,7 +1315,7 @@
     });
   </script>
 
-  <script src="dist/shared.js"></script>
+  <script src="faq.js"></script>
 </body>
 
 </html>

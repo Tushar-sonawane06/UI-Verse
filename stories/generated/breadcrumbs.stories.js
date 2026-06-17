@@ -1280,7 +1280,7 @@ FOOTER
 #### Style Sheets:
 - \`/design-tokens.css\`
 - \`https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css\`
-- \`/breadcrums.css\`
+- \`/breadcrumbs.css\`
 - \`/shared-sidebar.css\`
 
 #### JavaScript Scripts:
@@ -1310,7 +1310,7 @@ FOOTER
 export const Default = {
   render: () => createShadowRootStory({
     title: 'Breadcrumbs',
-    styles: ["/design-tokens.css","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css","/breadcrums.css","/shared-sidebar.css"],
+    styles: ["/design-tokens.css","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css","/breadcrumbs.css","/shared-sidebar.css"],
     content: `
   <a class="skip-link" href="#main-content">Skip to main content</a>
 

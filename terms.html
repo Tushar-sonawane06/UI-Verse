@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self' https:;
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:;
                  base-uri 'self';
                  frame-ancestors 'none';
                  object-src 'none';
@@ -13,373 +13,430 @@
                  font-src 'self' data: https:;
                  script-src 'self' https:;
                  style-src 'self' https:;">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Terms & Conditions — UIverse</title>
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Styles -->
   <link rel="stylesheet" href="terms.css">
-    <link rel="stylesheet" href="shared-sidebar.css">\n</head>
+    <link rel="stylesheet" href="shared-sidebar.css">\n<script>
+  // Self-contained sidebar toggle - works even before loader.js initializes
+  (function() {
+    function _doToggleSidebar() {
+      var sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop') || document.querySelector('.sidebar-backdrop');
+      if (!sidebar) return;
+      if (window.innerWidth <= 900) {
+        var isOpen = document.body.classList.contains('sidebar-open');
+        if (isOpen) {
+          document.body.classList.remove('sidebar-open');
+          sidebar.classList.remove('open');
+          if (backdrop) { backdrop.classList.remove('active', 'visible'); }
+        } else {
+          document.body.classList.add('sidebar-open');
+          sidebar.classList.add('open');
+          if (backdrop) { backdrop.classList.add('active', 'visible'); }
+        }
+      } else {
+        var isHidden = document.body.classList.contains('sidebar-hidden');
+        if (isHidden) {
+          document.body.classList.remove('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '0');
+        } else {
+          document.body.classList.add('sidebar-hidden');
+          sessionStorage.setItem('sidebarHidden', '1');
+        }
+      }
+    }
+    // Override window.toggleSidebar immediately so onclick works
+    window.toggleSidebar = _doToggleSidebar;
+    // Also restore sidebar state from sessionStorage on load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth > 900 && sessionStorage.getItem('sidebarHidden') === '1') {
+        document.body.classList.add('sidebar-hidden');
+      }
+      // Re-bind in case another script overwrites it
+      if (typeof window.toggleSidebar !== 'function') {
+        window.toggleSidebar = _doToggleSidebar;
+      }
+    });
+  })();
+</script>
+</head>
 
 <body>
 
-<!-- ================= SIDEBAR ================= -->
-<aside class="sidebar" id="sidebar">
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar" id="sidebar">
 
-  <div class="sidebar-brand">
-    <span class="brand-icon">⬡</span>
-    <span class="brand-text">UIverse</span>
-  </div>
+    <div class="sidebar-brand">
+      <span class="brand-icon">⬡</span>
+      <span class="brand-text">UIverse</span>
+    
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    </div>
 
-          <nav class="sidebar-nav">
-    <ul>
+    <nav class="sidebar-nav">
+      <ul>
 
-      <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
-      <li><a href="button.html"><i class="fa-solid fa-hand-pointer"></i><span>Buttons</span></a></li>
-            <li>
-        <a href="dropdown-components.html">
-          <i class="fa-solid fa-caret-down"></i>
-          <span>Dropdowns</span>
-        </a>
-      </li>
-      <li>
-        <a href="profile-components.html">
-          <i class="fa-solid fa-user"></i>
-          <span>Profiles</span>
-        </a>
-      </li>
-<li><a href="navbar.html"><i class="fa-solid fa-bars"></i><span>Navbar</span></a></li>
-      <li><a href="cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Cards</span></a></li>
-      <li><a href="inputs.html"><i class="fa-solid fa-keyboard"></i><span>Inputs</span></a></li>
-      <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><span>Forms</span></a></li>
-      <li><a href="badges.html"><i class="fa-solid fa-award"></i><span>Badges</span></a></li>
-      <li><a href="blog.html"><i class="fa-solid fa-blog"></i><span>Blog</span></a></li>
-      <li><a href="article.html"><i class="fa-solid fa-newspaper"></i><span>Articles</span></a></li>
-      <li><a href="alerts.html"><i class="fa-solid fa-triangle-exclamation"></i><span>Alerts</span></a></li>
-      <li><a href="color.html"><i class="fa-solid fa-palette"></i><span>Colors</span></a></li>
-      <li><a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a></li>
-      <li><a href="div.html"><i class="fa-solid fa-square"></i><span>DIV</span></a></li>
-      <li><a href="loaders.html"><i class="fa-solid fa-spinner"></i><span>Loaders</span></a></li>
-      <li><a href="map.html"><i class="fa-solid fa-map-location-dot"></i><span>Maps</span></a></li>
-      <li><a href="menu.html"><i class="fa-solid fa-bars"></i><span>Menu</span></a></li>
-      <li><a href="pricing.html"><i class="fa-solid fa-tags"></i><span>Pricing</span></a></li>
-      <li>
-        <a href="subscription.html">
-          <i class="fa-solid fa-credit-card"></i>
-          <span>Subscription</span>
-        </a>
-      </li>
-      <li>
-        <a href="auth.html">
-          <i class="fa-solid fa-user-shield"></i>
-          <span>Authentication</span>
-        </a>
-      </li>
+        <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
+        <li><a href="button.html"><i class="fa-solid fa-hand-pointer"></i><span>Buttons</span></a></li>
+        <li>
+          <a href="dropdown-components.html">
+            <i class="fa-solid fa-caret-down"></i>
+            <span>Dropdowns</span>
+          </a>
+        </li>
+        <li>
+          <a href="profile-components.html">
+            <i class="fa-solid fa-user"></i>
+            <span>Profiles</span>
+          </a>
+        </li>
+        <li><a href="navbar.html"><i class="fa-solid fa-bars"></i><span>Navbar</span></a></li>
+        <li><a href="cards.html"><i class="fa-solid fa-table-cells-large"></i><span>Cards</span></a></li>
+        <li><a href="inputs.html"><i class="fa-solid fa-keyboard"></i><span>Inputs</span></a></li>
+        <li><a href="forms.html"><i class="fa-brands fa-wpforms"></i><span>Forms</span></a></li>
+        <li><a href="badges.html"><i class="fa-solid fa-award"></i><span>Badges</span></a></li>
+        <li><a href="blog.html"><i class="fa-solid fa-blog"></i><span>Blog</span></a></li>
+        <li><a href="article.html"><i class="fa-solid fa-newspaper"></i><span>Articles</span></a></li>
+        <li><a href="alerts.html"><i class="fa-solid fa-triangle-exclamation"></i><span>Alerts</span></a></li>
+        <li><a href="color.html"><i class="fa-solid fa-palette"></i><span>Colors</span></a></li>
+        <li><a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a></li>
+        <li><a href="div.html"><i class="fa-solid fa-square"></i><span>DIV</span></a></li>
+        <li><a href="loaders.html"><i class="fa-solid fa-spinner"></i><span>Loaders</span></a></li>
+        <li><a href="map.html"><i class="fa-solid fa-map-location-dot"></i><span>Maps</span></a></li>
+        <li><a href="menu.html"><i class="fa-solid fa-bars"></i><span>Menu</span></a></li>
+        <li><a href="pricing.html"><i class="fa-solid fa-tags"></i><span>Pricing</span></a></li>
+        <li>
+          <a href="subscription.html">
+            <i class="fa-solid fa-credit-card"></i>
+            <span>Subscription</span>
+          </a>
+        </li>
+        <li>
+          <a href="auth.html">
+            <i class="fa-solid fa-user-shield"></i>
+            <span>Authentication</span>
+          </a>
+        </li>
         <li>
           <a href="recovery.html">
             <i class="fa-solid fa-key" aria-hidden="true"></i>
             <span>Password Recovery</span>
           </a>
         </li>
-      <li><a href="section.html"><i class="fa-solid fa-layer-group"></i><span>Section</span></a></li>
-      <li><a href="span.html"><i class="fa-solid fa-code"></i><span>Span</span></a></li>
-      <li><a href="table.html"><i class="fa-solid fa-table"></i><span>Table</span></a></li>
-      <li><a href="tabs.html"><i class="fa-solid fa-table-columns"></i><span>Tabs</span></a></li>
-      <li class="active"><a href="terms.html"><i class="fa-solid fa-file-contract"></i><span>Terms</span></a></li>
-      <li><a href="testimonials.html"><i class="fa-solid fa-comments"></i><span>Testimonials</span></a></li>
-      <li><a href="toggles.html"><i class="fa-solid fa-toggle-on"></i><span>Toggle</span></a></li>
-      <li><a href="about.html"><i class="fa-solid fa-circle-info"></i><span>About</span></a></li>
-      <li><a href="documentation.html"><i class="fa-solid fa-book"></i><span>Documentation</span></a></li>
-      <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i><span>FAQ</span></a></li>
-      <li><a href="contact.html"><i class="fa-solid fa-user"></i><span>Contact Us</span></a></li>
+        <li><a href="section.html"><i class="fa-solid fa-layer-group"></i><span>Section</span></a></li>
+        <li><a href="span.html"><i class="fa-solid fa-code"></i><span>Span</span></a></li>
+        <li><a href="table.html"><i class="fa-solid fa-table"></i><span>Table</span></a></li>
+        <li><a href="tabs.html"><i class="fa-solid fa-table-columns"></i><span>Tabs</span></a></li>
+        <li class="active"><a href="terms.html"><i class="fa-solid fa-file-contract"></i><span>Terms</span></a></li>
+        <li><a href="testimonials.html"><i class="fa-solid fa-comments"></i><span>Testimonials</span></a></li>
+        <li><a href="toggles.html"><i class="fa-solid fa-toggle-on"></i><span>Toggle</span></a></li>
+        <li><a href="about.html"><i class="fa-solid fa-circle-info"></i><span>About</span></a></li>
+        <li><a href="documentation.html"><i class="fa-solid fa-book"></i><span>Documentation</span></a></li>
+        <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i><span>FAQ</span></a></li>
+        <li><a href="contact.html"><i class="fa-solid fa-user"></i><span>Contact Us</span></a></li>
 
-      <li>
-        <a href="index.html">
-          <i class="fa-solid fa-house"></i>
-          <span>Home</span>
-        </a>
-      </li>
-      <li>
-        <a href="button.html">
-          <i class="fa-solid fa-hand-pointer"></i>
-          <span>Buttons</span>
-        </a>
-      </li>
-      <li>
-        <a href="navbar.html">
-          <i class="fa-solid fa-bars"></i>
-          <span>Navbar</span>
-        </a>
-      </li>
-      <li>
-        <a href="cards.html">
-          <i class="fa-solid fa-table-cells-large"></i>
-          <span>Cards</span>
-        </a>
-      </li>
-      <li>
-        <a href="flipcards.html">
-          <i class="fa-solid fa-clone"></i>
-          <span>3D Cards</span>
-        </a>
-      </li>
-      <li>
-        <a href="inputs.html">
-          <i class="fa-solid fa-keyboard"></i>
-          <span>Inputs</span>
-        </a>
-      </li>
-      <li>
-        <a href="forms.html">
-          <i class="fa-brands fa-wpforms"></i>
-          <span>Forms</span>
-        </a>
-      </li>
-      <li>
-        <a href="badges.html">
-          <i class="fa-solid fa-award"></i>
-          <span>Badges</span>
-        </a>
-      </li>
-      <li>
-        <a href="blog.html">
-          <i class="fa-solid fa-blog"></i>
-          <span>Blog</span>
-        </a>
-      </li>
-      <li>
-        <a href="article.html">
-          <i class="fa-solid fa-newspaper"></i>
-          <span>Articles</span>
-        </a>
-      </li>
-      <li>
-        <a href="alerts.html">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-          <span>Alerts</span>
-        </a>
-      </li>
-      <li>
-        <a href="color.html">
-          <i class="fa-solid fa-palette"></i>
-          <span>Colors</span>
-        </a>
-      </li>
-      <li>
-        <a href="charts.html">
-          <i class="fa-solid fa-chart-pie"></i>
-          <span>Charts</span>
-        </a>
-      </li>
-      <li>
-        <a href="dashboard.html">
-          <i class="fa-solid fa-gauge-high"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li>
-        <a href="div.html">
-          <i class="fa-solid fa-square"></i>
-          <span>DIV</span>
-        </a>
-      </li>
-      <li>
-        <a href="widgets.html">
-          <i class="fa-solid fa-layer-group"></i>
-          <span>Widgets</span>
-        </a>
-      </li>
-      <li>
-        <a href="search.html">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <span>Search Bars</span>
-        </a>
-      </li>
-      <li>
-        <a href="hover.html">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>
-          <span>Hover Effects</span>
-        </a>
-      </li>
-      <li>
-        <a href="error.html">
-          <i class="fa-solid fa-circle-exclamation"></i>
-          <span>Error Pages</span>
-        </a>
-      </li>
-      <li>
-        <a href="ecommerce.html">
-          <i class="fa-solid fa-cart-shopping"></i>
-          <span>E-commerce</span>
-        </a>
-      </li>
-      <li>
-        <a href="files.html">
-          <i class="fa-solid fa-file-arrow-up"></i>
-          <span>Drag & Drop</span>
-        </a>
-      </li>
-      <li>
-        <a href="hero.html">
-          <i class="fa-solid fa-star"></i>
-          <span>Hero Sections</span>
-        </a>
-      </li>
-      <li>
-        <a href="loaders.html">
-          <i class="fa-solid fa-spinner"></i>
-          <span>Loaders</span>
-        </a>
-      </li>
-      <li>
-        <a href="timeline.html">
-          <i class="fa-solid fa-clock-rotate-left"></i>
-          <span>Timeline</span>
-        </a>
-      </li>
-      <li>
-        <a href="map.html">
-          <i class="fa-solid fa-map-location-dot"></i>
-          <span>Maps</span>
-        </a>
-      </li>
-      <li>
-        <a href="menu.html">
-          <i class="fa-solid fa-bars-staggered"></i>
-          <span>Menu</span>
-        </a>
-      </li>
-      <li>
-        <a href="pricing.html">
-          <i class="fa-solid fa-tags"></i>
-          <span>Pricing</span>
-        </a>
-      </li>
-      <li>
-        <a href="section.html">
-          <i class="fa-solid fa-rectangle-list"></i>
-          <span>Section</span>
-        </a>
-      </li>
-      <li>
-        <a href="span.html">
-          <i class="fa-solid fa-code"></i>
-          <span>Span</span>
-        </a>
-      </li>
-      <li>
-        <a href="table.html">
-          <i class="fa-solid fa-table"></i>
-          <span>Table</span>
-        </a>
-      </li>
-      <li>
-        <a href="tabs.html">
-          <i class="fa-solid fa-table-columns"></i>
-          <span>Tabs</span>
-        </a>
-      </li>
-      <li class="active">
-        <a href="terms.html">
-          <i class="fa-solid fa-file-contract"></i>
-          <span>Terms</span>
-        </a>
-      </li>
-      <li>
-        <a href="testimonials.html">
-          <i class="fa-solid fa-comments"></i>
-          <span>Testimonials</span>
-        </a>
-      </li>
-      <li>
-        <a href="toggles.html">
-          <i class="fa-solid fa-toggle-on"></i>
-          <span>Toggle</span>
-        </a>
-      </li>
-      <li>
-        <a href="radiobutton.html">
-          <i class="fa-solid fa-circle-dot"></i>
-          <span>Radio Buttons</span>
-        </a>
-      </li>
-      <li>
-        <a href="checkbox.html">
-          <i class="fa-solid fa-square-check"></i>
-          <span>Checkboxes</span>
-        </a>
-      </li>
-      <li>
-        <a href="notifications-premium.html">
-          <i class="fa-solid fa-bell"></i>
-          <span>Notifications V2</span>
-        </a>
-      </li>
-      <li>
-        <a href="step-indicators.html">
-          <i class="fa-solid fa-list-check"></i>
-          <span>Steppers</span>
-        </a>
-      </li>
-      <li>
-        <a href="progress-premium.html">
-          <i class="fa-solid fa-bars-progress"></i>
-          <span>Progress V2</span>
-        </a>
-      </li>
-      <li>
-        <a href="ratings-premium.html">
-          <i class="fa-solid fa-star"></i>
-          <span>Ratings V2</span>
-        </a>
-      </li>
-      <li>
-        <a href="filters-premium.html">
-          <i class="fa-solid fa-sliders"></i>
-          <span>Filters V2</span>
-        </a>
-      </li>
-      <li>
-        <a href="admin-panel.html">
-          <i class="fa-solid fa-gauge-high"></i>
-          <span>Admin Panel V2</span>
-        </a>
-      </li>
-<li>
-        <a href="about.html">
-          <i class="fa-solid fa-circle-info"></i>
-          <span>About</span>
-        </a>
-      </li>
-      <li>
-        <a href="documentation.html">
-          <i class="fa-solid fa-book"></i>
-          <span>Documentation</span>
-        </a>
-      </li>
-      <li>
-        <a href="faq.html">
-          <i class="fa-solid fa-circle-question"></i>
-          <span>Faq</span>
-        </a>
-      </li>
-      <li>
-        <a href="contact.html">
-          <i class="fa-regular fa-envelope"></i>
-          <span>Contact Us</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+        <li>
+          <a href="index.html">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="button.html">
+            <i class="fa-solid fa-hand-pointer"></i>
+            <span>Buttons</span>
+          </a>
+        </li>
+        <li>
+          <a href="navbar.html">
+            <i class="fa-solid fa-bars"></i>
+            <span>Navbar</span>
+          </a>
+        </li>
+        <li>
+          <a href="cards.html">
+            <i class="fa-solid fa-table-cells-large"></i>
+            <span>Cards</span>
+          </a>
+        </li>
+        <li>
+          <a href="flipcards.html">
+            <i class="fa-solid fa-clone"></i>
+            <span>3D Cards</span>
+          </a>
+        </li>
+        <li>
+          <a href="inputs.html">
+            <i class="fa-solid fa-keyboard"></i>
+            <span>Inputs</span>
+          </a>
+        </li>
+        <li>
+          <a href="forms.html">
+            <i class="fa-brands fa-wpforms"></i>
+            <span>Forms</span>
+          </a>
+        </li>
+        <li>
+          <a href="badges.html">
+            <i class="fa-solid fa-award"></i>
+            <span>Badges</span>
+          </a>
+        </li>
+        <li>
+          <a href="blog.html">
+            <i class="fa-solid fa-blog"></i>
+            <span>Blog</span>
+          </a>
+        </li>
+        <li>
+          <a href="article.html">
+            <i class="fa-solid fa-newspaper"></i>
+            <span>Articles</span>
+          </a>
+        </li>
+        <li>
+          <a href="alerts.html">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Alerts</span>
+          </a>
+        </li>
+        <li>
+          <a href="color.html">
+            <i class="fa-solid fa-palette"></i>
+            <span>Colors</span>
+          </a>
+        </li>
+        <li>
+          <a href="charts.html">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Charts</span>
+          </a>
+        </li>
+        <li>
+          <a href="dashboard.html">
+            <i class="fa-solid fa-gauge-high"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="div.html">
+            <i class="fa-solid fa-square"></i>
+            <span>DIV</span>
+          </a>
+        </li>
+        <li>
+          <a href="widgets.html">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Widgets</span>
+          </a>
+        </li>
+        <li>
+          <a href="search.html">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Search Bars</span>
+          </a>
+        </li>
+        <li>
+          <a href="hover.html">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Hover Effects</span>
+          </a>
+        </li>
+        <li>
+          <a href="error.html">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>Error Pages</span>
+          </a>
+        </li>
+        <li>
+          <a href="ecommerce.html">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>E-commerce</span>
+          </a>
+        </li>
+        <li>
+          <a href="files.html">
+            <i class="fa-solid fa-file-arrow-up"></i>
+            <span>Drag & Drop</span>
+          </a>
+        </li>
+        <li>
+          <a href="hero.html">
+            <i class="fa-solid fa-star"></i>
+            <span>Hero Sections</span>
+          </a>
+        </li>
+        <li>
+          <a href="loaders.html">
+            <i class="fa-solid fa-spinner"></i>
+            <span>Loaders</span>
+          </a>
+        </li>
+        <li>
+          <a href="timeline.html">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>Timeline</span>
+          </a>
+        </li>
+        <li>
+          <a href="map.html">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <span>Maps</span>
+          </a>
+        </li>
+        <li>
+          <a href="menu.html">
+            <i class="fa-solid fa-bars-staggered"></i>
+            <span>Menu</span>
+          </a>
+        </li>
+        <li>
+          <a href="pricing.html">
+            <i class="fa-solid fa-tags"></i>
+            <span>Pricing</span>
+          </a>
+        </li>
+        <li>
+          <a href="section.html">
+            <i class="fa-solid fa-rectangle-list"></i>
+            <span>Section</span>
+          </a>
+        </li>
+        <li>
+          <a href="span.html">
+            <i class="fa-solid fa-code"></i>
+            <span>Span</span>
+          </a>
+        </li>
+        <li>
+          <a href="table.html">
+            <i class="fa-solid fa-table"></i>
+            <span>Table</span>
+          </a>
+        </li>
+        <li>
+          <a href="tabs.html">
+            <i class="fa-solid fa-table-columns"></i>
+            <span>Tabs</span>
+          </a>
+        </li>
+        <li class="active">
+          <a href="terms.html">
+            <i class="fa-solid fa-file-contract"></i>
+            <span>Terms</span>
+          </a>
+        </li>
+        <li>
+          <a href="testimonials.html">
+            <i class="fa-solid fa-comments"></i>
+            <span>Testimonials</span>
+          </a>
+        </li>
+        <li>
+          <a href="toggles.html">
+            <i class="fa-solid fa-toggle-on"></i>
+            <span>Toggle</span>
+          </a>
+        </li>
+        <li>
+          <a href="radiobutton.html">
+            <i class="fa-solid fa-circle-dot"></i>
+            <span>Radio Buttons</span>
+          </a>
+        </li>
+        <li>
+          <a href="checkbox.html">
+            <i class="fa-solid fa-square-check"></i>
+            <span>Checkboxes</span>
+          </a>
+        </li>
+        <li>
+          <a href="notifications-premium.html">
+            <i class="fa-solid fa-bell"></i>
+            <span>Notifications V2</span>
+          </a>
+        </li>
+        <li>
+          <a href="step-indicators.html">
+            <i class="fa-solid fa-list-check"></i>
+            <span>Steppers</span>
+          </a>
+        </li>
+        <li>
+          <a href="progress-premium.html">
+            <i class="fa-solid fa-bars-progress"></i>
+            <span>Progress V2</span>
+          </a>
+        </li>
+        <li>
+          <a href="ratings-premium.html">
+            <i class="fa-solid fa-star"></i>
+            <span>Ratings V2</span>
+          </a>
+        </li>
+        <li>
+          <a href="filters-premium.html">
+            <i class="fa-solid fa-sliders"></i>
+            <span>Filters V2</span>
+          </a>
+        </li>
+        <li>
+          <a href="admin-panel.html">
+            <i class="fa-solid fa-gauge-high"></i>
+            <span>Admin Panel V2</span>
+          </a>
+        </li>
+        <li>
+          <a href="about.html">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>About</span>
+          </a>
+        </li>
+        <li>
+          <a href="documentation.html">
+            <i class="fa-solid fa-book"></i>
+            <span>Documentation</span>
+          </a>
+        </li>
+        <li>
+          <a href="faq.html">
+            <i class="fa-solid fa-circle-question"></i>
+            <span>Faq</span>
+          </a>
+        </li>
+        <li>
+          <a href="contact.html">
+            <i class="fa-regular fa-envelope"></i>
+            <span>Contact Us</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
 
-</aside>
+  </aside>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar" id="navbar">
+    <div class="logo">UIverse</div>
+
+    <div class="nav-right">
+      <button class="nav-btn outline-btn">Documentation</button>
+      <button class="nav-btn primary-btn">Explore UI</button>
 <!-- ================= NAVBAR ================= -->
 <!-- ================= NAVBAR ================= -->
 <!-- ================= NAVBAR ================= -->
@@ -446,35 +503,40 @@
   </script>
 </header>
 
-<!-- ================= MAIN ================= -->
-<main class="terms-main">
-
-  <section class="terms-hero">
-
-    <div class="hero-badge">
-      <i class="fa-solid fa-scale-balanced"></i>
-      Legal Information
+      <button class="theme-toggle" id="themeToggle">
+        <i class="fa-solid fa-moon"></i>
+      </button>
     </div>
+  </header>
 
-    <h1 class="hero-title">
-      Terms & <span>Conditions</span>
-    </h1>
+  <!-- ================= MAIN ================= -->
+  <main class="terms-main">
 
-    <p class="hero-desc">
-      These terms govern your access and use of UIverse. By using our platform, you agree to follow these conditions.
-    </p>
+    <section class="terms-hero">
 
-    <div class="hero-points">
-      <div class="hero-point"><i class="fa-solid fa-check"></i> Commercial Usage Allowed</div>
-      <div class="hero-point"><i class="fa-solid fa-check"></i> User Friendly Terms</div>
-      <div class="hero-point"><i class="fa-solid fa-check"></i> Secure & Transparent</div>
-    </div>
+      <div class="hero-badge">
+        <i class="fa-solid fa-scale-balanced"></i>
+        Legal Information
+      </div>
 
-  </section>
+      <h1 class="hero-title">
+        Terms & <span>Conditions</span>
+      </h1>
 
-  <!-- TERMS CONTENT -->
-  <section class="terms-wrapper">
+      <p class="hero-desc">
+        These terms govern your access and use of UIverse. By using our platform, you agree to follow these conditions.
+      </p>
 
+      <div class="hero-points">
+        <div class="hero-point"><i class="fa-solid fa-check"></i> Commercial Usage Allowed</div>
+        <div class="hero-point"><i class="fa-solid fa-check"></i> User Friendly Terms</div>
+        <div class="hero-point"><i class="fa-solid fa-check"></i> Secure & Transparent</div>
+      </div>
+
+    </section>
+
+    <!-- TERMS CONTENT -->
+    <section class="terms-wrapper">
     <div class="section-head">
       <span class="section-tag">TERMS OF SERVICE</span>
       <h2>Legal Terms & <span>Policies</span></h2>
@@ -494,11 +556,20 @@
       </div>
     </div>
 
-    <div class="term-card">
-      <h3><i class="fa-solid fa-circle-info"></i> Introduction</h3>
-      <p>By accessing UIverse, you agree to these Terms & Conditions.</p>
-    </div>
+      <div class="section-head">
+        <span class="section-tag">TERMS OF SERVICE</span>
+        <h2>Legal Terms & Policies</h2>
+      </div>
 
+      <div class="term-card">
+        <button class="collapsible" aria-expanded="false" aria-controls="introContent">
+          <h3 id="introHeading"><i class="fa-solid fa-circle-info"></i> Introduction</h3>
+          <i class="fa-solid fa-chevron-down icon" aria-hidden="true"></i>
+        </button>
+        <div class="content" hidden>
+          <p>By accessing UIverse, you agree to these Terms & Conditions.</p>
+        </div>
+      </div>
      <div class="topbar-card">
       <i class="fa-solid fa-bolt"></i>
       <div>
@@ -591,25 +662,48 @@
       <p>Do not misuse or disrupt platform functionality.</p>
     </div>
 
-    <div class="term-card">
-      <h3><i class="fa-solid fa-user"></i> User Accounts</h3>
-      <p>You are responsible for securing your account credentials.</p>
-    </div>
 
-    <div class="term-card">
-      <h3><i class="fa-solid fa-copyright"></i> Intellectual Property</h3>
-      <p>All UIverse assets remain protected intellectual property.</p>
-    </div>
+      <div class="term-card">
+        <button class="collapsible" aria-expanded="false" aria-controls="introContent">
+          <h3 id="introHeading"><i class="fa-solid fa-circle-info"></i> Website Usage</h3>
+          <i class="fa-solid fa-chevron-down icon" aria-hidden="true"></i>
+        </button>
+        <div class="content" hidden>
+          <p>Do not misuse or disrupt platform functionality.</p>
+        </div>
+      </div>
 
-    <div class="term-card">
-      <h3><i class="fa-solid fa-triangle-exclamation"></i> Limitation of Liability</h3>
-      <p>UIverse is not responsible for damages or service interruptions.</p>
-    </div>
 
-  </section>
+      <div class="term-card">
+        <button class="collapsible" aria-expanded="false" aria-controls="introContent">
+          <h3 id="introHeading"><i class="fa-solid fa-circle-info"></i> User Accounts</h3>
+          <i class="fa-solid fa-chevron-down icon" aria-hidden="true"></i>
+        </button>
+        <div class="content" hidden>
+          <p>You are responsible for securing your account credentials.</p>
+        </div>
+      </div>
 
-</main>
+      <div class="term-card">
+        <button class="collapsible" aria-expanded="false" aria-controls="introContent">
+          <h3 id="introHeading"><i class="fa-solid fa-circle-info"></i> Intellectual Property</h3>
+          <i class="fa-solid fa-chevron-down icon" aria-hidden="true"></i>
+        </button>
+        <div class="content" hidden>
+          <p>All UIverse assets remain protected intellectual property.</p>
+        </div>
+      </div>
 
+
+      <div class="term-card">
+        <button class="collapsible" aria-expanded="false" aria-controls="introContent">
+          <h3 id="introHeading"><i class="fa-solid fa-circle-info"></i> Limitation of Liability</h3>
+          <i class="fa-solid fa-chevron-down icon" aria-hidden="true"></i>
+        </button>
+        <div class="content" hidden>
+          <p>UIverse is not responsible for damages or service interruptions.</p>
+        </div>
+      </div>
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-container">
@@ -629,17 +723,8 @@
       </div>
     </div>
 
-    <div class="footer-col">
-      <h3>Explore</h3>
-      <ul>
-        <li><a href="button.html">Buttons</a></li>
-        <li><a href="navbar.html">Navbars</a></li>
-        <li><a href="cards.html">Cards</a></li>
-        <li><a href="inputs.html">Inputs</a></li>
-        <li><a href="forms.html">Forms</a></li>
-      </ul>
-    </div>
 
+    </section>
     <div class="footer-col">
       <h3>Resources</h3>
       <ul>
@@ -650,15 +735,28 @@
       </ul>
     </div>
 
-    <div class="footer-col">
-      <h3>Legal</h3>
-      <ul>
-        <li><a href="privacypolicy.html">Privacy Policy</a></li>
-        <li><a href="terms.html">Terms of Service</a></li>
-        <li><a href="license.html">License</a></li>
-      </ul>
-    </div>
+  </main>
 
+  <!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <div class="footer-col brand">
+      <h2 class="footer-logo">⬡ UIverse</h2>
+
+      <p>
+        Beautiful reusable UI components crafted with
+        clean HTML, CSS and JavaScript.
+      </p>
+      <div class="footer-col">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="privacypolicy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+          <li><a href="license.html">License</a></li>
+        </ul>
     <div class="footer-col newsletter">
       <h3>Stay Updated</h3>
       <p>Get notified when new components drop.</p>
@@ -673,57 +771,79 @@
         />
         <button type="button" onclick="subscribe()">Subscribe</button>
       </div>
+
+      <div class="socials">
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+      </div>
     </div>
+
+    <div class="footer-col">
+      <h3>Explore</h3>
+
+      <ul>
+        <li><a href="button.html">Buttons</a></li>
+        <li><a href="cards.html">Cards</a></li>
+        <li><a href="forms.html">Forms</a></li>
+        <li><a href="inputs.html">Inputs</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Legal</h3>
+
+      <ul>
+        <li><a href="license.html">License</a></li>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h3>Stay Updated</h3>
+
+      <p>Get notified when new UI components are released.</p>
+
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com">
+        <button>Subscribe</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 UIverse. Crafted for developers worldwide.</p>
+  </div>
+
+</footer>
+
+  <button id="scrollTopBtn" class="scroll-top" aria-label="Scroll back to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+
+
+  <button id="scrollTopBtn" class="scroll-top" aria-label="Scroll back to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+
+
+  <!-- ================= SCRIPT ================= -->
+
+    const toggle = document.getElementById('themeToggle');
+    const icon = toggle.querySelector('i');
+
+    // load theme
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      icon.className = 'fa-solid fa-sun';
+    }
   </div>
 
   <div class="footer-bottom">
     <p>© 2026 UIverse. Made with <span aria-label="love">❤️</span> for developers worldwide.</p>
   </div>
 </footer>
-
-<script>
-  if (typeof subscribe !== 'function') {
-    function subscribe() {
-      const emailInput = document.getElementById("newsletterEmail");
-      if (emailInput && emailInput.value.trim()) {
-        alert("Thanks for subscribing with: " + emailInput.value.trim());
-        emailInput.value = "";
-      } else {
-        alert("Please enter a valid email address.");
-      }
-    }
-  }
-</script>
-
-<!-- ================= SCRIPT ================= -->
-<script>
-const toggle = document.getElementById('themeToggle');
-const icon = toggle.querySelector('i');
-
-// load theme
-if (localStorage.getItem('theme') === 'dark') {
-  document.body.classList.add('dark-mode');
-  icon.className = 'fa-solid fa-sun';
-}
-
-// toggle theme
-toggle.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
-
-  const dark = document.body.classList.contains('dark-mode');
-
-  icon.className = dark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-
-  localStorage.setItem('theme', dark ? 'dark' : 'light');
-});
-
-// navbar scroll effect
-window.addEventListener('scroll', () => {
-  document.getElementById('navbar')
-    .classList.toggle('scrolled', window.scrollY > 40);
-});
-</script>
-
-  <script src="dist/shared.js"></script>
-</body>
-</html>

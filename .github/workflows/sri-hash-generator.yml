@@ -1,0 +1,108 @@
+name: SRI Hash Generator
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'dist/**'
+      - '*.css'
+      - '*.js'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate-sri:
+    name: Generate Subresource Integrity Hashes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate SRI hashes for assets
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const crypto = require('crypto');
+
+            const assets = [
+              'style.css',
+              'script.js',
+              'design-tokens.css',
+              'dist/index.js',
+              'dist/index.esm.js',
+              'dist/index.cjs.js',
+            ];
+
+            const results = {};
+
+            for (const asset of assets) {
+              try {
+                if (fs.existsSync(asset)) {
+                  const content = fs.readFileSync(asset);
+                  const hash = crypto.createHash('sha384').update(content).digest('base64');
+                  results[asset] = `sha384-${hash}`;
+                  console.log(`✅ ${asset}: sha384-${hash}`);
+                } else {
+                  console.log(`⚠️  ${asset}: not found, skipping`);
+                }
+              } catch (err) {
+                console.error(`❌ ${asset}: error - ${err.message}`);
+              }
+            }
+
+            const sriOutput = JSON.stringify(results, null, 2);
+            fs.writeFileSync('dist/sri-hashes.json', sriOutput);
+            console.log('\n📄 SRI hashes written to dist/sri-hashes.json');
+
+      - name: Generate CSP-compatible SRI report
+        run: |
+          cat > dist/sri-report.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <title>SRI Hash Report - UI-Verse</title>
+            <style>
+              body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+              h1 { color: #333; }
+              table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+              th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #ddd; }
+              th { background: #f5f5f5; }
+              code { background: #f0f0f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.875rem; word-break: break-all; }
+              .hash { font-family: monospace; font-size: 0.75rem; }
+              .missing { color: #999; font-style: italic; }
+            </style>
+          </head>
+          <body>
+            <h1>🔒 Subresource Integrity (SRI) Hash Report</h1>
+            <p>Generated: $(date -u +"%Y-%m-%dT%H:%M:%SZ")</p>
+            <div id="report"></div>
+            <script>
+              fetch('./sri-hashes.json')
+                .then(r => r.json())
+                .then(data => {
+                  const keys = Object.keys(data);
+                  let html = '<table><thead><tr><th>Asset</th><th>Integrity Hash (sha384)</th></tr></thead><tbody>';
+                  keys.forEach(k => {
+                    html += `<tr><td><code>${k}</code></td><td class="hash"><code>${data[k]}</code></td></tr>`;
+                  });
+                  html += '</tbody></table>';
+                  document.getElementById('report').innerHTML = html;
+                });
+            </script>
+          </body>
+          </html>
+          EOF
+          echo "✅ SRI report generated"
+
+      - name: Commit SRI hashes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update SRI integrity hashes for assets"
+          file_pattern: dist/sri-hashes.json dist/sri-report.html
+          commit_user_name: UI-Verse Bot
+          commit_user_email: bot@uiverse.io
